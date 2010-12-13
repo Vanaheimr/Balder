@@ -6,7 +6,11 @@ Blueprints does not define an interface for remote network access. For a [HTTP/R
 
 #### Implementations
 
-* [Gera](http://github.com/ahzf/Gera) Framework for processing large-scale semantic graphs.
+* [Gera](http://github.com/ahzf/Gera) a framework for processing large-scale semantic graphs.
+
+#### License
+
+Blueprints.NET is released under the New BSD license. For details see [[LICENSE.TXT]].
 
 #### Acknowledgments
 
