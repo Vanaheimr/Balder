@@ -4,11 +4,11 @@ Blueprints.NET is a [property graph model interface](http://github.com/tinkerpop
 
 Blueprints does not define an interface for remote network access. For a HTTP/REST interface please take a look at [Rexster.Net](http://github.com/ahzf/rexster.NET).
 
-##### Implementations
+#### Implementations
 
 * "Gera":[Gera](http://github.com/ahzf/Gera) Framework for processing large-scale semantic graphs.
 
-##### Acknowledgments
+#### Acknowledgments
 
 Blueprints.NET is a port of the [blueprints](http://github.com/tinkerpop/blueprints) library for Java provided by [Tinkerpop](http://tinkerpop.com).
 
