@@ -10,7 +10,7 @@ Blueprints does not define an interface for remote network access. For a [HTTP/R
 
 #### License
 
-Blueprints.NET is released under the New BSD license. For details see [LICENSE.TXT](/ahzf/blueprints.NET/blob/master/LICENSE.txt).
+Blueprints.NET is released under the New BSD license. For details see the [LICENSE](/ahzf/blueprints.NET/blob/master/LICENSE) file.
 
 #### Acknowledgments
 
