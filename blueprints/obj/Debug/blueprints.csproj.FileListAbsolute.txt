@@ -1,0 +1,5 @@
+C:\Users\ahzf\Documents\Visual Studio 2010\Projects\GitHub\blueprints.NET\blueprints\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\ahzf\Documents\Visual Studio 2010\Projects\GitHub\blueprints.NET\blueprints\bin\Debug\blueprints.dll
+C:\Users\ahzf\Documents\Visual Studio 2010\Projects\GitHub\blueprints.NET\blueprints\bin\Debug\blueprints.pdb
+C:\Users\ahzf\Documents\Visual Studio 2010\Projects\GitHub\blueprints.NET\blueprints\obj\Debug\blueprints.dll
+C:\Users\ahzf\Documents\Visual Studio 2010\Projects\GitHub\blueprints.NET\blueprints\obj\Debug\blueprints.pdb
