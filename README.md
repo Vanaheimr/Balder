@@ -6,7 +6,10 @@ Blueprints does not define an interface for remote network access. For a [HTTP/R
 
 #### Implementations
 
+* A simple in-memory Property Graph.
 * [Gera](http://github.com/ahzf/Gera) a framework for processing large-scale semantic graphs.
+* [Rexster](http://github.com/ahzf/rexster.NET) for accessing remote Property Graphs via HTTP/REST.
+* BlueRedis
 
 #### License
 
