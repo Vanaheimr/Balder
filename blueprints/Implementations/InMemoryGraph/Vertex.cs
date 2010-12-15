@@ -9,10 +9,11 @@
 
 using System;
 using System.Collections.Generic;
+using de.ahzf.blueprints.datastructures;
 
 #endregion
 
-namespace de.ahzf.blueprints.InMemory
+namespace de.ahzf.blueprints.InMemoryGraph
 {
 
     /// <summary>
@@ -31,26 +32,48 @@ namespace de.ahzf.blueprints.InMemory
 
         #endregion
 
-        #region Protected Constructor(s)
+        #region Properties
 
-        #region Vertex()
+        #region Id
 
-        protected Vertex()
-            : base()
+        /// <summary>
+        /// An identifier that is unique to its inheriting class.
+        /// All vertices of a graph must have unique identifiers.
+        /// All edges of a graph must have unique identifiers.
+        /// </summary>
+        public VertexId Id
         {
-            _OutEdges = new HashSet<IEdge>();
-            _InEdges  = new HashSet<IEdge>();
+            get
+            {
+
+                Object _Object = null;
+
+                if (_Properties.TryGetValue(__Id, out _Object))
+                    return _Object as VertexId;
+
+                return null;
+
+            }
         }
 
         #endregion
 
+        #endregion
+
+        #region Protected Constructor(s)
+
         #region Vertex(myId)
 
-        protected Vertex(IComparable myId)
+        internal protected Vertex(VertexId myId, Action<IVertex> myVertexInitialization = null)
             : base(myId)
         {
+            
             _OutEdges = new HashSet<IEdge>();
             _InEdges  = new HashSet<IEdge>();
+
+            if (myVertexInitialization != null)
+                myVertexInitialization(this);
+
         }
 
         #endregion

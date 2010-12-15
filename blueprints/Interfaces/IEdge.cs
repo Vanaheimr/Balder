@@ -8,6 +8,7 @@
 #region Usings
 
 using System;
+using de.ahzf.blueprints.datastructures;
 
 #endregion
 
@@ -25,6 +26,17 @@ namespace de.ahzf.blueprints
     /// </summary>
     public interface IEdge : IElement
     {
+
+        #region Properties
+
+        /// <summary>
+        /// An identifier that is unique to its inheriting class.
+        /// All vertices and edges of a graph must have unique identifiers.
+        /// </summary>
+        /// <returns>the identifier of the element</returns>
+        EdgeId Id { get; }
+
+        #endregion
 
         /// <summary>
         /// Return the vertex on the tail of the edge.

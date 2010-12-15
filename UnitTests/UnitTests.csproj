@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{B9DE4181-416E-4DE4-A983-B90FC9412774}</ProjectGuid>
+    <ProjectGuid>{CD29E0E7-554A-4FE6-9FE5-8867B8EAFAD8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>blueprints</RootNamespace>
-    <AssemblyName>blueprints</AssemblyName>
+    <RootNamespace>UnitTests</RootNamespace>
+    <AssemblyName>UnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -21,7 +21,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\blueprints.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="nunit.framework">
+      <HintPath>..\libs\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,29 +43,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Datastructures\ElementId.cs" />
-    <Compile Include="Datastructures\VertexId.cs" />
-    <Compile Include="Datastructures\RevisionID.cs" />
-    <Compile Include="Datastructures\TimestampNonce.cs" />
-    <Compile Include="Datastructures\EdgeId.cs" />
-    <Compile Include="Implementations\InMemoryGraph\AElement.cs" />
-    <Compile Include="Implementations\InMemoryGraph\Edge.cs" />
-    <Compile Include="Implementations\InMemoryGraph\InMemoryGraph.cs" />
-    <Compile Include="Implementations\InMemoryGraph\Vertex.cs" />
-    <Compile Include="Extensions\IElementExtensions.cs" />
-    <Compile Include="Interfaces\IAutomaticIndex.cs" />
-    <Compile Include="Datastructures\IndexType.cs" />
-    <Compile Include="Interfaces\IIndex.cs" />
-    <Compile Include="Interfaces\IIndexableGraph.cs" />
-    <Compile Include="Interfaces\IGraph.cs" />
-    <Compile Include="Interfaces\IEdge.cs" />
-    <Compile Include="Interfaces\IElement.cs" />
-    <Compile Include="Interfaces\IVertex.cs" />
+    <Compile Include="InMemoryGraphTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Implementations\BlueRedis\" />
-    <Folder Include="Implementations\Rexster\" />
+    <ProjectReference Include="..\blueprints\blueprints.csproj">
+      <Project>{B9DE4181-416E-4DE4-A983-B90FC9412774}</Project>
+      <Name>blueprints</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

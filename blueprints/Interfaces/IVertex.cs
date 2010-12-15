@@ -8,6 +8,7 @@
 #region Usings
 
 using System.Collections.Generic;
+using de.ahzf.blueprints.datastructures;
 
 #endregion
 
@@ -22,6 +23,17 @@ namespace de.ahzf.blueprints
     /// </summary>
     public interface IVertex : IElement
     {
+
+        #region Properties
+
+        /// <summary>
+        /// An identifier that is unique to its inheriting class.
+        /// All vertices and edges of a graph must have unique identifiers.
+        /// </summary>
+        /// <returns>the identifier of the element</returns>
+        VertexId Id { get; }
+
+        #endregion
 
         /// <summary>
         /// The edges emanating from, or leaving, the vertex.

@@ -11,10 +11,11 @@ using System;
 using System.Dynamic;
 using System.Collections;
 using System.Collections.Generic;
+using de.ahzf.blueprints.datastructures;
 
 #endregion
 
-namespace de.ahzf.blueprints.InMemory
+namespace de.ahzf.blueprints.InMemoryGraph
 {
 
     /// <summary>
@@ -31,23 +32,25 @@ namespace de.ahzf.blueprints.InMemory
 
         protected readonly IDictionary<String, Object> _Properties;
 
+        /// <summary>
+        /// The key of the Id property
+        /// </summary>
+        public const String __Id = "Id";
+
         #endregion
+
+        #region Properties
 
         #region Properties
 
         #region Id
 
         /// <summary>
-        /// The key of the Id property
-        /// </summary>
-        public const String __Id = "Id";
-
-        /// <summary>
         /// An identifier that is unique to its inheriting class.
         /// All vertices of a graph must have unique identifiers.
         /// All edges of a graph must have unique identifiers.
         /// </summary>
-        public IComparable Id
+        public ElementId Id
         {
             get
             {
@@ -55,12 +58,14 @@ namespace de.ahzf.blueprints.InMemory
                 Object _Object = null;
 
                 if (_Properties.TryGetValue(__Id, out _Object))
-                    return _Object as IComparable;
+                    return _Object as ElementId;
 
                 return null;
 
             }
         }
+
+        #endregion
 
         #endregion
 
@@ -102,33 +107,16 @@ namespace de.ahzf.blueprints.InMemory
 
         #region Protected Constructor(s)
 
-        #region AElement()
-
-        protected AElement()
-        {
-
-            // StringComparer.OrdinalIgnoreCase is often used to compare file names,
-            // path names, network paths, and any other string whose value does not change
-            // based on the locale of the user's computer.
-            _Properties   = new Dictionary<String, Object>(StringComparer.OrdinalIgnoreCase);
-
-            SetProperty(__Id, Guid.NewGuid().ToString());
-
-        }
-
-        #endregion
-
         #region AElement(myId)
 
-        protected AElement(Object myId)
+        protected AElement(ElementId myId)
         {
 
             // StringComparer.OrdinalIgnoreCase is often used to compare file names,
             // path names, network paths, and any other string whose value does not change
             // based on the locale of the user's computer.
-            _Properties   = new Dictionary<String, Object>(StringComparer.OrdinalIgnoreCase);
-
-            SetProperty(__Id, myId);
+            _Properties = new Dictionary<String, Object>(StringComparer.OrdinalIgnoreCase);
+            _Properties.Add(__Id, myId);
 
         }
 

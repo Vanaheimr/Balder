@@ -9,6 +9,7 @@
 
 using System;
 using System.Collections.Generic;
+using de.ahzf.blueprints.datastructures;
 
 #endregion
 
@@ -33,7 +34,7 @@ namespace de.ahzf.blueprints
         /// </summary>
         /// <param name="myId">the recommended object identifier</param>
         /// <returns>the newly created vertex or the vertex already referenced by the provided identifier.</returns>
-        IVertex AddVertex(Object myId);
+        IVertex AddVertex(VertexId myVertexId = null, Action<IVertex> myVertexInitializer = null);
 
 
         /// <summary>
@@ -42,7 +43,14 @@ namespace de.ahzf.blueprints
         /// </summary>
         /// <param name="myId">the identifier of the vertex to retrieved from the graph</param>
         /// <returns>the vertex referenced by the provided identifier or null when no such vertex exists</returns>
-        IVertex GetVertex(Object myId);
+        IVertex GetVertex(VertexId myId);
+
+
+        /// <summary>
+        /// Return an iterable reference to all the vertices in the graph. Thus, what is returned can be subjected to the foreach construct.
+        /// If this is not possible for the implementation, then an UnsupportedOperationException can be thrown.
+        /// </summary>
+        IEnumerable<IVertex> GetVertices(Func<IVertex, Boolean> myVertexFilter = null);
 
 
         /// <summary>
@@ -53,11 +61,7 @@ namespace de.ahzf.blueprints
         void RemoveVertex(IVertex myIVertex);
 
 
-        /// <summary>
-        /// Return an iterable reference to all the vertices in the graph. Thus, what is returned can be subjected to the foreach construct.
-        /// If this is not possible for the implementation, then an UnsupportedOperationException can be thrown.
-        /// </summary>
-        IEnumerable<IVertex> Vertices { get; }
+
 
 
         /// <summary>
@@ -69,7 +73,7 @@ namespace de.ahzf.blueprints
         /// <param name="myInVertex">the vertex on the head of the edge</param>
         /// <param name="myLabel">the label associated with the edge</param>
         /// <returns>the newly created edge</returns>
-        IEdge AddEdge(Object myId, IVertex myOutVertex, IVertex myInVertex, String myLabel);
+        IEdge AddEdge(IVertex myOutVertex, IVertex myInVertex, EdgeId myEdgeId = null, String myLabel = null, Action<IEdge> myEdgeInitializer = null);
 
 
         /// <summary>
@@ -78,7 +82,15 @@ namespace de.ahzf.blueprints
         /// </summary>
         /// <param name="id">the identifier of the edge to retrieved from the graph</param>
         /// <returns>the edge referenced by the provided identifier or null when no such edge exists</returns>
-        IEdge GetEdge(Object myId);
+        IEdge GetEdge(EdgeId myId);
+
+
+        /// <summary>
+        /// Return an iterable reference to all the edges in the graph.
+        /// Thus, what is returned can be subjected to the foreach construct.
+        /// If this is not possible for the implementation, then an UnsupportedOperationException can be thrown.
+        /// </summary>
+        IEnumerable<IEdge> GetEdges(Func<IEdge, Boolean> myEdgeFilter = null);
 
 
         /// <summary>
@@ -88,12 +100,7 @@ namespace de.ahzf.blueprints
         void RemoveEdge(IEdge myIEdge);
 
 
-        /// <summary>
-        /// Return an iterable reference to all the edges in the graph.
-        /// Thus, what is returned can be subjected to the foreach construct.
-        /// If this is not possible for the implementation, then an UnsupportedOperationException can be thrown.
-        /// </summary>
-        IEnumerable<IEdge> Edges { get; }
+
 
 
         /// <summary>

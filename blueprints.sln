@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "blueprints", "blueprints\bl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialGraphDemo", "SocialGraphDemo\SocialGraphDemo.csproj", "{6457BCDE-13A0-41F5-B9E0-6E07F7E2E498}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{CD29E0E7-554A-4FE6-9FE5-8867B8EAFAD8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,16 @@ Global
 		{6457BCDE-13A0-41F5-B9E0-6E07F7E2E498}.Release|Mixed Platforms.Build.0 = Release|x86
 		{6457BCDE-13A0-41F5-B9E0-6E07F7E2E498}.Release|x86.ActiveCfg = Release|x86
 		{6457BCDE-13A0-41F5-B9E0-6E07F7E2E498}.Release|x86.Build.0 = Release|x86
+		{CD29E0E7-554A-4FE6-9FE5-8867B8EAFAD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD29E0E7-554A-4FE6-9FE5-8867B8EAFAD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD29E0E7-554A-4FE6-9FE5-8867B8EAFAD8}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{CD29E0E7-554A-4FE6-9FE5-8867B8EAFAD8}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{CD29E0E7-554A-4FE6-9FE5-8867B8EAFAD8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CD29E0E7-554A-4FE6-9FE5-8867B8EAFAD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD29E0E7-554A-4FE6-9FE5-8867B8EAFAD8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD29E0E7-554A-4FE6-9FE5-8867B8EAFAD8}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{CD29E0E7-554A-4FE6-9FE5-8867B8EAFAD8}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{CD29E0E7-554A-4FE6-9FE5-8867B8EAFAD8}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

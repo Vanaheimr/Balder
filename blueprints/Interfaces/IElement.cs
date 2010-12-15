@@ -9,6 +9,7 @@
 
 using System;
 using System.Collections.Generic;
+using de.ahzf.blueprints.datastructures;
 
 #endregion
 
@@ -32,7 +33,7 @@ namespace de.ahzf.blueprints
         /// All vertices and edges of a graph must have unique identifiers.
         /// </summary>
         /// <returns>the identifier of the element</returns>
-        IComparable Id { get; }
+        ElementId Id { get; }
 
         #endregion
 
