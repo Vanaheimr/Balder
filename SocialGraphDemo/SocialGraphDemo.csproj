@@ -2,18 +2,20 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{B9DE4181-416E-4DE4-A983-B90FC9412774}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{6457BCDE-13A0-41F5-B9E0-6E07F7E2E498}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>blueprints</RootNamespace>
-    <AssemblyName>blueprints</AssemblyName>
+    <RootNamespace>SocialGraphDemo</RootNamespace>
+    <AssemblyName>SocialGraphDemo</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -21,9 +23,9 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\blueprints.XML</DocumentationFile>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -41,23 +43,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Implementations\InMemory\AElement.cs" />
-    <Compile Include="Implementations\InMemory\InMemoryGraph.cs" />
-    <Compile Include="Implementations\InMemory\Vertex.cs" />
-    <Compile Include="Extensions\IElementExtensions.cs" />
-    <Compile Include="Interfaces\IAutomaticIndex.cs" />
-    <Compile Include="Interfaces\IndexType.cs" />
-    <Compile Include="Interfaces\IIndex.cs" />
-    <Compile Include="Interfaces\IIndexableGraph.cs" />
-    <Compile Include="Interfaces\IGraph.cs" />
-    <Compile Include="Interfaces\IEdge.cs" />
-    <Compile Include="Interfaces\IElement.cs" />
-    <Compile Include="Interfaces\IVertex.cs" />
+    <Compile Include="SocialGraph.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Implementations\BlueRedis\" />
-    <Folder Include="Implementations\Rexster\" />
+    <ProjectReference Include="..\blueprints\blueprints.csproj">
+      <Project>{B9DE4181-416E-4DE4-A983-B90FC9412774}</Project>
+      <Name>blueprints</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

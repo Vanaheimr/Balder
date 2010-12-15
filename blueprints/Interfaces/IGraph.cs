@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2010, Achim 'ahzf' Friedland
+ * Copyright (c) 2010, Achim 'ahzf' Friedland <code@ahzf.de>
  * 
  * This file is part of blueprints.NET and licensed
  * as free software under the New BSD License.
@@ -16,33 +16,33 @@ namespace de.ahzf.blueprints
 {
 
     /// <summary>
-    /// A graph is a container object for a collection of vertices and edges.
+    /// A property graph is a container object for a collection of vertices and edges.
     /// </summary>
     public interface IGraph
     {
 
-     //   **
-     //* Create a new vertex, add it to the graph, and return the newly created vertex.
-     //* The provided object identifier is a recommendation for the identifier to use.
-     //* It is not required that the implementation use this identifier.
-     //* If the object identifier is already being used by the graph to reference a vertex,
-     //* then that reference vertex is returned and no vertex is created.
-     //* If the identifier is a vertex (perhaps from another graph),
-     //* then the vertex is duplicated for this graph. Thus, a vertex can not be an identifier.
-     //*
-     //* @param id the recommended object identifier
-     //* @return the newly created vertex or the vertex already referenced by the provided identifier.
-     //*/
-        IVertex addVertex(Object id);
 
-    /**
-     * Return the vertex referenced by the provided object identifier.
-     * If no vertex is referenced by that identifier, then return null.
-     *
-     * @param id the identifier of the vertex to retrieved from the graph
-     * @return the vertex referenced by the provided identifier or null when no such vertex exists
-     */
-        IVertex GetVertex(Object id);
+        /// <summary>
+        /// Create a new vertex, add it to the graph, and return the newly created vertex.
+        /// The provided object identifier is a recommendation for the identifier to use.
+        /// It is not required that the implementation use this identifier.
+        /// If the object identifier is already being used by the graph to reference a vertex,
+        /// then that reference vertex is returned and no vertex is created.
+        /// If the identifier is a vertex (perhaps from another graph),
+        /// then the vertex is duplicated for this graph. Thus, a vertex can not be an identifier.
+        /// </summary>
+        /// <param name="myId">the recommended object identifier</param>
+        /// <returns>the newly created vertex or the vertex already referenced by the provided identifier.</returns>
+        IVertex AddVertex(Object myId);
+
+
+        /// <summary>
+        /// Return the vertex referenced by the provided object identifier.
+        /// If no vertex is referenced by that identifier, then return null.
+        /// </summary>
+        /// <param name="myId">the identifier of the vertex to retrieved from the graph</param>
+        /// <returns>the vertex referenced by the provided identifier or null when no such vertex exists</returns>
+        IVertex GetVertex(Object myId);
 
 
         /// <summary>
@@ -64,12 +64,12 @@ namespace de.ahzf.blueprints
         /// Add an edge to the graph. The added edges requires a recommended identifier, a tail vertex, an head vertex, and a label.
         /// Like adding a vertex, the provided object identifier is can be ignored by the implementation.
         /// </summary>
-        /// <param name="id">the recommended object identifier</param>
-        /// <param name="outVertex">the vertex on the tail of the edge</param>
-        /// <param name="inVertex">the vertex on the head of the edge</param>
-        /// <param name="label">the label associated with the edge</param>
+        /// <param name="myId">the recommended object identifier</param>
+        /// <param name="myOutVertex">the vertex on the tail of the edge</param>
+        /// <param name="myInVertex">the vertex on the head of the edge</param>
+        /// <param name="myLabel">the label associated with the edge</param>
         /// <returns>the newly created edge</returns>
-        IEdge AddEdge(Object id, IVertex outVertex, IVertex inVertex, String label);
+        IEdge AddEdge(Object myId, IVertex myOutVertex, IVertex myInVertex, String myLabel);
 
 
         /// <summary>
@@ -89,7 +89,8 @@ namespace de.ahzf.blueprints
 
 
         /// <summary>
-        /// Return an iterable reference to all the edges in the graph. Thus, what is returned can be subjected to the foreach construct.
+        /// Return an iterable reference to all the edges in the graph.
+        /// Thus, what is returned can be subjected to the foreach construct.
         /// If this is not possible for the implementation, then an UnsupportedOperationException can be thrown.
         /// </summary>
         IEnumerable<IEdge> Edges { get; }
@@ -102,7 +103,7 @@ namespace de.ahzf.blueprints
 
 
         /// <summary>
-        /// A shtudown function is required to properly close the graph.
+        /// A shutdown function is required to properly close the graph.
         /// This is important for implementations that utilize disk-based serializations.
         /// </summary>
         void Shutdown();

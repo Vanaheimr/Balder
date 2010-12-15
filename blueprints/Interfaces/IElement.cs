@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2010, Achim 'ahzf' Friedland
+ * Copyright (c) 2010, Achim 'ahzf' Friedland <code@ahzf.de>
  * 
  * This file is part of blueprints.NET and licensed
  * as free software under the New BSD License.
@@ -22,25 +22,21 @@ namespace de.ahzf.blueprints
     /// Keys are always strings and values can be any object.
     /// Particular implementations can reduce the space of objects that can be used as values.
     /// </summary>
-    public interface IElement
+    public interface IElement : IEnumerable<KeyValuePair<String, Object>>, IEquatable<IElement>
     {
 
-        /// <summary>
-        /// Return the object value associated with the provided string key.
-        /// </summary>
-        /// <param name="myKey">the key of the key/value property</param>
-        /// <returns>the object value related to the string key</returns>
-        Object getProperty(String myKey);
-
+        #region Properties
 
         /// <summary>
-        /// Return the object value of type TValue associated with the provided string key.
+        /// An identifier that is unique to its inheriting class.
+        /// All vertices and edges of a graph must have unique identifiers.
         /// </summary>
-        /// <typeparam name="TValue">the type the property</typeparam>
-        /// <param name="myKey">the key of the key/value property</param>
-        /// <returns>the object value related to the string key</returns>
-        TValue getProperty<TValue>(String myKey);
+        /// <returns>the identifier of the element</returns>
+        IComparable Id { get; }
 
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Assign a key/value property to the element.
@@ -48,14 +44,23 @@ namespace de.ahzf.blueprints
         /// </summary>
         /// <param name="myKey">the string key of the property</param>
         /// <param name="myValue">the object value o the property</param>
-        void setProperty(String myKey, Object myValue);
+        void SetProperty(String myKey, Object myValue);
 
 
         /// <summary>
-        /// Return all the keys associated with the element.
+        /// Return the object value associated with the provided string key.
         /// </summary>
-        /// <returns>the set of all string keys associated with the element</returns>
-        IEnumerable<String> Keys { get; }
+        /// <param name="myKey">the key of the key/value property</param>
+        /// <returns>the object value related to the string key</returns>
+        Object GetProperty(String myKey);
+
+
+        /// <summary>
+        /// Allows to return a filtered enumeration of all properties.
+        /// </summary>
+        /// <param name="myPropertyFilter">A function to filter a property based on its key and value.</param>
+        /// <returns>A enumeration of all objects matching the given property filter.</returns>
+        IEnumerable<KeyValuePair<String, Object>> GetProperties(Func<String, Object, Boolean> myPropertyFilter = null);
 
 
         /// <summary>
@@ -64,17 +69,9 @@ namespace de.ahzf.blueprints
         /// </summary>
         /// <param name="myKey">the key of the property to remove from the element</param>
         /// <returns>the object value associated with that key prior to removal</returns>
-        Object removeProperty(String myKey);
+        Object RemoveProperty(String myKey);
 
-
-        /// <summary>
-        /// An identifier that is unique to its inheriting class.
-        /// All vertices of a graph must have unique identifiers.
-        /// All edges of a graph must have unique identifiers.
-        /// </summary>
-        /// <returns>the identifier of the element</returns>
-        Object Id { get; }
-
+        #endregion
 
     }
 
