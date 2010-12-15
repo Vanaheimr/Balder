@@ -6,7 +6,10 @@ Blueprints does not define an interface for remote network access. For a [HTTP/R
 
 #### Implementations
 
+* A very simple in-memory implementation
 * [Gera](http://github.com/ahzf/Gera) a framework for processing large-scale semantic graphs.
+* Rexster
+* BlueRedis
 
 #### License
 
