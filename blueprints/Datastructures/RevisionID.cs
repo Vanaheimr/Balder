@@ -11,7 +11,7 @@ using System;
 
 #endregion
 
-namespace de.ahzf.blueprints.datastructures
+namespace de.ahzf.blueprints.Datastructures
 {
 
     /// <summary>
@@ -54,7 +54,7 @@ namespace de.ahzf.blueprints.datastructures
         /// <param name="mySystemId">An unique identificator for the generating system, process or thread</param>
         public RevisionId(SystemId mySystemId)
         {
-            Timestamp = (UInt64) TimestampNonce.Ticks;
+            Timestamp = (UInt64) UniqueTimestamp.Ticks;
             SystemId  = mySystemId;
         }
 

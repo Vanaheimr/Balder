@@ -9,7 +9,7 @@
 
 using System;
 using de.ahzf.blueprints.InMemoryGraph;
-using de.ahzf.blueprints.datastructures;
+using de.ahzf.blueprints.Datastructures;
 
 #endregion
 
@@ -18,10 +18,12 @@ namespace SocialGraphDemo
 
     public class SocialGraph
     {
+
+        
         
         public static void Main(String[] myArgs)
         {
-
+            
             var _SocialGraph1 = new InMemoryGraph();
 
             var v1  = _SocialGraph1.AddVertex(new VertexId(1));

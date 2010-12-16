@@ -45,7 +45,7 @@
     <Compile Include="Datastructures\ElementId.cs" />
     <Compile Include="Datastructures\VertexId.cs" />
     <Compile Include="Datastructures\RevisionId.cs" />
-    <Compile Include="Datastructures\TimestampNonce.cs" />
+    <Compile Include="Datastructures\UniqueTimestamp.cs" />
     <Compile Include="Datastructures\EdgeId.cs" />
     <Compile Include="Implementations\InMemoryGraph\AElement.cs" />
     <Compile Include="Implementations\InMemoryGraph\Edge.cs" />

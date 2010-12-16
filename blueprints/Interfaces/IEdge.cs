@@ -8,7 +8,7 @@
 #region Usings
 
 using System;
-using de.ahzf.blueprints.datastructures;
+using de.ahzf.blueprints.Datastructures;
 
 #endregion
 

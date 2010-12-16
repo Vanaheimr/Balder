@@ -1,6 +1,8 @@
 ﻿/*
- * SystemId
- * (c) Achim 'ahzf' Friedland, 2008 - 2010
+ * Copyright (c) 2010, Achim 'ahzf' Friedland <code@ahzf.de>
+ * 
+ * This file is part of blueprints.NET and licensed
+ * as free software under the New BSD License.
  */
 
 #region Usings
@@ -13,7 +15,7 @@ using System.Runtime.Serialization;
 
 #endregion
 
-namespace de.ahzf.blueprints.datastructures
+namespace de.ahzf.blueprints.Datastructures
 {
 
     /// <summary>

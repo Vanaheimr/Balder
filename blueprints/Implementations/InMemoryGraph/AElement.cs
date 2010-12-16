@@ -11,7 +11,7 @@ using System;
 using System.Dynamic;
 using System.Collections;
 using System.Collections.Generic;
-using de.ahzf.blueprints.datastructures;
+using de.ahzf.blueprints.Datastructures;
 
 #endregion
 
