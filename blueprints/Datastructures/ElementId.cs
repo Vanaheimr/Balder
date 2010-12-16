@@ -1,6 +1,8 @@
 ﻿/*
- * UUID
- * (c) Achim 'ahzf' Friedland, 2008 - 2010
+ * Copyright (c) 2010, Achim 'ahzf' Friedland <code@ahzf.de>
+ * 
+ * This file is part of blueprints.NET and licensed
+ * as free software under the New BSD License.
  */
 
 #region Usings
@@ -49,7 +51,7 @@ namespace de.ahzf.blueprints.datastructures
         #region ElementId()
 
         /// <summary>
-        /// Generates a new ElementId
+        /// Generates a new ElementId based on a GUID
         /// </summary>
         public ElementId()
         {

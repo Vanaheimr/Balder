@@ -1,0 +1,8 @@
+
+Blueprints.NET could not be build without the help
+of the following projects:
+
+ - Original blueprints project: http://github.com/tinkerpop/blueprints
+ - NUnit unit testing framework: http://www.nunit.org
+ - sones GraphDB for the fundamental understanding of graphs:
+   http://github.com/sones/sones

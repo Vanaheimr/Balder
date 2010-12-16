@@ -60,7 +60,7 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #endregion
 
-        #region Protected Constructor(s)
+        #region Internal Protected Constructor(s)
 
         #region Vertex(myId)
 

@@ -112,6 +112,9 @@ namespace de.ahzf.blueprints.InMemoryGraph
         protected AElement(ElementId myId)
         {
 
+            if (myId == null)
+                throw new ArgumentNullException("The Id must not be null!");
+
             // StringComparer.OrdinalIgnoreCase is often used to compare file names,
             // path names, network paths, and any other string whose value does not change
             // based on the locale of the user's computer.
@@ -210,7 +213,6 @@ namespace de.ahzf.blueprints.InMemoryGraph
         #endregion
 
         #endregion
-
 
 
         #region DynamicObject Members
@@ -313,6 +315,7 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #endregion
 
+
         #region IEnumerable Members
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -394,7 +397,6 @@ namespace de.ahzf.blueprints.InMemoryGraph
         }
 
         #endregion
-
 
     }
 

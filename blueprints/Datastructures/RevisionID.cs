@@ -8,7 +8,6 @@
 #region Usings
 
 using System;
-using System.Runtime.Serialization;
 
 #endregion
 
@@ -16,10 +15,10 @@ namespace de.ahzf.blueprints.datastructures
 {
 
     /// <summary>
-    /// A RevisionID is an identificator for an object revision.
-    /// </summary>    
-
-    public class RevisionID : IComparable, IComparable<RevisionID>, IEquatable<RevisionID>
+    /// A RevisionId is an identificator for a specific IElement revision in
+    /// a distributed system consisting of a timestamp and a SystemId.
+    /// </summary>
+    public class RevisionId : IComparable, IComparable<RevisionId>, IEquatable<RevisionId>
     {
 
         #region Properties
@@ -33,12 +32,13 @@ namespace de.ahzf.blueprints.datastructures
 
         #endregion
 
-        #region UUID
+        #region SystemId
 
         /// <summary>
-        /// A unique identification of the generation process of this revision.
+        /// A unique identification of the generating system,
+        /// process or thread of this revision.
         /// </summary>
-        public VertexId UUID { get; private set; }
+        public SystemId SystemId { get; private set; }
 
         #endregion
 
@@ -46,114 +46,96 @@ namespace de.ahzf.blueprints.datastructures
 
         #region Constructors
 
-        #region RevisionID(myUUID)
+        #region RevisionId(mySystemId)
 
         /// <summary>
-        /// A constructor used for generating an RevisionID based on the actual
-        /// DateTime and the given (system) UUID.
+        /// Generates a RevisionId based on the actual timestamp and the given SystemId.
         /// </summary>
-        /// <param name="myUUID">An unique identification for this generation process</param>
-        public RevisionID(VertexId myUUID)
+        /// <param name="mySystemId">An unique identificator for the generating system, process or thread</param>
+        public RevisionId(SystemId mySystemId)
         {
-            Timestamp = (UInt64)TimestampNonce.Ticks;
-            UUID = myUUID;
+            Timestamp = (UInt64) TimestampNonce.Ticks;
+            SystemId  = mySystemId;
         }
 
         #endregion
 
-        #region RevisionID(myTimestamp, myUUID)
+        #region RevisionId(myTimestamp, mySystemId)
 
         /// <summary>
-        /// A constructor used for generating an RevisionID based on the given
-        /// timestamp and the given (system) UUID.
+        /// Generates a RevisionId based on the given UInt64 timestamp and the given SystemId.
         /// </summary>
-        /// <param name="myTimestamp">Any timestamp</param>
-        /// <param name="myUUID">An unique identification for this generation process</param>
-        public RevisionID(UInt64 myTimestamp, VertexId myUUID)
+        /// <param name="myTimestamp">A timestamp</param>
+        /// <param name="mySystemId">An unique identificator for the generating system, process or thread</param>
+        public RevisionId(UInt64 myTimestamp, SystemId mySystemId)
         {
             Timestamp = myTimestamp;
-            UUID = myUUID;
+            SystemId  = mySystemId;
         }
 
         #endregion
 
-        #region RevisionID(myDateTime, myUUID)
+        #region RevisionId(myDateTime, mySystemId)
 
         /// <summary>
-        /// A constructor used for generating an RevisionID based on the given
-        /// DateTime and the given (system) UUID.
+        /// Generates a RevisionId based on the given DateTime object and the given SystemId.
         /// </summary>
-        /// <param name="myDateTime">Any DateTime</param>
-        /// <param name="myUUID">An unique identification for this generation process</param>
-        public RevisionID(DateTime myDateTime, VertexId myUUID)
+        /// <param name="myDateTime">A DateTime object</param>
+        /// <param name="mySystemId">An unique identificator for the generating system, process or thread</param>
+        public RevisionId(DateTime myDateTime, SystemId mySystemId)
         {
-            Timestamp = (UInt64)myDateTime.Ticks;
-            UUID = myUUID;
+            Timestamp = (UInt64) myDateTime.Ticks;
+            SystemId  = mySystemId;
         }
 
         #endregion
 
-        #region RevisionID(myDateTime_String, myUUID)
+        #region RevisionId(myDateTimeString, mySystemId)
 
         /// <summary>
-        /// A constructor used for generating an RevisionID based on the given
-        /// "yyyyddMM.HHmmss.fffffff"-formated DateTime and the given (system) UUID.
+        /// Generates a RevisionId based on the "yyyyddMM.HHmmss.fffffff" formated
+        /// string representation of a DateTime object and the given SystemId.
         /// </summary>
-        /// <param name="myDateTime">A "yyyyddMM.HHmmss.fffffff"-formated DateTime string</param>
-        /// <param name="myUUID">An unique identification for this generation process</param>
-        /// <exception cref="System.ArgumentNullException"></exception>
+        /// <param name="myDateTimeString">A DateTime object as "yyyyddMM.HHmmss.fffffff"-formated string</param>
+        /// <param name="mySystemId">An unique identificator for the generating system, process or thread</param>
         /// <exception cref="System.FormatException"></exception>
-        public RevisionID(String myDateTime_String, VertexId myUUID)
+        public RevisionId(String myDateTimeString, SystemId mySystemId)
         {
-            Timestamp = (UInt64)(DateTime.ParseExact(myDateTime_String, "yyyyddMM.HHmmss.fffffff", null)).Ticks;
-            UUID = myUUID;
+            try
+            {
+                Timestamp = (UInt64) (DateTime.ParseExact(myDateTimeString, "yyyyddMM.HHmmss.fffffff", null)).Ticks;
+                SystemId  = mySystemId;
+            }
+            catch
+            {
+                throw new FormatException("The given string could not be parsed!");
+            }
         }
 
         #endregion
 
-        #region RevisionID(myRevisionString)
+        #region RevisionId(myRevisionIdString)
 
         /// <summary>
-        /// A constructor used for generating an RevisionID based on the given
-        /// "yyyyddMM.HHmmss.fffffff(UUID)"-formated DateTime with attached UUID.
+        /// Generates a RevisionId based on the "yyyyddMM.HHmmss.fffffff(SystemId)"
+        /// formated string representation of a RevisionId.
         /// </summary>
-        /// <param name="myRevisionIDString">A "yyyyddMM.HHmmss.fffffff(UUID)"-formated DateTime string with attached UUID</param>
-        /// <exception cref="System.ArgumentNullException"></exception>
+        /// <param name="myRevisionIdString">A RevisionId object as "yyyyddMM.HHmmss.fffffff(SystemId)"-formated string</param>
         /// <exception cref="System.FormatException"></exception>
-        public RevisionID(String myRevisionIDString)
+        public RevisionId(String myRevisionIdString)
         {
-            var RevisionID_Timestamp = myRevisionIDString.Remove(myRevisionIDString.IndexOf("("));
-            var RevisionID_UUID = myRevisionIDString.Substring(RevisionID_Timestamp.Length + 1, myRevisionIDString.Length - RevisionID_Timestamp.Length - 2);
-            Timestamp = (UInt64)(DateTime.ParseExact(RevisionID_Timestamp, "yyyyddMM.HHmmss.fffffff", null)).Ticks;
-            UUID = new VertexId(RevisionID_UUID);
-        }
+            try
+            {            
+                var __Timestamp = myRevisionIdString.Remove(myRevisionIdString.IndexOf("("));
+                var __SystemId  = myRevisionIdString.Substring(__Timestamp.Length + 1, myRevisionIdString.Length - __Timestamp.Length - 2);
 
-        #endregion
-
-        #endregion
-
-
-        #region Object-specific methods
-
-        #region IncrementRevisionTimestamp()
-
-        /// <summary>
-        /// Increments the value of the RevisionTimestamp by one.
-        /// This can be used to make the RevisionID unique in case of
-        /// an imprecise resolution of your GetDateTime method.
-        /// </summary>
-        public void IncrementRevisionTimestamp()
-        {
-            Timestamp++;
-        }
-
-        #endregion
-
-        #region Clone()
-
-        public RevisionID Clone()
-        {
-            return new RevisionID(Timestamp, new VertexId(UUID));
+                Timestamp       = (UInt64) (DateTime.ParseExact(__Timestamp, "yyyyddMM.HHmmss.fffffff", null)).Ticks;
+                SystemId        = new SystemId(__SystemId);
+            }
+            catch
+            {
+                throw new FormatException("The given string could not be parsed!");
+            }
         }
 
         #endregion
@@ -163,47 +145,47 @@ namespace de.ahzf.blueprints.datastructures
 
         #region Operator overloading
 
-        #region Operator == (myRevisionID1, myRevisionID2)
+        #region Operator == (myRevisionId1, myRevisionId2)
 
-        public static Boolean operator ==(RevisionID myRevisionID1, RevisionID myRevisionID2)
+        public static Boolean operator == (RevisionId myRevisionId1, RevisionId myRevisionId2)
         {
 
             // If both are null, or both are same instance, return true.
-            if (System.Object.ReferenceEquals(myRevisionID1, myRevisionID2))
+            if (Object.ReferenceEquals(myRevisionId1, myRevisionId2))
                 return true;
 
             // If one is null, but not both, return false.
-            if (((Object)myRevisionID1 == null) || ((Object)myRevisionID2 == null))
+            if (((Object) myRevisionId1 == null) || ((Object) myRevisionId2 == null))
                 return false;
 
-            return myRevisionID1.Equals(myRevisionID2);
+            return myRevisionId1.Equals(myRevisionId2);
 
         }
 
         #endregion
 
-        #region Operator != (myRevisionID1, myRevisionID2)
+        #region Operator != (myRevisionId1, myRevisionId2)
 
-        public static Boolean operator !=(RevisionID myRevisionID1, RevisionID myRevisionID2)
+        public static Boolean operator != (RevisionId myRevisionId1, RevisionId myRevisionId2)
         {
-            return !(myRevisionID1 == myRevisionID2);
+            return !(myRevisionId1 == myRevisionId2);
         }
 
         #endregion
 
-        #region Operator < (myRevisionID1, myRevisionID2)
+        #region Operator <  (myRevisionId1, myRevisionId2)
 
-        public static Boolean operator <(RevisionID myRevisionID1, RevisionID myRevisionID2)
+        public static Boolean operator < (RevisionId myRevisionId1, RevisionId myRevisionId2)
         {
 
-            if (myRevisionID1.Timestamp < myRevisionID2.Timestamp)
+            if (myRevisionId1.Timestamp < myRevisionId2.Timestamp)
                 return true;
 
-            if (myRevisionID1.Timestamp > myRevisionID2.Timestamp)
+            if (myRevisionId1.Timestamp > myRevisionId2.Timestamp)
                 return false;
 
-            // myRevisionID1.Timestamp == myRevisionID2.Timestamp
-            if (myRevisionID1.UUID < myRevisionID2.UUID)
+            // myRevisionId1.Timestamp == myRevisionId2.Timestamp
+            if (myRevisionId1.SystemId < myRevisionId2.SystemId)
                 return true;
 
             return false;
@@ -212,19 +194,19 @@ namespace de.ahzf.blueprints.datastructures
 
         #endregion
 
-        #region Operator > (myRevisionID1, myRevisionID2)
+        #region Operator >  (myRevisionId1, myRevisionId2)
 
-        public static Boolean operator >(RevisionID myRevisionID1, RevisionID myRevisionID2)
+        public static Boolean operator > (RevisionId myRevisionId1, RevisionId myRevisionId2)
         {
 
-            if (myRevisionID1.Timestamp > myRevisionID2.Timestamp)
+            if (myRevisionId1.Timestamp > myRevisionId2.Timestamp)
                 return true;
 
-            if (myRevisionID1.Timestamp < myRevisionID2.Timestamp)
+            if (myRevisionId1.Timestamp < myRevisionId2.Timestamp)
                 return false;
 
-            // myRevisionID1.Timestamp == myRevisionID2.Timestamp
-            if (myRevisionID1.UUID > myRevisionID2.UUID)
+            // myRevisionId1.Timestamp == myRevisionId2.Timestamp
+            if (myRevisionId1.SystemId > myRevisionId2.SystemId)
                 return true;
 
             return false;
@@ -233,20 +215,20 @@ namespace de.ahzf.blueprints.datastructures
 
         #endregion
 
-        #region Operator <= (myRevisionID1, myRevisionID2)
+        #region Operator <= (myRevisionId1, myRevisionId2)
 
-        public static Boolean operator <=(RevisionID myRevisionID1, RevisionID myRevisionID2)
+        public static Boolean operator <= (RevisionId myRevisionId1, RevisionId myRevisionId2)
         {
-            return !(myRevisionID1 > myRevisionID2);
+            return !(myRevisionId1 > myRevisionId2);
         }
 
         #endregion
 
-        #region Operator >= (myRevisionID1, myRevisionID2)
+        #region Operator >= (myRevisionId1, myRevisionId2)
 
-        public static Boolean operator >=(RevisionID myRevisionID1, RevisionID myRevisionID2)
+        public static Boolean operator >= (RevisionId myRevisionId1, RevisionId myRevisionId2)
         {
-            return !(myRevisionID1 < myRevisionID2);
+            return !(myRevisionId1 < myRevisionId2);
         }
 
         #endregion
@@ -264,12 +246,12 @@ namespace de.ahzf.blueprints.datastructures
                 throw new ArgumentNullException();
 
             // If parameter cannot be cast to Point return false.
-            var _RevisionID = myObject as RevisionID;
-            if ((Object)_RevisionID == null)
-                throw new ArgumentException("myObject is not of type RevisionID!");
+            var _RevisionId = myObject as RevisionId;
+            if ((Object) _RevisionId == null)
+                throw new ArgumentException("myObject is not of type RevisionId!");
 
-            if (this < _RevisionID) return -1;
-            if (this > _RevisionID) return +1;
+            if (this < _RevisionId) return -1;
+            if (this > _RevisionId) return +1;
 
             return 0;
 
@@ -277,17 +259,17 @@ namespace de.ahzf.blueprints.datastructures
 
         #endregion
 
-        #region IComparable<RevisionID> Member
+        #region IComparable<RevisionId> Member
 
-        public Int32 CompareTo(RevisionID myRevisionID)
+        public Int32 CompareTo(RevisionId myRevisionId)
         {
 
-            // Check if myRevisionID is null
-            if (myRevisionID == null)
+            // Check if myRevisionId is null
+            if (myRevisionId == null)
                 throw new ArgumentNullException();
 
-            if (this < myRevisionID) return -1;
-            if (this > myRevisionID) return +1;
+            if (this < myRevisionId) return -1;
+            if (this > myRevisionId) return +1;
 
             return 0;
 
@@ -295,7 +277,9 @@ namespace de.ahzf.blueprints.datastructures
 
         #endregion
 
-        #region IEquatable Members
+        #region IEquatable<RevisionId> Members
+
+        #region Equals(myObject)
 
         public override Boolean Equals(Object myObject)
         {
@@ -304,31 +288,31 @@ namespace de.ahzf.blueprints.datastructures
             if (myObject == null)
                 return false;
 
-            // If parameter cannot be cast to RevisionID return false.
-            var _RevisionID = myObject as RevisionID;
-            if ((Object)_RevisionID == null)
+            // If parameter cannot be cast to RevisionId return false.
+            var _RevisionId = myObject as RevisionId;
+            if ((Object) _RevisionId == null)
                 return false;
 
-            return Equals(_RevisionID);
+            return Equals(_RevisionId);
 
         }
 
         #endregion
 
-        #region IEquatable<RevisionID> Members
+        #region Equals(myRevisionId)
 
-        public Boolean Equals(RevisionID myRevisionID)
+        public Boolean Equals(RevisionId myRevisionId)
         {
 
             // If parameter is null return false:
-            if ((Object)myRevisionID == null)
+            if ((Object) myRevisionId == null)
                 return false;
 
             // Check if the inner fields have the same values
-            if (Timestamp != myRevisionID.Timestamp)
+            if (Timestamp != myRevisionId.Timestamp)
                 return false;
 
-            if (UUID != myRevisionID.UUID)
+            if (SystemId != myRevisionId.SystemId)
                 return false;
 
             return true;
@@ -337,11 +321,13 @@ namespace de.ahzf.blueprints.datastructures
 
         #endregion
 
+        #endregion
+
         #region GetHashCode()
 
         public override Int32 GetHashCode()
         {
-            return Timestamp.GetHashCode() ^ UUID.GetHashCode();
+            return Timestamp.GetHashCode() ^ SystemId.GetHashCode();
         }
 
         #endregion
@@ -354,7 +340,7 @@ namespace de.ahzf.blueprints.datastructures
         /// <returns>A formated string representation of this revision</returns>
         public override String ToString()
         {
-            return String.Format("{0:yyyyddMM.HHmmss.fffffff}({1})", new DateTime((Int64)Timestamp), UUID.ToString());
+            return String.Format("{0:yyyyddMM.HHmmss.fffffff}({1})", new DateTime((Int64) Timestamp), SystemId.ToString());
         }
 
         #endregion

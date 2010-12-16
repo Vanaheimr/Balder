@@ -41,9 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Datastructures\SystemId.cs" />
     <Compile Include="Datastructures\ElementId.cs" />
     <Compile Include="Datastructures\VertexId.cs" />
-    <Compile Include="Datastructures\RevisionID.cs" />
+    <Compile Include="Datastructures\RevisionId.cs" />
     <Compile Include="Datastructures\TimestampNonce.cs" />
     <Compile Include="Datastructures\EdgeId.cs" />
     <Compile Include="Implementations\InMemoryGraph\AElement.cs" />

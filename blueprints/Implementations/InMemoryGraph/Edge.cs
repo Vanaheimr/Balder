@@ -8,7 +8,9 @@
 #region Usings
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
+
 using de.ahzf.blueprints.datastructures;
 
 #endregion
@@ -29,10 +31,13 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         protected readonly IVertex _OutVertex;
         protected readonly IVertex _InVertex;
+        public    const    String  __Label = "Label";
 
         #endregion
 
         #region Properties
+
+        // Edge properties
 
         #region Id
 
@@ -58,15 +63,67 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #endregion
 
+        #region Label
+
+        public String Label
+        {
+            get
+            {
+
+                Object _Object = null;
+
+                if (_Properties.TryGetValue(__Label, out _Object))
+                    return _Object as String;
+
+                return null;
+
+            }
+        }
+
         #endregion
 
-        #region Protected Constructor(s)
 
-        #region Edge(myId, myEdgeInitializer = null)
+        // Links to the associated vertices
+
+        #region OutVertex
+
+        public IVertex OutVertex
+        {
+            get
+            {
+                return _OutVertex;
+            }
+        }
+
+        #endregion
+
+        #region InVertex
+
+        public IVertex InVertex
+        {
+            get
+            {
+                return _InVertex;
+            }
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Internal Protected Constructor(s)
+
+        #region Edge(myOutVertex, myInVertex, myId, myEdgeInitializer = null)
 
         internal protected Edge(IVertex myOutVertex, IVertex myInVertex, EdgeId myId, Action<IEdge> myEdgeInitializer = null)
             : base(myId)
         {
+
+            if (myOutVertex == null)
+                throw new ArgumentNullException("The OutVertex must not be null!");
+
+            if (myInVertex == null)
+                throw new ArgumentNullException("The InVertex must not be null!");
 
             _OutVertex = myOutVertex;
             _InVertex  = myInVertex;
@@ -79,34 +136,6 @@ namespace de.ahzf.blueprints.InMemoryGraph
         #endregion
 
         #endregion
-
-
-
-        public IVertex OutVertex
-        {
-            get
-            {
-                return _OutVertex;
-            }
-        }
-
-        public IVertex InVertex
-        {
-            get
-            {
-                return _InVertex;
-            }
-        }
-
-        public string Label
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public new System.Collections.IEnumerator GetEnumerator()
-        {
-            throw new NotImplementedException();
-        }
 
     }
 
