@@ -1,9 +1,10 @@
-
-/UnitTests/bin
-/UnitTests/obj
 /blueprints/bin
 /blueprints/obj
+/blueprints.suo
+/blueprints/bin
+/blueprints/obj
+/UnitTests/bin
+/UnitTests/obj
 /SocialGraphDemo/obj
 /SocialGraphDemo/bin
 /UnitTests/TestResult.xml
-/blueprints.suo

@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+# Visual C# Express 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "blueprints", "blueprints\blueprints.csproj", "{B9DE4181-416E-4DE4-A983-B90FC9412774}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialGraphDemo", "SocialGraphDemo\SocialGraphDemo.csproj", "{6457BCDE-13A0-41F5-B9E0-6E07F7E2E498}"
