@@ -8,3 +8,5 @@
 /SocialGraphDemo/obj
 /SocialGraphDemo/bin
 /UnitTests/TestResult.xml
+*.pidb
+*.VisualState.xml
