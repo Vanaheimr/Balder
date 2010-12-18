@@ -26,6 +26,9 @@ namespace de.ahzf.blueprints.Datastructures
 
         #region Data
 
+        /// <summary>
+        /// Holding the identification of this element.
+        /// </summary>
         protected readonly String _ElementId;
 
         #endregion
@@ -34,6 +37,9 @@ namespace de.ahzf.blueprints.Datastructures
 
         #region Length
 
+        /// <summary>
+        /// Returns the length of the identificator.
+        /// </summary>
         public UInt64 Length
         {
             get
@@ -150,6 +156,11 @@ namespace de.ahzf.blueprints.Datastructures
 
         #region IComparable Members
 
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myObject">An object to compare with.</param>
+        /// <returns>true|false</returns>
         public Int32 CompareTo(Object myObject)
         {
 
@@ -170,6 +181,11 @@ namespace de.ahzf.blueprints.Datastructures
 
         #region IComparable<ElementId> Members
 
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myElementId">An object to compare with.</param>
+        /// <returns>true|false</returns>
         public Int32 CompareTo(ElementId myElementId)
         {
 
@@ -187,6 +203,11 @@ namespace de.ahzf.blueprints.Datastructures
 
         #region Equals(myObject)
 
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myObject">An object to compare with.</param>
+        /// <returns>true|false</returns>
         public override Boolean Equals(Object myObject)
         {
 
@@ -207,6 +228,11 @@ namespace de.ahzf.blueprints.Datastructures
 
         #region Equals(myElementId)
 
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myElementId">An object to compare with.</param>
+        /// <returns>true|false</returns>
         public Boolean Equals(ElementId myElementId)
         {
 
@@ -224,6 +250,10 @@ namespace de.ahzf.blueprints.Datastructures
 
         #region GetHashCode()
 
+        /// <summary>
+        /// Return the HashCode of this object.
+        /// </summary>
+        /// <returns>The HashCode of this object.</returns>
         public override Int32 GetHashCode()
         {
             return _ElementId.GetHashCode();
@@ -233,6 +263,10 @@ namespace de.ahzf.blueprints.Datastructures
 
         #region ToString()
 
+        /// <summary>
+        /// Returns a string representation of this object.
+        /// </summary>
+        /// <returns>A string representation of this object.</returns>
         public override String ToString()
         {
             return _ElementId.ToString();

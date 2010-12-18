@@ -22,16 +22,16 @@ namespace de.ahzf.blueprints
     public static class IElementExtensions
     {
 
-        #region ToDynamic(this myElement)
+        #region ToDynamic(this myIElement)
 
         /// <summary>
         /// Converts the given IElement into a dynamic object
         /// </summary>
-        /// <param name="myElement">An object implementing IElement to work on</param>
+        /// <param name="myIElement">An object implementing IElement.</param>
         /// <returns>A dynamic object</returns>
-        public static dynamic ToDynamic(this IElement myElement)
+        public static dynamic ToDynamic(this IElement myIElement)
         {
-            return (dynamic) myElement;
+            return (dynamic) myIElement;
         }
 
         #endregion
@@ -43,7 +43,7 @@ namespace de.ahzf.blueprints
         /// Assign a KeyValuePair to the element.
         /// If a value already exists for this key, then the previous key/value is overwritten.
         /// </summary>
-        /// <param name="myIElement">An object implementing IElement to work on</param>
+        /// <param name="myIElement">An object implementing IElement.</param>
         /// <param name="myKeyValuePair">A KeyValuePair of type string and object</param>
         public static void SetProperty(this IElement myIElement, KeyValuePair<String, Object> myKeyValuePair)
         {
@@ -58,7 +58,7 @@ namespace de.ahzf.blueprints
         /// Assign the given enumeration of KeyValuePairs to the element.
         /// If a value already exists for a key, then the previous key/value is overwritten.
         /// </summary>
-        /// <param name="myIElement">An object implementing IElement to work on</param>
+        /// <param name="myIElement">An object implementing IElement.</param>
         /// <param name="myKeyValuePairs">A enumeration of KeyValuePairs of type string and object</param>
         public static void SetProperties(this IElement myIElement, IEnumerable<KeyValuePair<String, Object>> myKeyValuePairs)
         {
@@ -76,7 +76,7 @@ namespace de.ahzf.blueprints
         /// Assign the given IDictionary to the element.
         /// If a value already exists for a key, then the previous key/value is overwritten.
         /// </summary>
-        /// <param name="myIElement">An object implementing IElement to work on</param>
+        /// <param name="myIElement">An object implementing IElement.</param>
         /// <param name="myIDictionary">A IDictionary of type string and object</param>
         public static void SetProperties(this IElement myIElement, IDictionary<String, Object> myIDictionary)
         {
@@ -91,6 +91,12 @@ namespace de.ahzf.blueprints
 
         #region HasProperty(this myIElement, myKey)
 
+        /// <summary>
+        /// Checks if a property having the given property key exists within this element.
+        /// </summary>
+        /// <param name="myIElement">An object implementing IElement.</param>
+        /// <param name="myKey">The property key.</param>
+        /// <returns>true|false</returns>
         public static Boolean HasProperty(this IElement myIElement, String myKey)
         {
 
@@ -107,6 +113,16 @@ namespace de.ahzf.blueprints
 
         #region HasProperty(this myIElement, myKey, myValue)
 
+        /// <summary>
+        /// Checks if a property having the given property key and value
+        /// exists within this element.
+        /// NOTE: Will not work as expected if the values do not implement
+        /// the ".Equals(...)"-methods correctly!
+        /// </summary>
+        /// <param name="myIElement">An object implementing IElement.</param>
+        /// <param name="myKey">The property key.</param>
+        /// <param name="myValue">The property value.</param>
+        /// <returns>true|false</returns>
         public static Boolean HasProperty(this IElement myIElement, String myKey, Object myValue)
         {
             return myValue.Equals(myIElement.GetProperty(myKey));
@@ -116,6 +132,17 @@ namespace de.ahzf.blueprints
 
         #region HasProperty<TValue>(this myIElement, myKey, myValue)
 
+        /// <summary>
+        /// Checks if a property having the given property key and value
+        /// exists within this element.
+        /// NOTE: Will not work as expected if the values do not implement
+        /// the ".Equals(...)"-methods correctly!
+        /// </summary>
+        /// <typeparam name="TValue">The type the property.</typeparam>
+        /// <param name="myIElement">An object implementing IElement.</param>
+        /// <param name="myKey">The property key.</param>
+        /// <param name="myValue">The property value.</param>
+        /// <returns>true|false</returns>
         public static Boolean HasProperty<TValue>(this IElement myIElement, String myKey, TValue myValue)
         {
             return myValue.Equals((TValue) myIElement.GetProperty(myKey));
@@ -125,9 +152,34 @@ namespace de.ahzf.blueprints
 
         #region HasProperty(this myIElement, myPropertyFilter = null)
 
+        /// <summary>
+        /// Checks if a property having the given property key and value
+        /// exists within this element.
+        /// NOTE: Will not work as expected if the values do not implement
+        /// the ".Equals(...)"-methods correctly!
+        /// </summary>
+        /// <param name="myIElement">An object implementing IElement.</param>
+        /// <param name="myPropertyFilter">A delegate for property filtering.</param>
+        /// <returns>true|false</returns>
         public static Boolean HasProperty(this IElement myIElement, Func<String, Object, Boolean> myPropertyFilter = null)
         {
             return myIElement.GetProperties(myPropertyFilter).Any();
+        }
+
+        #endregion
+
+        #region HasProperty(this myIElement, myPropertyFilter = null)
+
+        /// <summary>
+        /// Checks if any properties matching the given property filter
+        /// exist within this element.
+        /// </summary>
+        /// <param name="myIElement">An object implementing IElement.</param>
+        /// <param name="myPropertyFilter">A delegate for property filtering.</param>
+        /// <returns>true|false</returns>
+        public static Boolean HasProperty<TValue>(this IElement myIElement, Func<String, TValue, Boolean> myPropertyFilter = null)
+        {
+            return myIElement.GetProperties<TValue>(myPropertyFilter).Any();
         }
 
         #endregion
@@ -138,8 +190,8 @@ namespace de.ahzf.blueprints
         /// <summary>
         /// Return the object value of type TValue associated with the provided string key.
         /// </summary>
-        /// <typeparam name="TValue">the type the property</typeparam>
-        /// <param name="myIElement">An object implementing IElement to work on</param>
+        /// <typeparam name="TValue">The type the property.</typeparam>
+        /// <param name="myIElement">An object implementing IElement.</param>
         /// <param name="myKey">the key of the key/value property</param>
         /// <returns>the object value related to the string key</returns>
         public static TValue GetProperty<TValue>(this IElement myIElement, String myKey)
@@ -160,7 +212,15 @@ namespace de.ahzf.blueprints
 
         #region GetProperties<TValue>(this myIElement, myPropertyFilter = null)
 
-        public static IEnumerable<KeyValuePair<String, TValue>> GetProperties<TValue>(this IElement myIElement, Func<String, Object, Boolean> myPropertyFilter = null)
+        /// <summary>
+        /// Get an enumeration of all properties as KeyValuePairs.
+        /// An additional property filter may be applied for filtering.
+        /// </summary>
+        /// <typeparam name="TValue">The type the properties.</typeparam>
+        /// <param name="myIElement">An object implementing IElement.</param>
+        /// <param name="myPropertyFilter">A delegate for property filtering.</param>
+        /// <returns>An enumeration of all selected properties.</returns>
+        public static IEnumerable<KeyValuePair<String, TValue>> GetProperties<TValue>(this IElement myIElement, Func<String, TValue, Boolean> myPropertyFilter = null)
         {
 
             Boolean _ExceptionOccured = false;
@@ -191,6 +251,13 @@ namespace de.ahzf.blueprints
 
         #region GetPropertyValues(this myIElement, myPropertyFilter = null)
 
+        /// <summary>
+        /// Get an enumeration of all property values.
+        /// An additional property filter may be applied for filtering.
+        /// </summary>
+        /// <param name="myIElement">An object implementing IElement.</param>
+        /// <param name="myPropertyFilter">A delegate for property filtering.</param>
+        /// <returns>An enumeration of all selected property values.</returns>
         public static IEnumerable<Object> GetPropertyValues(this IElement myIElement, Func<String, Object, Boolean> myPropertyFilter = null)
         {
             return from _KeyValuePair in myIElement.GetProperties(myPropertyFilter) select _KeyValuePair.Value;
@@ -200,6 +267,14 @@ namespace de.ahzf.blueprints
 
         #region GetPropertyValues<TValue>(this myIElement, myPropertyFilter = null)
 
+        /// <summary>
+        /// Get an enumeration of all property values.
+        /// An additional property filter may be applied for filtering.
+        /// </summary>
+        /// <typeparam name="TValue">The type the properties.</typeparam>
+        /// <param name="myIElement">An object implementing IElement.</param>
+        /// <param name="myPropertyFilter">A delegate for property filtering.</param>
+        /// <returns>An enumeration of all selected property values.</returns>
         public static IEnumerable<TValue> GetPropertyValues<TValue>(this IElement myIElement, Func<String, Object, Boolean> myPropertyFilter = null)
         {
 

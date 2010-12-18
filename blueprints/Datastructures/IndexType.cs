@@ -14,8 +14,17 @@ namespace de.ahzf.blueprints
     /// </summary>
     public enum IndexType
     {
+        
+        /// <summary>
+        /// Manual indexing mode
+        /// </summary>
         MANUAL,
+
+        /// <summary>
+        /// Automatic indexing
+        /// </summary>
         AUTOMATIC
+
     }
 
 }

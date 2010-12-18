@@ -129,6 +129,9 @@ namespace de.ahzf.blueprints.Datastructures
 
         #region NewEdgeId
 
+        /// <summary>
+        /// Generate a new EdgeId.
+        /// </summary>
         public static EdgeId NewEdgeId
         {
             get
@@ -144,6 +147,12 @@ namespace de.ahzf.blueprints.Datastructures
 
         #region Operator == (myEdgeId1, myEdgeId2)
 
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myEdgeId1">A EdgeId.</param>
+        /// <param name="myEdgeId2">Another EdgeId.</param>
+        /// <returns>true|false</returns>
         public static Boolean operator == (EdgeId myEdgeId1, EdgeId myEdgeId2)
         {
 
@@ -163,6 +172,12 @@ namespace de.ahzf.blueprints.Datastructures
 
         #region Operator != (myEdgeId1, myEdgeId2)
 
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myEdgeId1">A EdgeId.</param>
+        /// <param name="myEdgeId2">Another EdgeId.</param>
+        /// <returns>true|false</returns>
         public static Boolean operator != (EdgeId myEdgeId1, EdgeId myEdgeId2)
         {
             return !(myEdgeId1 == myEdgeId2);
@@ -172,6 +187,12 @@ namespace de.ahzf.blueprints.Datastructures
 
         #region Operator <  (myEdgeId1, myEdgeId2)
 
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myEdgeId1">A EdgeId.</param>
+        /// <param name="myEdgeId2">Another EdgeId.</param>
+        /// <returns>true|false</returns>
         public static Boolean operator < (EdgeId myEdgeId1, EdgeId myEdgeId2)
         {
 
@@ -199,6 +220,12 @@ namespace de.ahzf.blueprints.Datastructures
 
         #region Operator >  (myEdgeId1, myEdgeId2)
 
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myEdgeId1">A EdgeId.</param>
+        /// <param name="myEdgeId2">Another EdgeId.</param>
+        /// <returns>true|false</returns>
         public static Boolean operator > (EdgeId myEdgeId1, EdgeId myEdgeId2)
         {
 
@@ -226,6 +253,12 @@ namespace de.ahzf.blueprints.Datastructures
 
         #region Operator <= (myEdgeId1, myEdgeId2)
 
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myEdgeId1">A EdgeId.</param>
+        /// <param name="myEdgeId2">Another EdgeId.</param>
+        /// <returns>true|false</returns>
         public static Boolean operator <= (EdgeId myEdgeId1, EdgeId myEdgeId2)
         {
             return !(myEdgeId1 > myEdgeId2);
@@ -235,6 +268,12 @@ namespace de.ahzf.blueprints.Datastructures
 
         #region Operator >= (myEdgeId1, myEdgeId2)
 
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myEdgeId1">A EdgeId.</param>
+        /// <param name="myEdgeId2">Another EdgeId.</param>
+        /// <returns>true|false</returns>
         public static Boolean operator >= (EdgeId myEdgeId1, EdgeId myEdgeId2)
         {
             return !(myEdgeId1 < myEdgeId2);
@@ -247,7 +286,12 @@ namespace de.ahzf.blueprints.Datastructures
 
         #region IComparable Members
 
-        public Int32 CompareTo(Object myObject)
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myObject">An object to compare with.</param>
+        /// <returns>true|false</returns>
+        public new Int32 CompareTo(Object myObject)
         {
 
             // Check if myObject is null
@@ -267,6 +311,11 @@ namespace de.ahzf.blueprints.Datastructures
 
         #region IComparable<EdgeId> Members
 
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myEdgeId">An object to compare with.</param>
+        /// <returns>true|false</returns>
         public Int32 CompareTo(EdgeId myEdgeId)
         {
 
@@ -284,6 +333,11 @@ namespace de.ahzf.blueprints.Datastructures
 
         #region Equals(myObject)
 
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myObject">An object to compare with.</param>
+        /// <returns>true|false</returns>
         public override Boolean Equals(Object myObject)
         {
 
@@ -304,6 +358,11 @@ namespace de.ahzf.blueprints.Datastructures
 
         #region Equals(myEdgeId)
 
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myEdgeId">An object to compare with.</param>
+        /// <returns>true|false</returns>
         public Boolean Equals(EdgeId myEdgeId)
         {
 
@@ -321,6 +380,10 @@ namespace de.ahzf.blueprints.Datastructures
 
         #region GetHashCode()
 
+        /// <summary>
+        /// Return the HashCode of this object.
+        /// </summary>
+        /// <returns>The HashCode of this object.</returns>
         public override Int32 GetHashCode()
         {
             return base.GetHashCode();

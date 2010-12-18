@@ -147,6 +147,12 @@ namespace de.ahzf.blueprints.Datastructures
 
         #region Operator == (myRevisionId1, myRevisionId2)
 
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myRevisionId1">A RevisionId.</param>
+        /// <param name="myRevisionId2">Another RevisionId.</param>
+        /// <returns>true|false</returns>
         public static Boolean operator == (RevisionId myRevisionId1, RevisionId myRevisionId2)
         {
 
@@ -166,6 +172,12 @@ namespace de.ahzf.blueprints.Datastructures
 
         #region Operator != (myRevisionId1, myRevisionId2)
 
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myRevisionId1">A RevisionId.</param>
+        /// <param name="myRevisionId2">Another RevisionId.</param>
+        /// <returns>true|false</returns>
         public static Boolean operator != (RevisionId myRevisionId1, RevisionId myRevisionId2)
         {
             return !(myRevisionId1 == myRevisionId2);
@@ -175,6 +187,12 @@ namespace de.ahzf.blueprints.Datastructures
 
         #region Operator <  (myRevisionId1, myRevisionId2)
 
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myRevisionId1">A RevisionId.</param>
+        /// <param name="myRevisionId2">Another RevisionId.</param>
+        /// <returns>true|false</returns>
         public static Boolean operator < (RevisionId myRevisionId1, RevisionId myRevisionId2)
         {
 
@@ -196,6 +214,12 @@ namespace de.ahzf.blueprints.Datastructures
 
         #region Operator >  (myRevisionId1, myRevisionId2)
 
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myRevisionId1">A RevisionId.</param>
+        /// <param name="myRevisionId2">Another RevisionId.</param>
+        /// <returns>true|false</returns>
         public static Boolean operator > (RevisionId myRevisionId1, RevisionId myRevisionId2)
         {
 
@@ -217,6 +241,12 @@ namespace de.ahzf.blueprints.Datastructures
 
         #region Operator <= (myRevisionId1, myRevisionId2)
 
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myRevisionId1">A RevisionId.</param>
+        /// <param name="myRevisionId2">Another RevisionId.</param>
+        /// <returns>true|false</returns>
         public static Boolean operator <= (RevisionId myRevisionId1, RevisionId myRevisionId2)
         {
             return !(myRevisionId1 > myRevisionId2);
@@ -226,6 +256,12 @@ namespace de.ahzf.blueprints.Datastructures
 
         #region Operator >= (myRevisionId1, myRevisionId2)
 
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myRevisionId1">A RevisionId.</param>
+        /// <param name="myRevisionId2">Another RevisionId.</param>
+        /// <returns>true|false</returns>
         public static Boolean operator >= (RevisionId myRevisionId1, RevisionId myRevisionId2)
         {
             return !(myRevisionId1 < myRevisionId2);
@@ -238,6 +274,11 @@ namespace de.ahzf.blueprints.Datastructures
 
         #region IComparable Member
 
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myObject">An object to compare with.</param>
+        /// <returns>true|false</returns>
         public Int32 CompareTo(Object myObject)
         {
 
@@ -261,6 +302,11 @@ namespace de.ahzf.blueprints.Datastructures
 
         #region IComparable<RevisionId> Member
 
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myRevisionId">An object to compare with.</param>
+        /// <returns>true|false</returns>
         public Int32 CompareTo(RevisionId myRevisionId)
         {
 
@@ -281,6 +327,11 @@ namespace de.ahzf.blueprints.Datastructures
 
         #region Equals(myObject)
 
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myObject">An object to compare with.</param>
+        /// <returns>true|false</returns>
         public override Boolean Equals(Object myObject)
         {
 
@@ -301,6 +352,11 @@ namespace de.ahzf.blueprints.Datastructures
 
         #region Equals(myRevisionId)
 
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myRevisionId">An object to compare with.</param>
+        /// <returns>true|false</returns>
         public Boolean Equals(RevisionId myRevisionId)
         {
 
@@ -325,6 +381,10 @@ namespace de.ahzf.blueprints.Datastructures
 
         #region GetHashCode()
 
+        /// <summary>
+        /// Return the HashCode of this object.
+        /// </summary>
+        /// <returns>The HashCode of this object.</returns>
         public override Int32 GetHashCode()
         {
             return Timestamp.GetHashCode() ^ SystemId.GetHashCode();

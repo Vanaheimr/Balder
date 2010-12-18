@@ -30,6 +30,9 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #region Data
 
+        /// <summary>
+        /// The datastructure holding all graph properties.
+        /// </summary>
         protected readonly IDictionary<String, Object> _Properties;
 
         /// <summary>
@@ -37,12 +40,23 @@ namespace de.ahzf.blueprints.InMemoryGraph
         /// </summary>
         public const String __Id = "Id";
 
+        /// <summary>
+        /// The key of the RevisionId property
+        /// </summary>
+        public const String __RevisionId = "RevisionId";
+
         #endregion
 
         #region Properties
 
+        #region Graph
+
+        /// <summary>
+        /// The associated graph
+        /// </summary>
         protected IGraph Graph { get; private set; }
 
+        #endregion
 
         #region Id
 
@@ -68,58 +82,49 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #endregion
 
+        #region RevisionId
 
-        //#region COMMENT
+        /// <summary>
+        /// The RevisionId extends the Id to identify multiple revisions of
+        /// an element during the lifetime of a graph. A RevisionId should
+        /// additionally be unique among all elements of a graph.
+        /// </summary>
+        public RevisionId RevisionId
+        {
+            get
+            {
 
-        //protected readonly String __COMMENT;
+                Object _Object = null;
 
-        //public String COMMENT
-        //{
+                if (_Properties.TryGetValue(__RevisionId, out _Object))
+                    return _Object as RevisionId;
 
-        //    get
-        //    {
+                return null;
 
-        //        Object _Object = null;
+            }
+        }
 
-        //        if (_Properties.TryGetValue(__COMMENT, out _Object))
-        //            return _Object as String;
-
-        //        return null;
-
-        //    }
-
-        //    set
-        //    {
-
-        //        if (_Properties.ContainsKey(__COMMENT))
-        //            _Properties[__COMMENT] = value;
-
-        //        else
-        //            _Properties.Add(__COMMENT, value);
-
-        //    }
-
-        //}
-
-        //#endregion
+        #endregion
 
         #endregion
 
         #region Protected Constructor(s)
 
-        public AElement()
-        { }
-
         #region AElement(myIGraph, myId)
 
-        protected AElement(IGraph myIGraph, ElementId myId)
+        /// <summary>
+        /// Creates a new AElement object
+        /// </summary>
+        /// <param name="myIGraph">The associated graph</param>
+        /// <param name="myElementId">The Id of the new AElement</param>
+        protected AElement(IGraph myIGraph, ElementId myElementId)
         {
-
-            if (myId == null)
-                throw new ArgumentNullException("The Id must not be null!");
 
             if (myIGraph == null)
                 throw new ArgumentNullException("The graph reference must not be null!");
+
+            if (myElementId == null)
+                throw new ArgumentNullException("The ElementId must not be null!");
 
             Graph = myIGraph;
 
@@ -127,7 +132,7 @@ namespace de.ahzf.blueprints.InMemoryGraph
             // path names, network paths, and any other string whose value does not change
             // based on the locale of the user's computer.
             _Properties = new Dictionary<String, Object>(StringComparer.OrdinalIgnoreCase);
-            _Properties.Add(__Id, myId);
+            _Properties.Add(__Id, myElementId);
 
         }
 
@@ -138,37 +143,46 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #region Graph Properties
 
-        #region SetProperty(myKey, myValue)
+        #region SetProperty(myPropertyKey, myPropertyValue)
 
         /// <summary>
         /// Assign a key/value property to the element.
         /// If a value already exists for this key, then the previous key/value is overwritten.
         /// </summary>
-        /// <param name="myKey">the string key of the property</param>
-        /// <param name="myValue">the object value o the property</param>
-        public virtual void SetProperty(String myKey, Object myValue)
+        /// <param name="myPropertyKey">The property key.</param>
+        /// <param name="myPropertyValue">The property value.</param>
+        public virtual void SetProperty(String myPropertyKey, Object myPropertyValue)
         {
 
-            if (myKey == __Id)
+            if (myPropertyKey == __Id)
                 throw new ArgumentException("Changing the Id property is not allowed!");
 
-            //if (myKey == __REVISIONID && !(myObject is RevisionID))
-            //    throw new ArgumentException();
+            if (myPropertyKey == __RevisionId)
+                throw new ArgumentException("Changing the RevisionId property is not allowed!");
 
-            _Properties.Add(myKey, myValue);
+            if (_Properties.ContainsKey(myPropertyKey))
+                _Properties[myPropertyKey] = myPropertyValue;
+
+            else
+                _Properties.Add(myPropertyKey, myPropertyValue);
 
         }
 
         #endregion
 
-        #region GetProperty(myKey)
+        #region GetProperty(myPropertyKey)
 
-        public virtual Object GetProperty(String myKey)
+        /// <summary>
+        /// Return the property value associated with the given property key.
+        /// </summary>
+        /// <param name="myPropertyKey">The key of the key/value property.</param>
+        /// <returns>The property value related to the string key.</returns>
+        public virtual Object GetProperty(String myPropertyKey)
         {
 
             Object _Object = null;
 
-            _Properties.TryGetValue(myKey, out _Object);
+            _Properties.TryGetValue(myPropertyKey, out _Object);
 
             return _Object;
 
@@ -178,6 +192,11 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #region GetProperties(myPropertyFilter = null)
 
+        /// <summary>
+        /// Allows to return a filtered enumeration of all properties.
+        /// </summary>
+        /// <param name="myPropertyFilter">A function to filter a property based on its key and value.</param>
+        /// <returns>A enumeration of all key/value pairs matching the given property filter.</returns>
         public virtual IEnumerable<KeyValuePair<String, Object>> GetProperties(Func<String, Object, Boolean> myPropertyFilter = null)
         {
 
@@ -201,18 +220,26 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #endregion
 
-        #region RemoveProperty(myKey)
+        #region RemoveProperty(myPropertyKey)
 
-        public virtual Object RemoveProperty(String myKey)
+        /// <summary>
+        /// Removes the property identified by the given property key.
+        /// </summary>
+        /// <param name="myPropertyKey">The key of the property to remove.</param>
+        /// <returns>The property value associated with that key prior to removal.</returns>
+        public virtual Object RemoveProperty(String myPropertyKey)
         {
 
-            if (myKey == __Id)
+            if (myPropertyKey == __Id)
                 throw new ArgumentException("Removing the Id property is not allowed!");
+
+            if (myPropertyKey == __RevisionId)
+                throw new ArgumentException("Removing the RevisionId property is not allowed!");
 
             Object _Object = null;
 
-            if (_Properties.TryGetValue(myKey, out _Object))
-                _Properties.Remove(myKey);
+            if (_Properties.TryGetValue(myPropertyKey, out _Object))
+                _Properties.Remove(myPropertyKey);
 
             return _Object;
 
@@ -227,6 +254,9 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #region GetDynamicMemberNames()
 
+        /// <summary>
+        /// Returns an enumeration of all property keys
+        /// </summary>
         public override IEnumerable<String> GetDynamicMemberNames()
         {
             return _Properties.Keys;
@@ -236,6 +266,12 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #region TrySetMember(myBinder, myObject)
 
+        /// <summary>
+        /// Sets a new property or overwrites an existing.
+        /// </summary>
+        /// <param name="myBinder">The property key</param>
+        /// <param name="myObject">The property value</param>
+        /// <returns>Always true</returns>
         public override Boolean TrySetMember(SetMemberBinder myBinder, Object myObject)
         {
 
@@ -253,6 +289,12 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #region TryGetMember(myBinder, out myObject)
 
+        /// <summary>
+        /// Returns the value of a property.
+        /// </summary>
+        /// <param name="myBinder">The property key.</param>
+        /// <param name="myObject">The property value.</param>
+        /// <returns>Always true</returns>
         public override Boolean TryGetMember(GetMemberBinder myBinder, out Object myObject)
         {
             return _Properties.TryGetValue(myBinder.Name, out myObject);
@@ -262,17 +304,33 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #region TryInvokeMember(myBinder, out myObject)
 
+        /// <summary>
+        /// Tries to invoke a property as long as it is a delegate.
+        /// </summary>
+        /// <param name="myBinder">The property key</param>
+        /// <param name="myArguments">The arguments for invoking the property</param>
+        /// <param name="myObject">The property value</param>
+        /// <returns>If the property could be invoked.</returns>
         public override Boolean TryInvokeMember(InvokeMemberBinder myBinder, Object[] myArguments, out Object myObject)
         {
 
-            var _Delegate = _Properties[myBinder.Name] as Delegate;
-            if (_Delegate != null)
+            Object _Object = null;
+
+            if (_Properties.TryGetValue(myBinder.Name, out _Object))
             {
-                myObject = _Delegate.DynamicInvoke(myArguments);
-                return true;
+                
+                var _Delegate = _Object as Delegate;
+
+                if (_Delegate != null)
+                {
+                    myObject = _Delegate.DynamicInvoke(myArguments);
+                    return true;
+                }
+
             }
 
             myObject = null;
+
             return false;
 
         }
@@ -281,9 +339,23 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #region TryDeleteMember(myBinder)
 
+        /// <summary>
+        /// Tries to remove the property identified by the given property key.
+        /// </summary>
+        /// <param name="myBinder">The property key</param>
+        /// <returns>True on success</returns>
         public override Boolean TryDeleteMember(DeleteMemberBinder myBinder)
         {
-            return _Properties.Remove(myBinder.Name);
+
+            try
+            {
+                return _Properties.Remove(myBinder.Name);
+            }
+            catch
+            { }
+
+            return false;
+
         }
 
         #endregion
@@ -295,6 +367,12 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #region Operator == (myAElement1, myIElement2)
 
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myAElement1">A AElement.</param>
+        /// <param name="myIElement2">A IElement.</param>
+        /// <returns>true|false</returns>
         public static Boolean operator == (AElement myAElement1, IElement myIElement2)
         {
 
@@ -314,6 +392,12 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #region Operator != (myAElement1, myIElement2)
 
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myAElement1">A AElement.</param>
+        /// <param name="myIElement2">A IElement.</param>
+        /// <returns>true|false</returns>
         public static Boolean operator != (AElement myAElement1, IElement myIElement2)
         {
             return !(myAElement1 == myIElement2);
@@ -335,6 +419,10 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #region IEnumerable<KeyValuePair<String, Object>> Members
 
+        /// <summary>
+        /// Returns an enumeration of all properties within this element.
+        /// </summary>
+        /// <returns>An enumeration of all properties within this element.</returns>
         public IEnumerator<KeyValuePair<String, Object>> GetEnumerator()
         {
             return _Properties.GetEnumerator();
@@ -346,6 +434,11 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #region Equals(myObject)
 
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myObject">An object to compare with.</param>
+        /// <returns>true|false</returns>
         public override Boolean Equals(Object myObject)
         {
 
@@ -364,6 +457,11 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #region Equals(myIElement)
 
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myIElement">An object to compare with.</param>
+        /// <returns>true|false</returns>
         public Boolean Equals(IElement myIElement)
         {
 
@@ -381,6 +479,10 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #region GetHashCode()
 
+        /// <summary>
+        /// Return the HashCode of this object.
+        /// </summary>
+        /// <returns>The HashCode of this object.</returns>
         public override Int32 GetHashCode()
         {
 
@@ -395,6 +497,10 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #region ToString()
 
+        /// <summary>
+        /// Returns a string representation of this object.
+        /// </summary>
+        /// <returns>A string representation of this object.</returns>
         public override String ToString()
         {
 

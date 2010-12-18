@@ -43,16 +43,16 @@ namespace de.ahzf.blueprints
         /// Assign a key/value property to the element.
         /// If a value already exists for this key, then the previous key/value is overwritten.
         /// </summary>
-        /// <param name="myKey">the string key of the property</param>
-        /// <param name="myValue">the object value o the property</param>
+        /// <param name="myKey">The property key.</param>
+        /// <param name="myValue">The property value.</param>
         void SetProperty(String myKey, Object myValue);
 
 
         /// <summary>
-        /// Return the object value associated with the provided string key.
+        /// Return the property value associated with the given property key.
         /// </summary>
-        /// <param name="myKey">the key of the key/value property</param>
-        /// <returns>the object value related to the string key</returns>
+        /// <param name="myKey">The key of the key/value property.</param>
+        /// <returns>The property value related to the string key.</returns>
         Object GetProperty(String myKey);
 
 
@@ -60,16 +60,15 @@ namespace de.ahzf.blueprints
         /// Allows to return a filtered enumeration of all properties.
         /// </summary>
         /// <param name="myPropertyFilter">A function to filter a property based on its key and value.</param>
-        /// <returns>A enumeration of all objects matching the given property filter.</returns>
+        /// <returns>A enumeration of all key/value pairs matching the given property filter.</returns>
         IEnumerable<KeyValuePair<String, Object>> GetProperties(Func<String, Object, Boolean> myPropertyFilter = null);
 
 
         /// <summary>
-        /// Unassigns a key/value property from the element.
-        /// The object value of the removed property is returned.
+        /// Removes a key/value property from the element.
         /// </summary>
-        /// <param name="myKey">the key of the property to remove from the element</param>
-        /// <returns>the object value associated with that key prior to removal</returns>
+        /// <param name="myKey">The key of the property to remove.</param>
+        /// <returns>The property value associated with that key prior to removal.</returns>
         Object RemoveProperty(String myKey);
 
         #endregion

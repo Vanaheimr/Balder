@@ -29,9 +29,20 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #region Data
 
+        /// <summary>
+        /// The vertex at the tail of this edge.
+        /// </summary>
         protected readonly IVertex _OutVertex;
+
+        /// <summary>
+        /// The vertex at the head of this edge.
+        /// </summary>
         protected readonly IVertex _InVertex;
-        public    const    String  __Label = "Label";
+
+        /// <summary>
+        /// The property key of the Label property
+        /// </summary>
+        private   const    String  __Label = "Label";
 
         #endregion
 
@@ -46,7 +57,7 @@ namespace de.ahzf.blueprints.InMemoryGraph
         /// All vertices of a graph must have unique identifiers.
         /// All edges of a graph must have unique identifiers.
         /// </summary>
-        public EdgeId Id
+        public new EdgeId Id
         {
             get
             {
@@ -65,6 +76,9 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #region Label
 
+        /// <summary>
+        /// The label associated with this edge.
+        /// </summary>
         public String Label
         {
             get
@@ -83,10 +97,13 @@ namespace de.ahzf.blueprints.InMemoryGraph
         #endregion
 
 
-        // Links to the associated vertices
+        // Links to associated vertices
 
         #region OutVertex
 
+        /// <summary>
+        /// The vertex at the tail of this edge.
+        /// </summary>
         public IVertex OutVertex
         {
             get
@@ -99,6 +116,9 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #region InVertex
 
+        /// <summary>
+        /// The vertex at the head of this edge.
+        /// </summary>
         public IVertex InVertex
         {
             get
@@ -113,16 +133,18 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #region Constructor(s)
 
-        #region Edge()
-
-        public Edge()
-        { }
-
-        #endregion
-
         #region Edge(myIGraph, myOutVertex, myInVertex, myEdgeId, myEdgeInitializer = null)
 
-        internal protected Edge(IGraph myIGraph, IVertex myOutVertex, IVertex myInVertex, EdgeId myEdgeId, Action<IEdge> myEdgeInitializer = null)
+        /// <summary>
+        /// Creates a new edge.
+        /// </summary>
+        /// <param name="myIGraph">The associated graph.</param>
+        /// <param name="myOutVertex">The vertex at the tail of the edge.</param>
+        /// <param name="myInVertex">The vertex at the head of the edge.</param>
+        /// <param name="myEdgeId">The identification of this vertex.</param>
+        /// <param name="myLabel">A label stored within this edge.</param>
+        /// <param name="myEdgeInitializer">A delegate to initialize the newly created edge.</param>
+        internal protected Edge(IGraph myIGraph, IVertex myOutVertex, IVertex myInVertex, EdgeId myEdgeId, String myLabel, Action<IEdge> myEdgeInitializer = null)
             : base(myIGraph, myEdgeId)
         {
 
@@ -134,6 +156,9 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
             _OutVertex = myOutVertex;
             _InVertex  = myInVertex;
+
+            // Add the label
+            _Properties.Add(__Label, myLabel);
 
             if (myEdgeInitializer != null)
                 myEdgeInitializer(this);

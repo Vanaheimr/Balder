@@ -36,6 +36,9 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #region InMemoryGraph()
 
+        /// <summary>
+        /// Created a new in-memory graph.
+        /// </summary>
         public InMemoryGraph()
         {
             _Vertices = new SortedDictionary<VertexId, IVertex>();
@@ -89,7 +92,7 @@ namespace de.ahzf.blueprints.InMemoryGraph
         /// <param name="myVertexInitializer">A delegate to initialize the newly generated vertex.</param>
         /// <returns>The new vertex</returns>
         public TVertex AddVertex<TVertex>(VertexId myVertexId = null, Action<IVertex> myVertexInitializer = null)
-            where TVertex : class, IVertex, new()
+            where TVertex : class, IVertex
         {
 
             if (myVertexId != null && _Vertices.ContainsKey(myVertexId))
@@ -132,6 +135,12 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #region GetVertex(myVertexId)
 
+        /// <summary>
+        /// Return the vertex referenced by the given vertex identifier.
+        /// If no vertex is referenced by that identifier, then return null.
+        /// </summary>
+        /// <param name="myVertexId">The identifier of the vertex.</param>
+        /// <returns>The vertex referenced by the provided identifier or null when no such edge exists.</returns>
         public IVertex GetVertex(VertexId myVertexId)
         {
             
@@ -147,6 +156,11 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #region GetVertices(myVertexFilter = null)
 
+        /// <summary>
+        /// Get an enumeration of all vertices in the graph.
+        /// An additional vertex filter may be applied for filtering.
+        /// </summary>
+        /// <param name="myVertexFilter">A delegate for vertex filtering.</param>
         public IEnumerable<IVertex> GetVertices(Func<IVertex, Boolean> myVertexFilter = null)
         {
 
@@ -236,8 +250,11 @@ namespace de.ahzf.blueprints.InMemoryGraph
             if (myEdgeId == null)
                 myEdgeId = new EdgeId(Guid.NewGuid().ToString());
 
-            var _Edge = new Edge(this, myOutVertex, myInVertex, myEdgeId, myEdgeInitializer);
+            var _Edge = new Edge(this, myOutVertex, myInVertex, myEdgeId, myLabel, myEdgeInitializer);
             _Edges.Add(myEdgeId, _Edge);
+
+            myOutVertex.AddOutEdge(_Edge);
+            myInVertex.AddInEdge(_Edge);
 
             return _Edge as IEdge;
 
@@ -259,7 +276,7 @@ namespace de.ahzf.blueprints.InMemoryGraph
         /// <param name="myEdgeInitializer">A delegate to initialize the newly generated edge.</param>
         /// <returns>The new edge</returns>
         public TEdge AddEdge<TEdge>(IVertex myOutVertex, IVertex myInVertex, EdgeId myEdgeId = null, String myLabel = null, Action<IEdge> myEdgeInitializer = null)
-            where TEdge : class, IEdge, new()
+            where TEdge : class, IEdge
         {
 
             if (myEdgeId != null && _Edges.ContainsKey(myEdgeId))
@@ -303,6 +320,12 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #region GetEdge(myEdgeId)
 
+        /// <summary>
+        /// Return the edge referenced by the given edge identifier.
+        /// If no edge is referenced by that identifier, then return null.
+        /// </summary>
+        /// <param name="myEdgeId">The identifier of the edge.</param>
+        /// <returns>The edge referenced by the provided identifier or null when no such edge exists.</returns>
         public IEdge GetEdge(EdgeId myEdgeId)
         {
 
@@ -318,6 +341,11 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #region GetEdges(myEdgeFilter = null)
 
+        /// <summary>
+        /// Get an enumeration of all edges in the graph.
+        /// An additional edge filter may be applied for filtering.
+        /// </summary>
+        /// <param name="myEdgeFilter">A delegate for edge filtering.</param>
         public IEnumerable<IEdge> GetEdges(Func<IEdge, Boolean> myEdgeFilter = null)
         {
 

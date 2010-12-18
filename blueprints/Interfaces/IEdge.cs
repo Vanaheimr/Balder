@@ -34,18 +34,18 @@ namespace de.ahzf.blueprints
         /// All vertices and edges of a graph must have unique identifiers.
         /// </summary>
         /// <returns>the identifier of the element</returns>
-        EdgeId Id { get; }
+        new EdgeId Id { get; }
 
         #endregion
 
         /// <summary>
-        /// Return the vertex on the tail of the edge.
+        /// Return the vertex at the tail of the edge.
         /// </summary>
         IVertex OutVertex { get; }
 
 
         /// <summary>
-        /// Return the vertex on the head of the edge.
+        /// Return the vertex at the head of the edge.
         /// </summary>
         IVertex InVertex { get; }
 

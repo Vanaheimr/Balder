@@ -27,7 +27,14 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #region Data
 
+        /// <summary>
+        /// The edges emanating from, or leaving, this vertex.
+        /// </summary>
         protected readonly HashSet<IEdge> _OutEdges;
+
+        /// <summary>
+        /// The edges incoming to, or arriving at, this vertex.
+        /// </summary>
         protected readonly HashSet<IEdge> _InEdges;
 
         #endregion
@@ -41,7 +48,7 @@ namespace de.ahzf.blueprints.InMemoryGraph
         /// All vertices of a graph must have unique identifiers.
         /// All edges of a graph must have unique identifiers.
         /// </summary>
-        public VertexId Id
+        public new VertexId Id
         {
             get
             {
@@ -62,15 +69,14 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #region Constructor(s)
 
-        #region Vertex()
-
-        public Vertex()
-        { }
-
-        #endregion
-
         #region Vertex(myIGraph, myVertexId)
 
+        /// <summary>
+        /// Creates a new vertex.
+        /// </summary>
+        /// <param name="myIGraph">The associated graph.</param>
+        /// <param name="myVertexId">The identification of this vertex.</param>
+        /// <param name="myVertexInitializer">A delegate to initialize the newly created vertex.</param>
         internal protected Vertex(IGraph myIGraph, VertexId myVertexId, Action<IVertex> myVertexInitializer = null)
             : base(myIGraph, myVertexId)
         {
@@ -90,6 +96,24 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #region OutEdges
 
+        #region AddOutEdge(myIEdge)
+
+        /// <summary>
+        /// Add an outgoing edge.
+        /// </summary>
+        /// <param name="myIEdge">The edge to add.</param>
+        public void AddOutEdge(IEdge myIEdge)
+        {
+            _OutEdges.Add(myIEdge);
+        }
+
+        #endregion
+
+        #region OutEdges
+
+        /// <summary>
+        /// The edges emanating from, or leaving, this vertex.
+        /// </summary>
         public IEnumerable<IEdge> OutEdges
         {
             get
@@ -102,6 +126,10 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #region RemoveOutEdge(myIEdge)
 
+        /// <summary>
+        /// Remove an outgoing edge.
+        /// </summary>
+        /// <param name="myIEdge">The edge to remove.</param>
         public void RemoveOutEdge(IEdge myIEdge)
         {
             lock (this)
@@ -112,8 +140,28 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #endregion
 
+        #endregion
+
         #region InEdges
 
+        #region AddInEdge(myIEdge)
+
+        /// <summary>
+        /// Add an incoming edge.
+        /// </summary>
+        /// <param name="myIEdge">The edge to add.</param>
+        public void AddInEdge(IEdge myIEdge)
+        {
+            _InEdges.Add(myIEdge);
+        }
+
+        #endregion
+
+        #region InEdges
+
+        /// <summary>
+        /// The edges incoming to, or arriving at, this vertex.
+        /// </summary>
         public IEnumerable<IEdge> InEdges
         {
             get
@@ -126,6 +174,10 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #region RemoveInEdge(myIEdge)
 
+        /// <summary>
+        /// Remove an incoming edge.
+        /// </summary>
+        /// <param name="myIEdge">The edge to remove.</param>
         public void RemoveInEdge(IEdge myIEdge)
         {
             lock (this)
@@ -133,6 +185,8 @@ namespace de.ahzf.blueprints.InMemoryGraph
                 _InEdges.Remove(myIEdge);
             }
         }
+
+        #endregion
 
         #endregion
 

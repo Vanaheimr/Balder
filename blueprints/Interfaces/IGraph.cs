@@ -32,24 +32,26 @@ namespace de.ahzf.blueprints
         /// If the identifier is a vertex (perhaps from another graph),
         /// then the vertex is duplicated for this graph. Thus, a vertex can not be an identifier.
         /// </summary>
-        /// <param name="myId">the recommended object identifier</param>
+        /// <param name="myVertexId">the recommended object identifier.</param>
+        /// <param name="myVertexInitializer">A delegate to initialize the new vertex.</param>
         /// <returns>the newly created vertex or the vertex already referenced by the provided identifier.</returns>
         IVertex AddVertex(VertexId myVertexId = null, Action<IVertex> myVertexInitializer = null);
 
 
         /// <summary>
-        /// Return the vertex referenced by the provided object identifier.
+        /// Return the vertex referenced by the given vertex identifier.
         /// If no vertex is referenced by that identifier, then return null.
         /// </summary>
-        /// <param name="myId">the identifier of the vertex to retrieved from the graph</param>
-        /// <returns>the vertex referenced by the provided identifier or null when no such vertex exists</returns>
-        IVertex GetVertex(VertexId myId);
+        /// <param name="myVertexId">The identifier of the vertex.</param>
+        /// <returns>The vertex referenced by the provided identifier or null when no such edge exists.</returns>
+        IVertex GetVertex(VertexId myVertexId);
 
 
         /// <summary>
-        /// Return an iterable reference to all the vertices in the graph. Thus, what is returned can be subjected to the foreach construct.
-        /// If this is not possible for the implementation, then an UnsupportedOperationException can be thrown.
+        /// Get an enumeration of all vertices in the graph.
+        /// An additional vertex filter may be applied for filtering.
         /// </summary>
+        /// <param name="myVertexFilter">A delegate for vertex filtering.</param>
         IEnumerable<IVertex> GetVertices(Func<IVertex, Boolean> myVertexFilter = null);
 
 
@@ -68,28 +70,29 @@ namespace de.ahzf.blueprints
         /// Add an edge to the graph. The added edges requires a recommended identifier, a tail vertex, an head vertex, and a label.
         /// Like adding a vertex, the provided object identifier is can be ignored by the implementation.
         /// </summary>
-        /// <param name="myId">the recommended object identifier</param>
-        /// <param name="myOutVertex">the vertex on the tail of the edge</param>
-        /// <param name="myInVertex">the vertex on the head of the edge</param>
-        /// <param name="myLabel">the label associated with the edge</param>
+        /// <param name="myEdgeId">the recommended object identifier.</param>
+        /// <param name="myOutVertex">the vertex on the tail of the edge.</param>
+        /// <param name="myInVertex">the vertex on the head of the edge.</param>
+        /// <param name="myLabel">the label associated with the edge.</param>
+        /// <param name="myEdgeInitializer">A delegate to initialize the new edge.</param>
         /// <returns>the newly created edge</returns>
         IEdge AddEdge(IVertex myOutVertex, IVertex myInVertex, EdgeId myEdgeId = null, String myLabel = null, Action<IEdge> myEdgeInitializer = null);
 
 
         /// <summary>
-        /// Return the edge referenced by the provided object identifier.
+        /// Return the edge referenced by the given edge identifier.
         /// If no edge is referenced by that identifier, then return null.
         /// </summary>
-        /// <param name="id">the identifier of the edge to retrieved from the graph</param>
-        /// <returns>the edge referenced by the provided identifier or null when no such edge exists</returns>
-        IEdge GetEdge(EdgeId myId);
+        /// <param name="myEdgeId">The identifier of the edge.</param>
+        /// <returns>The edge referenced by the provided identifier or null when no such edge exists.</returns>
+        IEdge GetEdge(EdgeId myEdgeId);
 
 
         /// <summary>
-        /// Return an iterable reference to all the edges in the graph.
-        /// Thus, what is returned can be subjected to the foreach construct.
-        /// If this is not possible for the implementation, then an UnsupportedOperationException can be thrown.
+        /// Get an enumeration of all edges in the graph.
+        /// An additional edge filter may be applied for filtering.
         /// </summary>
+        /// <param name="myEdgeFilter">A delegate for edge filtering.</param>
         IEnumerable<IEdge> GetEdges(Func<IEdge, Boolean> myEdgeFilter = null);
 
 

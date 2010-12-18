@@ -129,6 +129,9 @@ namespace de.ahzf.blueprints.Datastructures
 
         #region NewSystemId
 
+        /// <summary>
+        /// Generate a new SystemId.
+        /// </summary>
         public static SystemId NewSystemId
         {
             get
@@ -144,6 +147,12 @@ namespace de.ahzf.blueprints.Datastructures
 
         #region Operator == (mySystemId1, mySystemId2)
 
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="mySystemId1">A SystemId.</param>
+        /// <param name="mySystemId2">Another SystemId.</param>
+        /// <returns>true|false</returns>
         public static Boolean operator == (SystemId mySystemId1, SystemId mySystemId2)
         {
 
@@ -163,6 +172,12 @@ namespace de.ahzf.blueprints.Datastructures
 
         #region Operator != (mySystemId1, mySystemId2)
 
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="mySystemId1">A SystemId.</param>
+        /// <param name="mySystemId2">Another SystemId.</param>
+        /// <returns>true|false</returns>
         public static Boolean operator != (SystemId mySystemId1, SystemId mySystemId2)
         {
             return !(mySystemId1 == mySystemId2);
@@ -172,6 +187,12 @@ namespace de.ahzf.blueprints.Datastructures
 
         #region Operator <  (mySystemId1, mySystemId2)
 
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="mySystemId1">A SystemId.</param>
+        /// <param name="mySystemId2">Another SystemId.</param>
+        /// <returns>true|false</returns>
         public static Boolean operator < (SystemId mySystemId1, SystemId mySystemId2)
         {
 
@@ -199,6 +220,12 @@ namespace de.ahzf.blueprints.Datastructures
 
         #region Operator >  (mySystemId1, mySystemId2)
 
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="mySystemId1">A SystemId.</param>
+        /// <param name="mySystemId2">Another SystemId.</param>
+        /// <returns>true|false</returns>
         public static Boolean operator > (SystemId mySystemId1, SystemId mySystemId2)
         {
 
@@ -226,6 +253,12 @@ namespace de.ahzf.blueprints.Datastructures
 
         #region Operator <= (mySystemId1, mySystemId2)
 
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="mySystemId1">A SystemId.</param>
+        /// <param name="mySystemId2">Another SystemId.</param>
+        /// <returns>true|false</returns>
         public static Boolean operator <= (SystemId mySystemId1, SystemId mySystemId2)
         {
             return !(mySystemId1 > mySystemId2);
@@ -235,6 +268,12 @@ namespace de.ahzf.blueprints.Datastructures
 
         #region Operator >= (mySystemId1, mySystemId2)
 
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="mySystemId1">A SystemId.</param>
+        /// <param name="mySystemId2">Another SystemId.</param>
+        /// <returns>true|false</returns>
         public static Boolean operator >= (SystemId mySystemId1, SystemId mySystemId2)
         {
             return !(mySystemId1 < mySystemId2);
@@ -247,7 +286,12 @@ namespace de.ahzf.blueprints.Datastructures
 
         #region IComparable Members
 
-        public Int32 CompareTo(Object myObject)
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myObject">An object to compare with.</param>
+        /// <returns>true|false</returns>
+        public new Int32 CompareTo(Object myObject)
         {
 
             // Check if myObject is null
@@ -267,6 +311,11 @@ namespace de.ahzf.blueprints.Datastructures
 
         #region IComparable<SystemId> Members
 
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="mySystemId">An object to compare with.</param>
+        /// <returns>true|false</returns>
         public Int32 CompareTo(SystemId mySystemId)
         {
 
@@ -284,6 +333,11 @@ namespace de.ahzf.blueprints.Datastructures
 
         #region Equals(myObject)
 
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myObject">An object to compare with.</param>
+        /// <returns>true|false</returns>
         public override Boolean Equals(Object myObject)
         {
 
@@ -304,6 +358,11 @@ namespace de.ahzf.blueprints.Datastructures
 
         #region Equals(mySystemId)
 
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="mySystemId">An object to compare with.</param>
+        /// <returns>true|false</returns>
         public Boolean Equals(SystemId mySystemId)
         {
 
@@ -321,6 +380,10 @@ namespace de.ahzf.blueprints.Datastructures
 
         #region GetHashCode()
 
+        /// <summary>
+        /// Return the HashCode of this object.
+        /// </summary>
+        /// <returns>The HashCode of this object.</returns>
         public override Int32 GetHashCode()
         {
             return base.GetHashCode();

@@ -54,6 +54,7 @@
     <Compile Include="Datastructures\RevisionId.cs" />
     <Compile Include="Datastructures\UniqueTimestamp.cs" />
     <Compile Include="Datastructures\EdgeId.cs" />
+    <Compile Include="Extensions\IGraphExtensions.cs" />
     <Compile Include="Implementations\InMemoryGraph\AElement.cs" />
     <Compile Include="Implementations\InMemoryGraph\Edge.cs" />
     <Compile Include="Implementations\InMemoryGraph\InMemoryGraph.cs" />

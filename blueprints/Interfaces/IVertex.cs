@@ -31,13 +31,20 @@ namespace de.ahzf.blueprints
         /// All vertices and edges of a graph must have unique identifiers.
         /// </summary>
         /// <returns>the identifier of the element</returns>
-        VertexId Id { get; }
+        new VertexId Id { get; }
 
         #endregion
 
 
+
         /// <summary>
-        /// The edges emanating from, or leaving, the vertex.
+        /// Add an outgoing edge.
+        /// </summary>
+        /// <param name="myIEdge">The edge to add.</param>
+        void AddOutEdge(IEdge myIEdge);
+
+        /// <summary>
+        /// The edges emanating from, or leaving, this vertex.
         /// </summary>
         IEnumerable<IEdge> OutEdges { get; }
 
@@ -48,8 +55,15 @@ namespace de.ahzf.blueprints
         void RemoveOutEdge(IEdge myIEdge);
 
 
+
         /// <summary>
-        /// The edges incoming to, or arriving at, the vertex.
+        /// Add an incoming edge.
+        /// </summary>
+        /// <param name="myIEdge">The edge to add.</param>
+        void AddInEdge(IEdge myIEdge);
+
+        /// <summary>
+        /// The edges incoming to, or arriving at, this vertex.
         /// </summary>
         IEnumerable<IEdge> InEdges { get; }
 
