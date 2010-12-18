@@ -35,10 +35,17 @@ namespace de.ahzf.blueprints
 
         #endregion
 
+
         /// <summary>
         /// The edges emanating from, or leaving, the vertex.
         /// </summary>
         IEnumerable<IEdge> OutEdges { get; }
+
+        /// <summary>
+        /// Remove an outgoing edge.
+        /// </summary>
+        /// <param name="myIEdge">The edge to remove.</param>
+        void RemoveOutEdge(IEdge myIEdge);
 
 
         /// <summary>
@@ -46,6 +53,11 @@ namespace de.ahzf.blueprints
         /// </summary>
         IEnumerable<IEdge> InEdges { get; }
 
+        /// <summary>
+        /// Remove an incoming edge.
+        /// </summary>
+        /// <param name="myIEdge">The edge to remove.</param>
+        void RemoveInEdge(IEdge myIEdge);
 
     }
 

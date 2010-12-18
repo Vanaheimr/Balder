@@ -111,12 +111,19 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #endregion
 
-        #region Internal Protected Constructor(s)
+        #region Constructor(s)
 
-        #region Edge(myOutVertex, myInVertex, myId, myEdgeInitializer = null)
+        #region Edge()
 
-        internal protected Edge(IVertex myOutVertex, IVertex myInVertex, EdgeId myId, Action<IEdge> myEdgeInitializer = null)
-            : base(myId)
+        public Edge()
+        { }
+
+        #endregion
+
+        #region Edge(myIGraph, myOutVertex, myInVertex, myEdgeId, myEdgeInitializer = null)
+
+        internal protected Edge(IGraph myIGraph, IVertex myOutVertex, IVertex myInVertex, EdgeId myEdgeId, Action<IEdge> myEdgeInitializer = null)
+            : base(myIGraph, myEdgeId)
         {
 
             if (myOutVertex == null)

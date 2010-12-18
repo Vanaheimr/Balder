@@ -60,19 +60,26 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #endregion
 
-        #region Internal Protected Constructor(s)
+        #region Constructor(s)
 
-        #region Vertex(myId)
+        #region Vertex()
 
-        internal protected Vertex(VertexId myId, Action<IVertex> myVertexInitialization = null)
-            : base(myId)
+        public Vertex()
+        { }
+
+        #endregion
+
+        #region Vertex(myIGraph, myVertexId)
+
+        internal protected Vertex(IGraph myIGraph, VertexId myVertexId, Action<IVertex> myVertexInitializer = null)
+            : base(myIGraph, myVertexId)
         {
             
             _OutEdges = new HashSet<IEdge>();
             _InEdges  = new HashSet<IEdge>();
 
-            if (myVertexInitialization != null)
-                myVertexInitialization(this);
+            if (myVertexInitializer != null)
+                myVertexInitializer(this);
 
         }
 
@@ -93,6 +100,18 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #endregion
 
+        #region RemoveOutEdge(myIEdge)
+
+        public void RemoveOutEdge(IEdge myIEdge)
+        {
+            lock (this)
+            {
+                _OutEdges.Remove(myIEdge);
+            }
+        }
+
+        #endregion
+
         #region InEdges
 
         public IEnumerable<IEdge> InEdges
@@ -100,6 +119,18 @@ namespace de.ahzf.blueprints.InMemoryGraph
             get
             {
                 return _InEdges;
+            }
+        }
+
+        #endregion
+
+        #region RemoveInEdge(myIEdge)
+
+        public void RemoveInEdge(IEdge myIEdge)
+        {
+            lock (this)
+            {
+                _InEdges.Remove(myIEdge);
             }
         }
 

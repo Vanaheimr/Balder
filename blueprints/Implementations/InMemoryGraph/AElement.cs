@@ -41,7 +41,8 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #region Properties
 
-        #region Properties
+        protected IGraph Graph { get; private set; }
+
 
         #region Id
 
@@ -67,7 +68,6 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #endregion
 
-        #endregion
 
         //#region COMMENT
 
@@ -107,13 +107,21 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #region Protected Constructor(s)
 
-        #region AElement(myId)
+        public AElement()
+        { }
 
-        protected AElement(ElementId myId)
+        #region AElement(myIGraph, myId)
+
+        protected AElement(IGraph myIGraph, ElementId myId)
         {
 
             if (myId == null)
                 throw new ArgumentNullException("The Id must not be null!");
+
+            if (myIGraph == null)
+                throw new ArgumentNullException("The graph reference must not be null!");
+
+            Graph = myIGraph;
 
             // StringComparer.OrdinalIgnoreCase is often used to compare file names,
             // path names, network paths, and any other string whose value does not change
