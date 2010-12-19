@@ -19,4 +19,4 @@ Blueprints.NET is released under the [New BSD license](http://en.wikipedia.org/w
 
 Blueprints.NET is a port of the [blueprints](http://github.com/tinkerpop/blueprints) library for Java provided by [Tinkerpop](http://tinkerpop.com).
 
-Please read the NOTICE file for further credits.
+Please read the [NOTICE](/ahzf/blueprints.NET/blob/master/NOTICE) file for further credits.
