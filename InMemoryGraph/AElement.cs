@@ -151,7 +151,7 @@ namespace de.ahzf.blueprints.InMemoryGraph
         /// </summary>
         /// <param name="myPropertyKey">The property key.</param>
         /// <param name="myPropertyValue">The property value.</param>
-        public virtual void SetProperty(String myPropertyKey, Object myPropertyValue)
+        public virtual IElement SetProperty(String myPropertyKey, Object myPropertyValue)
         {
 
             if (myPropertyKey == __Id)
@@ -165,6 +165,8 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
             else
                 _Properties.Add(myPropertyKey, myPropertyValue);
+
+            return this;
 
         }
 

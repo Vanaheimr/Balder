@@ -18,7 +18,7 @@ namespace de.ahzf.blueprints.InMemoryGraph
 {
 
     /// <summary>
-    /// A graph is a container object for a collection of vertices and edges.
+    /// An in-memory implementation of the IGraph interface.
     /// </summary>
     public class InMemoryGraph : IGraph
     {
@@ -76,58 +76,6 @@ namespace de.ahzf.blueprints.InMemoryGraph
             _Vertices.Add(myVertexId, _Vertex);
 
             return _Vertex as IVertex;
-
-        }
-
-        #endregion
-
-        #region AddVertex<TVertex>(myVertexId = null, myVertexInitializer = null)
-
-        /// <summary>
-        /// Adds a vertex of type TVertex to the graph using the given VertexId and
-        /// initializes its properties by invoking the given vertex initializer.
-        /// </summary>
-        /// <typeparam name="TVertex">The type of the vertex to add.</typeparam>
-        /// <param name="myVertexId">A VertexId. If none was given a new one will be generated.</param>
-        /// <param name="myVertexInitializer">A delegate to initialize the newly generated vertex.</param>
-        /// <returns>The new vertex</returns>
-        public TVertex AddVertex<TVertex>(VertexId myVertexId = null, Action<IVertex> myVertexInitializer = null)
-            where TVertex : class, IVertex
-        {
-
-            if (myVertexId != null && _Vertices.ContainsKey(myVertexId))
-                throw new ArgumentException("Another vertex with id " + myVertexId + " already exists");
-
-            if (myVertexId == null)
-                myVertexId = new VertexId(Guid.NewGuid().ToString());
-
-
-            // Get constructor for TVertex
-            var _Type = typeof(TVertex).
-                        GetConstructor(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
-                                       null,
-                                       new Type[] {
-                                           typeof(IGraph),
-                                           typeof(VertexId),
-                                           typeof(Action<IVertex>)
-                                       },
-                                       null);
-
-            if (_Type == null)
-                throw new ArgumentException("A appropriate constructor for type TVertex could not be found!");
-
-
-            // Invoke constructor of TVertex
-            var _TVertex = _Type.Invoke(new Object[] { this, myVertexId, myVertexInitializer }) as TVertex;
-            
-            if (_TVertex == null)
-                throw new ArgumentException("A vertex of type TVertex could not be created!");
-
-
-            // Add to vertices
-            _Vertices.Add(myVertexId, _TVertex);
-
-            return _TVertex;
 
         }
 
@@ -257,62 +205,6 @@ namespace de.ahzf.blueprints.InMemoryGraph
             myInVertex.AddInEdge(_Edge);
 
             return _Edge as IEdge;
-
-        }
-
-        #endregion
-
-        #region AddEdge<TEdge>(myOutVertex, myInVertex, myEdgeId = null, myLabel = null, myEdgeInitializer = null)
-
-        /// <summary>
-        /// Adds an edge to the graph using the given myEdgeId and initializes
-        /// its properties by invoking the given edge initializer.
-        /// </summary>
-        /// <typeparam name="TEdge">The type of the edge to add.</typeparam>
-        /// <param name="myOutVertex"></param>
-        /// <param name="myInVertex"></param>
-        /// <param name="myEdgeId">A EdgeId. If none was given a new one will be generated.</param>
-        /// <param name="myLabel"></param>
-        /// <param name="myEdgeInitializer">A delegate to initialize the newly generated edge.</param>
-        /// <returns>The new edge</returns>
-        public TEdge AddEdge<TEdge>(IVertex myOutVertex, IVertex myInVertex, EdgeId myEdgeId = null, String myLabel = null, Action<IEdge> myEdgeInitializer = null)
-            where TEdge : class, IEdge
-        {
-
-            if (myEdgeId != null && _Edges.ContainsKey(myEdgeId))
-                throw new ArgumentException("Another edge with id " + myEdgeId + " already exists");
-
-            if (myEdgeId == null)
-                myEdgeId = new EdgeId(Guid.NewGuid().ToString());
-
-
-            // Get constructor for TEdge
-            var _Type  = typeof(TEdge).
-                         GetConstructor(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
-                                        null,
-                                        new Type[] {
-                                            typeof(IGraph),
-                                            typeof(IVertex),
-                                            typeof(IVertex),
-                                            typeof(EdgeId),
-                                            typeof(Action<IEdge>)
-                                        },
-                                        null);
-
-            if (_Type == null)
-                throw new ArgumentException("A appropriate constructor for type TEdge could not be found!");
-
-
-            // Invoke constructor of TEdge
-            var _TEdge = _Type.Invoke(new Object[] { this, myOutVertex, myInVertex, myEdgeId, myEdgeInitializer }) as TEdge;
-            if (_TEdge == null)
-                throw new ArgumentException("An edge of type TEdge could not be created!");
-
-
-            // Add to edges
-            _Edges.Add(myEdgeId, _TEdge);
-
-            return _TEdge;
 
         }
 

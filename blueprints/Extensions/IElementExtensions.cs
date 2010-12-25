@@ -22,16 +22,16 @@ namespace de.ahzf.blueprints
     public static class IElementExtensions
     {
 
-        #region ToDynamic(this myIElement)
+        #region AsDynamic(this myIElement)
 
         /// <summary>
         /// Converts the given IElement into a dynamic object
         /// </summary>
         /// <param name="myIElement">An object implementing IElement.</param>
         /// <returns>A dynamic object</returns>
-        public static dynamic ToDynamic(this IElement myIElement)
+        public static dynamic AsDynamic(this IElement myIElement)
         {
-            return (dynamic) myIElement;
+            return myIElement as dynamic;
         }
 
         #endregion

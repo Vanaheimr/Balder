@@ -39,13 +39,14 @@ namespace de.ahzf.blueprints
 
         #region Methods
 
+        //Changed!
         /// <summary>
         /// Assign a key/value property to the element.
         /// If a value already exists for this key, then the previous key/value is overwritten.
         /// </summary>
         /// <param name="myKey">The property key.</param>
         /// <param name="myValue">The property value.</param>
-        void SetProperty(String myKey, Object myValue);
+        IElement SetProperty(String myKey, Object myValue);
 
 
         /// <summary>

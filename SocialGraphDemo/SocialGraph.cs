@@ -17,6 +17,9 @@ using de.ahzf.blueprints.Datastructures;
 namespace SocialGraphDemo
 {
 
+    /// <summary>
+    /// A simple demo implementing a social graph.
+    /// </summary>
     public class SocialGraph
     {
 
@@ -65,7 +68,7 @@ namespace SocialGraphDemo
             /// <param name="myVertexId">The Id of the vertex</param>
             /// <param name="myVertexInitializer"></param>
             public User(IGraph myIGraph, VertexId myVertexId, Action<IVertex> myVertexInitializer = null)
-                : base (myIGraph, myVertexId, myVertexInitializer)
+                : base(myIGraph, myVertexId, myVertexInitializer)
             { }
 
             #endregion
@@ -123,7 +126,7 @@ namespace SocialGraphDemo
             /// <param name="myEdgeId">A EdgeId. If none was given a new one will be generated.</param>
             /// <param name="myEdgeInitializer">A delegate to initialize the newly generated edge.</param>
             public Classmates(IGraph myIGraph, IVertex myOutVertex, IVertex myInVertex, EdgeId myEdgeId, Action<IEdge> myEdgeInitializer = null)
-                : base (myIGraph, myOutVertex, myInVertex, myEdgeId, "classmates", myEdgeInitializer)
+                : base(myIGraph, myOutVertex, myInVertex, myEdgeId, "classmates", myEdgeInitializer)
             { }
 
             #endregion
@@ -135,31 +138,45 @@ namespace SocialGraphDemo
         #endregion
 
 
+        #region Main(myArgs)
+
+        /// <summary>
+        /// Main routine!
+        /// </summary>
+        /// <param name="myArgs">The command line arguments.</param>
         public static void Main(String[] myArgs)
         {
+
+            var _AutoDiscovery = new GraphAutoDiscovery(true);
             
-            var _SocialGraph1 = new InMemoryGraph();
+            IGraph _SocialGraph1 = null;
+            if (!_AutoDiscovery.TryActivate("InMemoryGraph", out _SocialGraph1))
+                Environment.Exit(1);
 
-            var v1      = _SocialGraph1.AddVertex(new VertexId(1));
-            var v2      = _SocialGraph1.AddVertex(new VertexId("55"));
-            var v3      = _SocialGraph1.AddVertex(new VertexId("3"));
-            var v4      = _SocialGraph1.AddVertex<User>(new VertexId(40), v => v.SetProperty("Name", "Klaus"));
-            var v5      = _SocialGraph1.AddVertex(new VertexId(42), v => v.SetProperty("Name", "Klaus"));
+            var v1 = _SocialGraph1.AddVertex(new VertexId(1));
+            var v2 = _SocialGraph1.AddVertex(new VertexId("55"));
+            var v3 = _SocialGraph1.AddVertex(new VertexId("3"));
+            var v4 = _SocialGraph1.AddVertex<User>(new VertexId(40), v => v.SetProperty("Name", "Klaus").SetProperty("weight", 0.4f));
+            var v5 = _SocialGraph1.AddVertex(new VertexId(42), v => v.SetProperty("Name", "Klaus"));
 
-            var e1      = _SocialGraph1.AddEdge(v1, v2, new EdgeId("e1"), "edge 1->2");
-            var e2      = _SocialGraph1.AddEdge(v1, v4, new EdgeId("e2"), "edge 1->4", e => e.SetProperty("Place", "Norway"));
-            var e3      = _SocialGraph1.AddEdge<Classmates>(v2, v3, new EdgeId("e3"), "edge 2->3", e => e.SetProperty("School", "New School"));
+            var e1 = _SocialGraph1.AddEdge(v1, v2, new EdgeId("e1"), "edge 1->2");
+            var e2 = _SocialGraph1.AddEdge(v1, v4, new EdgeId("e2"), "edge 1->4", e => e.SetProperty("Place", "Norway").SetProperty("weight", 0.4f));
+            var e3 = _SocialGraph1.AddEdge<Classmates>(v2, v3, new EdgeId("e3"), "edge 2->3", e => e.SetProperty("School", "New School"));
 
-            var _v4_1   = _SocialGraph1.GetVertex(v4.Id);
-            var _v4_2   = _SocialGraph1.GetVertex<Vertex>(v4.Id);
-            var _v4_3   = _SocialGraph1.GetVertex<User>(v4.Id);
+            var _v4_1 = _SocialGraph1.GetVertex(v4.Id);
+            var _v4_2 = _SocialGraph1.GetVertex<Vertex>(v4.Id);
+            var _v4_3 = _SocialGraph1.GetVertex<User>(v4.Id);
 
-            var _v4dyn  = _SocialGraph1.GetVertex(v4.Id).ToDynamic();
-            var Name    = _v4dyn.Name;
+            var _v4dyn = _SocialGraph1.GetVertex(v4.Id).AsDynamic();
+            var Name = _v4dyn.Name;
 
             var all = _SocialGraph1.GetVertices(v => v.Id > new VertexId(10));
 
+            //Console.ReadLine();
+
         }
+
+        #endregion
 
     }
 
