@@ -73,7 +73,12 @@ namespace de.ahzf.blueprints.InMemoryGraph
                 myVertexId = new VertexId(Guid.NewGuid().ToString());
 
             var _Vertex = new Vertex(this, myVertexId, myVertexInitializer);
-            _Vertices.Add(myVertexId, _Vertex);
+
+
+            lock (this)
+            {
+                _Vertices.Add(myVertexId, _Vertex);
+            }
 
             return _Vertex as IVertex;
 
@@ -112,12 +117,11 @@ namespace de.ahzf.blueprints.InMemoryGraph
         public IEnumerable<IVertex> GetVertices(Func<IVertex, Boolean> myVertexFilter = null)
         {
 
-            if (myVertexFilter == null)
-                foreach (var _IVertex in _Vertices.Values)
+            foreach (var _IVertex in _Vertices.Values)
+                if (myVertexFilter == null)
                     yield return _IVertex;
 
-            foreach (var _IVertex in _Vertices.Values)
-                if (myVertexFilter(_IVertex))
+                else if (myVertexFilter(_IVertex))
                     yield return _IVertex;
 
         }
@@ -199,7 +203,10 @@ namespace de.ahzf.blueprints.InMemoryGraph
                 myEdgeId = new EdgeId(Guid.NewGuid().ToString());
 
             var _Edge = new Edge(this, myOutVertex, myInVertex, myEdgeId, myLabel, myEdgeInitializer);
-            _Edges.Add(myEdgeId, _Edge);
+            lock (this)
+            {
+                _Edges.Add(myEdgeId, _Edge);
+            }
 
             myOutVertex.AddOutEdge(_Edge);
             myInVertex.AddInEdge(_Edge);

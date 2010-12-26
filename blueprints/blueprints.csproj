@@ -68,7 +68,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools\AutoDiscovery.cs" />
     <Compile Include="Tools\AutoDiscoveryException.cs" />
-    <Compile Include="Tools\IGraphDiscovery.cs" />
+    <Compile Include="Tools\CSV.cs" />
+    <Compile Include="Tools\AutoDiscoveryIGraphs.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="SocialGraph.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SocialGraphGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

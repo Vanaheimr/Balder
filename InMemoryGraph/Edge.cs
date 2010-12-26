@@ -97,7 +97,7 @@ namespace de.ahzf.blueprints.InMemoryGraph
         #endregion
 
 
-        // Links to associated vertices
+        // Links to the associated vertices
 
         #region OutVertex
 

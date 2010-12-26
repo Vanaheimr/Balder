@@ -8,8 +8,11 @@
 #region Usings
 
 using System;
+using System.IO;
+using System.Linq;
+using System.Diagnostics;
+
 using de.ahzf.blueprints;
-using de.ahzf.blueprints.InMemoryGraph;
 using de.ahzf.blueprints.Datastructures;
 
 #endregion
@@ -23,119 +26,96 @@ namespace SocialGraphDemo
     public class SocialGraph
     {
 
-        #region User
+        #region Data
 
-        /// <summary>
-        /// A class representing a user vertex
-        /// </summary>
-        public class User : Vertex
+        private const Int32  _NumberOfVertices = 100000;
+        private const Int32  _NumberOfEdges    = 500000;
+        private const String _FileName         = "SocialGraph_v100000-e500000.csv";
+
+        #endregion
+
+
+        #region Generate simple SocialGraph and write it into a CSV-file
+
+        private static void GenerateSocialGraph()
         {
 
-            #region Properties
+            var _Stopwatch = new Stopwatch();
 
-            #region Name
+            Console.WriteLine("Generating {0} vertices having {1} edges...", _NumberOfVertices, _NumberOfEdges);
+            _Stopwatch.Start();
 
-            /// <summary>
-            /// The name of the user
-            /// </summary>
-            public String Name
-            {
-                get
-                {
+            var _SocialGraph = SocialGraphGenerator.Generate(_NumberOfVertices, _NumberOfEdges, 3, 5000, number => 
+                                   {
+                                       Console.SetCursorPosition(0, Console.CursorTop);
+                                       Console.Write(number);
+                                   });
 
-                    Object _Object = null;
+            Console.WriteLine();
+            Console.WriteLine("Time: {0}:{1:00} min", _Stopwatch.Elapsed.Minutes, _Stopwatch.Elapsed.Seconds);
+            Console.WriteLine("Writing data to file...");
 
-                    if (_Properties.TryGetValue("Name", out _Object))
-                        return _Object as String;
+            var Histogram = SocialGraphGenerator.Histogram(_SocialGraph);
+            CSV.WriteToFile(_SocialGraph, _FileName);
 
-                    return null;
-
-                }
-            }
-
-            #endregion
-
-            #endregion
-
-            #region Constructor(s)
-
-            #region User(myIGraph, myId, myVertexInitializer = null)
-
-            /// <summary>
-            /// Creates a new user vertex
-            /// </summary>
-            /// <param name="myIGraph">The associated graph</param>
-            /// <param name="myVertexId">The Id of the vertex</param>
-            /// <param name="myVertexInitializer"></param>
-            public User(IGraph myIGraph, VertexId myVertexId, Action<IVertex> myVertexInitializer = null)
-                : base(myIGraph, myVertexId, myVertexInitializer)
-            { }
-
-            #endregion
-
-            #endregion
+            Console.WriteLine("Time: {0}:{1:00} min", _Stopwatch.Elapsed.Minutes, _Stopwatch.Elapsed.Seconds);
 
         }
 
         #endregion
 
-        #region Classmates
+        #region Import vertices
 
-        /// <summary>
-        /// A class representing a classmate edge
-        /// </summary>
-        public class Classmates : Edge
+        private static void ImportVertices(IGraph mySocialGraph)
         {
 
-            #region Properties
+            var _Stopwatch = new Stopwatch();
+            _Stopwatch.Start();
 
-            #region School
+            CSV.ParseFile(_FileName, _CSVLine =>
+                                          {
+                                              mySocialGraph.AddVertex(new VertexId(_CSVLine[0]));
+                                          }).Wait();
 
-            /// <summary>
-            /// Defining a school
-            /// </summary>
-            public String School
-            {
-                get
-                {
+            _Stopwatch.Stop();
 
-                    Object _Object = null;
+            Console.WriteLine("Vertex import: {0}:{1:00} min", _Stopwatch.Elapsed.Minutes, _Stopwatch.Elapsed.Seconds);
 
-                    if (_Properties.TryGetValue("School", out _Object))
-                        return _Object as String;
-
-                    return null;
-
-                }
-            }
-
-            #endregion
-
-            #endregion
-
-            #region Constructor(s)
-
-            #region Classmates(myIGraph, myOutVertex, myIGraph, myEdgeId, myEdgeInitializer = null)
-
-            /// <summary>
-            /// Creates a new classmate edge
-            /// </summary>
-            /// <param name="myIGraph"></param>
-            /// <param name="myOutVertex"></param>
-            /// <param name="myInVertex"></param>
-            /// <param name="myEdgeId">A EdgeId. If none was given a new one will be generated.</param>
-            /// <param name="myEdgeInitializer">A delegate to initialize the newly generated edge.</param>
-            public Classmates(IGraph myIGraph, IVertex myOutVertex, IVertex myInVertex, EdgeId myEdgeId, Action<IEdge> myEdgeInitializer = null)
-                : base(myIGraph, myOutVertex, myInVertex, myEdgeId, "classmates", myEdgeInitializer)
-            { }
-
-            #endregion
-
-            #endregion
 
         }
 
         #endregion
+
+        #region Import edges
+
+        private static void ImportEdges(IGraph mySocialGraph)
+        {
+
+            var _Stopwatch = new Stopwatch();
+            _Stopwatch.Start();
+
+            CSV.ParseFile(_FileName, _CSVLine =>
+                                          {
+
+                                              var _VertexId0 = new VertexId(_CSVLine[0]);
+
+                                              for (var i = 1; i < _CSVLine.Count(); i++)
+                                                  mySocialGraph.AddEdge(
+                                                      mySocialGraph.GetVertex(_VertexId0),
+                                                      mySocialGraph.GetVertex(new VertexId(_CSVLine[i]))
+                                                  );
+
+                                          }).Wait();
+
+            _Stopwatch.Stop();
+
+            Console.WriteLine("Edge import: {0}:{1:00} min", _Stopwatch.Elapsed.Minutes, _Stopwatch.Elapsed.Seconds);
+
+
+        }
+
+        #endregion
+
 
 
         #region Main(myArgs)
@@ -147,30 +127,28 @@ namespace SocialGraphDemo
         public static void Main(String[] myArgs)
         {
 
-            var _AutoDiscovery = new GraphAutoDiscovery(true);
-            
-            IGraph _SocialGraph1 = null;
-            if (!_AutoDiscovery.TryActivate("InMemoryGraph", out _SocialGraph1))
+
+            // Create SocialGraph, if not existant!
+            if (!File.Exists(_FileName))
+                GenerateSocialGraph();
+
+
+            // Create an in-memory graph using reflection
+            IGraph _SocialGraph = null;
+            if (!new AutoDiscoveryIGraphs().TryActivate("InMemoryGraph", out _SocialGraph))
+            {
+                Console.WriteLine("Could not find the 'InMemoryGraph' implementation!");
                 Environment.Exit(1);
+            }
 
-            var v1 = _SocialGraph1.AddVertex(new VertexId(1));
-            var v2 = _SocialGraph1.AddVertex(new VertexId("55"));
-            var v3 = _SocialGraph1.AddVertex(new VertexId("3"));
-            var v4 = _SocialGraph1.AddVertex<User>(new VertexId(40), v => v.SetProperty("Name", "Klaus").SetProperty("weight", 0.4f));
-            var v5 = _SocialGraph1.AddVertex(new VertexId(42), v => v.SetProperty("Name", "Klaus"));
 
-            var e1 = _SocialGraph1.AddEdge(v1, v2, new EdgeId("e1"), "edge 1->2");
-            var e2 = _SocialGraph1.AddEdge(v1, v4, new EdgeId("e2"), "edge 1->4", e => e.SetProperty("Place", "Norway").SetProperty("weight", 0.4f));
-            var e3 = _SocialGraph1.AddEdge<Classmates>(v2, v3, new EdgeId("e3"), "edge 2->3", e => e.SetProperty("School", "New School"));
+            // Import vertices and edges
+            ImportVertices(_SocialGraph);
+            ImportEdges(_SocialGraph);
 
-            var _v4_1 = _SocialGraph1.GetVertex(v4.Id);
-            var _v4_2 = _SocialGraph1.GetVertex<Vertex>(v4.Id);
-            var _v4_3 = _SocialGraph1.GetVertex<User>(v4.Id);
 
-            var _v4dyn = _SocialGraph1.GetVertex(v4.Id).AsDynamic();
-            var Name = _v4dyn.Name;
-
-            var all = _SocialGraph1.GetVertices(v => v.Id > new VertexId(10));
+            var all1 = _SocialGraph.GetVertices().Count();
+            var all2 = _SocialGraph.GetVertices(v => v.Id > new VertexId(10)).Count();
 
             //Console.ReadLine();
 

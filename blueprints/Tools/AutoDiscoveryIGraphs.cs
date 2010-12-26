@@ -17,28 +17,30 @@ namespace de.ahzf.blueprints
     /// <summary>
     /// Discovers automagically all implementations of the IGraph interface.
     /// </summary>
-    public class GraphAutoDiscovery : AutoDiscovery<IGraph>
+    public class AutoDiscoveryIGraphs : AutoDiscovery<IGraph>
     {
 
         #region Constructor(s)
 
-        #region GraphAutoDiscovery()
+        #region AutoDiscoveryIGraphs()
 
         /// <summary>
-        /// Create a new GraphAutoDiscovery instance
+        /// Create a new AutoDiscovery instance and start the discovery
+        /// of IGraph implementations.
         /// </summary>
-        public GraphAutoDiscovery()
+        public AutoDiscoveryIGraphs()
             : base()
         { }
 
         #endregion
 
-        #region GraphAutoDiscovery(myAutostart)
+        #region AutoDiscoveryIGraphs(myAutostart)
 
         /// <summary>
-        /// Create a new GraphAutoDiscovery instance and start the discovery
+        /// Create a new AutoDiscovery instance. An automatic discovery
+        /// of IGraph implementations can be avoided.
         /// </summary>
-        public GraphAutoDiscovery(Boolean myAutostart)
+        public AutoDiscoveryIGraphs(Boolean myAutostart)
             : base(myAutostart)
         { }
 

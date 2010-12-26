@@ -116,19 +116,19 @@ namespace de.ahzf.blueprints
         #region AutoDiscovery()
 
         /// <summary>
-        /// Create a new AutoDiscovery instance
+        /// Create a new AutoDiscovery instance and start the discovery.
         /// </summary>
         public AutoDiscovery()
-        {
-            _TypeDictionary = new ConcurrentDictionary<String, Type>();
-        }
+            : this(true)
+        { }
 
         #endregion
 
         #region AutoDiscovery(myAutostart)
 
         /// <summary>
-        /// Create a new AutoDiscovery instance and start the discovery
+        /// Create a new AutoDiscovery instance. An automatic discovery
+        /// can be avoided.
         /// </summary>
         public AutoDiscovery(Boolean myAutostart)
         {

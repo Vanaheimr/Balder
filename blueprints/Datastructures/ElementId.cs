@@ -121,7 +121,7 @@ namespace de.ahzf.blueprints.Datastructures
         /// </summary>
         public ElementId(String myString)
         {
-            _ElementId = myString;
+            _ElementId = myString.Trim();
         }
 
         #endregion
