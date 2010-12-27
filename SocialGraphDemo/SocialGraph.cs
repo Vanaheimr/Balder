@@ -35,7 +35,7 @@ namespace SocialGraphDemo
         #endregion
 
 
-        #region Generate simple SocialGraph and write it into a CSV-file
+        #region Generate a simple SocialGraph and write it into a CSV-file
 
         private static void GenerateSocialGraph()
         {
@@ -45,17 +45,23 @@ namespace SocialGraphDemo
             Console.WriteLine("Generating {0} vertices having {1} edges...", _NumberOfVertices, _NumberOfEdges);
             _Stopwatch.Start();
 
-            var _SocialGraph = SocialGraphGenerator.Generate(_NumberOfVertices, _NumberOfEdges, 3, 5000, number => 
-                                   {
-                                       Console.SetCursorPosition(0, Console.CursorTop);
-                                       Console.Write(number);
-                                   });
+            var _SocialGraph = SocialGraphGenerator.Generate(_NumberOfVertices,
+                                                             _NumberOfEdges,
+                                                             PreferentialAttachment: 3,
+                                                             BatchNumber:            5000,
+                                                             BatchAction:            status => 
+                                                                 {
+                                                                     Console.SetCursorPosition(0, Console.CursorTop);
+                                                                     Console.Write(status);
+                                                                 });
 
             Console.WriteLine();
             Console.WriteLine("Time: {0}:{1:00} min", _Stopwatch.Elapsed.Minutes, _Stopwatch.Elapsed.Seconds);
             Console.WriteLine("Writing data to file...");
 
             var Histogram = SocialGraphGenerator.Histogram(_SocialGraph);
+
+            _Stopwatch.Restart();
             CSV.WriteToFile(_SocialGraph, _FileName);
 
             Console.WriteLine("Time: {0}:{1:00} min", _Stopwatch.Elapsed.Minutes, _Stopwatch.Elapsed.Seconds);
@@ -135,7 +141,7 @@ namespace SocialGraphDemo
 
             // Create an in-memory graph using reflection
             IGraph _SocialGraph = null;
-            if (!new AutoDiscoveryIGraphs().TryActivate("InMemoryGraph", out _SocialGraph))
+            if (!new AutoDiscovery<IGraph>().TryActivate("InMemoryGraph", out _SocialGraph))
             {
                 Console.WriteLine("Could not find the 'InMemoryGraph' implementation!");
                 Environment.Exit(1);

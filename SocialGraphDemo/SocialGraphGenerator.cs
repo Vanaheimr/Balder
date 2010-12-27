@@ -29,17 +29,17 @@ namespace SocialGraphDemo
         /// </summary>
         /// <param name="myNumberOfVertices"></param>
         /// <param name="myNumberOfEdges"></param>
-        /// <param name="myPreferentialAttachment"></param>
-        /// <param name="myBatchNumber"></param>
-        /// <param name="myBatchAction"></param>
+        /// <param name="PreferentialAttachment"></param>
+        /// <param name="BatchNumber"></param>
+        /// <param name="BatchAction"></param>
         /// <returns></returns>
-        public static IEnumerable<HashSet<Int32>> Generate(Int32 myNumberOfVertices, Int32 myNumberOfEdges, Int32 myPreferentialAttachment = 3, Int32 myBatchNumber = 5000, Action<Int32> myBatchAction = null)
+        public static IEnumerable<HashSet<Int32>> Generate(Int32 myNumberOfVertices, Int32 myNumberOfEdges, Int32 PreferentialAttachment = 3, Int32 BatchNumber = 5000, Action<Int32> BatchAction = null)
         {
 
             var _Vertices           = new HashSet<Int32>[myNumberOfVertices];
             var _EdgesPerVertex     = myNumberOfEdges / myNumberOfVertices;
             var _RandomGenerator    = new Random();
-            var _RandomNumbers      = new Int32[myPreferentialAttachment];
+            var _RandomNumbers      = new Int32[PreferentialAttachment];
             var _RandomNumber       = 0;
 
             for (var _ActualVertexID = 0; _ActualVertexID < myNumberOfVertices; _ActualVertexID++)
@@ -53,7 +53,7 @@ namespace SocialGraphDemo
                 {
 
                     // Generate list of random numbers less than the actual vertex id
-                    for (var r = 0; r < myPreferentialAttachment; r++)
+                    for (var r = 0; r < PreferentialAttachment; r++)
                         _RandomNumbers[r] = _RandomGenerator.Next(_ActualVertexID);
 
                     // Pick the random number having the most edges (preferential attachment)
@@ -72,13 +72,13 @@ namespace SocialGraphDemo
 
                 }
 
-                if (myBatchAction != null && _ActualVertexID % myBatchNumber == 0)
-                    myBatchAction(_ActualVertexID);
+                if (BatchAction != null && _ActualVertexID % BatchNumber == 0)
+                    BatchAction(_ActualVertexID);
 
             }
 
-            if (myBatchAction != null)
-                myBatchAction(myNumberOfVertices);
+            if (BatchAction != null)
+                BatchAction(myNumberOfVertices);
 
             return _Vertices;
 

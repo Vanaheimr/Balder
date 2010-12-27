@@ -9,8 +9,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
+
 using de.ahzf.blueprints.Datastructures;
-using System.Reflection;
 
 #endregion
 
@@ -41,8 +42,8 @@ namespace de.ahzf.blueprints.InMemoryGraph
         /// </summary>
         public InMemoryGraph()
         {
-            _Vertices = new SortedDictionary<VertexId, IVertex>();
-            _Edges    = new SortedDictionary<EdgeId,   IEdge>();
+            _Vertices = new ConcurrentDictionary<VertexId, IVertex>();
+            _Edges    = new ConcurrentDictionary<EdgeId,   IEdge>();
         //this.createIndex(Index.VERTICES, TinkerVertex.class, Index.Type.AUTOMATIC);
         //this.createIndex(Index.EDGES, TinkerEdge.class, Index.Type.AUTOMATIC);
         }
@@ -74,11 +75,7 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
             var _Vertex = new Vertex(this, myVertexId, myVertexInitializer);
 
-
-            lock (this)
-            {
-                _Vertices.Add(myVertexId, _Vertex);
-            }
+            _Vertices.Add(myVertexId, _Vertex);
 
             return _Vertex as IVertex;
 
@@ -197,16 +194,14 @@ namespace de.ahzf.blueprints.InMemoryGraph
         {
 
             if (myEdgeId != null && _Edges.ContainsKey(myEdgeId))
-                throw new ArgumentException("Another edge with id " + myEdgeId + " already exists");
+                throw new ArgumentException("Another edge with id " + myEdgeId + " already exists!");
 
             if (myEdgeId == null)
                 myEdgeId = new EdgeId(Guid.NewGuid().ToString());
 
             var _Edge = new Edge(this, myOutVertex, myInVertex, myEdgeId, myLabel, myEdgeInitializer);
-            lock (this)
-            {
-                _Edges.Add(myEdgeId, _Edge);
-            }
+
+            _Edges.Add(myEdgeId, _Edge);
 
             myOutVertex.AddOutEdge(_Edge);
             myInVertex.AddInEdge(_Edge);

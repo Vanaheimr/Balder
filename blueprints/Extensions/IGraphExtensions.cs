@@ -7,9 +7,10 @@
 
 #region Usings
 
-using de.ahzf.blueprints.Datastructures;
 using System;
 using System.Reflection;
+
+using de.ahzf.blueprints.Datastructures;
 
 #endregion
 
@@ -35,9 +36,9 @@ namespace de.ahzf.blueprints
         }
 
         #endregion
-        
 
-        #region AddVertex<TVertex>(myVertexId = null, myVertexInitializer = null)
+
+        #region AddVertex<TVertex>(this myIGraph, myVertexId = null, myVertexInitializer = null)
 
         /// <summary>
         /// Adds a vertex of type TVertex to the graph using the given VertexId and
@@ -51,6 +52,9 @@ namespace de.ahzf.blueprints
         public static TVertex AddVertex<TVertex>(this IGraph myIGraph, VertexId myVertexId = null, Action<IVertex> myVertexInitializer = null)
             where TVertex : class, IVertex
         {
+
+            if (myIGraph == null)
+                throw new ArgumentNullException("myIGraph must not be null!");
 
             // Get constructor for TVertex
             var _Type = typeof(TVertex).
@@ -102,7 +106,52 @@ namespace de.ahzf.blueprints
         #endregion
 
 
-        #region AddEdge<TEdge>(myOutVertex, myInVertex, myEdgeId = null, myLabel = null, myEdgeInitializer = null)
+        #region AddEdge(this myIGraph, myOutVertex, myInVertex, myEdgeId = null, myLabel = null, myEdgeInitializer = null)
+
+        /// <summary>
+        /// Adds an edge to the graph using the given myEdgeId and initializes
+        /// its properties by invoking the given edge initializer.
+        /// </summary>
+        /// <param name="myIGraph"></param>
+        /// <param name="myOutVertexId"></param>
+        /// <param name="myInVertexId"></param>
+        /// <param name="myEdgeId">A EdgeId. If none was given a new one will be generated.</param>
+        /// <param name="myLabel"></param>
+        /// <param name="myEdgeInitializer">A delegate to initialize the newly generated edge.</param>
+        /// <returns>The new edge</returns>
+        public static IEdge AddEdge(this IGraph myIGraph, VertexId myOutVertexId, VertexId myInVertexId, EdgeId myEdgeId = null, String myLabel = null, Action<IEdge> myEdgeInitializer = null)
+        {
+
+            if (myIGraph == null)
+                throw new ArgumentNullException("myIGraph must not be null!");
+
+            if (myOutVertexId == null)
+                throw new ArgumentNullException("myOutVertexId must not be null!");
+
+            if (myInVertexId == null)
+                throw new ArgumentNullException("myInVertexId must not be null!");
+
+
+            var myOutVertex = myIGraph.GetVertex(myOutVertexId);
+
+            if (myOutVertex == null)
+                throw new ArgumentException("VertexId '" + myOutVertexId + "' is unknown!");
+
+
+            var myInVertex  = myIGraph.GetVertex(myInVertexId);
+
+            if (myInVertex == null)
+                throw new ArgumentException("VertexId '" + myInVertexId + "' is unknown!");
+
+
+            return myIGraph.AddEdge(myOutVertex, myInVertex, myEdgeId, myLabel, myEdgeInitializer);
+
+
+        }
+
+        #endregion
+
+        #region AddEdge<TEdge>(this myIGraph, myOutVertex, myInVertex, myEdgeId = null, myLabel = null, myEdgeInitializer = null)
 
         /// <summary>
         /// Adds an edge to the graph using the given myEdgeId and initializes
@@ -119,6 +168,9 @@ namespace de.ahzf.blueprints
         public static TEdge AddEdge<TEdge>(this IGraph myIGraph, IVertex myOutVertex, IVertex myInVertex, EdgeId myEdgeId = null, String myLabel = null, Action<IEdge> myEdgeInitializer = null)
             where TEdge : class, IEdge
         {
+
+            if (myIGraph == null)
+                throw new ArgumentNullException("myIGraph must not be null!");
 
             // Get constructor for TEdge
             var _Type  = typeof(TEdge).
@@ -151,6 +203,53 @@ namespace de.ahzf.blueprints
         }
 
         #endregion
+
+        #region AddEdge<TEdge>(this myIGraph, myOutVertex, myInVertex, myEdgeId = null, myLabel = null, myEdgeInitializer = null)
+
+        /// <summary>
+        /// Adds an edge to the graph using the given myEdgeId and initializes
+        /// its properties by invoking the given edge initializer.
+        /// </summary>
+        /// <param name="myIGraph"></param>
+        /// <param name="myOutVertexId"></param>
+        /// <param name="myInVertexId"></param>
+        /// <param name="myEdgeId">A EdgeId. If none was given a new one will be generated.</param>
+        /// <param name="myLabel"></param>
+        /// <param name="myEdgeInitializer">A delegate to initialize the newly generated edge.</param>
+        /// <returns>The new edge</returns>
+        public static TEdge AddEdge<TEdge>(this IGraph myIGraph, VertexId myOutVertexId, VertexId myInVertexId, EdgeId myEdgeId = null, String myLabel = null, Action<IEdge> myEdgeInitializer = null)
+            where TEdge : class, IEdge
+        {
+
+            if (myIGraph == null)
+                throw new ArgumentNullException("myIGraph must not be null!");
+
+            if (myOutVertexId == null)
+                throw new ArgumentNullException("myOutVertexId must not be null!");
+
+            if (myInVertexId == null)
+                throw new ArgumentNullException("myInVertexId must not be null!");
+
+
+            var myOutVertex = myIGraph.GetVertex(myOutVertexId);
+
+            if (myOutVertex == null)
+                throw new ArgumentException("VertexId '" + myOutVertexId + "' is unknown!");
+
+
+            var myInVertex = myIGraph.GetVertex(myInVertexId);
+
+            if (myInVertex == null)
+                throw new ArgumentException("VertexId '" + myInVertexId + "' is unknown!");
+
+
+            return myIGraph.AddEdge<TEdge>(myOutVertex, myInVertex, myEdgeId, myLabel, myEdgeInitializer);
+
+
+        }
+
+        #endregion
+
 
         #region GetEdge<TEdge>(this myIGraph, myEdgeId)
 
