@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2010, Achim 'ahzf' Friedland <code@ahzf.de>
+ * Copyright (c) 2010-2011, Achim 'ahzf' Friedland <code@ahzf.de>
  * 
  * This file is part of blueprints.NET and licensed
  * as free software under the New BSD License.
