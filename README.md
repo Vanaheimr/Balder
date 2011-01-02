@@ -8,12 +8,10 @@ Blueprints does not define an interface for remote network access. For a [HTTP/R
 
 * A simple in-memory Property Graph.
 * [Gera](http://github.com/ahzf/Gera) a framework for processing large-scale semantic graphs (coming soon).
-* [Rexster](http://github.com/ahzf/rexster.NET) for accessing remote Property Graphs via HTTP/REST (coming soon).
-* BlueRedis (coming soon).
 
 #### License
 
-Blueprints.NET is released under the [New BSD license](http://en.wikipedia.org/wiki/BSD_licenses). For details see the [LICENSE](/ahzf/blueprints.NET/blob/master/LICENSE) file.
+Blueprints.NET is released under the [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0). For details see the [LICENSE](/ahzf/blueprints.NET/blob/master/LICENSE) file.
 
 #### Acknowledgments
 
