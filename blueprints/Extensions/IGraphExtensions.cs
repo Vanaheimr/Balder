@@ -78,14 +78,14 @@ namespace de.ahzf.blueprints
                                        null);
 
             if (_Type == null)
-                throw new ArgumentException("A appropriate constructor for type TVertex could not be found!");
+                throw new ArgumentException("A appropriate constructor for type '" + typeof(TVertex).Name + "' could not be found!");
 
 
             // Invoke constructor of TVertex
             var _TVertex = _Type.Invoke(new Object[] { myIGraph, myVertexId, myVertexInitializer }) as TVertex;
 
             if (_TVertex == null)
-                throw new ArgumentException("A vertex of type TVertex could not be created!");
+                throw new ArgumentException("A vertex of type '" + typeof(TVertex).Name + "' could not be created!");
 
 
             // Add to IGraph
@@ -196,13 +196,13 @@ namespace de.ahzf.blueprints
                                         null);
 
             if (_Type == null)
-                throw new ArgumentException("A appropriate constructor for type TEdge could not be found!");
+                throw new ArgumentException("A appropriate constructor for type '" + typeof(TEdge).Name + "' could not be found!");
 
 
             // Invoke constructor of TEdge
             var _TEdge = _Type.Invoke(new Object[] { myIGraph, myOutVertex, myInVertex, myEdgeId, myEdgeInitializer }) as TEdge;
             if (_TEdge == null)
-                throw new ArgumentException("An edge of type TEdge could not be created!");
+                throw new ArgumentException("An edge of type '" + typeof(TEdge).Name + "' could not be created!");
 
 
             // Add to IGraph
