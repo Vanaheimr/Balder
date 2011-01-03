@@ -15,6 +15,6 @@ Blueprints.NET is released under the [Apache License 2.0](http://www.apache.org/
 
 #### Acknowledgments
 
-Blueprints.NET is a port of the [blueprints](http://github.com/tinkerpop/blueprints) library for Java provided by [Tinkerpop](http://tinkerpop.com).
+Blueprints.NET is a reimplementation of the [blueprints](http://github.com/tinkerpop/blueprints) library for Java provided by [Tinkerpop](http://tinkerpop.com).
 
 Please read the [NOTICE](/ahzf/blueprints.NET/blob/master/NOTICE) file for further credits.

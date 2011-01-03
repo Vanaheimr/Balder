@@ -1,8 +1,21 @@
 
-Blueprints.NET could not be build without the help
-of the following projects:
+Blueprints.NET would not be possible without the work
+done by others to create these useful packages:
 
- - Original blueprints project: http://github.com/tinkerpop/blueprints
- - NUnit unit testing framework: http://www.nunit.org
- - sones GraphDB for the fundamental understanding of graphs:
+ - Original blueprints project
+   http://github.com/tinkerpop/blueprints
+   New BSD license
+   http://en.wikipedia.org/wiki/BSD_licenses
+ 
+ - NUnit unit testing framework
+   http://www.nunit.org
+   Copyright (c) 2002-2008 Charlie Poole
+   Copyright (c) 2002-2004 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov
+   Copyright (c) 2000-2002 Philip A. Craig
+   The NUnit license is based on the open source zlib/libpng license.
+   http://www.opensource.org/licenses/zlib-license.html
+   
+ - sones GraphDB for the fundamental understanding of graphs
    http://github.com/sones/sones
+   Copyright (c) 2007-2010 sones GmbH
+   http://www.gnu.org/licenses/agpl.html
