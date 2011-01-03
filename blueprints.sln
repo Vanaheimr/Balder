@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+# Visual C# Express 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "blueprints", "blueprints\blueprints.csproj", "{B9DE4181-416E-4DE4-A983-B90FC9412774}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{CD29E0E7-554A-4FE6-9FE5-8867B8EAFAD8}"
@@ -8,8 +8,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InMemoryGraph", "InMemoryGraph\InMemoryGraph.csproj", "{D4D2ACAD-FF2E-44AD-9D4A-6E332C246FAD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialGraphDemo", "SocialGraphDemo\SocialGraphDemo.csproj", "{6505C750-8B3B-4053-AFE7-59EF46CF0C10}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RexsterGraph", "RexsterGraph\RexsterGraph.csproj", "{02189025-118D-490D-9D28-8767D7F1963C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,16 +65,6 @@ Global
 		{6505C750-8B3B-4053-AFE7-59EF46CF0C10}.Release|Mixed Platforms.Build.0 = Release|x86
 		{6505C750-8B3B-4053-AFE7-59EF46CF0C10}.Release|x86.ActiveCfg = Release|x86
 		{6505C750-8B3B-4053-AFE7-59EF46CF0C10}.Release|x86.Build.0 = Release|x86
-		{02189025-118D-490D-9D28-8767D7F1963C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{02189025-118D-490D-9D28-8767D7F1963C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{02189025-118D-490D-9D28-8767D7F1963C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{02189025-118D-490D-9D28-8767D7F1963C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{02189025-118D-490D-9D28-8767D7F1963C}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{02189025-118D-490D-9D28-8767D7F1963C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{02189025-118D-490D-9D28-8767D7F1963C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{02189025-118D-490D-9D28-8767D7F1963C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{02189025-118D-490D-9D28-8767D7F1963C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{02189025-118D-490D-9D28-8767D7F1963C}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
