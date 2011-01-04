@@ -199,12 +199,15 @@ namespace de.ahzf.blueprints
 
             #region Scan files of implementations of T
 
-            Parallel.ForEach(_ConcurrentBag, _File =>
+			Parallel.ForEach(_ConcurrentBag, _File =>
             {
-
+				
+				Console.WriteLine(_File);
+				
                 try
                 {
 
+				  if (_File != null)
                     foreach (var _ActualType in Assembly.LoadFrom(_File).GetTypes())
                     {
 
