@@ -42,10 +42,10 @@ namespace de.ahzf.blueprints
         /// If the identifier is a vertex (perhaps from another graph),
         /// then the vertex is duplicated for this graph. Thus, a vertex can not be an identifier.
         /// </summary>
-        /// <param name="myVertexId">the recommended object identifier.</param>
-        /// <param name="myVertexInitializer">A delegate to initialize the new vertex.</param>
-        /// <returns>the newly created vertex or the vertex already referenced by the provided identifier.</returns>
-        IVertex AddVertex(VertexId myVertexId = null, Action<IVertex> myVertexInitializer = null);
+        /// <param name="VertexId">The recommended object identifier.</param>
+        /// <param name="VertexInitializer">A delegate to initialize the new vertex.</param>
+        /// <returns>The newly created vertex or the vertex already referenced by the provided identifier.</returns>
+        IVertex AddVertex(VertexId VertexId = null, Action<IVertex> VertexInitializer = null);
 
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace de.ahzf.blueprints
         /// Remove the provided vertex from the graph.
         /// Upon removing the vertex, all the edges by which the vertex is connected will be removed as well.
         /// </summary>
-        /// <param name="myIVertex">vertex the vertex to remove from the graph</param>
+        /// <param name="myIVertex">The vertex to be removed from the graph</param>
         void RemoveVertex(IVertex myIVertex);
 
 
@@ -80,13 +80,13 @@ namespace de.ahzf.blueprints
         /// Add an edge to the graph. The added edges requires a recommended identifier, a tail vertex, an head vertex, and a label.
         /// Like adding a vertex, the provided object identifier is can be ignored by the implementation.
         /// </summary>
-        /// <param name="myEdgeId">the recommended object identifier.</param>
-        /// <param name="myOutVertex">the vertex on the tail of the edge.</param>
-        /// <param name="myInVertex">the vertex on the head of the edge.</param>
-        /// <param name="myLabel">the label associated with the edge.</param>
-        /// <param name="myEdgeInitializer">A delegate to initialize the new edge.</param>
-        /// <returns>the newly created edge</returns>
-        IEdge AddEdge(IVertex myOutVertex, IVertex myInVertex, EdgeId myEdgeId = null, String myLabel = null, Action<IEdge> myEdgeInitializer = null);
+        /// <param name="myOutVertex">The vertex on the tail of the edge.</param>
+        /// <param name="myInVertex">The vertex on the head of the edge.</param>
+        /// <param name="EdgeId">The recommended object identifier.</param>
+        /// <param name="Label">The label associated with the edge.</param>
+        /// <param name="EdgeInitializer">A delegate to initialize the new edge.</param>
+        /// <returns>The newly created edge</returns>
+        IEdge AddEdge(IVertex myOutVertex, IVertex myInVertex, EdgeId EdgeId = null, String Label = null, Action<IEdge> EdgeInitializer = null);
 
 
         /// <summary>
@@ -109,7 +109,7 @@ namespace de.ahzf.blueprints
         /// <summary>
         /// Remove the provided edge from the graph.
         /// </summary>
-        /// <param name="myIEdge">the edge to be removed from the graph</param>
+        /// <param name="myIEdge">The edge to be removed from the graph</param>
         void RemoveEdge(IEdge myIEdge);
 
 
