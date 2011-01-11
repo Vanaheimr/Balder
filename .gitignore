@@ -1,8 +1,8 @@
 *.pidb
 *.VisualState.xml
+*.suo
 /blueprints/bin
 /blueprints/obj
-/blueprints.suo
 /InMemoryGraph/bin
 /InMemoryGraph/obj
 /UnitTests/bin

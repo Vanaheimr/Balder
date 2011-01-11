@@ -38,6 +38,7 @@ namespace de.ahzf.blueprints.InMemoryGraph
     public abstract class AElement : DynamicObject, IElement
     {
 
+
         #region Data
 
         /// <summary>
@@ -267,7 +268,7 @@ namespace de.ahzf.blueprints.InMemoryGraph
         #region GetDynamicMemberNames()
 
         /// <summary>
-        /// Returns an enumeration of all property keys
+        /// Returns an enumeration of all property keys.
         /// </summary>
         public override IEnumerable<String> GetDynamicMemberNames()
         {

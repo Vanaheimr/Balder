@@ -201,48 +201,55 @@ namespace de.ahzf.blueprints
 
 			Parallel.ForEach(_ConcurrentBag, _File =>
             {
-				
-				Console.WriteLine(_File);
-				
-                try
+
+                if (_File != null)
                 {
 
-				  if (_File != null)
-                    foreach (var _ActualType in Assembly.LoadFrom(_File).GetTypes())
+                    Console.WriteLine(_File);
+
+                    try
                     {
 
-                        if (!_ActualType.IsAbstract &&
-                             _ActualType.IsPublic   &&
-                             _ActualType.IsVisible)
-                        {
-
-                            var _ActualTypeGetInterfaces = _ActualType.GetInterfaces();
-
-                            if (_ActualTypeGetInterfaces != null)
+                        if (_File != null)
+                            foreach (var _ActualType in Assembly.LoadFrom(_File).GetTypes())
                             {
 
-                                foreach (var _Interface in _ActualTypeGetInterfaces)
+                                if (!_ActualType.IsAbstract &&
+                                     _ActualType.IsPublic   &&
+                                     _ActualType.IsVisible)
                                 {
 
-                                    if (_Interface == typeof(T))
+                                    var _ActualTypeGetInterfaces = _ActualType.GetInterfaces();
+
+                                    if (_ActualTypeGetInterfaces != null)
                                     {
 
-                                        try
+                                        foreach (var _Interface in _ActualTypeGetInterfaces)
                                         {
 
-                                            var __Id = _ActualType.Name;
+                                            if (_Interface == typeof(T))
+                                            {
 
-                                            if (myIdentificator != null)
-                                                __Id = myIdentificator(_ActualType);
+                                                try
+                                                {
 
-                                            if (__Id != null && __Id != String.Empty)
-                                                _TypeDictionary.TryAdd(__Id, _ActualType);
+                                                    var __Id = _ActualType.Name;
 
-                                        }
+                                                    if (myIdentificator != null)
+                                                        __Id = myIdentificator(_ActualType);
 
-                                        catch (Exception e)
-                                        {
-                                            throw new AutoDiscoveryException("Could not activate or register " + typeof(T).Name + "-instance '" + _ActualType.Name + "'!", e);
+                                                    if (__Id != null && __Id != String.Empty)
+                                                        _TypeDictionary.TryAdd(__Id, _ActualType);
+
+                                                }
+
+                                                catch (Exception e)
+                                                {
+                                                    throw new AutoDiscoveryException("Could not activate or register " + typeof(T).Name + "-instance '" + _ActualType.Name + "'!", e);
+                                                }
+
+                                            }
+
                                         }
 
                                     }
@@ -251,15 +258,13 @@ namespace de.ahzf.blueprints
 
                             }
 
-                        }
-
                     }
 
-                }
+                    catch (Exception e)
+                    {
+                        throw new AutoDiscoveryException("Autodiscovering implementations of interface '" + typeof(T).Name + "' within file '" + _File + "' failed!", e);
+                    }
 
-                catch (Exception e)
-                {
-                    throw new AutoDiscoveryException("Autodiscovering implementations of interface '" + typeof(T).Name + "' within file '" + _File + "' failed!", e);
                 }
 
             });
