@@ -179,6 +179,72 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #endregion
 
+
+        #region IEquatable<IEdge> Members
+
+        #region Equals(myObject)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myObject">An object to compare with.</param>
+        /// <returns>true|false</returns>
+        public override Boolean Equals(Object myObject)
+        {
+
+            if (myObject == null)
+                return false;
+
+            var _Object = myObject as IEdge;
+            if (_Object == null)
+                return Equals(_Object);
+
+            return false;
+
+        }
+
+        #endregion
+
+        #region Equals(myIEdge)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myIEdge">An object to compare with.</param>
+        /// <returns>true|false</returns>
+        public Boolean Equals(IEdge myIEdge)
+        {
+
+            if ((Object) myIEdge == null)
+                return false;
+
+            //TODO: Here it might be good to check all attributes of the UNIQUE constraint!
+            return (this.Id == myIEdge.Id);
+
+        }
+
+        #endregion
+
+        #endregion
+
+        #region GetHashCode()
+
+        /// <summary>
+        /// Return the HashCode of this object.
+        /// </summary>
+        /// <returns>The HashCode of this object.</returns>
+        public override Int32 GetHashCode()
+        {
+
+            if (Id == null)
+                return 0;
+
+            return Id.GetHashCode();
+
+        }
+
+        #endregion
+
     }
 
 }

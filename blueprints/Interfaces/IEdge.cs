@@ -18,6 +18,7 @@
 #region Usings
 
 using System;
+
 using de.ahzf.blueprints.Datastructures;
 
 #endregion
@@ -34,7 +35,7 @@ namespace de.ahzf.blueprints
     /// between the two vertices.
     /// Diagrammatically, outVertex ---label---> inVertex.
     /// </summary>
-    public interface IEdge : IElement
+    public interface IEdge : IElement, IEquatable<IEdge>
     {
 
         #region Properties

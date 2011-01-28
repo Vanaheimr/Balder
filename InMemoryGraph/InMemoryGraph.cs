@@ -253,12 +253,11 @@ namespace de.ahzf.blueprints.InMemoryGraph
         public IEnumerable<IEdge> GetEdges(Func<IEdge, Boolean> myEdgeFilter = null)
         {
 
-            if (myEdgeFilter == null)
-                foreach (var _IEdge in _Edges.Values)
+            foreach (var _IEdge in _Edges.Values)
+                if (myEdgeFilter == null)
                     yield return _IEdge;
 
-            foreach (var _IEdge in _Edges.Values)
-                if (myEdgeFilter(_IEdge))
+                else if (myEdgeFilter(_IEdge))
                     yield return _IEdge;
 
         }

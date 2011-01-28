@@ -201,6 +201,72 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #endregion
 
+
+        #region IEquatable<IVertex> Members
+
+        #region Equals(myObject)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myObject">An object to compare with.</param>
+        /// <returns>true|false</returns>
+        public override Boolean Equals(Object myObject)
+        {
+
+            if (myObject == null)
+                return false;
+
+            var _Object = myObject as IVertex;
+            if (_Object == null)
+                return Equals(_Object);
+
+            return false;
+
+        }
+
+        #endregion
+
+        #region Equals(myIVertex)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myIVertex">An object to compare with.</param>
+        /// <returns>true|false</returns>
+        public Boolean Equals(IVertex myIVertex)
+        {
+
+            if ((Object) myIVertex == null)
+                return false;
+
+            //TODO: Here it might be good to check all attributes of the UNIQUE constraint!
+            return (this.Id == myIVertex.Id);
+
+        }
+
+        #endregion
+
+        #endregion
+
+        #region GetHashCode()
+
+        /// <summary>
+        /// Return the HashCode of this object.
+        /// </summary>
+        /// <returns>The HashCode of this object.</returns>
+        public override Int32 GetHashCode()
+        {
+
+            if (Id == null)
+                return 0;
+
+            return Id.GetHashCode();
+
+        }
+
+        #endregion
+
     }
 
 }

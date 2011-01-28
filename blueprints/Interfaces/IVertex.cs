@@ -17,7 +17,9 @@
 
 #region Usings
 
+using System;
 using System.Collections.Generic;
+
 using de.ahzf.blueprints.Datastructures;
 
 #endregion
@@ -31,7 +33,7 @@ namespace de.ahzf.blueprints
     /// The incoming edges are those edges for which the vertex is the head.
     /// Diagrammatically, ---inEdges---> vertex ---outEdges--->.
     /// </summary>
-    public interface IVertex : IElement
+    public interface IVertex : IElement, IEquatable<IVertex>
     {
 
         #region Properties
