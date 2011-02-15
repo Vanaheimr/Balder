@@ -18,6 +18,7 @@
 #region Usings
 
 using System;
+using System.Linq;
 using System.Collections.Generic;
 
 using de.ahzf.blueprints.Datastructures;
@@ -135,6 +136,19 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #endregion
 
+        #region GetOutEdges(myLabel)
+
+        /// <summary>
+        /// The edges emanating from, or leaving, this vertex
+        /// filtered by their label.
+        /// </summary>
+        public IEnumerable<IEdge> GetOutEdges(String myLabel)
+        {
+            return from _Edge in _OutEdges where _Edge.Label == myLabel select _Edge;
+        }
+
+        #endregion
+
         #region RemoveOutEdge(myIEdge)
 
         /// <summary>
@@ -179,6 +193,19 @@ namespace de.ahzf.blueprints.InMemoryGraph
             {
                 return _InEdges;
             }
+        }
+
+        #endregion
+
+        #region GetInEdges(myLabel)
+
+        /// <summary>
+        /// The edges incoming to, or arriving at, this vertex
+        /// filtered by their label.
+        /// </summary>
+        public IEnumerable<IEdge> GetInEdges(String myLabel)
+        {
+            return from _Edge in _InEdges where _Edge.Label == myLabel select _Edge;
         }
 
         #endregion
@@ -266,6 +293,7 @@ namespace de.ahzf.blueprints.InMemoryGraph
         }
 
         #endregion
+
 
     }
 

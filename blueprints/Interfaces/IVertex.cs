@@ -61,6 +61,12 @@ namespace de.ahzf.blueprints
         IEnumerable<IEdge> OutEdges { get; }
 
         /// <summary>
+        /// The edges emanating from, or leaving, this vertex
+        /// filtered by their label.
+        /// </summary>
+        IEnumerable<IEdge> GetOutEdges(String myLabel);
+
+        /// <summary>
         /// Remove an outgoing edge.
         /// </summary>
         /// <param name="myIEdge">The edge to remove.</param>
@@ -78,6 +84,12 @@ namespace de.ahzf.blueprints
         /// The edges incoming to, or arriving at, this vertex.
         /// </summary>
         IEnumerable<IEdge> InEdges { get; }
+
+        /// <summary>
+        /// The edges incoming to, or arriving at, this vertex
+        /// filtered by their label.
+        /// </summary>
+        IEnumerable<IEdge> GetInEdges(String myLabel);
 
         /// <summary>
         /// Remove an incoming edge.
