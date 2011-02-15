@@ -58,6 +58,13 @@ namespace de.ahzf.blueprints
 
 
         /// <summary>
+        /// Return a collection of vertices referenced by the given array of vertex identifiers.
+        /// </summary>
+        /// <param name="myVertexIds">An array of vertex identifiers.</param>
+        IEnumerable<IVertex> GetVertices(params VertexId[] myVertexIds);
+
+
+        /// <summary>
         /// Get an enumeration of all vertices in the graph.
         /// An additional vertex filter may be applied for filtering.
         /// </summary>
@@ -97,6 +104,12 @@ namespace de.ahzf.blueprints
         /// <returns>The edge referenced by the provided identifier or null when no such edge exists.</returns>
         IEdge GetEdge(EdgeId myEdgeId);
 
+        /// <summary>
+        /// Get an enumeration of all edges in the graph.
+        /// An additional edge filter may be applied for filtering.
+        /// </summary>
+        /// <param name="myEdgeIds">An array of edge identifiers.</param>
+        IEnumerable<IEdge> GetEdges(params EdgeId[] myEdgeIds);
 
         /// <summary>
         /// Get an enumeration of all edges in the graph.

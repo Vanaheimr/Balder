@@ -114,6 +114,29 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #endregion
 
+        #region GetVertices(params myVertexIds)
+
+        /// <summary>
+        /// Get an enumeration of all vertices in the graph.
+        /// An additional vertex filter may be applied for filtering.
+        /// </summary>
+        /// <param name="myVertexIds">An array of vertex identifiers.</param>
+        public IEnumerable<IVertex> GetVertices(params VertexId[] myVertexIds)
+        {
+
+            IVertex _IVertex = null;
+
+            foreach (var _IVertexId in myVertexIds)
+                if (_IVertexId != null)
+                {
+                    _Vertices.TryGetValue(_IVertexId, out _IVertex);
+                    yield return _IVertex;
+                }
+
+        }
+
+        #endregion
+
         #region GetVertices(myVertexFilter = null)
 
         /// <summary>
@@ -238,6 +261,29 @@ namespace de.ahzf.blueprints.InMemoryGraph
             _Edges.TryGetValue(myEdgeId, out _IEdge);
 
             return _IEdge;
+
+        }
+
+        #endregion
+
+        #region GetEdges(params myEdgeIds)
+
+        /// <summary>
+        /// Get an enumeration of all edges in the graph.
+        /// An additional edge filter may be applied for filtering.
+        /// </summary>
+        /// <param name="myEdgeIds">An array of edge identifiers.</param>
+        public IEnumerable<IEdge> GetEdges(params EdgeId[] myEdgeIds)
+        {
+
+            IEdge _IEdge = null;
+
+            foreach (var _IEdgeId in myEdgeIds)
+                if (_IEdgeId != null)
+                {
+                    _Edges.TryGetValue(_IEdgeId, out _IEdge);
+                    yield return _IEdge;
+                }
 
         }
 

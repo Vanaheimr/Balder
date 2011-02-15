@@ -211,10 +211,11 @@ namespace de.ahzf.blueprints
             {
                 return (TValue) myIElement.GetProperty(myKey);
             }
-            catch
-            { }
 
-            return default(TValue);
+            catch (Exception)
+            {
+                throw new Exception("Graph property '" + myKey + "' could not be casted to '" + typeof(TValue) + "'!");
+            }
 
         }
 
@@ -354,6 +355,25 @@ namespace de.ahzf.blueprints
             }
 
             return true;
+
+        }
+
+        #endregion
+
+
+        #region AsList<TValue>(this myIElement)
+
+        /// <summary>
+        /// Return the given object as an IEnumerable of its type.
+        /// </summary>
+        /// <typeparam name="TValue">The type the object.</typeparam>
+        /// <param name="myIElement">An object implementing IElement.</param>
+        /// <returns>The given object as an IEnumerable of its type.</returns>
+        public static IEnumerable<TValue> AsList<TValue>(this TValue myIElement)
+            where TValue : IElement
+        {
+
+            return new List<TValue>() { myIElement };
 
         }
 
