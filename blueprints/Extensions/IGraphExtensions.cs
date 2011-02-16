@@ -18,7 +18,9 @@
 #region Usings
 
 using System;
+using System.Linq;
 using System.Reflection;
+using System.Collections.Generic;
 
 using de.ahzf.blueprints.Datastructures;
 
@@ -275,6 +277,76 @@ namespace de.ahzf.blueprints
             where TEdge : class, IVertex
         {
             return myIGraph.GetEdge(myEdgeId) as TEdge;
+        }
+
+        #endregion
+
+
+        #region VId(this myIGraph, params myVertexIds)
+
+        /// <summary>
+        /// Transforms the given array of UInt64 into an array of
+        /// VertexIds and returns a collection of IVertex objects
+        /// for them.
+        /// </summary>
+        /// <param name="myIGraph">A Blueprints graph.</param>
+        /// <param name="myVertexIds">An array of unsigned intergers which can be transfored to VertexIds.</param>
+        /// <returns>A collection of IVertex objects.</returns>
+        public static IEnumerable<IVertex> VId(this IGraph myIGraph, params UInt64[] myVertexIds)
+        {
+            return myIGraph.GetVertices((from _VId in myVertexIds select new VertexId(_VId)).ToArray());
+        }
+
+        #endregion
+
+        #region VId(this myIGraph, params myVertexIds)
+
+        /// <summary>
+        /// Transforms the given array of strings into an array of
+        /// VertexIds and returns a collection of IVertex objects
+        /// for them.
+        /// </summary>
+        /// <param name="myIGraph">A Blueprints graph.</param>
+        /// <param name="myVertexIds">An array of strings which can be transfored to VertexIds.</param>
+        /// <returns>A collection of IVertex objects.</returns>
+        public static IEnumerable<IVertex> VId(this IGraph myIGraph, params String[] myVertexIds)
+        {
+            return myIGraph.GetVertices((from _VId in myVertexIds select new VertexId(_VId)).ToArray());
+        }
+
+        #endregion
+
+
+        #region EId(this myIGraph, params myEdgeIds)
+
+        /// <summary>
+        /// Transforms the given array of UInt64 into an array of
+        /// myEdgeIds and returns a collection of IEdge objects
+        /// for them.
+        /// </summary>
+        /// <param name="myIGraph">A Blueprints graph.</param>
+        /// <param name="myEdgeIds">An array of unsigned intergers which can be transfored to myEdgeIds.</param>
+        /// <returns>A collection of IEdge objects.</returns>
+        public static IEnumerable<IEdge> EId(this IGraph myIGraph, params UInt64[] myEdgeIds)
+        {
+            return myIGraph.GetEdges((from _EId in myEdgeIds select new EdgeId(_EId)).ToArray());
+        }
+
+        #endregion
+
+        #region EId(this myIGraph, params myEdgeIds)
+
+        /// <summary>
+        /// Transforms the given array of strings into an array of
+        /// myEdgeIds and returns a collection of IEdge objects
+        /// for them.
+        /// </summary>
+        /// <param name="myIGraph">A Blueprints graph.</param>
+        /// <param name="myEdgeIds">An array of strings which can be transfored to myEdgeIds.</param>
+        /// <returns>A collection of IEdge objects.</returns>
+        public static IEnumerable<IEdge> EId(this IGraph myIGraph, params String[] myEdgeIds)
+        {
+            return myIGraph.GetEdges((from _EId in myEdgeIds select new EdgeId(_EId)).ToArray());
         }
 
         #endregion

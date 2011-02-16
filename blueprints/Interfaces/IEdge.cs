@@ -38,16 +38,7 @@ namespace de.ahzf.blueprints
     public interface IEdge : IElement, IEquatable<IEdge>
     {
 
-        #region Properties
-
-        /// <summary>
-        /// An identifier that is unique to its inheriting class.
-        /// All vertices and edges of a graph must have unique identifiers.
-        /// </summary>
-        /// <returns>the identifier of the element</returns>
-        new EdgeId Id { get; }
-
-        #endregion
+        #region Vertices
 
         /// <summary>
         /// Return the vertex at the tail of the edge.
@@ -60,11 +51,24 @@ namespace de.ahzf.blueprints
         /// </summary>
         IVertex InVertex { get; }
 
+        #endregion
+
+        #region Edge properties
+
+        /// <summary>
+        /// An identifier that is unique to its inheriting class.
+        /// All vertices and edges of a graph must have unique identifiers.
+        /// </summary>
+        /// <returns>the identifier of the element</returns>
+        new EdgeId Id { get; }
+
 
         /// <summary>
         /// Return the label associated with the edge.
         /// </summary>
         String Label { get; }
+
+        #endregion
 
     }
 
