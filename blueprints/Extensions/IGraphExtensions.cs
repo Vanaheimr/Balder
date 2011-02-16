@@ -282,7 +282,7 @@ namespace de.ahzf.blueprints
         #endregion
 
 
-        #region VId(this myIGraph, params myVertexIds)
+        #region VertexId(this myIGraph, params myVertexIds)
 
         /// <summary>
         /// Transforms the given array of UInt64 into an array of
@@ -292,14 +292,14 @@ namespace de.ahzf.blueprints
         /// <param name="myIGraph">A Blueprints graph.</param>
         /// <param name="myVertexIds">An array of unsigned intergers which can be transfored to VertexIds.</param>
         /// <returns>A collection of IVertex objects.</returns>
-        public static IEnumerable<IVertex> VId(this IGraph myIGraph, params UInt64[] myVertexIds)
+        public static IEnumerable<IVertex> VertexId(this IGraph myIGraph, params UInt64[] myVertexIds)
         {
             return myIGraph.GetVertices((from _VId in myVertexIds select new VertexId(_VId)).ToArray());
         }
 
         #endregion
 
-        #region VId(this myIGraph, params myVertexIds)
+        #region VertexId(this myIGraph, params myVertexIds)
 
         /// <summary>
         /// Transforms the given array of strings into an array of
@@ -309,7 +309,7 @@ namespace de.ahzf.blueprints
         /// <param name="myIGraph">A Blueprints graph.</param>
         /// <param name="myVertexIds">An array of strings which can be transfored to VertexIds.</param>
         /// <returns>A collection of IVertex objects.</returns>
-        public static IEnumerable<IVertex> VId(this IGraph myIGraph, params String[] myVertexIds)
+        public static IEnumerable<IVertex> VertexId(this IGraph myIGraph, params String[] myVertexIds)
         {
             return myIGraph.GetVertices((from _VId in myVertexIds select new VertexId(_VId)).ToArray());
         }
@@ -317,7 +317,7 @@ namespace de.ahzf.blueprints
         #endregion
 
 
-        #region EId(this myIGraph, params myEdgeIds)
+        #region EdgeId(this myIGraph, params myEdgeIds)
 
         /// <summary>
         /// Transforms the given array of UInt64 into an array of
@@ -327,14 +327,14 @@ namespace de.ahzf.blueprints
         /// <param name="myIGraph">A Blueprints graph.</param>
         /// <param name="myEdgeIds">An array of unsigned intergers which can be transfored to myEdgeIds.</param>
         /// <returns>A collection of IEdge objects.</returns>
-        public static IEnumerable<IEdge> EId(this IGraph myIGraph, params UInt64[] myEdgeIds)
+        public static IEnumerable<IEdge> EdgeId(this IGraph myIGraph, params UInt64[] myEdgeIds)
         {
             return myIGraph.GetEdges((from _EId in myEdgeIds select new EdgeId(_EId)).ToArray());
         }
 
         #endregion
 
-        #region EId(this myIGraph, params myEdgeIds)
+        #region EdgeId(this myIGraph, params myEdgeIds)
 
         /// <summary>
         /// Transforms the given array of strings into an array of
@@ -344,7 +344,7 @@ namespace de.ahzf.blueprints
         /// <param name="myIGraph">A Blueprints graph.</param>
         /// <param name="myEdgeIds">An array of strings which can be transfored to myEdgeIds.</param>
         /// <returns>A collection of IEdge objects.</returns>
-        public static IEnumerable<IEdge> EId(this IGraph myIGraph, params String[] myEdgeIds)
+        public static IEnumerable<IEdge> EdgeId(this IGraph myIGraph, params String[] myEdgeIds)
         {
             return myIGraph.GetEdges((from _EId in myEdgeIds select new EdgeId(_EId)).ToArray());
         }
