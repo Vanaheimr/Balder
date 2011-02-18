@@ -118,7 +118,7 @@ namespace de.ahzf.blueprints
         #endregion
 
 
-        #region AddEdge(this myIGraph, myOutVertex, myInVertex, myEdgeId = null, myLabel = null, myEdgeInitializer = null)
+        #region AddEdge(this myIGraph, myOutVertexId, myInVertexId, myEdgeId = null, myLabel = null, myEdgeInitializer = null)
 
         /// <summary>
         /// Adds an edge to the graph using the given myEdgeId and initializes
@@ -216,7 +216,7 @@ namespace de.ahzf.blueprints
 
         #endregion
 
-        #region AddEdge<TEdge>(this myIGraph, myOutVertex, myInVertex, myEdgeId = null, myLabel = null, myEdgeInitializer = null)
+        #region AddEdge<TEdge>(this myIGraph, myOutVertexId, myInVertexId, myEdgeId = null, myLabel = null, myEdgeInitializer = null)
 
         /// <summary>
         /// Adds an edge to the graph using the given myEdgeId and initializes
@@ -256,6 +256,89 @@ namespace de.ahzf.blueprints
 
 
             return myIGraph.AddEdge<TEdge>(myOutVertex, myInVertex, myEdgeId, myLabel, myEdgeInitializer);
+
+
+        }
+
+        #endregion
+
+
+        #region AddDoubleEdge(this myIGraph, myOutVertex, myInVertex, myEdgeId1 = null, myEdgeId2 = null, myLabel = null, myEdgeInitializer = null)
+
+        /// <summary>
+        /// Adds an edge to the graph using the given myEdgeId and initializes
+        /// its properties by invoking the given edge initializer.
+        /// </summary>
+        /// <param name="myIGraph"></param>
+        /// <param name="myOutVertex"></param>
+        /// <param name="myInVertex"></param>
+        /// <param name="myEdgeId1">A EdgeId. If none was given a new one will be generated.</param>
+        /// <param name="myEdgeId2">A EdgeId. If none was given a new one will be generated.</param>
+        /// <param name="myLabel"></param>
+        /// <param name="myEdgeInitializer">A delegate to initialize the newly generated edge.</param>
+        /// <returns>Both new edges.</returns>
+        public static Tuple<IEdge, IEdge> AddDoubleEdge(this IGraph myIGraph, IVertex myOutVertex, IVertex myInVertex, EdgeId myEdgeId1 = null, EdgeId myEdgeId2 = null, String myLabel = null, Action<IEdge> myEdgeInitializer = null)
+        {
+
+            if (myIGraph == null)
+                throw new ArgumentNullException("myIGraph must not be null!");
+
+            if (myOutVertex == null)
+                throw new ArgumentNullException("myOutVertex must not be null!");
+
+            if (myInVertex == null)
+                throw new ArgumentNullException("myInVertex must not be null!");
+
+
+            return new Tuple<IEdge, IEdge>(myIGraph.AddEdge(myOutVertex, myInVertex, myEdgeId1, myLabel, myEdgeInitializer),
+                                           myIGraph.AddEdge(myInVertex, myOutVertex, myEdgeId2, myLabel, myEdgeInitializer));
+
+
+        }
+
+        #endregion
+
+        #region AddDoubleEdge(this myIGraph, myOutVertexId, myInVertexId, myEdgeId1 = null, myEdgeId2 = null, myLabel = null, myEdgeInitializer = null)
+
+        /// <summary>
+        /// Adds an edge to the graph using the given myEdgeId and initializes
+        /// its properties by invoking the given edge initializer.
+        /// </summary>
+        /// <param name="myIGraph"></param>
+        /// <param name="myOutVertexId"></param>
+        /// <param name="myInVertexId"></param>
+        /// <param name="myEdgeId1">A EdgeId. If none was given a new one will be generated.</param>
+        /// <param name="myEdgeId2">A EdgeId. If none was given a new one will be generated.</param>
+        /// <param name="myLabel"></param>
+        /// <param name="myEdgeInitializer">A delegate to initialize the newly generated edge.</param>
+        /// <returns>Both new edges.</returns>
+        public static Tuple<IEdge, IEdge> AddDoubleEdge(this IGraph myIGraph, VertexId myOutVertexId, VertexId myInVertexId, EdgeId myEdgeId1 = null, EdgeId myEdgeId2 = null, String myLabel = null, Action<IEdge> myEdgeInitializer = null)
+        {
+
+            if (myIGraph == null)
+                throw new ArgumentNullException("myIGraph must not be null!");
+
+            if (myOutVertexId == null)
+                throw new ArgumentNullException("myOutVertexId must not be null!");
+
+            if (myInVertexId == null)
+                throw new ArgumentNullException("myInVertexId must not be null!");
+
+
+            var myOutVertex = myIGraph.GetVertex(myOutVertexId);
+
+            if (myOutVertex == null)
+                throw new ArgumentException("VertexId '" + myOutVertexId + "' is unknown!");
+
+
+            var myInVertex = myIGraph.GetVertex(myInVertexId);
+
+            if (myInVertex == null)
+                throw new ArgumentException("VertexId '" + myInVertexId + "' is unknown!");
+
+
+            return new Tuple<IEdge, IEdge>(myIGraph.AddEdge(myOutVertex, myInVertex, myEdgeId1, myLabel, myEdgeInitializer),
+                                           myIGraph.AddEdge(myInVertex, myOutVertex, myEdgeId2, myLabel, myEdgeInitializer));
 
 
         }
