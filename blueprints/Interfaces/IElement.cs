@@ -33,7 +33,7 @@ namespace de.ahzf.blueprints
     /// Keys are always strings and values can be any object.
     /// Particular implementations can reduce the space of objects that can be used as values.
     /// </summary>
-    public interface IElement : IEnumerable<KeyValuePair<String, Object>>, IEquatable<IElement>
+    public interface IElement : IEnumerable<KeyValuePair<String, Object>>, IEquatable<IElement>, IComparable<IElement>, IComparable
     {
 
         #region Properties

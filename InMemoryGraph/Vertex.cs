@@ -229,6 +229,55 @@ namespace de.ahzf.blueprints.InMemoryGraph
         #endregion
 
 
+        #region IComparable<IVertex> Members
+
+        #region CompareTo(myObject)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myObject">An object to compare with.</param>
+        /// <returns>true|false</returns>
+        public override Int32 CompareTo(Object myObject)
+        {
+
+            // Check if myObject is null
+            if (myObject == null)
+                throw new ArgumentNullException("myObject must not be null!");
+
+            // Check if myObject can be casted to an IEdge object
+            var myIVertex = myObject as IVertex;
+            if ((Object) myIVertex == null)
+                throw new ArgumentException("myObject is not of type myIVertex!");
+
+            return CompareTo(myIVertex);
+
+        }
+
+        #endregion
+
+        #region CompareTo(myIVertex)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myIVertex">An object to compare with.</param>
+        /// <returns>true|false</returns>
+        public Int32 CompareTo(IVertex myIVertex)
+        {
+
+            // Check if myIVertex is null
+            if (myIVertex == null)
+                throw new ArgumentNullException("myIVertex must not be null!");
+
+            return Id.CompareTo(myIVertex.Id);
+
+        }
+
+        #endregion
+
+        #endregion
+
         #region IEquatable<IVertex> Members
 
         #region Equals(myObject)
@@ -293,7 +342,6 @@ namespace de.ahzf.blueprints.InMemoryGraph
         }
 
         #endregion
-
 
     }
 

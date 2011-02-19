@@ -180,6 +180,55 @@ namespace de.ahzf.blueprints.InMemoryGraph
         #endregion
 
 
+        #region IComparable<IVertex> Members
+
+        #region CompareTo(myObject)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myObject">An object to compare with.</param>
+        /// <returns>true|false</returns>
+        public override Int32 CompareTo(Object myObject)
+        {
+
+            // Check if myObject is null
+            if (myObject == null)
+                throw new ArgumentNullException("myObject must not be null!");
+
+            // Check if myObject can be casted to an IEdge object
+            var myIEdge = myObject as IEdge;
+            if ((Object) myIEdge == null)
+                throw new ArgumentException("myObject is not of type IEdge!");
+
+            return CompareTo(myIEdge);
+
+        }
+
+        #endregion
+
+        #region CompareTo(myIEdge)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myIEdge">An object to compare with.</param>
+        /// <returns>true|false</returns>
+        public Int32 CompareTo(IEdge myIEdge)
+        {
+
+            // Check if myIEdge is null
+            if (myIEdge == null)
+                throw new ArgumentNullException("myIEdge must not be null!");
+
+            return Id.CompareTo(myIEdge.Id);
+
+        }
+
+        #endregion
+
+        #endregion
+
         #region IEquatable<IEdge> Members
 
         #region Equals(myObject)

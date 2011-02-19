@@ -458,6 +458,42 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #endregion
 
+
+        #region IComparable<IElement> Members
+
+        #region CompareTo(myObject)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myObject">An object to compare with.</param>
+        /// <returns>true|false</returns>
+        public abstract Int32 CompareTo(Object myObject);
+
+        #endregion
+
+        #region CompareTo(myIElement)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myIElement">An object to compare with.</param>
+        /// <returns>true|false</returns>
+        public Int32 CompareTo(IElement myIElement)
+        {
+
+            // Check if myIElement is null
+            if (myIElement == null)
+                throw new ArgumentNullException("myIElement must not be null!");
+
+            return Id.CompareTo(myIElement.Id);
+
+        }
+
+        #endregion
+
+        #endregion
+
         #region IEquatable<IElement> Members
 
         #region Equals(myObject)

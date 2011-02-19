@@ -35,7 +35,7 @@ namespace de.ahzf.blueprints
     /// between the two vertices.
     /// Diagrammatically, outVertex ---label---> inVertex.
     /// </summary>
-    public interface IEdge : IElement, IEquatable<IEdge>
+    public interface IEdge : IElement, IEquatable<IEdge>, IComparable<IEdge>, IComparable
     {
 
         #region Vertices

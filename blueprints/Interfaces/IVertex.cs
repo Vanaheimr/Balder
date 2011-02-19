@@ -33,7 +33,7 @@ namespace de.ahzf.blueprints
     /// The incoming edges are those edges for which the vertex is the head.
     /// Diagrammatically, ---inEdges---> vertex ---outEdges--->.
     /// </summary>
-    public interface IVertex : IElement, IEquatable<IVertex>
+    public interface IVertex : IElement, IEquatable<IVertex>, IComparable<IVertex>, IComparable
     {
 
         #region Properties
