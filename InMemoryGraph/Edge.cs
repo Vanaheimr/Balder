@@ -180,6 +180,130 @@ namespace de.ahzf.blueprints.InMemoryGraph
         #endregion
 
 
+        #region Operator overloading
+
+        #region Operator == (myEdge1, myIElement2)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myEdge1">A Edge.</param>
+        /// <param name="myIElement2">A IElement.</param>
+        /// <returns>true|false</returns>
+        public static Boolean operator == (Edge myEdge1, IElement myIElement2)
+        {
+
+            // If both are null, or both are same instance, return true.
+            if (Object.ReferenceEquals(myEdge1, myIElement2))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (((Object) myEdge1 == null) || ((Object) myIElement2 == null))
+                return false;
+
+            return myEdge1.Equals(myIElement2);
+
+        }
+
+        #endregion
+
+        #region Operator != (myEdge1, myIElement2)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myEdge1">A Edge.</param>
+        /// <param name="myIElement2">A IElement.</param>
+        /// <returns>true|false</returns>
+        public static Boolean operator != (Edge myEdge1, IElement myIElement2)
+        {
+            return !(myEdge1 == myIElement2);
+        }
+
+        #endregion
+
+        #region Operator <  (myEdge1, myEdge2)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myEdge1">A Edge.</param>
+        /// <param name="myEdge2">Another Edge.</param>
+        /// <returns>true|false</returns>
+        public static Boolean operator < (Edge myEdge1, Edge myEdge2)
+        {
+
+            // Check if myEdge1 is null
+            if ((Object) myEdge1 == null)
+                throw new ArgumentNullException("Parameter myEdge1 must not be null!");
+
+            // Check if myEdge2 is null
+            if ((Object) myEdge2 == null)
+                throw new ArgumentNullException("Parameter myEdge2 must not be null!");
+
+            return myEdge1.CompareTo(myEdge2) < 0;
+
+        }
+
+        #endregion
+
+        #region Operator >  (myEdge1, myEdge2)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myEdge1">A Edge.</param>
+        /// <param name="myEdge2">Another Edge.</param>
+        /// <returns>true|false</returns>
+        public static Boolean operator > (Edge myEdge1, Edge myEdge2)
+        {
+
+            // Check if myEdge1 is null
+            if ((Object) myEdge1 == null)
+                throw new ArgumentNullException("Parameter myEdge1 must not be null!");
+
+            // Check if myEdge2 is null
+            if ((Object) myEdge2 == null)
+                throw new ArgumentNullException("Parameter myEdge2 must not be null!");
+
+            return myEdge1.CompareTo(myEdge2) > 0;
+
+        }
+
+        #endregion
+
+        #region Operator <= (myEdge1, myEdge2)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myEdge1">A Edge.</param>
+        /// <param name="myEdge2">Another Edge.</param>
+        /// <returns>true|false</returns>
+        public static Boolean operator <= (Edge myEdge1, Edge myEdge2)
+        {
+            return !(myEdge1 > myEdge2);
+        }
+
+        #endregion
+
+        #region Operator >= (myEdge1, myEdge2)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myEdge1">A Edge.</param>
+        /// <param name="myEdge2">Another Edge.</param>
+        /// <returns>true|false</returns>
+        public static Boolean operator >= (Edge myEdge1, Edge myEdge2)
+        {
+            return !(myEdge1 < myEdge2);
+        }
+
+        #endregion
+
+        #endregion
+
         #region IComparable<IVertex> Members
 
         #region CompareTo(myObject)
@@ -245,7 +369,7 @@ namespace de.ahzf.blueprints.InMemoryGraph
                 return false;
 
             var _Object = myObject as IEdge;
-            if (_Object == null)
+            if (_Object != null)
                 return Equals(_Object);
 
             return false;

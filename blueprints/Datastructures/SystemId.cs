@@ -136,7 +136,6 @@ namespace de.ahzf.blueprints.Datastructures
 
         #endregion
 
-
         #region NewSystemId
 
         /// <summary>
@@ -293,8 +292,9 @@ namespace de.ahzf.blueprints.Datastructures
 
         #endregion
 
+        #region IComparable<SystemId> Members
 
-        #region IComparable Members
+        #region CompareTo(myObject)
 
         /// <summary>
         /// Compares two instances of this object.
@@ -319,7 +319,7 @@ namespace de.ahzf.blueprints.Datastructures
 
         #endregion
 
-        #region IComparable<SystemId> Members
+        #region CompareTo(mySystemId)
 
         /// <summary>
         /// Compares two instances of this object.
@@ -336,6 +336,8 @@ namespace de.ahzf.blueprints.Datastructures
             return _ElementId.CompareTo(mySystemId._ElementId);
 
         }
+
+        #endregion
 
         #endregion
 

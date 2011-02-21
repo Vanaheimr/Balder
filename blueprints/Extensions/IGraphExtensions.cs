@@ -193,6 +193,7 @@ namespace de.ahzf.blueprints
                                             typeof(IVertex),
                                             typeof(IVertex),
                                             typeof(EdgeId),
+                                            typeof(String),
                                             typeof(Action<IEdge>)
                                         },
                                         null);

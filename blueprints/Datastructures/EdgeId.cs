@@ -34,7 +34,6 @@ namespace de.ahzf.blueprints.Datastructures
     public class EdgeId : ElementId, IComparable, IComparable<EdgeId>, IEquatable<EdgeId>
     {
 
-
         #region Constructor(s)
 
         #region EdgeId()
@@ -135,7 +134,6 @@ namespace de.ahzf.blueprints.Datastructures
         #endregion
 
         #endregion
-
 
         #region NewEdgeId
 
@@ -293,8 +291,9 @@ namespace de.ahzf.blueprints.Datastructures
 
         #endregion
 
+        #region IComparable<EdgeId> Members
 
-        #region IComparable Members
+        #region CompareTo(myObject)
 
         /// <summary>
         /// Compares two instances of this object.
@@ -319,7 +318,7 @@ namespace de.ahzf.blueprints.Datastructures
 
         #endregion
 
-        #region IComparable<EdgeId> Members
+        #region CompareTo(myEdgeId)
 
         /// <summary>
         /// Compares two instances of this object.
@@ -337,6 +336,8 @@ namespace de.ahzf.blueprints.Datastructures
 
         }
 
+        #endregion
+        
         #endregion
 
         #region IEquatable<EdgeId> Members

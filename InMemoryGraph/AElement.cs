@@ -277,7 +277,6 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #endregion
 
-
         #region DynamicObject Members
 
         #region GetDynamicMemberNames()
@@ -391,6 +390,29 @@ namespace de.ahzf.blueprints.InMemoryGraph
         #endregion
 
 
+        #region IEnumerable Members
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return _Properties.GetEnumerator();
+        }
+
+        #endregion
+
+        #region IEnumerable<KeyValuePair<String, Object>> Members
+
+        /// <summary>
+        /// Returns an enumeration of all properties within this element.
+        /// </summary>
+        /// <returns>An enumeration of all properties within this element.</returns>
+        public IEnumerator<KeyValuePair<String, Object>> GetEnumerator()
+        {
+            return _Properties.GetEnumerator();
+        }
+
+        #endregion
+
+
         #region Operator overloading
 
         #region Operator == (myAElement1, myIElement2)
@@ -434,30 +456,6 @@ namespace de.ahzf.blueprints.InMemoryGraph
         #endregion
 
         #endregion
-
-
-        #region IEnumerable Members
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return _Properties.GetEnumerator();
-        }
-
-        #endregion
-
-        #region IEnumerable<KeyValuePair<String, Object>> Members
-
-        /// <summary>
-        /// Returns an enumeration of all properties within this element.
-        /// </summary>
-        /// <returns>An enumeration of all properties within this element.</returns>
-        public IEnumerator<KeyValuePair<String, Object>> GetEnumerator()
-        {
-            return _Properties.GetEnumerator();
-        }
-
-        #endregion
-
 
         #region IComparable<IElement> Members
 
@@ -533,7 +531,7 @@ namespace de.ahzf.blueprints.InMemoryGraph
                 return false;
 
             //TODO: Here it might be good to check all attributes of the UNIQUE constraint!
-            return (this.Id == myIElement.Id);
+            return (this.Id.Equals(myIElement.Id));
 
         }
 

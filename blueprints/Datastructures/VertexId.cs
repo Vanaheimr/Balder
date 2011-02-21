@@ -34,7 +34,6 @@ namespace de.ahzf.blueprints.Datastructures
     public class VertexId : ElementId, IComparable, IComparable<VertexId>, IEquatable<VertexId>
     {
 
-
         #region Constructor(s)
 
         #region VertexId()
@@ -135,7 +134,6 @@ namespace de.ahzf.blueprints.Datastructures
         #endregion
 
         #endregion
-
 
         #region NewVertexId
 
@@ -293,8 +291,9 @@ namespace de.ahzf.blueprints.Datastructures
 
         #endregion
 
+        #region IComparable<VertexId> Members
 
-        #region IComparable Members
+        #region CompareTo(myObject)
 
         /// <summary>
         /// Compares two instances of this object.
@@ -319,7 +318,7 @@ namespace de.ahzf.blueprints.Datastructures
 
         #endregion
 
-        #region IComparable<VertexId> Members
+        #region CompareTo(myVertexId)
 
         /// <summary>
         /// Compares two instances of this object.
@@ -336,6 +335,8 @@ namespace de.ahzf.blueprints.Datastructures
             return _ElementId.CompareTo(myVertexId._ElementId);
 
         }
+
+        #endregion
 
         #endregion
 
@@ -400,7 +401,6 @@ namespace de.ahzf.blueprints.Datastructures
         }
 
         #endregion
-
 
     }
 

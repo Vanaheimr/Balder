@@ -229,6 +229,130 @@ namespace de.ahzf.blueprints.InMemoryGraph
         #endregion
 
 
+        #region Operator overloading
+
+        #region Operator == (myVertex1, myIElement2)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myVertex1">A Vertex.</param>
+        /// <param name="myIElement2">A IElement.</param>
+        /// <returns>true|false</returns>
+        public static Boolean operator == (Vertex myVertex1, IElement myIElement2)
+        {
+
+            // If both are null, or both are same instance, return true.
+            if (Object.ReferenceEquals(myVertex1, myIElement2))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (((Object) myVertex1 == null) || ((Object) myIElement2 == null))
+                return false;
+
+            return myVertex1.Equals(myIElement2);
+
+        }
+
+        #endregion
+
+        #region Operator != (myVertex1, myIElement2)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myVertex1">A Vertex.</param>
+        /// <param name="myIElement2">A IElement.</param>
+        /// <returns>true|false</returns>
+        public static Boolean operator != (Vertex myVertex1, IElement myIElement2)
+        {
+            return !(myVertex1 == myIElement2);
+        }
+
+        #endregion
+
+        #region Operator <  (myVertex1, myVertex2)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myVertex1">A Vertex.</param>
+        /// <param name="myVertex2">Another Vertex.</param>
+        /// <returns>true|false</returns>
+        public static Boolean operator < (Vertex myVertex1, Vertex myVertex2)
+        {
+
+            // Check if myVertex1 is null
+            if ((Object) myVertex1 == null)
+                throw new ArgumentNullException("Parameter myVertex1 must not be null!");
+
+            // Check if myVertex2 is null
+            if ((Object) myVertex2 == null)
+                throw new ArgumentNullException("Parameter myVertex2 must not be null!");
+
+            return myVertex1.CompareTo(myVertex2) < 0;
+
+        }
+
+        #endregion
+
+        #region Operator >  (myVertex1, myVertex2)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myVertex1">A Vertex.</param>
+        /// <param name="myVertex2">Another Vertex.</param>
+        /// <returns>true|false</returns>
+        public static Boolean operator > (Vertex myVertex1, Vertex myVertex2)
+        {
+
+            // Check if myVertex1 is null
+            if ((Object) myVertex1 == null)
+                throw new ArgumentNullException("Parameter myVertex1 must not be null!");
+
+            // Check if myVertex2 is null
+            if ((Object) myVertex2 == null)
+                throw new ArgumentNullException("Parameter myVertex2 must not be null!");
+
+            return myVertex1.CompareTo(myVertex2) > 0;
+
+        }
+
+        #endregion
+
+        #region Operator <= (myVertex1, myVertex2)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myVertex1">A Vertex.</param>
+        /// <param name="myVertex2">Another Vertex.</param>
+        /// <returns>true|false</returns>
+        public static Boolean operator <= (Vertex myVertex1, Vertex myVertex2)
+        {
+            return !(myVertex1 > myVertex2);
+        }
+
+        #endregion
+
+        #region Operator >= (myVertex1, myVertex2)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myVertex1">A Vertex.</param>
+        /// <param name="myVertex2">Another Vertex.</param>
+        /// <returns>true|false</returns>
+        public static Boolean operator >= (Vertex myVertex1, Vertex myVertex2)
+        {
+            return !(myVertex1 < myVertex2);
+        }
+
+        #endregion
+
+        #endregion
+
         #region IComparable<IVertex> Members
 
         #region CompareTo(myObject)
@@ -294,7 +418,7 @@ namespace de.ahzf.blueprints.InMemoryGraph
                 return false;
 
             var _Object = myObject as IVertex;
-            if (_Object == null)
+            if (_Object != null)
                 return Equals(_Object);
 
             return false;

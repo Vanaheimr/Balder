@@ -50,8 +50,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="InMemoryGraph\EdgeTests.cs" />
+    <Compile Include="Basics\EdgeIds.cs" />
     <Compile Include="TinkerGraphFactory.cs" />
-    <Compile Include="UniqueTimestampTests.cs" />
+    <Compile Include="Basics\UniqueTimestampTests.cs" />
     <Compile Include="InMemoryGraphTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -281,8 +281,9 @@ namespace de.ahzf.blueprints.Datastructures
 
         #endregion
 
+        #region IComparable<RevisionId> Member
 
-        #region IComparable Member
+        #region CompareTo(myObject)
 
         /// <summary>
         /// Compares two instances of this object.
@@ -310,7 +311,7 @@ namespace de.ahzf.blueprints.Datastructures
 
         #endregion
 
-        #region IComparable<RevisionId> Member
+        #region CompareTo(myRevisionId)
 
         /// <summary>
         /// Compares two instances of this object.
@@ -330,6 +331,8 @@ namespace de.ahzf.blueprints.Datastructures
             return 0;
 
         }
+
+        #endregion
 
         #endregion
 
