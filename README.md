@@ -36,7 +36,8 @@ News and updates can also be found on twitter by following: [@ahzf](http://www.t
 
 #### Installation
 
-The installation of Blueprints.NET is very straightforward. Just check out or download its sources and all its dependencies:
+The installation of Blueprints.NET is very straightforward.    
+Just check out or download its sources and all its dependencies:
 
 - [NUnit](http://www.nunit.org/) for unit tests
 
@@ -49,5 +50,5 @@ The coding standards can be found by reading the code ;)
 
 #### Acknowledgments
 
-Blueprints.NET is a reimplementation of the [blueprints](http://github.com/tinkerpop/blueprints) library for Java provided by [Tinkerpop](http://tinkerpop.com).
+Blueprints.NET is a reimplementation of the [blueprints](http://github.com/tinkerpop/blueprints) library for Java provided by [Tinkerpop](http://tinkerpop.com).    
 Please read the [NOTICE](/ahzf/blueprints.NET/blob/master/NOTICE) file for further credits.
