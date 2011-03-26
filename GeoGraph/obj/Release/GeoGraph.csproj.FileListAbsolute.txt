@@ -1,8 +1,0 @@
-C:\Users\ahzf\Documents\Visual Studio 2010\Projects\blueprints.NET\GeoGraph\bin\Release\GeoGraph.dll
-C:\Users\ahzf\Documents\Visual Studio 2010\Projects\blueprints.NET\GeoGraph\bin\Release\GeoGraph.pdb
-C:\Users\ahzf\Documents\Visual Studio 2010\Projects\blueprints.NET\GeoGraph\bin\Release\blueprints.dll
-C:\Users\ahzf\Documents\Visual Studio 2010\Projects\blueprints.NET\GeoGraph\bin\Release\blueprints.pdb
-C:\Users\ahzf\Documents\Visual Studio 2010\Projects\blueprints.NET\GeoGraph\bin\Release\blueprints.xml
-C:\Users\ahzf\Documents\Visual Studio 2010\Projects\blueprints.NET\GeoGraph\obj\Release\ResolveAssemblyReference.cache
-C:\Users\ahzf\Documents\Visual Studio 2010\Projects\blueprints.NET\GeoGraph\obj\Release\GeoGraph.dll
-C:\Users\ahzf\Documents\Visual Studio 2010\Projects\blueprints.NET\GeoGraph\obj\Release\GeoGraph.pdb
