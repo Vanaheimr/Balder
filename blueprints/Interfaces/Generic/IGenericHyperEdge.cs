@@ -18,6 +18,7 @@
 #region Usings
 
 using System;
+using System.Collections.Generic;
 
 using de.ahzf.blueprints.Datastructures;
 
@@ -27,51 +28,54 @@ namespace de.ahzf.blueprints
 {
 
     /// <summary>
-    /// An edge links two vertices. Along with its key/value properties,
-    /// an edge has both a directionality and a label.
+    /// A hyperedge links multiple vertices. Along with its key/value properties,
+    /// a hyperedge has both a directionality and a label.
     /// The directionality determines which vertex is the tail vertex
-    /// (out vertex) and which vertex is the head vertex (in vertex).
-    /// The edge label determines the type of relationship that exists
-    /// between the two vertices.
-    /// Diagrammatically, outVertex ---label---> inVertex.
+    /// (out vertex) and which vertices are the head vertices (in vertices).
+    /// The hyperedge label determines the type of relationship that exists
+    /// between these vertices.
+    /// Diagrammatically, outVertex ---label---> inVertex1.
+    ///                                      \--> inVertex2.
     /// </summary>
     /// <typeparam name="TId">The type of the id.</typeparam>
-    public interface IGenericEdge<TId> : IGenericElement<TId>
+    public interface IGenericHyperEdge<TId> : IGenericElement<TId>
         where TId : IEquatable<TId>, IComparable<TId>, IComparable
     {
 
         /// <summary>
-        /// Return the label associated with the edge.
+        /// Return the label associated with the hyperedge.
         /// </summary>
         String Label { get; }
 
     }
 
+
     /// <summary>
-    /// An edge links two vertices. Along with its key/value properties,
-    /// an edge has both a directionality and a label.
+    /// A hyperedge links multiple vertices. Along with its key/value properties,
+    /// a hyperedge has both a directionality and a label.
     /// The directionality determines which vertex is the tail vertex
-    /// (out vertex) and which vertex is the head vertex (in vertex).
-    /// The edge label determines the type of relationship that exists
-    /// between the two vertices.
-    /// Diagrammatically, outVertex ---label---> inVertex.
+    /// (out vertex) and which vertices are the head vertices (in vertices).
+    /// The hyperedge label determines the type of relationship that exists
+    /// between these vertices.
+    /// Diagrammatically, outVertex ---label---> inVertex1.
+    ///                                      \--> inVertex2.
     /// </summary>
     /// <typeparam name="TId">The type of the id.</typeparam>
     /// <typeparam name="TEdgeData">The type of the additional data to be stored within an edge.</typeparam>
-    public interface IGenericEdge<TId, TEdgeData> : IGenericEdge<TId>
+    public interface IGenericHyperEdge<TId, TEdgeData> : IGenericHyperEdge<TId>
         where TId : IEquatable<TId>, IComparable<TId>, IComparable
     {
 
         /// <summary>
-        /// Return the vertex at the tail of the edge.
+        /// Return the vertex at the tail of the hyperedge.
         /// </summary>
         IVertex OutVertex { get; }
 
 
         /// <summary>
-        /// Return the vertex at the head of the edge.
+        /// Return the vertices at the head of the hyperedge.
         /// </summary>
-        IVertex InVertex { get; }
+        IEnumerable<IVertex> InVertices { get; }
 
     }
 

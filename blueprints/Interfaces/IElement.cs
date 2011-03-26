@@ -26,10 +26,6 @@ using de.ahzf.blueprints.Datastructures;
 namespace de.ahzf.blueprints
 {
 
-    //public interface IElement
-    //{
-    //}
-
     /// <summary>
     /// An element is the base class for both vertices and edges.
     /// An element has an identifier that must be unique to its inheriting classes (vertex or edges).
@@ -37,6 +33,8 @@ namespace de.ahzf.blueprints
     /// Keys are always strings and values can be any object.
     /// Particular implementations can reduce the space of objects that can be used as values.
     /// </summary>
+    /// <typeparam name="TId">The type of the id.</typeparam>
+    /// <typeparam name="TKey">The type of the property keys.</typeparam>
     public interface IElement<TId, TKey> : IProperties<TKey>, IGenericElement<TId>
         where TId  : IEquatable<TId>,  IComparable<TId>,  IComparable
         where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable

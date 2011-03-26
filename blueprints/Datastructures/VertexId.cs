@@ -18,10 +18,6 @@
 #region Usings
 
 using System;
-using System.Text;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
 
 #endregion
 
@@ -29,9 +25,9 @@ namespace de.ahzf.blueprints.Datastructures
 {
 
     /// <summary>
-    /// A VertexId is unique identificator for vertices.
+    /// A VertexId is unique identificator for a vertex.
     /// </summary>    
-    public class VertexId : ElementId, IComparable, IComparable<VertexId>, IEquatable<VertexId>
+    public class VertexId : ElementId, IEquatable<VertexId>, IComparable<VertexId>, IComparable
     {
 
         #region Constructor(s)

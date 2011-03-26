@@ -26,10 +26,6 @@ using de.ahzf.blueprints.Datastructures;
 namespace de.ahzf.blueprints
 {
 
-    //public interface IProperties
-    //{
-    //}
-
     /// <summary>
     /// An element is the base class for both vertices and edges.
     /// An element has an identifier that must be unique to its inheriting classes (vertex or edges).

@@ -27,31 +27,33 @@ namespace de.ahzf.blueprints
 {
 
     /// <summary>
-    /// An edge links two vertices. Along with its key/value properties,
-    /// an edge has both a directionality and a label.
+    /// A hyperedge links multiple vertices. Along with its key/value properties,
+    /// a hyperedge has both a directionality and a label.
     /// The directionality determines which vertex is the tail vertex
-    /// (out vertex) and which vertex is the head vertex (in vertex).
-    /// The edge label determines the type of relationship that exists
-    /// between the two vertices.
-    /// Diagrammatically, outVertex ---label---> inVertex.
+    /// (out vertex) and which vertices are the head vertices (in vertices).
+    /// The hyperedge label determines the type of relationship that exists
+    /// between these vertices.
+    /// Diagrammatically, outVertex ---label---> inVertex1.
+    ///                                      \--> inVertex2.
     /// </summary>
-    public interface IEdge : IEdge<EdgeId, String>
+    public interface IHyperEdge : IHyperEdge<HyperEdgeId, String>
     { }
 
 
     /// <summary>
-    /// An edge links two vertices. Along with its key/value properties,
-    /// an edge has both a directionality and a label.
+    /// A hyperedge links multiple vertices. Along with its key/value properties,
+    /// a hyperedge has both a directionality and a label.
     /// The directionality determines which vertex is the tail vertex
-    /// (out vertex) and which vertex is the head vertex (in vertex).
-    /// The edge label determines the type of relationship that exists
-    /// between the two vertices.
-    /// Diagrammatically, outVertex ---label---> inVertex.
+    /// (out vertex) and which vertices are the head vertices (in vertices).
+    /// The hyperedge label determines the type of relationship that exists
+    /// between these vertices.
+    /// Diagrammatically, outVertex ---label---> inVertex1.
+    ///                                      \--> inVertex2.
     /// </summary>
     /// <typeparam name="TId">The type of the id.</typeparam>
     /// <typeparam name="TKey">The type of the property keys.</typeparam>
-    public interface IEdge<TId, TKey> : IGenericEdge<TId, IProperties<TKey>>, IProperties<TKey>, IElement<TId, TKey>
-        where TId : IEquatable<TId>, IComparable<TId>, IComparable
+    public interface IHyperEdge<TId, TKey> : IGenericHyperEdge<TId, IProperties<TKey>>, IProperties<TKey>, IElement<TId, TKey>
+        where TId  : IEquatable<TId>,  IComparable<TId>,  IComparable
         where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
     { }
 

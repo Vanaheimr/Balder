@@ -27,6 +27,10 @@ using de.ahzf.blueprints.Datastructures;
 namespace de.ahzf.blueprints
 {
 
+    /// <summary>
+    /// A general graph element.
+    /// </summary>
+    /// <typeparam name="TId">The type of the id.</typeparam>
     public interface IGenericElement<TId> : IEquatable<TId>, IComparable<TId>, IComparable
         where TId : IEquatable<TId>, IComparable<TId>, IComparable
     {

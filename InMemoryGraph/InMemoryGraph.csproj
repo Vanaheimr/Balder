@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HyperEdge.cs" />
     <Compile Include="Edge.cs" />
     <Compile Include="InMemoryGraph.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

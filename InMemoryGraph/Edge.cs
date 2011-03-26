@@ -151,7 +151,7 @@ namespace de.ahzf.blueprints.InMemoryGraph
         /// <param name="myIGraph">The associated graph.</param>
         /// <param name="myOutVertex">The vertex at the tail of the edge.</param>
         /// <param name="myInVertex">The vertex at the head of the edge.</param>
-        /// <param name="myEdgeId">The identification of this vertex.</param>
+        /// <param name="myEdgeId">The identification of this edge.</param>
         /// <param name="myLabel">A label stored within this edge.</param>
         /// <param name="myEdgeInitializer">A delegate to initialize the newly created edge.</param>
         internal protected Edge(IGraph myIGraph, IVertex myOutVertex, IVertex myInVertex, EdgeId myEdgeId, String myLabel, Action<IEdge> myEdgeInitializer = null)
@@ -457,23 +457,6 @@ namespace de.ahzf.blueprints.InMemoryGraph
         }
 
         #endregion
-
-
-
-        //bool IEquatable<IProperties<String>>.Equals(IProperties<String> other)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //int IComparable<IProperties<String>>.CompareTo(IProperties<String> other)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //int IComparable.CompareTo(object obj)
-        //{
-        //    throw new NotImplementedException();
-        //}
 
     }
 

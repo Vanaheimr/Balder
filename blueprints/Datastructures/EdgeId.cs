@@ -18,10 +18,6 @@
 #region Usings
 
 using System;
-using System.Text;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
 
 #endregion
 
@@ -29,9 +25,9 @@ namespace de.ahzf.blueprints.Datastructures
 {
 
     /// <summary>
-    /// A EdgeId is unique identificator for edge.
+    /// A EdgeId is unique identificator for an edge.
     /// </summary>
-    public class EdgeId : ElementId, IComparable, IComparable<EdgeId>, IEquatable<EdgeId>
+    public class EdgeId : ElementId, IEquatable<EdgeId>, IComparable<EdgeId>, IComparable
     {
 
         #region Constructor(s)

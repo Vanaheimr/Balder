@@ -507,23 +507,6 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #endregion
 
-
-        //bool IEquatable<IProperties<String>>.Equals(IProperties<String> other)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //int IComparable<IProperties<String>>.CompareTo(IProperties<String> other)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //int IComparable.CompareTo(object obj)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-
     }
 
 }

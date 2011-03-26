@@ -31,7 +31,7 @@ namespace de.ahzf.blueprints.Datastructures
     /// <summary>
     /// A Id is unique identificator.
     /// </summary>    
-    public class ElementId : IComparable<ElementId>, IComparable
+    public class ElementId : IEquatable<ElementId>, IComparable<ElementId>, IComparable
     {
 
         #region Data

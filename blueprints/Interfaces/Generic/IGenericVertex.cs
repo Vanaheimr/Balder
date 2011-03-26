@@ -27,9 +27,17 @@ using de.ahzf.blueprints.Datastructures;
 namespace de.ahzf.blueprints
 {
 
-    public interface IGenericVertex<TId> : IGenericElement<TId>//, IEquatable<IGenericVertex>, IComparable<IGenericVertex>, IComparable
+    /// <summary>
+    /// A vertex maintains pointers to both a set of incoming and outgoing edges.
+    /// The outgoing edges are those edges for which the vertex is the tail.
+    /// The incoming edges are those edges for which the vertex is the head.
+    /// Diagrammatically, ---inEdges---> vertex ---outEdges--->.
+    /// </summary>
+    /// <typeparam name="TId">The type of the id.</typeparam>
+    public interface IGenericVertex<TId> : IGenericElement<TId>
         where TId : IEquatable<TId>, IComparable<TId>, IComparable
     { }
+
 
     /// <summary>
     /// A vertex maintains pointers to both a set of incoming and outgoing edges.
@@ -37,8 +45,8 @@ namespace de.ahzf.blueprints
     /// The incoming edges are those edges for which the vertex is the head.
     /// Diagrammatically, ---inEdges---> vertex ---outEdges--->.
     /// </summary>
-    /// <typeparam name="TVertexData">The type of the additional data to be stored within a vertex.</typeparam>
-    public interface IGenericVertex<TId, TVertexData> : IGenericVertex<TId>//, IEquatable<IGenericVertex<TVertexData>>, IComparable<IGenericVertex<TVertexData>>
+    /// <typeparam name="TId">The type of the id.</typeparam>
+    public interface IGenericVertex<TId, TVertexData> : IGenericVertex<TId>
         where TId : IEquatable<TId>, IComparable<TId>, IComparable
     {
 

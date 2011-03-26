@@ -51,15 +51,17 @@
   <ItemGroup>
     <Compile Include="AProperties.cs" />
     <Compile Include="AStringProperties.cs" />
+    <Compile Include="Datastructures\HyperEdgeId.cs" />
     <Compile Include="Datastructures\SystemId.cs" />
     <Compile Include="Datastructures\ElementId.cs" />
     <Compile Include="Datastructures\VertexId.cs" />
     <Compile Include="Datastructures\RevisionId.cs" />
     <Compile Include="Datastructures\UniqueTimestamp.cs" />
     <Compile Include="Datastructures\EdgeId.cs" />
-    <Compile Include="Extensions\IElementExtensions.cs" />
     <Compile Include="Extensions\IGraphExtensions.cs" />
     <Compile Include="Extensions\IPropertiesExtensions.cs" />
+    <Compile Include="Interfaces\IHyperEdge.cs" />
+    <Compile Include="Interfaces\Generic\IGenericHyperEdge.cs" />
     <Compile Include="Interfaces\Generic\IGenericElement.cs" />
     <Compile Include="Interfaces\IElement.cs" />
     <Compile Include="Interfaces\Generic\IGenericEdge.cs" />
