@@ -49,6 +49,14 @@ namespace de.ahzf.blueprints
 
 
         /// <summary>
+        /// Adds the given IVertex object to the graph and returns it again.
+        /// </summary>
+        /// <param name="myIVertex">An object implementing IVertex.</param>
+        /// <returns>The object implementing IVertex.</returns>
+        IVertex AddVertex(IVertex myIVertex);
+
+
+        /// <summary>
         /// Return the vertex referenced by the given vertex identifier.
         /// If no vertex is referenced by that identifier, then return null.
         /// </summary>

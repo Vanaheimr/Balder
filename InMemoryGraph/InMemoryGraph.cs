@@ -93,6 +93,34 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #endregion
 
+        #region AddVertex(myIVertex)
+
+        /// <summary>
+        /// Adds a vertex to the graph using the given VertexId and initializes
+        /// its properties by invoking the given vertex initializer.
+        /// </summary>
+        /// <param name="myIVertex"></param>
+        /// <returns>The new vertex</returns>
+        public IVertex AddVertex(IVertex myIVertex)
+        {
+
+            if (myIVertex == null)
+                throw new ArgumentNullException("myIVertex must not be null!");
+
+            if (myIVertex.Id == null)
+                throw new ArgumentNullException("The Id of myIVertex must not be null!");
+
+            if (myIVertex != null || _Vertices.ContainsKey(myIVertex.Id))
+                throw new ArgumentException("Another vertex with id " + myIVertex.Id + " already exists!");
+
+            _Vertices.Add(myIVertex.Id, myIVertex);
+
+            return myIVertex;
+
+        }
+
+        #endregion
+
         #region GetVertex(myVertexId)
 
         /// <summary>

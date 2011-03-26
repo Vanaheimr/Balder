@@ -435,7 +435,6 @@ namespace de.ahzf.blueprints
 
         #endregion
 
-
     }
 
 }
