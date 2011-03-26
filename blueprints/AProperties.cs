@@ -18,14 +18,16 @@
 #region Usings
 
 using System;
+using System.Linq;
 using System.Dynamic;
 using System.Collections;
 using System.Collections.Generic;
+
 using de.ahzf.blueprints.Datastructures;
 
 #endregion
 
-namespace de.ahzf.blueprints.InMemoryGraph
+namespace de.ahzf.blueprints
 {
 
     /// <summary>
@@ -35,7 +37,9 @@ namespace de.ahzf.blueprints.InMemoryGraph
     /// Keys are always strings and values can be any object.
     /// Particular implementations can reduce the space of objects that can be used as values.
     /// </summary>
-    public abstract class AElement : DynamicObject, IElement
+    public abstract class AProperties<TId, TKey> : IProperties<TKey>
+        where TId : IEquatable<TId>, IComparable<TId>, IComparable
+        where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
     {
 
 
@@ -44,17 +48,17 @@ namespace de.ahzf.blueprints.InMemoryGraph
         /// <summary>
         /// The datastructure holding all graph properties.
         /// </summary>
-        protected readonly IDictionary<String, Object> _Properties;
+        protected readonly IDictionary<TKey, Object> _Properties;
 
         /// <summary>
         /// The key of the Id property
         /// </summary>
-        public const String __Id = "Id";
+        public readonly TKey __Id;
 
         /// <summary>
         /// The key of the RevisionId property
         /// </summary>
-        public const String __RevisionId = "RevisionId";
+        public readonly TKey __RevisionId;
 
         #endregion
 
@@ -76,7 +80,7 @@ namespace de.ahzf.blueprints.InMemoryGraph
         /// All vertices of a graph must have unique identifiers.
         /// All edges of a graph must have unique identifiers.
         /// </summary>
-        public ElementId Id
+        public TId Id
         {
             get
             {
@@ -84,9 +88,9 @@ namespace de.ahzf.blueprints.InMemoryGraph
                 Object _Object = null;
 
                 if (_Properties.TryGetValue(__Id, out _Object))
-                    return _Object as ElementId;
+                    return (TId) _Object;
 
-                return null;
+                return default(TId);
 
             }
         }
@@ -121,14 +125,14 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #region Protected Constructor(s)
 
-        #region AElement(myIGraph, myId)
+        #region AElement(myIGraph, myElementId, myId, myRevisionId, myIDictionaryInitializer)
 
         /// <summary>
         /// Creates a new AElement object
         /// </summary>
         /// <param name="myIGraph">The associated graph</param>
         /// <param name="myElementId">The Id of the new AElement</param>
-        protected AElement(IGraph myIGraph, ElementId myElementId)
+        protected AProperties(IGraph myIGraph, ElementId myElementId, TKey myId, TKey myRevisionId, Func<IDictionary<TKey, Object>> myIDictionaryInitializer)
         {
 
             if (myIGraph == null)
@@ -137,12 +141,21 @@ namespace de.ahzf.blueprints.InMemoryGraph
             if (myElementId == null)
                 throw new ArgumentNullException("The ElementId must not be null!");
 
+            if (myId == null)
+                throw new ArgumentNullException("The myId must not be null!");
+
+            if (myRevisionId == null)
+                throw new ArgumentNullException("The myRevisionId must not be null!");
+
             Graph = myIGraph;
+
+            __Id         = myId;
+            __RevisionId = myRevisionId;
 
             // StringComparer.OrdinalIgnoreCase is often used to compare file names,
             // path names, network paths, and any other string whose value does not change
             // based on the locale of the user's computer.
-            _Properties = new Dictionary<String, Object>(StringComparer.OrdinalIgnoreCase);
+            _Properties = myIDictionaryInitializer();
             _Properties.Add(__Id, myElementId);
 
         }
@@ -162,13 +175,13 @@ namespace de.ahzf.blueprints.InMemoryGraph
         /// </summary>
         /// <param name="myPropertyKey">The property key.</param>
         /// <param name="myPropertyValue">The property value.</param>
-        public virtual IElement SetProperty(String myPropertyKey, Object myPropertyValue)
+        public virtual IProperties<TKey> SetProperty(TKey myPropertyKey, Object myPropertyValue)
         {
 
-            if (myPropertyKey == __Id)
+            if (myPropertyKey.Equals(__Id))
                 throw new ArgumentException("Changing the Id property is not allowed!");
 
-            if (myPropertyKey == __RevisionId)
+            if (myPropertyKey.Equals(__RevisionId))
                 throw new ArgumentException("Changing the RevisionId property is not allowed!");
 
             if (_Properties.ContainsKey(myPropertyKey))
@@ -190,7 +203,7 @@ namespace de.ahzf.blueprints.InMemoryGraph
         /// </summary>
         /// <param name="myPropertyKey">The key of the key/value property.</param>
         /// <returns>The property value related to the string key.</returns>
-        public virtual Object GetProperty(String myPropertyKey)
+        public virtual Object GetProperty(TKey myPropertyKey)
         {
 
             Object _Object = null;
@@ -210,7 +223,7 @@ namespace de.ahzf.blueprints.InMemoryGraph
         /// </summary>
         /// <param name="myPropertyFilter">A function to filter a property based on its key and value.</param>
         /// <returns>A enumeration of all key/value pairs matching the given property filter.</returns>
-        public virtual IEnumerable<KeyValuePair<String, Object>> GetProperties(Func<String, Object, Boolean> myPropertyFilter = null)
+        public virtual IEnumerable<KeyValuePair<TKey, Object>> GetProperties(Func<TKey, Object, Boolean> myPropertyFilter = null)
         {
 
             foreach (var _KeyValuePair in _Properties)
@@ -240,13 +253,13 @@ namespace de.ahzf.blueprints.InMemoryGraph
         /// </summary>
         /// <param name="myPropertyKey">The key of the property to remove.</param>
         /// <returns>The property value associated with that key prior to removal.</returns>
-        public virtual Object RemoveProperty(String myPropertyKey)
+        public virtual Object RemoveProperty(TKey myPropertyKey)
         {
 
-            if (myPropertyKey == __Id)
+            if (myPropertyKey.Equals(__Id))
                 throw new ArgumentException("Removing the Id property is not allowed!");
 
-            if (myPropertyKey == __RevisionId)
+            if (myPropertyKey.Equals(__RevisionId))
                 throw new ArgumentException("Removing the RevisionId property is not allowed!");
 
             Object _Object = null;
@@ -265,7 +278,7 @@ namespace de.ahzf.blueprints.InMemoryGraph
         /// <summary>
         /// Return all property keys.
         /// </summary>
-        public IEnumerable<String> PropertyKeys
+        public IEnumerable<TKey> PropertyKeys
         {
             get
             {
@@ -277,117 +290,7 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #endregion
 
-        #region DynamicObject Members
 
-        #region GetDynamicMemberNames()
-
-        /// <summary>
-        /// Returns an enumeration of all property keys.
-        /// </summary>
-        public override IEnumerable<String> GetDynamicMemberNames()
-        {
-            return _Properties.Keys;
-        }
-
-        #endregion
-
-        #region TrySetMember(myBinder, myObject)
-
-        /// <summary>
-        /// Sets a new property or overwrites an existing.
-        /// </summary>
-        /// <param name="myBinder">The property key</param>
-        /// <param name="myObject">The property value</param>
-        /// <returns>Always true</returns>
-        public override Boolean TrySetMember(SetMemberBinder myBinder, Object myObject)
-        {
-
-            if (_Properties.ContainsKey(myBinder.Name))
-                _Properties[myBinder.Name] = myObject;
-
-            else
-                _Properties.Add(myBinder.Name, myObject);
-
-            return true;
-
-        }
-
-        #endregion
-
-        #region TryGetMember(myBinder, out myObject)
-
-        /// <summary>
-        /// Returns the value of a property.
-        /// </summary>
-        /// <param name="myBinder">The property key.</param>
-        /// <param name="myObject">The property value.</param>
-        /// <returns>Always true</returns>
-        public override Boolean TryGetMember(GetMemberBinder myBinder, out Object myObject)
-        {
-            return _Properties.TryGetValue(myBinder.Name, out myObject);
-        }
-
-        #endregion
-
-        #region TryInvokeMember(myBinder, out myObject)
-
-        /// <summary>
-        /// Tries to invoke a property as long as it is a delegate.
-        /// </summary>
-        /// <param name="myBinder">The property key</param>
-        /// <param name="myArguments">The arguments for invoking the property</param>
-        /// <param name="myObject">The property value</param>
-        /// <returns>If the property could be invoked.</returns>
-        public override Boolean TryInvokeMember(InvokeMemberBinder myBinder, Object[] myArguments, out Object myObject)
-        {
-
-            Object _Object = null;
-
-            if (_Properties.TryGetValue(myBinder.Name, out _Object))
-            {
-                
-                var _Delegate = _Object as Delegate;
-
-                if (_Delegate != null)
-                {
-                    myObject = _Delegate.DynamicInvoke(myArguments);
-                    return true;
-                }
-
-            }
-
-            myObject = null;
-
-            return false;
-
-        }
-
-        #endregion
-
-        #region TryDeleteMember(myBinder)
-
-        /// <summary>
-        /// Tries to remove the property identified by the given property key.
-        /// </summary>
-        /// <param name="myBinder">The property key</param>
-        /// <returns>True on success</returns>
-        public override Boolean TryDeleteMember(DeleteMemberBinder myBinder)
-        {
-
-            try
-            {
-                return _Properties.Remove(myBinder.Name);
-            }
-            catch
-            { }
-
-            return false;
-
-        }
-
-        #endregion
-
-        #endregion
 
 
         #region IEnumerable Members
@@ -399,13 +302,13 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #endregion
 
-        #region IEnumerable<KeyValuePair<String, Object>> Members
+        #region IEnumerable<KeyValuePair<TKey, Object>> Members
 
         /// <summary>
         /// Returns an enumeration of all properties within this element.
         /// </summary>
         /// <returns>An enumeration of all properties within this element.</returns>
-        public IEnumerator<KeyValuePair<String, Object>> GetEnumerator()
+        public IEnumerator<KeyValuePair<TKey, Object>> GetEnumerator()
         {
             return _Properties.GetEnumerator();
         }
@@ -423,7 +326,7 @@ namespace de.ahzf.blueprints.InMemoryGraph
         /// <param name="myAElement1">A AElement.</param>
         /// <param name="myIElement2">A IElement.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator == (AElement myAElement1, IElement myIElement2)
+        public static Boolean operator == (AProperties<TId, TKey> myAElement1, AProperties<TId, TKey> myIElement2)
         {
 
             // If both are null, or both are same instance, return true.
@@ -448,7 +351,7 @@ namespace de.ahzf.blueprints.InMemoryGraph
         /// <param name="myAElement1">A AElement.</param>
         /// <param name="myIElement2">A IElement.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator != (AElement myAElement1, IElement myIElement2)
+        public static Boolean operator != (AProperties<TId, TKey> myAElement1, AProperties<TId, TKey> myIElement2)
         {
             return !(myAElement1 == myIElement2);
         }
@@ -470,21 +373,36 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #endregion
 
-        #region CompareTo(myIElement)
+        #region CompareTo(myObject)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myIElement">An object to compare with.</param>
+        /// <param name="myObject">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public Int32 CompareTo(IElement myIElement)
+        public Int32 CompareTo(TId myObject)
+        {
+            return 0;
+            //return Id..CompareTo(myObject);
+        }
+
+        #endregion
+
+        #region CompareTo(myIProperties)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myIProperties">An object to compare with.</param>
+        /// <returns>true|false</returns>
+        public Int32 CompareTo(IProperties<TKey> myIProperties)
         {
 
             // Check if myIElement is null
-            if (myIElement == null)
+            if (myIProperties == null)
                 throw new ArgumentNullException("myIElement must not be null!");
 
-            return Id.CompareTo(myIElement.Id);
+            return Id.CompareTo(myIProperties.GetProperty(__Id));
 
         }
 
@@ -507,7 +425,7 @@ namespace de.ahzf.blueprints.InMemoryGraph
             if (myObject == null)
                 return false;
 
-            var _Object = myObject as AElement;
+            var _Object = myObject as IProperties<TKey>;
             if (_Object == null)
                 return Equals(_Object);
 
@@ -517,23 +435,38 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #endregion
 
-        #region Equals(myIElement)
+        #region Equals(myObject)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myIElement">An object to compare with.</param>
+        /// <param name="myObject">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public Boolean Equals(IElement myIElement)
+        public Boolean Equals(TId myObject)
         {
-
-            if ((Object) myIElement == null)
-                return false;
-
-            //TODO: Here it might be good to check all attributes of the UNIQUE constraint!
-            return (this.Id.Equals(myIElement.Id));
-
+            return Id.Equals(myObject);
         }
+
+        #endregion
+
+
+        #region Equals(myIProperties)
+
+        ///// <summary>
+        ///// Compares two instances of this object.
+        ///// </summary>
+        ///// <param name="myIProperties">An object to compare with.</param>
+        ///// <returns>true|false</returns>
+        //public Boolean Equals(IProperties<TKey> myIProperties)
+        //{
+
+        //    if ((Object) myIProperties == null)
+        //        return false;
+
+        //    //TODO: Here it might be good to check all attributes of the UNIQUE constraint!
+        //    return this.Count() == myIProperties.Count();
+
+        //}
 
         #endregion
 
@@ -574,6 +507,22 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #endregion
 
+
+        
+        //bool IEquatable<IProperties<TKey>>.Equals(IProperties<TKey> other)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //int IComparable<IProperties<TKey>>.CompareTo(IProperties<TKey> other)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //int IComparable.CompareTo(object obj)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
     }
 

@@ -25,7 +25,7 @@ using de.ahzf.blueprints.Datastructures;
 
 #endregion
 
-namespace de.ahzf.blueprints.InMemoryGraph
+namespace de.ahzf.blueprints.GeoGraph
 {
 
     /// <summary>
@@ -34,7 +34,7 @@ namespace de.ahzf.blueprints.InMemoryGraph
     /// The incoming edges are those edges for which the vertex is the head.
     /// Diagrammatically, ---inEdges---> vertex ---outEdges--->.
     /// </summary>
-    public class Edge : AStringProperties<EdgeId>, IEdge
+    public class GeoEdge : IGeoEdge
     {
 
         #region Data
@@ -49,11 +49,6 @@ namespace de.ahzf.blueprints.InMemoryGraph
         /// </summary>
         protected readonly IVertex _InVertex;
 
-        /// <summary>
-        /// The property key of the Label property
-        /// </summary>
-        private   const    String  __Label = "Label";
-
         #endregion
 
         #region Properties
@@ -67,20 +62,7 @@ namespace de.ahzf.blueprints.InMemoryGraph
         /// All vertices of a graph must have unique identifiers.
         /// All edges of a graph must have unique identifiers.
         /// </summary>
-        public new EdgeId Id
-        {
-            get
-            {
-
-                Object _Object = null;
-
-                if (_Properties.TryGetValue(__Id, out _Object))
-                    return _Object as EdgeId;
-
-                return null;
-
-            }
-        }
+        public EdgeId Id { get; private set; }
 
         #endregion
 
@@ -89,20 +71,7 @@ namespace de.ahzf.blueprints.InMemoryGraph
         /// <summary>
         /// The label associated with this edge.
         /// </summary>
-        public String Label
-        {
-            get
-            {
-
-                Object _Object = null;
-
-                if (_Properties.TryGetValue(__Label, out _Object))
-                    return _Object as String;
-
-                return null;
-
-            }
-        }
+        public String Label { get; private set; }
 
         #endregion
 
@@ -143,7 +112,7 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #region Constructor(s)
 
-        #region Edge(myIGraph, myOutVertex, myInVertex, myEdgeId, myEdgeInitializer = null)
+        #region GeoEdge(myIGraph, myOutVertex, myInVertex, myEdgeId, myEdgeInitializer = null)
 
         /// <summary>
         /// Creates a new edge.
@@ -154,8 +123,7 @@ namespace de.ahzf.blueprints.InMemoryGraph
         /// <param name="myEdgeId">The identification of this vertex.</param>
         /// <param name="myLabel">A label stored within this edge.</param>
         /// <param name="myEdgeInitializer">A delegate to initialize the newly created edge.</param>
-        internal protected Edge(IGraph myIGraph, IVertex myOutVertex, IVertex myInVertex, EdgeId myEdgeId, String myLabel, Action<IEdge> myEdgeInitializer = null)
-            : base(myIGraph, myEdgeId)
+        internal protected GeoEdge(IGraph myIGraph, IVertex myOutVertex, IVertex myInVertex, EdgeId myEdgeId, String myLabel, Action<IGeoEdge> myEdgeInitializer = null)
         {
 
             if (myOutVertex == null)
@@ -167,8 +135,9 @@ namespace de.ahzf.blueprints.InMemoryGraph
             _OutVertex = myOutVertex;
             _InVertex  = myInVertex;
 
-            // Add the label
-            _Properties.Add(__Label, myLabel);
+            // Add the id and label
+            Id    = myEdgeId;
+            Label = myLabel;
 
             if (myEdgeInitializer != null)
                 myEdgeInitializer(this);
@@ -180,131 +149,138 @@ namespace de.ahzf.blueprints.InMemoryGraph
         #endregion
 
 
+        #region IGeoEdge Members
+
+        public Distance Distance { get; set; }
+
+        #endregion
+
+
         #region Operator overloading
 
-        #region Operator == (myEdge1, myEdge2)
+        #region Operator == (myGeoEdge1, myGeoEdge2)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myEdge1">A Edge.</param>
-        /// <param name="myEdge2">Another Edge.</param>
+        /// <param name="myGeoEdge1">A GeoEdge.</param>
+        /// <param name="myGeoEdge2">Another GeoEdge.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator == (Edge myEdge1, Edge myEdge2)
+        public static Boolean operator == (GeoEdge myGeoEdge1, GeoEdge myGeoEdge2)
         {
 
             // If both are null, or both are same instance, return true.
-            if (Object.ReferenceEquals(myEdge1, myEdge2))
+            if (Object.ReferenceEquals(myGeoEdge1, myGeoEdge2))
                 return true;
 
             // If one is null, but not both, return false.
-            if (((Object) myEdge1 == null) || ((Object) myEdge2 == null))
+            if (((Object) myGeoEdge1 == null) || ((Object) myGeoEdge2 == null))
                 return false;
 
-            return myEdge1.Equals(myEdge2);
+            return myGeoEdge1.Equals(myGeoEdge2);
 
         }
 
         #endregion
 
-        #region Operator != (myEdge1, myEdge2)
+        #region Operator != (myGeoEdge1, myGeoEdge2)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myEdge1">A Edge.</param>
-        /// <param name="myEdge2">Another Edge.</param>
+        /// <param name="myGeoEdge1">A GeoEdge.</param>
+        /// <param name="myGeoEdge2">Another GeoEdge.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator != (Edge myEdge1, Edge myEdge2)
+        public static Boolean operator != (GeoEdge myGeoEdge1, GeoEdge myGeoEdge2)
         {
-            return !(myEdge1 == myEdge2);
+            return !(myGeoEdge1 == myGeoEdge2);
         }
 
         #endregion
 
-        #region Operator <  (myEdge1, myEdge2)
+        #region Operator <  (myGeoEdge1, myGeoEdge2)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myEdge1">A Edge.</param>
-        /// <param name="myEdge2">Another Edge.</param>
+        /// <param name="myGeoEdge1">A GeoEdge.</param>
+        /// <param name="myGeoEdge2">Another GeoEdge.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator < (Edge myEdge1, Edge myEdge2)
+        public static Boolean operator < (GeoEdge myGeoEdge1, GeoEdge myGeoEdge2)
         {
 
-            // Check if myEdge1 is null
-            if ((Object) myEdge1 == null)
-                throw new ArgumentNullException("Parameter myEdge1 must not be null!");
+            // Check if myGeoEdge1 is null
+            if ((Object) myGeoEdge1 == null)
+                throw new ArgumentNullException("Parameter myGeoEdge1 must not be null!");
 
-            // Check if myEdge2 is null
-            if ((Object) myEdge2 == null)
-                throw new ArgumentNullException("Parameter myEdge2 must not be null!");
+            // Check if myGeoEdge2 is null
+            if ((Object) myGeoEdge2 == null)
+                throw new ArgumentNullException("Parameter myGeoEdge2 must not be null!");
 
-            return myEdge1.CompareTo(myEdge2) < 0;
+            return myGeoEdge1.CompareTo(myGeoEdge2) < 0;
 
         }
 
         #endregion
 
-        #region Operator >  (myEdge1, myEdge2)
+        #region Operator >  (myGeoEdge1, myGeoEdge2)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myEdge1">A Edge.</param>
-        /// <param name="myEdge2">Another Edge.</param>
+        /// <param name="myGeoEdge1">A GeoEdge.</param>
+        /// <param name="myGeoEdge2">Another GeoEdge.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator > (Edge myEdge1, Edge myEdge2)
+        public static Boolean operator > (GeoEdge myGeoEdge1, GeoEdge myGeoEdge2)
         {
 
-            // Check if myEdge1 is null
-            if ((Object) myEdge1 == null)
-                throw new ArgumentNullException("Parameter myEdge1 must not be null!");
+            // Check if myGeoEdge1 is null
+            if ((Object) myGeoEdge1 == null)
+                throw new ArgumentNullException("Parameter myGeoEdge1 must not be null!");
 
-            // Check if myEdge2 is null
-            if ((Object) myEdge2 == null)
-                throw new ArgumentNullException("Parameter myEdge2 must not be null!");
+            // Check if myGeoEdge2 is null
+            if ((Object) myGeoEdge2 == null)
+                throw new ArgumentNullException("Parameter myGeoEdge2 must not be null!");
 
-            return myEdge1.CompareTo(myEdge2) > 0;
+            return myGeoEdge1.CompareTo(myGeoEdge2) > 0;
 
         }
 
         #endregion
 
-        #region Operator <= (myEdge1, myEdge2)
+        #region Operator <= (myGeoEdge1, myGeoEdge2)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myEdge1">A Edge.</param>
-        /// <param name="myEdge2">Another Edge.</param>
+        /// <param name="myGeoEdge1">A GeoEdge.</param>
+        /// <param name="myGeoEdge2">Another GeoEdge.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator <= (Edge myEdge1, Edge myEdge2)
+        public static Boolean operator <= (GeoEdge myGeoEdge1, GeoEdge myGeoEdge2)
         {
-            return !(myEdge1 > myEdge2);
+            return !(myGeoEdge1 > myGeoEdge2);
         }
 
         #endregion
 
-        #region Operator >= (myEdge1, myEdge2)
+        #region Operator >= (myGeoEdge1, myGeoEdge2)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myEdge1">A Edge.</param>
-        /// <param name="myEdge2">Another Edge.</param>
+        /// <param name="myGeoEdge1">A GeoEdge.</param>
+        /// <param name="myGeoEdge2">Another GeoEdge.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator >= (Edge myEdge1, Edge myEdge2)
+        public static Boolean operator >= (GeoEdge myGeoEdge1, GeoEdge myGeoEdge2)
         {
-            return !(myEdge1 < myEdge2);
+            return !(myGeoEdge1 < myGeoEdge2);
         }
 
         #endregion
 
         #endregion
 
-        #region IComparable<IEdge> Members
+        #region IComparable<IGeoEdge> Members
 
         #region CompareTo(myObject)
 
@@ -313,19 +289,19 @@ namespace de.ahzf.blueprints.InMemoryGraph
         /// </summary>
         /// <param name="myObject">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public override Int32 CompareTo(Object myObject)
+        public Int32 CompareTo(Object myObject)
         {
 
             // Check if myObject is null
             if (myObject == null)
                 throw new ArgumentNullException("myObject must not be null!");
 
-            // Check if myObject can be casted to an IEdge object
-            var myIEdge = myObject as IEdge;
-            if ((Object) myIEdge == null)
-                throw new ArgumentException("myObject is not of type IEdge!");
+            // Check if myObject can be casted to an IGeoEdge object
+            var myIGeoEdge = myObject as IGeoEdge;
+            if ((Object) myIGeoEdge == null)
+                throw new ArgumentException("myObject is not of type IGeoEdge!");
 
-            return CompareTo(myIEdge);
+            return CompareTo(myIGeoEdge);
 
         }
 
@@ -341,7 +317,7 @@ namespace de.ahzf.blueprints.InMemoryGraph
         public Int32 CompareTo(IGenericEdge<EdgeId> myIGenericEdge)
         {
 
-            // Check if myIEdge is null
+            // Check if myIGeoEdge is null
             if (myIGenericEdge == null)
                 throw new ArgumentNullException("myIGenericEdge must not be null!");
 
@@ -351,29 +327,49 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #endregion
 
-        //#region CompareTo(myIGenericEdgeIPropertiesString)
+        #region CompareTo(myIGenericEdge)
 
-        ///// <summary>
-        ///// Compares two instances of this object.
-        ///// </summary>
-        ///// <param name="myIGenericEdgeIPropertiesString">An object to compare with.</param>
-        ///// <returns>true|false</returns>
-        //public Int32 CompareTo(IGenericEdge<IProperties<String>> myIGenericEdgeIPropertiesString)
-        //{
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myIGenericEdge">An object to compare with.</param>
+        /// <returns>true|false</returns>
+        public Int32 CompareTo(EdgeId myIGenericEdge)
+        {
 
-        //    // Check if myIEdge is null
-        //    if (myIGenericEdgeIPropertiesString == null)
-        //        throw new ArgumentNullException("myIGenericEdgeIPropertiesString must not be null!");
+            // Check if myIGeoEdge is null
+            if (myIGenericEdge == null)
+                throw new ArgumentNullException("myIGenericEdge must not be null!");
 
-        //    return Id.CompareTo(myIGenericEdgeIPropertiesString.Id);
+            return Id.CompareTo(myIGenericEdge);
 
-        //}
-
-        //#endregion
+        }
 
         #endregion
 
-        #region IEquatable<IEdge> Members
+        #region CompareTo(myIGenericEdgeDistance)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myIGenericEdgeDistance">An object to compare with.</param>
+        /// <returns>true|false</returns>
+        public Int32 CompareTo(IGenericEdge<EdgeId, Distance> myIGenericEdgeDistance)
+        {
+
+            // Check if myIGeoEdge is null
+            if (myIGenericEdgeDistance == null)
+                throw new ArgumentNullException("myIGenericEdgeDistance must not be null!");
+
+            return Id.CompareTo(myIGenericEdgeDistance.Id);
+
+        }
+
+        #endregion
+
+        #endregion
+
+        #region IEquatable<IGeoEdge> Members
 
         #region Equals(myObject)
 
@@ -388,7 +384,7 @@ namespace de.ahzf.blueprints.InMemoryGraph
             if (myObject == null)
                 return false;
 
-            var _Object = myObject as IEdge;
+            var _Object = myObject as IGeoEdge;
             if (_Object != null)
                 return Equals(_Object);
 
@@ -418,25 +414,45 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #endregion
 
-        //#region Equals(myIGenericEdgeIPropertiesString)
+        #region Equals(myIGenericEdge)
 
-        ///// <summary>
-        ///// Compares two instances of this object.
-        ///// </summary>
-        ///// <param name="myIGenericEdgeIPropertiesString">An object to compare with.</param>
-        ///// <returns>true|false</returns>
-        //public Boolean Equals(IGenericEdge<IProperties<String>> myIGenericEdgeIPropertiesString)
-        //{
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myIGenericEdge">An object to compare with.</param>
+        /// <returns>true|false</returns>
+        public Boolean Equals(EdgeId myIGenericEdge)
+        {
 
-        //    if ((Object) myIGenericEdgeIPropertiesString == null)
-        //        return false;
+            if ((Object)myIGenericEdge == null)
+                return false;
 
-        //    //TODO: Here it might be good to check all attributes of the UNIQUE constraint!
-        //    return (this.Id == myIGenericEdgeIPropertiesString.Id);
+            //TODO: Here it might be good to check all attributes of the UNIQUE constraint!
+            return (this.Id == myIGenericEdge);
 
-        //}
+        }
 
-        //#endregion
+        #endregion
+
+        #region Equals(myIGenericEdgeDistance)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myIGenericEdgeDistance">An object to compare with.</param>
+        /// <returns>true|false</returns>
+        public Boolean Equals(IGenericEdge<EdgeId, Distance> myIGenericEdgeDistance)
+        {
+
+            if ((Object) myIGenericEdgeDistance == null)
+                return false;
+
+            //TODO: Here it might be good to check all attributes of the UNIQUE constraint!
+            return (this.Id == myIGenericEdgeDistance.Id);
+
+        }
+
+        #endregion
 
         #endregion
 
@@ -457,24 +473,7 @@ namespace de.ahzf.blueprints.InMemoryGraph
         }
 
         #endregion
-
-
-
-        //bool IEquatable<IProperties<String>>.Equals(IProperties<String> other)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //int IComparable<IProperties<String>>.CompareTo(IProperties<String> other)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //int IComparable.CompareTo(object obj)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
+        
     }
 
 }

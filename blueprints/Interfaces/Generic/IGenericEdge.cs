@@ -26,6 +26,17 @@ using de.ahzf.blueprints.Datastructures;
 namespace de.ahzf.blueprints
 {
 
+    public interface IGenericEdge<TId> : IGenericElement<TId>//, IEquatable<IGenericEdge>, IComparable<IGenericEdge>, IComparable
+        where TId : IEquatable<TId>, IComparable<TId>, IComparable
+    {
+
+        /// <summary>
+        /// Return the label associated with the edge.
+        /// </summary>
+        String Label { get; }
+
+    }
+
     /// <summary>
     /// An edge links two vertices. Along with its key/value properties,
     /// an edge has both a directionality and a label.
@@ -35,13 +46,22 @@ namespace de.ahzf.blueprints
     /// between the two vertices.
     /// Diagrammatically, outVertex ---label---> inVertex.
     /// </summary>
-    public interface IEdge : IEdge<EdgeId, String>
-    { }
-
-
-    public interface IEdge<TId, TKey> : IGenericEdge<TId, IProperties<TKey>>, IProperties<TKey>, IElement<TId, TKey>
+    /// <typeparam name="TEdgeData">The type of the additional data to be stored within an edge.</typeparam>
+    public interface IGenericEdge<TId, TEdgeData> : IGenericEdge<TId>//, IEquatable<IGenericEdge<TEdgeData>>, IComparable<IGenericEdge<TEdgeData>>
         where TId : IEquatable<TId>, IComparable<TId>, IComparable
-        where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
-    { }
+    {
+
+        /// <summary>
+        /// Return the vertex at the tail of the edge.
+        /// </summary>
+        IVertex OutVertex { get; }
+
+
+        /// <summary>
+        /// Return the vertex at the head of the edge.
+        /// </summary>
+        IVertex InVertex { get; }
+
+    }
 
 }

@@ -25,7 +25,7 @@ using de.ahzf.blueprints.Datastructures;
 
 #endregion
 
-namespace de.ahzf.blueprints.InMemoryGraph
+namespace de.ahzf.blueprints.GeoGraph
 {
 
     /// <summary>
@@ -34,7 +34,7 @@ namespace de.ahzf.blueprints.InMemoryGraph
     /// The incoming edges are those edges for which the vertex is the head.
     /// Diagrammatically, ---inEdges---> vertex ---outEdges--->.
     /// </summary>
-    public class Vertex : AStringProperties<VertexId>, IVertex
+    public class GeoVertex : IGeoVertex
     {
 
         #region Data
@@ -53,35 +53,22 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #region Properties
 
-        //#region Id
+        #region Id
 
-        ///// <summary>
-        ///// An identifier that is unique to its inheriting class.
-        ///// All vertices of a graph must have unique identifiers.
-        ///// All edges of a graph must have unique identifiers.
-        ///// </summary>
-        //public VertexId Id
-        //{
-        //    get
-        //    {
+        /// <summary>
+        /// An identifier that is unique to its inheriting class.
+        /// All vertices of a graph must have unique identifiers.
+        /// All edges of a graph must have unique identifiers.
+        /// </summary>
+        public VertexId Id { get; private set; }
 
-        //        Object _Object = null;
-
-        //        if (_Properties.TryGetValue(__Id, out _Object))
-        //            return _Object as VertexId;
-
-        //        return null;
-
-        //    }
-        //}
-
-        //#endregion
+        #endregion
 
         #endregion
 
         #region Constructor(s)
 
-        #region Vertex(myIGraph, myVertexId, myVertexInitializer = null)
+        #region GeoVertex(myIGraph, myVertexId, myVertexInitializer = null)
 
         /// <summary>
         /// Creates a new vertex.
@@ -89,12 +76,13 @@ namespace de.ahzf.blueprints.InMemoryGraph
         /// <param name="myIGraph">The associated graph.</param>
         /// <param name="myVertexId">The identification of this vertex.</param>
         /// <param name="myVertexInitializer">A delegate to initialize the newly created vertex.</param>
-        internal protected Vertex(IGraph myIGraph, VertexId myVertexId, Action<IVertex> myVertexInitializer = null)
-            : base(myIGraph, myVertexId)
+        internal protected GeoVertex(IGraph myIGraph, VertexId myVertexId, Action<IGeoVertex> myVertexInitializer = null)
         {
             
             _OutEdges = new HashSet<IEdge>();
             _InEdges  = new HashSet<IEdge>();
+
+            Id = myVertexId;
 
             if (myVertexInitializer != null)
                 myVertexInitializer(this);
@@ -102,6 +90,18 @@ namespace de.ahzf.blueprints.InMemoryGraph
         }
 
         #endregion
+
+        #endregion
+
+
+        #region IGeoVertex Members
+
+        public GeoCoordinate GeoCoordinate { get; set; }
+
+        public String Name      { get { return GeoCoordinate.Name;      } }
+        public Double Latitude  { get { return GeoCoordinate.Latitude;  } }
+        public Double Longitude { get { return GeoCoordinate.Longitude; } }
+        public Double Height    { get { return GeoCoordinate.Height;    } }
 
         #endregion
 
@@ -231,129 +231,129 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #region Operator overloading
 
-        #region Operator == (myVertex1, myVertex2)
+        #region Operator == (myGeoVertex1, myGeoVertex2)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myVertex1">A Vertex.</param>
-        /// <param name="myVertex2">Another Vertex.</param>
+        /// <param name="myGeoVertex1">A GeoVertex.</param>
+        /// <param name="myGeoVertex2">Another GeoVertex.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator == (Vertex myVertex1, Vertex myVertex2)
+        public static Boolean operator == (GeoVertex myGeoVertex1, GeoVertex myGeoVertex2)
         {
 
             // If both are null, or both are same instance, return true.
-            if (Object.ReferenceEquals(myVertex1, myVertex2))
+            if (Object.ReferenceEquals(myGeoVertex1, myGeoVertex2))
                 return true;
 
             // If one is null, but not both, return false.
-            if (((Object) myVertex1 == null) || ((Object) myVertex2 == null))
+            if (((Object) myGeoVertex1 == null) || ((Object) myGeoVertex2 == null))
                 return false;
 
-            return myVertex1.Equals(myVertex2);
+            return myGeoVertex1.Equals(myGeoVertex2);
 
         }
 
         #endregion
 
-        #region Operator != (myVertex1, myVertex2)
+        #region Operator != (myGeoVertex1, myGeoVertex2)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myVertex1">A Vertex.</param>
-        /// <param name="myVertex2">Another Vertex.</param>
+        /// <param name="myGeoVertex1">A GeoVertex.</param>
+        /// <param name="myGeoVertex2">Another GeoVertex.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator != (Vertex myVertex1, Vertex myVertex2)
+        public static Boolean operator != (GeoVertex myGeoVertex1, GeoVertex myGeoVertex2)
         {
-            return !(myVertex1 == myVertex2);
+            return !(myGeoVertex1 == myGeoVertex2);
         }
 
         #endregion
 
-        #region Operator <  (myVertex1, myVertex2)
+        #region Operator <  (myGeoVertex1, myGeoVertex2)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myVertex1">A Vertex.</param>
-        /// <param name="myVertex2">Another Vertex.</param>
+        /// <param name="myGeoVertex1">A GeoVertex.</param>
+        /// <param name="myGeoVertex2">Another GeoVertex.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator < (Vertex myVertex1, Vertex myVertex2)
+        public static Boolean operator < (GeoVertex myGeoVertex1, GeoVertex myGeoVertex2)
         {
 
-            // Check if myVertex1 is null
-            if ((Object) myVertex1 == null)
-                throw new ArgumentNullException("Parameter myVertex1 must not be null!");
+            // Check if myGeoVertex1 is null
+            if ((Object) myGeoVertex1 == null)
+                throw new ArgumentNullException("Parameter myGeoVertex1 must not be null!");
 
-            // Check if myVertex2 is null
-            if ((Object) myVertex2 == null)
-                throw new ArgumentNullException("Parameter myVertex2 must not be null!");
+            // Check if myGeoVertex2 is null
+            if ((Object) myGeoVertex2 == null)
+                throw new ArgumentNullException("Parameter myGeoVertex2 must not be null!");
 
-            return myVertex1.CompareTo(myVertex2) < 0;
+            return myGeoVertex1.CompareTo(myGeoVertex2) < 0;
 
         }
 
         #endregion
 
-        #region Operator >  (myVertex1, myVertex2)
+        #region Operator >  (myGeoVertex1, myGeoVertex2)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myVertex1">A Vertex.</param>
-        /// <param name="myVertex2">Another Vertex.</param>
+        /// <param name="myGeoVertex1">A GeoVertex.</param>
+        /// <param name="myGeoVertex2">Another GeoVertex.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator > (Vertex myVertex1, Vertex myVertex2)
+        public static Boolean operator > (GeoVertex myGeoVertex1, GeoVertex myGeoVertex2)
         {
 
-            // Check if myVertex1 is null
-            if ((Object) myVertex1 == null)
-                throw new ArgumentNullException("Parameter myVertex1 must not be null!");
+            // Check if myGeoVertex1 is null
+            if ((Object) myGeoVertex1 == null)
+                throw new ArgumentNullException("Parameter myGeoVertex1 must not be null!");
 
-            // Check if myVertex2 is null
-            if ((Object) myVertex2 == null)
-                throw new ArgumentNullException("Parameter myVertex2 must not be null!");
+            // Check if myGeoVertex2 is null
+            if ((Object) myGeoVertex2 == null)
+                throw new ArgumentNullException("Parameter myGeoVertex2 must not be null!");
 
-            return myVertex1.CompareTo(myVertex2) > 0;
+            return myGeoVertex1.CompareTo(myGeoVertex2) > 0;
 
         }
 
         #endregion
 
-        #region Operator <= (myVertex1, myVertex2)
+        #region Operator <= (myGeoVertex1, myGeoVertex2)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myVertex1">A Vertex.</param>
-        /// <param name="myVertex2">Another Vertex.</param>
+        /// <param name="myGeoVertex1">A GeoVertex.</param>
+        /// <param name="myGeoVertex2">Another GeoVertex.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator <= (Vertex myVertex1, Vertex myVertex2)
+        public static Boolean operator <= (GeoVertex myGeoVertex1, GeoVertex myGeoVertex2)
         {
-            return !(myVertex1 > myVertex2);
+            return !(myGeoVertex1 > myGeoVertex2);
         }
 
         #endregion
 
-        #region Operator >= (myVertex1, myVertex2)
+        #region Operator >= (myGeoVertex1, myGeoVertex2)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myVertex1">A Vertex.</param>
-        /// <param name="myVertex2">Another Vertex.</param>
+        /// <param name="myGeoVertex1">A GeoVertex.</param>
+        /// <param name="myGeoVertex2">Another GeoVertex.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator >= (Vertex myVertex1, Vertex myVertex2)
+        public static Boolean operator >= (GeoVertex myGeoVertex1, GeoVertex myGeoVertex2)
         {
-            return !(myVertex1 < myVertex2);
+            return !(myGeoVertex1 < myGeoVertex2);
         }
 
         #endregion
 
         #endregion
 
-        #region IComparable<IVertex> Members
+        #region IComparable<IGeoVertex> Members
 
         #region CompareTo(myObject)
 
@@ -362,7 +362,7 @@ namespace de.ahzf.blueprints.InMemoryGraph
         /// </summary>
         /// <param name="myObject">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public override Int32 CompareTo(Object myObject)
+        public Int32 CompareTo(Object myObject)
         {
 
             // Check if myObject is null
@@ -370,17 +370,17 @@ namespace de.ahzf.blueprints.InMemoryGraph
                 throw new ArgumentNullException("myObject must not be null!");
 
             // Check if myObject can be casted to an IEdge object
-            var myIVertex = myObject as IVertex;
-            if ((Object) myIVertex == null)
-                throw new ArgumentException("myObject is not of type myIVertex!");
+            var myIGeoVertex = myObject as IGeoVertex;
+            if ((Object) myIGeoVertex == null)
+                throw new ArgumentException("myObject is not of type myIGeoVertex!");
 
-            return CompareTo(myIVertex);
+            return CompareTo(myIGeoVertex);
 
         }
 
         #endregion
 
-        #region CompareTo(myIVertex)
+        #region CompareTo(myIGeoVertex)
 
         /// <summary>
         /// Compares two instances of this object.
@@ -390,9 +390,9 @@ namespace de.ahzf.blueprints.InMemoryGraph
         public Int32 CompareTo(IGenericVertex<VertexId> myIGenericVertex)
         {
 
-            // Check if myIVertex is null
+            // Check if myIGeoVertex is null
             if (myIGenericVertex == null)
-                throw new ArgumentNullException("myIGenericVertex must not be null!");
+                throw new ArgumentNullException("myIGeoVertex must not be null!");
 
             return Id.CompareTo(myIGenericVertex.Id);
 
@@ -400,29 +400,49 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #endregion
 
-        //#region CompareTo(myIGenericVertexIPropertiesString)
+        #region CompareTo(myIGeoVertex)
 
-        ///// <summary>
-        ///// Compares two instances of this object.
-        ///// </summary>
-        ///// <param name="myIGenericVertexIPropertiesString">An object to compare with.</param>
-        ///// <returns>true|false</returns>
-        //public Int32 CompareTo(IGenericVertex<IProperties<String>> myIGenericVertexIPropertiesString)
-        //{
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myIGenericVertex">An object to compare with.</param>
+        /// <returns>true|false</returns>
+        public Int32 CompareTo(VertexId myIGenericVertex)
+        {
 
-        //    // Check if myIVertex is null
-        //    if (myIGenericVertexIPropertiesString == null)
-        //        throw new ArgumentNullException("myIGenericVertexIPropertiesString must not be null!");
+            // Check if myIGeoVertex is null
+            if (myIGenericVertex == null)
+                throw new ArgumentNullException("myIGeoVertex must not be null!");
 
-        //    return Id.CompareTo(myIGenericVertexIPropertiesString.Id);
+            return Id.CompareTo(myIGenericVertex);
 
-        //}
-
-        //#endregion
+        }
 
         #endregion
 
-        #region IEquatable<IVertex> Members
+        #region CompareTo(myIGenericVertexGeoCoordinate)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myIGenericVertexGeoCoordinate">An object to compare with.</param>
+        /// <returns>true|false</returns>
+        public Int32 CompareTo(IGenericVertex<VertexId, GeoCoordinate> myIGenericVertexGeoCoordinate)
+        {
+
+            // Check if myIGeoVertex is null
+            if (myIGenericVertexGeoCoordinate == null)
+                throw new ArgumentNullException("myIGenericVertexGeoCoordinate must not be null!");
+
+            return Id.CompareTo(myIGenericVertexGeoCoordinate.Id);
+
+        }
+
+        #endregion
+
+        #endregion
+
+        #region IEquatable<IGeoVertex> Members
 
         #region Equals(myObject)
 
@@ -437,7 +457,7 @@ namespace de.ahzf.blueprints.InMemoryGraph
             if (myObject == null)
                 return false;
 
-            var _Object = myObject as IVertex;
+            var _Object = myObject as IGeoVertex;
             if (_Object != null)
                 return Equals(_Object);
 
@@ -457,7 +477,7 @@ namespace de.ahzf.blueprints.InMemoryGraph
         public Boolean Equals(IGenericVertex<VertexId> myIGenericVertex)
         {
 
-            if ((Object) myIGenericVertex == null)
+            if ((Object)myIGenericVertex == null)
                 return false;
 
             //TODO: Here it might be good to check all attributes of the UNIQUE constraint!
@@ -467,25 +487,45 @@ namespace de.ahzf.blueprints.InMemoryGraph
 
         #endregion
 
-        //#region Equals(myIGenericVertexIPropertiesString)
+        #region Equals(myIGenericVertex)
 
-        ///// <summary>
-        ///// Compares two instances of this object.
-        ///// </summary>
-        ///// <param name="myIGenericVertexIPropertiesString">An object to compare with.</param>
-        ///// <returns>true|false</returns>
-        //public Boolean Equals(IGenericVertex<IProperties<String>> myIGenericVertexIPropertiesString)
-        //{
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myIGenericVertex">An object to compare with.</param>
+        /// <returns>true|false</returns>
+        public Boolean Equals(VertexId myIGenericVertex)
+        {
 
-        //    if ((Object) myIGenericVertexIPropertiesString == null)
-        //        return false;
+            if ((Object) myIGenericVertex == null)
+                return false;
 
-        //    //TODO: Here it might be good to check all attributes of the UNIQUE constraint!
-        //    return (this.Id == myIGenericVertexIPropertiesString.Id);
+            //TODO: Here it might be good to check all attributes of the UNIQUE constraint!
+            return (this.Id == myIGenericVertex);
 
-        //}
+        }
 
-        //#endregion
+        #endregion
+
+        #region Equals(myIGenericVertexGeoCoordinate)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myIGenericVertexGeoCoordinate">An object to compare with.</param>
+        /// <returns>true|false</returns>
+        public Boolean Equals(IGenericVertex<VertexId, GeoCoordinate> myIGenericVertexGeoCoordinate)
+        {
+
+            if ((Object) myIGenericVertexGeoCoordinate == null)
+                return false;
+
+            //TODO: Here it might be good to check all attributes of the UNIQUE constraint!
+            return (this.Id == myIGenericVertexGeoCoordinate.Id);
+
+        }
+
+        #endregion
 
         #endregion
 
@@ -506,23 +546,6 @@ namespace de.ahzf.blueprints.InMemoryGraph
         }
 
         #endregion
-
-
-        //bool IEquatable<IProperties<String>>.Equals(IProperties<String> other)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //int IComparable<IProperties<String>>.CompareTo(IProperties<String> other)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //int IComparable.CompareTo(object obj)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
 
     }
 

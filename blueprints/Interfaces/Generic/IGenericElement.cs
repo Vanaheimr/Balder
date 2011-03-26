@@ -18,6 +18,7 @@
 #region Usings
 
 using System;
+using System.Collections.Generic;
 
 using de.ahzf.blueprints.Datastructures;
 
@@ -26,22 +27,17 @@ using de.ahzf.blueprints.Datastructures;
 namespace de.ahzf.blueprints
 {
 
-    /// <summary>
-    /// An edge links two vertices. Along with its key/value properties,
-    /// an edge has both a directionality and a label.
-    /// The directionality determines which vertex is the tail vertex
-    /// (out vertex) and which vertex is the head vertex (in vertex).
-    /// The edge label determines the type of relationship that exists
-    /// between the two vertices.
-    /// Diagrammatically, outVertex ---label---> inVertex.
-    /// </summary>
-    public interface IEdge : IEdge<EdgeId, String>
-    { }
-
-
-    public interface IEdge<TId, TKey> : IGenericEdge<TId, IProperties<TKey>>, IProperties<TKey>, IElement<TId, TKey>
+    public interface IGenericElement<TId> : IEquatable<TId>, IComparable<TId>, IComparable
         where TId : IEquatable<TId>, IComparable<TId>, IComparable
-        where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
-    { }
+    {
+
+        /// <summary>
+        /// An identifier that is unique to its inheriting class.
+        /// All vertices and edges of a graph must have unique identifiers.
+        /// </summary>
+        /// <returns>the identifier of the element</returns>
+        TId Id { get; }
+
+    }
 
 }

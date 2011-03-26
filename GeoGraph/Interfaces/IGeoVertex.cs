@@ -18,30 +18,28 @@
 #region Usings
 
 using System;
+using System.Collections.Generic;
 
 using de.ahzf.blueprints.Datastructures;
 
 #endregion
 
-namespace de.ahzf.blueprints
+namespace de.ahzf.blueprints.GeoGraph
 {
 
     /// <summary>
-    /// An edge links two vertices. Along with its key/value properties,
-    /// an edge has both a directionality and a label.
-    /// The directionality determines which vertex is the tail vertex
-    /// (out vertex) and which vertex is the head vertex (in vertex).
-    /// The edge label determines the type of relationship that exists
-    /// between the two vertices.
-    /// Diagrammatically, outVertex ---label---> inVertex.
+    /// A simple geo vertex.
     /// </summary>
-    public interface IEdge : IEdge<EdgeId, String>
-    { }
+    public interface IGeoVertex : IGenericVertex<VertexId, GeoCoordinate>
+    {
+        
+        GeoCoordinate   GeoCoordinate   { get; set; }
 
+        String          Name            { get; }
+        Double          Latitude        { get; }
+        Double          Longitude       { get; }
+        Double          Height          { get; }
 
-    public interface IEdge<TId, TKey> : IGenericEdge<TId, IProperties<TKey>>, IProperties<TKey>, IElement<TId, TKey>
-        where TId : IEquatable<TId>, IComparable<TId>, IComparable
-        where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
-    { }
+    }
 
 }

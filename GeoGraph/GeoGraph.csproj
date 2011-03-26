@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{D4D2ACAD-FF2E-44AD-9D4A-6E332C246FAD}</ProjectGuid>
+    <ProjectGuid>{029206EA-447E-4906-B34E-28EC9625FF27}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>InMemoryGraph</RootNamespace>
-    <AssemblyName>InMemoryGraph</AssemblyName>
+    <RootNamespace>GeoGraph</RootNamespace>
+    <AssemblyName>GeoGraph</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -29,7 +29,6 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\InMemoryGraph.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -41,10 +40,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Edge.cs" />
-    <Compile Include="InMemoryGraph.cs" />
+    <Compile Include="GeoEdge.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Vertex.cs" />
+    <Compile Include="Datastructures\Distance.cs" />
+    <Compile Include="Datastructures\GeoCoordinate.cs" />
+    <Compile Include="Interfaces\IGeoEdge.cs" />
+    <Compile Include="Interfaces\IGeoVertex.cs" />
+    <Compile Include="GeoVertex.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\blueprints\blueprints.csproj">

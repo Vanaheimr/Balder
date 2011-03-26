@@ -42,7 +42,7 @@ namespace de.ahzf.blueprints
         /// <param name="myIndexType">whether the index is a manual or automatic index</param>
         /// <returns>the index created</returns>
         IIndex<T> CreateIndex<T>(String myIndexName, IndexType myIndexType)
-            where T : class, IElement;
+            where T : class;//, IElement;
 
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace de.ahzf.blueprints
         /// <param name="myIndexName">the name of the index to retrieve</param>
         /// <returns>the retrieved index</returns>
         IIndex<T> GetIndex<T>(String myIndexName)
-            where T : class, IElement;
+            where T : class;//, IElement;
 
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace de.ahzf.blueprints
         /// <typeparam name="T"></typeparam>
         /// <returns>the indices associated with the graph</returns>
         IEnumerable<IIndex<T>> GetIndices<T>()
-            where T : class, IElement;
+            where T : class;//, IElement;
 
 
         /// <summary>

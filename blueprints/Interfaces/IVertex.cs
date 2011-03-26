@@ -33,70 +33,14 @@ namespace de.ahzf.blueprints
     /// The incoming edges are those edges for which the vertex is the head.
     /// Diagrammatically, ---inEdges---> vertex ---outEdges--->.
     /// </summary>
-    public interface IVertex : IElement, IEquatable<IVertex>, IComparable<IVertex>, IComparable
-    {
-
-        #region Properties
-
-        /// <summary>
-        /// An identifier that is unique to its inheriting class.
-        /// All vertices and edges of a graph must have unique identifiers.
-        /// </summary>
-        /// <returns>the identifier of the element</returns>
-        new VertexId Id { get; }
-
-        #endregion
+//    public interface IVertex : IGenericVertex<IProperties<String>>, IProperties<String>, IElement<String>
+    public interface IVertex : IVertex<VertexId, String>
+    { }
 
 
-
-        /// <summary>
-        /// Add an outgoing edge.
-        /// </summary>
-        /// <param name="myIEdge">The edge to add.</param>
-        void AddOutEdge(IEdge myIEdge);
-
-        /// <summary>
-        /// The edges emanating from, or leaving, this vertex.
-        /// </summary>
-        IEnumerable<IEdge> OutEdges { get; }
-
-        /// <summary>
-        /// The edges emanating from, or leaving, this vertex
-        /// filtered by their label.
-        /// </summary>
-        IEnumerable<IEdge> GetOutEdges(String myLabel);
-
-        /// <summary>
-        /// Remove an outgoing edge.
-        /// </summary>
-        /// <param name="myIEdge">The edge to remove.</param>
-        void RemoveOutEdge(IEdge myIEdge);
-
-
-
-        /// <summary>
-        /// Add an incoming edge.
-        /// </summary>
-        /// <param name="myIEdge">The edge to add.</param>
-        void AddInEdge(IEdge myIEdge);
-
-        /// <summary>
-        /// The edges incoming to, or arriving at, this vertex.
-        /// </summary>
-        IEnumerable<IEdge> InEdges { get; }
-
-        /// <summary>
-        /// The edges incoming to, or arriving at, this vertex
-        /// filtered by their label.
-        /// </summary>
-        IEnumerable<IEdge> GetInEdges(String myLabel);
-
-        /// <summary>
-        /// Remove an incoming edge.
-        /// </summary>
-        /// <param name="myIEdge">The edge to remove.</param>
-        void RemoveInEdge(IEdge myIEdge);
-
-    }
+    public interface IVertex<TId, TKey> : IGenericVertex<TId, IProperties<TKey>>, IProperties<TKey>, IElement<TId, TKey>
+        where TId : IEquatable<TId>, IComparable<TId>, IComparable
+        where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
+    { }
 
 }

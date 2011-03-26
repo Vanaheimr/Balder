@@ -32,7 +32,7 @@ namespace de.ahzf.blueprints
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public interface AutomaticIndex<T> : IIndex<T>
-        where T : IElement
+//        where T : IElement
     {
 
         /// <summary>

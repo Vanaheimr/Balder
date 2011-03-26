@@ -49,21 +49,29 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AProperties.cs" />
+    <Compile Include="AStringProperties.cs" />
     <Compile Include="Datastructures\SystemId.cs" />
     <Compile Include="Datastructures\ElementId.cs" />
     <Compile Include="Datastructures\VertexId.cs" />
     <Compile Include="Datastructures\RevisionId.cs" />
     <Compile Include="Datastructures\UniqueTimestamp.cs" />
     <Compile Include="Datastructures\EdgeId.cs" />
-    <Compile Include="Extensions\IGraphExtensions.cs" />
     <Compile Include="Extensions\IElementExtensions.cs" />
+    <Compile Include="Extensions\IGraphExtensions.cs" />
+    <Compile Include="Extensions\IPropertiesExtensions.cs" />
+    <Compile Include="Interfaces\Generic\IGenericElement.cs" />
+    <Compile Include="Interfaces\IElement.cs" />
+    <Compile Include="Interfaces\Generic\IGenericEdge.cs" />
+    <Compile Include="Interfaces\Generic\IGenericVertex.cs" />
+    <Compile Include="Interfaces\Generic\IGenericGraph.cs" />
     <Compile Include="Interfaces\IAutomaticIndex.cs" />
     <Compile Include="Datastructures\IndexType.cs" />
     <Compile Include="Interfaces\IIndex.cs" />
     <Compile Include="Interfaces\IIndexableGraph.cs" />
     <Compile Include="Interfaces\IGraph.cs" />
     <Compile Include="Interfaces\IEdge.cs" />
-    <Compile Include="Interfaces\IElement.cs" />
+    <Compile Include="Interfaces\IProperties.cs" />
     <Compile Include="Interfaces\IVertex.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools\AutoDiscovery.cs" />
