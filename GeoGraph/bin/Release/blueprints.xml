@@ -1,0 +1,2025 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>blueprints</name>
+    </assembly>
+    <members>
+        <member name="T:de.ahzf.blueprints.IGraph">
+            <summary>
+            A property graph is a container object for a collection of vertices and edges.
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.IGraph.AddVertex(de.ahzf.blueprints.Datastructures.VertexId,System.Action{de.ahzf.blueprints.IVertex})">
+            <summary>
+            Create a new vertex, add it to the graph, and return the newly created vertex.
+            The provided object identifier is a recommendation for the identifier to use.
+            It is not required that the implementation use this identifier.
+            If the object identifier is already being used by the graph to reference a vertex,
+            then that reference vertex is returned and no vertex is created.
+            If the identifier is a vertex (perhaps from another graph),
+            then the vertex is duplicated for this graph. Thus, a vertex can not be an identifier.
+            </summary>
+            <param name="VertexId">The recommended object identifier.</param>
+            <param name="VertexInitializer">A delegate to initialize the new vertex.</param>
+            <returns>The newly created vertex or the vertex already referenced by the provided identifier.</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.IGraph.AddVertex(de.ahzf.blueprints.IVertex)">
+            <summary>
+            Adds the given IVertex object to the graph and returns it again.
+            </summary>
+            <param name="myIVertex">An object implementing IVertex.</param>
+            <returns>The object implementing IVertex.</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.IGraph.GetVertex(de.ahzf.blueprints.Datastructures.VertexId)">
+            <summary>
+            Return the vertex referenced by the given vertex identifier.
+            If no vertex is referenced by that identifier, then return null.
+            </summary>
+            <param name="myVertexId">The identifier of the vertex.</param>
+            <returns>The vertex referenced by the provided identifier or null when no such edge exists.</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.IGraph.GetVertices(de.ahzf.blueprints.Datastructures.VertexId[])">
+            <summary>
+            Return a collection of vertices referenced by the given array of vertex identifiers.
+            </summary>
+            <param name="myVertexIds">An array of vertex identifiers.</param>
+        </member>
+        <member name="M:de.ahzf.blueprints.IGraph.GetVertices(System.Func{de.ahzf.blueprints.IVertex,System.Boolean})">
+            <summary>
+            Get an enumeration of all vertices in the graph.
+            An additional vertex filter may be applied for filtering.
+            </summary>
+            <param name="myVertexFilter">A delegate for vertex filtering.</param>
+        </member>
+        <member name="M:de.ahzf.blueprints.IGraph.RemoveVertex(de.ahzf.blueprints.IVertex)">
+            <summary>
+            Remove the provided vertex from the graph.
+            Upon removing the vertex, all the edges by which the vertex is connected will be removed as well.
+            </summary>
+            <param name="myIVertex">The vertex to be removed from the graph</param>
+        </member>
+        <member name="M:de.ahzf.blueprints.IGraph.AddEdge(de.ahzf.blueprints.IVertex,de.ahzf.blueprints.IVertex,de.ahzf.blueprints.Datastructures.EdgeId,System.String,System.Action{de.ahzf.blueprints.IEdge})">
+            <summary>
+            Add an edge to the graph. The added edges requires a recommended identifier, a tail vertex, an head vertex, and a label.
+            Like adding a vertex, the provided object identifier is can be ignored by the implementation.
+            </summary>
+            <param name="myOutVertex">The vertex on the tail of the edge.</param>
+            <param name="myInVertex">The vertex on the head of the edge.</param>
+            <param name="EdgeId">The recommended object identifier.</param>
+            <param name="Label">The label associated with the edge.</param>
+            <param name="EdgeInitializer">A delegate to initialize the new edge.</param>
+            <returns>The newly created edge</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.IGraph.GetEdge(de.ahzf.blueprints.Datastructures.EdgeId)">
+            <summary>
+            Return the edge referenced by the given edge identifier.
+            If no edge is referenced by that identifier, then return null.
+            </summary>
+            <param name="myEdgeId">The identifier of the edge.</param>
+            <returns>The edge referenced by the provided identifier or null when no such edge exists.</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.IGraph.GetEdges(de.ahzf.blueprints.Datastructures.EdgeId[])">
+            <summary>
+            Get an enumeration of all edges in the graph.
+            An additional edge filter may be applied for filtering.
+            </summary>
+            <param name="myEdgeIds">An array of edge identifiers.</param>
+        </member>
+        <member name="M:de.ahzf.blueprints.IGraph.GetEdges(System.Func{de.ahzf.blueprints.IEdge,System.Boolean})">
+            <summary>
+            Get an enumeration of all edges in the graph.
+            An additional edge filter may be applied for filtering.
+            </summary>
+            <param name="myEdgeFilter">A delegate for edge filtering.</param>
+        </member>
+        <member name="M:de.ahzf.blueprints.IGraph.RemoveEdge(de.ahzf.blueprints.IEdge)">
+            <summary>
+            Remove the provided edge from the graph.
+            </summary>
+            <param name="myIEdge">The edge to be removed from the graph</param>
+        </member>
+        <member name="M:de.ahzf.blueprints.IGraph.Clear">
+            <summary>
+            Remove all the edges and vertices from the graph.
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.IGraph.Shutdown">
+            <summary>
+            A shutdown function is required to properly close the graph.
+            This is important for implementations that utilize disk-based serializations.
+            </summary>
+        </member>
+        <member name="T:de.ahzf.blueprints.IVertex">
+            <summary>
+            A vertex maintains pointers to both a set of incoming and outgoing edges.
+            The outgoing edges are those edges for which the vertex is the tail.
+            The incoming edges are those edges for which the vertex is the head.
+            Diagrammatically, ---inEdges---> vertex ---outEdges--->.
+            </summary>
+        </member>
+        <member name="T:de.ahzf.blueprints.IVertex`2">
+            <summary>
+            A vertex maintains pointers to both a set of incoming and outgoing edges.
+            The outgoing edges are those edges for which the vertex is the tail.
+            The incoming edges are those edges for which the vertex is the head.
+            Diagrammatically, ---inEdges---> vertex ---outEdges--->.
+            </summary>
+            <typeparam name="TId">The type of the id.</typeparam>
+            <typeparam name="TKey">The type of the property keys.</typeparam>
+        </member>
+        <member name="T:de.ahzf.blueprints.IGenericVertex`2">
+            <summary>
+            A vertex maintains pointers to both a set of incoming and outgoing edges.
+            The outgoing edges are those edges for which the vertex is the tail.
+            The incoming edges are those edges for which the vertex is the head.
+            Diagrammatically, ---inEdges---> vertex ---outEdges--->.
+            </summary>
+            <typeparam name="TId">The type of the id.</typeparam>
+        </member>
+        <member name="T:de.ahzf.blueprints.IGenericVertex`1">
+            <summary>
+            A vertex maintains pointers to both a set of incoming and outgoing edges.
+            The outgoing edges are those edges for which the vertex is the tail.
+            The incoming edges are those edges for which the vertex is the head.
+            Diagrammatically, ---inEdges---> vertex ---outEdges--->.
+            </summary>
+            <typeparam name="TId">The type of the id.</typeparam>
+        </member>
+        <member name="T:de.ahzf.blueprints.IGenericElement`1">
+            <summary>
+            A general graph element.
+            </summary>
+            <typeparam name="TId">The type of the id.</typeparam>
+        </member>
+        <member name="P:de.ahzf.blueprints.IGenericElement`1.Id">
+            <summary>
+            An identifier that is unique to its inheriting class.
+            All vertices and edges of a graph must have unique identifiers.
+            </summary>
+            <returns>the identifier of the element</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.IGenericVertex`2.AddOutEdge(de.ahzf.blueprints.IEdge)">
+            <summary>
+            Add an outgoing edge.
+            </summary>
+            <param name="myIEdge">The edge to add.</param>
+        </member>
+        <member name="M:de.ahzf.blueprints.IGenericVertex`2.GetOutEdges(System.String)">
+            <summary>
+            The edges emanating from, or leaving, this vertex
+            filtered by their label.
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.IGenericVertex`2.RemoveOutEdge(de.ahzf.blueprints.IEdge)">
+            <summary>
+            Remove an outgoing edge.
+            </summary>
+            <param name="myIEdge">The edge to remove.</param>
+        </member>
+        <member name="M:de.ahzf.blueprints.IGenericVertex`2.AddInEdge(de.ahzf.blueprints.IEdge)">
+            <summary>
+            Add an incoming edge.
+            </summary>
+            <param name="myIEdge">The edge to add.</param>
+        </member>
+        <member name="M:de.ahzf.blueprints.IGenericVertex`2.GetInEdges(System.String)">
+            <summary>
+            The edges incoming to, or arriving at, this vertex
+            filtered by their label.
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.IGenericVertex`2.RemoveInEdge(de.ahzf.blueprints.IEdge)">
+            <summary>
+            Remove an incoming edge.
+            </summary>
+            <param name="myIEdge">The edge to remove.</param>
+        </member>
+        <member name="P:de.ahzf.blueprints.IGenericVertex`2.OutEdges">
+            <summary>
+            The edges emanating from, or leaving, this vertex.
+            </summary>
+        </member>
+        <member name="P:de.ahzf.blueprints.IGenericVertex`2.InEdges">
+            <summary>
+            The edges incoming to, or arriving at, this vertex.
+            </summary>
+        </member>
+        <member name="T:de.ahzf.blueprints.IProperties`1">
+            <summary>
+            An element is the base class for both vertices and edges.
+            An element has an identifier that must be unique to its inheriting classes (vertex or edges).
+            An element can maintain a collection of key/value properties.
+            Keys are always strings and values can be any object.
+            Particular implementations can reduce the space of objects that can be used as values.
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.IProperties`1.SetProperty(`0,System.Object)">
+            <summary>
+            Assign a key/value property to the element.
+            If a value already exists for this key, then the previous key/value is overwritten.
+            </summary>
+            <param name="myKey">The property key.</param>
+            <param name="myValue">The property value.</param>
+        </member>
+        <member name="M:de.ahzf.blueprints.IProperties`1.GetProperty(`0)">
+            <summary>
+            Return the property value associated with the given property key.
+            </summary>
+            <param name="myKey">The key of the key/value property.</param>
+            <returns>The property value related to the string key.</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.IProperties`1.GetProperties(System.Func{`0,System.Object,System.Boolean})">
+            <summary>
+            Allows to return a filtered enumeration of all properties.
+            </summary>
+            <param name="myPropertyFilter">A function to filter a property based on its key and value.</param>
+            <returns>A enumeration of all key/value pairs matching the given property filter.</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.IProperties`1.RemoveProperty(`0)">
+            <summary>
+            Removes a key/value property from the element.
+            </summary>
+            <param name="myKey">The key of the property to remove.</param>
+            <returns>The property value associated with that key prior to removal.</returns>
+        </member>
+        <member name="P:de.ahzf.blueprints.IProperties`1.PropertyKeys">
+            <summary>
+            Return all property keys.
+            </summary>
+        </member>
+        <member name="T:de.ahzf.blueprints.IElement`2">
+            <summary>
+            An element is the base class for both vertices and edges.
+            An element has an identifier that must be unique to its inheriting classes (vertex or edges).
+            An element can maintain a collection of key/value properties.
+            Keys are always strings and values can be any object.
+            Particular implementations can reduce the space of objects that can be used as values.
+            </summary>
+            <typeparam name="TId">The type of the id.</typeparam>
+            <typeparam name="TKey">The type of the property keys.</typeparam>
+        </member>
+        <member name="T:de.ahzf.blueprints.IGraph`6">
+            <summary>
+            A property graph is a container object for a collection of vertices and edges.
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.IGraph`6.AddVertex(de.ahzf.blueprints.Datastructures.VertexId,System.Action{de.ahzf.blueprints.IVertex})">
+            <summary>
+            Create a new vertex, add it to the graph, and return the newly created vertex.
+            The provided object identifier is a recommendation for the identifier to use.
+            It is not required that the implementation use this identifier.
+            If the object identifier is already being used by the graph to reference a vertex,
+            then that reference vertex is returned and no vertex is created.
+            If the identifier is a vertex (perhaps from another graph),
+            then the vertex is duplicated for this graph. Thus, a vertex can not be an identifier.
+            </summary>
+            <param name="VertexId">The recommended object identifier.</param>
+            <param name="VertexInitializer">A delegate to initialize the new vertex.</param>
+            <returns>The newly created vertex or the vertex already referenced by the provided identifier.</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.IGraph`6.GetVertex(de.ahzf.blueprints.Datastructures.VertexId)">
+            <summary>
+            Return the vertex referenced by the given vertex identifier.
+            If no vertex is referenced by that identifier, then return null.
+            </summary>
+            <param name="myVertexId">The identifier of the vertex.</param>
+            <returns>The vertex referenced by the provided identifier or null when no such edge exists.</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.IGraph`6.GetVertices(de.ahzf.blueprints.Datastructures.VertexId[])">
+            <summary>
+            Return a collection of vertices referenced by the given array of vertex identifiers.
+            </summary>
+            <param name="myVertexIds">An array of vertex identifiers.</param>
+        </member>
+        <member name="M:de.ahzf.blueprints.IGraph`6.GetVertices(System.Func{de.ahzf.blueprints.IVertex,System.Boolean})">
+            <summary>
+            Get an enumeration of all vertices in the graph.
+            An additional vertex filter may be applied for filtering.
+            </summary>
+            <param name="myVertexFilter">A delegate for vertex filtering.</param>
+        </member>
+        <member name="M:de.ahzf.blueprints.IGraph`6.RemoveVertex(de.ahzf.blueprints.IVertex)">
+            <summary>
+            Remove the provided vertex from the graph.
+            Upon removing the vertex, all the edges by which the vertex is connected will be removed as well.
+            </summary>
+            <param name="myIVertex">The vertex to be removed from the graph</param>
+        </member>
+        <member name="M:de.ahzf.blueprints.IGraph`6.AddEdge(de.ahzf.blueprints.IVertex,de.ahzf.blueprints.IVertex,de.ahzf.blueprints.Datastructures.EdgeId,System.String,System.Action{de.ahzf.blueprints.IEdge})">
+            <summary>
+            Add an edge to the graph. The added edges requires a recommended identifier, a tail vertex, an head vertex, and a label.
+            Like adding a vertex, the provided object identifier is can be ignored by the implementation.
+            </summary>
+            <param name="myOutVertex">The vertex on the tail of the edge.</param>
+            <param name="myInVertex">The vertex on the head of the edge.</param>
+            <param name="EdgeId">The recommended object identifier.</param>
+            <param name="Label">The label associated with the edge.</param>
+            <param name="EdgeInitializer">A delegate to initialize the new edge.</param>
+            <returns>The newly created edge</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.IGraph`6.GetEdge(de.ahzf.blueprints.Datastructures.EdgeId)">
+            <summary>
+            Return the edge referenced by the given edge identifier.
+            If no edge is referenced by that identifier, then return null.
+            </summary>
+            <param name="myEdgeId">The identifier of the edge.</param>
+            <returns>The edge referenced by the provided identifier or null when no such edge exists.</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.IGraph`6.GetEdges(de.ahzf.blueprints.Datastructures.EdgeId[])">
+            <summary>
+            Get an enumeration of all edges in the graph.
+            An additional edge filter may be applied for filtering.
+            </summary>
+            <param name="myEdgeIds">An array of edge identifiers.</param>
+        </member>
+        <member name="M:de.ahzf.blueprints.IGraph`6.GetEdges(System.Func{de.ahzf.blueprints.IEdge,System.Boolean})">
+            <summary>
+            Get an enumeration of all edges in the graph.
+            An additional edge filter may be applied for filtering.
+            </summary>
+            <param name="myEdgeFilter">A delegate for edge filtering.</param>
+        </member>
+        <member name="M:de.ahzf.blueprints.IGraph`6.RemoveEdge(de.ahzf.blueprints.IEdge)">
+            <summary>
+            Remove the provided edge from the graph.
+            </summary>
+            <param name="myIEdge">The edge to be removed from the graph</param>
+        </member>
+        <member name="M:de.ahzf.blueprints.IGraph`6.Clear">
+            <summary>
+            Remove all the edges and vertices from the graph.
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.IGraph`6.Shutdown">
+            <summary>
+            A shutdown function is required to properly close the graph.
+            This is important for implementations that utilize disk-based serializations.
+            </summary>
+        </member>
+        <member name="T:de.ahzf.blueprints.IPropertiesExtensions">
+            <summary>
+            Extensions to the IElement interface
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.IPropertiesExtensions.AsDynamic``1(de.ahzf.blueprints.IProperties{``0})">
+            <summary>
+            Converts the given IElement into a dynamic object
+            </summary>
+            <param name="myIElement">An object implementing IElement.</param>
+            <returns>A dynamic object</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.IPropertiesExtensions.SetProperty``1(de.ahzf.blueprints.IProperties{``0},System.Collections.Generic.KeyValuePair{``0,System.Object})">
+            <summary>
+            Assign a KeyValuePair to the element.
+            If a value already exists for this key, then the previous key/value is overwritten.
+            </summary>
+            <param name="myIElement">An object implementing IElement.</param>
+            <param name="myKeyValuePair">A KeyValuePair of type string and object</param>
+        </member>
+        <member name="M:de.ahzf.blueprints.IPropertiesExtensions.SetProperties``1(de.ahzf.blueprints.IProperties{``0},System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{``0,System.Object}})">
+            <summary>
+            Assign the given enumeration of KeyValuePairs to the element.
+            If a value already exists for a key, then the previous key/value is overwritten.
+            </summary>
+            <param name="myIElement">An object implementing IElement.</param>
+            <param name="myKeyValuePairs">A enumeration of KeyValuePairs of type string and object</param>
+        </member>
+        <member name="M:de.ahzf.blueprints.IPropertiesExtensions.SetProperties``1(de.ahzf.blueprints.IProperties{``0},System.Collections.Generic.IDictionary{``0,System.Object})">
+            <summary>
+            Assign the given IDictionary to the element.
+            If a value already exists for a key, then the previous key/value is overwritten.
+            </summary>
+            <param name="myIElement">An object implementing IElement.</param>
+            <param name="myIDictionary">A IDictionary of type string and object</param>
+        </member>
+        <member name="M:de.ahzf.blueprints.IPropertiesExtensions.HasProperty``1(de.ahzf.blueprints.IProperties{``0},``0)">
+            <summary>
+            Checks if a property having the given property key exists within this element.
+            </summary>
+            <param name="myIElement">An object implementing IElement.</param>
+            <param name="myKey">The property key.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.IPropertiesExtensions.HasProperty``1(de.ahzf.blueprints.IProperties{``0},``0,System.Object)">
+            <summary>
+            Checks if a property having the given property key and value
+            exists within this element.
+            NOTE: Will not work as expected if the values do not implement
+            the ".Equals(...)"-methods correctly!
+            </summary>
+            <param name="myIElement">An object implementing IElement.</param>
+            <param name="myKey">The property key.</param>
+            <param name="myValue">The property value.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.IPropertiesExtensions.HasProperty``2(de.ahzf.blueprints.IProperties{``0},``0,``1)">
+            <summary>
+            Checks if a property having the given property key and value
+            exists within this element.
+            NOTE: Will not work as expected if the values do not implement
+            the ".Equals(...)"-methods correctly!
+            </summary>
+            <typeparam name="TValue">The type the property.</typeparam>
+            <param name="myIElement">An object implementing IElement.</param>
+            <param name="myKey">The property key.</param>
+            <param name="myValue">The property value.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.IPropertiesExtensions.HasProperty``1(de.ahzf.blueprints.IProperties{``0},System.Func{``0,System.Object,System.Boolean})">
+            <summary>
+            Checks if a property having the given property key and value
+            exists within this element.
+            NOTE: Will not work as expected if the values do not implement
+            the ".Equals(...)"-methods correctly!
+            </summary>
+            <param name="myIElement">An object implementing IElement.</param>
+            <param name="myPropertyFilter">A delegate for property filtering.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.IPropertiesExtensions.HasProperty``2(de.ahzf.blueprints.IProperties{``0},System.Func{``0,``1,System.Boolean})">
+            <summary>
+            Checks if any properties matching the given property filter
+            exist within this element.
+            </summary>
+            <param name="myIElement">An object implementing IElement.</param>
+            <param name="myPropertyFilter">A delegate for property filtering.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.IPropertiesExtensions.GetProperty``2(de.ahzf.blueprints.IProperties{``0},``0)">
+            <summary>
+            Return the object value of type TValue associated with the provided string key.
+            </summary>
+            <typeparam name="TKey">The type of the property keys.</typeparam>
+            <typeparam name="TValue">The type the property.</typeparam>
+            <param name="myIElement">An object implementing IElement.</param>
+            <param name="myKey">the key of the key/value property</param>
+            <returns>the object value related to the string key</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.IPropertiesExtensions.GetProperties``2(de.ahzf.blueprints.IProperties{``0},System.Func{``0,``1,System.Boolean})">
+            <summary>
+            Get an enumeration of all properties as KeyValuePairs.
+            An additional property filter may be applied for filtering.
+            </summary>
+            <typeparam name="TValue">The type the properties.</typeparam>
+            <param name="myIElement">An object implementing IElement.</param>
+            <param name="myPropertyFilter">A delegate for property filtering.</param>
+            <returns>An enumeration of all selected properties.</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.IPropertiesExtensions.GetPropertyValues``1(de.ahzf.blueprints.IProperties{``0},System.Func{``0,System.Object,System.Boolean})">
+            <summary>
+            Get an enumeration of all property values.
+            An additional property filter may be applied for filtering.
+            </summary>
+            <param name="myIElement">An object implementing IElement.</param>
+            <param name="myPropertyFilter">A delegate for property filtering.</param>
+            <returns>An enumeration of all selected property values.</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.IPropertiesExtensions.GetPropertyValues``2(de.ahzf.blueprints.IProperties{``0},System.Func{``0,System.Object,System.Boolean})">
+            <summary>
+            Get an enumeration of all property values.
+            An additional property filter may be applied for filtering.
+            </summary>
+            <typeparam name="TValue">The type the properties.</typeparam>
+            <param name="myIElement">An object implementing IElement.</param>
+            <param name="myPropertyFilter">A delegate for property filtering.</param>
+            <returns>An enumeration of all selected property values.</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.IPropertiesExtensions.CompareProperties``1(de.ahzf.blueprints.IProperties{``0},de.ahzf.blueprints.IProperties{``0})">
+            <summary>
+            Compares the properties of two different IElement objects (vertices or edges).
+            </summary>
+            <param name="myIElement1">A vertex or edge</param>
+            <param name="myIElement2">Another vertex or edge</param>
+            <returns>true if both IElement objects carry the same properties</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.IPropertiesExtensions.AsList``2(``1)">
+            <summary>
+            Return the given object as an IEnumerable of its type.
+            </summary>
+            <typeparam name="TValue">The type the object.</typeparam>
+            <param name="myIElement">An object implementing IElement.</param>
+            <returns>The given object as an IEnumerable of its type.</returns>
+        </member>
+        <member name="T:de.ahzf.blueprints.Datastructures.UniqueTimestamp">
+            <summary>
+            This class will return the current timestamp, but will ensure its
+            uniqueness which means it will never return the same value twice.
+            </summary>
+        </member>
+        <member name="P:de.ahzf.blueprints.Datastructures.UniqueTimestamp.Now">
+            <summary>
+            Returns an unique timestamp as a DateTime object
+            </summary>
+        </member>
+        <member name="P:de.ahzf.blueprints.Datastructures.UniqueTimestamp.Ticks">
+            <summary>
+            Returns an unique timestamp as an UInt64
+            </summary>
+        </member>
+        <member name="P:de.ahzf.blueprints.Datastructures.UniqueTimestamp.GetUniqueTimestamp">
+            <summary>
+            Return a unique timestamp
+            </summary>
+        </member>
+        <member name="T:de.ahzf.blueprints.Datastructures.SystemId">
+            <summary>
+            A SystemId is unique identificator for a single system within
+            a larger distributed system.
+            </summary>    
+        </member>
+        <member name="T:de.ahzf.blueprints.Datastructures.ElementId">
+            <summary>
+            A Id is unique identificator.
+            </summary>    
+        </member>
+        <member name="F:de.ahzf.blueprints.Datastructures.ElementId._ElementId">
+            <summary>
+            Holding the identification of this element.
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.ElementId.#ctor">
+            <summary>
+            Generates a new ElementId based on a GUID
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.ElementId.#ctor(System.Int32)">
+            <summary>
+            Generates a ElementId based on the content of an Int32
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.ElementId.#ctor(System.UInt32)">
+            <summary>
+            Generates a ElementId based on the content of an UInt32
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.ElementId.#ctor(System.Int64)">
+            <summary>
+            Generates a ElementId based on the content of an Int64
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.ElementId.#ctor(System.UInt64)">
+            <summary>
+            Generates a ElementId based on the content of an UInt64
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.ElementId.#ctor(System.String)">
+            <summary>
+            Generates a ElementId based on the content of myString.
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.ElementId.#ctor(System.Uri)">
+            <summary>
+            Generates a ElementId based on the content of myUri.
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.ElementId.#ctor(de.ahzf.blueprints.Datastructures.ElementId)">
+            <summary>
+            Generates a ElementId based on the content of myElementId
+            </summary>
+            <param name="myElementId">A ElementId</param>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.ElementId.CompareTo(System.Object)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myObject">An object to compare with.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.ElementId.CompareTo(de.ahzf.blueprints.Datastructures.ElementId)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myElementId">An object to compare with.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.ElementId.Equals(System.Object)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myObject">An object to compare with.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.ElementId.Equals(de.ahzf.blueprints.Datastructures.ElementId)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myElementId">An object to compare with.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.ElementId.GetHashCode">
+            <summary>
+            Return the HashCode of this object.
+            </summary>
+            <returns>The HashCode of this object.</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.ElementId.ToString">
+            <summary>
+            Returns a string representation of this object.
+            </summary>
+            <returns>A string representation of this object.</returns>
+        </member>
+        <member name="P:de.ahzf.blueprints.Datastructures.ElementId.Length">
+            <summary>
+            Returns the length of the identificator.
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.SystemId.#ctor">
+            <summary>
+            Generates a new SystemId
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.SystemId.#ctor(System.Int32)">
+            <summary>
+            Generates a SystemId based on the content of an Int32
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.SystemId.#ctor(System.UInt32)">
+            <summary>
+            Generates a SystemId based on the content of an UInt32
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.SystemId.#ctor(System.Int64)">
+            <summary>
+            Generates a SystemId based on the content of an Int64
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.SystemId.#ctor(System.UInt64)">
+            <summary>
+            Generates a SystemId based on the content of an UInt64
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.SystemId.#ctor(System.String)">
+            <summary>
+            Generates a SystemId based on the content of myString.
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.SystemId.#ctor(System.Uri)">
+            <summary>
+            Generates a SystemId based on the content of myUri.
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.SystemId.#ctor(de.ahzf.blueprints.Datastructures.SystemId)">
+            <summary>
+            Generates a SystemId based on the content of mySystemId
+            </summary>
+            <param name="mySystemId">A SystemId</param>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.SystemId.op_Equality(de.ahzf.blueprints.Datastructures.SystemId,de.ahzf.blueprints.Datastructures.SystemId)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="mySystemId1">A SystemId.</param>
+            <param name="mySystemId2">Another SystemId.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.SystemId.op_Inequality(de.ahzf.blueprints.Datastructures.SystemId,de.ahzf.blueprints.Datastructures.SystemId)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="mySystemId1">A SystemId.</param>
+            <param name="mySystemId2">Another SystemId.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.SystemId.op_LessThan(de.ahzf.blueprints.Datastructures.SystemId,de.ahzf.blueprints.Datastructures.SystemId)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="mySystemId1">A SystemId.</param>
+            <param name="mySystemId2">Another SystemId.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.SystemId.op_GreaterThan(de.ahzf.blueprints.Datastructures.SystemId,de.ahzf.blueprints.Datastructures.SystemId)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="mySystemId1">A SystemId.</param>
+            <param name="mySystemId2">Another SystemId.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.SystemId.op_LessThanOrEqual(de.ahzf.blueprints.Datastructures.SystemId,de.ahzf.blueprints.Datastructures.SystemId)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="mySystemId1">A SystemId.</param>
+            <param name="mySystemId2">Another SystemId.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.SystemId.op_GreaterThanOrEqual(de.ahzf.blueprints.Datastructures.SystemId,de.ahzf.blueprints.Datastructures.SystemId)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="mySystemId1">A SystemId.</param>
+            <param name="mySystemId2">Another SystemId.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.SystemId.CompareTo(System.Object)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myObject">An object to compare with.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.SystemId.CompareTo(de.ahzf.blueprints.Datastructures.SystemId)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="mySystemId">An object to compare with.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.SystemId.Equals(System.Object)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myObject">An object to compare with.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.SystemId.Equals(de.ahzf.blueprints.Datastructures.SystemId)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="mySystemId">An object to compare with.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.SystemId.GetHashCode">
+            <summary>
+            Return the HashCode of this object.
+            </summary>
+            <returns>The HashCode of this object.</returns>
+        </member>
+        <member name="P:de.ahzf.blueprints.Datastructures.SystemId.NewSystemId">
+            <summary>
+            Generate a new SystemId.
+            </summary>
+        </member>
+        <member name="T:de.ahzf.blueprints.IndexType">
+            <summary>
+            An Index is either manual or automatic.
+            Automatic types must implement AutomaticIndex.
+            </summary>
+        </member>
+        <member name="F:de.ahzf.blueprints.IndexType.MANUAL">
+            <summary>
+            Manual indexing mode
+            </summary>
+        </member>
+        <member name="F:de.ahzf.blueprints.IndexType.AUTOMATIC">
+            <summary>
+            Automatic indexing
+            </summary>
+        </member>
+        <member name="T:de.ahzf.blueprints.AutomaticIndex`1">
+            <summary>
+            An automatic index will automatically maintain an index of element properties as element properties mutate.
+            If an element is removed from the graph, then it is also automatically removed from the automatic index.
+            The key/value pairs that are automatically monitored are element properties and their values.
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:de.ahzf.blueprints.IIndex`1">
+            <summary>
+            An index maintains a mapping between some key/value pair and an element.
+            A manual index requires that the developers code explicitly put elements of the graph into the index.
+            A the key/value pair need not be specific to the element properties.
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:de.ahzf.blueprints.IIndex`1.getIndexName">
+             Get the name of the index.
+            
+             @return the name of the index
+        </member>
+        <member name="M:de.ahzf.blueprints.IIndex`1.getIndexClass">
+             Get the class that this index is indexing.
+            
+             @return the class this index is indexing
+        </member>
+        <member name="M:de.ahzf.blueprints.IIndex`1.getIndexType">
+             Get the type of the index. This can be determined using instanceof on the interface names as well.
+            
+             @return the index type
+        </member>
+        <member name="M:de.ahzf.blueprints.IIndex`1.put(System.String,System.Object,`0)">
+             Index an element by a key and a value.
+            
+             @param key     the key to index the element by
+             @param value   the value to index the element by
+             @param element the element to index
+        </member>
+        <member name="M:de.ahzf.blueprints.IIndex`1.get(System.String,System.Object)">
+             Get all elements that are indexed by the provided key/value.
+            
+             @param key   the key of the indexed elements
+             @param value the value of the indexed elements
+             @return an iterable of elements that have a particular key/value in the index
+        </member>
+        <member name="M:de.ahzf.blueprints.IIndex`1.remove(System.String,System.Object,`0)">
+             Remove an element indexed by a particular key/value.
+            
+             @param key     the key of the indexed element
+             @param value   the value of the indexed element
+             @param element the element to remove given the key/value pair
+        </member>
+        <member name="M:de.ahzf.blueprints.AutomaticIndex`1.AddAutoIndexKey(System.String)">
+            <summary>
+            Add an element property key that should be indexed.
+            If null is provided as the key, then all properties are indexed (i.e. null is wildcard)
+            </summary>
+            <param name="myKey">the element property key to be indexed</param>
+        </member>
+        <member name="M:de.ahzf.blueprints.AutomaticIndex`1.RemoveAutoIndexKey(System.String)">
+            <summary>
+            Remove an element property key from being indexed.
+            </summary>
+            <param name="myKey">the element property to key to not be indexed</param>
+        </member>
+        <member name="P:de.ahzf.blueprints.AutomaticIndex`1.AutoIndexKeys">
+            <summary>
+            Get all the element property keys currently being indexed.
+            If what is returned is null, then all keys are currently being indexed (i.e. null is wildcard)
+            </summary>
+        </member>
+        <member name="T:de.ahzf.blueprints.IGraphExtensions">
+            <summary>
+            Extensions to the IGraph interface
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.IGraphExtensions.AsDynamic(de.ahzf.blueprints.IGraph)">
+            <summary>
+            Converts the given IGraph into a dynamic object
+            </summary>
+            <param name="myIGraph">An object implementing IGraph.</param>
+            <returns>A dynamic object</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.IGraphExtensions.AddVertex``1(de.ahzf.blueprints.IGraph,de.ahzf.blueprints.Datastructures.VertexId,System.Action{de.ahzf.blueprints.IVertex})">
+            <summary>
+            Adds a vertex of type TVertex to the graph using the given VertexId and
+            initializes its properties by invoking the given vertex initializer.
+            </summary>
+            <typeparam name="TVertex">The type of the vertex to add.</typeparam>
+            <param name="myIGraph"></param>
+            <param name="myVertexId">A VertexId. If none was given a new one will be generated.</param>
+            <param name="myVertexInitializer">A delegate to initialize the newly generated vertex.</param>
+            <returns>The new vertex</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.IGraphExtensions.GetVertex``1(de.ahzf.blueprints.IGraph,de.ahzf.blueprints.Datastructures.VertexId)">
+            <summary>
+            Return the vertex referenced by the provided vertex identifier.
+            If no vertex is referenced by that identifier, then return null.
+            </summary>
+            <typeparam name="TVertex">The type of the vertex.</typeparam>
+            <param name="myIGraph">An object implementing IGraph.</param>
+            <param name="myVertexId">The identifier of the vertex to retrieved from the graph.</param>
+            <returns>The vertex referenced by the provided identifier or null when no such vertex exists.</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.IGraphExtensions.AddEdge(de.ahzf.blueprints.IGraph,de.ahzf.blueprints.Datastructures.VertexId,de.ahzf.blueprints.Datastructures.VertexId,de.ahzf.blueprints.Datastructures.EdgeId,System.String,System.Action{de.ahzf.blueprints.IEdge})">
+            <summary>
+            Adds an edge to the graph using the given myEdgeId and initializes
+            its properties by invoking the given edge initializer.
+            </summary>
+            <param name="myIGraph"></param>
+            <param name="myOutVertexId"></param>
+            <param name="myInVertexId"></param>
+            <param name="myEdgeId">A EdgeId. If none was given a new one will be generated.</param>
+            <param name="myLabel"></param>
+            <param name="myEdgeInitializer">A delegate to initialize the newly generated edge.</param>
+            <returns>The new edge</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.IGraphExtensions.AddEdge``1(de.ahzf.blueprints.IGraph,de.ahzf.blueprints.IVertex,de.ahzf.blueprints.IVertex,de.ahzf.blueprints.Datastructures.EdgeId,System.String,System.Action{de.ahzf.blueprints.IEdge})">
+            <summary>
+            Adds an edge to the graph using the given myEdgeId and initializes
+            its properties by invoking the given edge initializer.
+            </summary>
+            <typeparam name="TEdge">The type of the edge to add.</typeparam>
+            <param name="myIGraph"></param>
+            <param name="myOutVertex"></param>
+            <param name="myInVertex"></param>
+            <param name="myEdgeId">A EdgeId. If none was given a new one will be generated.</param>
+            <param name="myLabel"></param>
+            <param name="myEdgeInitializer">A delegate to initialize the newly generated edge.</param>
+            <returns>The new edge</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.IGraphExtensions.AddEdge``1(de.ahzf.blueprints.IGraph,de.ahzf.blueprints.Datastructures.VertexId,de.ahzf.blueprints.Datastructures.VertexId,de.ahzf.blueprints.Datastructures.EdgeId,System.String,System.Action{de.ahzf.blueprints.IEdge})">
+            <summary>
+            Adds an edge to the graph using the given myEdgeId and initializes
+            its properties by invoking the given edge initializer.
+            </summary>
+            <param name="myIGraph"></param>
+            <param name="myOutVertexId"></param>
+            <param name="myInVertexId"></param>
+            <param name="myEdgeId">A EdgeId. If none was given a new one will be generated.</param>
+            <param name="myLabel"></param>
+            <param name="myEdgeInitializer">A delegate to initialize the newly generated edge.</param>
+            <returns>The new edge</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.IGraphExtensions.AddDoubleEdge(de.ahzf.blueprints.IGraph,de.ahzf.blueprints.IVertex,de.ahzf.blueprints.IVertex,de.ahzf.blueprints.Datastructures.EdgeId,de.ahzf.blueprints.Datastructures.EdgeId,System.String,System.Action{de.ahzf.blueprints.IEdge})">
+            <summary>
+            Adds an edge to the graph using the given myEdgeId and initializes
+            its properties by invoking the given edge initializer.
+            </summary>
+            <param name="myIGraph"></param>
+            <param name="myOutVertex"></param>
+            <param name="myInVertex"></param>
+            <param name="myEdgeId1">A EdgeId. If none was given a new one will be generated.</param>
+            <param name="myEdgeId2">A EdgeId. If none was given a new one will be generated.</param>
+            <param name="myLabel"></param>
+            <param name="myEdgeInitializer">A delegate to initialize the newly generated edge.</param>
+            <returns>Both new edges.</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.IGraphExtensions.AddDoubleEdge(de.ahzf.blueprints.IGraph,de.ahzf.blueprints.Datastructures.VertexId,de.ahzf.blueprints.Datastructures.VertexId,de.ahzf.blueprints.Datastructures.EdgeId,de.ahzf.blueprints.Datastructures.EdgeId,System.String,System.Action{de.ahzf.blueprints.IEdge})">
+            <summary>
+            Adds an edge to the graph using the given myEdgeId and initializes
+            its properties by invoking the given edge initializer.
+            </summary>
+            <param name="myIGraph"></param>
+            <param name="myOutVertexId"></param>
+            <param name="myInVertexId"></param>
+            <param name="myEdgeId1">A EdgeId. If none was given a new one will be generated.</param>
+            <param name="myEdgeId2">A EdgeId. If none was given a new one will be generated.</param>
+            <param name="myLabel"></param>
+            <param name="myEdgeInitializer">A delegate to initialize the newly generated edge.</param>
+            <returns>Both new edges.</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.IGraphExtensions.GetEdge``1(de.ahzf.blueprints.IGraph,de.ahzf.blueprints.Datastructures.EdgeId)">
+            <summary>
+            Return the edge referenced by the provided edge identifier.
+            If no edge is referenced by that identifier, then return null.
+            </summary>
+            <typeparam name="TEdge">The type of the edge.</typeparam>
+            <param name="myIGraph">An object implementing IGraph.</param>
+            <param name="myEdgeId">The identifier of the edge to retrieved from the graph.</param>
+            <returns>The edge referenced by the provided identifier or null when no such edge exists.</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.IGraphExtensions.VertexId(de.ahzf.blueprints.IGraph,System.UInt64[])">
+            <summary>
+            Transforms the given array of UInt64 into an array of
+            VertexIds and returns a collection of IVertex objects
+            for them.
+            </summary>
+            <param name="myIGraph">A Blueprints graph.</param>
+            <param name="myVertexIds">An array of unsigned intergers which can be transfored to VertexIds.</param>
+            <returns>A collection of IVertex objects.</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.IGraphExtensions.VertexId(de.ahzf.blueprints.IGraph,System.String[])">
+            <summary>
+            Transforms the given array of strings into an array of
+            VertexIds and returns a collection of IVertex objects
+            for them.
+            </summary>
+            <param name="myIGraph">A Blueprints graph.</param>
+            <param name="myVertexIds">An array of strings which can be transfored to VertexIds.</param>
+            <returns>A collection of IVertex objects.</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.IGraphExtensions.EdgeId(de.ahzf.blueprints.IGraph,System.UInt64[])">
+            <summary>
+            Transforms the given array of UInt64 into an array of
+            myEdgeIds and returns a collection of IEdge objects
+            for them.
+            </summary>
+            <param name="myIGraph">A Blueprints graph.</param>
+            <param name="myEdgeIds">An array of unsigned intergers which can be transfored to myEdgeIds.</param>
+            <returns>A collection of IEdge objects.</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.IGraphExtensions.EdgeId(de.ahzf.blueprints.IGraph,System.String[])">
+            <summary>
+            Transforms the given array of strings into an array of
+            myEdgeIds and returns a collection of IEdge objects
+            for them.
+            </summary>
+            <param name="myIGraph">A Blueprints graph.</param>
+            <param name="myEdgeIds">An array of strings which can be transfored to myEdgeIds.</param>
+            <returns>A collection of IEdge objects.</returns>
+        </member>
+        <member name="T:de.ahzf.blueprints.AutoDiscoveryIGraphs">
+            <summary>
+            Discovers automagically all implementations of the IGraph interface.
+            </summary>
+        </member>
+        <member name="T:de.ahzf.blueprints.AutoDiscovery`1">
+            <summary>
+            A factory which uses reflection to generate a apropriate
+            implementation of T for you.
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.AutoDiscovery`1.#ctor">
+            <summary>
+            Create a new AutoDiscovery instance and start the discovery.
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.AutoDiscovery`1.#ctor(System.Boolean)">
+            <summary>
+            Create a new AutoDiscovery instance. An automatic discovery
+            can be avoided.
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.AutoDiscovery`1.FindAndRegister(System.Boolean,System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{System.String},System.Func{System.Type,System.String})">
+            <summary>
+            Searches all matching files at the given paths for classes implementing the interface &lt;T&gt;.
+            </summary>
+            <param name="myClearTypeDictionary">Clears the TypeDictionary before adding new implementations.</param>
+            <param name="myPaths">An enumeration of paths to search for implementations.</param>
+            <param name="myFileExtensions">A enumeration of file extensions for filtering.</param>
+            <param name="myIdentificator">A transformation of a type into its identification.</param>
+        </member>
+        <member name="M:de.ahzf.blueprints.AutoDiscovery`1.Activate(System.String)">
+            <summary>
+            Activates a new instance of an implementation based on its identification.
+            </summary>
+            <param name="myImplementationID">The identification of the implementation to activate.</param>
+            <returns>An activated class implementing interface T.</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.AutoDiscovery`1.TryActivate(System.String,`0@)">
+            <summary>
+            Tries to activate a new instance of an implementation based on its identification.
+            </summary>
+            <param name="myImplementationID">The identification of the implementation to activate.</param>
+            <param name="myInstance">The activated class implementing interface T.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="P:de.ahzf.blueprints.AutoDiscovery`1.SearchingFor">
+            <summary>
+            Returns the Name of the interface T.
+            </summary>
+        </member>
+        <member name="P:de.ahzf.blueprints.AutoDiscovery`1.RegisteredNames">
+            <summary>
+            Returns an enumeration of the names of all registered types of T.
+            </summary>
+        </member>
+        <member name="P:de.ahzf.blueprints.AutoDiscovery`1.RegisteredTypes">
+            <summary>
+            Returns an enumeration of activated instances of all registered types of T.
+            </summary>
+        </member>
+        <member name="P:de.ahzf.blueprints.AutoDiscovery`1.Count">
+            <summary>
+            Returns the number of registered implementations of the interface T.
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.AutoDiscoveryIGraphs.#ctor">
+            <summary>
+            Create a new AutoDiscovery instance and start the discovery
+            of IGraph implementations.
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.AutoDiscoveryIGraphs.#ctor(System.Boolean)">
+            <summary>
+            Create a new AutoDiscovery instance. An automatic discovery
+            of IGraph implementations can be avoided.
+            </summary>
+        </member>
+        <member name="T:de.ahzf.blueprints.CSV">
+            <summary>
+            Utilities to read and write CSV files.
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.CSV.GetLines(System.IO.StreamReader)">
+            <summary>
+            Yields one line from the given stream reader.
+            </summary>
+            <param name="myStreamReader">The stream to read the lines from.</param>
+            <returns>A single line.</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.CSV.GetMultipleLines(System.IO.StreamReader,System.Int32)">
+            <summary>
+            Yields multiple lines from the given stream reader.
+            </summary>
+            <param name="myStreamReader">The stream to read the lines from.</param>
+            <param name="myNumberOfLines">The number of lines to read at once.</param>
+            <returns>Multiple lines.</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.CSV.ParseFile(System.String,System.Action{System.String[]},System.String[],System.String,System.Int32)">
+            <summary>
+            Reads CSV data from the given file using multiple tasks.
+            </summary>
+            <param name="myFilename"></param>
+            <param name="myWork"></param>
+            <param name="MainTaskName"></param>
+            <param name="Seperators"></param>
+            <param name="LinesPerTask"></param>
+            <returns></returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.CSV.WriteToFile(System.Collections.Generic.IEnumerable{System.Collections.Generic.IEnumerable{System.Int32}},System.String,System.String)">
+            <summary>
+            Writes the given CSV data into a file.
+            </summary>
+            <param name="myData">The CSV data.</param>
+            <param name="myFileName">The name of the output file.</param>
+            <param name="mySeperator">A string to seperate the individual CSV entries.</param>
+        </member>
+        <member name="T:de.ahzf.blueprints.Datastructures.EdgeId">
+            <summary>
+            A EdgeId is unique identificator for an edge.
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.EdgeId.#ctor">
+            <summary>
+            Generates a new EdgeId
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.EdgeId.#ctor(System.Int32)">
+            <summary>
+            Generates a EdgeId based on the content of an Int32
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.EdgeId.#ctor(System.UInt32)">
+            <summary>
+            Generates a EdgeId based on the content of an UInt32
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.EdgeId.#ctor(System.Int64)">
+            <summary>
+            Generates a EdgeId based on the content of an Int64
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.EdgeId.#ctor(System.UInt64)">
+            <summary>
+            Generates a EdgeId based on the content of an UInt64
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.EdgeId.#ctor(System.String)">
+            <summary>
+            Generates a EdgeId based on the content of myString.
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.EdgeId.#ctor(System.Uri)">
+            <summary>
+            Generates a EdgeId based on the content of myUri.
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.EdgeId.#ctor(de.ahzf.blueprints.Datastructures.EdgeId)">
+            <summary>
+            Generates a EdgeId based on the content of myEdgeId
+            </summary>
+            <param name="myEdgeId">A EdgeId</param>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.EdgeId.op_Equality(de.ahzf.blueprints.Datastructures.EdgeId,de.ahzf.blueprints.Datastructures.EdgeId)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myEdgeId1">A EdgeId.</param>
+            <param name="myEdgeId2">Another EdgeId.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.EdgeId.op_Inequality(de.ahzf.blueprints.Datastructures.EdgeId,de.ahzf.blueprints.Datastructures.EdgeId)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myEdgeId1">A EdgeId.</param>
+            <param name="myEdgeId2">Another EdgeId.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.EdgeId.op_LessThan(de.ahzf.blueprints.Datastructures.EdgeId,de.ahzf.blueprints.Datastructures.EdgeId)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myEdgeId1">A EdgeId.</param>
+            <param name="myEdgeId2">Another EdgeId.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.EdgeId.op_GreaterThan(de.ahzf.blueprints.Datastructures.EdgeId,de.ahzf.blueprints.Datastructures.EdgeId)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myEdgeId1">A EdgeId.</param>
+            <param name="myEdgeId2">Another EdgeId.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.EdgeId.op_LessThanOrEqual(de.ahzf.blueprints.Datastructures.EdgeId,de.ahzf.blueprints.Datastructures.EdgeId)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myEdgeId1">A EdgeId.</param>
+            <param name="myEdgeId2">Another EdgeId.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.EdgeId.op_GreaterThanOrEqual(de.ahzf.blueprints.Datastructures.EdgeId,de.ahzf.blueprints.Datastructures.EdgeId)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myEdgeId1">A EdgeId.</param>
+            <param name="myEdgeId2">Another EdgeId.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.EdgeId.CompareTo(System.Object)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myObject">An object to compare with.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.EdgeId.CompareTo(de.ahzf.blueprints.Datastructures.EdgeId)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myEdgeId">An object to compare with.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.EdgeId.Equals(System.Object)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myObject">An object to compare with.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.EdgeId.Equals(de.ahzf.blueprints.Datastructures.EdgeId)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myEdgeId">An object to compare with.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.EdgeId.GetHashCode">
+            <summary>
+            Return the HashCode of this object.
+            </summary>
+            <returns>The HashCode of this object.</returns>
+        </member>
+        <member name="P:de.ahzf.blueprints.Datastructures.EdgeId.NewEdgeId">
+            <summary>
+            Generate a new EdgeId.
+            </summary>
+        </member>
+        <member name="T:de.ahzf.blueprints.IEdge">
+            <summary>
+            An edge links two vertices. Along with its key/value properties,
+            an edge has both a directionality and a label.
+            The directionality determines which vertex is the tail vertex
+            (out vertex) and which vertex is the head vertex (in vertex).
+            The edge label determines the type of relationship that exists
+            between the two vertices.
+            Diagrammatically, outVertex ---label---> inVertex.
+            </summary>
+        </member>
+        <member name="T:de.ahzf.blueprints.IEdge`2">
+            <summary>
+            An edge links two vertices. Along with its key/value properties,
+            an edge has both a directionality and a label.
+            The directionality determines which vertex is the tail vertex
+            (out vertex) and which vertex is the head vertex (in vertex).
+            The edge label determines the type of relationship that exists
+            between the two vertices.
+            Diagrammatically, outVertex ---label---> inVertex.
+            </summary>
+            <typeparam name="TId">The type of the id.</typeparam>
+            <typeparam name="TKey">The type of the property keys.</typeparam>
+        </member>
+        <member name="T:de.ahzf.blueprints.IGenericEdge`2">
+            <summary>
+            An edge links two vertices. Along with its key/value properties,
+            an edge has both a directionality and a label.
+            The directionality determines which vertex is the tail vertex
+            (out vertex) and which vertex is the head vertex (in vertex).
+            The edge label determines the type of relationship that exists
+            between the two vertices.
+            Diagrammatically, outVertex ---label---> inVertex.
+            </summary>
+            <typeparam name="TId">The type of the id.</typeparam>
+            <typeparam name="TEdgeData">The type of the additional data to be stored within an edge.</typeparam>
+        </member>
+        <member name="T:de.ahzf.blueprints.IGenericEdge`1">
+            <summary>
+            An edge links two vertices. Along with its key/value properties,
+            an edge has both a directionality and a label.
+            The directionality determines which vertex is the tail vertex
+            (out vertex) and which vertex is the head vertex (in vertex).
+            The edge label determines the type of relationship that exists
+            between the two vertices.
+            Diagrammatically, outVertex ---label---> inVertex.
+            </summary>
+            <typeparam name="TId">The type of the id.</typeparam>
+        </member>
+        <member name="P:de.ahzf.blueprints.IGenericEdge`1.Label">
+            <summary>
+            Return the label associated with the edge.
+            </summary>
+        </member>
+        <member name="P:de.ahzf.blueprints.IGenericEdge`2.OutVertex">
+            <summary>
+            Return the vertex at the tail of the edge.
+            </summary>
+        </member>
+        <member name="P:de.ahzf.blueprints.IGenericEdge`2.InVertex">
+            <summary>
+            Return the vertex at the head of the edge.
+            </summary>
+        </member>
+        <member name="T:de.ahzf.blueprints.Datastructures.RevisionId">
+            <summary>
+            A RevisionId is an identificator for a specific IElement revision in
+            a distributed system consisting of a timestamp and a SystemId.
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.RevisionId.#ctor(de.ahzf.blueprints.Datastructures.SystemId)">
+            <summary>
+            Generates a RevisionId based on the actual timestamp and the given SystemId.
+            </summary>
+            <param name="mySystemId">An unique identificator for the generating system, process or thread</param>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.RevisionId.#ctor(System.UInt64,de.ahzf.blueprints.Datastructures.SystemId)">
+            <summary>
+            Generates a RevisionId based on the given UInt64 timestamp and the given SystemId.
+            </summary>
+            <param name="myTimestamp">A timestamp</param>
+            <param name="mySystemId">An unique identificator for the generating system, process or thread</param>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.RevisionId.#ctor(System.DateTime,de.ahzf.blueprints.Datastructures.SystemId)">
+            <summary>
+            Generates a RevisionId based on the given DateTime object and the given SystemId.
+            </summary>
+            <param name="myDateTime">A DateTime object</param>
+            <param name="mySystemId">An unique identificator for the generating system, process or thread</param>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.RevisionId.#ctor(System.String,de.ahzf.blueprints.Datastructures.SystemId)">
+            <summary>
+            Generates a RevisionId based on the "yyyyddMM.HHmmss.fffffff" formated
+            string representation of a DateTime object and the given SystemId.
+            </summary>
+            <param name="myDateTimeString">A DateTime object as "yyyyddMM.HHmmss.fffffff"-formated string</param>
+            <param name="mySystemId">An unique identificator for the generating system, process or thread</param>
+            <exception cref="T:System.FormatException"></exception>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.RevisionId.#ctor(System.String)">
+            <summary>
+            Generates a RevisionId based on the "yyyyddMM.HHmmss.fffffff(SystemId)"
+            formated string representation of a RevisionId.
+            </summary>
+            <param name="myRevisionIdString">A RevisionId object as "yyyyddMM.HHmmss.fffffff(SystemId)"-formated string</param>
+            <exception cref="T:System.FormatException"></exception>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.RevisionId.op_Equality(de.ahzf.blueprints.Datastructures.RevisionId,de.ahzf.blueprints.Datastructures.RevisionId)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myRevisionId1">A RevisionId.</param>
+            <param name="myRevisionId2">Another RevisionId.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.RevisionId.op_Inequality(de.ahzf.blueprints.Datastructures.RevisionId,de.ahzf.blueprints.Datastructures.RevisionId)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myRevisionId1">A RevisionId.</param>
+            <param name="myRevisionId2">Another RevisionId.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.RevisionId.op_LessThan(de.ahzf.blueprints.Datastructures.RevisionId,de.ahzf.blueprints.Datastructures.RevisionId)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myRevisionId1">A RevisionId.</param>
+            <param name="myRevisionId2">Another RevisionId.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.RevisionId.op_GreaterThan(de.ahzf.blueprints.Datastructures.RevisionId,de.ahzf.blueprints.Datastructures.RevisionId)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myRevisionId1">A RevisionId.</param>
+            <param name="myRevisionId2">Another RevisionId.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.RevisionId.op_LessThanOrEqual(de.ahzf.blueprints.Datastructures.RevisionId,de.ahzf.blueprints.Datastructures.RevisionId)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myRevisionId1">A RevisionId.</param>
+            <param name="myRevisionId2">Another RevisionId.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.RevisionId.op_GreaterThanOrEqual(de.ahzf.blueprints.Datastructures.RevisionId,de.ahzf.blueprints.Datastructures.RevisionId)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myRevisionId1">A RevisionId.</param>
+            <param name="myRevisionId2">Another RevisionId.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.RevisionId.CompareTo(System.Object)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myObject">An object to compare with.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.RevisionId.CompareTo(de.ahzf.blueprints.Datastructures.RevisionId)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myRevisionId">An object to compare with.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.RevisionId.Equals(System.Object)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myObject">An object to compare with.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.RevisionId.Equals(de.ahzf.blueprints.Datastructures.RevisionId)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myRevisionId">An object to compare with.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.RevisionId.GetHashCode">
+            <summary>
+            Return the HashCode of this object.
+            </summary>
+            <returns>The HashCode of this object.</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.RevisionId.ToString">
+            <summary>
+            Returns a formated string representation of this revision
+            </summary>
+            <returns>A formated string representation of this revision</returns>
+        </member>
+        <member name="P:de.ahzf.blueprints.Datastructures.RevisionId.Timestamp">
+            <summary>
+            The timestamp of this revision.
+            </summary>
+        </member>
+        <member name="P:de.ahzf.blueprints.Datastructures.RevisionId.SystemId">
+            <summary>
+            A unique identification of the generating system,
+            process or thread of this revision.
+            </summary>
+        </member>
+        <member name="T:de.ahzf.blueprints.AStringProperties`1">
+            <summary>
+            An element is the base class for both vertices and edges.
+            An element has an identifier that must be unique to its inheriting classes (vertex or edges).
+            An element can maintain a collection of key/value properties.
+            Keys are always strings and values can be any object.
+            Particular implementations can reduce the space of objects that can be used as values.
+            </summary>
+        </member>
+        <member name="T:de.ahzf.blueprints.AProperties`2">
+            <summary>
+            An element is the base class for both vertices and edges.
+            An element has an identifier that must be unique to its inheriting classes (vertex or edges).
+            An element can maintain a collection of key/value properties.
+            Keys are always strings and values can be any object.
+            Particular implementations can reduce the space of objects that can be used as values.
+            </summary>
+        </member>
+        <member name="F:de.ahzf.blueprints.AProperties`2._Properties">
+            <summary>
+            The datastructure holding all graph properties.
+            </summary>
+        </member>
+        <member name="F:de.ahzf.blueprints.AProperties`2.__Id">
+            <summary>
+            The key of the Id property
+            </summary>
+        </member>
+        <member name="F:de.ahzf.blueprints.AProperties`2.__RevisionId">
+            <summary>
+            The key of the RevisionId property
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.AProperties`2.#ctor(de.ahzf.blueprints.IGraph,de.ahzf.blueprints.Datastructures.ElementId,`1,`1,System.Func{System.Collections.Generic.IDictionary{`1,System.Object}})">
+            <summary>
+            Creates a new AElement object
+            </summary>
+            <param name="myIGraph">The associated graph</param>
+            <param name="myElementId">The Id of the new AElement</param>
+        </member>
+        <member name="M:de.ahzf.blueprints.AProperties`2.SetProperty(`1,System.Object)">
+            <summary>
+            Assign a key/value property to the element.
+            If a value already exists for this key, then the previous key/value is overwritten.
+            </summary>
+            <param name="myPropertyKey">The property key.</param>
+            <param name="myPropertyValue">The property value.</param>
+        </member>
+        <member name="M:de.ahzf.blueprints.AProperties`2.GetProperty(`1)">
+            <summary>
+            Return the property value associated with the given property key.
+            </summary>
+            <param name="myPropertyKey">The key of the key/value property.</param>
+            <returns>The property value related to the string key.</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.AProperties`2.GetProperties(System.Func{`1,System.Object,System.Boolean})">
+            <summary>
+            Allows to return a filtered enumeration of all properties.
+            </summary>
+            <param name="myPropertyFilter">A function to filter a property based on its key and value.</param>
+            <returns>A enumeration of all key/value pairs matching the given property filter.</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.AProperties`2.RemoveProperty(`1)">
+            <summary>
+            Removes the property identified by the given property key.
+            </summary>
+            <param name="myPropertyKey">The key of the property to remove.</param>
+            <returns>The property value associated with that key prior to removal.</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.AProperties`2.GetEnumerator">
+            <summary>
+            Returns an enumeration of all properties within this element.
+            </summary>
+            <returns>An enumeration of all properties within this element.</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.AProperties`2.op_Equality(de.ahzf.blueprints.AProperties{`0,`1},de.ahzf.blueprints.AProperties{`0,`1})">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myAElement1">A AElement.</param>
+            <param name="myIElement2">A IElement.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.AProperties`2.op_Inequality(de.ahzf.blueprints.AProperties{`0,`1},de.ahzf.blueprints.AProperties{`0,`1})">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myAElement1">A AElement.</param>
+            <param name="myIElement2">A IElement.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.AProperties`2.CompareTo(System.Object)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myObject">An object to compare with.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.AProperties`2.CompareTo(`0)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myObject">An object to compare with.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.AProperties`2.CompareTo(de.ahzf.blueprints.IProperties{`1})">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myIProperties">An object to compare with.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.AProperties`2.Equals(System.Object)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myObject">An object to compare with.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.AProperties`2.Equals(`0)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myObject">An object to compare with.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.AProperties`2.GetHashCode">
+            <summary>
+            Return the HashCode of this object.
+            </summary>
+            <returns>The HashCode of this object.</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.AProperties`2.ToString">
+            <summary>
+            Returns a string representation of this object.
+            </summary>
+            <returns>A string representation of this object.</returns>
+        </member>
+        <member name="P:de.ahzf.blueprints.AProperties`2.Graph">
+            <summary>
+            The associated graph
+            </summary>
+        </member>
+        <member name="P:de.ahzf.blueprints.AProperties`2.Id">
+            <summary>
+            An identifier that is unique to its inheriting class.
+            All vertices of a graph must have unique identifiers.
+            All edges of a graph must have unique identifiers.
+            </summary>
+        </member>
+        <member name="P:de.ahzf.blueprints.AProperties`2.RevisionId">
+            <summary>
+            The RevisionId extends the Id to identify multiple revisions of
+            an element during the lifetime of a graph. A RevisionId should
+            additionally be unique among all elements of a graph.
+            </summary>
+        </member>
+        <member name="P:de.ahzf.blueprints.AProperties`2.PropertyKeys">
+            <summary>
+            Return all property keys.
+            </summary>
+        </member>
+        <member name="F:de.ahzf.blueprints.AStringProperties`1.___Id">
+            <summary>
+            The key of the well-known Id property.
+            </summary>
+        </member>
+        <member name="F:de.ahzf.blueprints.AStringProperties`1.___RevisionId">
+            <summary>
+            The key of the well-known RevisionId property.
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.AStringProperties`1.#ctor(de.ahzf.blueprints.IGraph,de.ahzf.blueprints.Datastructures.ElementId)">
+            <summary>
+            Creates a new AElement object
+            </summary>
+            <param name="myIGraph">The associated graph</param>
+            <param name="myElementId">The Id of the new AElement</param>
+        </member>
+        <member name="T:de.ahzf.blueprints.Datastructures.VertexId">
+            <summary>
+            A VertexId is unique identificator for a vertex.
+            </summary>    
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.VertexId.#ctor">
+            <summary>
+            Generates a new VertexId
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.VertexId.#ctor(System.Int32)">
+            <summary>
+            Generates a VertexId based on the content of an Int32
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.VertexId.#ctor(System.UInt32)">
+            <summary>
+            Generates a VertexId based on the content of an UInt32
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.VertexId.#ctor(System.Int64)">
+            <summary>
+            Generates a VertexId based on the content of an Int64
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.VertexId.#ctor(System.UInt64)">
+            <summary>
+            Generates a VertexId based on the content of an UInt64
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.VertexId.#ctor(System.String)">
+            <summary>
+            Generates a VertexId based on the content of myString.
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.VertexId.#ctor(System.Uri)">
+            <summary>
+            Generates a VertexId based on the content of myUri.
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.VertexId.#ctor(de.ahzf.blueprints.Datastructures.VertexId)">
+            <summary>
+            Generates a VertexId based on the content of myVertexId
+            </summary>
+            <param name="myVertexId">A VertexId</param>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.VertexId.op_Equality(de.ahzf.blueprints.Datastructures.VertexId,de.ahzf.blueprints.Datastructures.VertexId)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myVertexId1">A VertexId.</param>
+            <param name="myVertexId2">Another VertexId.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.VertexId.op_Inequality(de.ahzf.blueprints.Datastructures.VertexId,de.ahzf.blueprints.Datastructures.VertexId)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myVertexId1">A VertexId.</param>
+            <param name="myVertexId2">Another VertexId.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.VertexId.op_LessThan(de.ahzf.blueprints.Datastructures.VertexId,de.ahzf.blueprints.Datastructures.VertexId)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myVertexId1">A VertexId.</param>
+            <param name="myVertexId2">Another VertexId.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.VertexId.op_GreaterThan(de.ahzf.blueprints.Datastructures.VertexId,de.ahzf.blueprints.Datastructures.VertexId)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myVertexId1">A VertexId.</param>
+            <param name="myVertexId2">Another VertexId.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.VertexId.op_LessThanOrEqual(de.ahzf.blueprints.Datastructures.VertexId,de.ahzf.blueprints.Datastructures.VertexId)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myVertexId1">A VertexId.</param>
+            <param name="myVertexId2">Another VertexId.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.VertexId.op_GreaterThanOrEqual(de.ahzf.blueprints.Datastructures.VertexId,de.ahzf.blueprints.Datastructures.VertexId)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myVertexId1">A VertexId.</param>
+            <param name="myVertexId2">Another VertexId.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.VertexId.CompareTo(System.Object)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myObject">An object to compare with.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.VertexId.CompareTo(de.ahzf.blueprints.Datastructures.VertexId)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myVertexId">An object to compare with.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.VertexId.Equals(System.Object)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myObject">An object to compare with.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.VertexId.Equals(de.ahzf.blueprints.Datastructures.VertexId)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myVertexId">An object to compare with.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.VertexId.GetHashCode">
+            <summary>
+            Return the HashCode of this object.
+            </summary>
+            <returns>The HashCode of this object.</returns>
+        </member>
+        <member name="P:de.ahzf.blueprints.Datastructures.VertexId.NewVertexId">
+            <summary>
+            Generate a new VertexId.
+            </summary>
+        </member>
+        <member name="T:de.ahzf.blueprints.AutoDiscoveryException">
+            <summary>
+            The class for all errors within the AutoDiscovery&lt;T&gt; class
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.AutoDiscoveryException.#ctor">
+            <summary>
+            Initializes a new instance of the AutoDiscoveryException class.
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.AutoDiscoveryException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the AutoDiscoveryException class with a
+            specified error message.
+            </summary>
+            <param name="myMessage">The error message that explains the reason for the exception.</param>
+        </member>
+        <member name="M:de.ahzf.blueprints.AutoDiscoveryException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the AutoDiscoveryException class with a
+            specified error message and a reference to the inner exception that is
+            the cause of this exception.
+            </summary>
+            <param name="myMessage">The error message that explains the reason for the exception.</param>
+            <param name="myInnerException">The exception that is the cause of the current exception, or a null reference (Nothing in Visual Basic) if no inner exception is specified.</param>
+        </member>
+        <member name="T:de.ahzf.blueprints.IIndexableGraph">
+            <summary>
+            An indexable graph is a graph that supports the indexing of its elements.
+            An index is typically some sort of tree structure that allows for the fast lookup of elements by key/value pairs.
+            All indexable graphs are initially constructed with two automatic indices called "vertices" and "edges".
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.IIndexableGraph.CreateIndex``1(System.String,de.ahzf.blueprints.IndexType)">
+            <summary>
+            Generate an index with a particular name, for a particular class, and of a particular type.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="myIndexName">the name of the index</param>
+            <param name="myIndexType">whether the index is a manual or automatic index</param>
+            <returns>the index created</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.IIndexableGraph.GetIndex``1(System.String)">
+            <summary>
+            Get an index from the graph by its name and index class. An index is unique up to name.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="myIndexName">the name of the index to retrieve</param>
+            <returns>the retrieved index</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.IIndexableGraph.GetIndices``1">
+            <summary>
+            Get all the indices maintained by the graph.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns>the indices associated with the graph</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.IIndexableGraph.DropIndex(System.String)">
+            <summary>
+            Remove an index associated with the graph.
+            </summary>
+            <param name="myIndexName">the name of the index to drop</param>
+        </member>
+        <member name="T:de.ahzf.blueprints.IGenericHyperEdge`1">
+            <summary>
+            A hyperedge links multiple vertices. Along with its key/value properties,
+            a hyperedge has both a directionality and a label.
+            The directionality determines which vertex is the tail vertex
+            (out vertex) and which vertices are the head vertices (in vertices).
+            The hyperedge label determines the type of relationship that exists
+            between these vertices.
+            Diagrammatically, outVertex ---label---> inVertex1.
+                                                 \--> inVertex2.
+            </summary>
+            <typeparam name="TId">The type of the id.</typeparam>
+        </member>
+        <member name="P:de.ahzf.blueprints.IGenericHyperEdge`1.Label">
+            <summary>
+            Return the label associated with the hyperedge.
+            </summary>
+        </member>
+        <member name="T:de.ahzf.blueprints.IGenericHyperEdge`2">
+            <summary>
+            A hyperedge links multiple vertices. Along with its key/value properties,
+            a hyperedge has both a directionality and a label.
+            The directionality determines which vertex is the tail vertex
+            (out vertex) and which vertices are the head vertices (in vertices).
+            The hyperedge label determines the type of relationship that exists
+            between these vertices.
+            Diagrammatically, outVertex ---label---> inVertex1.
+                                                 \--> inVertex2.
+            </summary>
+            <typeparam name="TId">The type of the id.</typeparam>
+            <typeparam name="TEdgeData">The type of the additional data to be stored within an edge.</typeparam>
+        </member>
+        <member name="P:de.ahzf.blueprints.IGenericHyperEdge`2.OutVertex">
+            <summary>
+            Return the vertex at the tail of the hyperedge.
+            </summary>
+        </member>
+        <member name="P:de.ahzf.blueprints.IGenericHyperEdge`2.InVertices">
+            <summary>
+            Return the vertices at the head of the hyperedge.
+            </summary>
+        </member>
+        <member name="T:de.ahzf.blueprints.IHyperEdge">
+            <summary>
+            A hyperedge links multiple vertices. Along with its key/value properties,
+            a hyperedge has both a directionality and a label.
+            The directionality determines which vertex is the tail vertex
+            (out vertex) and which vertices are the head vertices (in vertices).
+            The hyperedge label determines the type of relationship that exists
+            between these vertices.
+            Diagrammatically, outVertex ---label---> inVertex1.
+                                                 \--> inVertex2.
+            </summary>
+        </member>
+        <member name="T:de.ahzf.blueprints.IHyperEdge`2">
+            <summary>
+            A hyperedge links multiple vertices. Along with its key/value properties,
+            a hyperedge has both a directionality and a label.
+            The directionality determines which vertex is the tail vertex
+            (out vertex) and which vertices are the head vertices (in vertices).
+            The hyperedge label determines the type of relationship that exists
+            between these vertices.
+            Diagrammatically, outVertex ---label---> inVertex1.
+                                                 \--> inVertex2.
+            </summary>
+            <typeparam name="TId">The type of the id.</typeparam>
+            <typeparam name="TKey">The type of the property keys.</typeparam>
+        </member>
+        <member name="T:de.ahzf.blueprints.Datastructures.HyperEdgeId">
+            <summary>
+            A HyperEdgeId is unique identificator for a hyperedge.
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.HyperEdgeId.#ctor">
+            <summary>
+            Generates a new HyperEdgeId
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.HyperEdgeId.#ctor(System.Int32)">
+            <summary>
+            Generates a HyperEdgeId based on the content of an Int32
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.HyperEdgeId.#ctor(System.UInt32)">
+            <summary>
+            Generates a HyperEdgeId based on the content of an UInt32
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.HyperEdgeId.#ctor(System.Int64)">
+            <summary>
+            Generates a HyperEdgeId based on the content of an Int64
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.HyperEdgeId.#ctor(System.UInt64)">
+            <summary>
+            Generates a HyperEdgeId based on the content of an UInt64
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.HyperEdgeId.#ctor(System.String)">
+            <summary>
+            Generates a HyperEdgeId based on the content of myString.
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.HyperEdgeId.#ctor(System.Uri)">
+            <summary>
+            Generates a HyperEdgeId based on the content of myUri.
+            </summary>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.HyperEdgeId.#ctor(de.ahzf.blueprints.Datastructures.HyperEdgeId)">
+            <summary>
+            Generates a HyperEdgeId based on the content of myHyperEdgeId
+            </summary>
+            <param name="myHyperEdgeId">A HyperEdgeId</param>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.HyperEdgeId.op_Equality(de.ahzf.blueprints.Datastructures.HyperEdgeId,de.ahzf.blueprints.Datastructures.HyperEdgeId)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myHyperEdgeId1">A HyperEdgeId.</param>
+            <param name="myHyperEdgeId2">Another HyperEdgeId.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.HyperEdgeId.op_Inequality(de.ahzf.blueprints.Datastructures.HyperEdgeId,de.ahzf.blueprints.Datastructures.HyperEdgeId)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myHyperEdgeId1">A HyperEdgeId.</param>
+            <param name="myHyperEdgeId2">Another HyperEdgeId.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.HyperEdgeId.op_LessThan(de.ahzf.blueprints.Datastructures.HyperEdgeId,de.ahzf.blueprints.Datastructures.HyperEdgeId)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myHyperEdgeId1">A HyperEdgeId.</param>
+            <param name="myHyperEdgeId2">Another HyperEdgeId.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.HyperEdgeId.op_GreaterThan(de.ahzf.blueprints.Datastructures.HyperEdgeId,de.ahzf.blueprints.Datastructures.HyperEdgeId)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myHyperEdgeId1">A HyperEdgeId.</param>
+            <param name="myHyperEdgeId2">Another HyperEdgeId.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.HyperEdgeId.op_LessThanOrEqual(de.ahzf.blueprints.Datastructures.HyperEdgeId,de.ahzf.blueprints.Datastructures.HyperEdgeId)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myHyperEdgeId1">A HyperEdgeId.</param>
+            <param name="myHyperEdgeId2">Another HyperEdgeId.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.HyperEdgeId.op_GreaterThanOrEqual(de.ahzf.blueprints.Datastructures.HyperEdgeId,de.ahzf.blueprints.Datastructures.HyperEdgeId)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myHyperEdgeId1">A HyperEdgeId.</param>
+            <param name="myHyperEdgeId2">Another HyperEdgeId.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.HyperEdgeId.CompareTo(System.Object)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myObject">An object to compare with.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.HyperEdgeId.CompareTo(de.ahzf.blueprints.Datastructures.HyperEdgeId)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myHyperEdgeId">An object to compare with.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.HyperEdgeId.Equals(System.Object)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myObject">An object to compare with.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.HyperEdgeId.Equals(de.ahzf.blueprints.Datastructures.HyperEdgeId)">
+            <summary>
+            Compares two instances of this object.
+            </summary>
+            <param name="myHyperEdgeId">An object to compare with.</param>
+            <returns>true|false</returns>
+        </member>
+        <member name="M:de.ahzf.blueprints.Datastructures.HyperEdgeId.GetHashCode">
+            <summary>
+            Return the HashCode of this object.
+            </summary>
+            <returns>The HashCode of this object.</returns>
+        </member>
+        <member name="P:de.ahzf.blueprints.Datastructures.HyperEdgeId.NewHyperEdgeId">
+            <summary>
+            Generate a new HyperEdgeId.
+            </summary>
+        </member>
+    </members>
+</doc>
