@@ -29,7 +29,9 @@ namespace de.ahzf.blueprints.GeoGraph
     /// <summary>
     /// A simple geo edge.
     /// </summary>
-    public interface IGeoEdge : IGenericEdge<EdgeId, Distance>
+    public interface IGeoEdge : IGenericEdge<VertexId,    RevisionId, GeoCoordinate,
+                                             EdgeId,      RevisionId, Distance,
+                                             HyperEdgeId, RevisionId, Distance>
     {
         Distance Distance { get; set; }
     }

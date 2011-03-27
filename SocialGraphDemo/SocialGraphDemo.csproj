@@ -64,6 +64,10 @@
       <Project>{D4D2ACAD-FF2E-44AD-9D4A-6E332C246FAD}</Project>
       <Name>InMemoryGraph</Name>
     </ProjectReference>
+    <ProjectReference Include="..\UnitTests\UnitTests.csproj">
+      <Project>{CD29E0E7-554A-4FE6-9FE5-8867B8EAFAD8}</Project>
+      <Name>UnitTests</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

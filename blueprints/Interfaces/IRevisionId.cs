@@ -28,19 +28,18 @@ namespace de.ahzf.blueprints
 {
 
     /// <summary>
-    /// A general graph element.
+    /// Provides a generic revision identifier.
     /// </summary>
-    /// <typeparam name="TId">The type of the id.</typeparam>
-    public interface IGenericElement<TId> : IEquatable<TId>, IComparable<TId>, IComparable
-        where TId : IEquatable<TId>, IComparable<TId>, IComparable
+    /// <typeparam name="TRevisionId">The type of the revision identifier.</typeparam>
+    public interface IRevisionId<TRevisionId>
+        where TRevisionId : IEquatable<TRevisionId>, IComparable<TRevisionId>, IComparable
     {
 
         /// <summary>
-        /// An identifier that is unique to its inheriting class.
-        /// All vertices and edges of a graph must have unique identifiers.
+        /// A generic revision identifier.
+        /// All vertices, edges and hyper edges of a graph must have unique identifiers.
         /// </summary>
-        /// <returns>the identifier of the element</returns>
-        TId Id { get; }
+        TRevisionId RevisionId { get; }
 
     }
 

@@ -49,8 +49,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AProperties.cs" />
-    <Compile Include="AStringProperties.cs" />
+    <Compile Include="Interfaces\PropertyGraph\AProperties.cs" />
     <Compile Include="Datastructures\HyperEdgeId.cs" />
     <Compile Include="Datastructures\SystemId.cs" />
     <Compile Include="Datastructures\ElementId.cs" />
@@ -60,21 +59,22 @@
     <Compile Include="Datastructures\EdgeId.cs" />
     <Compile Include="Extensions\IGraphExtensions.cs" />
     <Compile Include="Extensions\IPropertiesExtensions.cs" />
-    <Compile Include="Interfaces\IHyperEdge.cs" />
-    <Compile Include="Interfaces\Generic\IGenericHyperEdge.cs" />
-    <Compile Include="Interfaces\Generic\IGenericElement.cs" />
-    <Compile Include="Interfaces\IElement.cs" />
-    <Compile Include="Interfaces\Generic\IGenericEdge.cs" />
-    <Compile Include="Interfaces\Generic\IGenericVertex.cs" />
-    <Compile Include="Interfaces\Generic\IGenericGraph.cs" />
+    <Compile Include="Interfaces\IRevisionId.cs" />
+    <Compile Include="Interfaces\PropertyGraph\IPropertyHyperEdge.cs" />
+    <Compile Include="Interfaces\GenericGraph\IGenericHyperEdge.cs" />
+    <Compile Include="Interfaces\IIdentifier.cs" />
+    <Compile Include="Interfaces\PropertyGraph\IPropertiesWithIds.cs" />
+    <Compile Include="Interfaces\GenericGraph\IGenericEdge.cs" />
+    <Compile Include="Interfaces\GenericGraph\IGenericVertex.cs" />
+    <Compile Include="Interfaces\GenericGraph\IGenericGraph.cs" />
     <Compile Include="Interfaces\IAutomaticIndex.cs" />
     <Compile Include="Datastructures\IndexType.cs" />
     <Compile Include="Interfaces\IIndex.cs" />
     <Compile Include="Interfaces\IIndexableGraph.cs" />
-    <Compile Include="Interfaces\IGraph.cs" />
-    <Compile Include="Interfaces\IEdge.cs" />
-    <Compile Include="Interfaces\IProperties.cs" />
-    <Compile Include="Interfaces\IVertex.cs" />
+    <Compile Include="Interfaces\PropertyGraph\IPropertyGraph.cs" />
+    <Compile Include="Interfaces\PropertyGraph\IPropertyEdge.cs" />
+    <Compile Include="Interfaces\PropertyGraph\IProperties.cs" />
+    <Compile Include="Interfaces\PropertyGraph\IPropertyVertex.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools\AutoDiscovery.cs" />
     <Compile Include="Tools\AutoDiscoveryException.cs" />

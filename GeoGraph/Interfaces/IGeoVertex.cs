@@ -30,7 +30,9 @@ namespace de.ahzf.blueprints.GeoGraph
     /// <summary>
     /// A simple geo vertex.
     /// </summary>
-    public interface IGeoVertex : IGenericVertex<VertexId, GeoCoordinate>
+    public interface IGeoVertex : IGenericVertex<VertexId,    RevisionId, GeoCoordinate,
+                                                 EdgeId,      RevisionId, Distance,
+                                                 HyperEdgeId, RevisionId, Distance>
     {
         
         GeoCoordinate   GeoCoordinate   { get; set; }

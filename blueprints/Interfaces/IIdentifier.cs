@@ -19,6 +19,7 @@
 
 using System;
 using System.Collections.Generic;
+
 using de.ahzf.blueprints.Datastructures;
 
 #endregion
@@ -27,17 +28,19 @@ namespace de.ahzf.blueprints
 {
 
     /// <summary>
-    /// An element is the base class for both vertices and edges.
-    /// An element has an identifier that must be unique to its inheriting classes (vertex or edges).
-    /// An element can maintain a collection of key/value properties.
-    /// Keys are always strings and values can be any object.
-    /// Particular implementations can reduce the space of objects that can be used as values.
+    /// Provides a generic identifier that is unique for its implementing class.
     /// </summary>
     /// <typeparam name="TId">The type of the id.</typeparam>
-    /// <typeparam name="TKey">The type of the property keys.</typeparam>
-    public interface IElement<TId, TKey> : IProperties<TKey>, IGenericElement<TId>
-        where TId  : IEquatable<TId>,  IComparable<TId>,  IComparable
-        where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
-    { }
+    public interface IIdentifier<TId> : IEquatable<TId>, IComparable<TId>, IComparable
+        where TId : IEquatable<TId>, IComparable<TId>, IComparable
+    {
+
+        /// <summary>
+        /// A generic identifier that is unique to its implementing class.
+        /// All vertices, edges and hyper edges of a graph must have unique identifiers.
+        /// </summary>
+        TId Id { get; }
+
+    }
 
 }

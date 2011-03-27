@@ -24,6 +24,7 @@ using System.Diagnostics;
 
 using de.ahzf.blueprints;
 using de.ahzf.blueprints.Datastructures;
+using de.ahzf.Pipes.UnitTests;
 
 #endregion
 
@@ -38,9 +39,9 @@ namespace SocialGraphDemo
 
         #region Data
 
-        private const Int32  _NumberOfVertices = 100000;
-        private const Int32  _NumberOfEdges    = 500000;
-        private const String _FileName         = "SocialGraph_v100000-e500000.csv";
+        private const Int32 _NumberOfVertices = 100000;
+        private const Int32 _NumberOfEdges = 500000;
+        private const String _FileName = "SocialGraph_v100000-e500000.csv";
 
         #endregion
 
@@ -58,8 +59,8 @@ namespace SocialGraphDemo
             var _SocialGraph = SocialGraphGenerator.Generate(_NumberOfVertices,
                                                              _NumberOfEdges,
                                                              PreferentialAttachment: 3,
-                                                             BatchNumber:            5000,
-                                                             BatchAction:            status => 
+                                                             BatchNumber: 5000,
+                                                             BatchAction: status =>
                                                                  {
                                                                      Console.SetCursorPosition(0, Console.CursorTop);
                                                                      Console.Write(status);
@@ -82,7 +83,7 @@ namespace SocialGraphDemo
 
         #region Import vertices
 
-        private static void ImportVertices(IGraph mySocialGraph)
+        private static void ImportVertices(IPropertyGraph mySocialGraph)
         {
 
             var _Stopwatch = new Stopwatch();
@@ -104,7 +105,7 @@ namespace SocialGraphDemo
 
         #region Import edges
 
-        private static void ImportEdges(IGraph mySocialGraph)
+        private static void ImportEdges(IPropertyGraph mySocialGraph)
         {
 
             var _Stopwatch = new Stopwatch();
@@ -143,15 +144,14 @@ namespace SocialGraphDemo
         public static void Main(String[] myArgs)
         {
 
-
             // Create SocialGraph, if not existant!
             if (!File.Exists(_FileName))
                 GenerateSocialGraph();
 
 
             // Create an in-memory graph using reflection
-            IGraph _SocialGraph = null;
-            if (!new AutoDiscovery<IGraph>().TryActivate("InMemoryGraph", out _SocialGraph))
+            IPropertyGraph _SocialGraph = null;
+            if (!new AutoDiscovery<IPropertyGraph>().TryActivate("InMemoryGraph", out _SocialGraph))
             {
                 Console.WriteLine("Could not find the 'InMemoryGraph' implementation!");
                 Environment.Exit(1);
@@ -166,7 +166,7 @@ namespace SocialGraphDemo
             var all1 = _SocialGraph.GetVertices().Count();
             var all2 = _SocialGraph.GetVertices(v => v.Id > new VertexId(10)).Count();
 
-            //Console.ReadLine();
+            Console.ReadLine();
 
         }
 
