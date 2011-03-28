@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\InMemoryGraph.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -41,12 +42,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GenericPropertyGraph\InMemoryPropertyGraph.cs" />
-    <Compile Include="GenericPropertyGraph\HyperEdge.cs" />
-    <Compile Include="GenericPropertyGraph\Edge.cs" />
+    <Compile Include="PropertyGraph\PropertyHyperEdge.cs" />
+    <Compile Include="PropertyGraph\InMemoryPropertyGraph.cs" />
+    <Compile Include="GenericPropertyGraph\PropertyHyperEdge.cs" />
+    <Compile Include="GenericPropertyGraph\PropertyEdge.cs" />
     <Compile Include="GenericPropertyGraph\InMemoryGenericPropertyGraph.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="GenericPropertyGraph\Vertex.cs" />
+    <Compile Include="GenericPropertyGraph\PropertyVertex.cs" />
+    <Compile Include="PropertyGraph\PropertyEdge.cs" />
+    <Compile Include="PropertyGraph\PropertyVertex.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\blueprints\blueprints.csproj">
@@ -54,9 +58,7 @@
       <Name>blueprints</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="PropertyGraph\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

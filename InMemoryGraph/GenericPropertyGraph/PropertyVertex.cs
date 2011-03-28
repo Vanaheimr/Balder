@@ -21,8 +21,6 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-using de.ahzf.blueprints.Datastructures;
-
 #endregion
 
 namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
@@ -34,15 +32,15 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
     /// The incoming edges are those edges for which the vertex is the head.
     /// Diagrammatically, ---inEdges---> vertex ---outEdges--->.
     /// </summary>
-    public class Vertex<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                        TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                        THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
-                        TEdgeCollection>
-
-                        : IPropertyVertex<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                          TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                          THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
-
+    public class PropertyVertex<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
+                                TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
+                                THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
+                                TEdgeCollection>
+        
+                                : IPropertyVertex<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
+                                                  TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
+                                                  THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
+        
         where TEdgeCollection : ICollection<IGenericEdge<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex,    TDatastructureVertex>,
                                                          TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge,      TDatastructureEdge>,
                                                          THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>>>
@@ -65,27 +63,11 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
 
     {
 
-
-        #region Data
-
-        /// <summary>
-        /// The edges emanating from, or leaving, this vertex.
-        /// </summary>
-        protected readonly TEdgeCollection _OutEdges;
-
-        /// <summary>
-        /// The edges incoming to, or arriving at, this vertex.
-        /// </summary>
-        protected readonly TEdgeCollection _InEdges;
-
-        protected readonly TKeyVertex _IdKey;
-        protected readonly TKeyVertex _RevisonIdKey;
-
-        #endregion
-
         #region Properties
 
         #region Id
+
+        protected readonly TKeyVertex _IdKey;
 
         public TVertexId Id
         {
@@ -98,6 +80,8 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
         #endregion
 
         #region RevisionId
+
+        protected readonly TKeyVertex _RevisonIdKey;
 
         public TVertexRevisionId RevisionId
         {
@@ -123,11 +107,60 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
 
         #endregion
 
+        
+        // Links to the associated edges
+
+        #region OutEdges
+
+        /// <summary>
+        /// The edges emanating from, or leaving, this vertex.
+        /// </summary>
+        protected readonly TEdgeCollection _OutEdges;
+
+        /// <summary>
+        /// The edges emanating from, or leaving, this vertex.
+        /// </summary>
+        public IEnumerable<IGenericEdge<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex,    TDatastructureVertex>,
+                                        TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge,      TDatastructureEdge>,
+                                        THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>>>
+                                        OutEdges
+        {
+            get
+            {
+                return _OutEdges;
+            }
+        }
+
+        #endregion
+
+        #region InEdges
+
+        /// <summary>
+        /// The edges incoming to, or arriving at, this vertex.
+        /// </summary>
+        protected readonly TEdgeCollection _InEdges;
+
+        /// <summary>
+        /// The edges incoming to, or arriving at, this vertex.
+        /// </summary>
+        public IEnumerable<IGenericEdge<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex,    TDatastructureVertex>,
+                                        TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge,      TDatastructureEdge>,
+                                        THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>>>
+                                        InEdges
+        {
+            get
+            {
+                return _InEdges;
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Constructor(s)
 
-        #region Vertex(myIGraph, myVertexId, myVertexInitializer = null)
+        #region PropertyVertex(myIGraph, myVertexId, myVertexInitializer = null)
 
         /// <summary>
         /// Creates a new vertex.
@@ -135,15 +168,15 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
         /// <param name="myIGraph">The associated graph.</param>
         /// <param name="myVertexId">The identification of this vertex.</param>
         /// <param name="myVertexInitializer">A delegate to initialize the newly created vertex.</param>
-        public Vertex(TVertexId                  myVertexId,
-                      TKeyVertex                 myIdKey,
-                      TKeyVertex                 myRevisonIdKey,
-                      Func<TDatastructureVertex> myDataInitializer,
-                      Func<TEdgeCollection>      myEdgeCollectionInitializer = null,
-                      Action<IPropertyVertex<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                             TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                             THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>>
-                                             myVertexInitializer = null)
+        public PropertyVertex(TVertexId                  myVertexId,
+                              TKeyVertex                 myIdKey,
+                              TKeyVertex                 myRevisonIdKey,
+                              Func<TDatastructureVertex> myDataInitializer,
+                              Func<TEdgeCollection>      myEdgeCollectionInitializer = null,
+                              Action<IPropertyVertex<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
+                                                     TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
+                                                     THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>>
+                                                     myVertexInitializer = null)
         {
 
             _OutEdges     = myEdgeCollectionInitializer();
@@ -177,24 +210,6 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
                                             myIEdge)
         {
             _OutEdges.Add(myIEdge);
-        }
-
-        #endregion
-
-        #region OutEdges
-
-        /// <summary>
-        /// The edges emanating from, or leaving, this vertex.
-        /// </summary>
-        public IEnumerable<IGenericEdge<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex,    TDatastructureVertex>,
-                                        TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge,      TDatastructureEdge>,
-                                        THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>>>
-                                        OutEdges
-        {
-            get
-            {
-                return _OutEdges;
-            }
         }
 
         #endregion
@@ -254,24 +269,6 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
 
         #endregion
 
-        #region InEdges
-
-        /// <summary>
-        /// The edges incoming to, or arriving at, this vertex.
-        /// </summary>
-        public IEnumerable<IGenericEdge<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex,    TDatastructureVertex>,
-                                        TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge,      TDatastructureEdge>,
-                                        THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>>>
-                                        InEdges
-        {
-            get
-            {
-                return _InEdges;
-            }
-        }
-
-        #endregion
-
         #region GetInEdges(myLabel)
 
         /// <summary>
@@ -312,173 +309,173 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
 
         #region Operator overloading
 
-        #region Operator == (myVertex1, myVertex2)
+        #region Operator == (myPropertyVertex1, myPropertyVertex2)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myVertex1">A Vertex.</param>
-        /// <param name="myVertex2">Another Vertex.</param>
+        /// <param name="myPropertyVertex1">A Vertex.</param>
+        /// <param name="myPropertyVertex2">Another Vertex.</param>
         /// <returns>true|false</returns>
         /// 
 
-        public static Boolean operator == (Vertex<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                                  TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                                  THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
-                                                  TEdgeCollection> myVertex1,
-                                           Vertex<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                                  TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                                  THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
-                                                  TEdgeCollection> myVertex2)
+        public static Boolean operator == (PropertyVertex<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
+                                                          TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
+                                                          THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
+                                                          TEdgeCollection> myPropertyVertex1,
+                                           PropertyVertex<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
+                                                          TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
+                                                          THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
+                                                          TEdgeCollection> myPropertyVertex2)
         {
 
             // If both are null, or both are same instance, return true.
-            if (Object.ReferenceEquals(myVertex1, myVertex2))
+            if (Object.ReferenceEquals(myPropertyVertex1, myPropertyVertex2))
                 return true;
 
             // If one is null, but not both, return false.
-            if (((Object) myVertex1 == null) || ((Object) myVertex2 == null))
+            if (((Object) myPropertyVertex1 == null) || ((Object) myPropertyVertex2 == null))
                 return false;
 
-            return myVertex1.Equals(myVertex2);
+            return myPropertyVertex1.Equals(myPropertyVertex2);
 
         }
 
         #endregion
 
-        #region Operator != (myVertex1, myVertex2)
+        #region Operator != (myPropertyVertex1, myPropertyVertex2)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myVertex1">A Vertex.</param>
-        /// <param name="myVertex2">Another Vertex.</param>
+        /// <param name="myPropertyVertex1">A Vertex.</param>
+        /// <param name="myPropertyVertex2">Another Vertex.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator != (Vertex<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                                  TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                                  THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
-                                                  TEdgeCollection> myVertex1,
-                                           Vertex<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                                  TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                                  THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
-                                                  TEdgeCollection> myVertex2)
+        public static Boolean operator != (PropertyVertex<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
+                                                          TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
+                                                          THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
+                                                          TEdgeCollection> myPropertyVertex1,
+                                           PropertyVertex<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
+                                                          TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
+                                                          THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
+                                                          TEdgeCollection> myPropertyVertex2)
         {
-            return !(myVertex1 == myVertex2);
+            return !(myPropertyVertex1 == myPropertyVertex2);
         }
 
         #endregion
 
-        #region Operator <  (myVertex1, myVertex2)
+        #region Operator <  (myPropertyVertex1, myPropertyVertex2)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myVertex1">A Vertex.</param>
-        /// <param name="myVertex2">Another Vertex.</param>
+        /// <param name="myPropertyVertex1">A Vertex.</param>
+        /// <param name="myPropertyVertex2">Another Vertex.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator < (Vertex<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                                 TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                                 THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
-                                                 TEdgeCollection> myVertex1,
-                                          Vertex<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                                 TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                                 THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
-                                                 TEdgeCollection> myVertex2)
+        public static Boolean operator < (PropertyVertex<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
+                                                         TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
+                                                         THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
+                                                         TEdgeCollection> myPropertyVertex1,
+                                          PropertyVertex<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
+                                                         TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
+                                                         THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
+                                                         TEdgeCollection> myPropertyVertex2)
         {
 
-            // Check if myVertex1 is null
-            if ((Object) myVertex1 == null)
-                throw new ArgumentNullException("Parameter myVertex1 must not be null!");
+            // Check if myPropertyVertex1 is null
+            if ((Object) myPropertyVertex1 == null)
+                throw new ArgumentNullException("Parameter myPropertyVertex1 must not be null!");
 
-            // Check if myVertex2 is null
-            if ((Object) myVertex2 == null)
-                throw new ArgumentNullException("Parameter myVertex2 must not be null!");
+            // Check if myPropertyVertex2 is null
+            if ((Object) myPropertyVertex2 == null)
+                throw new ArgumentNullException("Parameter myPropertyVertex2 must not be null!");
 
-            return myVertex1.CompareTo(myVertex2) < 0;
+            return myPropertyVertex1.CompareTo(myPropertyVertex2) < 0;
 
         }
 
         #endregion
 
-        #region Operator >  (myVertex1, myVertex2)
+        #region Operator >  (myPropertyVertex1, myPropertyVertex2)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myVertex1">A Vertex.</param>
-        /// <param name="myVertex2">Another Vertex.</param>
+        /// <param name="myPropertyVertex1">A Vertex.</param>
+        /// <param name="myPropertyVertex2">Another Vertex.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator > (Vertex<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                                 TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                                 THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
-                                                 TEdgeCollection> myVertex1,
-                                          Vertex<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                                 TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                                 THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
-                                                 TEdgeCollection> myVertex2)
+        public static Boolean operator > (PropertyVertex<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
+                                                         TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
+                                                         THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
+                                                         TEdgeCollection> myPropertyVertex1,
+                                          PropertyVertex<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
+                                                         TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
+                                                         THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
+                                                         TEdgeCollection> myPropertyVertex2)
         {
 
-            // Check if myVertex1 is null
-            if ((Object) myVertex1 == null)
-                throw new ArgumentNullException("Parameter myVertex1 must not be null!");
+            // Check if myPropertyVertex1 is null
+            if ((Object) myPropertyVertex1 == null)
+                throw new ArgumentNullException("Parameter myPropertyVertex1 must not be null!");
 
-            // Check if myVertex2 is null
-            if ((Object) myVertex2 == null)
-                throw new ArgumentNullException("Parameter myVertex2 must not be null!");
+            // Check if myPropertyVertex2 is null
+            if ((Object) myPropertyVertex2 == null)
+                throw new ArgumentNullException("Parameter myPropertyVertex2 must not be null!");
 
-            return myVertex1.CompareTo(myVertex2) > 0;
+            return myPropertyVertex1.CompareTo(myPropertyVertex2) > 0;
 
         }
 
         #endregion
 
-        #region Operator <= (myVertex1, myVertex2)
+        #region Operator <= (myPropertyVertex1, myPropertyVertex2)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myVertex1">A Vertex.</param>
-        /// <param name="myVertex2">Another Vertex.</param>
+        /// <param name="myPropertyVertex1">A Vertex.</param>
+        /// <param name="myPropertyVertex2">Another Vertex.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator <= (Vertex<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                                  TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                                  THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
-                                                  TEdgeCollection> myVertex1,
-                                           Vertex<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                                  TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                                  THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
-                                                  TEdgeCollection> myVertex2)
+        public static Boolean operator <= (PropertyVertex<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
+                                                          TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
+                                                          THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
+                                                          TEdgeCollection> myPropertyVertex1,
+                                           PropertyVertex<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
+                                                          TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
+                                                          THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
+                                                          TEdgeCollection> myPropertyVertex2)
         {
-            return !(myVertex1 > myVertex2);
+            return !(myPropertyVertex1 > myPropertyVertex2);
         }
 
         #endregion
 
-        #region Operator >= (myVertex1, myVertex2)
+        #region Operator >= (myPropertyVertex1, myPropertyVertex2)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myVertex1">A Vertex.</param>
-        /// <param name="myVertex2">Another Vertex.</param>
+        /// <param name="myPropertyVertex1">A Vertex.</param>
+        /// <param name="myPropertyVertex2">Another Vertex.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator >= (Vertex<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                                  TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                                  THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
-                                                  TEdgeCollection> myVertex1,
-                                           Vertex<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                                  TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                                  THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
-                                                  TEdgeCollection> myVertex2)
+        public static Boolean operator >= (PropertyVertex<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
+                                                          TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
+                                                          THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
+                                                          TEdgeCollection> myPropertyVertex1,
+                                           PropertyVertex<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
+                                                          TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
+                                                          THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
+                                                          TEdgeCollection> myPropertyVertex2)
         {
-            return !(myVertex1 < myVertex2);
+            return !(myPropertyVertex1 < myPropertyVertex2);
         }
 
         #endregion
 
         #endregion
 
-        #region IComparable<IVertex> Members
+        #region IComparable<IPropertyVertex> Members
 
         #region CompareTo(myObject)
 
@@ -495,19 +492,19 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
                 throw new ArgumentNullException("myObject must not be null!");
 
             // Check if myObject can be casted to an IEdge object
-            var myIVertex = myObject as IPropertyVertex<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
+            var myIPropertyVertex = myObject as IPropertyVertex<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
                                                         TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
                                                         THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>;
-            if ((Object) myIVertex == null)
-                throw new ArgumentException("myObject is not of type myIVertex!");
+            if ((Object) myIPropertyVertex == null)
+                throw new ArgumentException("myObject is not of type myIPropertyVertex!");
 
-            return CompareTo(myIVertex);
+            return CompareTo(myIPropertyVertex);
 
         }
 
         #endregion
 
-        #region CompareTo(myIVertex)
+        #region CompareTo(myIPropertyVertex)
 
         /// <summary>
         /// Compares two instances of this object.
@@ -520,7 +517,7 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
                                                myIGenericVertex)
         {
 
-            // Check if myIVertex is null
+            // Check if myIPropertyVertex is null
             if (myIGenericVertex == null)
                 throw new ArgumentNullException("myIGenericVertex must not be null!");
 
@@ -540,7 +537,7 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
         //public Int32 CompareTo(IGenericVertex<IProperties<String>> myIGenericVertexIPropertiesString)
         //{
 
-        //    // Check if myIVertex is null
+        //    // Check if myIPropertyVertex is null
         //    if (myIGenericVertexIPropertiesString == null)
         //        throw new ArgumentNullException("myIGenericVertexIPropertiesString must not be null!");
 
@@ -552,7 +549,7 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
 
         #endregion
 
-        #region IEquatable<IVertex> Members
+        #region IEquatable<IPropertyVertex> Members
 
         #region Equals(myObject)
 

@@ -74,8 +74,8 @@ namespace de.ahzf.blueprints
         /// <summary>
         /// Return the vertex at the head of the edge.
         /// </summary>
-        IGenericVertex<TVertexId, TVertexRevisionId, TVertexData,
-                       TEdgeId, TEdgeRevisionId, TEdgeData,
+        IGenericVertex<TVertexId,    TVertexRevisionId,    TVertexData,
+                       TEdgeId,      TEdgeRevisionId,      TEdgeData,
                        THyperEdgeId, THyperEdgeRevisionId, THyperEdgeData> InVertex { get; }
 
 

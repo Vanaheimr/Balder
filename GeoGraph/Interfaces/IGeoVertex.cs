@@ -18,9 +18,9 @@
 #region Usings
 
 using System;
-using System.Collections.Generic;
 
 using de.ahzf.blueprints.Datastructures;
+using System.Collections.Generic;
 
 #endregion
 
@@ -34,13 +34,16 @@ namespace de.ahzf.blueprints.GeoGraph
                                                  EdgeId,      RevisionId, Distance,
                                                  HyperEdgeId, RevisionId, Distance>
     {
-        
-        GeoCoordinate   GeoCoordinate   { get; set; }
 
-        String          Name            { get; }
-        Double          Latitude        { get; }
-        Double          Longitude       { get; }
-        Double          Height          { get; }
+        String              Type            { get; }
+        String              Id              { get; }
+        IEnumerable<String> Properties      { get; }
+
+        GeoCoordinate       GeoCoordinate   { get; set; }
+
+        Double              Latitude        { get; }
+        Double              Longitude       { get; }
+        Double              Height          { get; }
 
     }
 
