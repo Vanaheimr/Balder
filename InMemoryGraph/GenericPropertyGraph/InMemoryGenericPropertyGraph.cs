@@ -21,25 +21,25 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
 
-using de.ahzf.blueprints.Datastructures;
-
 #endregion
 
 namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
 {
 
+    #region InMemoryGenericPropertyGraph<...>
+
     /// <summary>
     /// An in-memory implementation of the IGraph interface.
     /// </summary>
-    public class InMemoryPropertyGraph<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                       TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                       THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
-                                       TGraphDatastructure>
-
-                                       : IPropertyGraph<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                                        TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                                        THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
-                                                        TGraphDatastructure>
+    public class InMemoryGenericPropertyGraph<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
+                                              TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
+                                              THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
+                                              TGraphDatastructure>
+       
+                                              : IPropertyGraph<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
+                                                               TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
+                                                               THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
+                                                               TGraphDatastructure>
 
         where TDatastructureVertex    : IDictionary<TKeyVertex,    TValueVertex>
         where TDatastructureEdge      : IDictionary<TKeyEdge,      TValueEdge>
@@ -100,9 +100,9 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
         /// <summary>
         /// Created a new in-memory graph.
         /// </summary>
-        public InMemoryPropertyGraph(TKeyVertex    myVertexIdKey,    TKeyVertex    myVertexRevisionIdKey,    Func<TDatastructureVertex>    myVertexDatastructureInitializer,
-                                     TKeyEdge      myEdgeIdKey,      TKeyEdge      myEdgeRevisionIdKey,      Func<TDatastructureEdge>      myEdgeDatastructureInitializer,
-                                     TKeyHyperEdge myHyperEdgeIdKey, TKeyHyperEdge myHyperEdgeRevisionIdKey, Func<TDatastructureHyperEdge> myHyperEdgeDatastructureInitializer)
+        public InMemoryGenericPropertyGraph(TKeyVertex    myVertexIdKey,    TKeyVertex    myVertexRevisionIdKey,    Func<TDatastructureVertex>    myVertexDatastructureInitializer,
+                                            TKeyEdge      myEdgeIdKey,      TKeyEdge      myEdgeRevisionIdKey,      Func<TDatastructureEdge>      myEdgeDatastructureInitializer,
+                                            TKeyHyperEdge myHyperEdgeIdKey, TKeyHyperEdge myHyperEdgeRevisionIdKey, Func<TDatastructureHyperEdge> myHyperEdgeDatastructureInitializer)
         {
 
             _VertexIdKey                       = myVertexIdKey;
@@ -594,5 +594,46 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
         #endregion
 
     }
+
+    #endregion
+
+    #region InMemoryPropertyGraph<TId, TRevisionId>
+
+    /// <summary>
+    /// A generic in-memory implementation of a property graph
+    /// which allow to change the types of the Id and RevisionId
+    /// properties.
+    /// </summary>
+    /// <typeparam name="TId">The type of the Id property.</typeparam>
+    /// <typeparam name="TRevisionId">The type of the TRevisionId property.</typeparam>
+    public class InMemoryPropertyGraph<TId, TRevisionId> : InMemoryGenericPropertyGraph<TId, TRevisionId, String, Object, IDictionary<String, Object>,
+                                                                                        TId, TRevisionId, String, Object, IDictionary<String, Object>,
+                                                                                        TId, TRevisionId, String, Object, IDictionary<String, Object>,
+                                                                                        Object>
+
+        where TId         : IEquatable<TId>,         IComparable<TId>,         IComparable
+        where TRevisionId : IEquatable<TRevisionId>, IComparable<TRevisionId>, IComparable
+    {
+
+        #region Constructor(s)
+
+        #region InMemoryPropertyGraph()
+
+        /// <summary>
+        /// Created a new in-memory property graph.
+        /// </summary>
+        public InMemoryPropertyGraph()
+            : base("Id", "RevId", () => new Dictionary<String, Object>(),
+                   "Id", "RevId", () => new Dictionary<String, Object>(),
+                   "Id", "RevId", () => new Dictionary<String, Object>())
+        { }
+
+        #endregion
+
+        #endregion
+
+    }
+
+    #endregion
 
 }

@@ -34,12 +34,7 @@ namespace de.ahzf.Pipes.UnitTests
         public static IPropertyGraph CreateTinkerGraph()
         {
 
-            var _TinkerGraph = new InMemoryPropertyGraph<VertexId,    RevisionId, String, Object, IDictionary<String, Object>,
-                                                         EdgeId,      RevisionId, String, Object, IDictionary<String, Object>,
-                                                         HyperEdgeId, RevisionId, String, Object, IDictionary<String, Object>,
-                                                         Object>("Id", "RevId", () => new Dictionary<String, Object>(),
-                                                                 "Id", "RevId", () => new Dictionary<String, Object>(),
-                                                                 "Id", "RevId", () => new Dictionary<String, Object>());
+            var _TinkerGraph = new InMemoryPropertyGraph();
 
             var marko  = _TinkerGraph.AddVertex(new VertexId("1"), v => v.Data.SetProperty("name", "marko"). SetProperty("age",   29));
             var vadas  = _TinkerGraph.AddVertex(new VertexId("2"), v => v.Data.SetProperty("name", "vadas"). SetProperty("age",   27));
