@@ -70,6 +70,19 @@ namespace de.ahzf.blueprints.GeoGraph
 
         public RevisionId RevisionId { get; private set; }
 
+
+        public String Type
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public IEnumerable<String> Properties
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+
+
         public GeoCoordinate Data { get; private set; }
 
         #endregion
@@ -537,7 +550,9 @@ namespace de.ahzf.blueprints.GeoGraph
         }
 
         #endregion
- 
+
+
+        
     }
 
 }

@@ -36,7 +36,6 @@ namespace de.ahzf.blueprints.GeoGraph
     {
 
         String              Type            { get; }
-        String              Id              { get; }
         IEnumerable<String> Properties      { get; }
 
         GeoCoordinate       GeoCoordinate   { get; set; }
