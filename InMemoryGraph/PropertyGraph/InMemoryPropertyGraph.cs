@@ -21,10 +21,11 @@ using System;
 using System.Collections.Generic;
 
 using de.ahzf.blueprints.Datastructures;
+using de.ahzf.blueprints.InMemory.PropertyGraph.Generic;
 
 #endregion
 
-namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
+namespace de.ahzf.blueprints.InMemory.PropertyGraph
 {
 
     /// <summary>

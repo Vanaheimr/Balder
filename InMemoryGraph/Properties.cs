@@ -245,6 +245,21 @@ namespace de.ahzf.blueprints
 
         #endregion
 
+        #region TryGetProperty(myPropertyKey, out myPropertyValue)
+
+        /// <summary>
+        /// Try to return the property value associated with the given property key.
+        /// </summary>
+        /// <param name="myPropertyKey">The key of the key/value property.</param>
+        /// <param name="myPropertyValue">The value of the key/value property.</param>
+        /// <returns>True if the returned value is valid.</returns>
+        public virtual Boolean TryGetProperty(TKey myPropertyKey, out TValue myPropertyValue)
+        {
+            return _Properties.TryGetValue(myPropertyKey, out myPropertyValue);
+        }
+
+        #endregion
+
         #region GetProperties(myPropertyFilter = null)
 
         /// <summary>

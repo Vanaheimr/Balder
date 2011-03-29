@@ -73,7 +73,7 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
         {
             get
             {
-                throw new NotImplementedException();
+                return (TVertexId) _Data.GetProperty(_IdKey);
             }
         }
 
@@ -87,7 +87,7 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
         {
             get
             {
-                throw new NotImplementedException();
+                return (TVertexRevisionId) _Data.GetProperty(_RevisonIdKey);
             }
         }
 
@@ -168,15 +168,12 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
         /// <param name="myIGraph">The associated graph.</param>
         /// <param name="myVertexId">The identification of this vertex.</param>
         /// <param name="myVertexInitializer">A delegate to initialize the newly created vertex.</param>
-        public PropertyVertex(TVertexId                  myVertexId,
-                              TKeyVertex                 myIdKey,
-                              TKeyVertex                 myRevisonIdKey,
-                              Func<TDatastructureVertex> myDataInitializer,
-                              Func<TEdgeCollection>      myEdgeCollectionInitializer = null,
-                              Action<IPropertyVertex<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                                     TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                                     THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>>
-                                                     myVertexInitializer = null)
+        public PropertyVertex(TVertexId                    myVertexId,
+                              TKeyVertex                   myIdKey,
+                              TKeyVertex                   myRevisonIdKey,
+                              Func<TDatastructureVertex>   myDataInitializer,
+                              Func<TEdgeCollection>        myEdgeCollectionInitializer = null,
+                              Action<IProperties<TKeyVertex, TValueVertex, TDatastructureVertex>> myVertexInitializer = null)
         {
 
             _OutEdges     = myEdgeCollectionInitializer();
@@ -187,7 +184,7 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
                                           (myVertexId, myIdKey, myRevisonIdKey, myDataInitializer);
 
             if (myVertexInitializer != null)
-                myVertexInitializer(this);
+                myVertexInitializer(Data);
 
         }
 

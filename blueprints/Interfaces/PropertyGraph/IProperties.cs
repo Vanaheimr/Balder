@@ -95,6 +95,15 @@ namespace de.ahzf.blueprints
 
 
         /// <summary>
+        /// Try to return the property value associated with the given property key.
+        /// </summary>
+        /// <param name="myKey">The key of the key/value property.</param>
+        /// <param name="myValue">The value of the key/value property.</param>
+        /// <returns>True if the returned value is valid.</returns>
+        Boolean TryGetProperty(TKey myKey, out TValue myValue);
+
+
+        /// <summary>
         /// Allows to return a filtered enumeration of all properties.
         /// </summary>
         /// <param name="myPropertyFilter">A function to filter a property based on its key and value.</param>

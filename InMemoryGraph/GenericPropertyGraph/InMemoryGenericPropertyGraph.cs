@@ -156,10 +156,7 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
                               THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>>
 
                AddVertex(TVertexId myVertexId = default(TVertexId),
-                         Action<IGenericVertex<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex,    TDatastructureVertex>,
-                                               TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge,      TDatastructureEdge>,
-                                               THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>>>
-                                               myVertexInitializer = null)
+                         Action<IProperties<TKeyVertex, TValueVertex, TDatastructureVertex>> myVertexInitializer = null)
 
         {
 
@@ -178,7 +175,8 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
                                                               (myVertexId, _VertexRevisionIdKey, _VertexIdKey, _VertexDatastructureInitializer,
                                                               () => new HashSet<IGenericEdge<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex,    TDatastructureVertex>,
                                                                                              TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge,      TDatastructureEdge>,
-                                                                                             THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>>>());
+                                                                                             THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>>>(),
+                                                              myVertexInitializer);
 
             _Vertices.Add(myVertexId, _Vertex);
 
@@ -214,7 +212,7 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
             if (myIVertex.Id == null)
                 throw new ArgumentNullException("The Id of myIVertex must not be null!");
 
-            if (myIVertex != null || _Vertices.ContainsKey(myIVertex.Id))
+            if (myIVertex != null && _Vertices.ContainsKey(myIVertex.Id))
                 throw new ArgumentException("Another vertex with id " + myIVertex.Id + " already exists!");
 
             _Vertices.Add(myIVertex.Id, myIVertex);
@@ -392,9 +390,7 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
                     TEdgeId myEdgeId = default(TEdgeId),
                     String  myLabel  = null,
 
-                    Action<IGenericEdge<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex,    TDatastructureVertex>,
-                                        TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge,      TDatastructureEdge>,
-                                        THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>>> myEdgeInitializer = null)
+                    Action<IProperties<TKeyEdge, TValueEdge, TDatastructureEdge>> myEdgeInitializer = null)
 
         {
 
@@ -407,8 +403,7 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
             var _Edge = new PropertyEdge<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
                                          TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
                                          THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
-                                         (myOutVertex, myInVertex, myEdgeId, myLabel, _EdgeIdKey, _EdgeRevisionIdKey, _EdgeDatastructureInitializer);
-                                          //myEdgeInitializer);
+                                         (myOutVertex, myInVertex, myEdgeId, myLabel, _EdgeIdKey, _EdgeRevisionIdKey, _EdgeDatastructureInitializer, myEdgeInitializer);
 
             _Edges.Add(myEdgeId, _Edge);
 

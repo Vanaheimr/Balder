@@ -18,13 +18,16 @@
 #region Usings
 
 using System;
+using System.Dynamic;
+using System.Linq.Expressions;
 using System.Collections.Generic;
 
 using de.ahzf.blueprints.Datastructures;
+using de.ahzf.blueprints.InMemory.PropertyGraph.Generic;
 
 #endregion
 
-namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
+namespace de.ahzf.blueprints.InMemory.PropertyGraph
 {
 
     /// <summary>
@@ -35,7 +38,9 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
     /// </summary>
     public class PropertyEdge : PropertyEdge<VertexId,    RevisionId, String, Object, IDictionary<String, Object>,
                                              EdgeId,      RevisionId, String, Object, IDictionary<String, Object>,
-                                             HyperEdgeId, RevisionId, String, Object, IDictionary<String, Object>>
+                                             HyperEdgeId, RevisionId, String, Object, IDictionary<String, Object>>,
+                                IDynamicGraphObject<PropertyEdge>
+
     {
 
         #region Constructor(s)
@@ -64,10 +69,7 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
                                         EdgeId myEdgeId,
                                         String myLabel,
 
-                                        Action<IPropertyEdge<VertexId,    RevisionId, String, Object, IDictionary<String, Object>,
-                                                             EdgeId,      RevisionId, String, Object, IDictionary<String, Object>,
-                                                             HyperEdgeId, RevisionId, String, Object, IDictionary<String, Object>>>
-                                                             myEdgeInitializer = null)
+                                        Action<IProperties<String, Object, IDictionary<String, Object>>> myEdgeInitializer = null)
 
             : base(myOutVertex, myInVertex,
                    myEdgeId, myLabel,
@@ -76,6 +78,92 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
                    myEdgeInitializer)
 
         { }
+
+        #endregion
+
+        #endregion
+
+        #region IDynamic<PropertyEdge> Members
+
+        #region GetMetaObject(myExpression)
+
+        /// <summary>
+        /// Return the appropriate DynamicMetaObject.
+        /// </summary>
+        /// <param name="myExpression">An Expression.</param>
+        public DynamicMetaObject GetMetaObject(Expression myExpression)
+        {
+            return new DynamicGraphObject<PropertyEdge>(myExpression, this);
+        }
+
+        #endregion
+
+        #region GetDynamicMemberNames()
+
+        /// <summary>
+        /// Returns an enumeration of all property keys.
+        /// </summary>
+        public virtual IEnumerable<String> GetDynamicMemberNames()
+        {
+            return _Data.PropertyKeys;
+        }
+
+        #endregion
+
+
+        #region SetMember(myBinder, myObject)
+
+        /// <summary>
+        /// Sets a new property or overwrites an existing.
+        /// </summary>
+        /// <param name="myBinder">The property key</param>
+        /// <param name="myObject">The property value</param>
+        public virtual Object SetMember(String myBinder, Object myObject)
+        {
+            return _Data.SetProperty(myBinder, myObject);
+            //if (_Properties.ContainsKey(myBinder.Name))
+            //    _Properties[myBinder.Name] = myObject;
+            //else
+            //    _Properties.Add(myBinder.Name, myObject);
+        }
+
+        #endregion
+
+        #region GetMember(myBinder)
+
+        /// <summary>
+        /// Returns the value of the given property key.
+        /// </summary>
+        /// <param name="myBinder">The property key.</param>
+        public virtual Object GetMember(String myBinder)
+        {
+            Object myObject;
+            _Data.TryGetProperty(myBinder, out myObject);
+            return myObject;
+        }
+
+        #endregion
+
+        #region DeleteMember(myBinder)
+
+        /// <summary>
+        /// Tries to remove the property identified by the given property key.
+        /// </summary>
+        /// <param name="myBinder">The property key.</param>
+        public virtual Object DeleteMember(String myBinder)
+        {
+
+            try
+            {
+                _Data.RemoveProperty(myBinder);
+                return true;
+            }
+            catch
+            { }
+
+            return false;
+
+        }
 
         #endregion
 

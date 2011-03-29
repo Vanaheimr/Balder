@@ -218,11 +218,7 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
                                         TKeyEdge myRevisonIdKey,
                                         Func<TDatastructureEdge> myDataInitializer,
                                //         Func<TVerticesVariable>  myVertexCollectionInitializer,
-
-                                        Action<IPropertyEdge<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                                             TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                                             THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>>
-                                                             myEdgeInitializer = null)
+                                        Action<IProperties<TKeyEdge, TValueEdge, TDatastructureEdge>> myEdgeInitializer = null)
         {
 
             if (myOutVertex == null)
@@ -242,7 +238,7 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
             //_Properties.Add(__Label, myLabel);
 
             if (myEdgeInitializer != null)
-                myEdgeInitializer(this);
+                myEdgeInitializer(Data);
 
         }
 

@@ -80,7 +80,7 @@ namespace de.ahzf.blueprints
         /// <param name="VertexId">The recommended object identifier.</param>
         /// <param name="VertexInitializer">A delegate to initialize the new vertex.</param>
         /// <returns>The newly created vertex or the vertex already referenced by the provided identifier.</returns>
-        TVertex AddVertex(TVertexId VertexId = default(TVertexId), Action<TVertex> VertexInitializer = null);
+        TVertex AddVertex(TVertexId VertexId = default(TVertexId), Action<TVertexData> VertexInitializer = null);
 
         TVertex AddVertex(TVertex myVertexId);
 
@@ -130,7 +130,7 @@ namespace de.ahzf.blueprints
         /// <param name="Label">The label associated with the edge.</param>
         /// <param name="EdgeInitializer">A delegate to initialize the new edge.</param>
         /// <returns>The newly created edge</returns>
-        TEdge AddEdge(TVertex myOutVertex, TVertex myInVertex, TEdgeId EdgeId = default(TEdgeId), String Label = null, Action<TEdge> EdgeInitializer = null);
+        TEdge AddEdge(TVertex myOutVertex, TVertex myInVertex, TEdgeId EdgeId = default(TEdgeId), String Label = null, Action<TEdgeData> EdgeInitializer = null);
 
 
         /// <summary>

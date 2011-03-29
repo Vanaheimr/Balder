@@ -50,7 +50,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Datastructures\SemanticPropertyKey.cs" />
-    <Compile Include="Interfaces\PropertyGraph\AProperties.cs" />
     <Compile Include="Datastructures\HyperEdgeId.cs" />
     <Compile Include="Datastructures\SystemId.cs" />
     <Compile Include="Datastructures\ElementId.cs" />
