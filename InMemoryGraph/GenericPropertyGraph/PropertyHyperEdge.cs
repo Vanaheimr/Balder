@@ -35,8 +35,9 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
                                    TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
                                    THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
                                    TVerticesCollection>
-                                   
-                                   : IPropertyHyperEdge<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
+
+                                   : AElement<THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>,
+                                     IPropertyHyperEdge<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
                                                         TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
                                                         THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
 
@@ -67,40 +68,13 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
         /// <summary>
         /// The property key of the Label property
         /// </summary>
-        private   const    String  __Label = "Label";
-
-        protected readonly TKeyHyperEdge _IdKey;
-        protected readonly TKeyHyperEdge _RevisonIdKey;
+        protected const String __Label = "Label";
 
         #endregion
 
         #region Properties
 
         // Edge properties
-
-        #region Id
-
-        public THyperEdgeId Id
-        {
-            get
-            {
-                return (THyperEdgeId) Data.GetProperty(_IdKey);
-            }
-        }
-
-        #endregion
-
-        #region RevisionId
-
-        public THyperEdgeRevisionId RevisionId
-        {
-            get
-            {
-                return (THyperEdgeRevisionId) Data.GetProperty(_RevisonIdKey);
-            }
-        }
-
-        #endregion
 
         #region Label
 
@@ -119,20 +93,6 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
 
                 return null;
 
-            }
-        }
-
-        #endregion
-
-        #region Data
-
-        protected readonly IProperties<TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge> _Data;
-
-        public IProperties<TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge> Data
-        {
-            get
-            {
-                return _Data;
             }
         }
 
@@ -213,18 +173,17 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
                                                                         THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>>>
                                                                         myInVertices,
 
-                                             THyperEdgeId  myHyperEdgeId,
-                                             String        myLabel,
-                                             TKeyHyperEdge myIdKey,
-                                             TKeyHyperEdge myRevisonIdKey,
-
+                                             THyperEdgeId                  myHyperEdgeId,
+                                             String                        myLabel,
+                                             TKeyHyperEdge                 myIdKey,
+                                             TKeyHyperEdge                 myRevisonIdKey,
                                              Func<TDatastructureHyperEdge> myDataInitializer,
                                              Func<TVerticesCollection>     myVertexCollectionInitializer,
 
-                                             Action<IPropertyHyperEdge<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                                                       TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                                                       THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>>
-                                                                       myEdgeInitializer = null)
+                                             Action<IProperties<TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>> myHyperEdgeInitializer = null)
+
+            : base(myHyperEdgeId, myIdKey, myRevisonIdKey, myDataInitializer, myHyperEdgeInitializer)
+
         {
 
             if (myOutVertex == null)
@@ -239,16 +198,8 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
             foreach (var _Vertex in myInVertices)
                 _InVertices.Add(_Vertex);
 
-            _IdKey        = myIdKey;
-            _RevisonIdKey = myRevisonIdKey;
-            _Data         = new Properties<THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
-                                          (myHyperEdgeId, myIdKey, myRevisonIdKey, myDataInitializer);
-
             // Add the label
             //_Properties.Add(__Label, myLabel);
-
-            if (myEdgeInitializer != null)
-                myEdgeInitializer(this);
 
         }
 
@@ -422,7 +373,7 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
 
         #endregion
 
-        #region IComparable<IPropertyHyperEdge> Members
+        #region IComparable<TVertexId> Members
 
         #region CompareTo(myObject)
 
@@ -451,52 +402,29 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
 
         #endregion
 
-        #region CompareTo(myIGenericEdge)
+        #region CompareTo(myHyperEdgeId)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myIGenericEdge">An object to compare with.</param>
+        /// <param name="myHyperEdgeId">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public Int32 CompareTo(IPropertyEdge<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                             TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                             THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
-                                             myIGenericEdge)
+        public Int32 CompareTo(THyperEdgeId myHyperEdgeId)
         {
 
-            // Check if myIPropertyHyperEdge is null
-            if (myIGenericEdge == null)
-                throw new ArgumentNullException("myIGenericEdge must not be null!");
+            // Check if myHyperEdgeId is null
+            if (myHyperEdgeId == null)
+                throw new ArgumentNullException("myHyperEdgeId must not be null!");
 
-            return Id.CompareTo(myIGenericEdge.Id);
+            return Id.CompareTo(myHyperEdgeId);
 
         }
 
         #endregion
 
-        //#region CompareTo(myIGenericEdgeIPropertiesString)
-
-        ///// <summary>
-        ///// Compares two instances of this object.
-        ///// </summary>
-        ///// <param name="myIGenericEdgeIPropertiesString">An object to compare with.</param>
-        ///// <returns>true|false</returns>
-        //public Int32 CompareTo(IGenericEdge<IProperties<String>> myIGenericEdgeIPropertiesString)
-        //{
-
-        //    // Check if myIPropertyHyperEdge is null
-        //    if (myIGenericEdgeIPropertiesString == null)
-        //        throw new ArgumentNullException("myIGenericEdgeIPropertiesString must not be null!");
-
-        //    return Id.CompareTo(myIGenericEdgeIPropertiesString.Id);
-
-        //}
-
-        //#endregion
-
         #endregion
 
-        #region IEquatable<IPropertyHyperEdge> Members
+        #region IEquatable<THyperEdgeId> Members
 
         #region Equals(myObject)
 
@@ -511,91 +439,33 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
             if (myObject == null)
                 return false;
 
-            var _Object = myObject as IPropertyEdge<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                                    TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                                    THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>;
-            if (_Object != null)
-                return Equals(_Object);
-
-            return false;
+            return Equals((THyperEdgeId) myObject);
 
         }
 
         #endregion
 
-        #region Equals(myIGenericEdge)
+        #region Equals(myHyperEdgeId)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myIGenericEdge">An object to compare with.</param>
+        /// <param name="myHyperEdgeId">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public Boolean Equals(IPropertyEdge<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                            TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                            THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
-                                            myIGenericEdge)
+        public Boolean Equals(THyperEdgeId myHyperEdgeId)
         {
 
-            if ((Object) myIGenericEdge == null)
+            if ((Object) myHyperEdgeId == null)
                 return false;
 
             //TODO: Here it might be good to check all attributes of the UNIQUE constraint!
-            return false;// (this.Id == myIGenericEdge.Id);
+            return Id.Equals(myHyperEdgeId);
 
         }
 
         #endregion
 
-        //#region Equals(myIGenericEdgeIPropertiesString)
-
-        ///// <summary>
-        ///// Compares two instances of this object.
-        ///// </summary>
-        ///// <param name="myIGenericEdgeIPropertiesString">An object to compare with.</param>
-        ///// <returns>true|false</returns>
-        //public Boolean Equals(IGenericEdge<IProperties<String>> myIGenericEdgeIPropertiesString)
-        //{
-
-        //    if ((Object) myIGenericEdgeIPropertiesString == null)
-        //        return false;
-
-        //    //TODO: Here it might be good to check all attributes of the UNIQUE constraint!
-        //    return (this.Id == myIGenericEdgeIPropertiesString.Id);
-
-        //}
-
-        //#endregion
-
         #endregion
-
-        #region GetHashCode()
-
-        /// <summary>
-        /// Return the HashCode of this object.
-        /// </summary>
-        /// <returns>The HashCode of this object.</returns>
-        public override Int32 GetHashCode()
-        {
-
-            if (Id == null)
-                return 0;
-
-            return Id.GetHashCode();
-
-        }
-
-        #endregion
-
-
-        public bool Equals(THyperEdgeId other)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int CompareTo(THyperEdgeId other)
-        {
-            throw new NotImplementedException();
-        }
 
     }
 

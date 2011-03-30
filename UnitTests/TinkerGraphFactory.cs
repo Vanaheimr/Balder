@@ -23,6 +23,8 @@ using de.ahzf.blueprints.InMemory.PropertyGraph;
 using System.Dynamic;
 using System;
 using System.Linq.Expressions;
+using System.Collections.Generic;
+using System.Collections;
 
 #endregion
 
@@ -44,13 +46,24 @@ namespace de.ahzf.Pipes.UnitTests
             var ripple = _TinkerGraph.AddVertex(new VertexId("5"), v => v.SetProperty("name", "ripple").SetProperty("lang", "java"));
             var peter  = _TinkerGraph.AddVertex(new VertexId("6"), v => v.SetProperty("name", "peter"). SetProperty("age",   35));
 
+            var zwo = marko as PropertyVertex;
+            zwo.CollectionChanged += (o, p) => Console.WriteLine("CollChanged: " + p.Action + " - " + (p.NewItems as IList)[0] + "/" + (p.NewItems as IList)[1]);
+            zwo.PropertyChanged   += (o, p) => Console.WriteLine("PropChanging: " + p.PropertyName);
+            zwo.PropertyChanged   += (o, p) => Console.WriteLine("PropChanged: "  + p.PropertyName);
+
+            marko.Data.SetProperty("event", "raised 1!");
+            marko.Data.SetProperty("event", "raised 2!");
+
             dynamic _dynamicMarko = (marko as PropertyVertex) as dynamic;
-            _dynamicMarko.lala = "123";
+            _dynamicMarko.lala    = "123";
+            //_dynamicMarko["lala"] = "456";
             _dynamicMarko.doIt = (Action<String>) ((name) => Console.WriteLine("Hello " + name + "!"));
             _dynamicMarko.doIt("world");
+
             var _MarkosName = _dynamicMarko.name;
             var _MarkosAge  = _dynamicMarko.age;
             var _MarkosLala = _dynamicMarko.lala;
+            Console.WriteLine(_MarkosName + "/" + _MarkosAge + "/" + _MarkosLala);
 
             var e7  = _TinkerGraph.AddEdge(marko, vadas,  new EdgeId("7"),  "knows",   e => e.SetProperty("weight", 0.5));
             var e8  = _TinkerGraph.AddEdge(marko, josh,   new EdgeId("8"),  "knows",   e => e.SetProperty("weight", 1.0));

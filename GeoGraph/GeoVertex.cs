@@ -541,18 +541,11 @@ namespace de.ahzf.blueprints.GeoGraph
         /// <returns>The HashCode of this object.</returns>
         public override Int32 GetHashCode()
         {
-
-            if (Id == null)
-                return 0;
-
             return Id.GetHashCode();
-
         }
 
         #endregion
 
-
-        
     }
 
 }

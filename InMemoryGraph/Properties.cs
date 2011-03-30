@@ -18,11 +18,13 @@
 #region Usings
 
 using System;
-using System.Linq;
 using System.Dynamic;
+using System.ComponentModel;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.Collections.Specialized;
 
 using de.ahzf.blueprints.Datastructures;
 
@@ -160,7 +162,55 @@ namespace de.ahzf.blueprints
 
         #endregion
 
-        
+        #region Events
+
+        #region CollectionChanged/OnCollectionChanged(...)
+
+        public event NotifyCollectionChangedEventHandler CollectionChanged;
+
+        public void OnCollectionChanged(NotifyCollectionChangedEventArgs myNotifyCollectionChangedEventArgs)
+        {
+            if (CollectionChanged != null)
+                CollectionChanged(this, myNotifyCollectionChangedEventArgs);
+        }
+
+        #endregion
+
+        #region PropertyChanging/OnPropertyChanging(...)
+
+        public event PropertyChangingEventHandler PropertyChanging;
+
+        public void OnPropertyChanging(String myPropertyName)
+        {
+            if (PropertyChanging != null)
+                PropertyChanging(this, new PropertyChangingEventArgs(myPropertyName));
+        }
+
+        public void OnPropertyChanging<TResult>(Expression<Func<TResult>> myPropertyExpression)
+        {
+            OnPropertyChanged(((MemberExpression) myPropertyExpression.Body).Member.Name);
+        }
+
+        #endregion
+
+        #region PropertyChanged/OnPropertyChanged(...)
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void OnPropertyChanged(String myPropertyName)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(myPropertyName));
+        }
+
+        public void OnPropertyChanged<TResult>(Expression<Func<TResult>> myPropertyExpression)
+        {
+            OnPropertyChanged(((MemberExpression)myPropertyExpression.Body).Member.Name);
+        }
+
+        #endregion
+
+        #endregion
 
         #region Protected Constructor(s)
 
@@ -220,10 +270,23 @@ namespace de.ahzf.blueprints
                 throw new ArgumentException("Changing the RevisionId property is not allowed!");
 
             if (_Properties.ContainsKey(myPropertyKey))
+            {
+                OnPropertyChanging(myPropertyKey.ToString());
                 _Properties[myPropertyKey] = myPropertyValue;
+                OnPropertyChanged(myPropertyKey.ToString());
+            }
 
             else
+            {
+                
                 _Properties.Add(myPropertyKey, myPropertyValue);
+                
+                OnCollectionChanged(new NotifyCollectionChangedEventArgs(
+                                        NotifyCollectionChangedAction.Add,
+                                        new Object[] { myPropertyKey, myPropertyValue })
+                                   );
+
+            }
 
             return this;
 
@@ -316,6 +379,11 @@ namespace de.ahzf.blueprints
 
             if (_Properties.TryGetValue(myPropertyKey, out _Object))
                 _Properties.Remove(myPropertyKey);
+
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(
+                                        NotifyCollectionChangedAction.Remove,
+                                        myPropertyKey)
+                                   );
 
             return _Object;
 
@@ -555,9 +623,6 @@ namespace de.ahzf.blueprints
 
         #endregion
 
-
-
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
     }
 
 }

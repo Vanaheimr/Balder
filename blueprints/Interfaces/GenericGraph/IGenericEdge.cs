@@ -51,7 +51,8 @@ namespace de.ahzf.blueprints
                                   TEdgeId,      TEdgeRevisionId,      TEdgeData,
                                   THyperEdgeId, THyperEdgeRevisionId, THyperEdgeData>
 
-                                  : IGenericEdge, IIdentifier<TEdgeId>, IRevisionId<TEdgeRevisionId>
+                                  : IGenericElement<TEdgeId, TEdgeRevisionId>,
+                                    IGenericEdge
 
         where TVertexId            : IEquatable<TVertexId>,            IComparable<TVertexId>,            IComparable
         where TEdgeId              : IEquatable<TEdgeId>,              IComparable<TEdgeId>,              IComparable

@@ -59,7 +59,9 @@
     <Compile Include="Datastructures\EdgeId.cs" />
     <Compile Include="Extensions\IGraphExtensions.cs" />
     <Compile Include="Extensions\IPropertiesExtensions.cs" />
+    <Compile Include="Interfaces\GenericGraph\IGenericElement.cs" />
     <Compile Include="Interfaces\IRevisionId.cs" />
+    <Compile Include="Interfaces\PropertyGraph\IPropertyElement.cs" />
     <Compile Include="Interfaces\PropertyGraph\IPropertyHyperEdge.cs" />
     <Compile Include="Interfaces\GenericGraph\IGenericHyperEdge.cs" />
     <Compile Include="Interfaces\IIdentifier.cs" />

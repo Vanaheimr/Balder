@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GenericPropertyGraph\AElement.cs" />
     <Compile Include="Properties.cs" />
     <Compile Include="PropertyGraph\DynamicGraphObject.cs" />
     <Compile Include="PropertyGraph\IDynamicGraphObject.cs" />

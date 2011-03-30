@@ -19,7 +19,6 @@
 
 using System;
 using System.Dynamic;
-using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Collections.Generic;
 
@@ -46,12 +45,6 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph
                                      IDynamicGraphObject<PropertyHyperEdge>
     {
 
-        #region Events
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        #endregion
-
         #region Constructor(s)
 
         #region PropertyHyperEdge(myIGraph, myOutVertex, myInVertex, myEdgeId, myLabel, myEdgeInitializer = null)
@@ -65,7 +58,7 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph
         /// <param name="myEdgeId">The identification of this edge.</param>
         /// <param name="myLabel">A label stored within this edge.</param>
         /// <param name="myEdgeInitializer">A delegate to initialize the newly created edge.</param>
-        internal protected PropertyHyperEdge(IGenericVertex<VertexId, RevisionId, IProperties<String, Object, IDictionary<String, Object>>,
+        internal protected PropertyHyperEdge(IGenericVertex<VertexId,    RevisionId, IProperties<String, Object, IDictionary<String, Object>>,
                                                             EdgeId,      RevisionId, IProperties<String, Object, IDictionary<String, Object>>,
                                                             HyperEdgeId, RevisionId, IProperties<String, Object, IDictionary<String, Object>>>
                                                             myOutVertex,
@@ -78,10 +71,7 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph
                                              HyperEdgeId myHyperEdgeId,
                                              String      myLabel,
 
-                                             Action<IPropertyHyperEdge<VertexId,    RevisionId, String, Object, IDictionary<String, Object>,
-                                                                       EdgeId,      RevisionId, String, Object, IDictionary<String, Object>,
-                                                                       HyperEdgeId, RevisionId, String, Object, IDictionary<String, Object>>>
-                                                                       myHyperEdgeInitializer = null)
+                                             Action<IProperties<String, Object, IDictionary<String, Object>>> myHyperEdgeInitializer = null)
 
             : base(myOutVertex, myInVertices,
                    myHyperEdgeId, myLabel,

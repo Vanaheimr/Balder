@@ -36,8 +36,9 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
                                 TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
                                 THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
                                 TEdgeCollection>
-        
-                                : IPropertyVertex<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
+
+                                : AElement<TVertexId, TVertexRevisionId, TKeyVertex, TValueVertex, TDatastructureVertex>,
+                                  IPropertyVertex<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
                                                   TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
                                                   THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
         
@@ -65,49 +66,6 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
 
         #region Properties
 
-        #region Id
-
-        protected readonly TKeyVertex _IdKey;
-
-        public TVertexId Id
-        {
-            get
-            {
-                return (TVertexId) _Data.GetProperty(_IdKey);
-            }
-        }
-
-        #endregion
-
-        #region RevisionId
-
-        protected readonly TKeyVertex _RevisonIdKey;
-
-        public TVertexRevisionId RevisionId
-        {
-            get
-            {
-                return (TVertexRevisionId) _Data.GetProperty(_RevisonIdKey);
-            }
-        }
-
-        #endregion
-
-        #region Data
-
-        protected readonly IProperties<TKeyVertex, TValueVertex, TDatastructureVertex> _Data;
-
-        public IProperties<TKeyVertex, TValueVertex, TDatastructureVertex> Data
-        {
-            get
-            {
-                return _Data;
-            }
-        }
-
-        #endregion
-
-        
         // Links to the associated edges
 
         #region OutEdges
@@ -174,17 +132,13 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
                               Func<TDatastructureVertex>   myDataInitializer,
                               Func<TEdgeCollection>        myEdgeCollectionInitializer = null,
                               Action<IProperties<TKeyVertex, TValueVertex, TDatastructureVertex>> myVertexInitializer = null)
+
+            : base(myVertexId, myIdKey, myRevisonIdKey, myDataInitializer, myVertexInitializer)
+
         {
 
             _OutEdges     = myEdgeCollectionInitializer();
             _InEdges      = myEdgeCollectionInitializer();
-            _IdKey        = myIdKey;
-            _RevisonIdKey = myRevisonIdKey;
-            _Data         = new Properties<TVertexId, TVertexRevisionId, TKeyVertex, TValueVertex, TDatastructureVertex>
-                                          (myVertexId, myIdKey, myRevisonIdKey, myDataInitializer);
-
-            if (myVertexInitializer != null)
-                myVertexInitializer(Data);
 
         }
 
@@ -472,7 +426,7 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
 
         #endregion
 
-        #region IComparable<IPropertyVertex> Members
+        #region IComparable<TVertexId> Members
 
         #region CompareTo(myObject)
 
@@ -488,65 +442,35 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
             if (myObject == null)
                 throw new ArgumentNullException("myObject must not be null!");
 
-            // Check if myObject can be casted to an IEdge object
-            var myIPropertyVertex = myObject as IPropertyVertex<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                                        TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                                        THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>;
-            if ((Object) myIPropertyVertex == null)
-                throw new ArgumentException("myObject is not of type myIPropertyVertex!");
-
-            return CompareTo(myIPropertyVertex);
+            return CompareTo((TVertexId) myObject);
 
         }
 
         #endregion
 
-        #region CompareTo(myIPropertyVertex)
+        #region CompareTo(myVertexId)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myIGenericVertex">An object to compare with.</param>
+        /// <param name="myVertexId">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public Int32 CompareTo(IPropertyVertex<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                               TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                               THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
-                                               myIGenericVertex)
+        public Int32 CompareTo(TVertexId myVertexId)
         {
 
-            // Check if myIPropertyVertex is null
-            if (myIGenericVertex == null)
-                throw new ArgumentNullException("myIGenericVertex must not be null!");
+            // Check if myVertexId is null
+            if (myVertexId == null)
+                throw new ArgumentNullException("myVertexId must not be null!");
 
-            return Id.CompareTo(myIGenericVertex.Id);
+            return Id.CompareTo(myVertexId);
 
         }
 
         #endregion
 
-        //#region CompareTo(myIGenericVertexIPropertiesString)
-
-        ///// <summary>
-        ///// Compares two instances of this object.
-        ///// </summary>
-        ///// <param name="myIGenericVertexIPropertiesString">An object to compare with.</param>
-        ///// <returns>true|false</returns>
-        //public Int32 CompareTo(IGenericVertex<IProperties<String>> myIGenericVertexIPropertiesString)
-        //{
-
-        //    // Check if myIPropertyVertex is null
-        //    if (myIGenericVertexIPropertiesString == null)
-        //        throw new ArgumentNullException("myIGenericVertexIPropertiesString must not be null!");
-
-        //    return Id.CompareTo(myIGenericVertexIPropertiesString.Id);
-
-        //}
-
-        //#endregion
-
         #endregion
 
-        #region IEquatable<IPropertyVertex> Members
+        #region IEquatable<TVertexId> Members
 
         #region Equals(myObject)
 
@@ -561,95 +485,33 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
             if (myObject == null)
                 return false;
 
-            var _Object = myObject as IPropertyVertex<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                                      TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                                      THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>;
-            if (_Object != null)
-                return Equals(_Object);
-
-            return false;
+            return Equals((TVertexId) myObject);
 
         }
 
         #endregion
 
-        #region Equals(myIGenericVertex)
+        #region Equals(myVertexId)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myIGenericVertex">An object to compare with.</param>
+        /// <param name="myVertexId">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public Boolean Equals(IPropertyVertex<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                              TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                              THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
-                                              myIGenericVertex)
+        public Boolean Equals(TVertexId myVertexId)
         {
 
-            if ((Object) myIGenericVertex == null)
+            if ((Object) myVertexId == null)
                 return false;
 
             //TODO: Here it might be good to check all attributes of the UNIQUE constraint!
-            return false; //(this.Id == myIGenericVertex.Id);
+            return Id.Equals(myVertexId);
 
         }
 
         #endregion
 
-        //#region Equals(myIGenericVertexIPropertiesString)
-
-        ///// <summary>
-        ///// Compares two instances of this object.
-        ///// </summary>
-        ///// <param name="myIGenericVertexIPropertiesString">An object to compare with.</param>
-        ///// <returns>true|false</returns>
-        //public Boolean Equals(IGenericVertex<IProperties<String>> myIGenericVertexIPropertiesString)
-        //{
-
-        //    if ((Object) myIGenericVertexIPropertiesString == null)
-        //        return false;
-
-        //    //TODO: Here it might be good to check all attributes of the UNIQUE constraint!
-        //    return (this.Id == myIGenericVertexIPropertiesString.Id);
-
-        //}
-
-        //#endregion
-
         #endregion
-
-        #region GetHashCode()
-
-        /// <summary>
-        /// Return the HashCode of this object.
-        /// </summary>
-        /// <returns>The HashCode of this object.</returns>
-        public override Int32 GetHashCode()
-        {
-
-            if (Id == null)
-                return 0;
-
-            return Id.GetHashCode();
-
-        }
-
-        #endregion
-
-
-
-
-
-        public bool Equals(TVertexId other)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int CompareTo(TVertexId other)
-        {
-            throw new NotImplementedException();
-        }
-
 
     }
 

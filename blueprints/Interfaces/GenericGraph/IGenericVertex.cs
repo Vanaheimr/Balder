@@ -39,7 +39,10 @@ namespace de.ahzf.blueprints
     /// <typeparam name="TVertexId">The type of the vertex identifier.</typeparam>
     public interface IGenericVertex<TVertexId,    TVertexRevisionId,    TVertexData,
                                     TEdgeId,      TEdgeRevisionId,      TEdgeData,
-                                    THyperEdgeId, THyperEdgeRevisionId, THyperEdgeData> : IGenericVertex, IIdentifier<TVertexId>, IRevisionId<TVertexRevisionId>
+                                    THyperEdgeId, THyperEdgeRevisionId, THyperEdgeData>
+
+                                    : IGenericElement<TVertexId, TVertexRevisionId>,
+                                      IGenericVertex
 
         where TVertexId            : IEquatable<TVertexId>,            IComparable<TVertexId>,            IComparable
         where TEdgeId              : IEquatable<TEdgeId>,              IComparable<TEdgeId>,              IComparable

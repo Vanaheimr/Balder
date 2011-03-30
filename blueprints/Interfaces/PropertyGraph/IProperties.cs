@@ -19,50 +19,52 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Linq.Expressions;
 
 #endregion
 
 namespace de.ahzf.blueprints
 {
 
-    //#region IProperties
+    #region IProperties
 
-    ///// <summary>
-    ///// A specialized IProperties interface for maintaining a collection
-    ///// of key/value properties within a datastructure.
-    ///// </summary>
-    //public interface IProperties : IProperties<String>
-    //{ }
+    /// <summary>
+    /// A specialized IProperties interface for maintaining a collection
+    /// of key/value properties within a datastructure.
+    /// </summary>
+    public interface IProperties : IProperties<String>
+    { }
 
-    //#endregion
+    #endregion
 
-    //#region IProperties<TKey>
+    #region IProperties<TKey>
 
-    ///// <summary>
-    ///// A specialized IProperties interface for maintaining a collection
-    ///// of key/value properties within a datastructure.
-    ///// </summary>
-    ///// <typeparam name="TKey">The type of the property keys.</typeparam>
-    //public interface IProperties<TKey> : IProperties<TKey, Object>
-    //    where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
-    //{ }
+    /// <summary>
+    /// A specialized IProperties interface for maintaining a collection
+    /// of key/value properties within a datastructure.
+    /// </summary>
+    /// <typeparam name="TKey">The type of the property keys.</typeparam>
+    public interface IProperties<TKey> : IProperties<TKey, Object>
+        where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
+    { }
 
-    //#endregion
+    #endregion
 
-    //#region IProperties<TKey, TValue>
+    #region IProperties<TKey, TValue>
 
-    ///// <summary>
-    ///// A specialized IProperties interface for maintaining a collection
-    ///// of key/value properties within a datastructure.
-    ///// </summary>
-    ///// <typeparam name="TKey">The type of the property keys.</typeparam>
-    ///// <typeparam name="TValue">The type of the property values.</typeparam>
-    //public interface IProperties<TKey, TValue> : IProperties<TKey, TValue, IDictionary<TKey, TValue>>
-    //    where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
-    //{ }
+    /// <summary>
+    /// A specialized IProperties interface for maintaining a collection
+    /// of key/value properties within a datastructure.
+    /// </summary>
+    /// <typeparam name="TKey">The type of the property keys.</typeparam>
+    /// <typeparam name="TValue">The type of the property values.</typeparam>
+    public interface IProperties<TKey, TValue> : IProperties<TKey, TValue, IDictionary<TKey, TValue>>
+        where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
+    { }
 
-    //#endregion
+    #endregion
 
     #region IProperties<TKey, TValue, TDatastructure>
 
@@ -74,12 +76,28 @@ namespace de.ahzf.blueprints
     /// <typeparam name="TValue">The type of the property values.</typeparam>
     /// <typeparam name="TDatastructure">The type of the datastructure to maintain the key/value pairs.</typeparam>
     public interface IProperties<TKey, TValue, TDatastructure>
-                        : IEnumerable<KeyValuePair<TKey, TValue>>
+                        : IEnumerable<KeyValuePair<TKey, TValue>>,
+                          INotifyCollectionChanged,
+                          INotifyPropertyChanging,
+                          INotifyPropertyChanged
+
 
         where TKey           : IEquatable<TKey>, IComparable<TKey>, IComparable
         where TDatastructure : IDictionary<TKey, TValue>
-
     {
+
+        #region Events
+
+        void OnCollectionChanged(NotifyCollectionChangedEventArgs myNotifyCollectionChangedEventArgs);
+
+        void OnPropertyChanging(String myPropertyName);
+        void OnPropertyChanging<TResult>(Expression<Func<TResult>> myPropertyExpression);
+
+        void OnPropertyChanged(String myPropertyName);
+        void OnPropertyChanged<TResult>(Expression<Func<TResult>> myPropertyExpression);
+
+        #endregion
+
 
         /// <summary>
         /// Assign a key/value property to the element.

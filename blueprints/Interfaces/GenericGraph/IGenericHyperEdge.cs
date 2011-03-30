@@ -52,7 +52,10 @@ namespace de.ahzf.blueprints
     /// <typeparam name="THyperEdgeData">The type of the additional data to be stored within an hyperedge.</typeparam>
     public interface IGenericHyperEdge<TVertexId,    TVertexRevisionId,    TVertexData,
                                        TEdgeId,      TEdgeRevisionId,      TEdgeData,
-                                       THyperEdgeId, THyperEdgeRevisionId, THyperEdgeData> : IGenericHyperEdge, IIdentifier<THyperEdgeId>, IRevisionId<THyperEdgeRevisionId>
+                                       THyperEdgeId, THyperEdgeRevisionId, THyperEdgeData>
+
+                                       : IGenericElement<THyperEdgeId, THyperEdgeRevisionId>,
+                                         IGenericHyperEdge
 
         where TVertexId            : IEquatable<TVertexId>,            IComparable<TVertexId>,            IComparable
         where TEdgeId              : IEquatable<TEdgeId>,              IComparable<TEdgeId>,              IComparable

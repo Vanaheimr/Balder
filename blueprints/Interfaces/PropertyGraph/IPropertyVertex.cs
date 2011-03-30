@@ -52,7 +52,8 @@ namespace de.ahzf.blueprints
                                      TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
                                      THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
 
-                                     : IGenericVertex<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex,    TDatastructureVertex>,
+                                     : IPropertyElement,
+                                       IGenericVertex<TVertexId, TVertexRevisionId, IProperties<TKeyVertex, TValueVertex, TDatastructureVertex>,
                                                       TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge,      TDatastructureEdge>,
                                                       THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>>
                                                     //IProperties       <TKey, TValue, TDatastructure>,
