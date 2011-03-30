@@ -19,6 +19,7 @@
 
 using System;
 using System.Dynamic;
+using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Collections.Generic;
 
@@ -42,6 +43,12 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph
                                 IDynamicGraphObject<PropertyEdge>
 
     {
+
+        #region Events
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        #endregion
 
         #region Constructor(s)
 

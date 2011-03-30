@@ -19,6 +19,7 @@
 
 using System;
 using System.Dynamic;
+using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Collections.Generic;
 
@@ -44,6 +45,12 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph
                                                                                   HyperEdgeId, RevisionId, IProperties<String, Object, IDictionary<String, Object>>>>>,
                                      IDynamicGraphObject<PropertyHyperEdge>
     {
+
+        #region Events
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        #endregion
 
         #region Constructor(s)
 

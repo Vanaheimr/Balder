@@ -18,7 +18,6 @@
 #region Usings
 
 using System;
-using System.Collections.Generic;
 using System.Dynamic;
 
 #endregion
@@ -30,7 +29,9 @@ namespace de.ahzf.blueprints
     /// An interface for simplified interaction with dynamic objects.
     /// </summary>
     /// <typeparam name="T">The compile time type of the DynamicMetaObject.</typeparam>
-    public interface IDynamicGraphObject<T> : IDynamicMetaObjectProvider
+    public interface IDynamicGraphObject<T>
+                        : IDynamicMetaObjectProvider
+
     {
 
         /// <summary>

@@ -22,6 +22,7 @@ using System.Linq;
 using System.Dynamic;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 using de.ahzf.blueprints.Datastructures;
 
@@ -39,10 +40,13 @@ namespace de.ahzf.blueprints
     /// <typeparam name="TKey">The type of the property keys.</typeparam>
     /// <typeparam name="TValue">The type of the property values.</typeparam>
     /// <typeparam name="TDatastructure">The type of the datastructure to maintain the key/value pairs.</typeparam>
-    public class Properties<TId, TRevisionId, TKey, TValue, TDatastructure> : IProperties<TKey, TValue, TDatastructure>
+    public class Properties<TId, TRevisionId, TKey, TValue, TDatastructure>
+                    : IProperties<TKey, TValue, TDatastructure>
+
         where TId            : IEquatable<TId>,  IComparable<TId>,  IComparable, TValue
         where TKey           : IEquatable<TKey>, IComparable<TKey>, IComparable
         where TDatastructure : IDictionary<TKey , TValue>
+
     {
 
 
@@ -155,6 +159,8 @@ namespace de.ahzf.blueprints
         #endregion
 
         #endregion
+
+        
 
         #region Protected Constructor(s)
 
@@ -550,6 +556,8 @@ namespace de.ahzf.blueprints
         #endregion
 
 
+
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
     }
 
 }

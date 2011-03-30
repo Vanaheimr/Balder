@@ -15,6 +15,12 @@ done by others to create these useful packages:
    The NUnit license is based on the open source zlib/libpng license.
    http://www.opensource.org/licenses/zlib-license.html
    
+ - Microsoft Dynamic Language Runtime
+   http://dlr.codeplex.com
+   Copyright (c) Microsoft Corporation
+   Apache 2.0 License
+   http://www.apache.org/licenses
+   
  - sones GraphDB for the fundamental understanding of graphs
    http://github.com/sones/sones
    Copyright (c) 2007-2010 sones GmbH

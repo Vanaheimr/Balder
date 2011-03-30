@@ -19,6 +19,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 #endregion
 
@@ -72,9 +73,12 @@ namespace de.ahzf.blueprints
     /// <typeparam name="TKey">The type of the property keys.</typeparam>
     /// <typeparam name="TValue">The type of the property values.</typeparam>
     /// <typeparam name="TDatastructure">The type of the datastructure to maintain the key/value pairs.</typeparam>
-    public interface IProperties<TKey, TValue, TDatastructure> : IEnumerable<KeyValuePair<TKey, TValue>>
+    public interface IProperties<TKey, TValue, TDatastructure>
+                        : IEnumerable<KeyValuePair<TKey, TValue>>
+
         where TKey           : IEquatable<TKey>, IComparable<TKey>, IComparable
         where TDatastructure : IDictionary<TKey, TValue>
+
     {
 
         /// <summary>

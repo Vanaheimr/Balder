@@ -80,6 +80,7 @@
     <Compile Include="Tools\AutoDiscoveryException.cs" />
     <Compile Include="Tools\CSV.cs" />
     <Compile Include="Tools\AutoDiscoveryIGraphs.cs" />
+    <Compile Include="Tools\TypeHelpers.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
