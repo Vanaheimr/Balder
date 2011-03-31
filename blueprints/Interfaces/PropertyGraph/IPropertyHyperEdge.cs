@@ -27,9 +27,9 @@ using de.ahzf.blueprints.Datastructures;
 namespace de.ahzf.blueprints
 {
 
-    public interface IHyperEdge : IPropertyHyperEdge<VertexId,    RevisionId, String, Object, IDictionary<String, Object>,
-                                                     EdgeId,      RevisionId, String, Object, IDictionary<String, Object>,
-                                                     HyperEdgeId, RevisionId, String, Object, IDictionary<String, Object>>
+    public interface IPropertyHyperEdge : IPropertyHyperEdge<VertexId, RevisionId, String, Object, IDictionary<String, Object>,
+                                                             EdgeId,      RevisionId, String, Object, IDictionary<String, Object>,
+                                                             HyperEdgeId, RevisionId, String, Object, IDictionary<String, Object>>
     { }
 
     /// <summary>
@@ -56,12 +56,11 @@ namespace de.ahzf.blueprints
                                         TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
                                         THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
 
-                                        : IPropertyElement,
-                                          IGenericHyperEdge<TVertexId, TVertexRevisionId, IProperties<TKeyVertex, TValueVertex, TDatastructureVertex>,
+                                        : IPropertyElement<THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>,
+
+                                          IGenericHyperEdge<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex,    TDatastructureVertex>,
                                                             TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge,      TDatastructureEdge>,
                                                             THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>>
-                                                       //IProperties       <TKey, TValue, TDatastructure>,
-                                                       //IPropertiesWithIds<TVertexId, TRevisionId, TKey, TValue, TDatastructure>
 
         where TDatastructureVertex    : IDictionary<TKeyVertex,    TValueVertex>
         where TDatastructureEdge      : IDictionary<TKeyEdge,      TValueEdge>

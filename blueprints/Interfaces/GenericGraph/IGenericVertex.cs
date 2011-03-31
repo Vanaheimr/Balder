@@ -41,7 +41,7 @@ namespace de.ahzf.blueprints
                                     TEdgeId,      TEdgeRevisionId,      TEdgeData,
                                     THyperEdgeId, THyperEdgeRevisionId, THyperEdgeData>
 
-                                    : IGenericElement<TVertexId, TVertexRevisionId>,
+                                    : IGenericElement<TVertexId, TVertexRevisionId, TVertexData>,
                                       IGenericVertex
 
         where TVertexId            : IEquatable<TVertexId>,            IComparable<TVertexId>,            IComparable
@@ -123,11 +123,6 @@ namespace de.ahzf.blueprints
                                        THyperEdgeId, THyperEdgeRevisionId, THyperEdgeData> myIEdge);
 
         #endregion
-
-        /// <summary>
-        /// Return the vertex data.
-        /// </summary>
-        TVertexData Data { get; }
 
     }
 

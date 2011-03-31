@@ -84,6 +84,18 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
 
         #endregion
 
+        #region Properties
+
+        public IProperties<TKey, TValue, TDatastructure> Properties
+        {
+            get
+            {
+                return _Data;
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Events

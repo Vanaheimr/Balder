@@ -39,6 +39,7 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph
     public class PropertyEdge : PropertyEdge<VertexId,    RevisionId, String, Object, IDictionary<String, Object>,
                                              EdgeId,      RevisionId, String, Object, IDictionary<String, Object>,
                                              HyperEdgeId, RevisionId, String, Object, IDictionary<String, Object>>,
+                                IPropertyEdge,
                                 IDynamicGraphObject<PropertyEdge>
 
     {

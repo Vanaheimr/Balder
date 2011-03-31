@@ -42,6 +42,7 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph
                                                        ICollection<IGenericVertex<VertexId,    RevisionId, IProperties<String, Object, IDictionary<String, Object>>,
                                                                                   EdgeId,      RevisionId, IProperties<String, Object, IDictionary<String, Object>>,
                                                                                   HyperEdgeId, RevisionId, IProperties<String, Object, IDictionary<String, Object>>>>>,
+                                     IPropertyHyperEdge,
                                      IDynamicGraphObject<PropertyHyperEdge>
     {
 

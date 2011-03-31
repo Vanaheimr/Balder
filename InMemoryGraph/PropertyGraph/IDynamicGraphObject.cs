@@ -31,8 +31,6 @@ namespace de.ahzf.blueprints
     /// </summary>
     /// <typeparam name="T">The compile time type of the DynamicMetaObject.</typeparam>
     public interface IDynamicGraphObject<T> : IDynamicMetaObjectProvider
-
-
     {
 
         /// <summary>

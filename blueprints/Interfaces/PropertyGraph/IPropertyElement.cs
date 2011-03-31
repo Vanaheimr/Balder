@@ -17,19 +17,37 @@
 
 #region Usings
 
-using System.ComponentModel;
-using System.Collections.Specialized;
+using System;
+using System.Collections.Generic;
 
 #endregion
 
 namespace de.ahzf.blueprints
 {
 
-    public interface IPropertyElement
-                        : INotifyCollectionChanged,
-                          INotifyPropertyChanging,
-                          INotifyPropertyChanged
+    /// <summary>
+    /// The common interface for all graph elements (vertex, edge, hyperedge).
+    /// </summary>
+    /// <typeparam name="TId">The type of the identifiers.</typeparam>
+    /// <typeparam name="TRevisionId">The type of the revision identifiers.</typeparam>
+    /// <typeparam name="TKey">The type of the property keys.</typeparam>
+    /// <typeparam name="TValue">The type of the property values.</typeparam>
+    /// <typeparam name="TDatastructure">The type of the datastructure to maintain the key/value pairs.</typeparam>
+    public interface IPropertyElement<TId, TRevisionId, TKey, TValue, TDatastructure>
+                        : IPropertyNotifications
 
-    { }
+        where TDatastructure : IDictionary<TKey, TValue>
+        where TKey           : IEquatable<TKey>,        IComparable<TKey>,        IComparable
+        where TId            : IEquatable<TId>,         IComparable<TId>,         IComparable, TValue
+        where TRevisionId    : IEquatable<TRevisionId>, IComparable<TRevisionId>, IComparable, TValue
+
+    {
+
+        /// <summary>
+        /// Return the element properties (its embedded data).
+        /// </summary>
+        IProperties<TKey, TValue, TDatastructure> Properties { get; }
+
+    }
 
 }

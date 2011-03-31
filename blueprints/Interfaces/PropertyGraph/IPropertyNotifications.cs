@@ -17,27 +17,22 @@
 
 #region Usings
 
-using System;
+using System.ComponentModel;
+using System.Collections.Specialized;
 
 #endregion
 
 namespace de.ahzf.blueprints
 {
 
-    public interface IGenericElement<TId, TRevisionId, TData>
-                        : IIdentifier<TId>,
-                          IRevisionId<TRevisionId>
+    /// <summary>
+    /// An interface for all events and notifications of a
+    /// property graph element.
+    /// </summary>
+    public interface IPropertyNotifications : INotifyCollectionChanged,
+                                              INotifyPropertyChanging,
+                                              INotifyPropertyChanged
 
-        where TId         : IEquatable<TId>,         IComparable<TId>,         IComparable
-        where TRevisionId : IEquatable<TRevisionId>, IComparable<TRevisionId>, IComparable
-
-    {
-
-        /// <summary>
-        /// Return the graph element data.
-        /// </summary>
-        TData Data { get; }
-
-    }
+    { }
 
 }

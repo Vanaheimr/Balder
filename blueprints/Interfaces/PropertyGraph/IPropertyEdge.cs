@@ -27,9 +27,9 @@ using de.ahzf.blueprints.Datastructures;
 namespace de.ahzf.blueprints
 {
 
-    public interface IEdge : IPropertyEdge<VertexId,    RevisionId, String, Object, IDictionary<String, Object>,
-                                           EdgeId,      RevisionId, String, Object, IDictionary<String, Object>,
-                                           HyperEdgeId, RevisionId, String, Object, IDictionary<String, Object>>
+    public interface IPropertyEdge : IPropertyEdge<VertexId, RevisionId, String, Object, IDictionary<String, Object>,
+                                                   EdgeId,      RevisionId, String, Object, IDictionary<String, Object>,
+                                                   HyperEdgeId, RevisionId, String, Object, IDictionary<String, Object>>
     { }
 
     /// <summary>
@@ -55,12 +55,11 @@ namespace de.ahzf.blueprints
                                    TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
                                    THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
 
-                                   : IPropertyElement,
+                                   : IPropertyElement<TEdgeId, TEdgeRevisionId, TKeyEdge, TValueEdge, TDatastructureEdge>,
+
                                      IGenericEdge<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex,    TDatastructureVertex>,
                                                   TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge,      TDatastructureEdge>,
                                                   THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>>
-                                                  //IProperties       <TKey, TValue, TDatastructure>,
-                                                  //IPropertiesWithIds<TVertexId, TRevisionId, TKey, TValue, TDatastructure>
 
         where TDatastructureVertex    : IDictionary<TKeyVertex,    TValueVertex>
         where TDatastructureEdge      : IDictionary<TKeyEdge,      TValueEdge>
