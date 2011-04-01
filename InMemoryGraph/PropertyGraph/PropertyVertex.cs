@@ -39,9 +39,9 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph
     public class PropertyVertex : PropertyVertex<VertexId,    RevisionId, String, Object, IDictionary<String, Object>,
                                                  EdgeId,      RevisionId, String, Object, IDictionary<String, Object>,
                                                  HyperEdgeId, RevisionId, String, Object, IDictionary<String, Object>,
-                                                 ICollection<IGenericEdge<VertexId,    RevisionId, IProperties<String, Object, IDictionary<String, Object>>,
-                                                                          EdgeId,      RevisionId, IProperties<String, Object, IDictionary<String, Object>>,
-                                                                          HyperEdgeId, RevisionId, IProperties<String, Object, IDictionary<String, Object>>>>>,
+                                                 ICollection<IGenericEdge<VertexId,    RevisionId, IProperties<String, Object>,
+                                                                          EdgeId,      RevisionId, IProperties<String, Object>,
+                                                                          HyperEdgeId, RevisionId, IProperties<String, Object>>>>,
                                   IPropertyVertex,
                                   IDynamicGraphObject<PropertyVertex>
 
@@ -58,13 +58,13 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph
         /// <param name="myVertexId">The identification of this vertex.</param>
         /// <param name="myVertexInitializer">A delegate to initialize the newly created vertex.</param>
         public PropertyVertex(VertexId myVertexId,
-                              Action<IProperties<String, Object, IDictionary<String, Object>>> myVertexInitializer = null)
+                              Action<IProperties<String, Object>> myVertexInitializer = null)
             : base(myVertexId,
                    "Id", "RevisionId",
                    () => new Dictionary<String, Object>(),
-                   () => new HashSet<IGenericEdge<VertexId,    RevisionId, IProperties<String, Object, IDictionary<String, Object>>,
-                                                  EdgeId,      RevisionId, IProperties<String, Object, IDictionary<String, Object>>,
-                                                  HyperEdgeId, RevisionId, IProperties<String, Object, IDictionary<String, Object>>>>(),
+                   () => new HashSet<IGenericEdge<VertexId,    RevisionId, IProperties<String, Object>,
+                                                  EdgeId,      RevisionId, IProperties<String, Object>,
+                                                  HyperEdgeId, RevisionId, IProperties<String, Object>>>(),
                    myVertexInitializer)
 
         { }

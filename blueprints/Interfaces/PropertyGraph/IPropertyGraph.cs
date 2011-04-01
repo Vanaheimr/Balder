@@ -38,31 +38,31 @@ namespace de.ahzf.blueprints
     public interface IPropertyGraph<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
                                     TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
                                     THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
-                                    TGraphDatastructure> : IGenericGraph<
+                                    TGraphDatastructure>
 
-                                        // Vertex definition
-                                        IGenericVertex<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex,    TDatastructureVertex>,
-                                                       TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge,      TDatastructureEdge>,
-                                                       THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>>,
+                     : IGenericGraph<   // Vertex definition
+                                        IGenericVertex<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
+                                                       TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
+                                                       THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>>,
                                         TVertexId,
                                         TVertexRevisionId,
-                                        IProperties<TKeyVertex, TValueVertex, TDatastructureVertex>,
+                                        IProperties<TKeyVertex, TValueVertex>,
 
                                         // Edge definition
-                                        IGenericEdge<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex,    TDatastructureVertex>,
-                                                     TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge,      TDatastructureEdge>,
-                                                     THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>>,
+                                        IGenericEdge<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
+                                                     TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
+                                                     THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>>,
                                         TEdgeId,
                                         TEdgeRevisionId,
-                                        IProperties<TKeyEdge, TValueEdge, TDatastructureEdge>,
+                                        IProperties<TKeyEdge, TValueEdge>,
 
                                         // Hyperedge definition
-                                        IGenericHyperEdge<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex,    TDatastructureVertex>,
-                                                          TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge,      TDatastructureEdge>,
-                                                          THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>>,
+                                        IGenericHyperEdge<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
+                                                          TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
+                                                          THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>>,
                                         THyperEdgeId,
                                         THyperEdgeRevisionId,
-                                        IProperties<TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>,
+                                        IProperties<TKeyHyperEdge, TValueHyperEdge>,
 
                                         // Rest...
                                         TGraphDatastructure>

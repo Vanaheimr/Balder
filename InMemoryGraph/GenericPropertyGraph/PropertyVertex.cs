@@ -42,9 +42,9 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
                                                   TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
                                                   THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
         
-        where TEdgeCollection : ICollection<IGenericEdge<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex,    TDatastructureVertex>,
-                                                         TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge,      TDatastructureEdge>,
-                                                         THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>>>
+        where TEdgeCollection : ICollection<IGenericEdge<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
+                                                         TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
+                                                         THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>>>
 
         where TDatastructureVertex    : IDictionary<TKeyVertex,    TValueVertex>
         where TDatastructureEdge      : IDictionary<TKeyEdge,      TValueEdge>
@@ -78,9 +78,9 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
         /// <summary>
         /// The edges emanating from, or leaving, this vertex.
         /// </summary>
-        public IEnumerable<IGenericEdge<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex,    TDatastructureVertex>,
-                                        TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge,      TDatastructureEdge>,
-                                        THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>>>
+        public IEnumerable<IGenericEdge<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
+                                        TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
+                                        THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>>>
                                         OutEdges
         {
             get
@@ -101,9 +101,9 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
         /// <summary>
         /// The edges incoming to, or arriving at, this vertex.
         /// </summary>
-        public IEnumerable<IGenericEdge<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex,    TDatastructureVertex>,
-                                        TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge,      TDatastructureEdge>,
-                                        THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>>>
+        public IEnumerable<IGenericEdge<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
+                                        TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
+                                        THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>>>
                                         InEdges
         {
             get
@@ -131,7 +131,7 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
                               TKeyVertex                   myRevisonIdKey,
                               Func<TDatastructureVertex>   myDataInitializer,
                               Func<TEdgeCollection>        myEdgeCollectionInitializer = null,
-                              Action<IProperties<TKeyVertex, TValueVertex, TDatastructureVertex>> myVertexInitializer = null)
+                              Action<IProperties<TKeyVertex, TValueVertex>> myVertexInitializer = null)
 
             : base(myVertexId, myIdKey, myRevisonIdKey, myDataInitializer, myVertexInitializer)
 
@@ -155,9 +155,9 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
         /// Add an outgoing edge.
         /// </summary>
         /// <param name="myIEdge">The edge to add.</param>
-        public void AddOutEdge(IGenericEdge<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex,    TDatastructureVertex>,
-                                            TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge,      TDatastructureEdge>,
-                                            THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>>
+        public void AddOutEdge(IGenericEdge<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
+                                            TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
+                                            THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>>
                                             myIEdge)
         {
             _OutEdges.Add(myIEdge);
@@ -171,9 +171,9 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
         /// The edges emanating from, or leaving, this vertex
         /// filtered by their label.
         /// </summary>
-        public IEnumerable<IGenericEdge<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex,    TDatastructureVertex>,
-                                        TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge,      TDatastructureEdge>,
-                                        THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>>>
+        public IEnumerable<IGenericEdge<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
+                                        TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
+                                        THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>>>
                                         GetOutEdges(String myLabel)
         {
             return from _Edge in _OutEdges where _Edge.Label == myLabel select _Edge;
@@ -187,9 +187,9 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
         /// Remove an outgoing edge.
         /// </summary>
         /// <param name="myIEdge">The edge to remove.</param>
-        public void RemoveOutEdge(IGenericEdge<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex,    TDatastructureVertex>,
-                                               TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge,      TDatastructureEdge>,
-                                               THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>>
+        public void RemoveOutEdge(IGenericEdge<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
+                                               TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
+                                               THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>>
                                                myIEdge)
         {
             lock (this)
@@ -210,9 +210,9 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
         /// Add an incoming edge.
         /// </summary>
         /// <param name="myIEdge">The edge to add.</param>
-        public void AddInEdge(IGenericEdge<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex,    TDatastructureVertex>,
-                                           TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge,      TDatastructureEdge>,
-                                           THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>>
+        public void AddInEdge(IGenericEdge<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
+                                           TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
+                                           THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>>
                                            myIEdge)
         {
             _InEdges.Add(myIEdge);
@@ -226,9 +226,9 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
         /// The edges incoming to, or arriving at, this vertex
         /// filtered by their label.
         /// </summary>
-        public IEnumerable<IGenericEdge<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex,    TDatastructureVertex>,
-                                        TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge,      TDatastructureEdge>,
-                                        THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>>>
+        public IEnumerable<IGenericEdge<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
+                                        TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
+                                        THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>>>
                                         GetInEdges(String myLabel)
         {
             return from _Edge in _InEdges where _Edge.Label == myLabel select _Edge;
@@ -242,9 +242,9 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
         /// Remove an incoming edge.
         /// </summary>
         /// <param name="myIEdge">The edge to remove.</param>
-        public void RemoveInEdge(IGenericEdge<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex,    TDatastructureVertex>,
-                                              TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge,      TDatastructureEdge>,
-                                              THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>>
+        public void RemoveInEdge(IGenericEdge<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
+                                              TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
+                                              THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>>
                                               myIEdge)
         {
             lock (this)
@@ -475,7 +475,7 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
         /// </summary>
         /// <param name="myIPropertyElement">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public Int32 CompareTo(IPropertyElement<TVertexId, TVertexRevisionId, TKeyVertex, TValueVertex, TDatastructureVertex> myIPropertyElement)
+        public Int32 CompareTo(IPropertyElement<TVertexId, TVertexRevisionId, TKeyVertex, TValueVertex> myIPropertyElement)
         {
 
             // Check if myIPropertyElement is null
@@ -538,7 +538,7 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
         /// </summary>
         /// <param name="myIPropertyElement">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public Boolean Equals(IPropertyElement<TVertexId, TVertexRevisionId, TKeyVertex, TValueVertex, TDatastructureVertex> myIPropertyElement)
+        public Boolean Equals(IPropertyElement<TVertexId, TVertexRevisionId, TKeyVertex, TValueVertex> myIPropertyElement)
         {
 
             if ((Object) myIPropertyElement == null)

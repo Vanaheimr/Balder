@@ -25,6 +25,39 @@ using System.Collections.Generic;
 namespace de.ahzf.blueprints
 {
 
+    #region IPropertyElement<TId, TRevisionId, TKey, TValue>
+
+    /// <summary>
+    /// The common interface for all graph elements (vertex, edge, hyperedge).
+    /// </summary>
+    /// <typeparam name="TId">The type of the identifiers.</typeparam>
+    /// <typeparam name="TRevisionId">The type of the revision identifiers.</typeparam>
+    /// <typeparam name="TKey">The type of the property keys.</typeparam>
+    /// <typeparam name="TValue">The type of the property values.</typeparam>
+    /// <typeparam name="TDatastructure">The type of the datastructure to maintain the key/value pairs.</typeparam>
+    public interface IPropertyElement<TId, TRevisionId, TKey, TValue>
+                        : IPropertyNotifications,
+                          IEquatable <IPropertyElement<TId, TRevisionId, TKey, TValue>>,
+                          IComparable<IPropertyElement<TId, TRevisionId, TKey, TValue>>,
+                          IComparable
+
+        where TId            : IEquatable<TId>,         IComparable<TId>,         IComparable, TValue
+        where TRevisionId    : IEquatable<TRevisionId>, IComparable<TRevisionId>, IComparable, TValue
+        where TKey           : IEquatable<TKey>,        IComparable<TKey>,        IComparable
+
+    {
+
+        /// <summary>
+        /// Return the element properties (its embedded data).
+        /// </summary>
+        IProperties<TKey, TValue> Properties { get; }
+
+    }
+
+    #endregion
+
+    #region IPropertyElement<TId, TRevisionId, TKey, TValue, TDatastructure>
+
     /// <summary>
     /// The common interface for all graph elements (vertex, edge, hyperedge).
     /// </summary>
@@ -34,10 +67,11 @@ namespace de.ahzf.blueprints
     /// <typeparam name="TValue">The type of the property values.</typeparam>
     /// <typeparam name="TDatastructure">The type of the datastructure to maintain the key/value pairs.</typeparam>
     public interface IPropertyElement<TId, TRevisionId, TKey, TValue, TDatastructure>
-                        : IPropertyNotifications,
-                          IEquatable <IPropertyElement<TId, TRevisionId, TKey, TValue, TDatastructure>>,
-                          IComparable<IPropertyElement<TId, TRevisionId, TKey, TValue, TDatastructure>>,
-                          IComparable
+                        : IPropertyElement<TId, TRevisionId, TKey, TValue>,
+                          IPropertyNotifications
+                          //IEquatable <IPropertyElement<TId, TRevisionId, TKey, TValue, TDatastructure>>,
+                          //IComparable<IPropertyElement<TId, TRevisionId, TKey, TValue, TDatastructure>>,
+                          //IComparable
 
         where TId            : IEquatable<TId>,         IComparable<TId>,         IComparable, TValue
         where TRevisionId    : IEquatable<TRevisionId>, IComparable<TRevisionId>, IComparable, TValue
@@ -46,11 +80,13 @@ namespace de.ahzf.blueprints
 
     {
 
-        /// <summary>
-        /// Return the element properties (its embedded data).
-        /// </summary>
-        IProperties<TKey, TValue, TDatastructure> Properties { get; }
+        ///// <summary>
+        ///// Return the element properties (its embedded data).
+        ///// </summary>
+        //IProperties<TKey, TValue, TDatastructure> Properties { get; }
 
     }
+
+    #endregion
 
 }

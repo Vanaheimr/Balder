@@ -72,9 +72,9 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
 
         #region Data
 
-        protected readonly IProperties<TKey, TValue, TDatastructure> _Data;
+        protected readonly IProperties<TKey, TValue> _Data;
 
-        public IProperties<TKey, TValue, TDatastructure> Data
+        public IProperties<TKey, TValue> Data
         {
             get
             {
@@ -86,7 +86,7 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
 
         #region Properties
 
-        public IProperties<TKey, TValue, TDatastructure> Properties
+        public IProperties<TKey, TValue> Properties
         {
             get
             {
@@ -195,7 +195,7 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
                                     TKey                 myIdKey,
                                     TKey                 myRevisonIdKey,
                                     Func<TDatastructure> myDataInitializer,
-                                    Action<IProperties<TKey, TValue, TDatastructure>> myElementInitializer = null)
+                                    Action<IProperties<TKey, TValue>> myElementInitializer = null)
         {
 
             _IdKey        = myIdKey;

@@ -57,9 +57,8 @@ namespace de.ahzf.blueprints
         /// </summary>
         /// <param name="myIProperties">An object implementing IElement.</param>
         /// <param name="myKeyValuePair">A KeyValuePair of type string and object</param>
-        public static IProperties<TKey, TValue, TDatastructure> SetProperty<TKey, TValue, TDatastructure>(this IProperties<TKey, TValue, TDatastructure> myIProperties, KeyValuePair<TKey, TValue> myKeyValuePair)
-            where TKey           : IEquatable<TKey>, IComparable<TKey>, IComparable
-            where TDatastructure : IDictionary<TKey, TValue>
+        public static IProperties<TKey, TValue> SetProperty<TKey, TValue>(this IProperties<TKey, TValue> myIProperties, KeyValuePair<TKey, TValue> myKeyValuePair)
+            where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
         {
             return myIProperties.SetProperty(myKeyValuePair.Key, myKeyValuePair.Value);
         }
@@ -74,14 +73,11 @@ namespace de.ahzf.blueprints
         /// </summary>
         /// <param name="myIProperties">An object implementing IElement.</param>
         /// <param name="myKeyValuePairs">A enumeration of KeyValuePairs of type string and object</param>
-        public static void SetProperties<TKey, TValue, TDatastructure>(this IProperties<TKey, TValue, TDatastructure> myIProperties, IEnumerable<KeyValuePair<TKey, TValue>> myKeyValuePairs)
+        public static void SetProperties<TKey, TValue>(this IProperties<TKey, TValue> myIProperties, IEnumerable<KeyValuePair<TKey, TValue>> myKeyValuePairs)
             where TKey           : IEquatable<TKey>, IComparable<TKey>, IComparable
-            where TDatastructure : IDictionary<TKey, TValue>
         {
-
             foreach (var _KeyValuePair in myKeyValuePairs)
                 myIProperties.SetProperty(_KeyValuePair.Key, _KeyValuePair.Value);
-
         }
 
         #endregion
@@ -94,14 +90,11 @@ namespace de.ahzf.blueprints
         /// </summary>
         /// <param name="myIProperties">An object implementing IElement.</param>
         /// <param name="myIDictionary">A IDictionary of type string and object</param>
-        public static void SetProperties<TKey, TValue, TDatastructure>(this IProperties<TKey, TValue, TDatastructure> myIProperties, IDictionary<TKey, TValue> myIDictionary)
+        public static void SetProperties<TKey, TValue>(this IProperties<TKey, TValue> myIProperties, IDictionary<TKey, TValue> myIDictionary)
             where TKey           : IEquatable<TKey>, IComparable<TKey>, IComparable
-            where TDatastructure : IDictionary<TKey, TValue>
         {
-
             foreach (var _KeyValuePair in myIDictionary)
                 myIProperties.SetProperty(_KeyValuePair.Key, _KeyValuePair.Value);
-
         }
 
         #endregion
@@ -115,9 +108,8 @@ namespace de.ahzf.blueprints
         /// <param name="myIProperties">An object implementing IElement.</param>
         /// <param name="myKey">The property key.</param>
         /// <returns>true|false</returns>
-        public static Boolean HasProperty<TKey, TValue, TDatastructure>(this IProperties<TKey, TValue, TDatastructure> myIProperties, TKey myKey)
-            where TKey           : IEquatable<TKey>, IComparable<TKey>, IComparable
-            where TDatastructure : IDictionary<TKey, TValue>
+        public static Boolean HasProperty<TKey, TValue>(this IProperties<TKey, TValue> myIProperties, TKey myKey)
+            where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
         {
 
             var _Value = myIProperties.GetProperty(myKey);
@@ -143,9 +135,8 @@ namespace de.ahzf.blueprints
         /// <param name="myKey">The property key.</param>
         /// <param name="myValue">The property value.</param>
         /// <returns>true|false</returns>
-        public static Boolean HasProperty<TKey, TValue, TDatastructure>(this IProperties<TKey, TValue, TDatastructure> myIProperties, TKey myKey, Object myValue)
-            where TKey           : IEquatable<TKey>, IComparable<TKey>, IComparable
-            where TDatastructure : IDictionary<TKey, TValue>
+        public static Boolean HasProperty<TKey, TValue>(this IProperties<TKey, TValue> myIProperties, TKey myKey, Object myValue)
+            where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
         {
             return myValue.Equals(myIProperties.GetProperty(myKey));
         }
@@ -165,9 +156,8 @@ namespace de.ahzf.blueprints
         /// <param name="myKey">The property key.</param>
         /// <param name="myValue">The property value.</param>
         /// <returns>true|false</returns>
-        public static Boolean HasProperty<TKey, TValue, TDatastructure>(this IProperties<TKey, TValue, TDatastructure> myIProperties, TKey myKey, TValue myValue)
-            where TKey           : IEquatable<TKey>, IComparable<TKey>, IComparable
-            where TDatastructure : IDictionary<TKey, TValue>
+        public static Boolean HasProperty<TKey, TValue>(this IProperties<TKey, TValue> myIProperties, TKey myKey, TValue myValue)
+            where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
         {
             return myValue.Equals((TValue) myIProperties.GetProperty(myKey));
         }
@@ -185,9 +175,8 @@ namespace de.ahzf.blueprints
         /// <param name="myIProperties">An object implementing IElement.</param>
         /// <param name="myPropertyFilter">A delegate for property filtering.</param>
         /// <returns>true|false</returns>
-        public static Boolean HasProperty<TKey, TValue, TDatastructure>(this IProperties<TKey, TValue, TDatastructure> myIProperties, Func<TKey, TValue, Boolean> myPropertyFilter = null)
-            where TKey           : IEquatable<TKey>, IComparable<TKey>, IComparable
-            where TDatastructure : IDictionary<TKey, TValue>
+        public static Boolean HasProperty<TKey, TValue>(this IProperties<TKey, TValue> myIProperties, Func<TKey, TValue, Boolean> myPropertyFilter = null)
+            where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
         {
             return myIProperties.GetProperties(myPropertyFilter).Any();
         }
@@ -223,9 +212,8 @@ namespace de.ahzf.blueprints
         /// <param name="myIProperties">An object implementing IElement.</param>
         /// <param name="myKey">the key of the key/value property</param>
         /// <returns>the object value related to the string key</returns>
-        public static TValue GetProperty<TKey, TValue, TDatastructure>(this IProperties<TKey, TValue, TDatastructure> myIProperties, TKey myKey)
-            where TKey           : IEquatable<TKey>, IComparable<TKey>, IComparable
-            where TDatastructure : IDictionary<TKey, TValue>
+        public static TValue GetProperty<TKey, TValue>(this IProperties<TKey, TValue> myIProperties, TKey myKey)
+            where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
         {
 
             try
@@ -252,9 +240,8 @@ namespace de.ahzf.blueprints
         /// <param name="myIProperties">An object implementing IElement.</param>
         /// <param name="myPropertyFilter">A delegate for property filtering.</param>
         /// <returns>An enumeration of all selected properties.</returns>
-        public static IEnumerable<KeyValuePair<TKey, TValue>> GetProperties<TKey, TValue, TDatastructure>(this IProperties<TKey, TValue, TDatastructure> myIProperties, Func<TKey, TValue, Boolean> myPropertyFilter = null)
-            where TKey           : IEquatable<TKey>, IComparable<TKey>, IComparable
-            where TDatastructure : IDictionary<TKey, TValue>
+        public static IEnumerable<KeyValuePair<TKey, TValue>> GetProperties<TKey, TValue>(this IProperties<TKey, TValue> myIProperties, Func<TKey, TValue, Boolean> myPropertyFilter = null)
+            where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
         {
 
             Boolean _ExceptionOccured = false;
@@ -292,9 +279,8 @@ namespace de.ahzf.blueprints
         /// <param name="myIProperties">An object implementing IElement.</param>
         /// <param name="myPropertyFilter">A delegate for property filtering.</param>
         /// <returns>An enumeration of all selected property values.</returns>
-        public static IEnumerable<TValue> GetPropertyValues<TKey, TValue, TDatastructure>(this IProperties<TKey, TValue, TDatastructure> myIProperties, Func<TKey, TValue, Boolean> myPropertyFilter = null)
-            where TKey           : IEquatable<TKey>, IComparable<TKey>, IComparable
-            where TDatastructure : IDictionary<TKey, TValue>
+        public static IEnumerable<TValue> GetPropertyValues<TKey, TValue>(this IProperties<TKey, TValue> myIProperties, Func<TKey, TValue, Boolean> myPropertyFilter = null)
+            where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
         {
             return from _KeyValuePair in myIProperties.GetProperties(myPropertyFilter) select _KeyValuePair.Value;
         }
@@ -311,9 +297,8 @@ namespace de.ahzf.blueprints
         /// <param name="myIProperties">An object implementing IElement.</param>
         /// <param name="myPropertyFilter">A delegate for property filtering.</param>
         /// <returns>An enumeration of all selected property values.</returns>
-        public static IEnumerable<TCast> GetPropertyValues<TKey, TValue, TDatastructure, TCast>(this IProperties<TKey, TValue, TDatastructure> myIProperties, Func<TKey, TValue, Boolean> myPropertyFilter = null)
-            where TKey           : IEquatable<TKey>, IComparable<TKey>, IComparable
-            where TDatastructure : IDictionary<TKey, TValue>
+        public static IEnumerable<TCast> GetPropertyValues<TKey, TValue, TCast>(this IProperties<TKey, TValue> myIProperties, Func<TKey, TValue, Boolean> myPropertyFilter = null)
+            where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
             //where TCast          : TValue
         {
 
@@ -352,9 +337,8 @@ namespace de.ahzf.blueprints
         /// <param name="myIProperties1">A vertex or edge</param>
         /// <param name="myIProperties2">Another vertex or edge</param>
         /// <returns>true if both IElement objects carry the same properties</returns>
-        public static Boolean CompareProperties<TKey, TValue, TDatastructure>(this IProperties<TKey, TValue, TDatastructure> myIProperties1, IProperties<TKey, TValue, TDatastructure> myIProperties2)
-            where TKey           : IEquatable<TKey>, IComparable<TKey>, IComparable
-            where TDatastructure : IDictionary<TKey, TValue>
+        public static Boolean CompareProperties<TKey, TValue>(this IProperties<TKey, TValue> myIProperties1, IProperties<TKey, TValue> myIProperties2)
+            where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
         {
 
             if (Object.ReferenceEquals(myIProperties1, myIProperties2))

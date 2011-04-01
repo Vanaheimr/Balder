@@ -39,9 +39,9 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph
     public class PropertyHyperEdge : PropertyHyperEdge<VertexId,    RevisionId, String, Object, IDictionary<String, Object>,
                                                        EdgeId,      RevisionId, String, Object, IDictionary<String, Object>,
                                                        HyperEdgeId, RevisionId, String, Object, IDictionary<String, Object>,
-                                                       ICollection<IGenericVertex<VertexId,    RevisionId, IProperties<String, Object, IDictionary<String, Object>>,
-                                                                                  EdgeId,      RevisionId, IProperties<String, Object, IDictionary<String, Object>>,
-                                                                                  HyperEdgeId, RevisionId, IProperties<String, Object, IDictionary<String, Object>>>>>,
+                                                       ICollection<IGenericVertex<VertexId,    RevisionId, IProperties<String, Object>,
+                                                                                  EdgeId,      RevisionId, IProperties<String, Object>,
+                                                                                  HyperEdgeId, RevisionId, IProperties<String, Object>>>>,
                                      IPropertyHyperEdge,
                                      IDynamicGraphObject<PropertyHyperEdge>
     {
@@ -59,28 +59,28 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph
         /// <param name="myEdgeId">The identification of this edge.</param>
         /// <param name="myLabel">A label stored within this edge.</param>
         /// <param name="myEdgeInitializer">A delegate to initialize the newly created edge.</param>
-        internal protected PropertyHyperEdge(IGenericVertex<VertexId,    RevisionId, IProperties<String, Object, IDictionary<String, Object>>,
-                                                            EdgeId,      RevisionId, IProperties<String, Object, IDictionary<String, Object>>,
-                                                            HyperEdgeId, RevisionId, IProperties<String, Object, IDictionary<String, Object>>>
+        internal protected PropertyHyperEdge(IGenericVertex<VertexId,    RevisionId, IProperties<String, Object>,
+                                                            EdgeId,      RevisionId, IProperties<String, Object>,
+                                                            HyperEdgeId, RevisionId, IProperties<String, Object>>
                                                             myOutVertex,
 
-                                             IEnumerable<IGenericVertex<VertexId,    RevisionId, IProperties<String, Object, IDictionary<String, Object>>,
-                                                                        EdgeId,      RevisionId, IProperties<String, Object, IDictionary<String, Object>>,
-                                                                        HyperEdgeId, RevisionId, IProperties<String, Object, IDictionary<String, Object>>>>
+                                             IEnumerable<IGenericVertex<VertexId,    RevisionId, IProperties<String, Object>,
+                                                                        EdgeId,      RevisionId, IProperties<String, Object>,
+                                                                        HyperEdgeId, RevisionId, IProperties<String, Object>>>
                                                                         myInVertices,
 
                                              HyperEdgeId myHyperEdgeId,
                                              String      myLabel,
 
-                                             Action<IProperties<String, Object, IDictionary<String, Object>>> myHyperEdgeInitializer = null)
+                                             Action<IProperties<String, Object>> myHyperEdgeInitializer = null)
 
             : base(myOutVertex, myInVertices,
                    myHyperEdgeId, myLabel,
                    "Id", "RevisionId",
                    () => new Dictionary<String, Object>(),
-                   () => new HashSet<IGenericVertex<VertexId,    RevisionId, IProperties<String, Object, IDictionary<String, Object>>,
-                                                    EdgeId,      RevisionId, IProperties<String, Object, IDictionary<String, Object>>,
-                                                    HyperEdgeId, RevisionId, IProperties<String, Object, IDictionary<String, Object>>>>(),
+                   () => new HashSet<IGenericVertex<VertexId,    RevisionId, IProperties<String, Object>,
+                                                    EdgeId,      RevisionId, IProperties<String, Object>,
+                                                    HyperEdgeId, RevisionId, IProperties<String, Object>>>(),
                    myHyperEdgeInitializer)
 
         { }

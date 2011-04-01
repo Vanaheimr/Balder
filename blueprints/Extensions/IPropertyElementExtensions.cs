@@ -44,13 +44,12 @@ namespace de.ahzf.blueprints
         /// <typeparam name="TDatastructure">The type of the datastructure to maintain the key/value pairs.</typeparam>
         /// <param name="myIPropertyElement">An object implementing IPropertyElement&lt;...&gt;.</param>
         /// <returns>A dynamic object</returns>
-        public static dynamic AsDynamic<TId, TRevisionId, TKey, TValue, TDatastructure>(
-                                        this IPropertyElement<TId, TRevisionId, TKey, TValue, TDatastructure> myIPropertyElement)
+        public static dynamic AsDynamic<TId, TRevisionId, TKey, TValue>(
+                                        this IPropertyElement<TId, TRevisionId, TKey, TValue> myIPropertyElement)
 
-            where TDatastructure : IDictionary<TKey, TValue>
-            where TKey           : IEquatable<TKey>,        IComparable<TKey>,        IComparable
-            where TId            : IEquatable<TId>,         IComparable<TId>,         IComparable, TValue
-            where TRevisionId    : IEquatable<TRevisionId>, IComparable<TRevisionId>, IComparable, TValue
+            where TKey        : IEquatable<TKey>,        IComparable<TKey>,        IComparable
+            where TId         : IEquatable<TId>,         IComparable<TId>,         IComparable, TValue
+            where TRevisionId : IEquatable<TRevisionId>, IComparable<TRevisionId>, IComparable, TValue
         {
             return myIPropertyElement as dynamic;
         }
@@ -72,16 +71,15 @@ namespace de.ahzf.blueprints
         /// <param name="myIPropertyElement">An object implementing IPropertyElement&lt;...&gt;.</param>
         /// <param name="myKey">The property key.</param>
         /// <param name="myValue">The property value.</param>
-        public static IPropertyElement<TId, TRevisionId, TKey, TValue, TDatastructure>
+        public static IPropertyElement<TId, TRevisionId, TKey, TValue>
 
-                      SetProperty<TId, TRevisionId, TKey, TValue, TDatastructure>(
-                                  this IPropertyElement<TId, TRevisionId, TKey, TValue, TDatastructure> myIPropertyElement,
+                      SetProperty<TId, TRevisionId, TKey, TValue>(
+                                  this IPropertyElement<TId, TRevisionId, TKey, TValue> myIPropertyElement,
                                        TKey myKey, TValue myValue)
 
-            where TDatastructure : IDictionary<TKey, TValue>
-            where TKey           : IEquatable<TKey>,        IComparable<TKey>,        IComparable
-            where TId            : IEquatable<TId>,         IComparable<TId>,         IComparable, TValue
-            where TRevisionId    : IEquatable<TRevisionId>, IComparable<TRevisionId>, IComparable, TValue
+            where TKey        : IEquatable<TKey>,        IComparable<TKey>,        IComparable
+            where TId         : IEquatable<TId>,         IComparable<TId>,         IComparable, TValue
+            where TRevisionId : IEquatable<TRevisionId>, IComparable<TRevisionId>, IComparable, TValue
 
         {
             
@@ -106,16 +104,15 @@ namespace de.ahzf.blueprints
         /// <typeparam name="TDatastructure">The type of the datastructure to maintain the key/value pairs.</typeparam>
         /// <param name="myIPropertyElement">An object implementing IPropertyElement&lt;...&gt;.</param>
         /// <param name="myKeyValuePair">A KeyValuePair of type string and object</param>
-        public static IPropertyElement<TId, TRevisionId, TKey, TValue, TDatastructure>
+        public static IPropertyElement<TId, TRevisionId, TKey, TValue>
 
-                      SetProperty<TId, TRevisionId, TKey, TValue, TDatastructure>(
-                                  this IPropertyElement<TId, TRevisionId, TKey, TValue, TDatastructure> myIPropertyElement,
+                      SetProperty<TId, TRevisionId, TKey, TValue>(
+                                  this IPropertyElement<TId, TRevisionId, TKey, TValue> myIPropertyElement,
                                        KeyValuePair<TKey, TValue> myKeyValuePair)
 
-            where TDatastructure : IDictionary<TKey, TValue>
-            where TKey           : IEquatable<TKey>,        IComparable<TKey>,        IComparable
-            where TId            : IEquatable<TId>,         IComparable<TId>,         IComparable, TValue
-            where TRevisionId    : IEquatable<TRevisionId>, IComparable<TRevisionId>, IComparable, TValue
+            where TKey        : IEquatable<TKey>,        IComparable<TKey>,        IComparable
+            where TId         : IEquatable<TId>,         IComparable<TId>,         IComparable, TValue
+            where TRevisionId : IEquatable<TRevisionId>, IComparable<TRevisionId>, IComparable, TValue
 
         {
             
@@ -140,16 +137,15 @@ namespace de.ahzf.blueprints
         /// <typeparam name="TDatastructure">The type of the datastructure to maintain the key/value pairs.</typeparam>
         /// <param name="myIPropertyElement">An object implementing IPropertyElement&lt;...&gt;.</param>
         /// <param name="myKeyValuePairs">A enumeration of KeyValuePairs of type string and object</param>
-        public static IPropertyElement<TId, TRevisionId, TKey, TValue, TDatastructure>
+        public static IPropertyElement<TId, TRevisionId, TKey, TValue>
 
-                      SetProperties<TId, TRevisionId, TKey, TValue, TDatastructure>(
-                                    this IPropertyElement<TId, TRevisionId, TKey, TValue, TDatastructure> myIPropertyElement,
+                      SetProperties<TId, TRevisionId, TKey, TValue>(
+                                    this IPropertyElement<TId, TRevisionId, TKey, TValue> myIPropertyElement,
                                          IEnumerable<KeyValuePair<TKey, TValue>> myKeyValuePairs)
 
-            where TDatastructure : IDictionary<TKey, TValue>
-            where TKey           : IEquatable<TKey>,        IComparable<TKey>,        IComparable
-            where TId            : IEquatable<TId>,         IComparable<TId>,         IComparable, TValue
-            where TRevisionId    : IEquatable<TRevisionId>, IComparable<TRevisionId>, IComparable, TValue
+            where TKey        : IEquatable<TKey>,        IComparable<TKey>,        IComparable
+            where TId         : IEquatable<TId>,         IComparable<TId>,         IComparable, TValue
+            where TRevisionId : IEquatable<TRevisionId>, IComparable<TRevisionId>, IComparable, TValue
 
         {
 
@@ -175,16 +171,15 @@ namespace de.ahzf.blueprints
         /// <typeparam name="TDatastructure">The type of the datastructure to maintain the key/value pairs.</typeparam>
         /// <param name="myIPropertyElement">An object implementing IPropertyElement&lt;...&gt;.</param>
         /// <param name="myIDictionary">A IDictionary of type string and object</param>
-        public static IPropertyElement<TId, TRevisionId, TKey, TValue, TDatastructure>
+        public static IPropertyElement<TId, TRevisionId, TKey, TValue>
 
-                      SetProperties<TId, TRevisionId, TKey, TValue, TDatastructure>(
-                                    this IPropertyElement<TId, TRevisionId, TKey, TValue, TDatastructure> myIPropertyElement,
+                      SetProperties<TId, TRevisionId, TKey, TValue>(
+                                    this IPropertyElement<TId, TRevisionId, TKey, TValue> myIPropertyElement,
                                          IDictionary<TKey, TValue> myIDictionary)
 
-            where TDatastructure : IDictionary<TKey, TValue>
-            where TKey           : IEquatable<TKey>,        IComparable<TKey>,        IComparable
-            where TId            : IEquatable<TId>,         IComparable<TId>,         IComparable, TValue
-            where TRevisionId    : IEquatable<TRevisionId>, IComparable<TRevisionId>, IComparable, TValue
+            where TKey        : IEquatable<TKey>,        IComparable<TKey>,        IComparable
+            where TId         : IEquatable<TId>,         IComparable<TId>,         IComparable, TValue
+            where TRevisionId : IEquatable<TRevisionId>, IComparable<TRevisionId>, IComparable, TValue
 
         {
 
@@ -317,14 +312,13 @@ namespace de.ahzf.blueprints
         /// <param name="myIPropertyElement">An object implementing IPropertyElement&lt;...&gt;.</param>
         /// <param name="myKey">the key of the key/value property</param>
         /// <returns>the object value related to the key.</returns>
-        public static TValue GetProperty<TId, TRevisionId, TKey, TValue, TDatastructure>(
-                                         this IPropertyElement<TId, TRevisionId, TKey, TValue, TDatastructure> myIPropertyElement,
+        public static TValue GetProperty<TId, TRevisionId, TKey, TValue>(
+                                         this IPropertyElement<TId, TRevisionId, TKey, TValue> myIPropertyElement,
                                          TKey myKey)
 
-            where TDatastructure : IDictionary<TKey, TValue>
-            where TKey           : IEquatable<TKey>,        IComparable<TKey>,        IComparable
-            where TId            : IEquatable<TId>,         IComparable<TId>,         IComparable, TValue
-            where TRevisionId    : IEquatable<TRevisionId>, IComparable<TRevisionId>, IComparable, TValue
+            where TKey        : IEquatable<TKey>,        IComparable<TKey>,        IComparable
+            where TId         : IEquatable<TId>,         IComparable<TId>,         IComparable, TValue
+            where TRevisionId : IEquatable<TRevisionId>, IComparable<TRevisionId>, IComparable, TValue
 
         {
             return myIPropertyElement.Properties.GetProperty(myKey);
@@ -345,11 +339,10 @@ namespace de.ahzf.blueprints
         /// <param name="myIPropertyElement">An object implementing IPropertyElement&lt;...&gt;.</param>
         /// <param name="myKey">the key of the key/value property</param>
         /// <returns>the object value related to the key.</returns>
-        public static TValueCasted GetProperty<TId, TRevisionId, TKey, TValue, TDatastructure, TValueCasted>(
-                                               this IPropertyElement<TId, TRevisionId, TKey, TValue, TDatastructure> myIPropertyElement,
+        public static TValueCasted GetProperty<TId, TRevisionId, TKey, TValue, TValueCasted>(
+                                               this IPropertyElement<TId, TRevisionId, TKey, TValue> myIPropertyElement,
                                                TKey myKey)
 
-            where TDatastructure : IDictionary<TKey, TValue>
             where TKey           : IEquatable<TKey>,        IComparable<TKey>,        IComparable
             where TId            : IEquatable<TId>,         IComparable<TId>,         IComparable, TValue
             where TRevisionId    : IEquatable<TRevisionId>, IComparable<TRevisionId>, IComparable, TValue

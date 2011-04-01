@@ -43,7 +43,8 @@ namespace de.ahzf.blueprints
     /// <typeparam name="TValue">The type of the property values.</typeparam>
     /// <typeparam name="TDatastructure">The type of the datastructure to maintain the key/value pairs.</typeparam>
     public class Properties<TId, TRevisionId, TKey, TValue, TDatastructure>
-                    : IProperties<TKey, TValue, TDatastructure>
+                    : IProperties<TKey, TValue>,
+                      IProperties<TKey, TValue, TDatastructure>
 
         where TId            : IEquatable<TId>,  IComparable<TId>,  IComparable, TValue
         where TKey           : IEquatable<TKey>, IComparable<TKey>, IComparable
@@ -260,7 +261,7 @@ namespace de.ahzf.blueprints
         /// </summary>
         /// <param name="myPropertyKey">The property key.</param>
         /// <param name="myPropertyValue">The property value.</param>
-        public virtual IProperties<TKey, TValue, TDatastructure> SetProperty(TKey myPropertyKey, TValue myPropertyValue)
+        public virtual IProperties<TKey, TValue> SetProperty(TKey myPropertyKey, TValue myPropertyValue)
         {
 
             if (myPropertyKey.Equals(_IdKey))

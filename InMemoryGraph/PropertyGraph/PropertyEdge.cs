@@ -57,20 +57,20 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph
         /// <param name="myEdgeId">The identification of this edge.</param>
         /// <param name="myLabel">A label stored within this edge.</param>
         /// <param name="myEdgeInitializer">A delegate to initialize the newly created edge.</param>
-        internal protected PropertyEdge(IGenericVertex<VertexId,    RevisionId, IProperties<String, Object, IDictionary<String, Object>>,
-                                                       EdgeId,      RevisionId, IProperties<String, Object, IDictionary<String, Object>>,
-                                                       HyperEdgeId, RevisionId, IProperties<String, Object, IDictionary<String, Object>>>
+        internal protected PropertyEdge(IGenericVertex<VertexId,    RevisionId, IProperties<String, Object>,
+                                                       EdgeId,      RevisionId, IProperties<String, Object>,
+                                                       HyperEdgeId, RevisionId, IProperties<String, Object>>
                                                        myOutVertex,
 
-                                        IGenericVertex<VertexId,    RevisionId, IProperties<String, Object, IDictionary<String, Object>>,
-                                                       EdgeId,      RevisionId, IProperties<String, Object, IDictionary<String, Object>>,
-                                                       HyperEdgeId, RevisionId, IProperties<String, Object, IDictionary<String, Object>>>
+                                        IGenericVertex<VertexId,    RevisionId, IProperties<String, Object>,
+                                                       EdgeId,      RevisionId, IProperties<String, Object>,
+                                                       HyperEdgeId, RevisionId, IProperties<String, Object>>
                                                        myInVertex,
 
                                         EdgeId myEdgeId,
                                         String myLabel,
 
-                                        Action<IProperties<String, Object, IDictionary<String, Object>>> myEdgeInitializer = null)
+                                        Action<IProperties<String, Object>> myEdgeInitializer = null)
 
             : base(myOutVertex, myInVertex,
                    myEdgeId, myLabel,

@@ -53,9 +53,9 @@ namespace de.ahzf.blueprints
                                    THyperEdge, THyperEdgeId, THyperEdgeRevisionId, THyperEdgeData,
                                    TGraphDatastructure> : IGenericGraph<TGraphDatastructure>
 
-        where TVertex              : IGenericVertex   <TVertexId, TVertexRevisionId, TVertexData, TEdgeId, TEdgeRevisionId, TEdgeData, THyperEdgeId, THyperEdgeRevisionId, THyperEdgeData>
-        where TEdge                : IGenericEdge     <TVertexId, TVertexRevisionId, TVertexData, TEdgeId, TEdgeRevisionId, TEdgeData, THyperEdgeId, THyperEdgeRevisionId, THyperEdgeData>
-        where THyperEdge           : IGenericHyperEdge<TVertexId, TVertexRevisionId, TVertexData, TEdgeId, TEdgeRevisionId, TEdgeData, THyperEdgeId, THyperEdgeRevisionId, THyperEdgeData>
+        where TVertex              : IGenericVertex   <TVertexId, TVertexRevisionId, TVertexData,  TEdgeId, TEdgeRevisionId, TEdgeData,  THyperEdgeId, THyperEdgeRevisionId, THyperEdgeData>
+        where TEdge                : IGenericEdge     <TVertexId, TVertexRevisionId, TVertexData,  TEdgeId, TEdgeRevisionId, TEdgeData,  THyperEdgeId, THyperEdgeRevisionId, THyperEdgeData>
+        where THyperEdge           : IGenericHyperEdge<TVertexId, TVertexRevisionId, TVertexData,  TEdgeId, TEdgeRevisionId, TEdgeData,  THyperEdgeId, THyperEdgeRevisionId, THyperEdgeData>
 
         where TVertexId            : IEquatable<TVertexId>,            IComparable<TVertexId>,            IComparable
         where TEdgeId              : IEquatable<TEdgeId>,              IComparable<TEdgeId>,              IComparable

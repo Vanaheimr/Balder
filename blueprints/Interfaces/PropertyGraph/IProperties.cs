@@ -28,45 +28,7 @@ using System.Linq.Expressions;
 namespace de.ahzf.blueprints
 {
 
-    #region IProperties
-
-    /// <summary>
-    /// A specialized IProperties interface for maintaining a collection
-    /// of key/value properties within a datastructure.
-    /// </summary>
-    public interface IProperties : IProperties<String>
-    { }
-
-    #endregion
-
-    #region IProperties<TKey>
-
-    /// <summary>
-    /// A specialized IProperties interface for maintaining a collection
-    /// of key/value properties within a datastructure.
-    /// </summary>
-    /// <typeparam name="TKey">The type of the property keys.</typeparam>
-    public interface IProperties<TKey> : IProperties<TKey, Object>
-        where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
-    { }
-
-    #endregion
-
     #region IProperties<TKey, TValue>
-
-    /// <summary>
-    /// A specialized IProperties interface for maintaining a collection
-    /// of key/value properties within a datastructure.
-    /// </summary>
-    /// <typeparam name="TKey">The type of the property keys.</typeparam>
-    /// <typeparam name="TValue">The type of the property values.</typeparam>
-    public interface IProperties<TKey, TValue> : IProperties<TKey, TValue, IDictionary<TKey, TValue>>
-        where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
-    { }
-
-    #endregion
-
-    #region IProperties<TKey, TValue, TDatastructure>
 
     /// <summary>
     /// This generic interface maintains a collection of key/value properties
@@ -75,15 +37,14 @@ namespace de.ahzf.blueprints
     /// <typeparam name="TKey">The type of the property keys.</typeparam>
     /// <typeparam name="TValue">The type of the property values.</typeparam>
     /// <typeparam name="TDatastructure">The type of the datastructure to maintain the key/value pairs.</typeparam>
-    public interface IProperties<TKey, TValue, TDatastructure>
+    public interface IProperties<TKey, TValue>
                         : IEnumerable<KeyValuePair<TKey, TValue>>,
                           INotifyCollectionChanged,
                           INotifyPropertyChanging,
                           INotifyPropertyChanged
 
+        where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
 
-        where TKey           : IEquatable<TKey>, IComparable<TKey>, IComparable
-        where TDatastructure : IDictionary<TKey, TValue>
     {
 
         #region Events
@@ -105,7 +66,7 @@ namespace de.ahzf.blueprints
         /// </summary>
         /// <param name="myKey">The property key.</param>
         /// <param name="myValue">The property value.</param>
-        IProperties<TKey, TValue, TDatastructure> SetProperty(TKey myKey, TValue myValue);
+        IProperties<TKey, TValue> SetProperty(TKey myKey, TValue myValue);
 
 
         /// <summary>
@@ -147,6 +108,25 @@ namespace de.ahzf.blueprints
         IEnumerable<TKey> PropertyKeys { get; }
 
     }
+
+    #endregion
+
+    #region IProperties<TKey, TValue, TDatastructure>
+
+    /// <summary>
+    /// This generic interface maintains a collection of key/value properties
+    /// within the given datastructure.
+    /// </summary>
+    /// <typeparam name="TKey">The type of the property keys.</typeparam>
+    /// <typeparam name="TValue">The type of the property values.</typeparam>
+    /// <typeparam name="TDatastructure">The type of the datastructure to maintain the key/value pairs.</typeparam>
+    public interface IProperties<TKey, TValue, TDatastructure>
+                        : IProperties<TKey, TValue>
+
+        where TKey           : IEquatable<TKey>, IComparable<TKey>, IComparable
+        where TDatastructure : IDictionary<TKey, TValue>
+
+    { }
 
     #endregion
 
