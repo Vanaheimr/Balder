@@ -1,39 +1,39 @@
-﻿///*
-// * Copyright (c) 2010-2011, Achim 'ahzf' Friedland <code@ahzf.de>
-// * This file is part of Blueprints.NET
-// *
-// * Licensed under the Apache License, Version 2.0 (the "License");
-// * you may not use this file except in compliance with the License.
-// * You may obtain a copy of the License at
-// *
-// *     http://www.apache.org/licenses/LICENSE-2.0
-// *
-// * Unless required by applicable law or agreed to in writing, software
-// * distributed under the License is distributed on an "AS IS" BASIS,
-// * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// * See the License for the specific language governing permissions and
-// * limitations under the License.
-// */
+﻿/*
+ * Copyright (c) 2010-2011, Achim 'ahzf' Friedland <code@ahzf.de>
+ * This file is part of Blueprints.NET
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-//#region Usings
+#region Usings
 
-//using System;
-//using System.Linq;
-//using System.Reflection;
-//using System.Collections.Generic;
+using System;
+using System.Linq;
+using System.Reflection;
+using System.Collections.Generic;
 
-//using de.ahzf.blueprints.Datastructures;
+using de.ahzf.blueprints.Datastructures;
 
-//#endregion
+#endregion
 
-//namespace de.ahzf.blueprints
-//{
+namespace de.ahzf.blueprints
+{
 
-//    /// <summary>
-//    /// Extensions to the IGraph interface
-//    /// </summary>
-//    public static class IGraphExtensions
-//    {
+    /// <summary>
+    /// Extensions to the IGraph interface
+    /// </summary>
+    public static class IGraphExtensions
+    {
 
 //        #region AsDynamic(this myIGenericGraph)
 
@@ -336,66 +336,80 @@
 
 //        #endregion
 
-//        #region AddDoubleEdge(this myIGenericGraph, myOutVertexId, myInVertexId, myEdgeId1 = null, myEdgeId2 = null, myLabel = null, myEdgeInitializer = null)
+        #region AddDoubleEdge(this myIGenericGraph, myOutVertexId, myInVertexId, myEdgeId1 = null, myEdgeId2 = null, myLabel = null, myEdgeInitializer = null)
 
-//        /// <summary>
-//        /// Adds an edge to the graph using the given myEdgeId and initializes
-//        /// its properties by invoking the given edge initializer.
-//        /// </summary>
-//        /// <param name="myIGenericGraph"></param>
-//        /// <param name="myOutVertexId"></param>
-//        /// <param name="myInVertexId"></param>
-//        /// <param name="myEdgeId1">A EdgeId. If none was given a new one will be generated.</param>
-//        /// <param name="myEdgeId2">A EdgeId. If none was given a new one will be generated.</param>
-//        /// <param name="myLabel"></param>
-//        /// <param name="myEdgeInitializer">A delegate to initialize the newly generated edge.</param>
-//        /// <returns>Both new edges.</returns>
-//        public static Tuple<TEdge, TEdge> AddDoubleEdge<TVertex, TVertexId, TVertexData, TEdge, TEdgeId, TEdgeData, THyperEdge, THyperEdgeId, THyperEdgeData, TRevisionId>(
-//                                          this IGenericGraph<TVertex, TVertexId, TVertexData, TEdge, TEdgeId, TEdgeData, THyperEdge, THyperEdgeId, THyperEdgeData, TRevisionId> myIGenericGraph,
-//                                          TVertexId     myOutVertexId,
-//                                          TVertexId     myInVertexId,
-//                                          TEdgeId       myEdgeId1         = default(TEdgeId),
-//                                          TEdgeId       myEdgeId2         = default(TEdgeId),
-//                                          String        myLabel           = null,
-//                                          Action<TEdge> myEdgeInitializer = null)
+        /// <summary>
+        /// Adds an edge to the graph using the given myEdgeId and initializes
+        /// its properties by invoking the given edge initializer.
+        /// </summary>
+        /// <param name="myIGenericGraph"></param>
+        /// <param name="myOutVertexId"></param>
+        /// <param name="myInVertexId"></param>
+        /// <param name="myEdgeId1">A EdgeId. If none was given a new one will be generated.</param>
+        /// <param name="myEdgeId2">A EdgeId. If none was given a new one will be generated.</param>
+        /// <param name="myLabel"></param>
+        /// <param name="myEdgeInitializer">A delegate to initialize the newly generated edge.</param>
+        /// <returns>Both new edges.</returns>
+        public static Tuple<TEdge, TEdge> AddDoubleEdge<TVertex,    TVertexId,    TVertexRevisionId,    TVertexData,
+                                                        TEdge,      TEdgeId,      TEdgeRevisionId,      TEdgeData,
+                                                        THyperEdge, THyperEdgeId, THyperEdgeRevisionId, THyperEdgeData,
+                                                        TGraphDatastructure>(
 
-//            where TVertex      : IGenericVertex<TVertexId, TVertexData>
-//            where TVertexId    : IEquatable<TVertexId>,    IComparable<TVertexId>,    IComparable
-//            where TEdge        : IGenericEdge<TEdgeId, TEdgeData>
-//            where TEdgeId      : IEquatable<TEdgeId>,      IComparable<TEdgeId>,      IComparable
-//            where THyperEdge   : IGenericHyperEdge<THyperEdgeId, THyperEdgeData>
-//            where THyperEdgeId : IEquatable<THyperEdgeId>, IComparable<THyperEdgeId>, IComparable
-//        {
+                                          this IGenericGraph<TVertex,    TVertexId,    TVertexRevisionId,    TVertexData,
+                                                             TEdge,      TEdgeId,      TEdgeRevisionId,      TEdgeData,
+                                                             THyperEdge, THyperEdgeId, THyperEdgeRevisionId, THyperEdgeData,
+                                                             TGraphDatastructure> myIGenericGraph,
 
-//            if (myIGenericGraph == null)
-//                throw new ArgumentNullException("myIGenericGraph must not be null!");
+                                          TVertexId         myOutVertexId,
+                                          TVertexId         myInVertexId,
+                                          TEdgeId           myEdgeId1         = default(TEdgeId),
+                                          TEdgeId           myEdgeId2         = default(TEdgeId),
+                                          String            myLabel           = null,
+                                          Action<TEdgeData> myEdgeInitializer = null)
 
-//            if (myOutVertexId == null)
-//                throw new ArgumentNullException("myOutVertexId must not be null!");
+            where TVertex              : IGenericVertex   <TVertexId, TVertexRevisionId, TVertexData, TEdgeId, TEdgeRevisionId, TEdgeData, THyperEdgeId, THyperEdgeRevisionId, THyperEdgeData>
+            where TEdge                : IGenericEdge     <TVertexId, TVertexRevisionId, TVertexData, TEdgeId, TEdgeRevisionId, TEdgeData, THyperEdgeId, THyperEdgeRevisionId, THyperEdgeData>
+            where THyperEdge           : IGenericHyperEdge<TVertexId, TVertexRevisionId, TVertexData, TEdgeId, TEdgeRevisionId, TEdgeData, THyperEdgeId, THyperEdgeRevisionId, THyperEdgeData>
 
-//            if (myInVertexId == null)
-//                throw new ArgumentNullException("myInVertexId must not be null!");
+            where TVertexId            : IEquatable<TVertexId>,            IComparable<TVertexId>,            IComparable
+            where TEdgeId              : IEquatable<TEdgeId>,              IComparable<TEdgeId>,              IComparable
+            where THyperEdgeId         : IEquatable<THyperEdgeId>,         IComparable<THyperEdgeId>,         IComparable
 
+            where TVertexRevisionId    : IEquatable<TVertexRevisionId>,    IComparable<TVertexRevisionId>,    IComparable
+            where TEdgeRevisionId      : IEquatable<TEdgeRevisionId>,      IComparable<TEdgeRevisionId>,      IComparable
+            where THyperEdgeRevisionId : IEquatable<THyperEdgeRevisionId>, IComparable<THyperEdgeRevisionId>, IComparable
 
-//            var myOutVertex = myIGenericGraph.GetVertex(myOutVertexId);
+        {
 
-//            if (myOutVertex == null)
-//                throw new ArgumentException("VertexId '" + myOutVertexId + "' is unknown!");
+            if (myIGenericGraph == null)
+                throw new ArgumentNullException("myIGenericGraph must not be null!");
 
+            if (myOutVertexId == null)
+                throw new ArgumentNullException("myOutVertexId must not be null!");
 
-//            var myInVertex = myIGenericGraph.GetVertex(myInVertexId);
-
-//            if (myInVertex == null)
-//                throw new ArgumentException("VertexId '" + myInVertexId + "' is unknown!");
-
-
-//            return new Tuple<TEdge, TEdge>(myIGenericGraph.AddEdge(myOutVertex, myInVertex, myEdgeId1, myLabel, myEdgeInitializer),
-//                                           myIGenericGraph.AddEdge(myInVertex, myOutVertex, myEdgeId2, myLabel, myEdgeInitializer));
+            if (myInVertexId == null)
+                throw new ArgumentNullException("myInVertexId must not be null!");
 
 
-//        }
+            var myOutVertex = myIGenericGraph.GetVertex(myOutVertexId);
 
-//        #endregion
+            if (myOutVertex == null)
+                throw new ArgumentException("VertexId '" + myOutVertexId + "' is unknown!");
+
+
+            var myInVertex = myIGenericGraph.GetVertex(myInVertexId);
+
+            if (myInVertex == null)
+                throw new ArgumentException("VertexId '" + myInVertexId + "' is unknown!");
+
+
+            return new Tuple<TEdge, TEdge>(myIGenericGraph.AddEdge(myOutVertex, myInVertex, myEdgeId1, myLabel, myEdgeInitializer),
+                                           myIGenericGraph.AddEdge(myInVertex, myOutVertex, myEdgeId2, myLabel, myEdgeInitializer));
+
+
+        }
+
+        #endregion
 
 
 //        //#region GetEdge<TEdge>(this myIGenericGraph, myEdgeId)
@@ -496,6 +510,6 @@
 
 //        //#endregion
 
-//    }
+    }
 
-//}
+}

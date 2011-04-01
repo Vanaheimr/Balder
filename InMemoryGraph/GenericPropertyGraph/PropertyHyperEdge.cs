@@ -422,6 +422,26 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
 
         #endregion
 
+        #region CompareTo(myIPropertyElement)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myIPropertyElement">An object to compare with.</param>
+        /// <returns>true|false</returns>
+        public Int32 CompareTo(IPropertyElement<THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge> myIPropertyElement)
+        {
+
+            // Check if myIPropertyElement is null
+            if (myIPropertyElement == null)
+                throw new ArgumentNullException("myIPropertyElement must not be null!");
+
+            return Id.CompareTo(myIPropertyElement.Properties.GetProperty(_IdKey));
+
+        }
+
+        #endregion
+
         #endregion
 
         #region IEquatable<THyperEdgeId> Members
@@ -460,6 +480,26 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
 
             //TODO: Here it might be good to check all attributes of the UNIQUE constraint!
             return Id.Equals(myHyperEdgeId);
+
+        }
+
+        #endregion
+
+        #region Equals(myIPropertyElement)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myIPropertyElement">An object to compare with.</param>
+        /// <returns>true|false</returns>
+        public Boolean Equals(IPropertyElement<THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge> myIPropertyElement)
+        {
+
+            if ((Object) myIPropertyElement == null)
+                return false;
+
+            //TODO: Here it might be good to check all attributes of the UNIQUE constraint!
+            return Id.Equals(myIPropertyElement.Properties.GetProperty(_IdKey));
 
         }
 

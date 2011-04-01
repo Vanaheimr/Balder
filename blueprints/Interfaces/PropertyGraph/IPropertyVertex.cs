@@ -27,7 +27,7 @@ using de.ahzf.blueprints.Datastructures;
 namespace de.ahzf.blueprints
 {
 
-    public interface IPropertyVertex : IPropertyVertex<VertexId, RevisionId, String, Object, IDictionary<String, Object>,
+    public interface IPropertyVertex : IPropertyVertex<VertexId,    RevisionId, String, Object, IDictionary<String, Object>,
                                                        EdgeId,      RevisionId, String, Object, IDictionary<String, Object>,
                                                        HyperEdgeId, RevisionId, String, Object, IDictionary<String, Object>>
     { }
