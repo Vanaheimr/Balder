@@ -152,7 +152,7 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
 
         #region Constructor(s)
 
-        #region PropertyHyperEdge(myIGraph, myOutVertex, myInVertex, myEdgeId, myEdgeInitializer = null)
+        #region PropertyHyperEdge(myIGraph, myOutVertex, myInVertices, myEdgeId, myEdgeInitializer = null)
 
         /// <summary>
         /// Creates a new edge.

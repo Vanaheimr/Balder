@@ -26,50 +26,61 @@ using de.ahzf.blueprints.Datastructures;
 namespace de.ahzf.blueprints
 {
 
-    public interface IPropertyGraph : IPropertyGraph<VertexId,    RevisionId, String, Object, IDictionary<String, Object>,
-                                                     EdgeId,      RevisionId, String, Object, IDictionary<String, Object>,
-                                                     HyperEdgeId, RevisionId, String, Object, IDictionary<String, Object>,
-
+    public interface IPropertyGraph : IPropertyGraph<// Vertex
+                                                     VertexId,    RevisionId, String, Object, IDictionary<String, Object>,
                                                      IGenericVertex<VertexId,    RevisionId, IProperties<String, Object>,
                                                                     EdgeId,      RevisionId, IProperties<String, Object>,
                                                                     HyperEdgeId, RevisionId, IProperties<String, Object>>,
 
+                                                     // Edge
+                                                     EdgeId,      RevisionId, String, Object, IDictionary<String, Object>,
+                                                     IGenericEdge<VertexId,    RevisionId, IProperties<String, Object>,
+                                                                  EdgeId,      RevisionId, IProperties<String, Object>,
+                                                                  HyperEdgeId, RevisionId, IProperties<String, Object>>,
+
+                                                     // HyperEdge
+                                                     HyperEdgeId, RevisionId, String, Object, IDictionary<String, Object>,
+                                                     IGenericHyperEdge<VertexId,    RevisionId, IProperties<String, Object>,
+                                                                       EdgeId,      RevisionId, IProperties<String, Object>,
+                                                                       HyperEdgeId, RevisionId, IProperties<String, Object>>,
                                                      Object>
+
     { }
 
     /// <summary>
     /// A property graph is a container object for a collection of vertices and edges.
     /// </summary>
-    public interface IPropertyGraph<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                    TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                    THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
-                                    TVertexExchange,
+    public interface IPropertyGraph<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,    TDatastructureVertex,    TVertexExchange,
+                                    TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,      TDatastructureEdge,      TEdgeExchange,
+                                    TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge, THyperEdgeExchange,                                  
                                     TGraphDatastructure>
 
                      : IGenericGraph<   // Vertex definition
-                                        IGenericVertex<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
-                                                       TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
-                                                       THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>>,                                        
-                                        TVertexId,
-                                        TVertexRevisionId,
+                                        IGenericVertex<TIdVertex,    TRevisionIdVertex,    IProperties<TKeyVertex,    TValueVertex>,
+                                                       TIdEdge,      TRevisionIdEdge,      IProperties<TKeyEdge,      TValueEdge>,
+                                                       TIdHyperEdge, TRevisionIdHyperEdge, IProperties<TKeyHyperEdge, TValueHyperEdge>>,                                        
+                                        TIdVertex,
+                                        TRevisionIdVertex,
                                         IProperties<TKeyVertex, TValueVertex>,
                                         TVertexExchange,
 
                                         // Edge definition
-                                        IGenericEdge<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
-                                                     TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
-                                                     THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>>,
-                                        TEdgeId,
-                                        TEdgeRevisionId,
+                                        IGenericEdge<TIdVertex,    TRevisionIdVertex,    IProperties<TKeyVertex,    TValueVertex>,
+                                                     TIdEdge,      TRevisionIdEdge,      IProperties<TKeyEdge,      TValueEdge>,
+                                                     TIdHyperEdge, TRevisionIdHyperEdge, IProperties<TKeyHyperEdge, TValueHyperEdge>>,
+                                        TIdEdge,
+                                        TRevisionIdEdge,
                                         IProperties<TKeyEdge, TValueEdge>,
+                                        TEdgeExchange,
 
                                         // Hyperedge definition
-                                        IGenericHyperEdge<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
-                                                          TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
-                                                          THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>>,
-                                        THyperEdgeId,
-                                        THyperEdgeRevisionId,
+                                        IGenericHyperEdge<TIdVertex,    TRevisionIdVertex,    IProperties<TKeyVertex,    TValueVertex>,
+                                                          TIdEdge,      TRevisionIdEdge,      IProperties<TKeyEdge,      TValueEdge>,
+                                                          TIdHyperEdge, TRevisionIdHyperEdge, IProperties<TKeyHyperEdge, TValueHyperEdge>>,
+                                        TIdHyperEdge,
+                                        TRevisionIdHyperEdge,
                                         IProperties<TKeyHyperEdge, TValueHyperEdge>,
+                                        THyperEdgeExchange,
 
                                         // Rest...
                                         TGraphDatastructure>
@@ -82,17 +93,25 @@ namespace de.ahzf.blueprints
         where TKeyEdge                : IEquatable<TKeyEdge>,             IComparable<TKeyEdge>,             IComparable
         where TKeyHyperEdge           : IEquatable<TKeyHyperEdge>,        IComparable<TKeyHyperEdge>,        IComparable
                                                                                                             
-        where TVertexId               : IEquatable<TVertexId>,            IComparable<TVertexId>,            IComparable, TValueVertex
-        where TEdgeId                 : IEquatable<TEdgeId>,              IComparable<TEdgeId>,              IComparable, TValueEdge
-        where THyperEdgeId            : IEquatable<THyperEdgeId>,         IComparable<THyperEdgeId>,         IComparable, TValueHyperEdge
+        where TIdVertex               : IEquatable<TIdVertex>,            IComparable<TIdVertex>,            IComparable, TValueVertex
+        where TIdEdge                 : IEquatable<TIdEdge>,              IComparable<TIdEdge>,              IComparable, TValueEdge
+        where TIdHyperEdge            : IEquatable<TIdHyperEdge>,         IComparable<TIdHyperEdge>,         IComparable, TValueHyperEdge
 
-        where TVertexRevisionId       : IEquatable<TVertexRevisionId>,    IComparable<TVertexRevisionId>,    IComparable, TValueVertex
-        where TEdgeRevisionId         : IEquatable<TEdgeRevisionId>,      IComparable<TEdgeRevisionId>,      IComparable, TValueEdge
-        where THyperEdgeRevisionId    : IEquatable<THyperEdgeRevisionId>, IComparable<THyperEdgeRevisionId>, IComparable, TValueHyperEdge
+        where TRevisionIdVertex       : IEquatable<TRevisionIdVertex>,    IComparable<TRevisionIdVertex>,    IComparable, TValueVertex
+        where TRevisionIdEdge         : IEquatable<TRevisionIdEdge>,      IComparable<TRevisionIdEdge>,      IComparable, TValueEdge
+        where TRevisionIdHyperEdge    : IEquatable<TRevisionIdHyperEdge>, IComparable<TRevisionIdHyperEdge>, IComparable, TValueHyperEdge
 
-        where TVertexExchange         : IGenericVertex<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
-                                                       TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
-                                                       THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>>
+        where TVertexExchange         : IGenericVertex   <TIdVertex,    TRevisionIdVertex,    IProperties<TKeyVertex,    TValueVertex>,
+                                                          TIdEdge,      TRevisionIdEdge,      IProperties<TKeyEdge,      TValueEdge>,
+                                                          TIdHyperEdge, TRevisionIdHyperEdge, IProperties<TKeyHyperEdge, TValueHyperEdge>>
+
+        where TEdgeExchange           : IGenericEdge     <TIdVertex,    TRevisionIdVertex,    IProperties<TKeyVertex,    TValueVertex>,
+                                                          TIdEdge,      TRevisionIdEdge,      IProperties<TKeyEdge,      TValueEdge>,
+                                                          TIdHyperEdge, TRevisionIdHyperEdge, IProperties<TKeyHyperEdge, TValueHyperEdge>>
+
+        where THyperEdgeExchange      : IGenericHyperEdge<TIdVertex,    TRevisionIdVertex,    IProperties<TKeyVertex,    TValueVertex>,
+                                                          TIdEdge,      TRevisionIdEdge,      IProperties<TKeyEdge,      TValueEdge>,
+                                                          TIdHyperEdge, TRevisionIdHyperEdge, IProperties<TKeyHyperEdge, TValueHyperEdge>>
 
     { }
 
