@@ -31,10 +31,28 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph
     /// <summary>
     /// An in-memory implementation of a property graph.
     /// </summary>
-    public class InMemoryPropertyGraph : InMemoryGenericPropertyGraph<VertexId,    RevisionId, String, Object, IDictionary<String, Object>,
+    public class InMemoryPropertyGraph : InMemoryGenericPropertyGraph<// Vertices
+                                                                      //IPropertyVertex<VertexId,    RevisionId, String, Object, IDictionary<String, Object>,
+                                                                      //                EdgeId,      RevisionId, String, Object, IDictionary<String, Object>,
+                                                                      //                HyperEdgeId, RevisionId, String, Object, IDictionary<String, Object>>,
+                                                                      IGenericVertex<VertexId,    RevisionId, IProperties<String, Object>,
+                                                                                     EdgeId,      RevisionId, IProperties<String, Object>,
+                                                                                     HyperEdgeId, RevisionId, IProperties<String, Object>>,
+
+                                                                      VertexId,    RevisionId, String, Object, IDictionary<String, Object>,
+
+                                                                      ICollection<IGenericEdge<VertexId,    RevisionId, IProperties<String, Object>,
+                                                                                               EdgeId,      RevisionId, IProperties<String, Object>,
+                                                                                               HyperEdgeId, RevisionId, IProperties<String, Object>>>,
+
+                                                                      // Edges
                                                                       EdgeId,      RevisionId, String, Object, IDictionary<String, Object>,
+
+                                                                      // Hyperedges
                                                                       HyperEdgeId, RevisionId, String, Object, IDictionary<String, Object>,
+
                                                                       Object>
+
     {
 
         #region Constructor(s)
@@ -45,9 +63,25 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph
         /// Created a new in-memory property graph.
         /// </summary>
         public InMemoryPropertyGraph()
-            : base("Id", "RevId", () => new Dictionary<String, Object>(),
+            : base ((myVertexId, myVertexPropertyInitializer) =>
+                        new PropertyVertex<VertexId,    RevisionId, String, Object, IDictionary<String, Object>,
+                                           EdgeId,      RevisionId, String, Object, IDictionary<String, Object>,
+                                           HyperEdgeId, RevisionId, String, Object, IDictionary<String, Object>,
+                                           ICollection<IGenericEdge<VertexId,    RevisionId, IProperties<String, Object>,
+                                                                    EdgeId,      RevisionId, IProperties<String, Object>,
+                                                                    HyperEdgeId, RevisionId, IProperties<String, Object>>>>    
+                            (myVertexId, "Id", "RevId",
+                             () => new Dictionary<String, Object>(),
+                             () => new HashSet<IGenericEdge<VertexId,    RevisionId, IProperties<String, Object>,
+                                                            EdgeId,      RevisionId, IProperties<String, Object>,
+                                                            HyperEdgeId, RevisionId, IProperties<String, Object>>>(),
+                             myVertexPropertyInitializer
+                            ),
+
+                   
                    "Id", "RevId", () => new Dictionary<String, Object>(),
                    "Id", "RevId", () => new Dictionary<String, Object>())
+
         { }
 
         #endregion

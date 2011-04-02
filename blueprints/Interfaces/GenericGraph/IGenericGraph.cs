@@ -48,10 +48,12 @@ namespace de.ahzf.blueprints
     /// <typeparam name="THyperEdgeData">The type of the additional hyperedge data.</typeparam>
     /// <typeparam name="TRevisionId">The type of the revision identifiers.</typeparam>
     /// <typeparam name="TGraphDatastructure">The datastructure to holding all vertices, edges and hyperedges.</typeparam>
-    public interface IGenericGraph<TVertex,    TVertexId,    TVertexRevisionId,    TVertexData,
+    public interface IGenericGraph<TVertex,    TVertexId,    TVertexRevisionId,    TVertexData, TVertexExchange,
                                    TEdge,      TEdgeId,      TEdgeRevisionId,      TEdgeData,
                                    THyperEdge, THyperEdgeId, THyperEdgeRevisionId, THyperEdgeData,
-                                   TGraphDatastructure> : IGenericGraph<TGraphDatastructure>
+                                   TGraphDatastructure>
+
+                         : IGenericGraph<TGraphDatastructure>
 
         where TVertex              : IGenericVertex   <TVertexId, TVertexRevisionId, TVertexData,  TEdgeId, TEdgeRevisionId, TEdgeData,  THyperEdgeId, THyperEdgeRevisionId, THyperEdgeData>
         where TEdge                : IGenericEdge     <TVertexId, TVertexRevisionId, TVertexData,  TEdgeId, TEdgeRevisionId, TEdgeData,  THyperEdgeId, THyperEdgeRevisionId, THyperEdgeData>
@@ -80,9 +82,9 @@ namespace de.ahzf.blueprints
         /// <param name="VertexId">The recommended object identifier.</param>
         /// <param name="VertexInitializer">A delegate to initialize the new vertex.</param>
         /// <returns>The newly created vertex or the vertex already referenced by the provided identifier.</returns>
-        TVertex AddVertex(TVertexId VertexId = default(TVertexId), Action<TVertexData> VertexInitializer = null);
+        TVertexExchange AddVertex(TVertexId VertexId = default(TVertexId), Action<TVertexData> VertexInitializer = null);
 
-        TVertex AddVertex(TVertex myVertexId);
+        TVertexExchange AddVertex(TVertexExchange myVertexId);
 
 
         /// <summary>
@@ -91,14 +93,14 @@ namespace de.ahzf.blueprints
         /// </summary>
         /// <param name="myVertexId">The identifier of the vertex.</param>
         /// <returns>The vertex referenced by the provided identifier or null when no such edge exists.</returns>
-        TVertex GetVertex(TVertexId myVertexId);
+        TVertexExchange GetVertex(TVertexId myVertexId);
 
 
         /// <summary>
         /// Return a collection of vertices referenced by the given array of vertex identifiers.
         /// </summary>
         /// <param name="myVertexIds">An array of vertex identifiers.</param>
-        IEnumerable<TVertex> GetVertices(params TVertexId[] myVertexIds);
+        IEnumerable<TVertexExchange> GetVertices(params TVertexId[] myVertexIds);
 
 
         /// <summary>
@@ -106,7 +108,7 @@ namespace de.ahzf.blueprints
         /// An additional vertex filter may be applied for filtering.
         /// </summary>
         /// <param name="myVertexFilter">A delegate for vertex filtering.</param>
-        IEnumerable<TVertex> GetVertices(Func<TVertex, Boolean> myVertexFilter = null);
+        IEnumerable<TVertexExchange> GetVertices(Func<TVertexExchange, Boolean> myVertexFilter = null);
 
 
         /// <summary>
@@ -114,7 +116,7 @@ namespace de.ahzf.blueprints
         /// Upon removing the vertex, all the edges by which the vertex is connected will be removed as well.
         /// </summary>
         /// <param name="myIVertex">The vertex to be removed from the graph</param>
-        void RemoveVertex(TVertex myIVertex);
+        void RemoveVertex(TVertexExchange myIVertex);
 
 
 
@@ -130,7 +132,7 @@ namespace de.ahzf.blueprints
         /// <param name="Label">The label associated with the edge.</param>
         /// <param name="EdgeInitializer">A delegate to initialize the new edge.</param>
         /// <returns>The newly created edge</returns>
-        TEdge AddEdge(TVertex myOutVertex, TVertex myInVertex, TEdgeId EdgeId = default(TEdgeId), String Label = null, Action<TEdgeData> EdgeInitializer = null);
+        TEdge AddEdge(TVertexExchange myOutVertex, TVertexExchange myInVertex, TEdgeId EdgeId = default(TEdgeId), String Label = null, Action<TEdgeData> EdgeInitializer = null);
 
 
         /// <summary>

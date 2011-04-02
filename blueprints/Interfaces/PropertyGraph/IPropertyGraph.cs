@@ -29,6 +29,11 @@ namespace de.ahzf.blueprints
     public interface IPropertyGraph : IPropertyGraph<VertexId,    RevisionId, String, Object, IDictionary<String, Object>,
                                                      EdgeId,      RevisionId, String, Object, IDictionary<String, Object>,
                                                      HyperEdgeId, RevisionId, String, Object, IDictionary<String, Object>,
+
+                                                     IGenericVertex<VertexId,    RevisionId, IProperties<String, Object>,
+                                                                    EdgeId,      RevisionId, IProperties<String, Object>,
+                                                                    HyperEdgeId, RevisionId, IProperties<String, Object>>,
+
                                                      Object>
     { }
 
@@ -38,15 +43,17 @@ namespace de.ahzf.blueprints
     public interface IPropertyGraph<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
                                     TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
                                     THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
+                                    TVertexExchange,
                                     TGraphDatastructure>
 
                      : IGenericGraph<   // Vertex definition
                                         IGenericVertex<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
                                                        TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
-                                                       THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>>,
+                                                       THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>>,                                        
                                         TVertexId,
                                         TVertexRevisionId,
                                         IProperties<TKeyVertex, TValueVertex>,
+                                        TVertexExchange,
 
                                         // Edge definition
                                         IGenericEdge<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
@@ -82,6 +89,10 @@ namespace de.ahzf.blueprints
         where TVertexRevisionId       : IEquatable<TVertexRevisionId>,    IComparable<TVertexRevisionId>,    IComparable, TValueVertex
         where TEdgeRevisionId         : IEquatable<TEdgeRevisionId>,      IComparable<TEdgeRevisionId>,      IComparable, TValueEdge
         where THyperEdgeRevisionId    : IEquatable<THyperEdgeRevisionId>, IComparable<THyperEdgeRevisionId>, IComparable, TValueHyperEdge
+
+        where TVertexExchange         : IGenericVertex<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
+                                                       TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
+                                                       THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>>
 
     { }
 

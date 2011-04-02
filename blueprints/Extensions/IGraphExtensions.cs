@@ -350,12 +350,12 @@ namespace de.ahzf.blueprints
         /// <param name="myLabel"></param>
         /// <param name="myEdgeInitializer">A delegate to initialize the newly generated edge.</param>
         /// <returns>Both new edges.</returns>
-        public static Tuple<TEdge, TEdge> AddDoubleEdge<TVertex,    TVertexId,    TVertexRevisionId,    TVertexData,
+        public static Tuple<TEdge, TEdge> AddDoubleEdge<TVertex,    TVertexId,    TVertexRevisionId,    TVertexData, TVertexExchange,
                                                         TEdge,      TEdgeId,      TEdgeRevisionId,      TEdgeData,
                                                         THyperEdge, THyperEdgeId, THyperEdgeRevisionId, THyperEdgeData,
                                                         TGraphDatastructure>(
 
-                                          this IGenericGraph<TVertex,    TVertexId,    TVertexRevisionId,    TVertexData,
+                                          this IGenericGraph<TVertex,    TVertexId,    TVertexRevisionId,    TVertexData, TVertexExchange,
                                                              TEdge,      TEdgeId,      TEdgeRevisionId,      TEdgeData,
                                                              THyperEdge, THyperEdgeId, THyperEdgeRevisionId, THyperEdgeData,
                                                              TGraphDatastructure> myIGenericGraph,

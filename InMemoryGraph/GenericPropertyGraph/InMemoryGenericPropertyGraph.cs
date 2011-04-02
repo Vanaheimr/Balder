@@ -26,19 +26,64 @@ using System.Collections.Concurrent;
 namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
 {
 
+    //#region InMemoryPropertyGraph<TId, TRevisionId>
+
+    ///// <summary>
+    ///// A generic in-memory implementation of a property graph
+    ///// which allow to change the types of the Id and RevisionId
+    ///// properties.
+    ///// </summary>
+    ///// <typeparam name="TId">The type of the Id property.</typeparam>
+    ///// <typeparam name="TRevisionId">The type of the TRevisionId property.</typeparam>
+    //public class InMemoryPropertyGraph<TId, TRevisionId> : InMemoryGenericPropertyGraph<TId, TRevisionId, String, Object, IDictionary<String, Object>,
+                                                                                        
+
+    //                                                                                    TId, TRevisionId, String, Object, IDictionary<String, Object>,
+    //                                                                                    TId, TRevisionId, String, Object, IDictionary<String, Object>,
+    //                                                                                    Object>
+
+    //    where TId         : IEquatable<TId>,         IComparable<TId>,         IComparable
+    //    where TRevisionId : IEquatable<TRevisionId>, IComparable<TRevisionId>, IComparable
+    //{
+
+    //    #region Constructor(s)
+
+    //    #region InMemoryPropertyGraph()
+
+    //    /// <summary>
+    //    /// Created a new in-memory property graph.
+    //    /// </summary>
+    //    public InMemoryPropertyGraph()
+    //        : base("Id", "RevId", () => new Dictionary<String, Object>(),
+    //               "Id", "RevId", () => new Dictionary<String, Object>(),
+    //               "Id", "RevId", () => new Dictionary<String, Object>())
+    //    { }
+
+    //    #endregion
+
+    //    #endregion
+
+    //}
+
+    //#endregion
+
+
+    
+
     #region InMemoryGenericPropertyGraph<...>
 
     /// <summary>
     /// An in-memory implementation of the IGraph interface.
     /// </summary>
-    public class InMemoryGenericPropertyGraph<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
+    public class InMemoryGenericPropertyGraph<TVertexExchange, TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex, TEdgeCollection,
                                               TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                              THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
+                                              THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,                                              
                                               TGraphDatastructure>
        
                                               : IPropertyGraph<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
                                                                TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
                                                                THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
+                                                               TVertexExchange,
                                                                TGraphDatastructure>
 
         where TDatastructureVertex    : IDictionary<TKeyVertex,    TValueVertex>
@@ -57,25 +102,27 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
         where TEdgeRevisionId         : IEquatable<TEdgeRevisionId>,      IComparable<TEdgeRevisionId>,      IComparable, TValueEdge
         where THyperEdgeRevisionId    : IEquatable<THyperEdgeRevisionId>, IComparable<THyperEdgeRevisionId>, IComparable, TValueHyperEdge
 
+        where TVertexExchange         : IGenericVertex<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
+                                                       TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
+                                                       THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>>
+
     {
 
         #region Data
 
-        private TKeyVertex                    _VertexIdKey;
+        //private TKeyVertex                    _VertexIdKey;
         private TKeyEdge                      _EdgeIdKey;
         private TKeyHyperEdge                 _HyperEdgeIdKey;
                                              
-        private TKeyVertex                    _VertexRevisionIdKey;
+        //private TKeyVertex                    _VertexRevisionIdKey;
         private TKeyEdge                      _EdgeRevisionIdKey;
         private TKeyHyperEdge                 _HyperEdgeRevisionIdKey;
 
-        private Func<TDatastructureVertex>    _VertexDatastructureInitializer;
+        //private Func<TDatastructureVertex>    _VertexDatastructureInitializer;
         private Func<TDatastructureEdge>      _EdgeDatastructureInitializer;
         private Func<TDatastructureHyperEdge> _HyperEdgeDatastructureInitializer;
 
-        private readonly IDictionary<TVertexId,    IGenericVertex   <TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
-                                                                     TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
-                                                                     THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>>>
+        private readonly IDictionary<TVertexId, TVertexExchange>
                                                                      _Vertices;
 
         private readonly IDictionary<TEdgeId,      IGenericEdge     <TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
@@ -87,6 +134,8 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
                                                                      TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
                                                                      THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>>>
                                                                      _HyperEdges;
+
+        private Func<TVertexId, Action<IProperties<TKeyVertex, TValueVertex>>, TVertexExchange> _VertexCreatorDelegate;
 
         //protected Map<String, TinkerIndex>          indices     = new HashMap<String, TinkerIndex>();
         //protected Map<String, TinkerAutomaticIndex> autoIndices = new HashMap<String, TinkerAutomaticIndex>();
@@ -100,26 +149,28 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
         /// <summary>
         /// Created a new in-memory graph.
         /// </summary>
-        public InMemoryGenericPropertyGraph(TKeyVertex    myVertexIdKey,    TKeyVertex    myVertexRevisionIdKey,    Func<TDatastructureVertex>    myVertexDatastructureInitializer,
+        public InMemoryGenericPropertyGraph(Func<TVertexId, Action<IProperties<TKeyVertex, TValueVertex>>, TVertexExchange>
+                                                 myVertexCreatorDelegate,
+
                                             TKeyEdge      myEdgeIdKey,      TKeyEdge      myEdgeRevisionIdKey,      Func<TDatastructureEdge>      myEdgeDatastructureInitializer,
                                             TKeyHyperEdge myHyperEdgeIdKey, TKeyHyperEdge myHyperEdgeRevisionIdKey, Func<TDatastructureHyperEdge> myHyperEdgeDatastructureInitializer)
         {
 
-            _VertexIdKey                       = myVertexIdKey;
+            //_VertexIdKey                       = myVertexIdKey;
             _EdgeIdKey                         = myEdgeIdKey;
             _HyperEdgeIdKey                    = myHyperEdgeIdKey;
                                                 
-            _VertexRevisionIdKey               = myVertexRevisionIdKey;
+            //_VertexRevisionIdKey               = myVertexRevisionIdKey;
             _EdgeRevisionIdKey                 = myEdgeRevisionIdKey;
             _HyperEdgeRevisionIdKey            = myHyperEdgeRevisionIdKey;
 
-            _VertexDatastructureInitializer    = myVertexDatastructureInitializer;
+            //_VertexDatastructureInitializer    = myVertexDatastructureInitializer;
             _EdgeDatastructureInitializer      = myEdgeDatastructureInitializer;
             _HyperEdgeDatastructureInitializer = myHyperEdgeDatastructureInitializer;
 
-            _Vertices   = new ConcurrentDictionary<TVertexId,    IGenericVertex   <TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
-                                                                                   TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
-                                                                                   THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>>>();
+            _VertexCreatorDelegate = myVertexCreatorDelegate;
+
+            _Vertices = new ConcurrentDictionary<TVertexId, TVertexExchange>();
 
             _Edges      = new ConcurrentDictionary<TEdgeId,      IGenericEdge     <TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
                                                                                    TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
@@ -141,51 +192,28 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
 
         #region Vertex methods
 
-        #region AddVertex(myVertexId = null, myVertexInitializer = null)
+        #region AddVertex(myVertexId = null, myVertexPropertyInitializer = null)
 
         /// <summary>
         /// Adds a vertex to the graph using the given VertexId and initializes
         /// its properties by invoking the given vertex initializer.
         /// </summary>
         /// <param name="myVertexId">A VertexId. If none was given a new one will be generated.</param>
-        /// <param name="myVertexInitializer">A delegate to initialize the newly generated vertex</param>
+        /// <param name="myVertexPropertyInitializer">A delegate to initialize the newly generated vertex</param>
         /// <returns>The new vertex</returns>
         
-        public IGenericVertex<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
-                              TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
-                              THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>>
-
-               AddVertex(TVertexId myVertexId = default(TVertexId),
-                         Action<IProperties<TKeyVertex, TValueVertex>> myVertexInitializer = null)
+        public TVertexExchange AddVertex(TVertexId myVertexId = default(TVertexId), Action<IProperties<TKeyVertex, TValueVertex>> myVertexPropertyInitializer = null)
 
         {
 
             if (myVertexId != null && _Vertices.ContainsKey(myVertexId))
                 throw new ArgumentException("Another vertex with id " + myVertexId + " already exists");
 
-            //if (myVertexId == null)
-            //    myVertexId = new VertexId(Guid.NewGuid().ToString());
-
-            var _Vertex = new PropertyVertex<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                             TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                             THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
-                                             
-                                             ICollection<IGenericEdge<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
-                                                                      TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
-                                                                      THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>>>>
-
-                                                                      (myVertexId, _VertexRevisionIdKey, _VertexIdKey, _VertexDatastructureInitializer,
-
-                                                                      () => new HashSet<IGenericEdge<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
-                                                                                                     TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
-                                                                                                     THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>>>(),
-                                                                      myVertexInitializer);
+            var _Vertex = _VertexCreatorDelegate(myVertexId, myVertexPropertyInitializer);
 
             _Vertices.Add(myVertexId, _Vertex);
 
-            return _Vertex as IGenericVertex<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
-                                             TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
-                                             THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>>;
+            return (TVertexExchange) _Vertex;
 
         }
 
@@ -199,14 +227,7 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
         /// </summary>
         /// <param name="myIVertex"></param>
         /// <returns>The new vertex</returns>
-        public IGenericVertex<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
-                              TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
-                              THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>>
-
-               AddVertex(IGenericVertex<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
-                                        TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
-                                        THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>>
-                                        myIVertex)
+        public TVertexExchange AddVertex(TVertexExchange myIVertex)
         {
 
             if (myIVertex == null)
@@ -234,16 +255,10 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
         /// </summary>
         /// <param name="myVertexId">The identifier of the vertex.</param>
         /// <returns>The vertex referenced by the provided identifier or null when no such edge exists.</returns>
-        public IGenericVertex<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
-                              TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
-                              THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>>
-               GetVertex(TVertexId myVertexId)
+        public TVertexExchange GetVertex(TVertexId myVertexId)
         {
 
-            IGenericVertex<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
-                           TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
-                           THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>>
-                           _IVertex;
+            TVertexExchange _IVertex;
 
             _Vertices.TryGetValue(myVertexId, out _IVertex);
 
@@ -260,15 +275,10 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
         /// An additional vertex filter may be applied for filtering.
         /// </summary>
         /// <param name="myVertexIds">An array of vertex identifiers.</param>
-        public IEnumerable<IGenericVertex<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
-                                          TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
-                                          THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>>>
-            GetVertices(params TVertexId[] myVertexIds)
+        public IEnumerable<TVertexExchange> GetVertices(params TVertexId[] myVertexIds)
         {
 
-            IGenericVertex<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
-                           TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
-                           THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>> _IVertex;
+            TVertexExchange _IVertex;
 
             foreach (var _IVertexId in myVertexIds)
                 if (_IVertexId != null)
@@ -288,14 +298,7 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
         /// An additional vertex filter may be applied for filtering.
         /// </summary>
         /// <param name="myVertexFilter">A delegate for vertex filtering.</param>
-        public IEnumerable<IGenericVertex<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
-                                          TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
-                                          THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>>>
-
-            GetVertices(Func<IGenericVertex<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
-                                            TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
-                                            THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>>,
-                                            Boolean> myVertexFilter = null)
+        public IEnumerable<TVertexExchange> GetVertices(Func<TVertexExchange, Boolean> myVertexFilter = null)
         {
 
             foreach (var _IVertex in _Vertices.Values)
@@ -328,10 +331,7 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
         ///  Remove the given vertex from the graph
         /// </summary>
         /// <param name="myIVertex">A vertex</param>
-        public void RemoveVertex(IGenericVertex<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
-                                                TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
-                                                THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>>
-                                                myIVertex)
+        public void RemoveVertex(TVertexExchange myIVertex)
         {
 
             lock (this)
@@ -382,14 +382,8 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
                             TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
                             THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>>
 
-            AddEdge(IGenericVertex<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
-                                   TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
-                                   THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>> myOutVertex,
-
-                    IGenericVertex<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
-                                   TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
-                                   THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>> myInVertex,
-
+            AddEdge(TVertexExchange myOutVertex,
+                    TVertexExchange myInVertex,
                     TEdgeId myEdgeId = default(TEdgeId),
                     String  myLabel  = null,
 
@@ -584,45 +578,6 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
         {
             Clear();
         }
-
-        #endregion
-
-    }
-
-    #endregion
-
-    #region InMemoryPropertyGraph<TId, TRevisionId>
-
-    /// <summary>
-    /// A generic in-memory implementation of a property graph
-    /// which allow to change the types of the Id and RevisionId
-    /// properties.
-    /// </summary>
-    /// <typeparam name="TId">The type of the Id property.</typeparam>
-    /// <typeparam name="TRevisionId">The type of the TRevisionId property.</typeparam>
-    public class InMemoryPropertyGraph<TId, TRevisionId> : InMemoryGenericPropertyGraph<TId, TRevisionId, String, Object, IDictionary<String, Object>,
-                                                                                        TId, TRevisionId, String, Object, IDictionary<String, Object>,
-                                                                                        TId, TRevisionId, String, Object, IDictionary<String, Object>,
-                                                                                        Object>
-
-        where TId         : IEquatable<TId>,         IComparable<TId>,         IComparable
-        where TRevisionId : IEquatable<TRevisionId>, IComparable<TRevisionId>, IComparable
-    {
-
-        #region Constructor(s)
-
-        #region InMemoryPropertyGraph()
-
-        /// <summary>
-        /// Created a new in-memory property graph.
-        /// </summary>
-        public InMemoryPropertyGraph()
-            : base("Id", "RevId", () => new Dictionary<String, Object>(),
-                   "Id", "RevId", () => new Dictionary<String, Object>(),
-                   "Id", "RevId", () => new Dictionary<String, Object>())
-        { }
-
-        #endregion
 
         #endregion
 

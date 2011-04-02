@@ -45,7 +45,7 @@ namespace de.ahzf.Pipes.UnitTests
             var lop    = _TinkerGraph.AddVertex(new PropertyVertex(new VertexId("3"), v => v.SetProperty("name", "lop").   SetProperty("lang", "java"))) as IPropertyVertex;
             var josh   = _TinkerGraph.AddVertex(new PropertyVertex(new VertexId("4"), v => v.SetProperty("name", "josh").  SetProperty("age",   32)))    as IPropertyVertex;
             var ripple = _TinkerGraph.AddVertex(new PropertyVertex(new VertexId("5"), v => v.SetProperty("name", "ripple").SetProperty("lang", "java"))) as IPropertyVertex;
-            var peter  = _TinkerGraph.AddVertex(new PropertyVertex(new VertexId("6"), v => v.SetProperty("name", "peter"). SetProperty("age",   35)))    as IPropertyVertex;
+            var peter  = _TinkerGraph.AddVertex(new VertexId("6"), v => v.SetProperty("name", "peter"). SetProperty("age",   35));
 
             marko.CollectionChanged += (o, p) => Console.WriteLine("CollChanged: " + p.Action + " - " + (p.NewItems as IList)[0] + "/" + (p.NewItems as IList)[1]);
             marko.PropertyChanged   += (o, p) => Console.WriteLine("PropChanging: " + p.PropertyName);
