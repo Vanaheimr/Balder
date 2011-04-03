@@ -391,8 +391,8 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
 
             // Check if myObject can be casted to an IPropertyHyperEdge object
             var myIPropertyHyperEdge = myObject as IPropertyEdge<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                                    TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                                    THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>;
+                                                                 TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
+                                                                 THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>;
             if ((Object) myIPropertyHyperEdge == null)
                 throw new ArgumentException("myObject is not of type IPropertyHyperEdge!");
 

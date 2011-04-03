@@ -499,8 +499,6 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
 
         #endregion
 
-
-
     }
 
 }

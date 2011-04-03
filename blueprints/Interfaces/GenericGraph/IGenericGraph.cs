@@ -55,9 +55,17 @@ namespace de.ahzf.blueprints
 
                          : IGenericGraph<TGraphDatastructure>
 
-        where TVertex              : IGenericVertex   <TIdVertex, TRevisionIdVertex, TVertexData,  TIdEdge, TRevisionIdEdge, TEdgeData,  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData>
-        where TEdge                : IGenericEdge     <TIdVertex, TRevisionIdVertex, TVertexData,  TIdEdge, TRevisionIdEdge, TEdgeData,  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData>
-        where THyperEdge           : IGenericHyperEdge<TIdVertex, TRevisionIdVertex, TVertexData,  TIdEdge, TRevisionIdEdge, TEdgeData,  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData>
+        where TVertex              : IGenericVertex   <TIdVertex,    TRevisionIdVertex,    TVertexData,
+                                                       TIdEdge,      TRevisionIdEdge,      TEdgeData, 
+                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData>
+
+        where TEdge                : IGenericEdge     <TIdVertex,    TRevisionIdVertex,    TVertexData,
+                                                       TIdEdge,      TRevisionIdEdge,      TEdgeData, 
+                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData>
+        
+        where THyperEdge           : IGenericHyperEdge<TIdVertex,    TRevisionIdVertex,    TVertexData,
+                                                       TIdEdge,      TRevisionIdEdge,      TEdgeData, 
+                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData>
 
         where TIdVertex            : IEquatable<TIdVertex>,            IComparable<TIdVertex>,            IComparable
         where TIdEdge              : IEquatable<TIdEdge>,              IComparable<TIdEdge>,              IComparable
@@ -67,8 +75,13 @@ namespace de.ahzf.blueprints
         where TRevisionIdEdge      : IEquatable<TRevisionIdEdge>,      IComparable<TRevisionIdEdge>,      IComparable
         where TRevisionIdHyperEdge : IEquatable<TRevisionIdHyperEdge>, IComparable<TRevisionIdHyperEdge>, IComparable
 
+        //where TVertexExchange      : IGenericVertex   <TIdVertex, TRevisionIdVertex, TVertexData,  TIdEdge, TRevisionIdEdge, TEdgeData,  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData>
+        //where TEdgeExchange        : IGenericEdge     <TIdVertex, TRevisionIdVertex, TVertexData,  TIdEdge, TRevisionIdEdge, TEdgeData,  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData>
+        //where THyperEdgeExchange   : IGenericHyperEdge<TIdVertex, TRevisionIdVertex, TVertexData,  TIdEdge, TRevisionIdEdge, TEdgeData,  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData>
+
     {
 
+        #region Vertex methods
 
         /// <summary>
         /// Create a new vertex, add it to the graph, and return the newly created vertex.
@@ -118,9 +131,9 @@ namespace de.ahzf.blueprints
         /// <param name="myIVertex">The vertex to be removed from the graph</param>
         void RemoveVertex(TVertexExchange myIVertex);
 
+        #endregion
 
-
-
+        #region Edge methods
 
         /// <summary>
         /// Add an edge to the graph. The added edges requires a recommended identifier, a tail vertex, an head vertex, and a label.
@@ -164,9 +177,9 @@ namespace de.ahzf.blueprints
         /// <param name="myIEdge">The edge to be removed from the graph</param>
         void RemoveEdge(TEdgeExchange myIEdge);
 
+        #endregion
 
-
-
+        #region Utils
 
         /// <summary>
         /// Remove all the edges and vertices from the graph.
@@ -180,6 +193,7 @@ namespace de.ahzf.blueprints
         /// </summary>
         void Shutdown();
 
+        #endregion
 
     }
 
