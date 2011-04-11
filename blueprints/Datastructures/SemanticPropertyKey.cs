@@ -41,6 +41,21 @@ namespace de.ahzf.blueprints.Datastructures
 
         #region Constructor(s)
 
+        #region SemanticPropertyKey(myKey, myDescription)
+
+        /// <summary>
+        /// Creates a new semantic property key.
+        /// </summary>
+        public SemanticPropertyKey(String myKey, String myDescription = null)
+        {
+            Namespace    = null;
+            Type         = null;
+            Key          = myKey;
+            Description  = myDescription;
+        }
+
+        #endregion
+
         #region SemanticPropertyKey(myNamespace, myType, myKey, myDescription)
 
         /// <summary>
