@@ -35,21 +35,23 @@ namespace de.ahzf.blueprints.Datastructures
         public Uri     Namespace    { get; private set; }
         public String  Type         { get; private set; }
         public String  Key          { get; private set; }
+        public String  Description  { get; private set; }
 
         #endregion
 
         #region Constructor(s)
 
-        #region SemanticPropertyKey(myType, myKey)
+        #region SemanticPropertyKey(myNamespace, myType, myKey, myDescription)
 
         /// <summary>
         /// Creates a new semantic property key.
         /// </summary>
-        public SemanticPropertyKey(Uri myNamespace, String myType, String myKey)
+        public SemanticPropertyKey(Uri myNamespace, String myType, String myKey, String myDescription = null)
         {
             Namespace    = myNamespace;
             Type         = myType;
             Key          = myKey;
+            Description  = myDescription;
         }
 
         #endregion

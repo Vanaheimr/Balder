@@ -164,22 +164,22 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
         /// <param name="myEdgeId">The identification of this edge.</param>
         /// <param name="myLabel">A label stored within this edge.</param>
         /// <param name="myEdgeInitializer">A delegate to initialize the newly created edge.</param>
-        internal protected PropertyEdge(IGenericVertex<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
-                                                       TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
-                                                       THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>>
-                                                       myOutVertex,
+        public PropertyEdge(IGenericVertex<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
+                                           TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
+                                           THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>>
+                                           myOutVertex,
 
-                                        IGenericVertex<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
-                                                       TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
-                                                       THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>>
-                                                       myInVertex,
+                            IGenericVertex<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
+                                           TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
+                                           THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>>
+                                           myInVertex,
 
-                                        TEdgeId                  myEdgeId,
-                                        String                   myLabel,
-                                        TKeyEdge                 myIdKey,
-                                        TKeyEdge                 myRevisonIdKey,
-                                        Func<TDatastructureEdge> myDataInitializer,
-                                        Action<IProperties<TKeyEdge, TValueEdge>> myEdgeInitializer = null)
+                            TEdgeId                  myEdgeId,
+                            String                   myLabel,
+                            TKeyEdge                 myIdKey,
+                            TKeyEdge                 myRevisonIdKey,
+                            Func<TDatastructureEdge> myDataInitializer,
+                            Action<IProperties<TKeyEdge, TValueEdge>> myEdgeInitializer = null)
             
             : base(myEdgeId, myIdKey, myRevisonIdKey, myDataInitializer, myEdgeInitializer)
 

@@ -163,24 +163,24 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
         /// <param name="myEdgeId">The identification of this edge.</param>
         /// <param name="myLabel">A label stored within this edge.</param>
         /// <param name="myEdgeInitializer">A delegate to initialize the newly created edge.</param>
-        internal protected PropertyHyperEdge(IGenericVertex<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
+        public PropertyHyperEdge(IGenericVertex<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
+                                                TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
+                                                THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>>
+                                                myOutVertex,
+
+                                 IEnumerable<IGenericVertex<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
                                                             TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
-                                                            THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>>
-                                                            myOutVertex,
+                                                            THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>>>
+                                                            myInVertices,
 
-                                             IEnumerable<IGenericVertex<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
-                                                                        TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
-                                                                        THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>>>
-                                                                        myInVertices,
+                                 THyperEdgeId                  myHyperEdgeId,
+                                 String                        myLabel,
+                                 TKeyHyperEdge                 myIdKey,
+                                 TKeyHyperEdge                 myRevisonIdKey,
+                                 Func<TDatastructureHyperEdge> myDataInitializer,
+                                 Func<TVerticesCollection>     myVertexCollectionInitializer,
 
-                                             THyperEdgeId                  myHyperEdgeId,
-                                             String                        myLabel,
-                                             TKeyHyperEdge                 myIdKey,
-                                             TKeyHyperEdge                 myRevisonIdKey,
-                                             Func<TDatastructureHyperEdge> myDataInitializer,
-                                             Func<TVerticesCollection>     myVertexCollectionInitializer,
-
-                                             Action<IProperties<TKeyHyperEdge, TValueHyperEdge>> myHyperEdgeInitializer = null)
+                                 Action<IProperties<TKeyHyperEdge, TValueHyperEdge>> myHyperEdgeInitializer = null)
 
             : base(myHyperEdgeId, myIdKey, myRevisonIdKey, myDataInitializer, myHyperEdgeInitializer)
 

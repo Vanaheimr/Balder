@@ -19,10 +19,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 
 using de.ahzf.blueprints.Datastructures;
 using de.ahzf.blueprints.InMemory.PropertyGraph.Generic;
-using System.Collections.Concurrent;
 
 #endregion
 
