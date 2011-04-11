@@ -353,6 +353,24 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
 
         #endregion
 
+        #region Vertices
+
+        /// <summary>
+        /// Get an enumeration of all vertices in the graph.
+        /// </summary>
+        public IEnumerable<TVertexExchange> Vertices
+        {
+
+            get
+            {
+                foreach (var _IVertex in _Vertices.Values)
+                    yield return _IVertex;
+            }
+
+        }
+
+        #endregion
+
         #region GetVertices(myVertexFilter = null)
 
         /// <summary>
@@ -503,6 +521,24 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
                     _Edges.TryGetValue(_IEdgeId, out _IEdge);
                     yield return _IEdge;
                 }
+
+        }
+
+        #endregion
+
+        #region Edges
+
+        /// <summary>
+        /// Get an enumeration of all edges in the graph.
+        /// </summary>
+        public IEnumerable<TEdgeExchange> Edges
+        {
+
+            get
+            {
+                foreach (var _IEdge in _Edges.Values)
+                    yield return _IEdge;
+            }
 
         }
 

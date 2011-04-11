@@ -411,7 +411,6 @@ namespace de.ahzf.blueprints
 
         #endregion
 
-
 //        //#region GetEdge<TEdge>(this myIGenericGraph, myEdgeId)
 
 //        ///// <summary>

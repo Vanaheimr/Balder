@@ -125,6 +125,12 @@ namespace de.ahzf.blueprints
 
 
         /// <summary>
+        /// Get an enumeration of all vertices in the graph.
+        /// </summary>
+        IEnumerable<TVertexExchange> Vertices { get; }
+
+
+        /// <summary>
         /// Remove the provided vertex from the graph.
         /// Upon removing the vertex, all the edges by which the vertex is connected will be removed as well.
         /// </summary>
@@ -156,12 +162,20 @@ namespace de.ahzf.blueprints
         /// <returns>The edge referenced by the provided identifier or null when no such edge exists.</returns>
         TEdgeExchange GetEdge(TIdEdge myEdgeId);
 
+
+        /// <summary>
+        /// Get an enumeration of all edges in the graph.
+        /// </summary>
+        IEnumerable<TEdgeExchange> Edges { get; }
+
+
         /// <summary>
         /// Get an enumeration of all edges in the graph.
         /// An additional edge filter may be applied for filtering.
         /// </summary>
         /// <param name="myEdgeIds">An array of edge identifiers.</param>
         IEnumerable<TEdgeExchange> GetEdges(params TIdEdge[] myEdgeIds);
+
 
         /// <summary>
         /// Get an enumeration of all edges in the graph.
