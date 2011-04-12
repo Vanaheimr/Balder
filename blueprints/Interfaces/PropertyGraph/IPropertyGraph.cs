@@ -44,9 +44,9 @@ namespace de.ahzf.blueprints
     /// <summary>
     /// A generic property graph.
     /// </summary>
-    public interface IPropertyGraph<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                    TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                    TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
+    public interface IPropertyGraph<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                                    TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                    TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>
 
         where TIdVertex               : IEquatable<TIdVertex>,            IComparable<TIdVertex>,            IComparable, TValueVertex
         where TIdEdge                 : IEquatable<TIdEdge>,              IComparable<TIdEdge>,              IComparable, TValueEdge
@@ -59,22 +59,6 @@ namespace de.ahzf.blueprints
         where TKeyVertex              : IEquatable<TKeyVertex>,           IComparable<TKeyVertex>,           IComparable
         where TKeyEdge                : IEquatable<TKeyEdge>,             IComparable<TKeyEdge>,             IComparable
         where TKeyHyperEdge           : IEquatable<TKeyHyperEdge>,        IComparable<TKeyHyperEdge>,        IComparable
-
-        where TDatastructureVertex    : IDictionary<TKeyVertex,    TValueVertex>
-        where TDatastructureEdge      : IDictionary<TKeyEdge,      TValueEdge>
-        where TDatastructureHyperEdge : IDictionary<TKeyHyperEdge, TValueHyperEdge>
-
-        //where TVertex                 : IPropertyVertex   <TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
-        //                                                   TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
-        //                                                   TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>
-
-        //where TEdge                   : IPropertyEdge     <TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
-        //                                                   TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
-        //                                                   TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>
-
-        //where THyperEdge              : IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
-        //                                                   TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
-        //                                                   TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>
 
     {
 
@@ -230,5 +214,31 @@ namespace de.ahzf.blueprints
     }
 
     #endregion
+
+    public interface IPropertyGraph<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
+                                    TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
+                                    TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
+
+        : IPropertyGraph<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                         TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                         TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>
+
+        where TIdVertex               : IEquatable<TIdVertex>,            IComparable<TIdVertex>,            IComparable, TValueVertex
+        where TIdEdge                 : IEquatable<TIdEdge>,              IComparable<TIdEdge>,              IComparable, TValueEdge
+        where TIdHyperEdge            : IEquatable<TIdHyperEdge>,         IComparable<TIdHyperEdge>,         IComparable, TValueHyperEdge
+
+        where TRevisionIdVertex       : IEquatable<TRevisionIdVertex>,    IComparable<TRevisionIdVertex>,    IComparable, TValueVertex
+        where TRevisionIdEdge         : IEquatable<TRevisionIdEdge>,      IComparable<TRevisionIdEdge>,      IComparable, TValueEdge
+        where TRevisionIdHyperEdge    : IEquatable<TRevisionIdHyperEdge>, IComparable<TRevisionIdHyperEdge>, IComparable, TValueHyperEdge
+
+        where TKeyVertex              : IEquatable<TKeyVertex>,           IComparable<TKeyVertex>,           IComparable
+        where TKeyEdge                : IEquatable<TKeyEdge>,             IComparable<TKeyEdge>,             IComparable
+        where TKeyHyperEdge           : IEquatable<TKeyHyperEdge>,        IComparable<TKeyHyperEdge>,        IComparable
+
+        where TDatastructureVertex    : IDictionary<TKeyVertex,    TValueVertex>
+        where TDatastructureEdge      : IDictionary<TKeyEdge,      TValueEdge>
+        where TDatastructureHyperEdge : IDictionary<TKeyHyperEdge, TValueHyperEdge>
+
+    { }
 
 }

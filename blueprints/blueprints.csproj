@@ -57,6 +57,7 @@
     <Compile Include="Datastructures\RevisionId.cs" />
     <Compile Include="Datastructures\UniqueTimestamp.cs" />
     <Compile Include="Datastructures\EdgeId.cs" />
+    <Compile Include="Extensions\IPropertyGraphExtensions.cs" />
     <Compile Include="Extensions\IPropertyElementExtensions.cs" />
     <Compile Include="Extensions\IGraphExtensions.cs" />
     <Compile Include="Extensions\IPropertiesExtensions.cs" />
