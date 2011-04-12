@@ -34,7 +34,6 @@ namespace de.ahzf.blueprints
     /// <typeparam name="TRevisionId">The type of the revision identifiers.</typeparam>
     /// <typeparam name="TKey">The type of the property keys.</typeparam>
     /// <typeparam name="TValue">The type of the property values.</typeparam>
-    /// <typeparam name="TDatastructure">The type of the datastructure to maintain the key/value pairs.</typeparam>
     public interface IPropertyElement<TId, TRevisionId, TKey, TValue>
                         : IIdentifier<TId>,
                           IRevisionId<TRevisionId>,
@@ -42,7 +41,6 @@ namespace de.ahzf.blueprints
                           IEquatable <IPropertyElement<TId, TRevisionId, TKey, TValue>>,
                           IComparable<IPropertyElement<TId, TRevisionId, TKey, TValue>>,
                           IComparable
-                          
 
         where TId            : IEquatable<TId>,         IComparable<TId>,         IComparable, TValue
         where TRevisionId    : IEquatable<TRevisionId>, IComparable<TRevisionId>, IComparable, TValue
@@ -72,23 +70,13 @@ namespace de.ahzf.blueprints
     public interface IPropertyElement<TId, TRevisionId, TKey, TValue, TDatastructure>
                         : IPropertyElement<TId, TRevisionId, TKey, TValue>,
                           IPropertyNotifications
-                          //IEquatable <IPropertyElement<TId, TRevisionId, TKey, TValue, TDatastructure>>,
-                          //IComparable<IPropertyElement<TId, TRevisionId, TKey, TValue, TDatastructure>>,
-                          //IComparable
 
         where TId            : IEquatable<TId>,         IComparable<TId>,         IComparable, TValue
         where TRevisionId    : IEquatable<TRevisionId>, IComparable<TRevisionId>, IComparable, TValue
         where TKey           : IEquatable<TKey>,        IComparable<TKey>,        IComparable
         where TDatastructure : IDictionary<TKey, TValue>
 
-    {
-
-        ///// <summary>
-        ///// Return the element properties (its embedded data).
-        ///// </summary>
-        //IProperties<TKey, TValue, TDatastructure> Properties { get; }
-
-    }
+    { }
 
     #endregion
 

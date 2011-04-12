@@ -215,13 +215,18 @@ namespace de.ahzf.blueprints
 
     #endregion
 
+    #region IPropertyGraph<..., TDatastructureXXX>
+
+    /// <summary>
+    /// Generic property graph helper interface.
+    /// </summary>
     public interface IPropertyGraph<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
                                     TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
                                     TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
 
-        : IPropertyGraph<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
-                         TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
-                         TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>
+                                    : IPropertyGraph<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                                                     TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                                     TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>
 
         where TIdVertex               : IEquatable<TIdVertex>,            IComparable<TIdVertex>,            IComparable, TValueVertex
         where TIdEdge                 : IEquatable<TIdEdge>,              IComparable<TIdEdge>,              IComparable, TValueEdge
@@ -240,5 +245,7 @@ namespace de.ahzf.blueprints
         where TDatastructureHyperEdge : IDictionary<TKeyHyperEdge, TValueHyperEdge>
 
     { }
+
+    #endregion
 
 }
