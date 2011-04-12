@@ -28,8 +28,18 @@ using System.Collections.Specialized;
 namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
 {
 
+    /// <summary>
+    /// A property element is the base class for all property graph elements
+    /// (vertices, edges, hyperedges).
+    /// </summary>
+    /// <typeparam name="TId">The graph element identification.</typeparam>
+    /// <typeparam name="TRevisionId">The graph element revision identification.</typeparam>
+    /// <typeparam name="TKey">The type of the graph element property keys.</typeparam>
+    /// <typeparam name="TValue">The type of the graph element property values.</typeparam>
+    /// <typeparam name="TDatastructure">A datastructure for storing all properties.</typeparam>
     public abstract class APropertyElement<TId, TRevisionId, TKey, TValue, TDatastructure>
-        
+                              : IProperties<TKey, TValue>
+
         where TKey           : IEquatable<TKey>,        IComparable<TKey>,        IComparable
         where TId            : IEquatable<TId>,         IComparable<TId>,         IComparable, TValue
         where TRevisionId    : IEquatable<TRevisionId>, IComparable<TRevisionId>, IComparable, TValue
@@ -39,20 +49,29 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
 
         #region Data
 
+        /// <summary>
+        /// The property key for storing the Id.
+        /// </summary>
         protected readonly TKey _IdKey;
+
+        /// <summary>
+        /// The property key for storing the RevisionId.
+        /// </summary>
         protected readonly TKey _RevisonIdKey;
 
         #endregion
 
-        #region Properties
 
         #region Id
 
+        /// <summary>
+        /// The Identification of this property graph element.
+        /// </summary>
         public TId Id
         {
             get
             {
-                return (TId) Data.GetProperty(_IdKey);
+                return (TId) _Data.GetProperty(_IdKey);
             }
         }
 
@@ -60,11 +79,14 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
 
         #region RevisionId
 
+        /// <summary>
+        /// The revision identification of this property graph element.
+        /// </summary>
         public TRevisionId RevisionId
         {
             get
             {
-                return (TRevisionId) Data.GetProperty(_RevisonIdKey);
+                return (TRevisionId) _Data.GetProperty(_RevisonIdKey);
             }
         }
 
@@ -96,7 +118,111 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
 
         #endregion
 
+
+        #region SetProperty(myKey, myValue)
+
+        /// <summary>
+        /// Set a property.
+        /// </summary>
+        /// <param name="myKey">The property key.</param>
+        /// <param name="myValue">The property value.</param>
+        public IProperties<TKey, TValue> SetProperty(TKey myKey, TValue myValue)
+        {
+            return _Data.SetProperty(myKey, myValue);
+        }
+
         #endregion
+
+        #region GetProperty(myKey)
+
+        /// <summary>
+        /// Returns the value stored using the given property key.
+        /// </summary>
+        /// <param name="myKey">The property key.</param>
+        public TValue GetProperty(TKey myKey)
+        {
+            return _Data.GetProperty(myKey);
+        }
+
+        #endregion
+
+        #region TryGetProperty(myKey, out myValue)
+
+        /// <summary>
+        /// Tries to get the value of the given property key.
+        /// </summary>
+        /// <param name="myKey">The property key.</param>
+        /// <param name="myValue">The property value.</param>
+        /// <returns>True of success; else false.</returns>
+        public Boolean TryGetProperty(TKey myKey, out TValue myValue)
+        {
+            return _Data.TryGetProperty(myKey, out myValue);
+        }
+
+        #endregion
+
+        #region GetProperties(myPropertyFilter = null)
+
+        /// <summary>
+        /// Return an enumeration of all key-value pairs stored.
+        /// </summary>
+        /// <param name="myPropertyFilter">An optional property filter.</param>
+        public IEnumerable<KeyValuePair<TKey, TValue>> GetProperties(Func<TKey, TValue, Boolean> myPropertyFilter = null)
+        {
+            return _Data.GetProperties(myPropertyFilter);
+        }
+
+        #endregion
+
+        #region RemoveProperty(myKey)
+
+        /// <summary>
+        /// Remove the given property key.
+        /// </summary>
+        /// <param name="myKey">The property key.</param>
+        /// <returns>The last value stored before removing it.</returns>
+        public TValue RemoveProperty(TKey myKey)
+        {
+            return _Data.RemoveProperty(myKey);
+        }
+
+        #endregion
+
+        #region PropertyKeys
+
+        /// <summary>
+        /// An enumeration of all property keys.
+        /// </summary>
+        public IEnumerable<TKey> PropertyKeys
+        {
+            get
+            {
+                return _Data.PropertyKeys;
+            }
+        }
+
+        #endregion
+
+        #region GetEnumerator()
+
+        /// <summary>
+        /// An enumerator of all key-value pairs stored.
+        /// </summary>
+        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
+        {
+            return _Data.GetEnumerator();
+        }
+
+        /// <summary>
+        /// An enumerator of all key-value pairs stored.
+        /// </summary>
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return _Data.GetEnumerator();
+        }
+
+        #endregion
+
 
         #region Events
 

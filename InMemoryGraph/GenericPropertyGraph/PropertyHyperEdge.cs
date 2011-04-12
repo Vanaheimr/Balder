@@ -45,13 +45,6 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
                                                                 TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
                                                                 TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>>
 
-        where TDatastructureVertex    : IDictionary<TKeyVertex,    TValueVertex>
-        where TDatastructureEdge      : IDictionary<TKeyEdge,      TValueEdge>
-        where TDatastructureHyperEdge : IDictionary<TKeyHyperEdge, TValueHyperEdge>
-
-        where TKeyVertex              : IEquatable<TKeyVertex>,           IComparable<TKeyVertex>,           IComparable
-        where TKeyEdge                : IEquatable<TKeyEdge>,             IComparable<TKeyEdge>,             IComparable
-        where TKeyHyperEdge           : IEquatable<TKeyHyperEdge>,        IComparable<TKeyHyperEdge>,        IComparable
                                                                                                             
         where TIdVertex               : IEquatable<TIdVertex>,            IComparable<TIdVertex>,            IComparable, TValueVertex
         where TIdEdge                 : IEquatable<TIdEdge>,              IComparable<TIdEdge>,              IComparable, TValueEdge
@@ -61,63 +54,15 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
         where TRevisionIdEdge         : IEquatable<TRevisionIdEdge>,      IComparable<TRevisionIdEdge>,      IComparable, TValueEdge
         where TRevisionIdHyperEdge    : IEquatable<TRevisionIdHyperEdge>, IComparable<TRevisionIdHyperEdge>, IComparable, TValueHyperEdge
 
+        where TKeyVertex              : IEquatable<TKeyVertex>,           IComparable<TKeyVertex>,           IComparable
+        where TKeyEdge                : IEquatable<TKeyEdge>,             IComparable<TKeyEdge>,             IComparable
+        where TKeyHyperEdge           : IEquatable<TKeyHyperEdge>,        IComparable<TKeyHyperEdge>,        IComparable
+
+        where TDatastructureVertex    : IDictionary<TKeyVertex,    TValueVertex>
+        where TDatastructureEdge      : IDictionary<TKeyEdge,      TValueEdge>
+        where TDatastructureHyperEdge : IDictionary<TKeyHyperEdge, TValueHyperEdge>
+
     {
-
-        #region Properties
-
-        // Edge properties
-
-        // Links to the associated vertices
-
-        #region OutVertex
-
-        /// <summary>
-        /// The vertex at the tail of this edge.
-        /// </summary>
-        protected readonly IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
-                                           TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
-                                           TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>
-                                           _OutVertex;
-
-        /// <summary>
-        /// The vertex at the tail of this edge.
-        /// </summary>
-        public IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
-                               TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
-                               TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>
-                               OutVertex
-        {
-            get
-            {
-                return _OutVertex;
-            }
-        }
-
-        #endregion
-
-        #region InVertices
-
-        /// <summary>
-        /// The vertex at the head of this edge.
-        /// </summary>
-        protected readonly TVerticesCollection _InVertices;
-
-        /// <summary>
-        /// The vertex at the head of this edge.
-        /// </summary>
-        public IEnumerable<IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
-                                           TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
-                                           TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>> InVertices
-        {
-            get
-            {
-                return _InVertices;
-            }
-        }
-
-        #endregion
-
-        #endregion
 
         #region Constructor(s)
 
@@ -175,6 +120,56 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
         #endregion
 
         #endregion
+
+
+        #region OutVertex
+
+        /// <summary>
+        /// The vertex at the tail of this edge.
+        /// </summary>
+        protected readonly IPropertyVertex<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex,
+                                           TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge,
+                                           TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>
+                                           _OutVertex;
+
+        /// <summary>
+        /// The vertex at the tail of this edge.
+        /// </summary>
+        public IPropertyVertex<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex,
+                               TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge,
+                               TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>
+                               OutVertex
+        {
+            get
+            {
+                return _OutVertex;
+            }
+        }
+
+        #endregion
+
+        #region InVertices
+
+        /// <summary>
+        /// The vertex at the head of this edge.
+        /// </summary>
+        protected readonly TVerticesCollection _InVertices;
+
+        /// <summary>
+        /// The vertex at the head of this edge.
+        /// </summary>
+        public IEnumerable<IPropertyVertex<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex,
+                                           TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge,
+                                           TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>> InVertices
+        {
+            get
+            {
+                return _InVertices;
+            }
+        }
+
+        #endregion
+
 
         #region Operator overloading
 
@@ -473,6 +468,19 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
         }
 
         #endregion
+
+        #endregion
+
+        #region GetHashCode()
+
+        /// <summary>
+        /// Return the HashCode of this object.
+        /// </summary>
+        /// <returns>The HashCode of this object.</returns>
+        public override Int32 GetHashCode()
+        {
+            return base.GetHashCode();
+        }
 
         #endregion
 

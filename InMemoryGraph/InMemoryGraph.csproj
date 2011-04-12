@@ -45,7 +45,6 @@
     <Compile Include="GenericPropertyGraph\APropertyElement.cs" />
     <Compile Include="Properties.cs" />
     <Compile Include="PropertyGraph\DynamicGraphObject.cs" />
-    <Compile Include="PropertyGraph\IDynamicGraphObject.cs" />
     <Compile Include="PropertyGraph\PropertyHyperEdge.cs" />
     <Compile Include="PropertyGraph\InMemoryPropertyGraph.cs" />
     <Compile Include="GenericPropertyGraph\PropertyHyperEdge.cs" />

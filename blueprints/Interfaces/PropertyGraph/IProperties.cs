@@ -36,7 +36,6 @@ namespace de.ahzf.blueprints
     /// </summary>
     /// <typeparam name="TKey">The type of the property keys.</typeparam>
     /// <typeparam name="TValue">The type of the property values.</typeparam>
-    /// <typeparam name="TDatastructure">The type of the datastructure to maintain the key/value pairs.</typeparam>
     public interface IProperties<TKey, TValue>
                         : IEnumerable<KeyValuePair<TKey, TValue>>,
                           INotifyCollectionChanged,
@@ -59,6 +58,7 @@ namespace de.ahzf.blueprints
 
         #endregion
 
+        #region Set and get properties
 
         /// <summary>
         /// Assign a key/value property to the element.
@@ -106,6 +106,8 @@ namespace de.ahzf.blueprints
         /// Return all property keys.
         /// </summary>
         IEnumerable<TKey> PropertyKeys { get; }
+
+        #endregion
 
     }
 

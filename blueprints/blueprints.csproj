@@ -63,6 +63,7 @@
     <Compile Include="Extensions\IPropertiesExtensions.cs" />
     <Compile Include="Interfaces\GenericGraph\IGenericElement.cs" />
     <Compile Include="Interfaces\IRevisionId.cs" />
+    <Compile Include="Interfaces\PropertyGraph\IDynamicGraphObject.cs" />
     <Compile Include="Interfaces\PropertyGraph\IPropertyNotifications.cs" />
     <Compile Include="Interfaces\PropertyGraph\IPropertyElement.cs" />
     <Compile Include="Interfaces\PropertyGraph\IPropertyHyperEdge.cs" />

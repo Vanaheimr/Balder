@@ -35,12 +35,13 @@ namespace de.ahzf.blueprints
     /// <typeparam name="TKey">The type of the property keys.</typeparam>
     /// <typeparam name="TValue">The type of the property values.</typeparam>
     public interface IPropertyElement<TId, TRevisionId, TKey, TValue>
-                        : IIdentifier<TId>,
-                          IRevisionId<TRevisionId>,
-                          IPropertyNotifications,
-                          IEquatable <IPropertyElement<TId, TRevisionId, TKey, TValue>>,
-                          IComparable<IPropertyElement<TId, TRevisionId, TKey, TValue>>,
-                          IComparable
+                                      : IIdentifier<TId>,
+                                        IRevisionId<TRevisionId>,
+                                        IProperties<TKey, TValue>,
+                                        IPropertyNotifications,
+                                        IEquatable <IPropertyElement<TId, TRevisionId, TKey, TValue>>,
+                                        IComparable<IPropertyElement<TId, TRevisionId, TKey, TValue>>,
+                                        IComparable
 
         where TId            : IEquatable<TId>,         IComparable<TId>,         IComparable, TValue
         where TRevisionId    : IEquatable<TRevisionId>, IComparable<TRevisionId>, IComparable, TValue
@@ -68,8 +69,7 @@ namespace de.ahzf.blueprints
     /// <typeparam name="TValue">The type of the property values.</typeparam>
     /// <typeparam name="TDatastructure">The type of the datastructure to maintain the key/value pairs.</typeparam>
     public interface IPropertyElement<TId, TRevisionId, TKey, TValue, TDatastructure>
-                        : IPropertyElement<TId, TRevisionId, TKey, TValue>,
-                          IPropertyNotifications
+                                      : IPropertyElement<TId, TRevisionId, TKey, TValue>
 
         where TId            : IEquatable<TId>,         IComparable<TId>,         IComparable, TValue
         where TRevisionId    : IEquatable<TRevisionId>, IComparable<TRevisionId>, IComparable, TValue

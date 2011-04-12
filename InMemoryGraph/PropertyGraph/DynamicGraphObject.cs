@@ -157,5 +157,4 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph
 
     }
 
-
 }

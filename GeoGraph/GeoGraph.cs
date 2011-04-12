@@ -34,20 +34,17 @@ namespace de.ahzf.blueprints.GeoGraph
     /// Diagrammatically, ---inEdges---> vertex ---outEdges--->.
     /// </summary>
     public class GeoGraph : IGenericGraph<// Vertex definition
-                                          VertexId,
-                                          RevisionId,
+                                          VertexId, RevisionId,
                                           GeoCoordinate,
                                           IGeoVertex,
                                          
                                           // Edge definition
-                                          EdgeId,
-                                          RevisionId,
+                                          EdgeId, RevisionId,
                                           Distance,
                                           IGeoEdge,
                                          
                                           // Hyperedge definition
-                                          HyperEdgeId,
-                                          RevisionId,
+                                          HyperEdgeId, RevisionId,
                                           Distance,
                                           IGenericHyperEdge<VertexId,    RevisionId, GeoCoordinate,
                                                             EdgeId,      RevisionId, Distance,
