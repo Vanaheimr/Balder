@@ -36,10 +36,13 @@ namespace de.ahzf.blueprints
     /// <typeparam name="TValue">The type of the property values.</typeparam>
     /// <typeparam name="TDatastructure">The type of the datastructure to maintain the key/value pairs.</typeparam>
     public interface IPropertyElement<TId, TRevisionId, TKey, TValue>
-                        : IPropertyNotifications,
+                        : IIdentifier<TId>,
+                          IRevisionId<TRevisionId>,
+                          IPropertyNotifications,
                           IEquatable <IPropertyElement<TId, TRevisionId, TKey, TValue>>,
                           IComparable<IPropertyElement<TId, TRevisionId, TKey, TValue>>,
                           IComparable
+                          
 
         where TId            : IEquatable<TId>,         IComparable<TId>,         IComparable, TValue
         where TRevisionId    : IEquatable<TRevisionId>, IComparable<TRevisionId>, IComparable, TValue

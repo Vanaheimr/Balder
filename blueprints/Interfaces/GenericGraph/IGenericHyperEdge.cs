@@ -48,39 +48,39 @@ namespace de.ahzf.blueprints
     /// Diagrammatically, outVertex ---label---> inVertex1.
     ///                                      \--> inVertex2.
     /// </summary>
-    /// <typeparam name="THyperEdgeId">The type of the hyperedge identifier.</typeparam>
+    /// <typeparam name="TIdHyperEdge">The type of the hyperedge identifier.</typeparam>
     /// <typeparam name="THyperEdgeData">The type of the additional data to be stored within an hyperedge.</typeparam>
-    public interface IGenericHyperEdge<TVertexId,    TVertexRevisionId,    TVertexData,
-                                       TEdgeId,      TEdgeRevisionId,      TEdgeData,
-                                       THyperEdgeId, THyperEdgeRevisionId, THyperEdgeData>
+    public interface IGenericHyperEdge<TIdVertex,    TRevisionIdVertex,    TVertexData,
+                                       TIdEdge,      TRevisionIdEdge,      TEdgeData,
+                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData>
 
-                                       : IGenericElement<THyperEdgeId, THyperEdgeRevisionId, THyperEdgeData>,
+                                       : IGenericElement<TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData>,
                                          IGenericHyperEdge
 
-        where TVertexId            : IEquatable<TVertexId>,            IComparable<TVertexId>,            IComparable
-        where TEdgeId              : IEquatable<TEdgeId>,              IComparable<TEdgeId>,              IComparable
-        where THyperEdgeId         : IEquatable<THyperEdgeId>,         IComparable<THyperEdgeId>,         IComparable
+        where TIdVertex            : IEquatable<TIdVertex>,            IComparable<TIdVertex>,            IComparable
+        where TIdEdge              : IEquatable<TIdEdge>,              IComparable<TIdEdge>,              IComparable
+        where TIdHyperEdge         : IEquatable<TIdHyperEdge>,         IComparable<TIdHyperEdge>,         IComparable
 
-        where TVertexRevisionId    : IEquatable<TVertexRevisionId>,    IComparable<TVertexRevisionId>,    IComparable
-        where TEdgeRevisionId      : IEquatable<TEdgeRevisionId>,      IComparable<TEdgeRevisionId>,      IComparable
-        where THyperEdgeRevisionId : IEquatable<THyperEdgeRevisionId>, IComparable<THyperEdgeRevisionId>, IComparable
+        where TRevisionIdVertex    : IEquatable<TRevisionIdVertex>,    IComparable<TRevisionIdVertex>,    IComparable
+        where TRevisionIdEdge      : IEquatable<TRevisionIdEdge>,      IComparable<TRevisionIdEdge>,      IComparable
+        where TRevisionIdHyperEdge : IEquatable<TRevisionIdHyperEdge>, IComparable<TRevisionIdHyperEdge>, IComparable
 
     {
 
         /// <summary>
         /// Return the vertex at the tail of the hyperedge.
         /// </summary>
-        IGenericVertex<TVertexId,    TVertexRevisionId,    TVertexData,
-                       TEdgeId,      TEdgeRevisionId,      TEdgeData,
-                       THyperEdgeId, THyperEdgeRevisionId, THyperEdgeData> OutVertex { get; }
+        IGenericVertex<TIdVertex,    TRevisionIdVertex,    TVertexData,
+                       TIdEdge,      TRevisionIdEdge,      TEdgeData,
+                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData> OutVertex { get; }
 
 
         /// <summary>
         /// Return the vertices at the head of the hyperedge.
         /// </summary>
-        IEnumerable<IGenericVertex<TVertexId,    TVertexRevisionId,    TVertexData,
-                                   TEdgeId,      TEdgeRevisionId,      TEdgeData,
-                                   THyperEdgeId, THyperEdgeRevisionId, THyperEdgeData>> InVertices { get; }
+        IEnumerable<IGenericVertex<TIdVertex,    TRevisionIdVertex,    TVertexData,
+                                   TIdEdge,      TRevisionIdEdge,      TEdgeData,
+                                   TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData>> InVertices { get; }
 
     }
 

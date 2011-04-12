@@ -45,34 +45,30 @@ namespace de.ahzf.blueprints
     /// <typeparam name="TKey">The type of the property keys.</typeparam>
     /// <typeparam name="TValue">The type of the property values.</typeparam>
     /// <typeparam name="TDatastructure">The type of the datastructure to maintain the key/value pairs.</typeparam>
-    /// <typeparam name="TVertexId">The type of the vertex identifiers.</typeparam>
+    /// <typeparam name="TIdVertex">The type of the vertex identifiers.</typeparam>
     /// <typeparam name="TVertexData">The type of the additional vertex data.</typeparam>
-    /// <typeparam name="TEdgeId">The type of the edge identifiers.</typeparam>
+    /// <typeparam name="TIdEdge">The type of the edge identifiers.</typeparam>
     /// <typeparam name="TEdgeData">The type of the additional edge data.</typeparam>
-    /// <typeparam name="THyperEdgeId">The type of the hyperedge identifiers.</typeparam>
+    /// <typeparam name="TIdHyperEdge">The type of the hyperedge identifiers.</typeparam>
     /// <typeparam name="THyperEdgeData">The type of the additional hyperedge data.</typeparam>
     /// <typeparam name="TRevisionId">The type of the revision identifiers.</typeparam>
-    public interface IPropertyHyperEdge<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,
-                                        TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,
-                                        THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge>
+    public interface IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                                        TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                        TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>
 
-                                        : IPropertyElement<THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge>,
-
-                                          IGenericHyperEdge<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
-                                                            TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
-                                                            THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>>
+                                        : IPropertyElement<TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>
 
         where TKeyVertex              : IEquatable<TKeyVertex>,           IComparable<TKeyVertex>,           IComparable
         where TKeyEdge                : IEquatable<TKeyEdge>,             IComparable<TKeyEdge>,             IComparable
         where TKeyHyperEdge           : IEquatable<TKeyHyperEdge>,        IComparable<TKeyHyperEdge>,        IComparable
 
-        where TVertexId               : IEquatable<TVertexId>,            IComparable<TVertexId>,            IComparable, TValueVertex
-        where TEdgeId                 : IEquatable<TEdgeId>,              IComparable<TEdgeId>,              IComparable, TValueEdge
-        where THyperEdgeId            : IEquatable<THyperEdgeId>,         IComparable<THyperEdgeId>,         IComparable, TValueHyperEdge
+        where TIdVertex               : IEquatable<TIdVertex>,            IComparable<TIdVertex>,            IComparable, TValueVertex
+        where TIdEdge                 : IEquatable<TIdEdge>,              IComparable<TIdEdge>,              IComparable, TValueEdge
+        where TIdHyperEdge            : IEquatable<TIdHyperEdge>,         IComparable<TIdHyperEdge>,         IComparable, TValueHyperEdge
 
-        where TVertexRevisionId       : IEquatable<TVertexRevisionId>,    IComparable<TVertexRevisionId>,    IComparable, TValueVertex
-        where TEdgeRevisionId         : IEquatable<TEdgeRevisionId>,      IComparable<TEdgeRevisionId>,      IComparable, TValueEdge
-        where THyperEdgeRevisionId    : IEquatable<THyperEdgeRevisionId>, IComparable<THyperEdgeRevisionId>, IComparable, TValueHyperEdge
+        where TRevisionIdVertex       : IEquatable<TRevisionIdVertex>,    IComparable<TRevisionIdVertex>,    IComparable, TValueVertex
+        where TRevisionIdEdge         : IEquatable<TRevisionIdEdge>,      IComparable<TRevisionIdEdge>,      IComparable, TValueEdge
+        where TRevisionIdHyperEdge    : IEquatable<TRevisionIdHyperEdge>, IComparable<TRevisionIdHyperEdge>, IComparable, TValueHyperEdge
 
     { }
 
@@ -90,22 +86,22 @@ namespace de.ahzf.blueprints
     /// <typeparam name="TKey">The type of the property keys.</typeparam>
     /// <typeparam name="TValue">The type of the property values.</typeparam>
     /// <typeparam name="TDatastructure">The type of the datastructure to maintain the key/value pairs.</typeparam>
-    /// <typeparam name="TVertexId">The type of the vertex identifiers.</typeparam>
+    /// <typeparam name="TIdVertex">The type of the vertex identifiers.</typeparam>
     /// <typeparam name="TVertexData">The type of the additional vertex data.</typeparam>
-    /// <typeparam name="TEdgeId">The type of the edge identifiers.</typeparam>
+    /// <typeparam name="TIdEdge">The type of the edge identifiers.</typeparam>
     /// <typeparam name="TEdgeData">The type of the additional edge data.</typeparam>
-    /// <typeparam name="THyperEdgeId">The type of the hyperedge identifiers.</typeparam>
+    /// <typeparam name="TIdHyperEdge">The type of the hyperedge identifiers.</typeparam>
     /// <typeparam name="THyperEdgeData">The type of the additional hyperedge data.</typeparam>
     /// <typeparam name="TRevisionId">The type of the revision identifiers.</typeparam>
-    public interface IPropertyHyperEdge<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                        TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                        THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
+    public interface IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
+                                        TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
+                                        TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
 
-                                        : IPropertyHyperEdge<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,
-                                                             TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,
-                                                             THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge>,
+                                        : IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                                                             TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                                             TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>,
         
-                                          IPropertyElement<THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
+                                          IPropertyElement<TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
 
         where TDatastructureVertex    : IDictionary<TKeyVertex,    TValueVertex>
         where TDatastructureEdge      : IDictionary<TKeyEdge,      TValueEdge>
@@ -115,13 +111,13 @@ namespace de.ahzf.blueprints
         where TKeyEdge                : IEquatable<TKeyEdge>,             IComparable<TKeyEdge>,             IComparable
         where TKeyHyperEdge           : IEquatable<TKeyHyperEdge>,        IComparable<TKeyHyperEdge>,        IComparable
 
-        where TVertexId               : IEquatable<TVertexId>,            IComparable<TVertexId>,            IComparable, TValueVertex
-        where TEdgeId                 : IEquatable<TEdgeId>,              IComparable<TEdgeId>,              IComparable, TValueEdge
-        where THyperEdgeId            : IEquatable<THyperEdgeId>,         IComparable<THyperEdgeId>,         IComparable, TValueHyperEdge
+        where TIdVertex               : IEquatable<TIdVertex>,            IComparable<TIdVertex>,            IComparable, TValueVertex
+        where TIdEdge                 : IEquatable<TIdEdge>,              IComparable<TIdEdge>,              IComparable, TValueEdge
+        where TIdHyperEdge            : IEquatable<TIdHyperEdge>,         IComparable<TIdHyperEdge>,         IComparable, TValueHyperEdge
 
-        where TVertexRevisionId       : IEquatable<TVertexRevisionId>,    IComparable<TVertexRevisionId>,    IComparable, TValueVertex
-        where TEdgeRevisionId         : IEquatable<TEdgeRevisionId>,      IComparable<TEdgeRevisionId>,      IComparable, TValueEdge
-        where THyperEdgeRevisionId    : IEquatable<THyperEdgeRevisionId>, IComparable<THyperEdgeRevisionId>, IComparable, TValueHyperEdge
+        where TRevisionIdVertex       : IEquatable<TRevisionIdVertex>,    IComparable<TRevisionIdVertex>,    IComparable, TValueVertex
+        where TRevisionIdEdge         : IEquatable<TRevisionIdEdge>,      IComparable<TRevisionIdEdge>,      IComparable, TValueEdge
+        where TRevisionIdHyperEdge    : IEquatable<TRevisionIdHyperEdge>, IComparable<TRevisionIdHyperEdge>, IComparable, TValueHyperEdge
 
     { }
 

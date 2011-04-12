@@ -36,21 +36,21 @@ namespace de.ahzf.blueprints
     /// The incoming edges are those edges for which the vertex is the head.
     /// Diagrammatically, ---inEdges---> vertex ---outEdges--->.
     /// </summary>
-    /// <typeparam name="TVertexId">The type of the vertex identifier.</typeparam>
-    public interface IGenericVertex<TVertexId,    TVertexRevisionId,    TVertexData,
-                                    TEdgeId,      TEdgeRevisionId,      TEdgeData,
-                                    THyperEdgeId, THyperEdgeRevisionId, THyperEdgeData>
+    /// <typeparam name="TIdVertex">The type of the vertex identifier.</typeparam>
+    public interface IGenericVertex<TIdVertex,    TRevisionIdVertex,    TVertexData,
+                                    TIdEdge,      TRevisionIdEdge,      TEdgeData,
+                                    TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData>
 
-                                    : IGenericElement<TVertexId, TVertexRevisionId, TVertexData>,
+                                    : IGenericElement<TIdVertex, TRevisionIdVertex, TVertexData>,
                                       IGenericVertex
 
-        where TVertexId            : IEquatable<TVertexId>,            IComparable<TVertexId>,            IComparable
-        where TEdgeId              : IEquatable<TEdgeId>,              IComparable<TEdgeId>,              IComparable
-        where THyperEdgeId         : IEquatable<THyperEdgeId>,         IComparable<THyperEdgeId>,         IComparable
+        where TIdVertex            : IEquatable<TIdVertex>,            IComparable<TIdVertex>,            IComparable
+        where TIdEdge              : IEquatable<TIdEdge>,              IComparable<TIdEdge>,              IComparable
+        where TIdHyperEdge         : IEquatable<TIdHyperEdge>,         IComparable<TIdHyperEdge>,         IComparable
 
-        where TVertexRevisionId    : IEquatable<TVertexRevisionId>,    IComparable<TVertexRevisionId>,    IComparable
-        where TEdgeRevisionId      : IEquatable<TEdgeRevisionId>,      IComparable<TEdgeRevisionId>,      IComparable
-        where THyperEdgeRevisionId : IEquatable<THyperEdgeRevisionId>, IComparable<THyperEdgeRevisionId>, IComparable
+        where TRevisionIdVertex    : IEquatable<TRevisionIdVertex>,    IComparable<TRevisionIdVertex>,    IComparable
+        where TRevisionIdEdge      : IEquatable<TRevisionIdEdge>,      IComparable<TRevisionIdEdge>,      IComparable
+        where TRevisionIdHyperEdge : IEquatable<TRevisionIdHyperEdge>, IComparable<TRevisionIdHyperEdge>, IComparable
 
     {
 
@@ -60,32 +60,32 @@ namespace de.ahzf.blueprints
         /// Add an outgoing edge.
         /// </summary>
         /// <param name="myIEdge">The edge to add.</param>
-        void AddOutEdge(IGenericEdge<TVertexId,    TVertexRevisionId,    TVertexData,
-                                     TEdgeId,      TEdgeRevisionId,      TEdgeData,
-                                     THyperEdgeId, THyperEdgeRevisionId, THyperEdgeData> myIEdge);
+        void AddOutEdge(IGenericEdge<TIdVertex,    TRevisionIdVertex,    TVertexData,
+                                     TIdEdge,      TRevisionIdEdge,      TEdgeData,
+                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData> myIEdge);
 
         /// <summary>
         /// The edges emanating from, or leaving, this vertex.
         /// </summary>
-        IEnumerable<IGenericEdge<TVertexId,    TVertexRevisionId,    TVertexData,
-                                 TEdgeId,      TEdgeRevisionId,      TEdgeData,
-                                 THyperEdgeId, THyperEdgeRevisionId, THyperEdgeData>> OutEdges { get; }
+        IEnumerable<IGenericEdge<TIdVertex,    TRevisionIdVertex,    TVertexData,
+                                 TIdEdge,      TRevisionIdEdge,      TEdgeData,
+                                 TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData>> OutEdges { get; }
 
         /// <summary>
         /// The edges emanating from, or leaving, this vertex
         /// filtered by their label.
         /// </summary>
-        IEnumerable<IGenericEdge<TVertexId,    TVertexRevisionId,    TVertexData,
-                                 TEdgeId,      TEdgeRevisionId,      TEdgeData,
-                                 THyperEdgeId, THyperEdgeRevisionId, THyperEdgeData>> GetOutEdges(String myLabel);
+        IEnumerable<IGenericEdge<TIdVertex,    TRevisionIdVertex,    TVertexData,
+                                 TIdEdge,      TRevisionIdEdge,      TEdgeData,
+                                 TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData>> GetOutEdges(String myLabel);
 
         /// <summary>
         /// Remove an outgoing edge.
         /// </summary>
         /// <param name="myIEdge">The edge to remove.</param>
-        void RemoveOutEdge(IGenericEdge<TVertexId,    TVertexRevisionId,    TVertexData,
-                                        TEdgeId,      TEdgeRevisionId,      TEdgeData,
-                                        THyperEdgeId, THyperEdgeRevisionId, THyperEdgeData> myIEdge);
+        void RemoveOutEdge(IGenericEdge<TIdVertex,    TRevisionIdVertex,    TVertexData,
+                                        TIdEdge,      TRevisionIdEdge,      TEdgeData,
+                                        TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData> myIEdge);
 
         #endregion
 
@@ -95,32 +95,32 @@ namespace de.ahzf.blueprints
         /// Add an incoming edge.
         /// </summary>
         /// <param name="myIEdge">The edge to add.</param>
-        void AddInEdge(IGenericEdge<TVertexId,    TVertexRevisionId,    TVertexData,
-                                    TEdgeId,      TEdgeRevisionId,      TEdgeData,
-                                    THyperEdgeId, THyperEdgeRevisionId, THyperEdgeData> myIEdge);
+        void AddInEdge(IGenericEdge<TIdVertex,    TRevisionIdVertex,    TVertexData,
+                                    TIdEdge,      TRevisionIdEdge,      TEdgeData,
+                                    TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData> myIEdge);
 
         /// <summary>
         /// The edges incoming to, or arriving at, this vertex.
         /// </summary>
-        IEnumerable<IGenericEdge<TVertexId,    TVertexRevisionId,    TVertexData,
-                                 TEdgeId,      TEdgeRevisionId,      TEdgeData,
-                                 THyperEdgeId, THyperEdgeRevisionId, THyperEdgeData>> InEdges { get; }
+        IEnumerable<IGenericEdge<TIdVertex,    TRevisionIdVertex,    TVertexData,
+                                 TIdEdge,      TRevisionIdEdge,      TEdgeData,
+                                 TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData>> InEdges { get; }
 
         /// <summary>
         /// The edges incoming to, or arriving at, this vertex
         /// filtered by their label.
         /// </summary>
-        IEnumerable<IGenericEdge<TVertexId,    TVertexRevisionId,    TVertexData,
-                                 TEdgeId,      TEdgeRevisionId,      TEdgeData,
-                                 THyperEdgeId, THyperEdgeRevisionId, THyperEdgeData>> GetInEdges(String myLabel);
+        IEnumerable<IGenericEdge<TIdVertex,    TRevisionIdVertex,    TVertexData,
+                                 TIdEdge,      TRevisionIdEdge,      TEdgeData,
+                                 TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData>> GetInEdges(String myLabel);
 
         /// <summary>
         /// Remove an incoming edge.
         /// </summary>
         /// <param name="myIEdge">The edge to remove.</param>
-        void RemoveInEdge(IGenericEdge<TVertexId,    TVertexRevisionId,    TVertexData,
-                                       TEdgeId,      TEdgeRevisionId,      TEdgeData,
-                                       THyperEdgeId, THyperEdgeRevisionId, THyperEdgeData> myIEdge);
+        void RemoveInEdge(IGenericEdge<TIdVertex,    TRevisionIdVertex,    TVertexData,
+                                       TIdEdge,      TRevisionIdEdge,      TEdgeData,
+                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData> myIEdge);
 
         #endregion
 

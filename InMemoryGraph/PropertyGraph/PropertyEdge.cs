@@ -57,15 +57,15 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph
         /// <param name="myEdgeId">The identification of this edge.</param>
         /// <param name="myLabel">A label stored within this edge.</param>
         /// <param name="myEdgeInitializer">A delegate to initialize the newly created edge.</param>
-        internal protected PropertyEdge(IGenericVertex<VertexId,    RevisionId, IProperties<String, Object>,
-                                                       EdgeId,      RevisionId, IProperties<String, Object>,
-                                                       HyperEdgeId, RevisionId, IProperties<String, Object>>
-                                                       myOutVertex,
+        internal protected PropertyEdge(IPropertyVertex<VertexId,    RevisionId, String, Object,
+                                                        EdgeId,      RevisionId, String, Object,
+                                                        HyperEdgeId, RevisionId, String, Object>
+                                                        myOutVertex,
 
-                                        IGenericVertex<VertexId,    RevisionId, IProperties<String, Object>,
-                                                       EdgeId,      RevisionId, IProperties<String, Object>,
-                                                       HyperEdgeId, RevisionId, IProperties<String, Object>>
-                                                       myInVertex,
+                                        IPropertyVertex<VertexId,    RevisionId, String, Object,
+                                                        EdgeId,      RevisionId, String, Object,
+                                                        HyperEdgeId, RevisionId, String, Object>
+                                                        myInVertex,
 
                                         EdgeId myEdgeId,
                                         String myLabel,

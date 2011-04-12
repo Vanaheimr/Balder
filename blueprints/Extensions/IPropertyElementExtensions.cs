@@ -201,7 +201,7 @@ namespace de.ahzf.blueprints
         ///// <param name="myIPropertyElement">An object implementing IPropertyElement.</param>
         ///// <param name="myKey">The property key.</param>
         ///// <returns>true|false</returns>
-        //public static Boolean HasProperty<TVertexId, TVertexRevisionId, TKeyVertex, TValueVertex, TEdgeId, TEdgeRevisionId, TKeyEdge, TValueEdge, THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge>(this IPropertyElement<TVertexId, TVertexRevisionId, TKeyVertex, TValueVertex, TEdgeId, TEdgeRevisionId, TKeyEdge, TValueEdge, THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge> myIPropertyElement, TKey myKey)
+        //public static Boolean HasProperty<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex, TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge, TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>(this IPropertyElement<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex, TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge, TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge> myIPropertyElement, TKey myKey)
         //    where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
         //    where TDatastructure : IDictionary<TKey, TValue>
         //{
@@ -229,7 +229,7 @@ namespace de.ahzf.blueprints
         ///// <param name="myKey">The property key.</param>
         ///// <param name="myValue">The property value.</param>
         ///// <returns>true|false</returns>
-        //public static Boolean HasProperty<TVertexId, TVertexRevisionId, TKeyVertex, TValueVertex, TEdgeId, TEdgeRevisionId, TKeyEdge, TValueEdge, THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge>(this IPropertyElement<TVertexId, TVertexRevisionId, TKeyVertex, TValueVertex, TEdgeId, TEdgeRevisionId, TKeyEdge, TValueEdge, THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge> myIPropertyElement, TKey myKey, Object myValue)
+        //public static Boolean HasProperty<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex, TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge, TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>(this IPropertyElement<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex, TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge, TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge> myIPropertyElement, TKey myKey, Object myValue)
         //    where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
         //    where TDatastructure : IDictionary<TKey, TValue>
         //{
@@ -251,7 +251,7 @@ namespace de.ahzf.blueprints
         ///// <param name="myKey">The property key.</param>
         ///// <param name="myValue">The property value.</param>
         ///// <returns>true|false</returns>
-        //public static Boolean HasProperty<TVertexId, TVertexRevisionId, TKeyVertex, TValueVertex, TEdgeId, TEdgeRevisionId, TKeyEdge, TValueEdge, THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge>(this IPropertyElement<TVertexId, TVertexRevisionId, TKeyVertex, TValueVertex, TEdgeId, TEdgeRevisionId, TKeyEdge, TValueEdge, THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge> myIPropertyElement, TKey myKey, TValue myValue)
+        //public static Boolean HasProperty<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex, TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge, TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>(this IPropertyElement<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex, TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge, TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge> myIPropertyElement, TKey myKey, TValue myValue)
         //    where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
         //    where TDatastructure : IDictionary<TKey, TValue>
         //{
@@ -271,7 +271,7 @@ namespace de.ahzf.blueprints
         ///// <param name="myIPropertyElement">An object implementing IPropertyElement.</param>
         ///// <param name="myPropertyFilter">A delegate for property filtering.</param>
         ///// <returns>true|false</returns>
-        //public static Boolean HasProperty<TVertexId, TVertexRevisionId, TKeyVertex, TValueVertex, TEdgeId, TEdgeRevisionId, TKeyEdge, TValueEdge, THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge>(this IPropertyElement<TVertexId, TVertexRevisionId, TKeyVertex, TValueVertex, TEdgeId, TEdgeRevisionId, TKeyEdge, TValueEdge, THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge> myIPropertyElement, Func<TKey, TValue, Boolean> myPropertyFilter = null)
+        //public static Boolean HasProperty<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex, TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge, TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>(this IPropertyElement<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex, TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge, TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge> myIPropertyElement, Func<TKey, TValue, Boolean> myPropertyFilter = null)
         //    where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
         //    where TDatastructure : IDictionary<TKey, TValue>
         //{
@@ -289,7 +289,7 @@ namespace de.ahzf.blueprints
         /////// <param name="myIPropertyElement">An object implementing IPropertyElement.</param>
         /////// <param name="myPropertyFilter">A delegate for property filtering.</param>
         /////// <returns>true|false</returns>
-        ////public static Boolean HasProperty<TVertexId, TVertexRevisionId, TKeyVertex, TValueVertex, TEdgeId, TEdgeRevisionId, TKeyEdge, TValueEdge, THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge>(this IPropertyElement<TVertexId, TVertexRevisionId, TKeyVertex, TValueVertex, TEdgeId, TEdgeRevisionId, TKeyEdge, TValueEdge, THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge> myIPropertyElement, Func<TKey, TValue, Boolean> myPropertyFilter = null)
+        ////public static Boolean HasProperty<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex, TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge, TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>(this IPropertyElement<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex, TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge, TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge> myIPropertyElement, Func<TKey, TValue, Boolean> myPropertyFilter = null)
         ////    where TKey           : IEquatable<TKey>, IComparable<TKey>, IComparable
         ////    where TDatastructure : IDictionary<TKey, TValue>
         ////{
@@ -363,7 +363,7 @@ namespace de.ahzf.blueprints
 
         #endregion
 
-        //#region GetProperties<TVertexId, TVertexRevisionId, TKeyVertex, TValueVertex, TEdgeId, TEdgeRevisionId, TKeyEdge, TValueEdge, THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge>(this myIPropertyElement, myPropertyFilter = null)
+        //#region GetProperties<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex, TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge, TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>(this myIPropertyElement, myPropertyFilter = null)
 
         ///// <summary>
         ///// Get an enumeration of all properties as KeyValuePairs.
@@ -373,7 +373,7 @@ namespace de.ahzf.blueprints
         ///// <param name="myIPropertyElement">An object implementing IPropertyElement.</param>
         ///// <param name="myPropertyFilter">A delegate for property filtering.</param>
         ///// <returns>An enumeration of all selected properties.</returns>
-        //public static IEnumerable<KeyValuePair<TKey, TValue>> GetProperties<TVertexId, TVertexRevisionId, TKeyVertex, TValueVertex, TEdgeId, TEdgeRevisionId, TKeyEdge, TValueEdge, THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge>(this IPropertyElement<TVertexId, TVertexRevisionId, TKeyVertex, TValueVertex, TEdgeId, TEdgeRevisionId, TKeyEdge, TValueEdge, THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge> myIPropertyElement, Func<TKey, TValue, Boolean> myPropertyFilter = null)
+        //public static IEnumerable<KeyValuePair<TKey, TValue>> GetProperties<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex, TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge, TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>(this IPropertyElement<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex, TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge, TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge> myIPropertyElement, Func<TKey, TValue, Boolean> myPropertyFilter = null)
         //    where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
         //    where TDatastructure : IDictionary<TKey, TValue>
         //{
@@ -404,7 +404,7 @@ namespace de.ahzf.blueprints
 
         //#endregion
 
-        //#region GetPropertyValues<TVertexId, TVertexRevisionId, TKeyVertex, TValueVertex, TEdgeId, TEdgeRevisionId, TKeyEdge, TValueEdge, THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge>(this myIPropertyElement, myPropertyFilter = null)
+        //#region GetPropertyValues<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex, TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge, TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>(this myIPropertyElement, myPropertyFilter = null)
 
         ///// <summary>
         ///// Get an enumeration of all property values.
@@ -413,7 +413,7 @@ namespace de.ahzf.blueprints
         ///// <param name="myIPropertyElement">An object implementing IPropertyElement.</param>
         ///// <param name="myPropertyFilter">A delegate for property filtering.</param>
         ///// <returns>An enumeration of all selected property values.</returns>
-        //public static IEnumerable<TValue> GetPropertyValues<TVertexId, TVertexRevisionId, TKeyVertex, TValueVertex, TEdgeId, TEdgeRevisionId, TKeyEdge, TValueEdge, THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge>(this IPropertyElement<TVertexId, TVertexRevisionId, TKeyVertex, TValueVertex, TEdgeId, TEdgeRevisionId, TKeyEdge, TValueEdge, THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge> myIPropertyElement, Func<TKey, TValue, Boolean> myPropertyFilter = null)
+        //public static IEnumerable<TValue> GetPropertyValues<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex, TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge, TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>(this IPropertyElement<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex, TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge, TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge> myIPropertyElement, Func<TKey, TValue, Boolean> myPropertyFilter = null)
         //    where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
         //    where TDatastructure : IDictionary<TKey, TValue>
         //{
@@ -432,7 +432,7 @@ namespace de.ahzf.blueprints
         ///// <param name="myIPropertyElement">An object implementing IPropertyElement.</param>
         ///// <param name="myPropertyFilter">A delegate for property filtering.</param>
         ///// <returns>An enumeration of all selected property values.</returns>
-        //public static IEnumerable<TCast> GetPropertyValues<TKey, TValue, TDatastructure, TCast>(this IPropertyElement<TVertexId, TVertexRevisionId, TKeyVertex, TValueVertex, TEdgeId, TEdgeRevisionId, TKeyEdge, TValueEdge, THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge> myIPropertyElement, Func<TKey, TValue, Boolean> myPropertyFilter = null)
+        //public static IEnumerable<TCast> GetPropertyValues<TKey, TValue, TDatastructure, TCast>(this IPropertyElement<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex, TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge, TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge> myIPropertyElement, Func<TKey, TValue, Boolean> myPropertyFilter = null)
         //    where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
         //    where TDatastructure : IDictionary<TKey, TValue>
         ////where TCast          : TValue
@@ -473,7 +473,7 @@ namespace de.ahzf.blueprints
         ///// <param name="myIProperties1">A vertex or edge</param>
         ///// <param name="myIProperties2">Another vertex or edge</param>
         ///// <returns>true if both IElement objects carry the same properties</returns>
-        //public static Boolean CompareProperties<TVertexId, TVertexRevisionId, TKeyVertex, TValueVertex, TEdgeId, TEdgeRevisionId, TKeyEdge, TValueEdge, THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge>(this IPropertyElement<TVertexId, TVertexRevisionId, TKeyVertex, TValueVertex, TEdgeId, TEdgeRevisionId, TKeyEdge, TValueEdge, THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge> myIPropertyElement1, IProperties<TKey, TValue, TDatastructure> myIProperties2)
+        //public static Boolean CompareProperties<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex, TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge, TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>(this IPropertyElement<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex, TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge, TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge> myIPropertyElement1, IProperties<TKey, TValue, TDatastructure> myIProperties2)
         //    where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
         //    where TDatastructure : IDictionary<TKey, TValue>
         //{

@@ -33,14 +33,14 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
     /// The incoming edges are those edges for which the vertex is the head.
     /// Diagrammatically, ---inEdges---> vertex ---outEdges--->.
     /// </summary>
-    public class PropertyEdge<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                              TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                              THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
+    public class PropertyEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
+                              TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
+                              TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
         
-                              : APropertyElement<TEdgeId, TEdgeRevisionId, TKeyEdge, TValueEdge, TDatastructureEdge>,
-                                IPropertyEdge<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                              TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                              THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
+                              : APropertyElement<TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge, TDatastructureEdge>,
+                                IPropertyEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
+                                              TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
+                                              TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
         
         where TDatastructureVertex    : IDictionary<TKeyVertex,    TValueVertex>
         where TDatastructureEdge      : IDictionary<TKeyEdge,      TValueEdge>
@@ -50,13 +50,13 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
         where TKeyEdge                : IEquatable<TKeyEdge>,             IComparable<TKeyEdge>,             IComparable
         where TKeyHyperEdge           : IEquatable<TKeyHyperEdge>,        IComparable<TKeyHyperEdge>,        IComparable
                                                                                                             
-        where TVertexId               : IEquatable<TVertexId>,            IComparable<TVertexId>,            IComparable, TValueVertex
-        where TEdgeId                 : IEquatable<TEdgeId>,              IComparable<TEdgeId>,              IComparable, TValueEdge
-        where THyperEdgeId            : IEquatable<THyperEdgeId>,         IComparable<THyperEdgeId>,         IComparable, TValueHyperEdge
+        where TIdVertex               : IEquatable<TIdVertex>,            IComparable<TIdVertex>,            IComparable, TValueVertex
+        where TIdEdge                 : IEquatable<TIdEdge>,              IComparable<TIdEdge>,              IComparable, TValueEdge
+        where TIdHyperEdge            : IEquatable<TIdHyperEdge>,         IComparable<TIdHyperEdge>,         IComparable, TValueHyperEdge
 
-        where TVertexRevisionId       : IEquatable<TVertexRevisionId>,    IComparable<TVertexRevisionId>,    IComparable, TValueVertex
-        where TEdgeRevisionId         : IEquatable<TEdgeRevisionId>,      IComparable<TEdgeRevisionId>,      IComparable, TValueEdge
-        where THyperEdgeRevisionId    : IEquatable<THyperEdgeRevisionId>, IComparable<THyperEdgeRevisionId>, IComparable, TValueHyperEdge
+        where TRevisionIdVertex       : IEquatable<TRevisionIdVertex>,    IComparable<TRevisionIdVertex>,    IComparable, TValueVertex
+        where TRevisionIdEdge         : IEquatable<TRevisionIdEdge>,      IComparable<TRevisionIdEdge>,      IComparable, TValueEdge
+        where TRevisionIdHyperEdge    : IEquatable<TRevisionIdHyperEdge>, IComparable<TRevisionIdHyperEdge>, IComparable, TValueHyperEdge
 
     {
 
@@ -102,18 +102,18 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
         /// <summary>
         /// The vertex at the tail of this edge.
         /// </summary>
-        protected readonly IGenericVertex<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
-                                          TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
-                                          THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>>
-                                          _OutVertex;
+        protected readonly IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                                           TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                           TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>
+                                           _OutVertex;
 
         /// <summary>
         /// The vertex at the tail of this edge.
         /// </summary>
-        public IGenericVertex<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
-                              TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
-                              THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>>
-                              OutVertex
+        public IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                               TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                               TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>
+                               OutVertex
         {
             get
             {
@@ -128,18 +128,18 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
         /// <summary>
         /// The vertex at the head of this edge.
         /// </summary>
-        protected readonly IGenericVertex<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
-                                          TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
-                                          THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>>
-                                          _InVertex;
+        protected readonly IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                                           TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                           TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>
+                                           _InVertex;
 
         /// <summary>
         /// The vertex at the head of this edge.
         /// </summary>
-        public IGenericVertex<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
-                              TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
-                              THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>>
-                              InVertex
+        public IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                               TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                               TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>
+                               InVertex
         {
             get
             {
@@ -164,17 +164,17 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
         /// <param name="myEdgeId">The identification of this edge.</param>
         /// <param name="myLabel">A label stored within this edge.</param>
         /// <param name="myEdgeInitializer">A delegate to initialize the newly created edge.</param>
-        public PropertyEdge(IGenericVertex<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
-                                           TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
-                                           THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>>
-                                           myOutVertex,
+        public PropertyEdge(IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                                            TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                            TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>
+                                            myOutVertex,
 
-                            IGenericVertex<TVertexId,    TVertexRevisionId,    IProperties<TKeyVertex,    TValueVertex>,
-                                           TEdgeId,      TEdgeRevisionId,      IProperties<TKeyEdge,      TValueEdge>,
-                                           THyperEdgeId, THyperEdgeRevisionId, IProperties<TKeyHyperEdge, TValueHyperEdge>>
-                                           myInVertex,
+                            IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                                            TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                            TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>
+                                            myInVertex,
 
-                            TEdgeId                  myEdgeId,
+                            TIdEdge                  myEdgeId,
                             String                   myLabel,
                             TKeyEdge                 myIdKey,
                             TKeyEdge                 myRevisonIdKey,
@@ -216,13 +216,13 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
         /// <param name="myPropertyEdge1">A Edge.</param>
         /// <param name="myPropertyEdge2">Another Edge.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator == (PropertyEdge<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                                        TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                                        THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
+        public static Boolean operator == (PropertyEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
+                                                        TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
+                                                        TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
                                                         myPropertyEdge1,
-                                           PropertyEdge<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                                        TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                                        THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
+                                           PropertyEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
+                                                        TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
+                                                        TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
                                                         myPropertyEdge2)
         {
 
@@ -248,13 +248,13 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
         /// <param name="myPropertyEdge1">A Edge.</param>
         /// <param name="myPropertyEdge2">Another Edge.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator != (PropertyEdge<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                                        TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                                        THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
+        public static Boolean operator != (PropertyEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
+                                                        TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
+                                                        TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
                                                         myPropertyEdge1,
-                                           PropertyEdge<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                                        TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                                        THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
+                                           PropertyEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
+                                                        TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
+                                                        TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
                                                         myPropertyEdge2)
         {
             return !(myPropertyEdge1 == myPropertyEdge2);
@@ -270,13 +270,13 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
         /// <param name="myPropertyEdge1">A Edge.</param>
         /// <param name="myPropertyEdge2">Another Edge.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator < (PropertyEdge<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                                       TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                                       THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
+        public static Boolean operator < (PropertyEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
+                                                       TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
+                                                       TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
                                                        myPropertyEdge1,
-                                          PropertyEdge<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                                       TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                                       THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
+                                          PropertyEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
+                                                       TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
+                                                       TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
                                                        myPropertyEdge2)
         {
 
@@ -302,13 +302,13 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
         /// <param name="myPropertyEdge1">A Edge.</param>
         /// <param name="myPropertyEdge2">Another Edge.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator > (PropertyEdge<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                                       TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                                       THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
+        public static Boolean operator > (PropertyEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
+                                                       TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
+                                                       TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
                                                        myPropertyEdge1,
-                                          PropertyEdge<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                                       TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                                       THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
+                                          PropertyEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
+                                                       TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
+                                                       TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
                                                        myPropertyEdge2)
         {
 
@@ -334,13 +334,13 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
         /// <param name="myPropertyEdge1">A Edge.</param>
         /// <param name="myPropertyEdge2">Another Edge.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator <= (PropertyEdge<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                                        TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                                        THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
+        public static Boolean operator <= (PropertyEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
+                                                        TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
+                                                        TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
                                                         myPropertyEdge1,
-                                           PropertyEdge<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                                        TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                                        THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
+                                           PropertyEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
+                                                        TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
+                                                        TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
                                                         myPropertyEdge2)
         {
             return !(myPropertyEdge1 > myPropertyEdge2);
@@ -356,13 +356,13 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
         /// <param name="myPropertyEdge1">A Edge.</param>
         /// <param name="myPropertyEdge2">Another Edge.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator >= (PropertyEdge<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                                        TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                                        THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
+        public static Boolean operator >= (PropertyEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
+                                                        TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
+                                                        TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
                                                         myPropertyEdge1,
-                                           PropertyEdge<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                                        TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                                        THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
+                                           PropertyEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
+                                                        TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
+                                                        TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
                                                         myPropertyEdge2)
         {
             return !(myPropertyEdge1 < myPropertyEdge2);
@@ -372,7 +372,7 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
 
         #endregion
 
-        #region IComparable<TEdgeId> Members
+        #region IComparable<TIdEdge> Members
 
         #region CompareTo(myObject)
 
@@ -388,7 +388,7 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
             if (myObject == null)
                 throw new ArgumentNullException("myObject must not be null!");
 
-            return CompareTo((TEdgeId) myObject);
+            return CompareTo((TIdEdge) myObject);
 
         }
 
@@ -401,7 +401,7 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
         /// </summary>
         /// <param name="myEdgeId">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public Int32 CompareTo(TEdgeId myEdgeId)
+        public Int32 CompareTo(TIdEdge myEdgeId)
         {
 
             // Check if myIPropertyEdge is null
@@ -421,7 +421,7 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
         /// </summary>
         /// <param name="myIPropertyElement">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public Int32 CompareTo(IPropertyElement<TEdgeId, TEdgeRevisionId, TKeyEdge, TValueEdge> myIPropertyElement)
+        public Int32 CompareTo(IPropertyElement<TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge> myIPropertyElement)
         {
 
             // Check if myIPropertyElement is null
@@ -436,7 +436,7 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
 
         #endregion
 
-        #region IEquatable<TEdgeId> Members
+        #region IEquatable<TIdEdge> Members
 
         #region Equals(myObject)
 
@@ -451,7 +451,7 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
             if (myObject == null)
                 return false;
 
-            return Equals((TEdgeId) myObject);
+            return Equals((TIdEdge) myObject);
 
         }
 
@@ -464,7 +464,7 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
         /// </summary>
         /// <param name="myEdgeId">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public Boolean Equals(TEdgeId myEdgeId)
+        public Boolean Equals(TIdEdge myEdgeId)
         {
 
             if ((Object) myEdgeId == null)
@@ -484,7 +484,7 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
         /// </summary>
         /// <param name="myIPropertyElement">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public Boolean Equals(IPropertyElement<TEdgeId, TEdgeRevisionId, TKeyEdge, TValueEdge> myIPropertyElement)
+        public Boolean Equals(IPropertyElement<TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge> myIPropertyElement)
         {
 
             if ((Object) myIPropertyElement == null)

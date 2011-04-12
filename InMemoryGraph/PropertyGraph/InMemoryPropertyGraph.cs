@@ -36,27 +36,16 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph
     /// </summary>
     public class InMemoryPropertyGraph : InMemoryGenericPropertyGraph<// Vertex definition
                                                                       VertexId,    RevisionId, String, Object, IDictionary<String, Object>,
-                                                                      //IPropertyVertex<VertexId,    RevisionId, String, Object, IDictionary<String, Object>,
-                                                                      //                EdgeId,      RevisionId, String, Object, IDictionary<String, Object>,
-                                                                      //                HyperEdgeId, RevisionId, String, Object, IDictionary<String, Object>>,
-                                                                      IGenericVertex<VertexId,    RevisionId, IProperties<String, Object>,
-                                                                                     EdgeId,      RevisionId, IProperties<String, Object>,
-                                                                                     HyperEdgeId, RevisionId, IProperties<String, Object>>,
-                                                                      ICollection<IGenericEdge<VertexId,    RevisionId, IProperties<String, Object>,
-                                                                                               EdgeId,      RevisionId, IProperties<String, Object>,
-                                                                                               HyperEdgeId, RevisionId, IProperties<String, Object>>>,
+                                                                      ICollection<IPropertyEdge<VertexId,    RevisionId, String, Object,
+                                                                                                EdgeId,      RevisionId, String, Object,
+                                                                                                HyperEdgeId, RevisionId, String, Object>>,
 
                                                                       // Edge definition
                                                                       EdgeId,      RevisionId, String, Object, IDictionary<String, Object>,
-                                                                      IGenericEdge<VertexId,    RevisionId, IProperties<String, Object>,
-                                                                                   EdgeId,      RevisionId, IProperties<String, Object>,
-                                                                                   HyperEdgeId, RevisionId, IProperties<String, Object>>,
 
                                                                       // Hyperedge definition
-                                                                      HyperEdgeId, RevisionId, String, Object, IDictionary<String, Object>,
-                                                                      IGenericHyperEdge<VertexId,    RevisionId, IProperties<String, Object>,
-                                                                                        EdgeId,      RevisionId, IProperties<String, Object>,
-                                                                                        HyperEdgeId, RevisionId, IProperties<String, Object>>>
+                                                                      HyperEdgeId, RevisionId, String, Object, IDictionary<String, Object>>,
+                                        IPropertyGraph
     {
 
         #region Data
@@ -84,14 +73,14 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph
                         new PropertyVertex<VertexId,    RevisionId, String, Object, IDictionary<String, Object>,
                                            EdgeId,      RevisionId, String, Object, IDictionary<String, Object>,
                                            HyperEdgeId, RevisionId, String, Object, IDictionary<String, Object>,
-                                           ICollection<IGenericEdge<VertexId,    RevisionId, IProperties<String, Object>,
-                                                                    EdgeId,      RevisionId, IProperties<String, Object>,
-                                                                    HyperEdgeId, RevisionId, IProperties<String, Object>>>>
+                                           ICollection<IPropertyEdge<VertexId,    RevisionId, String, Object,
+                                                                     EdgeId,      RevisionId, String, Object,
+                                                                     HyperEdgeId, RevisionId, String, Object>>>
                             (myVertexId, _VertexIdKey, _VertexRevisionIdKey,
                              () => new Dictionary<String, Object>(),
-                             () => new HashSet<IGenericEdge<VertexId,    RevisionId, IProperties<String, Object>,
-                                                            EdgeId,      RevisionId, IProperties<String, Object>,
-                                                            HyperEdgeId, RevisionId, IProperties<String, Object>>>(),
+                             () => new HashSet<IPropertyEdge<VertexId,    RevisionId, String, Object,
+                                                             EdgeId,      RevisionId, String, Object,
+                                                             HyperEdgeId, RevisionId, String, Object>>(),
                              myVertexPropertyInitializer
                             ),
 
@@ -111,32 +100,31 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph
                        new PropertyHyperEdge<VertexId,    RevisionId, String, Object, IDictionary<String, Object>,
                                              EdgeId,      RevisionId, String, Object, IDictionary<String, Object>,
                                              HyperEdgeId, RevisionId, String, Object, IDictionary<String, Object>,
-                                             ICollection<IGenericVertex<VertexId,    RevisionId, IProperties<String, Object>,
-                                                                        EdgeId,      RevisionId, IProperties<String, Object>,
-                                                                        HyperEdgeId, RevisionId, IProperties<String, Object>>>>
+                                             ICollection<IPropertyVertex<VertexId,    RevisionId, String, Object,
+                                                                         EdgeId,      RevisionId, String, Object,
+                                                                         HyperEdgeId, RevisionId, String, Object>>>
                             (myOutVertex, myInVertices, myHyperEdgeId, myLabel, _HyperEdgeIdKey, _HyperEdgeRevisionIdKey,
                              () => new Dictionary<String, Object>(),
-                             () => new HashSet<IGenericVertex<VertexId,    RevisionId, IProperties<String, Object>,
-                                                              EdgeId,      RevisionId, IProperties<String, Object>,
-                                                              HyperEdgeId, RevisionId, IProperties<String, Object>>>(),
+                             () => new HashSet<IPropertyVertex<VertexId,    RevisionId, String, Object,
+                                                               EdgeId,      RevisionId, String, Object,
+                                                               HyperEdgeId, RevisionId, String, Object>>(),
                              myHyperEdgePropertyInitializer
                             ),
 
                    // The vertices collection
-                   new ConcurrentDictionary<VertexId,    IGenericVertex   <VertexId,    RevisionId, IProperties<String, Object>,
-                                                                           EdgeId,      RevisionId, IProperties<String, Object>,
-                                                                           HyperEdgeId, RevisionId, IProperties<String, Object>>>(),
+                   new ConcurrentDictionary<VertexId,    IPropertyVertex   <VertexId,    RevisionId, String, Object,
+                                                                            EdgeId,      RevisionId, String, Object,
+                                                                            HyperEdgeId, RevisionId, String, Object>>(),
 
                    // The edges collection
-                   new ConcurrentDictionary<EdgeId,      IGenericEdge     <VertexId,    RevisionId, IProperties<String, Object>,
-                                                                           EdgeId,      RevisionId, IProperties<String, Object>,
-                                                                           HyperEdgeId, RevisionId, IProperties<String, Object>>>(),
+                   new ConcurrentDictionary<EdgeId,      IPropertyEdge     <VertexId,    RevisionId, String, Object,
+                                                                            EdgeId,      RevisionId, String, Object,
+                                                                            HyperEdgeId, RevisionId, String, Object>>(),
 
                    // The hyperedges collection
-                   new ConcurrentDictionary<HyperEdgeId, IGenericHyperEdge<VertexId,    RevisionId, IProperties<String, Object>,
-                                                                           EdgeId,      RevisionId, IProperties<String, Object>,
-                                                                           HyperEdgeId, RevisionId, IProperties<String, Object>>>()
-
+                   new ConcurrentDictionary<HyperEdgeId, IPropertyHyperEdge<VertexId,    RevisionId, String, Object,
+                                                                            EdgeId,      RevisionId, String, Object,
+                                                                            HyperEdgeId, RevisionId, String, Object>>()
               )
 
         { }

@@ -39,9 +39,9 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph
     public class PropertyVertex : PropertyVertex<VertexId,    RevisionId, String, Object, IDictionary<String, Object>,
                                                  EdgeId,      RevisionId, String, Object, IDictionary<String, Object>,
                                                  HyperEdgeId, RevisionId, String, Object, IDictionary<String, Object>,
-                                                 ICollection<IGenericEdge<VertexId,    RevisionId, IProperties<String, Object>,
-                                                                          EdgeId,      RevisionId, IProperties<String, Object>,
-                                                                          HyperEdgeId, RevisionId, IProperties<String, Object>>>>,
+                                                 ICollection<IPropertyEdge<VertexId,    RevisionId, String, Object,
+                                                                           EdgeId,      RevisionId, String, Object,
+                                                                           HyperEdgeId, RevisionId, String, Object>>>,
                                   IPropertyVertex,
                                   IDynamicGraphObject<PropertyVertex>
 
@@ -62,9 +62,9 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph
             : base(myVertexId,
                    "Id", "RevisionId",
                    () => new Dictionary<String, Object>(),
-                   () => new HashSet<IGenericEdge<VertexId,    RevisionId, IProperties<String, Object>,
-                                                  EdgeId,      RevisionId, IProperties<String, Object>,
-                                                  HyperEdgeId, RevisionId, IProperties<String, Object>>>(),
+                   () => new HashSet<IPropertyEdge<VertexId,    RevisionId, String, Object,
+                                                   EdgeId,      RevisionId, String, Object,
+                                                   HyperEdgeId, RevisionId, String, Object>>(),
                    myVertexInitializer)
 
         { }

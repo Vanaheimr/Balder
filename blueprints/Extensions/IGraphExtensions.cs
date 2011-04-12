@@ -42,14 +42,14 @@ namespace de.ahzf.blueprints
 //        /// </summary>
 //        /// <param name="myIGenericGraph">An object implementing IGraph.</param>
 //        /// <returns>A dynamic object</returns>
-//        public static dynamic AsDynamic<TVertex, TVertexId, TVertexData, TEdge, TEdgeId, TEdgeData, THyperEdge, THyperEdgeId, THyperEdgeData, TRevisionId>(
-//                              this IGenericGraph<TVertex, TVertexId, TVertexData, TEdge, TEdgeId, TEdgeData, THyperEdge, THyperEdgeId, THyperEdgeData, TRevisionId> myIGenericGraph)
-//            where TVertex      : IGenericVertex<TVertexId, TVertexData>
-//            where TVertexId    : IEquatable<TVertexId>,    IComparable<TVertexId>,    IComparable
-//            where TEdge        : IGenericEdge<TEdgeId, TEdgeData>
-//            where TEdgeId      : IEquatable<TEdgeId>,      IComparable<TEdgeId>,      IComparable
-//            where THyperEdge   : IGenericHyperEdge<THyperEdgeId, THyperEdgeData>
-//            where THyperEdgeId : IEquatable<THyperEdgeId>, IComparable<THyperEdgeId>, IComparable
+//        public static dynamic AsDynamic<TVertex, TIdVertex, TVertexData, TEdge, TIdEdge, TEdgeData, THyperEdge, TIdHyperEdge, THyperEdgeData, TRevisionId>(
+//                              this IGenericGraph<TVertex, TIdVertex, TVertexData, TEdge, TIdEdge, TEdgeData, THyperEdge, TIdHyperEdge, THyperEdgeData, TRevisionId> myIGenericGraph)
+//            where TVertex      : IGenericVertex<TIdVertex, TVertexData>
+//            where TIdVertex    : IEquatable<TIdVertex>,    IComparable<TIdVertex>,    IComparable
+//            where TEdge        : IGenericEdge<TIdEdge, TEdgeData>
+//            where TIdEdge      : IEquatable<TIdEdge>,      IComparable<TIdEdge>,      IComparable
+//            where THyperEdge   : IGenericHyperEdge<TIdHyperEdge, THyperEdgeData>
+//            where TIdHyperEdge : IEquatable<TIdHyperEdge>, IComparable<TIdHyperEdge>, IComparable
 //        {
 //            return myIGenericGraph as dynamic;
 //        }
@@ -68,9 +68,9 @@ namespace de.ahzf.blueprints
 //        ///// <param name="myVertexId">A VertexId. If none was given a new one will be generated.</param>
 //        ///// <param name="myVertexInitializer">A delegate to initialize the newly generated vertex.</param>
 //        ///// <returns>The new vertex</returns>
-//        //public static TVertex AddVertex<TVertex, TVertexId, TVertexData, TEdge, TEdgeId, TEdgeData, THyperEdge, THyperEdgeId, THyperEdgeData, TRevisionId>(
-//        //                      this IGenericGraph<TVertex, TVertexId, TVertexData, TEdge, TEdgeId, TEdgeData, THyperEdge, THyperEdgeId, THyperEdgeData, TRevisionId> myIGenericGraph,
-//        //                      TVertexId myVertexId = default(TVertexId),
+//        //public static TVertex AddVertex<TVertex, TIdVertex, TVertexData, TEdge, TIdEdge, TEdgeData, THyperEdge, TIdHyperEdge, THyperEdgeData, TRevisionId>(
+//        //                      this IGenericGraph<TVertex, TIdVertex, TVertexData, TEdge, TIdEdge, TEdgeData, THyperEdge, TIdHyperEdge, THyperEdgeData, TRevisionId> myIGenericGraph,
+//        //                      TIdVertex myVertexId = default(TIdVertex),
 //        //                      Action<TVertex> myVertexInitializer = null)
 //        //    where TVertex : class, IVertex
 //        //{
@@ -119,7 +119,7 @@ namespace de.ahzf.blueprints
 //        ///// <param name="myIGenericGraph">An object implementing IGraph.</param>
 //        ///// <param name="myVertexId">The identifier of the vertex to retrieved from the graph.</param>
 //        ///// <returns>The vertex referenced by the provided identifier or null when no such vertex exists.</returns>
-//        //public static TVertex GetVertex<TVertex, TVertexId, TVertexData, TEdge, TEdgeId, TEdgeData, THyperEdge, THyperEdgeId, THyperEdgeData, TRevisionId>(this IGenericGraph<TVertex, TVertexId, TVertexData, TEdge, TEdgeId, TEdgeData, THyperEdge, THyperEdgeId, THyperEdgeData, TRevisionId> myIGenericGraph, VertexId myVertexId)
+//        //public static TVertex GetVertex<TVertex, TIdVertex, TVertexData, TEdge, TIdEdge, TEdgeData, THyperEdge, TIdHyperEdge, THyperEdgeData, TRevisionId>(this IGenericGraph<TVertex, TIdVertex, TVertexData, TEdge, TIdEdge, TEdgeData, THyperEdge, TIdHyperEdge, THyperEdgeData, TRevisionId> myIGenericGraph, VertexId myVertexId)
 //        //    where TVertex : class, IVertex
 //        //{
 //        //    return myIGenericGraph.GetVertex(myVertexId) as TVertex;
@@ -141,20 +141,20 @@ namespace de.ahzf.blueprints
 //        /// <param name="myLabel"></param>
 //        /// <param name="myEdgeInitializer">A delegate to initialize the newly generated edge.</param>
 //        /// <returns>The new edge</returns>
-//        public static TEdge AddEdge<TVertex, TVertexId, TVertexData, TEdge, TEdgeId, TEdgeData, THyperEdge, THyperEdgeId, THyperEdgeData, TRevisionId>(
-//                            this IGenericGraph<TVertex, TVertexId, TVertexData, TEdge, TEdgeId, TEdgeData, THyperEdge, THyperEdgeId, THyperEdgeData, TRevisionId> myIGenericGraph,
-//                            TVertexId     myOutVertexId,
-//                            TVertexId     myInVertexId,
-//                            TEdgeId       myEdgeId          = default(TEdgeId),
+//        public static TEdge AddEdge<TVertex, TIdVertex, TVertexData, TEdge, TIdEdge, TEdgeData, THyperEdge, TIdHyperEdge, THyperEdgeData, TRevisionId>(
+//                            this IGenericGraph<TVertex, TIdVertex, TVertexData, TEdge, TIdEdge, TEdgeData, THyperEdge, TIdHyperEdge, THyperEdgeData, TRevisionId> myIGenericGraph,
+//                            TIdVertex     myOutVertexId,
+//                            TIdVertex     myInVertexId,
+//                            TIdEdge       myEdgeId          = default(TIdEdge),
 //                            String        myLabel           = null,
 //                            Action<TEdge> myEdgeInitializer = null)
 
-//            where TVertex      : IGenericVertex<TVertexId, TVertexData>
-//            where TVertexId    : IEquatable<TVertexId>,    IComparable<TVertexId>,    IComparable
-//            where TEdge        : IGenericEdge<TEdgeId, TEdgeData>
-//            where TEdgeId      : IEquatable<TEdgeId>,      IComparable<TEdgeId>,      IComparable
-//            where THyperEdge   : IGenericHyperEdge<THyperEdgeId, THyperEdgeData>
-//            where THyperEdgeId : IEquatable<THyperEdgeId>, IComparable<THyperEdgeId>, IComparable
+//            where TVertex      : IGenericVertex<TIdVertex, TVertexData>
+//            where TIdVertex    : IEquatable<TIdVertex>,    IComparable<TIdVertex>,    IComparable
+//            where TEdge        : IGenericEdge<TIdEdge, TEdgeData>
+//            where TIdEdge      : IEquatable<TIdEdge>,      IComparable<TIdEdge>,      IComparable
+//            where THyperEdge   : IGenericHyperEdge<TIdHyperEdge, THyperEdgeData>
+//            where TIdHyperEdge : IEquatable<TIdHyperEdge>, IComparable<TIdHyperEdge>, IComparable
 //        {
 
 //            if (myIGenericGraph == null)
@@ -200,7 +200,7 @@ namespace de.ahzf.blueprints
 //        ///// <param name="myLabel"></param>
 //        ///// <param name="myEdgeInitializer">A delegate to initialize the newly generated edge.</param>
 //        ///// <returns>The new edge</returns>
-//        //public static TEdge AddEdge<TVertex, TVertexId, TVertexData, TEdge, TEdgeId, TEdgeData, THyperEdge, THyperEdgeId, THyperEdgeData, TRevisionId>(this IGenericGraph<TVertex, TVertexId, TVertexData, TEdge, TEdgeId, TEdgeData, THyperEdge, THyperEdgeId, THyperEdgeData, TRevisionId> myIGenericGraph, IVertex myOutVertex, IVertex myInVertex, EdgeId myEdgeId = null, String myLabel = null, Action<IEdge> myEdgeInitializer = null)
+//        //public static TEdge AddEdge<TVertex, TIdVertex, TVertexData, TEdge, TIdEdge, TEdgeData, THyperEdge, TIdHyperEdge, THyperEdgeData, TRevisionId>(this IGenericGraph<TVertex, TIdVertex, TVertexData, TEdge, TIdEdge, TEdgeData, THyperEdge, TIdHyperEdge, THyperEdgeData, TRevisionId> myIGenericGraph, IVertex myOutVertex, IVertex myInVertex, EdgeId myEdgeId = null, String myLabel = null, Action<IEdge> myEdgeInitializer = null)
 //        //    where TEdge : class, IEdge
 //        //{
 
@@ -253,7 +253,7 @@ namespace de.ahzf.blueprints
 //        ///// <param name="myLabel"></param>
 //        ///// <param name="myEdgeInitializer">A delegate to initialize the newly generated edge.</param>
 //        ///// <returns>The new edge</returns>
-//        //public static TEdge AddEdge<TVertex, TVertexId, TVertexData, TEdge, TEdgeId, TEdgeData, THyperEdge, THyperEdgeId, THyperEdgeData, TRevisionId>(this IGenericGraph<TVertex, TVertexId, TVertexData, TEdge, TEdgeId, TEdgeData, THyperEdge, THyperEdgeId, THyperEdgeData, TRevisionId> myIGenericGraph, VertexId myOutVertexId, VertexId myInVertexId, EdgeId myEdgeId = null, String myLabel = null, Action<IEdge> myEdgeInitializer = null)
+//        //public static TEdge AddEdge<TVertex, TIdVertex, TVertexData, TEdge, TIdEdge, TEdgeData, THyperEdge, TIdHyperEdge, THyperEdgeData, TRevisionId>(this IGenericGraph<TVertex, TIdVertex, TVertexData, TEdge, TIdEdge, TEdgeData, THyperEdge, TIdHyperEdge, THyperEdgeData, TRevisionId> myIGenericGraph, VertexId myOutVertexId, VertexId myInVertexId, EdgeId myEdgeId = null, String myLabel = null, Action<IEdge> myEdgeInitializer = null)
 //        //    where TEdge : class, IEdge
 //        //{
 
@@ -301,21 +301,21 @@ namespace de.ahzf.blueprints
 //        /// <param name="myLabel"></param>
 //        /// <param name="myEdgeInitializer">A delegate to initialize the newly generated edge.</param>
 //        /// <returns>Both new edges.</returns>
-//        public static Tuple<TEdge, TEdge> AddDoubleEdge<TVertex, TVertexId, TVertexData, TEdge, TEdgeId, TEdgeData, THyperEdge, THyperEdgeId, THyperEdgeData, TRevisionId>(
-//                                          this IGenericGraph<TVertex, TVertexId, TVertexData, TEdge, TEdgeId, TEdgeData, THyperEdge, THyperEdgeId, THyperEdgeData, TRevisionId> myIGenericGraph,
+//        public static Tuple<TEdge, TEdge> AddDoubleEdge<TVertex, TIdVertex, TVertexData, TEdge, TIdEdge, TEdgeData, THyperEdge, TIdHyperEdge, THyperEdgeData, TRevisionId>(
+//                                          this IGenericGraph<TVertex, TIdVertex, TVertexData, TEdge, TIdEdge, TEdgeData, THyperEdge, TIdHyperEdge, THyperEdgeData, TRevisionId> myIGenericGraph,
 //                                          TVertex       myOutVertex,
 //                                          TVertex       myInVertex,
-//                                          TEdgeId       myEdgeId1         = default(TEdgeId),
-//                                          TEdgeId       myEdgeId2         = default(TEdgeId),
+//                                          TIdEdge       myEdgeId1         = default(TIdEdge),
+//                                          TIdEdge       myEdgeId2         = default(TIdEdge),
 //                                          String        myLabel           = null,
 //                                          Action<TEdge> myEdgeInitializer = null)
 
-//            where TVertex      : IGenericVertex<TVertexId, TVertexData>
-//            where TVertexId    : IEquatable<TVertexId>,    IComparable<TVertexId>,    IComparable
-//            where TEdge        : IGenericEdge<TEdgeId, TEdgeData>
-//            where TEdgeId      : IEquatable<TEdgeId>,      IComparable<TEdgeId>,      IComparable
-//            where THyperEdge   : IGenericHyperEdge<THyperEdgeId, THyperEdgeData>
-//            where THyperEdgeId : IEquatable<THyperEdgeId>, IComparable<THyperEdgeId>, IComparable
+//            where TVertex      : IGenericVertex<TIdVertex, TVertexData>
+//            where TIdVertex    : IEquatable<TIdVertex>,    IComparable<TIdVertex>,    IComparable
+//            where TEdge        : IGenericEdge<TIdEdge, TEdgeData>
+//            where TIdEdge      : IEquatable<TIdEdge>,      IComparable<TIdEdge>,      IComparable
+//            where THyperEdge   : IGenericHyperEdge<TIdHyperEdge, THyperEdgeData>
+//            where TIdHyperEdge : IEquatable<TIdHyperEdge>, IComparable<TIdHyperEdge>, IComparable
 //        {
 
 //            if (myIGenericGraph == null)
@@ -350,32 +350,32 @@ namespace de.ahzf.blueprints
         /// <param name="myLabel"></param>
         /// <param name="myEdgeInitializer">A delegate to initialize the newly generated edge.</param>
         /// <returns>Both new edges.</returns>
-        public static Tuple<TEdge, TEdge> AddDoubleEdge<TVertexId,    TVertexRevisionId,    TVertexData,    TVertex,
-                                                        TEdgeId,      TEdgeRevisionId,      TEdgeData,      TEdge,
-                                                        THyperEdgeId, THyperEdgeRevisionId, THyperEdgeData, THyperEdge>(
+        public static Tuple<TEdge, TEdge> AddDoubleEdge<TIdVertex,    TRevisionIdVertex,    TVertexData,    TVertex,
+                                                        TIdEdge,      TRevisionIdEdge,      TEdgeData,      TEdge,
+                                                        TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData, THyperEdge>(
 
-                                          this IGenericGraph<TVertexId,    TVertexRevisionId,    TVertexData,    TVertex,
-                                                             TEdgeId,      TEdgeRevisionId,      TEdgeData,      TEdge,
-                                                             THyperEdgeId, THyperEdgeRevisionId, THyperEdgeData, THyperEdge> myIGenericGraph,
+                                          this IGenericGraph<TIdVertex,    TRevisionIdVertex,    TVertexData,    TVertex,
+                                                             TIdEdge,      TRevisionIdEdge,      TEdgeData,      TEdge,
+                                                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData, THyperEdge> myIGenericGraph,
 
-                                          TVertexId         myOutVertexId,
-                                          TVertexId         myInVertexId,
-                                          TEdgeId           myEdgeId1         = default(TEdgeId),
-                                          TEdgeId           myEdgeId2         = default(TEdgeId),
+                                          TIdVertex         myOutVertexId,
+                                          TIdVertex         myInVertexId,
+                                          TIdEdge           myEdgeId1         = default(TIdEdge),
+                                          TIdEdge           myEdgeId2         = default(TIdEdge),
                                           String            myLabel           = null,
                                           Action<TEdgeData> myEdgeInitializer = null)
 
-            where TVertex              : IGenericVertex   <TVertexId, TVertexRevisionId, TVertexData, TEdgeId, TEdgeRevisionId, TEdgeData, THyperEdgeId, THyperEdgeRevisionId, THyperEdgeData>
-            where TEdge                : IGenericEdge     <TVertexId, TVertexRevisionId, TVertexData, TEdgeId, TEdgeRevisionId, TEdgeData, THyperEdgeId, THyperEdgeRevisionId, THyperEdgeData>
-            where THyperEdge           : IGenericHyperEdge<TVertexId, TVertexRevisionId, TVertexData, TEdgeId, TEdgeRevisionId, TEdgeData, THyperEdgeId, THyperEdgeRevisionId, THyperEdgeData>
+            where TVertex              : IGenericVertex   <TIdVertex, TRevisionIdVertex, TVertexData, TIdEdge, TRevisionIdEdge, TEdgeData, TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData>
+            where TEdge                : IGenericEdge     <TIdVertex, TRevisionIdVertex, TVertexData, TIdEdge, TRevisionIdEdge, TEdgeData, TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData>
+            where THyperEdge           : IGenericHyperEdge<TIdVertex, TRevisionIdVertex, TVertexData, TIdEdge, TRevisionIdEdge, TEdgeData, TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData>
 
-            where TVertexId            : IEquatable<TVertexId>,            IComparable<TVertexId>,            IComparable
-            where TEdgeId              : IEquatable<TEdgeId>,              IComparable<TEdgeId>,              IComparable
-            where THyperEdgeId         : IEquatable<THyperEdgeId>,         IComparable<THyperEdgeId>,         IComparable
+            where TIdVertex            : IEquatable<TIdVertex>,            IComparable<TIdVertex>,            IComparable
+            where TIdEdge              : IEquatable<TIdEdge>,              IComparable<TIdEdge>,              IComparable
+            where TIdHyperEdge         : IEquatable<TIdHyperEdge>,         IComparable<TIdHyperEdge>,         IComparable
 
-            where TVertexRevisionId    : IEquatable<TVertexRevisionId>,    IComparable<TVertexRevisionId>,    IComparable
-            where TEdgeRevisionId      : IEquatable<TEdgeRevisionId>,      IComparable<TEdgeRevisionId>,      IComparable
-            where THyperEdgeRevisionId : IEquatable<THyperEdgeRevisionId>, IComparable<THyperEdgeRevisionId>, IComparable
+            where TRevisionIdVertex    : IEquatable<TRevisionIdVertex>,    IComparable<TRevisionIdVertex>,    IComparable
+            where TRevisionIdEdge      : IEquatable<TRevisionIdEdge>,      IComparable<TRevisionIdEdge>,      IComparable
+            where TRevisionIdHyperEdge : IEquatable<TRevisionIdHyperEdge>, IComparable<TRevisionIdHyperEdge>, IComparable
 
         {
 
@@ -419,8 +419,8 @@ namespace de.ahzf.blueprints
 //        ///// <param name="myIGenericGraph">An object implementing IGraph.</param>
 //        ///// <param name="myEdgeId">The identifier of the edge to retrieved from the graph.</param>
 //        ///// <returns>The edge referenced by the provided identifier or null when no such edge exists.</returns>
-//        //public static TEdge GetEdge<TVertex, TVertexId, TVertexData, TEdge, TEdgeId, TEdgeData, THyperEdge, THyperEdgeId, THyperEdgeData, TRevisionId>(
-//        //                            this IGenericGraph<TVertex, TVertexId, TVertexData, TEdge, TEdgeId, TEdgeData, THyperEdge, THyperEdgeId, THyperEdgeData, TRevisionId> myIGenericGraph,
+//        //public static TEdge GetEdge<TVertex, TIdVertex, TVertexData, TEdge, TIdEdge, TEdgeData, THyperEdge, TIdHyperEdge, THyperEdgeData, TRevisionId>(
+//        //                            this IGenericGraph<TVertex, TIdVertex, TVertexData, TEdge, TIdEdge, TEdgeData, THyperEdge, TIdHyperEdge, THyperEdgeData, TRevisionId> myIGenericGraph,
 //        //                            EdgeId myEdgeId)
 //        //    where TEdge : class, IVertex
 //        //{
@@ -440,8 +440,8 @@ namespace de.ahzf.blueprints
 //        ///// <param name="myIGenericGraph">A Blueprints graph.</param>
 //        ///// <param name="myVertexIds">An array of unsigned intergers which can be transfored to VertexIds.</param>
 //        ///// <returns>A collection of IVertex objects.</returns>
-//        //public static IEnumerable<TVertex> VertexId<TVertex, TVertexId, TVertexData, TEdge, TEdgeId, TEdgeData, THyperEdge, THyperEdgeId, THyperEdgeData, TRevisionId>(
-//        //                                   this IGenericGraph<TVertex, TVertexId, TVertexData, TEdge, TEdgeId, TEdgeData, THyperEdge, THyperEdgeId, THyperEdgeData, TRevisionId> myIGenericGraph,
+//        //public static IEnumerable<TVertex> VertexId<TVertex, TIdVertex, TVertexData, TEdge, TIdEdge, TEdgeData, THyperEdge, TIdHyperEdge, THyperEdgeData, TRevisionId>(
+//        //                                   this IGenericGraph<TVertex, TIdVertex, TVertexData, TEdge, TIdEdge, TEdgeData, THyperEdge, TIdHyperEdge, THyperEdgeData, TRevisionId> myIGenericGraph,
 //        //                                   params UInt64[] myVertexIds)
 //        //{
 //        //    return myIGenericGraph.GetVertices((from _VId in myVertexIds select new VertexId(_VId)).ToArray());
@@ -459,8 +459,8 @@ namespace de.ahzf.blueprints
 //        ///// <param name="myIGenericGraph">A Blueprints graph.</param>
 //        ///// <param name="myVertexIds">An array of strings which can be transfored to VertexIds.</param>
 //        ///// <returns>A collection of IVertex objects.</returns>
-//        //public static IEnumerable<TVertex> VertexId<TVertex, TVertexId, TVertexData, TEdge, TEdgeId, TEdgeData, THyperEdge, THyperEdgeId, THyperEdgeData, TRevisionId>(
-//        //                                   this IGenericGraph<TVertex, TVertexId, TVertexData, TEdge, TEdgeId, TEdgeData, THyperEdge, THyperEdgeId, THyperEdgeData, TRevisionId> myIGenericGraph,
+//        //public static IEnumerable<TVertex> VertexId<TVertex, TIdVertex, TVertexData, TEdge, TIdEdge, TEdgeData, THyperEdge, TIdHyperEdge, THyperEdgeData, TRevisionId>(
+//        //                                   this IGenericGraph<TVertex, TIdVertex, TVertexData, TEdge, TIdEdge, TEdgeData, THyperEdge, TIdHyperEdge, THyperEdgeData, TRevisionId> myIGenericGraph,
 //        //                                   params String[] myVertexIds)
 //        //{
 //        //    return myIGenericGraph.GetVertices((from _VId in myVertexIds select new VertexId(_VId)).ToArray());
@@ -479,8 +479,8 @@ namespace de.ahzf.blueprints
 //        ///// <param name="myIGenericGraph">A Blueprints graph.</param>
 //        ///// <param name="myEdgeIds">An array of unsigned intergers which can be transfored to myEdgeIds.</param>
 //        ///// <returns>A collection of IEdge objects.</returns>
-//        //public static IEnumerable<TEdge> EdgeId<TVertex, TVertexId, TVertexData, TEdge, TEdgeId, TEdgeData, THyperEdge, THyperEdgeId, THyperEdgeData, TRevisionId>(
-//        //                                 this IGenericGraph<TVertex, TVertexId, TVertexData, TEdge, TEdgeId, TEdgeData, THyperEdge, THyperEdgeId, THyperEdgeData, TRevisionId> myIGenericGraph,
+//        //public static IEnumerable<TEdge> EdgeId<TVertex, TIdVertex, TVertexData, TEdge, TIdEdge, TEdgeData, THyperEdge, TIdHyperEdge, THyperEdgeData, TRevisionId>(
+//        //                                 this IGenericGraph<TVertex, TIdVertex, TVertexData, TEdge, TIdEdge, TEdgeData, THyperEdge, TIdHyperEdge, THyperEdgeData, TRevisionId> myIGenericGraph,
 //        //                                 params UInt64[] myEdgeIds)
 //        //{
 //        //    return myIGenericGraph.GetEdges((from _EId in myEdgeIds select new EdgeId(_EId)).ToArray());
@@ -498,8 +498,8 @@ namespace de.ahzf.blueprints
 //        ///// <param name="myIGenericGraph">A Blueprints graph.</param>
 //        ///// <param name="myEdgeIds">An array of strings which can be transfored to myEdgeIds.</param>
 //        ///// <returns>A collection of IEdge objects.</returns>
-//        //public static IEnumerable<TEdge> EdgeId<TVertex, TVertexId, TVertexData, TEdge, TEdgeId, TEdgeData, THyperEdge, THyperEdgeId, THyperEdgeData, TRevisionId>(
-//        //                                 this IGenericGraph<TVertex, TVertexId, TVertexData, TEdge, TEdgeId, TEdgeData, THyperEdge, THyperEdgeId, THyperEdgeData, TRevisionId> myIGenericGraph,
+//        //public static IEnumerable<TEdge> EdgeId<TVertex, TIdVertex, TVertexData, TEdge, TIdEdge, TEdgeData, THyperEdge, TIdHyperEdge, THyperEdgeData, TRevisionId>(
+//        //                                 this IGenericGraph<TVertex, TIdVertex, TVertexData, TEdge, TIdEdge, TEdgeData, THyperEdge, TIdHyperEdge, THyperEdgeData, TRevisionId> myIGenericGraph,
 //        //                                 params String[] myEdgeIds)
 //        //{
 //        //    return myIGenericGraph.GetEdges((from _EId in myEdgeIds select new EdgeId(_EId)).ToArray());
