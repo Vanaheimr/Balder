@@ -26,46 +26,66 @@ using de.ahzf.blueprints.Datastructures;
 namespace de.ahzf.blueprints
 {
 
-    public interface IGenericGraph
-    {
-    }
-
-    public interface IGenericGraph<TGraphDatastructure> : IGenericGraph
-    {
-    }
+    #region IGenericGraph
 
     /// <summary>
     /// A graph is a container object for a collection of vertices, edges and hyperedges.
     /// </summary>
-    /// <typeparam name="TVertex">The type of the vertices.</typeparam>
+    public interface IGenericGraph
+    {
+
+        /// <summary>
+        /// Remove all the edges and vertices from the graph.
+        /// </summary>
+        void Clear();
+
+
+        /// <summary>
+        /// A shutdown function is required to properly close the graph.
+        /// This is important for implementations that utilize disk-based serializations.
+        /// </summary>
+        void Shutdown();
+
+    }
+
+    #endregion
+
+    #region IGenericGraph<...>
+
+    /// <summary>
+    /// A generic graph is a container object for a collection of vertices, edges and hyperedges.
+    /// </summary>
     /// <typeparam name="TIdVertex">The type of the vertex identifiers.</typeparam>
-    /// <typeparam name="TVertexData">The type of the additional vertex data.</typeparam>
-    /// <typeparam name="TEdge">The type of the edges.</typeparam>
+    /// <typeparam name="TRevisionIdVertex">The type of the vertex revision identifiers.</typeparam>
+    /// <typeparam name="TDataVertex">The type of the additional vertex data.</typeparam>
+    /// <typeparam name="TVertex">The type of the vertices.</typeparam>
+    /// 
     /// <typeparam name="TIdEdge">The type of the edge identifiers.</typeparam>
-    /// <typeparam name="TEdgeData">The type of the additional edge data.</typeparam>
-    /// <typeparam name="THyperEdge">The type of the hyperedges.</typeparam>
+    /// <typeparam name="TRevisionIdEdge">The type of the edge identifiers.</typeparam>
+    /// <typeparam name="TDataEdge">The type of the additional edge data.</typeparam>
+    /// <typeparam name="TEdge">The type of the edges.</typeparam>
+    /// 
     /// <typeparam name="TIdHyperEdge">The type of the hyperedge identifiers.</typeparam>
-    /// <typeparam name="THyperEdgeData">The type of the additional hyperedge data.</typeparam>
-    /// <typeparam name="TRevisionId">The type of the revision identifiers.</typeparam>
-    /// <typeparam name="TGraphDatastructure">The datastructure to holding all vertices, edges and hyperedges.</typeparam>
-    public interface IGenericGraph<TVertex,    TIdVertex,    TRevisionIdVertex,    TVertexData,    TVertexExchange,
-                                   TEdge,      TIdEdge,      TRevisionIdEdge,      TEdgeData,      TEdgeExchange,
-                                   THyperEdge, TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData, THyperEdgeExchange,
-                                   TGraphDatastructure>
+    /// <typeparam name="TRevisionIdHyperEdge">The type of the hyperedge identifiers.</typeparam>
+    /// <typeparam name="TDataHyperEdge">The type of the additional hyperedge data.</typeparam>
+    /// <typeparam name="THyperEdge">The type of the hyperedges.</typeparam>
+    public interface IGenericGraph<TIdVertex,    TRevisionIdVertex,    TDataVertex,    TVertex,    
+                                   TIdEdge,      TRevisionIdEdge,      TDataEdge,      TEdge,      
+                                   TIdHyperEdge, TRevisionIdHyperEdge, TDataHyperEdge, THyperEdge>
 
-                         : IGenericGraph<TGraphDatastructure>
+                         : IGenericGraph
 
-        where TVertex              : IGenericVertex   <TIdVertex,    TRevisionIdVertex,    TVertexData,
-                                                       TIdEdge,      TRevisionIdEdge,      TEdgeData, 
-                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData>
+        where TVertex              : IGenericVertex   <TIdVertex,    TRevisionIdVertex,    TDataVertex,
+                                                       TIdEdge,      TRevisionIdEdge,      TDataEdge, 
+                                                       TIdHyperEdge, TRevisionIdHyperEdge, TDataHyperEdge>
 
-        where TEdge                : IGenericEdge     <TIdVertex,    TRevisionIdVertex,    TVertexData,
-                                                       TIdEdge,      TRevisionIdEdge,      TEdgeData, 
-                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData>
+        where TEdge                : IGenericEdge     <TIdVertex,    TRevisionIdVertex,    TDataVertex,
+                                                       TIdEdge,      TRevisionIdEdge,      TDataEdge, 
+                                                       TIdHyperEdge, TRevisionIdHyperEdge, TDataHyperEdge>
         
-        where THyperEdge           : IGenericHyperEdge<TIdVertex,    TRevisionIdVertex,    TVertexData,
-                                                       TIdEdge,      TRevisionIdEdge,      TEdgeData, 
-                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData>
+        where THyperEdge           : IGenericHyperEdge<TIdVertex,    TRevisionIdVertex,    TDataVertex,
+                                                       TIdEdge,      TRevisionIdEdge,      TDataEdge, 
+                                                       TIdHyperEdge, TRevisionIdHyperEdge, TDataHyperEdge>
 
         where TIdVertex            : IEquatable<TIdVertex>,            IComparable<TIdVertex>,            IComparable
         where TIdEdge              : IEquatable<TIdEdge>,              IComparable<TIdEdge>,              IComparable
@@ -74,10 +94,6 @@ namespace de.ahzf.blueprints
         where TRevisionIdVertex    : IEquatable<TRevisionIdVertex>,    IComparable<TRevisionIdVertex>,    IComparable
         where TRevisionIdEdge      : IEquatable<TRevisionIdEdge>,      IComparable<TRevisionIdEdge>,      IComparable
         where TRevisionIdHyperEdge : IEquatable<TRevisionIdHyperEdge>, IComparable<TRevisionIdHyperEdge>, IComparable
-
-        //where TVertexExchange      : IGenericVertex   <TIdVertex, TRevisionIdVertex, TVertexData,  TIdEdge, TRevisionIdEdge, TEdgeData,  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData>
-        //where TEdgeExchange        : IGenericEdge     <TIdVertex, TRevisionIdVertex, TVertexData,  TIdEdge, TRevisionIdEdge, TEdgeData,  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData>
-        //where THyperEdgeExchange   : IGenericHyperEdge<TIdVertex, TRevisionIdVertex, TVertexData,  TIdEdge, TRevisionIdEdge, TEdgeData,  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData>
 
     {
 
@@ -95,9 +111,9 @@ namespace de.ahzf.blueprints
         /// <param name="VertexId">The recommended object identifier.</param>
         /// <param name="VertexInitializer">A delegate to initialize the new vertex.</param>
         /// <returns>The newly created vertex or the vertex already referenced by the provided identifier.</returns>
-        TVertexExchange AddVertex(TIdVertex VertexId = default(TIdVertex), Action<TVertexData> VertexInitializer = null);
+        TVertex AddVertex(TIdVertex VertexId = default(TIdVertex), Action<TDataVertex> VertexInitializer = null);
 
-        TVertexExchange AddVertex(TVertexExchange myVertexId);
+        TVertex AddVertex(TVertex myVertexId);
 
 
         /// <summary>
@@ -106,14 +122,20 @@ namespace de.ahzf.blueprints
         /// </summary>
         /// <param name="myVertexId">The identifier of the vertex.</param>
         /// <returns>The vertex referenced by the provided identifier or null when no such edge exists.</returns>
-        TVertexExchange GetVertex(TIdVertex myVertexId);
+        TVertex GetVertex(TIdVertex myVertexId);
+
+
+        /// <summary>
+        /// Get an enumeration of all vertices in the graph.
+        /// </summary>
+        IEnumerable<TVertex> Vertices { get; }
 
 
         /// <summary>
         /// Return a collection of vertices referenced by the given array of vertex identifiers.
         /// </summary>
         /// <param name="myVertexIds">An array of vertex identifiers.</param>
-        IEnumerable<TVertexExchange> GetVertices(params TIdVertex[] myVertexIds);
+        IEnumerable<TVertex> GetVertices(params TIdVertex[] myVertexIds);
 
 
         /// <summary>
@@ -121,13 +143,7 @@ namespace de.ahzf.blueprints
         /// An additional vertex filter may be applied for filtering.
         /// </summary>
         /// <param name="myVertexFilter">A delegate for vertex filtering.</param>
-        IEnumerable<TVertexExchange> GetVertices(Func<TVertexExchange, Boolean> myVertexFilter = null);
-
-
-        /// <summary>
-        /// Get an enumeration of all vertices in the graph.
-        /// </summary>
-        IEnumerable<TVertexExchange> Vertices { get; }
+        IEnumerable<TVertex> GetVertices(Func<TVertex, Boolean> myVertexFilter = null);
 
 
         /// <summary>
@@ -135,7 +151,7 @@ namespace de.ahzf.blueprints
         /// Upon removing the vertex, all the edges by which the vertex is connected will be removed as well.
         /// </summary>
         /// <param name="myIVertex">The vertex to be removed from the graph</param>
-        void RemoveVertex(TVertexExchange myIVertex);
+        void RemoveVertex(TVertex myIVertex);
 
         #endregion
 
@@ -151,7 +167,7 @@ namespace de.ahzf.blueprints
         /// <param name="Label">The label associated with the edge.</param>
         /// <param name="EdgeInitializer">A delegate to initialize the new edge.</param>
         /// <returns>The newly created edge</returns>
-        TEdgeExchange AddEdge(TVertexExchange myOutVertex, TVertexExchange myInVertex, TIdEdge EdgeId = default(TIdEdge), String Label = null, Action<TEdgeData> EdgeInitializer = null);
+        TEdge AddEdge(TVertex myOutVertex, TVertex myInVertex, TIdEdge EdgeId = default(TIdEdge), String Label = null, Action<TDataEdge> EdgeInitializer = null);
 
 
         /// <summary>
@@ -160,13 +176,13 @@ namespace de.ahzf.blueprints
         /// </summary>
         /// <param name="myEdgeId">The identifier of the edge.</param>
         /// <returns>The edge referenced by the provided identifier or null when no such edge exists.</returns>
-        TEdgeExchange GetEdge(TIdEdge myEdgeId);
+        TEdge GetEdge(TIdEdge myEdgeId);
 
 
         /// <summary>
         /// Get an enumeration of all edges in the graph.
         /// </summary>
-        IEnumerable<TEdgeExchange> Edges { get; }
+        IEnumerable<TEdge> Edges { get; }
 
 
         /// <summary>
@@ -174,7 +190,7 @@ namespace de.ahzf.blueprints
         /// An additional edge filter may be applied for filtering.
         /// </summary>
         /// <param name="myEdgeIds">An array of edge identifiers.</param>
-        IEnumerable<TEdgeExchange> GetEdges(params TIdEdge[] myEdgeIds);
+        IEnumerable<TEdge> GetEdges(params TIdEdge[] myEdgeIds);
 
 
         /// <summary>
@@ -182,33 +198,19 @@ namespace de.ahzf.blueprints
         /// An additional edge filter may be applied for filtering.
         /// </summary>
         /// <param name="myEdgeFilter">A delegate for edge filtering.</param>
-        IEnumerable<TEdgeExchange> GetEdges(Func<TEdgeExchange, Boolean> myEdgeFilter = null);
+        IEnumerable<TEdge> GetEdges(Func<TEdge, Boolean> myEdgeFilter = null);
 
 
         /// <summary>
         /// Remove the provided edge from the graph.
         /// </summary>
         /// <param name="myIEdge">The edge to be removed from the graph</param>
-        void RemoveEdge(TEdgeExchange myIEdge);
-
-        #endregion
-
-        #region Utils
-
-        /// <summary>
-        /// Remove all the edges and vertices from the graph.
-        /// </summary>
-        void Clear();
-
-
-        /// <summary>
-        /// A shutdown function is required to properly close the graph.
-        /// This is important for implementations that utilize disk-based serializations.
-        /// </summary>
-        void Shutdown();
+        void RemoveEdge(TEdge myIEdge);
 
         #endregion
 
     }
+
+    #endregion
 
 }

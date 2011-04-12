@@ -56,9 +56,7 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph
                                                                       HyperEdgeId, RevisionId, String, Object, IDictionary<String, Object>,
                                                                       IGenericHyperEdge<VertexId,    RevisionId, IProperties<String, Object>,
                                                                                         EdgeId,      RevisionId, IProperties<String, Object>,
-                                                                                        HyperEdgeId, RevisionId, IProperties<String, Object>>,
-
-                                                                      Object>
+                                                                                        HyperEdgeId, RevisionId, IProperties<String, Object>>>
     {
 
         #region Data

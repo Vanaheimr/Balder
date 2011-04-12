@@ -37,7 +37,7 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
                               TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
                               THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
         
-                              : AElement<TEdgeId, TEdgeRevisionId, TKeyEdge, TValueEdge, TDatastructureEdge>,
+                              : APropertyElement<TEdgeId, TEdgeRevisionId, TKeyEdge, TValueEdge, TDatastructureEdge>,
                                 IPropertyEdge<TVertexId,    TVertexRevisionId,    TKeyVertex,    TValueVertex,    TDatastructureVertex,
                                               TEdgeId,      TEdgeRevisionId,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
                                               THyperEdgeId, THyperEdgeRevisionId, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>

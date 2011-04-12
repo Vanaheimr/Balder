@@ -350,15 +350,13 @@ namespace de.ahzf.blueprints
         /// <param name="myLabel"></param>
         /// <param name="myEdgeInitializer">A delegate to initialize the newly generated edge.</param>
         /// <returns>Both new edges.</returns>
-        public static Tuple<TEdgeExchange, TEdgeExchange> AddDoubleEdge<TVertex, TVertexId, TVertexRevisionId, TVertexData, TVertexExchange,
-                                                                        TEdge,      TEdgeId,      TEdgeRevisionId,      TEdgeData,      TEdgeExchange,
-                                                                        THyperEdge, THyperEdgeId, THyperEdgeRevisionId, THyperEdgeData, THyperEdgeExchange,
-                                                                        TGraphDatastructure>(
+        public static Tuple<TEdge, TEdge> AddDoubleEdge<TVertexId,    TVertexRevisionId,    TVertexData,    TVertex,
+                                                        TEdgeId,      TEdgeRevisionId,      TEdgeData,      TEdge,
+                                                        THyperEdgeId, THyperEdgeRevisionId, THyperEdgeData, THyperEdge>(
 
-                                          this IGenericGraph<TVertex,    TVertexId,    TVertexRevisionId,    TVertexData,    TVertexExchange,
-                                                             TEdge,      TEdgeId,      TEdgeRevisionId,      TEdgeData,      TEdgeExchange,
-                                                             THyperEdge, THyperEdgeId, THyperEdgeRevisionId, THyperEdgeData, THyperEdgeExchange,
-                                                             TGraphDatastructure> myIGenericGraph,
+                                          this IGenericGraph<TVertexId,    TVertexRevisionId,    TVertexData,    TVertex,
+                                                             TEdgeId,      TEdgeRevisionId,      TEdgeData,      TEdge,
+                                                             THyperEdgeId, THyperEdgeRevisionId, THyperEdgeData, THyperEdge> myIGenericGraph,
 
                                           TVertexId         myOutVertexId,
                                           TVertexId         myInVertexId,
@@ -403,8 +401,8 @@ namespace de.ahzf.blueprints
                 throw new ArgumentException("VertexId '" + myInVertexId + "' is unknown!");
 
 
-            return new Tuple<TEdgeExchange, TEdgeExchange>(myIGenericGraph.AddEdge(myOutVertex, myInVertex, myEdgeId1, myLabel, myEdgeInitializer),
-                                                           myIGenericGraph.AddEdge(myInVertex, myOutVertex, myEdgeId2, myLabel, myEdgeInitializer));
+            return new Tuple<TEdge, TEdge>(myIGenericGraph.AddEdge(myOutVertex, myInVertex, myEdgeId1, myLabel, myEdgeInitializer),
+                                           myIGenericGraph.AddEdge(myInVertex, myOutVertex, myEdgeId2, myLabel, myEdgeInitializer));
 
 
         }

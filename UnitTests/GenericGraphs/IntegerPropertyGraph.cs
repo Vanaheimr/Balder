@@ -32,9 +32,6 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph
     /// An in-memory implementation of a property graph.
     /// </summary>
     public class IntegerPropertyGraph : IGenericGraph<// Vertex definition
-                                                      IGenericVertex<UInt64, UInt32, IProperties<UInt16, Int32>,
-                                                                     UInt64, UInt32, IProperties<UInt16, Int32>,
-                                                                     UInt64, UInt32, IProperties<UInt16, Int32>>,                                        
                                                       UInt64,
                                                       UInt32,
                                                       IProperties<UInt16, Int32>,
@@ -43,9 +40,6 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph
                                                                      UInt64, UInt32, IProperties<UInt16, Int32>>,
 
                                                       // Edge definition
-                                                      IGenericEdge<UInt64, UInt32, IProperties<UInt16, Int32>,
-                                                                   UInt64, UInt32, IProperties<UInt16, Int32>,
-                                                                   UInt64, UInt32, IProperties<UInt16, Int32>>,
                                                       UInt64,
                                                       UInt32,
                                                       IProperties<UInt16, Int32>,
@@ -54,18 +48,12 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph
                                                                      UInt64, UInt32, IProperties<UInt16, Int32>>,
 
                                                       // Hyperedge definition
-                                                      IGenericHyperEdge<UInt64, UInt32, IProperties<UInt16, Int32>,
-                                                                        UInt64, UInt32, IProperties<UInt16, Int32>,
-                                                                        UInt64, UInt32, IProperties<UInt16, Int32>>,
                                                       UInt64,
                                                       UInt32,
                                                       IProperties<UInt16, Int32>,
                                                       IGenericHyperEdge<UInt64, UInt32, IProperties<UInt16, Int32>,
                                                                      UInt64, UInt32, IProperties<UInt16, Int32>,
-                                                                     UInt64, UInt32, IProperties<UInt16, Int32>>,
-
-                                                      // Rest...
-                                                      Object>
+                                                                     UInt64, UInt32, IProperties<UInt16, Int32>>>
 
     {
 
@@ -103,8 +91,6 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph
         #endregion
 
 
-
-
         public IGenericVertex<ulong, uint, IProperties<ushort, int>, ulong, uint, IProperties<ushort, int>, ulong, uint, IProperties<ushort, int>> AddVertex(ulong VertexId = default(UInt64), Action<IProperties<ushort, int>> VertexInitializer = null)
         {
             throw new NotImplementedException();
@@ -118,6 +104,11 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph
         public IGenericVertex<ulong, uint, IProperties<ushort, int>, ulong, uint, IProperties<ushort, int>, ulong, uint, IProperties<ushort, int>> GetVertex(ulong myVertexId)
         {
             throw new NotImplementedException();
+        }
+
+        public IEnumerable<IGenericVertex<ulong, uint, IProperties<ushort, int>, ulong, uint, IProperties<ushort, int>, ulong, uint, IProperties<ushort, int>>> Vertices
+        {
+            get { throw new NotImplementedException(); }
         }
 
         public IEnumerable<IGenericVertex<ulong, uint, IProperties<ushort, int>, ulong, uint, IProperties<ushort, int>, ulong, uint, IProperties<ushort, int>>> GetVertices(params ulong[] myVertexIds)
@@ -145,6 +136,11 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph
             throw new NotImplementedException();
         }
 
+        public IEnumerable<IGenericEdge<ulong, uint, IProperties<ushort, int>, ulong, uint, IProperties<ushort, int>, ulong, uint, IProperties<ushort, int>>> Edges
+        {
+            get { throw new NotImplementedException(); }
+        }
+
         public IEnumerable<IGenericEdge<ulong, uint, IProperties<ushort, int>, ulong, uint, IProperties<ushort, int>, ulong, uint, IProperties<ushort, int>>> GetEdges(params ulong[] myEdgeIds)
         {
             throw new NotImplementedException();
@@ -169,7 +165,6 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph
         {
             throw new NotImplementedException();
         }
-
     }
 
 }

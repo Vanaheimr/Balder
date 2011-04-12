@@ -28,7 +28,7 @@ using System.Collections.Specialized;
 namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
 {
 
-    public abstract class AElement<TId, TRevisionId, TKey, TValue, TDatastructure>
+    public abstract class APropertyElement<TId, TRevisionId, TKey, TValue, TDatastructure>
         
         where TKey           : IEquatable<TKey>,        IComparable<TKey>,        IComparable
         where TId            : IEquatable<TId>,         IComparable<TId>,         IComparable, TValue
@@ -191,7 +191,7 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
         /// <summary>
         /// Creates a new AElement.
         /// </summary>
-        internal protected AElement(TId                  myId,
+        internal protected APropertyElement(TId                  myId,
                                     TKey                 myIdKey,
                                     TKey                 myRevisonIdKey,
                                     Func<TDatastructure> myDataInitializer,
