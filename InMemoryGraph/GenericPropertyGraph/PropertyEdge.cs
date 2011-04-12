@@ -60,14 +60,14 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
 
     {
 
-        #region Data
+        //#region Data
 
-        /// <summary>
-        /// The property key of the Label property
-        /// </summary>
-        protected const String __Label = "Label";
+        ///// <summary>
+        ///// The property key of the Label property
+        ///// </summary>
+        //protected const String __Label = "Label";
 
-        #endregion
+        //#endregion
 
         #region Properties
 
@@ -78,20 +78,7 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
         /// <summary>
         /// The label associated with this edge.
         /// </summary>
-        public String Label
-        {
-            get
-            {
-
-                //TValue _Object;
-
-                //if (_Properties.TryGetValue(__Label, out _Object))
-                //    return _Object as String;
-
-                return null;
-
-            }
-        }
+        public String Label { get; private set; }
 
         #endregion
 
@@ -195,7 +182,7 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
             _InVertex     = myInVertex;
 
             // Add the label
-            //_Properties.Add(__Label, myLabel);
+            Label = myLabel;
 
             if (myEdgeInitializer != null)
                 myEdgeInitializer(Data);
