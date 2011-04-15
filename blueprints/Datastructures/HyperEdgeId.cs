@@ -21,7 +21,7 @@ using System;
 
 #endregion
 
-namespace de.ahzf.blueprints.Datastructures
+namespace de.ahzf.blueprints
 {
 
     /// <summary>

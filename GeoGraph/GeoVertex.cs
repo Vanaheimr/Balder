@@ -21,7 +21,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-using de.ahzf.blueprints.Datastructures;
+using de.ahzf.blueprints.GenericGraph;
 
 #endregion
 
@@ -42,16 +42,16 @@ namespace de.ahzf.blueprints.GeoGraph
         /// <summary>
         /// The edges emanating from, or leaving, this vertex.
         /// </summary>
-        protected readonly HashSet<IGenericEdge<VertexId, RevisionId, GeoCoordinate,
-                                              EdgeId, RevisionId, Distance,
-                                              HyperEdgeId, RevisionId, Distance>> _OutEdges;
+        protected readonly HashSet<IGenericEdge<VertexId,    RevisionId, GeoCoordinate,
+                                                EdgeId,      RevisionId, Distance,
+                                                HyperEdgeId, RevisionId, Distance>> _OutEdges;
 
         /// <summary>
         /// The edges incoming to, or arriving at, this vertex.
         /// </summary>
-        protected readonly HashSet<IGenericEdge<VertexId, RevisionId, GeoCoordinate,
-                                              EdgeId, RevisionId, Distance,
-                                              HyperEdgeId, RevisionId, Distance>> _InEdges;
+        protected readonly HashSet<IGenericEdge<VertexId,    RevisionId, GeoCoordinate,
+                                                EdgeId,      RevisionId, Distance,
+                                                HyperEdgeId, RevisionId, Distance>> _InEdges;
 
         #endregion
 
@@ -97,7 +97,7 @@ namespace de.ahzf.blueprints.GeoGraph
         /// <param name="myIGraph">The associated graph.</param>
         /// <param name="myVertexId">The identification of this vertex.</param>
         /// <param name="myVertexInitializer">A delegate to initialize the newly created vertex.</param>
-        internal protected GeoVertex(IPropertyGraph myIGraph, VertexId myVertexId, Action<IGeoVertex> myVertexInitializer = null)
+        internal protected GeoVertex(IGenericGraph myIGraph, VertexId myVertexId, Action<IGeoVertex> myVertexInitializer = null)
         {
             
             _OutEdges = new HashSet<IGenericEdge<VertexId, RevisionId, GeoCoordinate,

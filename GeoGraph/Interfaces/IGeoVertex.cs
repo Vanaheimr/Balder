@@ -18,9 +18,9 @@
 #region Usings
 
 using System;
-
-using de.ahzf.blueprints.Datastructures;
 using System.Collections.Generic;
+
+using de.ahzf.blueprints.GenericGraph;
 
 #endregion
 

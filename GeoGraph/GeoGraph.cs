@@ -20,7 +20,7 @@
 using System;
 using System.Collections.Generic;
 
-using de.ahzf.blueprints.Datastructures;
+using de.ahzf.blueprints.GenericGraph;
 
 #endregion
 

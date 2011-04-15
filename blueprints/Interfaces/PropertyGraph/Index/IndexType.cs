@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-namespace de.ahzf.blueprints
+namespace de.ahzf.blueprints.PropertyGraph
 {
 
     /// <summary>

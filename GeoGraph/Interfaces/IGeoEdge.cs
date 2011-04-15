@@ -17,7 +17,7 @@
 
 #region Usings
 
-using de.ahzf.blueprints.Datastructures;
+using de.ahzf.blueprints.GenericGraph;
 
 #endregion
 

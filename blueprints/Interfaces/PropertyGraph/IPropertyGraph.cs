@@ -19,11 +19,10 @@
 
 using System;
 using System.Collections.Generic;
-using de.ahzf.blueprints.Datastructures;
 
 #endregion
 
-namespace de.ahzf.blueprints
+namespace de.ahzf.blueprints.PropertyGraph
 {
 
     #region IPropertyGraph

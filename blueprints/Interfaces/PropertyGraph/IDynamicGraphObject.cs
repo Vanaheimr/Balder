@@ -23,7 +23,7 @@ using System.ComponentModel;
 
 #endregion
 
-namespace de.ahzf.blueprints
+namespace de.ahzf.blueprints.PropertyGraph
 {
 
     /// <summary>

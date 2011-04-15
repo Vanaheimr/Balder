@@ -23,7 +23,7 @@
 
 //#endregion
 
-//namespace de.ahzf.blueprints
+//namespace de.ahzf.blueprints.Tools
 //{
 
 //    /// <summary>

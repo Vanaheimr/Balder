@@ -25,7 +25,7 @@ using System.Runtime.Serialization;
 
 #endregion
 
-namespace de.ahzf.blueprints.Datastructures
+namespace de.ahzf.blueprints
 {
 
     /// <summary>

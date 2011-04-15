@@ -19,7 +19,7 @@
 
 using System;
 
-using de.ahzf.blueprints.Datastructures;
+using de.ahzf.blueprints.GenericGraph;
 
 #endregion
 
@@ -133,14 +133,16 @@ namespace de.ahzf.blueprints.GeoGraph
         /// <param name="myEdgeId">The identification of this vertex.</param>
         /// <param name="myLabel">A label stored within this edge.</param>
         /// <param name="myEdgeInitializer">A delegate to initialize the newly created edge.</param>
-        public GeoEdge(IPropertyGraph myIGraph,
+        public GeoEdge(IGenericGraph myIGraph,
                        IGenericVertex<VertexId,    RevisionId, GeoCoordinate,
                                       EdgeId,      RevisionId, Distance,
                                       HyperEdgeId, RevisionId, Distance> myOutVertex,
                        IGenericVertex<VertexId,    RevisionId, GeoCoordinate,
                                       EdgeId,      RevisionId, Distance,
                                       HyperEdgeId, RevisionId, Distance> myInVertex,
-                       EdgeId myEdgeId, String myLabel, Action<IGeoEdge> myEdgeInitializer = null)
+                       EdgeId           myEdgeId,
+                       String           myLabel,
+                       Action<IGeoEdge> myEdgeInitializer = null)
         {
 
             if (myOutVertex == null)

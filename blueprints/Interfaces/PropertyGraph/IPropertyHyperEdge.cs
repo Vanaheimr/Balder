@@ -20,11 +20,9 @@
 using System;
 using System.Collections.Generic;
 
-using de.ahzf.blueprints.Datastructures;
-
 #endregion
 
-namespace de.ahzf.blueprints
+namespace de.ahzf.blueprints.PropertyGraph
 {
 
     #region IPropertyHyperEdge
@@ -39,10 +37,15 @@ namespace de.ahzf.blueprints
     /// Diagrammatically, outVertex ---label---> inVertex1.
     ///                                      \--> inVertex2.
     /// </summary>
-    public interface IPropertyHyperEdge : IPropertyHyperEdge<VertexId,    RevisionId, String, Object,
-                                                             EdgeId,      RevisionId, String, Object,
-                                                             HyperEdgeId, RevisionId, String, Object>
-    { }
+    public interface IPropertyHyperEdge : IComparable
+    {
+
+        /// <summary>
+        /// Return the label associated with the hyperedge.
+        /// </summary>
+        String Label { get; }
+
+    }
 
     #endregion
 
@@ -76,7 +79,8 @@ namespace de.ahzf.blueprints
                                         TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
                                         TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>
 
-                                        : IPropertyElement<TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>
+                                        : IPropertyElement<TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>,
+                                          IPropertyHyperEdge
 
         where TKeyVertex              : IEquatable<TKeyVertex>,           IComparable<TKeyVertex>,           IComparable
         where TKeyEdge                : IEquatable<TKeyEdge>,             IComparable<TKeyEdge>,             IComparable
@@ -90,7 +94,31 @@ namespace de.ahzf.blueprints
         where TRevisionIdEdge         : IEquatable<TRevisionIdEdge>,      IComparable<TRevisionIdEdge>,      IComparable, TValueEdge
         where TRevisionIdHyperEdge    : IEquatable<TRevisionIdHyperEdge>, IComparable<TRevisionIdHyperEdge>, IComparable, TValueHyperEdge
 
-    { }
+    {
+    
+        /// <summary>
+        /// Return the vertex at the tail of the hyperedge.
+        /// </summary>
+        IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                        TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                        TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge> OutVertex { get; }
+
+        /// <summary>
+        /// Return the edges wrapped by the hyperedge.
+        /// </summary>
+        IEnumerable<IPropertyEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                                  TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                  TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>> Edges { get; }
+
+        /// <summary>
+        /// Return the vertices at the head of the hyperedge.
+        /// </summary>
+        IEnumerable<IPropertyVertex<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex,
+                                    TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge,
+                                    TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>> InVertices { get; }
+    
+
+    }
 
     #endregion
 

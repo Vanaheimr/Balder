@@ -20,15 +20,12 @@
 using System;
 using System.Collections.Generic;
 
-using de.ahzf.blueprints.Datastructures;
-
 #endregion
 
-namespace de.ahzf.blueprints
+namespace de.ahzf.blueprints.GenericGraph
 {
 
-    public interface IGenericVertex
-    { }
+    #region IGenericVertex
 
     /// <summary>
     /// A vertex maintains pointers to both a set of incoming and outgoing edges.
@@ -36,7 +33,30 @@ namespace de.ahzf.blueprints
     /// The incoming edges are those edges for which the vertex is the head.
     /// Diagrammatically, ---inEdges---> vertex ---outEdges--->.
     /// </summary>
-    /// <typeparam name="TIdVertex">The type of the vertex identifier.</typeparam>
+    public interface IGenericVertex : IComparable
+    { }
+
+    #endregion
+
+    #region IGenericVertex<...>
+
+    /// <summary>
+    /// A vertex maintains pointers to both a set of incoming and outgoing edges.
+    /// The outgoing edges are those edges for which the vertex is the tail.
+    /// The incoming edges are those edges for which the vertex is the head.
+    /// Diagrammatically, ---inEdges---> vertex ---outEdges--->.
+    /// </summary>
+    /// <typeparam name="TIdVertex">The type of the vertex identifiers.</typeparam>
+    /// <typeparam name="TRevisionIdVertex">The type of the vertex revision identifiers.</typeparam>
+    /// <typeparam name="TDataVertex">The type of the embedded vertex data.</typeparam>
+    /// 
+    /// <typeparam name="TIdEdge">The type of the edge identifiers.</typeparam>
+    /// <typeparam name="TRevisionIdEdge">The type of the edge identifiers.</typeparam>
+    /// <typeparam name="TDataEdge">The type of the embedded edge data.</typeparam>
+    /// 
+    /// <typeparam name="TIdHyperEdge">The type of the hyperedge identifiers.</typeparam>
+    /// <typeparam name="TRevisionIdHyperEdge">The type of the hyperedge identifiers.</typeparam>
+    /// <typeparam name="TDataHyperEdge">The type of the embedded hyperedge data.</typeparam>
     public interface IGenericVertex<TIdVertex,    TRevisionIdVertex,    TVertexData,
                                     TIdEdge,      TRevisionIdEdge,      TEdgeData,
                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData>
@@ -125,5 +145,7 @@ namespace de.ahzf.blueprints
         #endregion
 
     }
+
+    #endregion
 
 }

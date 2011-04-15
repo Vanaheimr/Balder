@@ -21,9 +21,11 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
 
+using de.ahzf.blueprints.PropertyGraph;
+
 #endregion
 
-namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
+namespace de.ahzf.blueprints.PropertyGraph.InMemory
 {
 
     #region InMemoryPropertyGraph<TId, TRevisionId, TKey, TValue>
@@ -86,18 +88,18 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
                             ),
 
                    // Create a new HyperEdge
-                   (myOutVertex, myInVertices, myHyperEdgeId, myLabel, myHyperEdgePropertyInitializer) =>
+                   (myEdges, myHyperEdgeId, myLabel, myHyperEdgePropertyInitializer) =>
                        new PropertyHyperEdge<TId, TRevisionId, TKey, TValue, IDictionary<TKey, TValue>,
                                              TId, TRevisionId, TKey, TValue, IDictionary<TKey, TValue>,
                                              TId, TRevisionId, TKey, TValue, IDictionary<TKey, TValue>,
-                                             ICollection<IPropertyVertex<TId, TRevisionId, TKey, TValue,
-                                                                         TId, TRevisionId, TKey, TValue,
-                                                                         TId, TRevisionId, TKey, TValue>>>
-                            (myOutVertex, myInVertices, myHyperEdgeId, myLabel, myIdKey, myRevisionIdKey,
+                                             ICollection<IPropertyEdge<TId, TRevisionId, TKey, TValue,
+                                                                       TId, TRevisionId, TKey, TValue,
+                                                                       TId, TRevisionId, TKey, TValue>>>
+                            (myEdges, myHyperEdgeId, myLabel, myIdKey, myRevisionIdKey,
                              () => new Dictionary<TKey, TValue>(),
-                             () => new HashSet<IPropertyVertex<TId, TRevisionId, TKey, TValue,
-                                                               TId, TRevisionId, TKey, TValue,
-                                                               TId, TRevisionId, TKey, TValue>>(),
+                             () => new HashSet<IPropertyEdge<TId, TRevisionId, TKey, TValue,
+                                                             TId, TRevisionId, TKey, TValue,
+                                                             TId, TRevisionId, TKey, TValue>>(),
                              myHyperEdgePropertyInitializer
                             ),
 
@@ -163,40 +165,51 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
         #region Data
 
         // Make it more generic??!
-        private readonly IDictionary<TIdVertex,    IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
-                                     TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
-                                     TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>>    _Vertices;
-        private readonly IDictionary<TIdEdge, IPropertyEdge<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex,
-                                   TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge,
-                                   TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>> _Edges;
-        private readonly IDictionary<TIdHyperEdge, IPropertyHyperEdge<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex,
-                                        TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge,
-                                        TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>> _HyperEdges;
+        private readonly IDictionary<TIdVertex,    IPropertyVertex   <TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                                                                      TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                                                      TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>> _Vertices;
+
+        private readonly IDictionary<TIdEdge,      IPropertyEdge     <TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                                                                      TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                                                      TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>> _Edges;
+
+        private readonly IDictionary<TIdHyperEdge, IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                                                                      TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                                                      TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>> _HyperEdges;
 
         private readonly Func<TIdVertex,
-                         Action<IProperties<TKeyVertex,    TValueVertex>>,    IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
-                                     TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
-                                     TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>>
+                              Action<IProperties<TKeyVertex,    TValueVertex>>,
+                              IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                                              TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                              TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>>
+
                          _VertexCreatorDelegate;
 
-        private readonly Func<IPropertyVertex<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex,
-                                     TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge,
-                                     TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>, IPropertyVertex<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex,
-                                     TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge,
-                                     TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>, TIdEdge, String,
-                         Action<IProperties<TKeyEdge, TValueEdge>>, IPropertyEdge<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex,
-                                   TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge,
-                                   TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>>
+        private readonly Func<IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                                              TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                              TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>,
+                              IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                                              TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                              TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>,
+                              TIdEdge,
+                              String,
+                              Action<IProperties<TKeyEdge, TValueEdge>>,
+                              IPropertyEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                                            TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                            TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>>
+
                          _EdgeCreatorDelegate;
 
-        private readonly Func<IPropertyVertex<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex,
-                                     TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge,
-                                     TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>, IEnumerable<IPropertyVertex<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex,
-                                     TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge,
-                                     TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>>, TIdHyperEdge, String,
-                         Action<IProperties<TKeyHyperEdge, TValueHyperEdge>>, IPropertyHyperEdge<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex,
-                                        TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge,
-                                        TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>>
+        private readonly Func<IEnumerable<IPropertyEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                                                        TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                                        TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>>,
+                              TIdHyperEdge,
+                              String,
+                              Action<IProperties<TKeyHyperEdge, TValueHyperEdge>>,
+                              IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                                                 TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                                 TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>>
+
                          _HyperEdgeCreatorDelegate;
 
         //protected Map<String, TinkerIndex>          indices     = new HashMap<String, TinkerIndex>();
@@ -206,46 +219,76 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
 
         #region Constructor(s)
 
-        #region InMemoryGraph(myTKeyVertex, myTKeyEdge, myTKeyHyperEdge)
+        #region InMemoryGenericPropertyGraph(myVertexCreatorDelegate, myEdgeCreatorDelegate, myHyperEdgeCreatorDelegate, myVerticesCollectionInitializer, myEdgesCollectionInitializer, myHyperEdgesCollectionInitializer)
 
         /// <summary>
-        /// Created a new in-memory graph.
+        /// Created a new genric and in-memory property graph.
         /// </summary>
-        public InMemoryGenericPropertyGraph(Func<TIdVertex,
-                                            Action<IProperties<TKeyVertex, TValueVertex>>, IPropertyVertex<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex,
-                                     TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge,
-                                     TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>>
+        /// <param name="myVertexCreatorDelegate"></param>
+        /// <param name="myEdgeCreatorDelegate"></param>
+        /// <param name="myHyperEdgeCreatorDelegate"></param>
+        /// <param name="myVerticesCollectionInitializer"></param>
+        /// <param name="myEdgesCollectionInitializer"></param>
+        /// <param name="myHyperEdgesCollectionInitializer"></param>
+        public InMemoryGenericPropertyGraph(// Vertices creator
+                                            Func<TIdVertex,
+                                                 Action<IProperties<TKeyVertex, TValueVertex>>,
+                                                 IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                                                                 TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                                                 TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>>
+
                                             myVertexCreatorDelegate,
 
-                                            Func<IPropertyVertex<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex,
-                                     TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge,
-                                     TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>, IPropertyVertex<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex,
-                                     TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge,
-                                     TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>, TIdEdge, String,
-                                            Action<IProperties<TKeyEdge, TValueEdge>>, IPropertyEdge<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex,
-                                   TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge,
-                                   TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>>
+
+                                            // Edges creator
+                                            Func<IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                                                                 TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                                                 TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>,
+                                                 IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                                                                 TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                                                 TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>,
+                                                 TIdEdge,
+                                                 String,
+                                                 Action<IProperties<TKeyEdge, TValueEdge>>,
+                                                 IPropertyEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                                                               TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                                               TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>>
+
                                             myEdgeCreatorDelegate,
 
-                                            Func<IPropertyVertex<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex,
-                                     TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge,
-                                     TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>, IEnumerable<IPropertyVertex<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex,
-                                     TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge,
-                                     TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>>, TIdHyperEdge, String,
-                                            Action<IProperties<TKeyHyperEdge, TValueHyperEdge>>, IPropertyHyperEdge<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex,
-                                        TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge,
-                                        TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>>
+
+                                            // Hyperedges creator
+                                            Func<IEnumerable<IPropertyEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                                                                           TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                                                           TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>>,
+                                                 TIdHyperEdge,
+                                                 String,
+                                                 Action<IProperties<TKeyHyperEdge, TValueHyperEdge>>,
+                                                 IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                                                                    TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                                                    TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>>
+
                                             myHyperEdgeCreatorDelegate,
 
-                                            IDictionary<TIdVertex, IPropertyVertex<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex,
-                                     TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge,
-                                     TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>> myVerticesCollectionInitializer,
-                                            IDictionary<TIdEdge, IPropertyEdge<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex,
-                                   TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge,
-                                   TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>> myEdgesCollectionInitializer,
-                                            IDictionary<TIdHyperEdge, IPropertyHyperEdge<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex,
-                                        TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge,
-                                        TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>> myHyperEdgesCollectionInitializer
+
+                                            // Vertices Collection
+                                            IDictionary<TIdVertex,    IPropertyVertex   <TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                                                                                         TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                                                                         TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>>
+                                            myVerticesCollectionInitializer,
+
+                                            // Edges Collection
+                                            IDictionary<TIdEdge,      IPropertyEdge     <TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                                                                                         TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                                                                         TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>>
+                                            myEdgesCollectionInitializer,
+
+                                            // Hyperedges Collection
+                                            IDictionary<TIdHyperEdge, IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                                                                                         TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                                                                         TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>>
+                                            myHyperEdgesCollectionInitializer
+
                                            )
         {
 

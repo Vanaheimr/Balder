@@ -25,7 +25,7 @@ using System.Collections.Specialized;
 
 #endregion
 
-namespace de.ahzf.blueprints.InMemory.PropertyGraph.Generic
+namespace de.ahzf.blueprints.PropertyGraph.InMemory
 {
 
     /// <summary>

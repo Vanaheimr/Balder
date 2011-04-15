@@ -19,11 +19,10 @@
 
 using System;
 using System.Collections.Generic;
-using de.ahzf.blueprints.Datastructures;
 
 #endregion
 
-namespace de.ahzf.blueprints
+namespace de.ahzf.blueprints.GenericGraph
 {
 
     #region IGenericGraph
@@ -57,17 +56,17 @@ namespace de.ahzf.blueprints
     /// </summary>
     /// <typeparam name="TIdVertex">The type of the vertex identifiers.</typeparam>
     /// <typeparam name="TRevisionIdVertex">The type of the vertex revision identifiers.</typeparam>
-    /// <typeparam name="TDataVertex">The type of the additional vertex data.</typeparam>
+    /// <typeparam name="TDataVertex">The type of the embedded vertex data.</typeparam>
     /// <typeparam name="TVertex">The type of the vertices.</typeparam>
     /// 
     /// <typeparam name="TIdEdge">The type of the edge identifiers.</typeparam>
     /// <typeparam name="TRevisionIdEdge">The type of the edge identifiers.</typeparam>
-    /// <typeparam name="TDataEdge">The type of the additional edge data.</typeparam>
+    /// <typeparam name="TDataEdge">The type of the embedded edge data.</typeparam>
     /// <typeparam name="TEdge">The type of the edges.</typeparam>
     /// 
     /// <typeparam name="TIdHyperEdge">The type of the hyperedge identifiers.</typeparam>
     /// <typeparam name="TRevisionIdHyperEdge">The type of the hyperedge identifiers.</typeparam>
-    /// <typeparam name="TDataHyperEdge">The type of the additional hyperedge data.</typeparam>
+    /// <typeparam name="TDataHyperEdge">The type of the embedded hyperedge data.</typeparam>
     /// <typeparam name="THyperEdge">The type of the hyperedges.</typeparam>
     public interface IGenericGraph<TIdVertex,    TRevisionIdVertex,    TDataVertex,    TVertex,    
                                    TIdEdge,      TRevisionIdEdge,      TDataEdge,      TEdge,      
@@ -206,6 +205,12 @@ namespace de.ahzf.blueprints
         /// </summary>
         /// <param name="myIEdge">The edge to be removed from the graph</param>
         void RemoveEdge(TEdge myIEdge);
+
+        #endregion
+
+        #region HyperEdge methods
+
+        // yet to come!
 
         #endregion
 

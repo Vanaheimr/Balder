@@ -20,11 +20,9 @@
 using System;
 using System.Collections.Generic;
 
-using de.ahzf.blueprints.Datastructures;
-
 #endregion
 
-namespace de.ahzf.blueprints
+namespace de.ahzf.blueprints.PropertyGraph
 {
 
     #region IPropertyEdge
@@ -38,10 +36,15 @@ namespace de.ahzf.blueprints
     /// between the two vertices.
     /// Diagrammatically, outVertex ---label---> inVertex.
     /// </summary>
-    public interface IPropertyEdge : IPropertyEdge<VertexId,    RevisionId, String, Object,
-                                                   EdgeId,      RevisionId, String, Object,
-                                                   HyperEdgeId, RevisionId, String, Object>
-    { }
+    public interface IPropertyEdge : IComparable
+    {
+
+        /// <summary>
+        /// Return the label associated with the edge.
+        /// </summary>
+        String Label { get; }
+
+    }
 
     #endregion
 
@@ -74,7 +77,8 @@ namespace de.ahzf.blueprints
                                    TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
                                    TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>
 
-                                   : IPropertyElement<TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge>
+                                   : IPropertyElement<TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge>,
+                                     IPropertyEdge
 
         where TKeyVertex              : IEquatable<TKeyVertex>,           IComparable<TKeyVertex>,           IComparable
         where TKeyEdge                : IEquatable<TKeyEdge>,             IComparable<TKeyEdge>,             IComparable
@@ -105,13 +109,6 @@ namespace de.ahzf.blueprints
                         TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
                         TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge> InVertex { get; }
 
-
-        /// <summary>
-        /// Return the label associated with the edge.
-        /// </summary>
-        String Label { get; }
-
-    
     }
 
     #endregion

@@ -20,11 +20,9 @@
 using System;
 using System.Collections.Generic;
 
-using de.ahzf.blueprints.Datastructures;
-
 #endregion
 
-namespace de.ahzf.blueprints
+namespace de.ahzf.blueprints.PropertyGraph
 {
 
     #region PropertyVertex
@@ -35,9 +33,7 @@ namespace de.ahzf.blueprints
     /// The incoming edges are those edges for which the vertex is the head.
     /// Diagrammatically, ---inEdges---> vertex ---outEdges--->.
     /// </summary>
-    public interface IPropertyVertex : IPropertyVertex<VertexId,    RevisionId, String, Object,
-                                                       EdgeId,      RevisionId, String, Object,
-                                                       HyperEdgeId, RevisionId, String, Object>
+    public interface IPropertyVertex : IComparable
     { }
 
     #endregion
@@ -68,7 +64,8 @@ namespace de.ahzf.blueprints
                                      TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
                                      TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>
 
-                                     : IPropertyElement<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex>
+                                     : IPropertyElement<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex>,
+                                       IPropertyVertex
 
         where TKeyVertex              : IEquatable<TKeyVertex>,           IComparable<TKeyVertex>,           IComparable
         where TKeyEdge                : IEquatable<TKeyEdge>,             IComparable<TKeyEdge>,             IComparable
@@ -151,6 +148,12 @@ namespace de.ahzf.blueprints
         void RemoveInEdge(IPropertyEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
                                         TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
                                         TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge> myIEdge);
+
+        #endregion
+
+        #region In/Out HyperEdges
+
+        // yet to come!
 
         #endregion
 

@@ -21,12 +21,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
 
-using de.ahzf.blueprints.Datastructures;
-using de.ahzf.blueprints.InMemory.PropertyGraph.Generic;
-
 #endregion
 
-namespace de.ahzf.blueprints.InMemory.PropertyGraph
+namespace de.ahzf.blueprints.PropertyGraph.InMemory
 {
 
     #region InMemoryPropertyGraph
@@ -34,16 +31,16 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph
     /// <summary>
     /// An in-memory implementation of a property graph.
     /// </summary>
-    public class InMemoryPropertyGraph : InMemoryGenericPropertyGraph<// Vertex definition
+    public class InMemoryPropertyGraph : InMemoryGenericPropertyGraph<// Vertices definition
                                                                       VertexId,    RevisionId, String, Object, IDictionary<String, Object>,
                                                                       ICollection<IPropertyEdge<VertexId,    RevisionId, String, Object,
                                                                                                 EdgeId,      RevisionId, String, Object,
                                                                                                 HyperEdgeId, RevisionId, String, Object>>,
 
-                                                                      // Edge definition
+                                                                      // Edges definition
                                                                       EdgeId,      RevisionId, String, Object, IDictionary<String, Object>,
 
-                                                                      // Hyperedge definition
+                                                                      // Hyperedges definition
                                                                       HyperEdgeId, RevisionId, String, Object, IDictionary<String, Object>>,
                                         IPropertyGraph
     {
@@ -96,18 +93,18 @@ namespace de.ahzf.blueprints.InMemory.PropertyGraph
                             ),
 
                    // Create a new HyperEdge
-                   (myOutVertex, myInVertices, myHyperEdgeId, myLabel, myHyperEdgePropertyInitializer) =>
+                   (myEdges, myHyperEdgeId, myLabel, myHyperEdgePropertyInitializer) =>
                        new PropertyHyperEdge<VertexId,    RevisionId, String, Object, IDictionary<String, Object>,
                                              EdgeId,      RevisionId, String, Object, IDictionary<String, Object>,
                                              HyperEdgeId, RevisionId, String, Object, IDictionary<String, Object>,
-                                             ICollection<IPropertyVertex<VertexId,    RevisionId, String, Object,
-                                                                         EdgeId,      RevisionId, String, Object,
-                                                                         HyperEdgeId, RevisionId, String, Object>>>
-                            (myOutVertex, myInVertices, myHyperEdgeId, myLabel, _HyperEdgeIdKey, _HyperEdgeRevisionIdKey,
+                                             ICollection<IPropertyEdge<VertexId,    RevisionId, String, Object,
+                                                                       EdgeId,      RevisionId, String, Object,
+                                                                       HyperEdgeId, RevisionId, String, Object>>>
+                            (myEdges, myHyperEdgeId, myLabel, _HyperEdgeIdKey, _HyperEdgeRevisionIdKey,
                              () => new Dictionary<String, Object>(),
-                             () => new HashSet<IPropertyVertex<VertexId,    RevisionId, String, Object,
-                                                               EdgeId,      RevisionId, String, Object,
-                                                               HyperEdgeId, RevisionId, String, Object>>(),
+                             () => new HashSet<IPropertyEdge<VertexId,    RevisionId, String, Object,
+                                                             EdgeId,      RevisionId, String, Object,
+                                                             HyperEdgeId, RevisionId, String, Object>>(),
                              myHyperEdgePropertyInitializer
                             ),
 

@@ -57,10 +57,10 @@
     <Compile Include="Datastructures\RevisionId.cs" />
     <Compile Include="Datastructures\UniqueTimestamp.cs" />
     <Compile Include="Datastructures\EdgeId.cs" />
-    <Compile Include="Extensions\IPropertyGraphExtensions.cs" />
-    <Compile Include="Extensions\IPropertyElementExtensions.cs" />
-    <Compile Include="Extensions\IGraphExtensions.cs" />
-    <Compile Include="Extensions\IPropertiesExtensions.cs" />
+    <Compile Include="Extensions\PropertyGraph\IPropertyGraphExtensions.cs" />
+    <Compile Include="Extensions\PropertyGraph\IPropertyElementExtensions.cs" />
+    <Compile Include="Extensions\GenericGraph\IGraphExtensions.cs" />
+    <Compile Include="Extensions\PropertyGraph\IPropertiesExtensions.cs" />
     <Compile Include="Interfaces\GenericGraph\IGenericElement.cs" />
     <Compile Include="Interfaces\IRevisionId.cs" />
     <Compile Include="Interfaces\PropertyGraph\IDynamicGraphObject.cs" />
@@ -73,7 +73,7 @@
     <Compile Include="Interfaces\GenericGraph\IGenericVertex.cs" />
     <Compile Include="Interfaces\GenericGraph\IGenericGraph.cs" />
     <Compile Include="Interfaces\PropertyGraph\Index\IAutomaticIndex.cs" />
-    <Compile Include="Datastructures\IndexType.cs" />
+    <Compile Include="Interfaces\PropertyGraph\Index\IndexType.cs" />
     <Compile Include="Interfaces\PropertyGraph\Index\IIndex.cs" />
     <Compile Include="Interfaces\PropertyGraph\Index\IIndexableGraph.cs" />
     <Compile Include="Interfaces\PropertyGraph\IPropertyGraph.cs" />

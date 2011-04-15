@@ -19,23 +19,12 @@
 
 using System;
 
-using de.ahzf.blueprints.Datastructures;
-using System.Collections.Generic;
-
 #endregion
 
-namespace de.ahzf.blueprints
+namespace de.ahzf.blueprints.GenericGraph
 {
 
-    public interface IGenericEdge : IComparable
-    {
-
-        /// <summary>
-        /// Return the label associated with the edge.
-        /// </summary>
-        String Label { get; }
-
-    }
+    #region IGenericEdge
 
     /// <summary>
     /// An edge links two vertices. Along with its key/value properties,
@@ -46,12 +35,45 @@ namespace de.ahzf.blueprints
     /// between the two vertices.
     /// Diagrammatically, outVertex ---label---> inVertex.
     /// </summary>
-    /// <typeparam name="TIdEdge">The type of the edge identifier.</typeparam>
-    public interface IGenericEdge<TIdVertex,    TRevisionIdVertex,    TVertexData,
-                                  TIdEdge,      TRevisionIdEdge,      TEdgeData,
-                                  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData>
+    public interface IGenericEdge : IComparable
+    {
 
-                                  : IGenericElement<TIdEdge, TRevisionIdEdge, TEdgeData>,
+        /// <summary>
+        /// Return the label associated with the edge.
+        /// </summary>
+        String Label { get; }
+
+    }
+
+    #endregion
+
+    #region IGenericEdge<...>
+
+    /// <summary>
+    /// An edge links two vertices. Along with its key/value properties,
+    /// an edge has both a directionality and a label.
+    /// The directionality determines which vertex is the tail vertex
+    /// (out vertex) and which vertex is the head vertex (in vertex).
+    /// The edge label determines the type of relationship that exists
+    /// between the two vertices.
+    /// Diagrammatically, outVertex ---label---> inVertex.
+    /// </summary>
+    /// <typeparam name="TIdVertex">The type of the vertex identifiers.</typeparam>
+    /// <typeparam name="TRevisionIdVertex">The type of the vertex revision identifiers.</typeparam>
+    /// <typeparam name="TDataVertex">The type of the embedded vertex data.</typeparam>
+    /// 
+    /// <typeparam name="TIdEdge">The type of the edge identifiers.</typeparam>
+    /// <typeparam name="TRevisionIdEdge">The type of the edge identifiers.</typeparam>
+    /// <typeparam name="TDataEdge">The type of the embedded edge data.</typeparam>
+    /// 
+    /// <typeparam name="TIdHyperEdge">The type of the hyperedge identifiers.</typeparam>
+    /// <typeparam name="TRevisionIdHyperEdge">The type of the hyperedge identifiers.</typeparam>
+    /// <typeparam name="TDataHyperEdge">The type of the embedded hyperedge data.</typeparam>
+    public interface IGenericEdge<TIdVertex,    TRevisionIdVertex,    TDataVertex,
+                                  TIdEdge,      TRevisionIdEdge,      TDataEdge,
+                                  TIdHyperEdge, TRevisionIdHyperEdge, TDataHyperEdge>
+
+                                  : IGenericElement<TIdEdge, TRevisionIdEdge, TDataEdge>,
                                     IGenericEdge
 
         where TIdVertex            : IEquatable<TIdVertex>,            IComparable<TIdVertex>,            IComparable
@@ -67,19 +89,20 @@ namespace de.ahzf.blueprints
         /// <summary>
         /// Return the vertex at the tail of the edge.
         /// </summary>
-        IGenericVertex<TIdVertex,    TRevisionIdVertex,    TVertexData,
-                       TIdEdge,      TRevisionIdEdge,      TEdgeData,
-                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData> OutVertex { get; }
+        IGenericVertex<TIdVertex,    TRevisionIdVertex,    TDataVertex,
+                       TIdEdge,      TRevisionIdEdge,      TDataEdge,
+                       TIdHyperEdge, TRevisionIdHyperEdge, TDataHyperEdge> OutVertex { get; }
 
 
         /// <summary>
         /// Return the vertex at the head of the edge.
         /// </summary>
-        IGenericVertex<TIdVertex,    TRevisionIdVertex,    TVertexData,
-                       TIdEdge,      TRevisionIdEdge,      TEdgeData,
-                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData> InVertex { get; }
-
+        IGenericVertex<TIdVertex,    TRevisionIdVertex,    TDataVertex,
+                       TIdEdge,      TRevisionIdEdge,      TDataEdge,
+                       TIdHyperEdge, TRevisionIdHyperEdge, TDataHyperEdge> InVertex { get; }
 
     }
+
+    #endregion
 
 }

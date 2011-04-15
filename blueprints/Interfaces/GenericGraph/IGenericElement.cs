@@ -21,9 +21,18 @@ using System;
 
 #endregion
 
-namespace de.ahzf.blueprints
+namespace de.ahzf.blueprints.GenericGraph
 {
 
+    /// <summary>
+    /// A generic element is the foundation of all graph elements like
+    /// vertices, edges and hyperedges. It gives them their minimal
+    /// information like an identifier, a revision identifier and some
+    /// sort of embedded data.
+    /// </summary>
+    /// <typeparam name="TId">The type of the identifiers.</typeparam>
+    /// <typeparam name="TRevisionId">The type of the revision identifiers.</typeparam>
+    /// <typeparam name="TData">The type of the embedded data.</typeparam>
     public interface IGenericElement<TId, TRevisionId, TData>
                         : IIdentifier<TId>,
                           IRevisionId<TRevisionId>

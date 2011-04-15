@@ -22,7 +22,7 @@ using System.Collections.Specialized;
 
 #endregion
 
-namespace de.ahzf.blueprints
+namespace de.ahzf.blueprints.PropertyGraph
 {
 
     /// <summary>

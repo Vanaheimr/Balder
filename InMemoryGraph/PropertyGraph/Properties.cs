@@ -18,19 +18,15 @@
 #region Usings
 
 using System;
-using System.Dynamic;
-using System.ComponentModel;
-using System.Linq;
-using System.Linq.Expressions;
 using System.Collections;
+using System.ComponentModel;
+using System.Linq.Expressions;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 
-using de.ahzf.blueprints.Datastructures;
-
 #endregion
 
-namespace de.ahzf.blueprints
+namespace de.ahzf.blueprints.PropertyGraph.InMemory
 {
 
     /// <summary>

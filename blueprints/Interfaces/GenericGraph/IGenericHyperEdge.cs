@@ -20,23 +20,12 @@
 using System;
 using System.Collections.Generic;
 
-using de.ahzf.blueprints.Datastructures;
-
 #endregion
 
-namespace de.ahzf.blueprints
+namespace de.ahzf.blueprints.GenericGraph
 {
 
-    public interface IGenericHyperEdge
-    {
-
-        /// <summary>
-        /// Return the label associated with the hyperedge.
-        /// </summary>
-        String Label { get; }
-
-    }
-
+    #region IGenericHyperEdge
 
     /// <summary>
     /// A hyperedge links multiple vertices. Along with its key/value properties,
@@ -48,8 +37,41 @@ namespace de.ahzf.blueprints
     /// Diagrammatically, outVertex ---label---> inVertex1.
     ///                                      \--> inVertex2.
     /// </summary>
-    /// <typeparam name="TIdHyperEdge">The type of the hyperedge identifier.</typeparam>
-    /// <typeparam name="THyperEdgeData">The type of the additional data to be stored within an hyperedge.</typeparam>
+    public interface IGenericHyperEdge
+    {
+
+        /// <summary>
+        /// Return the label associated with the hyperedge.
+        /// </summary>
+        String Label { get; }
+
+    }
+
+    #endregion
+
+    #region IGenericHyperEdge<...>
+
+    /// <summary>
+    /// A hyperedge links multiple vertices. Along with its key/value properties,
+    /// a hyperedge has both a directionality and a label.
+    /// The directionality determines which vertex is the tail vertex
+    /// (out vertex) and which vertices are the head vertices (in vertices).
+    /// The hyperedge label determines the type of relationship that exists
+    /// between these vertices.
+    /// Diagrammatically, outVertex ---label---> inVertex1.
+    ///                                      \--> inVertex2.
+    /// </summary>
+    /// <typeparam name="TIdVertex">The type of the vertex identifiers.</typeparam>
+    /// <typeparam name="TRevisionIdVertex">The type of the vertex revision identifiers.</typeparam>
+    /// <typeparam name="TDataVertex">The type of the embedded vertex data.</typeparam>
+    /// 
+    /// <typeparam name="TIdEdge">The type of the edge identifiers.</typeparam>
+    /// <typeparam name="TRevisionIdEdge">The type of the edge identifiers.</typeparam>
+    /// <typeparam name="TDataEdge">The type of the embedded edge data.</typeparam>
+    /// 
+    /// <typeparam name="TIdHyperEdge">The type of the hyperedge identifiers.</typeparam>
+    /// <typeparam name="TRevisionIdHyperEdge">The type of the hyperedge identifiers.</typeparam>
+    /// <typeparam name="TDataHyperEdge">The type of the embedded hyperedge data.</typeparam>
     public interface IGenericHyperEdge<TIdVertex,    TRevisionIdVertex,    TVertexData,
                                        TIdEdge,      TRevisionIdEdge,      TEdgeData,
                                        TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData>
@@ -83,5 +105,7 @@ namespace de.ahzf.blueprints
                                    TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData>> InVertices { get; }
 
     }
+
+    #endregion
 
 }

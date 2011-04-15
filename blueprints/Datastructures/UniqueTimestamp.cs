@@ -22,7 +22,7 @@ using System.Threading;
 
 #endregion
 
-namespace de.ahzf.blueprints.Datastructures
+namespace de.ahzf.blueprints
 {
 
     /// <summary>
@@ -98,7 +98,7 @@ namespace de.ahzf.blueprints.Datastructures
                 // Use CompareExchange to avoid locks!
                 while (_InitialValue != Interlocked.CompareExchange(ref _LastTimestamp, _NewValue, _InitialValue));
 
-                // Return _InitialValue, as _LastTimestamp might
+                // Return _NewValue, as _LastTimestamp might
                 // already be changed by yet another thread!
                 return (UInt64) _NewValue;
 

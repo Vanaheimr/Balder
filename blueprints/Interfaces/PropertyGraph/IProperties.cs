@@ -18,29 +18,27 @@
 #region Usings
 
 using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq.Expressions;
+using System.Collections.Generic;
+using System.Collections.Specialized;
 
 #endregion
 
-namespace de.ahzf.blueprints
+namespace de.ahzf.blueprints.PropertyGraph
 {
 
     #region IProperties<TKey, TValue>
 
     /// <summary>
-    /// This generic interface maintains a collection of key/value properties
+    /// This generic interface maintaining a collection of key/value properties
     /// within the given datastructure.
     /// </summary>
     /// <typeparam name="TKey">The type of the property keys.</typeparam>
     /// <typeparam name="TValue">The type of the property values.</typeparam>
     public interface IProperties<TKey, TValue>
                         : IEnumerable<KeyValuePair<TKey, TValue>>,
-                          INotifyCollectionChanged,
-                          INotifyPropertyChanging,
-                          INotifyPropertyChanged
+                          IPropertyNotifications
 
         where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
 
@@ -48,12 +46,36 @@ namespace de.ahzf.blueprints
 
         #region Events
 
+        /// <summary>
+        /// Will be called after a collection was changed.
+        /// </summary>
+        /// <param name="myNotifyCollectionChangedEventArgs">The event arguments.</param>
         void OnCollectionChanged(NotifyCollectionChangedEventArgs myNotifyCollectionChangedEventArgs);
 
+
+        /// <summary>
+        /// Will be called before a property is being changed.
+        /// </summary>
+        /// <param name="myPropertyName">The name of the property.</param>
         void OnPropertyChanging(String myPropertyName);
+
+        /// <summary>
+        /// Will be called before a property is being changed.
+        /// </summary>
+        /// <param name="myPropertyExpression">An expression giving additional information.</param>
         void OnPropertyChanging<TResult>(Expression<Func<TResult>> myPropertyExpression);
 
+
+        /// <summary>
+        /// Will be called after a property was changed.
+        /// </summary>
+        /// <param name="myPropertyName">The name of the property.</param>
         void OnPropertyChanged(String myPropertyName);
+
+        /// <summary>
+        /// Will be called after a property was changed.
+        /// </summary>
+        /// <param name="myPropertyExpression">An expression giving additional information.</param>
         void OnPropertyChanged<TResult>(Expression<Func<TResult>> myPropertyExpression);
 
         #endregion
@@ -116,7 +138,7 @@ namespace de.ahzf.blueprints
     #region IProperties<TKey, TValue, TDatastructure>
 
     /// <summary>
-    /// This generic interface maintains a collection of key/value properties
+    /// This generic interface maintaining a collection of key/value properties
     /// within the given datastructure.
     /// </summary>
     /// <typeparam name="TKey">The type of the property keys.</typeparam>

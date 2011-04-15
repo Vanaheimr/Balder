@@ -23,8 +23,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Concurrent;
 
-using de.ahzf.blueprints.Datastructures;
-
 using NUnit.Framework;
 
 #endregion

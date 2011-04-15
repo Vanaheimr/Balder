@@ -22,17 +22,15 @@ using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
 
-using de.ahzf.blueprints.Datastructures;
-
 #endregion
 
-namespace de.ahzf.blueprints
+namespace de.ahzf.blueprints.GenericGraph
 {
 
     /// <summary>
     /// Extensions to the IGraph interface
     /// </summary>
-    public static class IPropertyGraphExtensions
+    public static class IGraphExtensions
     {
 
 //        #region AsDynamic(this myIGenericGraph)
@@ -342,7 +340,7 @@ namespace de.ahzf.blueprints
         /// Adds an edge to the graph using the given myEdgeId and initializes
         /// its properties by invoking the given edge initializer.
         /// </summary>
-        /// <param name="myIPropertyGraph"></param>
+        /// <param name="myIGenericGraph"></param>
         /// <param name="myOutVertexId"></param>
         /// <param name="myInVertexId"></param>
         /// <param name="myEdgeId1">A EdgeId. If none was given a new one will be generated.</param>
@@ -350,64 +348,59 @@ namespace de.ahzf.blueprints
         /// <param name="myLabel"></param>
         /// <param name="myEdgeInitializer">A delegate to initialize the newly generated edge.</param>
         /// <returns>Both new edges.</returns>
-        public static Tuple<IPropertyEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
-                                          TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
-                                          TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>,
-                            IPropertyEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
-                                          TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
-                                          TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>>
+        public static Tuple<TEdge, TEdge> AddDoubleEdge<TIdVertex,    TRevisionIdVertex,    TVertexData,    TVertex,
+                                                        TIdEdge,      TRevisionIdEdge,      TEdgeData,      TEdge,
+                                                        TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData, THyperEdge>(
 
-                      AddDoubleEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
-                                    TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
-                                    TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>(
+                                          this IGenericGraph<TIdVertex,    TRevisionIdVertex,    TVertexData,    TVertex,
+                                                             TIdEdge,      TRevisionIdEdge,      TEdgeData,      TEdge,
+                                                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData, THyperEdge> myIGenericGraph,
 
-                                          this IPropertyGraph<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
-                                                              TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
-                                                              TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge> myIPropertyGraph,
-
-                                          IPropertyVertex<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex,
-                                     TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge,
-                                     TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge> myOutVertex,
-                                          IPropertyVertex<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex,
-                                     TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge,
-                                     TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge> myInVertex,
+                                          TIdVertex         myOutVertexId,
+                                          TIdVertex         myInVertexId,
                                           TIdEdge           myEdgeId1         = default(TIdEdge),
                                           TIdEdge           myEdgeId2         = default(TIdEdge),
                                           String            myLabel           = null,
-                                          Action<IProperties<TKeyEdge, TValueEdge>> myEdgeInitializer = null)
+                                          Action<TEdgeData> myEdgeInitializer = null)
 
-            where TIdVertex               : IEquatable<TIdVertex>,            IComparable<TIdVertex>,            IComparable, TValueVertex
-            where TIdEdge                 : IEquatable<TIdEdge>,              IComparable<TIdEdge>,              IComparable, TValueEdge
-            where TIdHyperEdge            : IEquatable<TIdHyperEdge>,         IComparable<TIdHyperEdge>,         IComparable, TValueHyperEdge
+            where TVertex              : IGenericVertex   <TIdVertex, TRevisionIdVertex, TVertexData, TIdEdge, TRevisionIdEdge, TEdgeData, TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData>
+            where TEdge                : IGenericEdge     <TIdVertex, TRevisionIdVertex, TVertexData, TIdEdge, TRevisionIdEdge, TEdgeData, TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData>
+            where THyperEdge           : IGenericHyperEdge<TIdVertex, TRevisionIdVertex, TVertexData, TIdEdge, TRevisionIdEdge, TEdgeData, TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData>
 
-            where TRevisionIdVertex       : IEquatable<TRevisionIdVertex>,    IComparable<TRevisionIdVertex>,    IComparable, TValueVertex
-            where TRevisionIdEdge         : IEquatable<TRevisionIdEdge>,      IComparable<TRevisionIdEdge>,      IComparable, TValueEdge
-            where TRevisionIdHyperEdge    : IEquatable<TRevisionIdHyperEdge>, IComparable<TRevisionIdHyperEdge>, IComparable, TValueHyperEdge
+            where TIdVertex            : IEquatable<TIdVertex>,            IComparable<TIdVertex>,            IComparable
+            where TIdEdge              : IEquatable<TIdEdge>,              IComparable<TIdEdge>,              IComparable
+            where TIdHyperEdge         : IEquatable<TIdHyperEdge>,         IComparable<TIdHyperEdge>,         IComparable
 
-            where TKeyVertex              : IEquatable<TKeyVertex>,           IComparable<TKeyVertex>,           IComparable
-            where TKeyEdge                : IEquatable<TKeyEdge>,             IComparable<TKeyEdge>,             IComparable
-            where TKeyHyperEdge           : IEquatable<TKeyHyperEdge>,        IComparable<TKeyHyperEdge>,        IComparable
+            where TRevisionIdVertex    : IEquatable<TRevisionIdVertex>,    IComparable<TRevisionIdVertex>,    IComparable
+            where TRevisionIdEdge      : IEquatable<TRevisionIdEdge>,      IComparable<TRevisionIdEdge>,      IComparable
+            where TRevisionIdHyperEdge : IEquatable<TRevisionIdHyperEdge>, IComparable<TRevisionIdHyperEdge>, IComparable
 
         {
 
-            if (myIPropertyGraph == null)
+            if (myIGenericGraph == null)
                 throw new ArgumentNullException("myIGenericGraph must not be null!");
 
+            if (myOutVertexId == null)
+                throw new ArgumentNullException("myOutVertexId must not be null!");
+
+            if (myInVertexId == null)
+                throw new ArgumentNullException("myInVertexId must not be null!");
+
+
+            var myOutVertex = myIGenericGraph.GetVertex(myOutVertexId);
+
             if (myOutVertex == null)
-                throw new ArgumentException("Vertex '" + myOutVertex + "' is unknown!");
+                throw new ArgumentException("VertexId '" + myOutVertexId + "' is unknown!");
+
+
+            var myInVertex = myIGenericGraph.GetVertex(myInVertexId);
 
             if (myInVertex == null)
-                throw new ArgumentException("Vertex '" + myInVertex + "' is unknown!");
+                throw new ArgumentException("VertexId '" + myInVertexId + "' is unknown!");
 
 
-            return new Tuple<IPropertyEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
-                                           TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
-                                           TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>,
-                             IPropertyEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
-                                           TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
-                                           TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>>
-                             (myIPropertyGraph.AddEdge(myOutVertex, myInVertex,  myEdgeId1, myLabel, myEdgeInitializer),
-                              myIPropertyGraph.AddEdge(myInVertex,  myOutVertex, myEdgeId2, myLabel, myEdgeInitializer));
+            return new Tuple<TEdge, TEdge>(myIGenericGraph.AddEdge(myOutVertex, myInVertex, myEdgeId1, myLabel, myEdgeInitializer),
+                                           myIGenericGraph.AddEdge(myInVertex, myOutVertex, myEdgeId2, myLabel, myEdgeInitializer));
 
 
         }

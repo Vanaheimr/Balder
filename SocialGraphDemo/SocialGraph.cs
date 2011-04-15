@@ -23,8 +23,9 @@ using System.Linq;
 using System.Diagnostics;
 
 using de.ahzf.blueprints;
-using de.ahzf.blueprints.Datastructures;
-using de.ahzf.Pipes.UnitTests;
+using de.ahzf.blueprints.UnitTests;
+using de.ahzf.blueprints.PropertyGraph;
+using de.ahzf.blueprints.Tools;
 
 #endregion
 
@@ -39,9 +40,9 @@ namespace SocialGraphDemo
 
         #region Data
 
-        private const Int32 _NumberOfVertices = 100000;
-        private const Int32 _NumberOfEdges = 500000;
-        private const String _FileName = "SocialGraph_v100000-e500000.csv";
+        private const Int32  _NumberOfVertices = 100000;
+        private const Int32  _NumberOfEdges    = 500000;
+        private const String _FileName         = "SocialGraph_v100000-e500000.csv";
 
         #endregion
 

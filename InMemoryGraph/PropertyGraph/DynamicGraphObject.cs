@@ -24,7 +24,7 @@ using System.Linq.Expressions;
 
 #endregion
 
-namespace de.ahzf.blueprints.InMemory.PropertyGraph
+namespace de.ahzf.blueprints.PropertyGraph.InMemory
 {
 
     /// <summary>

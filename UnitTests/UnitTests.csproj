@@ -50,7 +50,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GenericGraphs\IntegerPropertyGraph.cs" />
+    <Compile Include="PropertyGraphs\IntegerPropertyGraph.cs" />
     <Compile Include="InMemoryGraph\EdgeTests.cs" />
     <Compile Include="Basics\EdgeIds.cs" />
     <Compile Include="TinkerGraphFactory.cs" />
@@ -67,6 +67,9 @@
       <Project>{D4D2ACAD-FF2E-44AD-9D4A-6E332C246FAD}</Project>
       <Name>InMemoryGraph</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="GenericGraphs\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

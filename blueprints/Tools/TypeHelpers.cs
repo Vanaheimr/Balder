@@ -21,7 +21,7 @@ using System;
 
 #endregion
 
-namespace de.ahzf.blueprints
+namespace de.ahzf.blueprints.Tools
 {
 
     public class TypeHelpers
