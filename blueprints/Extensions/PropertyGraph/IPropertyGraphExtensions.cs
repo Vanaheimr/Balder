@@ -28,31 +28,43 @@ namespace de.ahzf.blueprints.PropertyGraph
 {
 
     /// <summary>
-    /// Extensions to the IGraph interface
+    /// Extensions to the IPropertyGraph interface
     /// </summary>
     public static class IPropertyGraphExtensions
     {
 
-//        #region AsDynamic(this myIGenericGraph)
+        #region AsDynamic(this myIPropertyGraph)
 
-//        /// <summary>
-//        /// Converts the given IGraph into a dynamic object
-//        /// </summary>
-//        /// <param name="myIGenericGraph">An object implementing IGraph.</param>
-//        /// <returns>A dynamic object</returns>
-//        public static dynamic AsDynamic<TVertex, TIdVertex, TVertexData, TEdge, TIdEdge, TEdgeData, THyperEdge, TIdHyperEdge, THyperEdgeData, TRevisionId>(
-//                              this IGenericGraph<TVertex, TIdVertex, TVertexData, TEdge, TIdEdge, TEdgeData, THyperEdge, TIdHyperEdge, THyperEdgeData, TRevisionId> myIGenericGraph)
-//            where TVertex      : IGenericVertex<TIdVertex, TVertexData>
-//            where TIdVertex    : IEquatable<TIdVertex>,    IComparable<TIdVertex>,    IComparable
-//            where TEdge        : IGenericEdge<TIdEdge, TEdgeData>
-//            where TIdEdge      : IEquatable<TIdEdge>,      IComparable<TIdEdge>,      IComparable
-//            where THyperEdge   : IGenericHyperEdge<TIdHyperEdge, THyperEdgeData>
-//            where TIdHyperEdge : IEquatable<TIdHyperEdge>, IComparable<TIdHyperEdge>, IComparable
-//        {
-//            return myIGenericGraph as dynamic;
-//        }
+        /// <summary>
+        /// Converts the given IPropertyGraph into a dynamic object.
+        /// </summary>
+        /// <param name="myIPropertyGraph">An object implementing IPropertyGraph.</param>
+        /// <returns>A dynamic object</returns>
+        public static dynamic AsDynamic<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                                        TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                        TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>(
 
-//        #endregion
+                              this IPropertyGraph<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                                                  TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                                  TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge> myIPropertyGraph)
+
+            where TIdVertex               : IEquatable<TIdVertex>,            IComparable<TIdVertex>,            IComparable, TValueVertex
+            where TIdEdge                 : IEquatable<TIdEdge>,              IComparable<TIdEdge>,              IComparable, TValueEdge
+            where TIdHyperEdge            : IEquatable<TIdHyperEdge>,         IComparable<TIdHyperEdge>,         IComparable, TValueHyperEdge
+
+            where TRevisionIdVertex       : IEquatable<TRevisionIdVertex>,    IComparable<TRevisionIdVertex>,    IComparable, TValueVertex
+            where TRevisionIdEdge         : IEquatable<TRevisionIdEdge>,      IComparable<TRevisionIdEdge>,      IComparable, TValueEdge
+            where TRevisionIdHyperEdge    : IEquatable<TRevisionIdHyperEdge>, IComparable<TRevisionIdHyperEdge>, IComparable, TValueHyperEdge
+
+            where TKeyVertex              : IEquatable<TKeyVertex>,           IComparable<TKeyVertex>,           IComparable
+            where TKeyEdge                : IEquatable<TKeyEdge>,             IComparable<TKeyEdge>,             IComparable
+            where TKeyHyperEdge           : IEquatable<TKeyHyperEdge>,        IComparable<TKeyHyperEdge>,        IComparable
+
+        {
+            return myIPropertyGraph as dynamic;
+        }
+
+        #endregion
 
 
 //        //#region AddVertex<TVertex>(this myIGenericGraph, myVertexId = null, myVertexInitializer = null)
@@ -284,56 +296,6 @@ namespace de.ahzf.blueprints.PropertyGraph
 
 //        //#endregion
 
-
-//        #region AddDoubleEdge(this myIGenericGraph, myOutVertex, myInVertex, myEdgeId1 = null, myEdgeId2 = null, myLabel = null, myEdgeInitializer = null)
-
-//        /// <summary>
-//        /// Adds an edge to the graph using the given myEdgeId and initializes
-//        /// its properties by invoking the given edge initializer.
-//        /// </summary>
-//        /// <param name="myIGenericGraph"></param>
-//        /// <param name="myOutVertex"></param>
-//        /// <param name="myInVertex"></param>
-//        /// <param name="myEdgeId1">A EdgeId. If none was given a new one will be generated.</param>
-//        /// <param name="myEdgeId2">A EdgeId. If none was given a new one will be generated.</param>
-//        /// <param name="myLabel"></param>
-//        /// <param name="myEdgeInitializer">A delegate to initialize the newly generated edge.</param>
-//        /// <returns>Both new edges.</returns>
-//        public static Tuple<TEdge, TEdge> AddDoubleEdge<TVertex, TIdVertex, TVertexData, TEdge, TIdEdge, TEdgeData, THyperEdge, TIdHyperEdge, THyperEdgeData, TRevisionId>(
-//                                          this IGenericGraph<TVertex, TIdVertex, TVertexData, TEdge, TIdEdge, TEdgeData, THyperEdge, TIdHyperEdge, THyperEdgeData, TRevisionId> myIGenericGraph,
-//                                          TVertex       myOutVertex,
-//                                          TVertex       myInVertex,
-//                                          TIdEdge       myEdgeId1         = default(TIdEdge),
-//                                          TIdEdge       myEdgeId2         = default(TIdEdge),
-//                                          String        myLabel           = null,
-//                                          Action<TEdge> myEdgeInitializer = null)
-
-//            where TVertex      : IGenericVertex<TIdVertex, TVertexData>
-//            where TIdVertex    : IEquatable<TIdVertex>,    IComparable<TIdVertex>,    IComparable
-//            where TEdge        : IGenericEdge<TIdEdge, TEdgeData>
-//            where TIdEdge      : IEquatable<TIdEdge>,      IComparable<TIdEdge>,      IComparable
-//            where THyperEdge   : IGenericHyperEdge<TIdHyperEdge, THyperEdgeData>
-//            where TIdHyperEdge : IEquatable<TIdHyperEdge>, IComparable<TIdHyperEdge>, IComparable
-//        {
-
-//            if (myIGenericGraph == null)
-//                throw new ArgumentNullException("myIGenericGraph must not be null!");
-
-//            if (myOutVertex == null)
-//                throw new ArgumentNullException("myOutVertex must not be null!");
-
-//            if (myInVertex == null)
-//                throw new ArgumentNullException("myInVertex must not be null!");
-
-
-//            return new Tuple<TEdge, TEdge>(myIGenericGraph.AddEdge(myOutVertex, myInVertex, myEdgeId1, myLabel, myEdgeInitializer),
-//                                           myIGenericGraph.AddEdge(myInVertex, myOutVertex, myEdgeId2, myLabel, myEdgeInitializer));
-
-
-//        }
-
-//        #endregion
-
         #region AddDoubleEdge(this myIGenericGraph, myOutVertexId, myInVertexId, myEdgeId1 = null, myEdgeId2 = null, myLabel = null, myEdgeInitializer = null)
 
         /// <summary>
@@ -341,12 +303,15 @@ namespace de.ahzf.blueprints.PropertyGraph
         /// its properties by invoking the given edge initializer.
         /// </summary>
         /// <param name="myIPropertyGraph"></param>
-        /// <param name="myOutVertexId"></param>
-        /// <param name="myInVertexId"></param>
-        /// <param name="myEdgeId1">A EdgeId. If none was given a new one will be generated.</param>
-        /// <param name="myEdgeId2">A EdgeId. If none was given a new one will be generated.</param>
-        /// <param name="myLabel"></param>
-        /// <param name="myEdgeInitializer">A delegate to initialize the newly generated edge.</param>
+        /// <param name="myOutVertex"></param>
+        /// <param name="myInVertex"></param>
+        /// <param name="EdgeId1">An EdgeId. If none was given a new one will be generated.</param>
+        /// <param name="EdgeId2">An EdgeId. If none was given a new one will be generated.</param>
+        /// <param name="Label">A label for both edges.</param>
+        /// <param name="Label1">A label for the first edge.</param>
+        /// <param name="Label2">A label for the second edge.</param>
+        /// <param name="EdgeInitializer1">A delegate to initialize the first generated edge.</param>
+        /// <param name="EdgeInitializer2">A delegate to initialize the second generated edge.</param>
         /// <returns>Both new edges.</returns>
         public static Tuple<IPropertyEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
                                           TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
@@ -363,16 +328,27 @@ namespace de.ahzf.blueprints.PropertyGraph
                                                               TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
                                                               TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge> myIPropertyGraph,
 
-                                          IPropertyVertex<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex,
-                                     TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge,
-                                     TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge> myOutVertex,
-                                          IPropertyVertex<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex,
-                                     TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge,
-                                     TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge> myInVertex,
-                                          TIdEdge           myEdgeId1         = default(TIdEdge),
-                                          TIdEdge           myEdgeId2         = default(TIdEdge),
-                                          String            myLabel           = null,
-                                          Action<IProperties<TKeyEdge, TValueEdge>> myEdgeInitializer = null)
+                                          IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                                                          TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                                          TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge> myOutVertex,
+
+                                          IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                                                          TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                                          TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge> myInVertex,
+
+                                          TIdEdge EdgeId1 = default(TIdEdge),
+                                          TIdEdge EdgeId2 = default(TIdEdge),
+                                          String  Label   = null,
+                                          String  Label1  = null,
+                                          String  Label2  = null,
+
+                                          Action<IPropertyEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                                                               TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                                               TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>> EdgeInitializer1 = null,
+
+                                          Action<IPropertyEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                                                               TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                                               TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>> EdgeInitializer2 = null)
 
             where TIdVertex               : IEquatable<TIdVertex>,            IComparable<TIdVertex>,            IComparable, TValueVertex
             where TIdEdge                 : IEquatable<TIdEdge>,              IComparable<TIdEdge>,              IComparable, TValueEdge
@@ -397,15 +373,22 @@ namespace de.ahzf.blueprints.PropertyGraph
             if (myInVertex == null)
                 throw new ArgumentException("Vertex '" + myInVertex + "' is unknown!");
 
+            if (Label1 == null)
+                Label1 = Label;
+
+            if (Label2 == null)
+                Label2 = Label;
 
             return new Tuple<IPropertyEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
                                            TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
                                            TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>,
+
                              IPropertyEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
                                            TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
                                            TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>>
-                             (myIPropertyGraph.AddEdge(myOutVertex, myInVertex,  myEdgeId1, myLabel, myEdgeInitializer),
-                              myIPropertyGraph.AddEdge(myInVertex,  myOutVertex, myEdgeId2, myLabel, myEdgeInitializer));
+
+                             (myIPropertyGraph.AddEdge(myOutVertex, myInVertex,  EdgeId1, Label1, EdgeInitializer1),
+                              myIPropertyGraph.AddEdge(myInVertex,  myOutVertex, EdgeId2, Label2, EdgeInitializer2));
 
 
         }
