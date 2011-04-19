@@ -99,9 +99,12 @@ namespace de.ahzf.blueprints.PropertyGraph.InMemory
                             TKeyEdge                 myIdKey,
                             TKeyEdge                 myRevisonIdKey,
                             Func<TDatastructureEdge> myDataInitializer,
-                            Action<IProperties<TKeyEdge, TValueEdge>> myEdgeInitializer = null)
+
+                            Action<IPropertyEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                                                 TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                                 TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>> myEdgeInitializer = null)
             
-            : base(myEdgeId, myIdKey, myRevisonIdKey, myDataInitializer, myEdgeInitializer)
+            : base(myEdgeId, myIdKey, myRevisonIdKey, myDataInitializer)
 
         {
 
@@ -118,7 +121,7 @@ namespace de.ahzf.blueprints.PropertyGraph.InMemory
             Label         = myLabel;
 
             if (myEdgeInitializer != null)
-                myEdgeInitializer(Data);
+                myEdgeInitializer(this);
 
         }
 

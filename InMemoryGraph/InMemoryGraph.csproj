@@ -51,7 +51,6 @@
     <Compile Include="PropertyGraph\InMemoryPropertyGraph.cs" />
     <Compile Include="PropertyGraph\PropertyHyperEdge.cs" />
     <Compile Include="PropertyGraph\PropertyEdge.cs" />
-    <Compile Include="PropertyGraph\InMemoryGenericPropertyGraph.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyGraph\PropertyVertex.cs" />
   </ItemGroup>

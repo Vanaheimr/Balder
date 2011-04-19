@@ -312,16 +312,21 @@ namespace de.ahzf.blueprints.PropertyGraph.InMemory
 
         #region Constructor(s)
 
-        #region AElement(myId, myEdgeInitializer = null)
+        #region APropertyElement(myId, myIdKey, myRevisonIdKey, myDataInitializer, myEdgeInitializer = null)
 
         /// <summary>
-        /// Creates a new AElement.
+        /// Creates a new APropertyElement.
         /// </summary>
-        internal protected APropertyElement(TId                  myId,
-                                    TKey                 myIdKey,
-                                    TKey                 myRevisonIdKey,
-                                    Func<TDatastructure> myDataInitializer,
-                                    Action<IProperties<TKey, TValue>> myElementInitializer = null)
+        /// <param name="myId">The Id of this APropertyElement.</param>
+        /// <param name="myIdKey">The key to access the Id of this APropertyElement.</param>
+        /// <param name="myRevisonIdKey">The key to access the RevisionId of this APropertyElement.</param>
+        /// <param name="myDataInitializer">A func to initialize the datastructure of the this APropertyElement.</param>
+        /// <param name="myPropertyElementInitializer">An action to add some properties.</param>
+        internal protected APropertyElement(TId                               myId,
+                                            TKey                              myIdKey,
+                                            TKey                              myRevisonIdKey,
+                                            Func<TDatastructure>              myDataInitializer,
+                                            Action<IProperties<TKey, TValue>> myPropertyElementInitializer = null)
         {
 
             _IdKey        = myIdKey;
@@ -330,11 +335,8 @@ namespace de.ahzf.blueprints.PropertyGraph.InMemory
             _Data         = new Properties<TId, TRevisionId, TKey, TValue, TDatastructure>
                                           (myId, myIdKey, myRevisonIdKey, myDataInitializer);
 
-            // Add the label
-            //_Properties.Add(__Label, myLabel);
-
-            if (myElementInitializer != null)
-                myElementInitializer(Data);
+            if (myPropertyElementInitializer != null)
+                myPropertyElementInitializer(Data);
 
         }
 

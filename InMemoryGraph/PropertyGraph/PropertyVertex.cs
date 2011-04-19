@@ -75,24 +75,33 @@ namespace de.ahzf.blueprints.PropertyGraph.InMemory
 
         #region Constructor(s)
 
-        #region PropertyVertex(myIGraph, myVertexId, myVertexInitializer = null)
+        #region PropertyVertex(myIGraph, myVertexId, myIdKey, myRevisonIdKey, myDataInitializer, myEdgeCollectionInitializer = null, myVertexInitializer = null)
 
         /// <summary>
         /// Creates a new vertex.
         /// </summary>
         /// <param name="myIGraph">The associated graph.</param>
         /// <param name="myVertexId">The identification of this vertex.</param>
+        /// <param name="myIdKey">The key to access the Id of this vertex.</param>
+        /// <param name="myRevisonIdKey">The key to access the RevisionId of this vertex.</param>
+        /// <param name="myDataInitializer">A func to initialize the datastructure of this vertex.</param></param>
+        /// <param name="myEdgeCollectionInitializer">A func to initialize the datastructure for storing all edges.</param>
         /// <param name="myVertexInitializer">A delegate to initialize the newly created vertex.</param>
         public PropertyVertex(TIdVertex                    myVertexId,
                               TKeyVertex                   myIdKey,
                               TKeyVertex                   myRevisonIdKey,
                               Func<TDatastructureVertex>   myDataInitializer,
                               Func<TEdgeCollection>        myEdgeCollectionInitializer = null,
-                              Action<IProperties<TKeyVertex, TValueVertex>> myVertexInitializer = null)
+                              Action<IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                                                     TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                                     TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>> myVertexInitializer = null)
 
-            : base(myVertexId, myIdKey, myRevisonIdKey, myDataInitializer, myVertexInitializer)
+            : base(myVertexId, myIdKey, myRevisonIdKey, myDataInitializer)
 
         {
+
+            if (myVertexInitializer != null)
+                myVertexInitializer(this);
 
             _OutEdges     = myEdgeCollectionInitializer();
             _InEdges      = myEdgeCollectionInitializer();
@@ -655,6 +664,18 @@ namespace de.ahzf.blueprints.PropertyGraph.InMemory
         }
 
         #endregion
+
+
+        public new IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                                   TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                   TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>
+
+                                   SetProperty(TKeyVertex myKey, TValueVertex myValue)
+
+        {
+            Data.SetProperty(myKey, myValue);
+            return this;
+        }
 
     }
 

@@ -98,9 +98,11 @@ namespace de.ahzf.blueprints.PropertyGraph.InMemory
                                  Func<TDatastructureHyperEdge> myDataInitializer,
                                  Func<TEdgesCollection>        myEdgesCollectionInitializer,
 
-                                 Action<IProperties<TKeyHyperEdge, TValueHyperEdge>> myHyperEdgeInitializer = null)
+                                 Action<IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                                                           TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                                           TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>> myHyperEdgeInitializer = null)
 
-            : base(myHyperEdgeId, myIdKey, myRevisonIdKey, myDataInitializer, myHyperEdgeInitializer)
+            : base(myHyperEdgeId, myIdKey, myRevisonIdKey, myDataInitializer)
 
         {
 
@@ -114,6 +116,9 @@ namespace de.ahzf.blueprints.PropertyGraph.InMemory
 
             // Add the label
             //_Properties.Add(__Label, myLabel);
+
+            if (myHyperEdgeInitializer != null)
+                myHyperEdgeInitializer(this);
 
         }
 

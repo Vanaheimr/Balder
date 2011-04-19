@@ -80,6 +80,11 @@ namespace de.ahzf.blueprints.PropertyGraph
         where TRevisionIdHyperEdge    : IEquatable<TRevisionIdHyperEdge>, IComparable<TRevisionIdHyperEdge>, IComparable, TValueHyperEdge
 
     {
+
+        IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                        TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                        TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge> SetProperty(TKeyVertex myKey, TValueVertex myValue);
+
     
         #region OutEdges
 

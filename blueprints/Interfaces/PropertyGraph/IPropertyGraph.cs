@@ -65,25 +65,36 @@ namespace de.ahzf.blueprints.PropertyGraph
 
         /// <summary>
         /// Create a new vertex, add it to the graph, and return the newly created vertex.
-        /// The provided object identifier is a recommendation for the identifier to use.
-        /// It is not required that the implementation use this identifier.
         /// If the object identifier is already being used by the graph to reference a vertex,
-        /// then that reference vertex is returned and no vertex is created.
-        /// If the identifier is a vertex (perhaps from another graph),
-        /// then the vertex is duplicated for this graph. Thus, a vertex can not be an identifier.
+        /// then an exception will be thrown.
         /// </summary>
-        /// <param name="VertexId">The recommended object identifier.</param>
+        /// <param name="VertexId">The vertex identifier.</param>
         /// <param name="VertexInitializer">A delegate to initialize the new vertex.</param>
-        /// <returns>The newly created vertex or the vertex already referenced by the provided identifier.</returns>
+        /// <returns>The newly created vertex as IPropertyVertex&lt...&gt;.</returns>
         IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
                         TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
-                        TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge> AddVertex(TIdVertex VertexId = default(TIdVertex), Action<IProperties<TKeyVertex, TValueVertex>> VertexInitializer = null);
+                        TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>
 
+                        AddVertex(TIdVertex VertexId = default(TIdVertex),
+                                  Action<IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                                                         TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                                         TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>> VertexInitializer = null);
+
+
+        /// <summary>
+        /// Add the given vertex to the graph, and return the newly created vertex.
+        /// If the object identifier is already being used by the graph to reference a vertex,
+        /// then an exception will be thrown.
+        /// </summary>
+        /// <param name="myVertexId">The vertex identifier.</param>
+        /// <returns>The given vertex as IPropertyVertex&lt...&gt;.</returns>
         IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
                         TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
-                        TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge> AddVertex(IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
-                        TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
-                        TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge> myVertexId);
+                        TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>
+
+                        AddVertex(IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                                                  TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                                  TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge> myVertexId);
 
 
         /// <summary>
@@ -94,15 +105,19 @@ namespace de.ahzf.blueprints.PropertyGraph
         /// <returns>The vertex referenced by the provided identifier or null when no such edge exists.</returns>
         IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
                         TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
-                        TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge> GetVertex(TIdVertex myVertexId);
+                        TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>
+            
+                        GetVertex(TIdVertex myVertexId);
 
 
         /// <summary>
         /// Get an enumeration of all vertices in the graph.
         /// </summary>
         IEnumerable<IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
-                        TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
-                        TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>> Vertices { get; }
+                                    TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                    TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>>
+
+                                    Vertices { get; }
 
 
         /// <summary>
@@ -110,8 +125,10 @@ namespace de.ahzf.blueprints.PropertyGraph
         /// </summary>
         /// <param name="myVertexIds">An array of vertex identifiers.</param>
         IEnumerable<IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
-                        TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
-                        TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>> GetVertices(params TIdVertex[] myVertexIds);
+                                    TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                    TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>>
+
+                                    GetVertices(params TIdVertex[] myVertexIds);
 
 
         /// <summary>
@@ -120,10 +137,12 @@ namespace de.ahzf.blueprints.PropertyGraph
         /// </summary>
         /// <param name="myVertexFilter">A delegate for vertex filtering.</param>
         IEnumerable<IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
-                        TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
-                        TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>> GetVertices(Func<IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
-                        TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
-                        TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>, Boolean> myVertexFilter = null);
+                                    TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                    TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>>
+
+                                     GetVertices(Func<IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                                                                      TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                                                      TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>, Boolean> myVertexFilter = null);
 
 
         /// <summary>
@@ -132,8 +151,8 @@ namespace de.ahzf.blueprints.PropertyGraph
         /// </summary>
         /// <param name="myIVertex">The vertex to be removed from the graph</param>
         void RemoveVertex(IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
-                        TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
-                        TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge> myIVertex);
+                                          TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                          TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge> myIVertex);
 
         #endregion
 
@@ -152,11 +171,21 @@ namespace de.ahzf.blueprints.PropertyGraph
         IPropertyEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
                       TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
                       TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>
-        AddEdge(IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
-                        TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
-                        TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge> myOutVertex, IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
-                        TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
-                        TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge> myInVertex, TIdEdge EdgeId = default(TIdEdge), String Label = null, Action<IProperties<TKeyEdge, TValueEdge>> EdgeInitializer = null);
+
+                      AddEdge(IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                                              TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                              TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge> myOutVertex,
+
+                              IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                                              TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                              TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge> myInVertex,
+
+                              TIdEdge EdgeId = default(TIdEdge),
+                              String  Label  = null,
+
+                              Action<IPropertyEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                                                   TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                                   TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>> EdgeInitializer = null);
 
 
         /// <summary>
@@ -167,15 +196,19 @@ namespace de.ahzf.blueprints.PropertyGraph
         /// <returns>The edge referenced by the provided identifier or null when no such edge exists.</returns>
         IPropertyEdge<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex,
                       TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge,
-                      TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge> GetEdge(TIdEdge myEdgeId);
+                      TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>
+
+                      GetEdge(TIdEdge myEdgeId);
 
 
         /// <summary>
         /// Get an enumeration of all edges in the graph.
         /// </summary>
-        IEnumerable<IPropertyEdge<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex,
-                      TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge,
-                      TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>> Edges { get; }
+        IEnumerable<IPropertyEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                                  TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                  TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>>
+            
+                                  Edges { get; }
 
 
         /// <summary>
@@ -183,9 +216,11 @@ namespace de.ahzf.blueprints.PropertyGraph
         /// An additional edge filter may be applied for filtering.
         /// </summary>
         /// <param name="myEdgeIds">An array of edge identifiers.</param>
-        IEnumerable<IPropertyEdge<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex,
-                      TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge,
-                      TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>> GetEdges(params TIdEdge[] myEdgeIds);
+        IEnumerable<IPropertyEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                                  TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                  TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>>
+
+                                  GetEdges(params TIdEdge[] myEdgeIds);
 
 
         /// <summary>
@@ -193,20 +228,22 @@ namespace de.ahzf.blueprints.PropertyGraph
         /// An additional edge filter may be applied for filtering.
         /// </summary>
         /// <param name="myEdgeFilter">A delegate for edge filtering.</param>
-        IEnumerable<IPropertyEdge<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex,
-                      TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge,
-                      TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>> GetEdges(Func<IPropertyEdge<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex,
-                      TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge,
-                      TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>, Boolean> myEdgeFilter = null);
+        IEnumerable<IPropertyEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                                  TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                  TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>>
+            
+                                  GetEdges(Func<IPropertyEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                                                              TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                                              TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>, Boolean> myEdgeFilter = null);
 
 
         /// <summary>
         /// Remove the provided edge from the graph.
         /// </summary>
         /// <param name="myIEdge">The edge to be removed from the graph</param>
-        void RemoveEdge(IPropertyEdge<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex,
-                      TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge,
-                      TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge> myIEdge);
+        void RemoveEdge(IPropertyEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
+                                      TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
+                                      TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge> myIEdge);
 
         #endregion
     
