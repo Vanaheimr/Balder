@@ -91,7 +91,7 @@ namespace de.ahzf.blueprints.PropertyGraph.InMemory
                               TKeyVertex                   myIdKey,
                               TKeyVertex                   myRevisonIdKey,
                               Func<TDatastructureVertex>   myDataInitializer,
-                              Func<TEdgeCollection>        myEdgeCollectionInitializer = null,
+                              Func<TEdgeCollection>        myEdgeCollectionInitializer,
                               Action<IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex,
                                                      TIdEdge,      TRevisionIdEdge,      TKeyEdge,      TValueEdge,
                                                      TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge>> myVertexInitializer = null)
@@ -103,8 +103,8 @@ namespace de.ahzf.blueprints.PropertyGraph.InMemory
             if (myVertexInitializer != null)
                 myVertexInitializer(this);
 
-            _OutEdges     = myEdgeCollectionInitializer();
-            _InEdges      = myEdgeCollectionInitializer();
+            _OutEdges = myEdgeCollectionInitializer();
+            _InEdges  = myEdgeCollectionInitializer();
 
         }
 
