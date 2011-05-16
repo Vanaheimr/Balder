@@ -55,12 +55,11 @@
     <Compile Include="PropertyGraph\PropertyVertex.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\blueprints\blueprints.csproj">
+    <ProjectReference Include="..\Blueprints\Blueprints.csproj">
       <Project>{B9DE4181-416E-4DE4-A983-B90FC9412774}</Project>
-      <Name>blueprints</Name>
+      <Name>Blueprints</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
