@@ -95,7 +95,7 @@ namespace de.ahzf.blueprints.PropertyGraph.InMemory
                                                            myEdges,
 
                                  TIdHyperEdge                  myHyperEdgeId,
-                                 String                        myLabel,
+                                 THyperEdgeLabel               myLabel,
                                  TKeyHyperEdge                 myIdKey,
                                  TKeyHyperEdge                 myRevisonIdKey,
                                  Func<TDatastructureHyperEdge> myDataInitializer,
@@ -135,7 +135,7 @@ namespace de.ahzf.blueprints.PropertyGraph.InMemory
         /// <summary>
         /// The label associated with this hyperedge.
         /// </summary>
-        public String Label { get; private set; }
+        public THyperEdgeLabel Label { get; private set; }
 
         #endregion
 

@@ -63,6 +63,9 @@ namespace de.ahzf.blueprints.PropertyGraph.InMemory
         where TRevisionIdEdge         : IEquatable<TRevisionIdEdge>,      IComparable<TRevisionIdEdge>,      IComparable, TValueEdge
         where TRevisionIdHyperEdge    : IEquatable<TRevisionIdHyperEdge>, IComparable<TRevisionIdHyperEdge>, IComparable, TValueHyperEdge
 
+        where TEdgeLabel              : IEquatable<TEdgeLabel>,           IComparable<TEdgeLabel>,           IComparable
+        where THyperEdgeLabel         : IEquatable<THyperEdgeLabel>,      IComparable<THyperEdgeLabel>,      IComparable
+
         where TKeyVertex              : IEquatable<TKeyVertex>,           IComparable<TKeyVertex>,           IComparable
         where TKeyEdge                : IEquatable<TKeyEdge>,             IComparable<TKeyEdge>,             IComparable
         where TKeyHyperEdge           : IEquatable<TKeyHyperEdge>,        IComparable<TKeyHyperEdge>,        IComparable
@@ -163,9 +166,9 @@ namespace de.ahzf.blueprints.PropertyGraph.InMemory
         public IEnumerable<IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                          TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                          TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
-                                         GetOutEdges(String myLabel)
+                                         GetOutEdges(TEdgeLabel myLabel)
         {
-            return from _Edge in _OutEdges where _Edge.Label == myLabel select _Edge;
+            return from _Edge in _OutEdges where _Edge.Label.Equals(myLabel) select _Edge;
         }
 
         #endregion
@@ -241,9 +244,9 @@ namespace de.ahzf.blueprints.PropertyGraph.InMemory
         public IEnumerable<IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                          TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                          TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
-                                         GetInEdges(String myLabel)
+                                         GetInEdges(TEdgeLabel myLabel)
         {
-            return from _Edge in _InEdges where _Edge.Label == myLabel select _Edge;
+            return from _Edge in _InEdges where _Edge.Label.Equals(myLabel) select _Edge;
         }
 
         #endregion

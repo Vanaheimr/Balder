@@ -43,6 +43,20 @@ namespace de.ahzf.blueprints.PropertyGraph
     /// <summary>
     /// A generic property graph.
     /// </summary>
+    /// <typeparam name="TIdVertex"></typeparam>
+    /// <typeparam name="TRevisionIdVertex"></typeparam>
+    /// <typeparam name="TKeyVertex"></typeparam>
+    /// <typeparam name="TValueVertex"></typeparam>
+    /// <typeparam name="TIdEdge"></typeparam>
+    /// <typeparam name="TRevisionIdEdge"></typeparam>
+    /// <typeparam name="TEdgeLabel"></typeparam>
+    /// <typeparam name="TKeyEdge"></typeparam>
+    /// <typeparam name="TValueEdge"></typeparam>
+    /// <typeparam name="TIdHyperEdge"></typeparam>
+    /// <typeparam name="TRevisionIdHyperEdge"></typeparam>
+    /// <typeparam name="THyperEdgeLabel"></typeparam>
+    /// <typeparam name="TKeyHyperEdge"></typeparam>
+    /// <typeparam name="TValueHyperEdge"></typeparam>
     public interface IPropertyGraph<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
@@ -183,8 +197,8 @@ namespace de.ahzf.blueprints.PropertyGraph
                                               TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                               TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> myInVertex,
 
-                              TIdEdge EdgeId = default(TIdEdge),
-                              String  Label  = null,
+                              TIdEdge    EdgeId = default(TIdEdge),
+                              TEdgeLabel Label  = default(TEdgeLabel),
 
                               Action<IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                    TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,

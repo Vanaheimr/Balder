@@ -57,6 +57,9 @@ namespace de.ahzf.blueprints.PropertyGraph.InMemory
         where TRevisionIdEdge         : IEquatable<TRevisionIdEdge>,      IComparable<TRevisionIdEdge>,      IComparable, TValueEdge
         where TRevisionIdHyperEdge    : IEquatable<TRevisionIdHyperEdge>, IComparable<TRevisionIdHyperEdge>, IComparable, TValueHyperEdge
 
+        where TEdgeLabel              : IEquatable<TEdgeLabel>,           IComparable<TEdgeLabel>,           IComparable
+        where THyperEdgeLabel         : IEquatable<THyperEdgeLabel>,      IComparable<THyperEdgeLabel>,      IComparable
+
         where TKeyVertex              : IEquatable<TKeyVertex>,           IComparable<TKeyVertex>,           IComparable
         where TKeyEdge                : IEquatable<TKeyEdge>,             IComparable<TKeyEdge>,             IComparable
         where TKeyHyperEdge           : IEquatable<TKeyHyperEdge>,        IComparable<TKeyHyperEdge>,        IComparable
@@ -95,7 +98,7 @@ namespace de.ahzf.blueprints.PropertyGraph.InMemory
                                             myInVertex,
 
                             TIdEdge                  myEdgeId,
-                            String                   myLabel,
+                            TEdgeLabel               myLabel,
                             TKeyEdge                 myIdKey,
                             TKeyEdge                 myRevisonIdKey,
                             Func<TDatastructureEdge> myDataInitializer,
@@ -135,7 +138,7 @@ namespace de.ahzf.blueprints.PropertyGraph.InMemory
         /// <summary>
         /// The label associated with this edge.
         /// </summary>
-        public String Label { get; private set; }
+        public TEdgeLabel Label { get; private set; }
 
         #endregion
 

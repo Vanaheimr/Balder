@@ -1,4 +1,4 @@
-﻿///*
+﻿//*
 // * Copyright (c) 2010-2011, Achim 'ahzf' Friedland <code@ahzf.de>
 // * This file is part of Blueprints.NET <http://www.github.com/ahzf/blueprints.NET>
 // *

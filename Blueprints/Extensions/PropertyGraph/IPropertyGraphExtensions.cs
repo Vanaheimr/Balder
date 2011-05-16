@@ -339,11 +339,11 @@ namespace de.ahzf.blueprints.PropertyGraph
                                                           TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                           TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> myInVertex,
 
-                                          TIdEdge EdgeId1 = default(TIdEdge),
-                                          TIdEdge EdgeId2 = default(TIdEdge),
-                                          String  Label   = null,
-                                          String  Label1  = null,
-                                          String  Label2  = null,
+                                          TIdEdge    EdgeId1 = default(TIdEdge),
+                                          TIdEdge    EdgeId2 = default(TIdEdge),
+                                          TEdgeLabel Label   = default(TEdgeLabel),
+                                          TEdgeLabel Label1  = default(TEdgeLabel),
+                                          TEdgeLabel Label2  = default(TEdgeLabel),
 
                                           Action<IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                                TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
