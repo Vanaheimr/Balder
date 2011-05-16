@@ -18,6 +18,7 @@
 #region Usings
 
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
 
@@ -371,61 +372,65 @@ namespace de.ahzf.blueprints.PropertyGraph.InMemory
 
         #endregion
 
-        #region AddVertex(myIVertex)
+        #region AddVertex(IPropertyVertex)
 
         /// <summary>
-        /// Adds a vertex to the graph using the given VertexId and initializes
-        /// its properties by invoking the given vertex initializer.
+        /// Adds the given vertex to the graph.
+        /// Will fial if the Id of the vertex is already within the system.
         /// </summary>
-        /// <param name="myIVertex"></param>
-        /// <returns>The new vertex</returns>
-        public IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                               TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                               TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
+        /// <param name="IPropertyVertex">A IPropertyVertex.</param>
+        /// <returns>The given vertex.</returns>
+        public virtual IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
             
-            AddVertex(IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                      TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> myIVertex)
+                       AddVertex(IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                 TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                 TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IPropertyVertex)
         {
 
-            if (myIVertex == null)
+            if (IPropertyVertex == null)
                 throw new ArgumentNullException("myIVertex must not be null!");
 
-            if (myIVertex.Id == null)
+            if (IPropertyVertex.Id == null)
                 throw new ArgumentNullException("The Id of myIVertex must not be null!");
 
-            if (myIVertex != null && _Vertices.ContainsKey(myIVertex.Id))
-                throw new ArgumentException("Another vertex with id " + myIVertex.Id + " already exists!");
+            if (IPropertyVertex != null && _Vertices.ContainsKey(IPropertyVertex.Id))
+                throw new ArgumentException("Another vertex with id " + IPropertyVertex.Id + " already exists!");
 
-            _Vertices.Add(myIVertex.Id, myIVertex);
+            _Vertices.Add(IPropertyVertex.Id, IPropertyVertex);
 
-            return myIVertex;
+            return IPropertyVertex;
 
         }
 
         #endregion
 
-        #region GetVertex(myVertexId)
+        #region GetVertex(VertexId)
 
         /// <summary>
         /// Return the vertex referenced by the given vertex identifier.
         /// If no vertex is referenced by that identifier, then return null.
         /// </summary>
-        /// <param name="myVertexId">The identifier of the vertex.</param>
+        /// <param name="VertexId">The identifier of the vertex.</param>
         /// <returns>The vertex referenced by the provided identifier or null when no such edge exists.</returns>
         public virtual IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                        TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                        TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
 
-                                       GetVertex(TIdVertex myVertexId)
+                                       GetVertex(TIdVertex VertexId)
 
         {
+
+
+            if (VertexId == null)
+                throw new ArgumentNullException("The VertexId must not be null!");
 
             IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                             TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> _IVertex;
 
-            _Vertices.TryGetValue(myVertexId, out _IVertex);
+            _Vertices.TryGetValue(VertexId, out _IVertex);
 
             return _IVertex;
 
@@ -439,23 +444,26 @@ namespace de.ahzf.blueprints.PropertyGraph.InMemory
         /// Get an enumeration of all vertices in the graph.
         /// An additional vertex filter may be applied for filtering.
         /// </summary>
-        /// <param name="myVertexIds">An array of vertex identifiers.</param>
+        /// <param name="VertexIds">An array of vertex identifiers.</param>
         public virtual IEnumerable<IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                    TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                    TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
 
-                                                   GetVertices(params TIdVertex[] myVertexIds)
+                                                   GetVertices(params TIdVertex[] VertexIds)
 
         {
+
+            if (VertexIds == null || !VertexIds.Any())
+                throw new ArgumentNullException("The VertexIds array must not be null or its length zero!");
 
             IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                             TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> _IVertex;
 
-            foreach (var _IVertexId in myVertexIds)
-                if (_IVertexId != null)
+            foreach (var _VertexId in VertexIds)
+                if (_VertexId != null)
                 {
-                    _Vertices.TryGetValue(_IVertexId, out _IVertex);
+                    _Vertices.TryGetValue(_VertexId, out _IVertex);
                     yield return _IVertex;
                 }
 
@@ -486,27 +494,27 @@ namespace de.ahzf.blueprints.PropertyGraph.InMemory
 
         #endregion
 
-        #region GetVertices(myVertexFilter = null)
+        #region GetVertices(VertexFilter = null)
 
         /// <summary>
         /// Get an enumeration of all vertices in the graph.
         /// An additional vertex filter may be applied for filtering.
         /// </summary>
-        /// <param name="myVertexFilter">A delegate for vertex filtering.</param>
+        /// <param name="VertexFilter">A delegate for vertex filtering.</param>
         public virtual IEnumerable<IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                    TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                    TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
             
                GetVertices(Func<IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                 TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, Boolean> myVertexFilter = null)
+                                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, Boolean> VertexFilter = null)
         {
 
             foreach (var _IVertex in _Vertices.Values)
-                if (myVertexFilter == null)
+                if (VertexFilter == null)
                     yield return _IVertex;
 
-                else if (myVertexFilter(_IVertex))
+                else if (VertexFilter(_IVertex))
                     yield return _IVertex;
 
         }
