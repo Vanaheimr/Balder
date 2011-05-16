@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("blueprints")]
+[assembly: AssemblyTitle("Blueprints")]
 [assembly: AssemblyDescription("A Property Graph Model Interface for .NET and Mono")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("ahzf.de")]
-[assembly: AssemblyProduct("blueprints")]
+[assembly: AssemblyProduct("Blueprints")]
 [assembly: AssemblyCopyright("Copyright © Achim Friedland 2010-2011")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
