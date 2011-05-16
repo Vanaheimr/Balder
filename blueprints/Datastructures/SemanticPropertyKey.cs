@@ -32,41 +32,62 @@ namespace de.ahzf.blueprints
 
         #region Properties
 
-        public Uri     Namespace    { get; private set; }
-        public String  Type         { get; private set; }
-        public String  Key          { get; private set; }
-        public String  Description  { get; private set; }
+        /// <summary>
+        /// The RDF prefix, e.g. "http://xmlns.com/foaf/0.1"
+        /// </summary>
+        public Uri     Prefix      { get; private set; }
+
+        /// <summary>
+        /// The RDF suffix, e.g. "knows"
+        /// </summary>
+        public String  Suffix      { get; private set; }
+        
+        /// <summary>
+        /// The key for the given RDF statement within your domain.
+        /// </summary>
+        public String  Key         { get; private set; }
+        
+        /// <summary>
+        /// An optional description for this RDF mapping.
+        /// </summary>
+        public String  Description { get; private set; }
 
         #endregion
 
         #region Constructor(s)
 
-        #region SemanticPropertyKey(myKey, myDescription)
+        #region SemanticPropertyKey(Key, Description)
 
         /// <summary>
         /// Creates a new semantic property key.
         /// </summary>
-        public SemanticPropertyKey(String myKey, String myDescription = null)
+        /// <param name="Key">The key for the given RDF statement within your domain.</param>
+        /// <param name="Description">An optional description for this RDF mapping.</param>
+        public SemanticPropertyKey(String Key, String Description = null)
         {
-            Namespace    = null;
-            Type         = null;
-            Key          = myKey;
-            Description  = myDescription;
+            this.Prefix      = new Uri("http://graph-database.org/gdb/0.1");
+            this.Suffix      = Key;
+            this.Key         = Key;
+            this.Description = Description;
         }
 
         #endregion
 
-        #region SemanticPropertyKey(myNamespace, myType, myKey, myDescription)
+        #region SemanticPropertyKey(Prefix, Type, Key, Description)
 
         /// <summary>
         /// Creates a new semantic property key.
         /// </summary>
-        public SemanticPropertyKey(Uri myNamespace, String myType, String myKey, String myDescription = null)
+        /// <param name="Prefix">The RDF prefix, e.g. "http://xmlns.com/foaf/0.1"</param>
+        /// <param name="Suffix">The RDF suffix, e.g. "knows"</param>
+        /// <param name="Key">The key for the given RDF statement within your domain, as the suffix may not be unique.</param>
+        /// <param name="Description">An optional description for this RDF mapping.</param>
+        public SemanticPropertyKey(Uri Prefix, String Suffix, String Key, String Description = null)
         {
-            Namespace    = myNamespace;
-            Type         = myType;
-            Key          = myKey;
-            Description  = myDescription;
+            this.Prefix      = Prefix;
+            this.Suffix      = Suffix;
+            this.Key         = Key;
+            this.Description = Description;
         }
 
         #endregion
