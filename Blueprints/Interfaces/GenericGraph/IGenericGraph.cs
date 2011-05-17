@@ -34,7 +34,7 @@ namespace de.ahzf.blueprints.GenericGraph
     {
 
         /// <summary>
-        /// Remove all the edges and vertices from the graph.
+        /// Remove all the vertices, edges and hyperedges from the graph.
         /// </summary>
         void Clear();
 

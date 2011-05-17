@@ -263,7 +263,20 @@ namespace de.ahzf.blueprints.PropertyGraph
                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> myIEdge);
 
         #endregion
-    
+
+
+        /// <summary>
+        /// Remove all the vertices, edges and hyperedges from the graph.
+        /// </summary>
+        void Clear();
+
+
+        /// <summary>
+        /// A shutdown function is required to properly close the graph.
+        /// This is important for implementations that utilize disk-based serializations.
+        /// </summary>
+        void Shutdown();
+
     }
 
     #endregion

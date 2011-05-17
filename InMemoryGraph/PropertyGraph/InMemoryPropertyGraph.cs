@@ -786,7 +786,7 @@ namespace de.ahzf.blueprints.PropertyGraph.InMemory
         #region Clear()
 
         /// <summary>
-        /// Remove all the edges and vertices from the graph.
+        /// Removes all the vertices, edges and hyperedges from the graph.
         /// </summary>
         public void Clear()
         {
