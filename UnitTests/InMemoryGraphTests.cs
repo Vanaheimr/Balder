@@ -1,6 +1,6 @@
 ﻿///*
 // * Copyright (c) 2010-2011, Achim 'ahzf' Friedland <code@ahzf.de>
-// * This file is part of Blueprints.NET <http://www.github.com/ahzf/blueprints.NET>
+// * This file is part of Blueprints.NET <http://www.github.com/ahzf/Blueprints.NET>
 // *
 // * Licensed under the Apache License, Version 2.0 (the "License");
 // * you may not use this file except in compliance with the License.
@@ -20,14 +20,14 @@
 //using System;
 //using System.Linq;
 
-//using de.ahzf.blueprints.InMemoryGraph;
-//using de.ahzf.blueprints.Datastructures;
+//using de.ahzf.Blueprints.InMemoryGraph;
+//using de.ahzf.Blueprints.Datastructures;
 
 //using NUnit.Framework;
 
 //#endregion
 
-//namespace de.ahzf.blueprints.UnitTests
+//namespace de.ahzf.Blueprints.UnitTests
 //{
 
 //    [TestFixture]

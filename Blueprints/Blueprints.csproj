@@ -86,6 +86,10 @@
     <Compile Include="Tools\CSV.cs" />
     <Compile Include="Tools\AutoDiscoveryIGraphs.cs" />
     <Compile Include="Tools\TypeHelpers.cs" />
+    <Compile Include="Transactions\IsolationLevel.cs" />
+    <Compile Include="Transactions\Transaction.cs" />
+    <Compile Include="Transactions\TransactionExceptions.cs" />
+    <Compile Include="Transactions\TransactionState.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

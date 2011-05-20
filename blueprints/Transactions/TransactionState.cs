@@ -15,26 +15,28 @@
  * limitations under the License.
  */
 
-namespace de.ahzf.Blueprints.PropertyGraph
+
+#region Usings
+
+using System;
+using System.Text;
+
+#endregion
+
+namespace de.ahzf.Blueprints
 {
 
     /// <summary>
-    /// An Index is either manual or automatic.
-    /// Automatic types must implement AutomaticIndex.
+    /// The state of a transaction.
     /// </summary>
-    public enum IndexType
+    public enum TransactionState
     {
-        
-        /// <summary>
-        /// Manual indexing mode
-        /// </summary>
-        MANUAL,
-
-        /// <summary>
-        /// Automatic indexing
-        /// </summary>
-        AUTOMATIC
-
+        Running,
+        NestedTransaction,
+        Committing,
+        Committed,
+        RollingBack,
+        RolledBack
     }
 
 }

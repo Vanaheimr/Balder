@@ -23,7 +23,7 @@ using NUnit.Framework;
 
 #endregion
 
-namespace de.ahzf.blueprints.UnitTests.Basics
+namespace de.ahzf.Blueprints.UnitTests.Basics
 {
 
     [TestFixture]

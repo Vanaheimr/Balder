@@ -15,26 +15,20 @@
  * limitations under the License.
  */
 
-namespace de.ahzf.Blueprints.PropertyGraph
+#region Usings
+
+using System;
+using System.Text;
+
+#endregion
+
+namespace de.ahzf.Blueprints
 {
 
-    /// <summary>
-    /// An Index is either manual or automatic.
-    /// Automatic types must implement AutomaticIndex.
-    /// </summary>
-    public enum IndexType
+    public enum IsolationLevel
     {
-        
-        /// <summary>
-        /// Manual indexing mode
-        /// </summary>
-        MANUAL,
-
-        /// <summary>
-        /// Automatic indexing
-        /// </summary>
-        AUTOMATIC
-
+        Read,
+        Write
     }
 
 }

@@ -23,12 +23,12 @@
 
 //using NUnit.Framework;
 
-//using de.ahzf.blueprints.Datastructures;
-//using de.ahzf.blueprints.InMemoryGraph;
+//using de.ahzf.Blueprints.Datastructures;
+//using de.ahzf.Blueprints.InMemoryGraph;
 
 //#endregion
 
-//namespace de.ahzf.blueprints.UnitTests.Basics
+//namespace de.ahzf.Blueprints.UnitTests.Basics
 //{
 
 //    [TestFixture]
@@ -41,13 +41,13 @@
 //        public void testEdgeInitAndEquality()
 //        {
 
-//            var _Graph = new de.ahzf.blueprints.InMemoryGraph.InMemoryGraph() as IPropertyGraph;
+//            var _Graph = new de.ahzf.Blueprints.InMemoryGraph.InMemoryGraph() as IPropertyGraph;
 
 //            var _v1 = _Graph.AddVertex(new VertexId("v1"));
 //            var _v2 = _Graph.AddVertex(new VertexId("v2"));
 //            var _v3 = _Graph.AddVertex(new VertexId("v3"));
 
-//            var _Type = typeof(de.ahzf.blueprints.InMemoryGraph.Edge).
+//            var _Type = typeof(de.ahzf.Blueprints.InMemoryGraph.Edge).
 //                         GetConstructor(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
 //                                        null,
 //                                        new Type[] {
@@ -64,9 +64,9 @@
 //            var b = new EdgeId("e2");
 //            var c = new EdgeId("e1");
 
-//            var _e1 = _Type.Invoke(new Object[] { new de.ahzf.blueprints.InMemoryGraph.InMemoryGraph(), _v1, _v2, a, "label1", null }) as Edge;
-//            var _e2 = _Type.Invoke(new Object[] { new de.ahzf.blueprints.InMemoryGraph.InMemoryGraph(), _v2, _v3, b, "label2", null }) as Edge;
-//            var _e3 = _Type.Invoke(new Object[] { new de.ahzf.blueprints.InMemoryGraph.InMemoryGraph(), _v1, _v2, c, "label3", null }) as Edge;
+//            var _e1 = _Type.Invoke(new Object[] { new de.ahzf.Blueprints.InMemoryGraph.InMemoryGraph(), _v1, _v2, a, "label1", null }) as Edge;
+//            var _e2 = _Type.Invoke(new Object[] { new de.ahzf.Blueprints.InMemoryGraph.InMemoryGraph(), _v2, _v3, b, "label2", null }) as Edge;
+//            var _e3 = _Type.Invoke(new Object[] { new de.ahzf.Blueprints.InMemoryGraph.InMemoryGraph(), _v1, _v2, c, "label3", null }) as Edge;
 
 //            Assert.AreEqual(_e1.Id, _e1.Id);
 //            Assert.AreEqual(_e2.Id, _e2.Id);
@@ -108,13 +108,13 @@
 //        public void testIEdgeInitAndEquality()
 //        {
 
-//            var _Graph = new de.ahzf.blueprints.InMemoryGraph.InMemoryGraph() as IPropertyGraph;
+//            var _Graph = new de.ahzf.Blueprints.InMemoryGraph.InMemoryGraph() as IPropertyGraph;
 
 //            var _v1 = _Graph.AddVertex(new VertexId("v1"));
 //            var _v2 = _Graph.AddVertex(new VertexId("v2"));
 //            var _v3 = _Graph.AddVertex(new VertexId("v3"));
 
-//            var _Type = typeof(de.ahzf.blueprints.InMemoryGraph.Edge).
+//            var _Type = typeof(de.ahzf.Blueprints.InMemoryGraph.Edge).
 //                         GetConstructor(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
 //                                        null,
 //                                        new Type[] {
@@ -131,9 +131,9 @@
 //            var b = new EdgeId("e2");
 //            var c = new EdgeId("e1");
 
-//            var _e1 = _Type.Invoke(new Object[] { new de.ahzf.blueprints.InMemoryGraph.InMemoryGraph(), _v1, _v2, a, "label1", null }) as IEdge;
-//            var _e2 = _Type.Invoke(new Object[] { new de.ahzf.blueprints.InMemoryGraph.InMemoryGraph(), _v2, _v3, b, "label2", null }) as IEdge;
-//            var _e3 = _Type.Invoke(new Object[] { new de.ahzf.blueprints.InMemoryGraph.InMemoryGraph(), _v1, _v2, c, "label3", null }) as IEdge;
+//            var _e1 = _Type.Invoke(new Object[] { new de.ahzf.Blueprints.InMemoryGraph.InMemoryGraph(), _v1, _v2, a, "label1", null }) as IEdge;
+//            var _e2 = _Type.Invoke(new Object[] { new de.ahzf.Blueprints.InMemoryGraph.InMemoryGraph(), _v2, _v3, b, "label2", null }) as IEdge;
+//            var _e3 = _Type.Invoke(new Object[] { new de.ahzf.Blueprints.InMemoryGraph.InMemoryGraph(), _v1, _v2, c, "label3", null }) as IEdge;
 
 //            Assert.AreEqual(_e1.Id, _e1.Id);
 //            Assert.AreEqual(_e2.Id, _e2.Id);
