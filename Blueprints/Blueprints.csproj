@@ -49,8 +49,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Datastructures\SemanticPropertyKey.cs" />
     <Compile Include="Datastructures\HyperEdgeId.cs" />
+    <Compile Include="Datastructures\SemanticProperty.cs" />
     <Compile Include="Datastructures\SystemId.cs" />
     <Compile Include="Datastructures\ElementId.cs" />
     <Compile Include="Datastructures\VertexId.cs" />
