@@ -27,7 +27,7 @@ namespace de.ahzf.Blueprints
     /// <summary>
     /// A semantic property key combines a property key with semantic type information.
     /// </summary>    
-    public class SemanticPropertyKey : IEquatable<SemanticPropertyKey>, IComparable<SemanticPropertyKey>, IComparable
+    public class SemanticProperty : IEquatable<SemanticProperty>, IComparable<SemanticProperty>, IComparable
     {
 
         #region Properties
@@ -63,7 +63,7 @@ namespace de.ahzf.Blueprints
         /// </summary>
         /// <param name="Key">The key for the given RDF statement within your domain.</param>
         /// <param name="Description">An optional description for this RDF mapping.</param>
-        public SemanticPropertyKey(String Key, String Description = null)
+        public SemanticProperty(String Key, String Description = null)
         {
             this.Prefix      = new Uri("http://graph-database.org/gdb/0.1");
             this.Suffix      = Key;
@@ -82,7 +82,7 @@ namespace de.ahzf.Blueprints
         /// <param name="Suffix">The RDF suffix, e.g. "knows"</param>
         /// <param name="Key">The key for the given RDF statement within your domain, as the suffix may not be unique.</param>
         /// <param name="Description">An optional description for this RDF mapping.</param>
-        public SemanticPropertyKey(Uri Prefix, String Suffix, String Key, String Description = null)
+        public SemanticProperty(Uri Prefix, String Suffix, String Key, String Description = null)
         {
             this.Prefix      = Prefix;
             this.Suffix      = Suffix;
@@ -105,7 +105,7 @@ namespace de.ahzf.Blueprints
         /// <param name="mySemanticPropertyKey1">A SemanticPropertyKey.</param>
         /// <param name="mySemanticPropertyKey2">Another SemanticPropertyKey.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator == (SemanticPropertyKey mySemanticPropertyKey1, SemanticPropertyKey mySemanticPropertyKey2)
+        public static Boolean operator == (SemanticProperty mySemanticPropertyKey1, SemanticProperty mySemanticPropertyKey2)
         {
 
             // If both are null, or both are same instance, return true.
@@ -130,7 +130,7 @@ namespace de.ahzf.Blueprints
         /// <param name="mySemanticPropertyKey1">A SemanticPropertyKey.</param>
         /// <param name="mySemanticPropertyKey2">Another SemanticPropertyKey.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator != (SemanticPropertyKey mySemanticPropertyKey1, SemanticPropertyKey mySemanticPropertyKey2)
+        public static Boolean operator != (SemanticProperty mySemanticPropertyKey1, SemanticProperty mySemanticPropertyKey2)
         {
             return !(mySemanticPropertyKey1 == mySemanticPropertyKey2);
         }
@@ -145,7 +145,7 @@ namespace de.ahzf.Blueprints
         /// <param name="mySemanticPropertyKey1">A SemanticPropertyKey.</param>
         /// <param name="mySemanticPropertyKey2">Another SemanticPropertyKey.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator < (SemanticPropertyKey mySemanticPropertyKey1, SemanticPropertyKey mySemanticPropertyKey2)
+        public static Boolean operator < (SemanticProperty mySemanticPropertyKey1, SemanticProperty mySemanticPropertyKey2)
         {
 
             // Check if mySemanticPropertyKey1 is null
@@ -178,7 +178,7 @@ namespace de.ahzf.Blueprints
         /// <param name="mySemanticPropertyKey1">A SemanticPropertyKey.</param>
         /// <param name="mySemanticPropertyKey2">Another SemanticPropertyKey.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator > (SemanticPropertyKey mySemanticPropertyKey1, SemanticPropertyKey mySemanticPropertyKey2)
+        public static Boolean operator > (SemanticProperty mySemanticPropertyKey1, SemanticProperty mySemanticPropertyKey2)
         {
 
             // Check if mySemanticPropertyKey1 is null
@@ -211,7 +211,7 @@ namespace de.ahzf.Blueprints
         /// <param name="mySemanticPropertyKey1">A SemanticPropertyKey.</param>
         /// <param name="mySemanticPropertyKey2">Another SemanticPropertyKey.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator <= (SemanticPropertyKey mySemanticPropertyKey1, SemanticPropertyKey mySemanticPropertyKey2)
+        public static Boolean operator <= (SemanticProperty mySemanticPropertyKey1, SemanticProperty mySemanticPropertyKey2)
         {
             return !(mySemanticPropertyKey1 > mySemanticPropertyKey2);
         }
@@ -226,7 +226,7 @@ namespace de.ahzf.Blueprints
         /// <param name="mySemanticPropertyKey1">A SemanticPropertyKey.</param>
         /// <param name="mySemanticPropertyKey2">Another SemanticPropertyKey.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator >= (SemanticPropertyKey mySemanticPropertyKey1, SemanticPropertyKey mySemanticPropertyKey2)
+        public static Boolean operator >= (SemanticProperty mySemanticPropertyKey1, SemanticProperty mySemanticPropertyKey2)
         {
             return !(mySemanticPropertyKey1 < mySemanticPropertyKey2);
         }
@@ -252,7 +252,7 @@ namespace de.ahzf.Blueprints
                 throw new ArgumentNullException("myObject must not be null!");
 
             // Check if myObject can be casted to an SemanticPropertyKey object
-            var mySemanticPropertyKey = myObject as SemanticPropertyKey;
+            var mySemanticPropertyKey = myObject as SemanticProperty;
             if ((Object) mySemanticPropertyKey == null)
                 throw new ArgumentException("myObject is not of type SemanticPropertyKey!");
 
@@ -269,7 +269,7 @@ namespace de.ahzf.Blueprints
         /// </summary>
         /// <param name="mySemanticPropertyKey">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public Int32 CompareTo(SemanticPropertyKey mySemanticPropertyKey)
+        public Int32 CompareTo(SemanticProperty mySemanticPropertyKey)
         {
 
             // Check if mySemanticPropertyKey is null
@@ -301,7 +301,7 @@ namespace de.ahzf.Blueprints
                 throw new ArgumentNullException("Parameter myObject must not be null!");
 
             // Check if myObject can be cast to SemanticPropertyKey
-            var mySemanticPropertyKey = myObject as SemanticPropertyKey;
+            var mySemanticPropertyKey = myObject as SemanticProperty;
             if ((Object) mySemanticPropertyKey == null)
                 throw new ArgumentException("Parameter myObject could not be casted to type SemanticPropertyKey!");
 
@@ -318,7 +318,7 @@ namespace de.ahzf.Blueprints
         /// </summary>
         /// <param name="mySemanticPropertyKey">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public Boolean Equals(SemanticPropertyKey mySemanticPropertyKey)
+        public Boolean Equals(SemanticProperty mySemanticPropertyKey)
         {
 
             // Check if mySemanticPropertyKey is null

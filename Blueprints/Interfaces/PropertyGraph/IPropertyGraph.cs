@@ -263,7 +263,22 @@ namespace de.ahzf.Blueprints.PropertyGraph
                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> myIEdge);
 
         #endregion
+        
+        #region HyperEdge methods
 
+        /// <summary>
+        /// Return the hyperedge referenced by the given hyperedge identifier.
+        /// If no hyperedge is referenced by that identifier, then return null.
+        /// </summary>
+        /// <param name="myEdgeId">The identifier of the edge.</param>
+        /// <returns>The edge referenced by the provided identifier or null when no such edge exists.</returns>
+        IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                           TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                           TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
+
+                      GetHyperEdge(TIdHyperEdge myHyperEdgeId);
+
+        #endregion
 
         /// <summary>
         /// Remove all the vertices, edges and hyperedges from the graph.

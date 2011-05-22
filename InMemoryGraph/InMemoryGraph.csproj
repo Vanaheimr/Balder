@@ -55,7 +55,7 @@
     <Compile Include="PropertyGraph\PropertyVertex.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Blueprints\Blueprints.csproj">
+    <ProjectReference Include="..\blueprints\Blueprints.csproj">
       <Project>{B9DE4181-416E-4DE4-A983-B90FC9412774}</Project>
       <Name>Blueprints</Name>
     </ProjectReference>
