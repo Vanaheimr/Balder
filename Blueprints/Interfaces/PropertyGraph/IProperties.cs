@@ -86,9 +86,31 @@ namespace de.ahzf.Blueprints.PropertyGraph
         /// Assign a key/value property to the element.
         /// If a value already exists for this key, then the previous key/value is overwritten.
         /// </summary>
-        /// <param name="myKey">The property key.</param>
-        /// <param name="myValue">The property value.</param>
+        /// <param name="myKey">A property key.</param>
+        /// <param name="myValue">A property value.</param>
         IProperties<TKey, TValue> SetProperty(TKey myKey, TValue myValue);
+
+
+        /// <summary>
+        /// Checks if the given property key is assigned.
+        /// </summary>
+        /// <param name="myKey">A property key.</param>
+        Boolean Contains(TKey myKey);
+
+
+        /// <summary>
+        /// Checks if the given key/value pair is assigned.
+        /// </summary>
+        /// <param name="myKey">A property key.</param>
+        /// <param name="myValue">A property value.</param>
+        Boolean Contains(TKey myKey, TValue myValue);
+
+
+        /// <summary>
+        /// Checks if the given key/value pair is assigned.
+        /// </summary>
+        /// <param name="myKeyValuePair">A KeyValuePair.</param>
+        Boolean Contains(KeyValuePair<TKey, TValue> myKeyValuePair);
 
 
         /// <summary>

@@ -326,7 +326,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <summary>
         /// Created a new genric and in-memory property graph.
         /// </summary>
-        /// <param name="GraphId">The identification of this vertex.</param>
+        /// <param name="GraphId">The identification of this graph.</param>
         /// <param name="IdKey">The key to access the Id of this graph.</param>
         /// <param name="RevisonIdKey">The key to access the Id of this graph.</param>
         /// <param name="DataInitializer"></param>

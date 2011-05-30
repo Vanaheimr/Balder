@@ -291,6 +291,46 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #endregion
 
+        #region Contains(myKey)
+
+        /// <summary>
+        /// Checks if the given property key is assigned.
+        /// </summary>
+        /// <param name="myKey">A property key.</param>
+        public Boolean Contains(TKey myKey)
+        {
+            return _Properties.ContainsKey(myKey);
+        }
+
+        #endregion
+
+        #region Contains(myKey, myValue)
+
+        /// <summary>
+        /// Checks if the given key/value pair is assigned.
+        /// </summary>
+        /// <param name="myKey">A property key.</param>
+        /// <param name="myValue">A property value.</param>
+        public Boolean Contains(TKey myKey, TValue myValue)
+        {
+            return _Properties.Contains(new KeyValuePair<TKey,TValue>(myKey, myValue));
+        }
+
+        #endregion
+
+        #region Contains(myKeyValuePair)
+
+        /// <summary>
+        /// Checks if the given key/value pair is assigned.
+        /// </summary>
+        /// <param name="myKeyValuePair">A KeyValuePair.</param>
+        public Boolean Contains(KeyValuePair<TKey, TValue> myKeyValuePair)
+        {
+            return _Properties.Contains(myKeyValuePair);
+        }
+
+        #endregion
+
         #region GetProperty(myPropertyKey)
 
         /// <summary>
