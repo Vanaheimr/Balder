@@ -72,7 +72,8 @@ namespace de.ahzf.Blueprints.GenericGraph
                                    TIdEdge,      TRevisionIdEdge,      TDataEdge,      TEdge,      
                                    TIdHyperEdge, TRevisionIdHyperEdge, TDataHyperEdge, THyperEdge>
 
-                         : IGenericGraph
+                                   : IGenericElement<TIdVertex, TRevisionIdVertex, TDataVertex>,
+                                     IGenericGraph
 
         where TVertex              : IGenericVertex   <TIdVertex,    TRevisionIdVertex,    TDataVertex,
                                                        TIdEdge,      TRevisionIdEdge,      TDataEdge, 

@@ -34,7 +34,7 @@ namespace de.ahzf.Blueprints.UnitTests
         public static IPropertyGraph CreateTinkerGraph()
         {
 
-            var _TinkerGraph = new InMemoryPropertyGraph() as IPropertyGraph;
+            var _TinkerGraph = new InMemoryPropertyGraph(new VertexId("TinkerGraph")) as IPropertyGraph;
 
             var marko  = _TinkerGraph.AddVertex(new VertexId("1"), v => v.SetProperty("name", "marko"). SetProperty("age",   29));
             var vadas  = _TinkerGraph.AddVertex(new VertexId("2"), v => v.SetProperty("name", "vadas"). SetProperty("age",   27));

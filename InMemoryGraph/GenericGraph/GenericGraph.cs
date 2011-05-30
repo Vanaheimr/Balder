@@ -216,6 +216,36 @@ namespace de.ahzf.Blueprints.GenericGraph.InMemory
 
         #endregion
 
+
+        public TDataVertex Data
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public TIdVertex Id
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public bool Equals(TIdVertex other)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int CompareTo(TIdVertex other)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int CompareTo(object obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public TRevisionIdVertex RevisionId
+        {
+            get { throw new NotImplementedException(); }
+        }
     }
 
 }

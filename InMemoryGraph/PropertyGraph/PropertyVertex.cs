@@ -78,36 +78,36 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #region Constructor(s)
 
-        #region PropertyVertex(myIGraph, myVertexId, myIdKey, myRevisonIdKey, myDataInitializer, myEdgeCollectionInitializer = null, myVertexInitializer = null)
+        #region PropertyVertex(IGraph, VertexId, IdKey, RevisonIdKey, DataInitializer, EdgeCollectionInitializer = null, VertexInitializer = null)
 
         /// <summary>
         /// Creates a new vertex.
         /// </summary>
-        /// <param name="myIGraph">The associated graph.</param>
-        /// <param name="myVertexId">The identification of this vertex.</param>
-        /// <param name="myIdKey">The key to access the Id of this vertex.</param>
-        /// <param name="myRevisonIdKey">The key to access the RevisionId of this vertex.</param>
-        /// <param name="myDataInitializer">A func to initialize the datastructure of this vertex.</param></param>
-        /// <param name="myEdgeCollectionInitializer">A func to initialize the datastructure for storing all edges.</param>
-        /// <param name="myVertexInitializer">A delegate to initialize the newly created vertex.</param>
-        public PropertyVertex(TIdVertex                    myVertexId,
-                              TKeyVertex                   myIdKey,
-                              TKeyVertex                   myRevisonIdKey,
-                              Func<TDatastructureVertex>   myDataInitializer,
-                              Func<TEdgeCollection>        myEdgeCollectionInitializer,
+        /// <param name="IGraph">The associated graph.</param>
+        /// <param name="VertexId">The identification of this vertex.</param>
+        /// <param name="IdKey">The key to access the Id of this vertex.</param>
+        /// <param name="RevisonIdKey">The key to access the RevisionId of this vertex.</param>
+        /// <param name="DataInitializer">A func to initialize the datastructure of this vertex.</param></param>
+        /// <param name="EdgeCollectionInitializer">A func to initialize the datastructure for storing all edges.</param>
+        /// <param name="VertexInitializer">A delegate to initialize the newly created vertex.</param>
+        public PropertyVertex(TIdVertex                    VertexId,
+                              TKeyVertex                   IdKey,
+                              TKeyVertex                   RevisonIdKey,
+                              Func<TDatastructureVertex>   DataInitializer,
+                              Func<TEdgeCollection>        EdgeCollectionInitializer,
                               Action<IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                      TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> myVertexInitializer = null)
+                                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> VertexInitializer = null)
 
-            : base(myVertexId, myIdKey, myRevisonIdKey, myDataInitializer)
+            : base(VertexId, IdKey, RevisonIdKey, DataInitializer)
 
         {
 
-            if (myVertexInitializer != null)
-                myVertexInitializer(this);
+            _OutEdges = EdgeCollectionInitializer();
+            _InEdges  = EdgeCollectionInitializer();
 
-            _OutEdges = myEdgeCollectionInitializer();
-            _InEdges  = myEdgeCollectionInitializer();
+            if (VertexInitializer != null)
+                VertexInitializer(this);
 
         }
 

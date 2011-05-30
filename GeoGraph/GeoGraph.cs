@@ -127,6 +127,40 @@ namespace de.ahzf.Blueprints.GeoGraph
             throw new NotImplementedException();
         }
 
+
+
+
+        public GeoCoordinate Data
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public VertexId Id
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public bool Equals(VertexId other)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int CompareTo(VertexId other)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int CompareTo(object obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public RevisionId RevisionId
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+
     }
 
 }

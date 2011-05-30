@@ -61,6 +61,8 @@ namespace de.ahzf.Blueprints.PropertyGraph
                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
 
+                                    : IPropertyElement<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex>
+
         where TIdVertex               : IEquatable<TIdVertex>,            IComparable<TIdVertex>,            IComparable, TValueVertex
         where TIdEdge                 : IEquatable<TIdEdge>,              IComparable<TIdEdge>,              IComparable, TValueEdge
         where TIdHyperEdge            : IEquatable<TIdHyperEdge>,         IComparable<TIdHyperEdge>,         IComparable, TValueHyperEdge
@@ -279,6 +281,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
                       GetHyperEdge(TIdHyperEdge myHyperEdgeId);
 
         #endregion
+
 
         /// <summary>
         /// Remove all the vertices, edges and hyperedges from the graph.
