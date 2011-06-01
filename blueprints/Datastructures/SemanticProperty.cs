@@ -346,6 +346,18 @@ namespace de.ahzf.Blueprints
 
         #endregion
 
+        #region ToString()
+
+        /// <summary>
+        /// A string representation of this object.
+        /// </summary>
+        public override String ToString()
+        {
+            return String.Format("{0}#{1} [{2}]", Prefix, Suffix, Key);
+        }
+
+        #endregion
+
     }
 
 }
