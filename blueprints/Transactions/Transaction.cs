@@ -28,7 +28,7 @@ namespace de.ahzf.Blueprints
 {
 
     /// <summary>
-    /// A QuadStore transaction.
+    /// A transaction.
     /// </summary>
     public class Transaction<T> : IDisposable
         where T : IEquatable<T>, IComparable, IComparable<T>
@@ -39,48 +39,48 @@ namespace de.ahzf.Blueprints
         /// <summary>
         /// The Id of this transaction.
         /// </summary>
-        public readonly T Id;
+        public T Id { get; private set; }
 
         /// <summary>
         /// The SystemId of the QuadStore initiating this transaction.</param>
         /// </summary>
-        public readonly T SystemId;
+        public T SystemId { get; private set; }
 
         /// <summary>
         /// A user-friendly name or identification for this transaction.
         /// </summary>
-        public readonly String Name;
+        public String Name { get; private set; }
 
         /// <summary>
         /// The parent transaction, if this is a nested transaction.
         /// </summary>
-        public readonly Transaction<T> ParentTransaction;
+        public Transaction<T> ParentTransaction { get; private set; }
 
         /// <summary>
         /// The creation time of this transaction.
         /// </summary>
-        public readonly DateTime CreationTime;
+        public DateTime CreationTime { get; private set; }
 
         /// <summary>
         /// The isolation level of this transaction.
         /// </summary>
-        public readonly IsolationLevel IsolationLevel;
+        public IsolationLevel IsolationLevel { get; private set; }
 
         /// <summary>
         /// Wether this transaction should be synched within an distributed QuadStore.
         /// </summary>
-        public readonly Boolean  Distributed;
+        public Boolean Distributed { get; private set; }
 
         /// <summary>
         /// Wether this transaction is a long-running transaction.
         /// Long-running transactions may e.g. be swapped on disc.
         /// </summary>
-        public readonly Boolean  LongRunning;
+        public Boolean LongRunning { get; private set; }
 
         /// <summary>
         /// A timestamp after this transaction will no longer be valid.
         /// </summary>
-        public readonly DateTime InvalidationTime;
+        public DateTime InvalidationTime { get; private set; }
 
 
         internal readonly List<Transaction<T>> _NestedTransactions;
@@ -109,7 +109,7 @@ namespace de.ahzf.Blueprints
 
         #region State
 
-        protected TransactionState _State;
+        private TransactionState _State;
 
         /// <summary>
         /// The current state of this transaction.
@@ -157,7 +157,6 @@ namespace de.ahzf.Blueprints
         /// </summary>
         public Boolean HasNestedTransactions
         {
-
             get
             {
 
@@ -167,7 +166,6 @@ namespace de.ahzf.Blueprints
                 return true;
 
             }
-
         }
 
         #endregion
@@ -177,7 +175,7 @@ namespace de.ahzf.Blueprints
 
         #region Constructor(s)
 
-        #region Transaction(myDistributed, myLongRunning, myIsolationLevel, myName, myTimestamp)
+        #region Transaction(Id, SystemId, Name = "", Distributed = false, LongRunning = false, IsolationLevel = IsolationLevel.Read, CreationTime = null, InvalidationTime = null)
 
         /// <summary>
         /// Creates a new transaction having the given parameters.
@@ -194,8 +192,8 @@ namespace de.ahzf.Blueprints
                            T              SystemId,
                            String         Name             = "",
                            Boolean        Distributed      = false,
-                           IsolationLevel IsolationLevel   = IsolationLevel.Read,
                            Boolean        LongRunning      = false,
+                           IsolationLevel IsolationLevel   = IsolationLevel.Read,
                            DateTime?      CreationTime     = null,
                            DateTime?      InvalidationTime = null)
         {
@@ -223,7 +221,7 @@ namespace de.ahzf.Blueprints
 
         #endregion
 
-        #region Transaction(Id, ParentTransaction)
+        #region (internal) Transaction(Id, ParentTransaction)
 
         /// <summary>
         /// Creates a new nested transaction.
@@ -232,7 +230,7 @@ namespace de.ahzf.Blueprints
         /// <param name="SystemId"></param>
         /// <param name="ParentTransaction"></param>
         internal Transaction(T Id, T SystemId, Transaction<T> ParentTransaction)
-            : this(Id, SystemId, "", ParentTransaction.Distributed, ParentTransaction.IsolationLevel, ParentTransaction.LongRunning)
+            : this(Id, SystemId, "", ParentTransaction.Distributed, ParentTransaction.LongRunning, ParentTransaction.IsolationLevel)
         {
             this.ParentTransaction = ParentTransaction;
             Name = ParentTransaction.Name + "#" + ParentTransaction._NestedTransactions.Count + 1;
@@ -243,13 +241,15 @@ namespace de.ahzf.Blueprints
         #endregion
 
 
-        #region Commit(myAsync = false)
+        #region Commit(Comment = "", Async = false)
 
         /// <summary>
-        /// Mark this transaction as committed. Will not invoke the OnDispose event to clean up the ressources
+        /// Mark this transaction as committed.
+        /// Will not invoke the OnDispose event to clean up the ressources
         /// </summary>
-        /// <param name="myAsync">if true commit will be async; default: false</param>
-        public Boolean Commit(Boolean myAsync = false)
+        /// <param name="Comment">A comment.</param>
+        /// <param name="Async">if true commit will be async; default: false</param>
+        public Boolean Commit(String Comment = "", Boolean Async = false)
         {
 
             switch (State)
@@ -299,22 +299,14 @@ namespace de.ahzf.Blueprints
 
         #endregion
 
-        #region Rollback()
-
-        public Boolean Rollback()
-        {
-            return Rollback(false);
-        }
-
-        #endregion
-
-        #region Rollback(myAsync)
+        #region Rollback(Comment = "", Async = false)
 
         /// <summary>
         /// Mark this transaction as rolledback. Will invoke the event OnDispose to clean up ressources.
         /// </summary>
-        /// <param name="myAsync">if true rollback will be async; default: false</param>
-        public Boolean Rollback(Boolean myAsync)
+        /// <param name="Comment">A comment.</param>
+        /// <param name="Async">if true rollback will be async; default: false</param>
+        public Boolean Rollback(String Comment = "", Boolean Async = false)
         {
 
             switch (State)
@@ -366,16 +358,16 @@ namespace de.ahzf.Blueprints
         #endregion
 
 
-        #region BeginNestedTransaction(myDistributed, myLongRunning, myIsolationLevel, myName)
+        #region BeginNestedTransaction(Distributed = false, LongRunning = false, IsolationLevel = IsolationLevel.Read, Name = "", TimeStamp = null)
 
         /// <summary>
         /// Creates a nested transaction having the given parameters.
         /// </summary>
-        /// <param name="myDistributed">Indicates that the nested transaction should synched within the entire cluster.</param>
-        /// <param name="myLongRunning">Indicates that the nested transaction is a long-running transaction.</param>
-        /// <param name="myIsolationLevel">The isolation level of the nested transaction.</param>
-        /// <param name="myName">A name or identification for the nested transaction.</param>
-        public Transaction<T> BeginNestedTransaction(Boolean myDistributed = false, Boolean myLongRunning = false, IsolationLevel myIsolationLevel = IsolationLevel.Read, String myName = "", DateTime? myTimeStamp = null)
+        /// <param name="Distributed">Indicates that the nested transaction should synched within the entire cluster.</param>
+        /// <param name="LongRunning">Indicates that the nested transaction is a long-running transaction.</param>
+        /// <param name="IsolationLevel">The isolation level of the nested transaction.</param>
+        /// <param name="Name">A name or identification for the nested transaction.</param>
+        public Transaction<T> BeginNestedTransaction(Boolean Distributed = false, Boolean LongRunning = false, IsolationLevel IsolationLevel = IsolationLevel.Read, String Name = "", DateTime? TimeStamp = null)
         {
 
             switch (State)
@@ -421,8 +413,11 @@ namespace de.ahzf.Blueprints
 
         #endregion
 
-        #region GetNestedTransaction
+        #region GetNestedTransaction()
 
+        /// <summary>
+        /// Return the current nested transaction.
+        /// </summary>
         public Transaction<T> GetNestedTransaction()
         {
             return _NestedTransactions.Last();
@@ -433,16 +428,22 @@ namespace de.ahzf.Blueprints
 
         #region IDisposable Members
 
+        /// <summary>
+        /// Dispose this transaction
+        /// </summary>
         public void Dispose()
         {
             if (State != TransactionState.Committed)
-                Rollback();
+                Rollback("Dispose()");
         }
 
         #endregion
 
         #region ToString()
 
+        /// <summary>
+        /// Return a string representation of this object.
+        /// </summary>
         public override String ToString()
         {
 
@@ -466,7 +467,6 @@ namespace de.ahzf.Blueprints
         }
 
         #endregion
-
 
     }
 
