@@ -155,7 +155,7 @@ namespace de.ahzf.Blueprints.Tools
         #endregion
 
 
-        #region FindAndRegisterImplementations(myPaths, myIdentificator)
+        #region FindAndRegister(myPaths, myIdentificator)
 
         /// <summary>
         /// Searches all matching files at the given paths for classes implementing the interface &lt;T&gt;.
