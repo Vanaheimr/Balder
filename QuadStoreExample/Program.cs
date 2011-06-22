@@ -33,6 +33,8 @@ namespace de.ahzf.Blueprints.QuadStore
         public static void Main(String[] myArgs)
         {
 
+            IQuad<String> s1, s2, s3, s4, s5;
+
             var _QuadStore = new QuadStore<String>(
                                      SystemId:        "BlueQuad0001",
                                      QuadIdConverter: (QuadId) => QuadId.ToString(),
@@ -45,18 +47,21 @@ namespace de.ahzf.Blueprints.QuadStore
 
                 using (var _NestedTransaction = _Transaction.BeginNestedTransaction())
                 {
-                    var s1 = _QuadStore.Add("Alice", "knows", "Bob");
+                    s1 = _QuadStore.Add("Alice", "knows", "Bob");
                     _NestedTransaction.Commit();
                 }
 
-                var s2 = _QuadStore.Add("Alice", "knows", "Dave");
-                var s3 = _QuadStore.Add("Bob",   "knows", "Carol");
-                var s4 = _QuadStore.Add("Eve",   "loves", "Alice");
-                var s5 = _QuadStore.Add("Carol", "loves", "Alice");
+                s2 = _QuadStore.Add("Alice", "knows", "Dave");
+                s3 = _QuadStore.Add("Bob",   "knows", "Carol");
+                s4 = _QuadStore.Add("Eve",   "loves", "Alice");
+                s5 = _QuadStore.Add("Carol", "loves", "Alice");
 
                 _Transaction.Commit();
 
             }
+
+
+            var q1 = _QuadStore.GetQuad(s2.QuadId);
 
         }
 

@@ -47,6 +47,7 @@ namespace de.ahzf.Blueprints.QuadStore
         #region Indices for the Subject, Predicate, Object and Context
 
         // Maybe look for better data structures in the future.
+        private ConcurrentDictionary<T,      IQuad<T>> _QuadIdIndex;
         private ConcurrentDictionary<T, List<IQuad<T>>> _SubjectIndex;
         private ConcurrentDictionary<T, List<IQuad<T>>> _PredicateIndex;
         private ConcurrentDictionary<T, List<IQuad<T>>> _ObjectIndex;
@@ -108,6 +109,7 @@ namespace de.ahzf.Blueprints.QuadStore
             this._QuadIdConverter = QuadIdConverter;
             this._DefaultContext  = DefaultContext;
 
+            this._QuadIdIndex     = new ConcurrentDictionary<T,      IQuad<T>> ();
             this._SubjectIndex    = new ConcurrentDictionary<T, List<IQuad<T>>>();
             this._PredicateIndex  = new ConcurrentDictionary<T, List<IQuad<T>>>();
             this._ObjectIndex     = new ConcurrentDictionary<T, List<IQuad<T>>>();
@@ -165,6 +167,73 @@ namespace de.ahzf.Blueprints.QuadStore
 
         #region Add(...)
 
+        #region (private) Add(NewQuad, Connect = true)
+
+        /// <summary>
+        /// Adds the given quad to the QuadStore.
+        /// </summary>
+        /// <param name="NewQuad">The quad to add to the store.</param>
+        /// <param name="Connect">Connect this quad to other quads in order to achieve an index-free adjacency.</param>
+        /// <returns>The given quad.</returns>
+        private IQuad<T> Add(IQuad<T> NewQuad, Boolean Connect = true)
+        {
+
+            #region Initial checks
+
+            if (NewQuad == null)
+                throw new ArgumentNullException("The NewQuad must not be null!");
+
+            #endregion
+
+            #region Add quad to Subject, Predicate, Object and Context indices
+
+            List<IQuad<T>> _QuadList = null;
+
+            // Add to QuadId index
+            if (_QuadIdIndex.ContainsKey(NewQuad.QuadId) || !_QuadIdIndex.TryAdd(NewQuad.QuadId, NewQuad))
+                    throw new AddToQuadIdIndexException<T>(NewQuad);
+
+            // Add to Subject index
+            if (_SubjectIndex.TryGetValue(NewQuad.Subject, out _QuadList))
+                _QuadList.Add(NewQuad);
+            else
+                if (!_SubjectIndex.TryAdd(NewQuad.Subject, new List<IQuad<T>>() { NewQuad }))
+                    throw new AddToSubjectIndexException<T>(NewQuad);
+
+            // Add to Predicate index
+            if (_PredicateIndex.TryGetValue(NewQuad.Predicate, out _QuadList))
+                _QuadList.Add(NewQuad);
+            else
+                if (!_PredicateIndex.TryAdd(NewQuad.Predicate, new List<IQuad<T>>() { NewQuad }))
+                    throw new AddToPredicateIndexException<T>(NewQuad);
+
+            // Add to Object index
+            if (_ObjectIndex.TryGetValue(NewQuad.Object, out _QuadList))
+                _QuadList.Add(NewQuad);
+            else
+                if (!_ObjectIndex.TryAdd(NewQuad.Object, new List<IQuad<T>>() { NewQuad }))
+                    throw new AddToObjectIndexException<T>(NewQuad);
+
+            // Add to Context index
+            if (_ContextIndex.TryGetValue(NewQuad.Context, out _QuadList))
+                _QuadList.Add(NewQuad);
+            else
+                if (!_ContextIndex.TryAdd(NewQuad.Context, new List<IQuad<T>>() { NewQuad }))
+                    throw new AddToContextIndexException<T>(NewQuad);
+
+            #endregion
+
+            // Connect this quad to other quads in order
+            // to achieve an index-free adjacency
+            if (Connect)
+                UpdateReferences(NewQuad);
+
+            return NewQuad;
+
+        }
+
+        #endregion
+
         #region Add(Subject, Predicate, Object, Context = default(T), Connect = true)
 
         /// <summary>
@@ -208,89 +277,33 @@ namespace de.ahzf.Blueprints.QuadStore
 
         #endregion
 
-        #region Add(NewQuad, Connect = true)
-
-        /// <summary>
-        /// Adds the given quad to the QuadStore.
-        /// </summary>
-        /// <param name="NewQuad">The quad to add to the store.</param>
-        /// <param name="Connect">Connect this quad to other quads in order to achieve an index-free adjacency.</param>
-        /// <returns>The given quad.</returns>
-        private IQuad<T> Add(IQuad<T> NewQuad, Boolean Connect = true)
-        {
-
-            #region Initial checks
-
-            if (NewQuad == null)
-                throw new ArgumentNullException("The NewQuad must not be null!");
-
-            #endregion
-
-            #region Add quad to Subject, Predicate, Object and Context indices
-
-            List<IQuad<T>> _QuadList = null;
-
-            // Add to Subject index
-            if (_SubjectIndex.TryGetValue(NewQuad.Subject, out _QuadList))
-                _QuadList.Add(NewQuad);
-            else
-                if (!_SubjectIndex.TryAdd(NewQuad.Subject, new List<IQuad<T>>() { NewQuad }))
-                    throw new AddToSubjectIndexException<T>(NewQuad);
-
-            // Add to Predicate index
-            if (_PredicateIndex.TryGetValue(NewQuad.Predicate, out _QuadList))
-                _QuadList.Add(NewQuad);
-            else
-                if (!_PredicateIndex.TryAdd(NewQuad.Predicate, new List<IQuad<T>>() { NewQuad }))
-                    throw new AddToPredicateIndexException<T>(NewQuad);
-
-            // Add to Object index
-            if (_ObjectIndex.TryGetValue(NewQuad.Object, out _QuadList))
-                _QuadList.Add(NewQuad);
-            else
-                if (!_ObjectIndex.TryAdd(NewQuad.Object, new List<IQuad<T>>() { NewQuad }))
-                    throw new AddToObjectIndexException<T>(NewQuad);
-
-            // Add to Context index
-            if (_ContextIndex.TryGetValue(NewQuad.Context, out _QuadList))
-                _QuadList.Add(NewQuad);
-            else
-                if (!_ContextIndex.TryAdd(NewQuad.Context, new List<IQuad<T>>() { NewQuad }))
-                    throw new AddToContextIndexException<T>(NewQuad);
-
-            #endregion
-
-            // Connect this quad to other quads in order
-            // to achieve an index-free adjacency
-            if (Connect)
-                UpdateReferences(NewQuad);
-
-            return NewQuad;
-
-        }
-
-        #endregion
-
         #endregion
 
 
         #region Get(...)
 
-        #region Get(QuadId)
+        #region GetQuad(QuadId)
 
         /// <summary>
         /// Returns the quad having the given QuadId.
         /// </summary>
         /// <param name="QuadId">The QuadId.</param>
         /// <returns>The quad having the given QuadId.</returns>
-        public IQuad<T> Get(T QuadId)
+        public IQuad<T> GetQuad(T QuadId)
         {
-            throw new NotImplementedException();
+
+            IQuad<T> _Quad = null;
+
+            if (_QuadIdIndex.TryGetValue(QuadId, out _Quad))
+                return _Quad;
+
+            return null;
+
         }
 
         #endregion
 
-        #region Get(Subject, Predicate, Object, ContextOrGraph = default(T))
+        #region GetQuads(Subject, Predicate, Object, ContextOrGraph = default(T))
 
         /// <summary>
         /// Returns all matching quads based on the given parameters.
@@ -300,17 +313,17 @@ namespace de.ahzf.Blueprints.QuadStore
         /// <param name="Object">The Object.</param>
         /// <param name="ContextOrGraph">The Context or Graph.</param>
         /// <returns>All quads matched by the given parameters.</returns>
-        public IEnumerable<IQuad<T>> Get(T Subject,
-                                         T Predicate,
-                                         T Object,
-                                         T ContextOrGraph = default(T))
+        public IEnumerable<IQuad<T>> GetQuads(T Subject,
+                                              T Predicate,
+                                              T Object,
+                                              T ContextOrGraph = default(T))
         {
             throw new NotImplementedException();
         }
 
         #endregion
 
-        #region Get(SubjectSelector = null, PredicateSelector = null, ObjectSelector = null, ContextOrGraphSelector = null)
+        #region GetQuads(SubjectSelector = null, PredicateSelector = null, ObjectSelector = null, ContextOrGraphSelector = null)
 
         /// <summary>
         /// Removes all matching quads based on the given selectors.
@@ -320,10 +333,10 @@ namespace de.ahzf.Blueprints.QuadStore
         /// <param name="ObjectSelector">A delegate for selcting objects.</param>
         /// <param name="ContextOrGraphSelector">A delegate for selcting contexts or graphs.</param>
         /// <returns>An enumeration of selected Quads.</returns>
-        public IEnumerable<IQuad<T>> Get(SubjectSelector<T>        SubjectSelector        = null,
-                                         PredicateSelector<T>      PredicateSelector      = null,
-                                         ObjectSelector<T>         ObjectSelector         = null,
-                                         ContextOrGraphSelector<T> ContextOrGraphSelector = null)
+        public IEnumerable<IQuad<T>> GetQuads(SubjectSelector<T>        SubjectSelector        = null,
+                                              PredicateSelector<T>      PredicateSelector      = null,
+                                              ObjectSelector<T>         ObjectSelector         = null,
+                                              ContextOrGraphSelector<T> ContextOrGraphSelector = null)
         {
             throw new NotImplementedException();
         }

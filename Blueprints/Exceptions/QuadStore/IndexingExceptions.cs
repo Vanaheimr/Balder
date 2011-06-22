@@ -79,6 +79,30 @@ namespace de.ahzf.Blueprints.QuadStore
     #endregion
 
 
+    #region AddToQuadIdIndexException<T>
+
+    /// <summary>
+    /// A quad could not be added to the QuadIdIndex.
+    /// </summary>
+    public class AddToQuadIdIndexException<T> : AddToIndexException<T>
+        where T : IEquatable<T>, IComparable, IComparable<T>
+    {
+
+        /// <summary>
+        /// Throw a new AddToQuadIdIndexException as a quad
+        /// could not be added to the QuadIdIndex.
+        /// </summary>
+        /// <param name="Quad">The quad causing the exception.</param>
+        /// <param name="Message">The message that describes the error.</param>
+        /// <param name="InnerException">The exception that is the cause of the current exception.</param>
+        public AddToQuadIdIndexException(IQuad<T> Quad = null, String Message = null, Exception InnerException = null)
+            : base(Quad, Message, InnerException)
+        { }
+
+    }
+
+    #endregion
+
     #region AddToSubjectIndexException<T>
 
     /// <summary>

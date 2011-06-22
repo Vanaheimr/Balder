@@ -43,7 +43,7 @@ namespace de.ahzf.Blueprints.QuadStore
         public static IEnumerable<IQuad<T>> GetQuads<T>(this IQuadStore<T> QuadStore, IEnumerable<T> QuadIds)
             where T : IEquatable<T>, IComparable, IComparable<T>
         {
-            return from _QuadId in QuadIds select QuadStore.Get(_QuadId);
+            return from _QuadId in QuadIds select QuadStore.GetQuad(_QuadId);
         }
 
         #endregion

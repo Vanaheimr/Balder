@@ -82,7 +82,7 @@ namespace de.ahzf.Blueprints.QuadStore
         /// </summary>
         /// <param name="QuadId">The QuadId.</param>
         /// <returns>The quad having the given QuadId.</returns>
-        IQuad<T> Get(T QuadId);
+        IQuad<T> GetQuad(T QuadId);
 
 
         /// <summary>
@@ -93,10 +93,10 @@ namespace de.ahzf.Blueprints.QuadStore
         /// <param name="Object">The Object.</param>
         /// <param name="ContextOrGraph">The Context or Graph.</param>
         /// <returns>All quads matched by the given parameters.</returns>
-        IEnumerable<IQuad<T>> Get(T Subject,
-                                  T Predicate,
-                                  T Object,
-                                  T ContextOrGraph = default(T));
+        IEnumerable<IQuad<T>> GetQuads(T Subject,
+                                       T Predicate,
+                                       T Object,
+                                       T ContextOrGraph = default(T));
 
 
         /// <summary>
@@ -107,10 +107,10 @@ namespace de.ahzf.Blueprints.QuadStore
         /// <param name="ObjectSelector">A delegate for selcting objects.</param>
         /// <param name="ContextOrGraphSelector">A delegate for selcting contexts or graphs.</param>
         /// <returns>An enumeration of selected Quads.</returns>
-        IEnumerable<IQuad<T>> Get(SubjectSelector<T>        SubjectSelector        = null,
-                                  PredicateSelector<T>      PredicateSelector      = null,
-                                  ObjectSelector<T>         ObjectSelector         = null,
-                                  ContextOrGraphSelector<T> ContextOrGraphSelector = null);
+        IEnumerable<IQuad<T>> GetQuads(SubjectSelector<T>        SubjectSelector        = null,
+                                       PredicateSelector<T>      PredicateSelector      = null,
+                                       ObjectSelector<T>         ObjectSelector         = null,
+                                       ContextOrGraphSelector<T> ContextOrGraphSelector = null);
 
         #endregion
 
