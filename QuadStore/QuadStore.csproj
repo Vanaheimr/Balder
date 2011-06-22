@@ -40,8 +40,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Exceptions\IndexingExceptions.cs" />
-    <Compile Include="Exceptions\QuadStoreException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Quad.cs" />
     <Compile Include="QuadStore.cs" />

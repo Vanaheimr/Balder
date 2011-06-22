@@ -182,10 +182,10 @@ namespace de.ahzf.Blueprints
         /// </summary>
         /// <param name="Id"></param>
         /// <param name="SystemId"></param>
+        /// <param name="Name">A name or identification for this transaction.</param>
         /// <param name="Distributed">Indicates that this transaction should synched within the entire cluster.</param>
         /// <param name="LongRunning">Indicates that this transaction is a long-running transaction.</param>
         /// <param name="IsolationLevel">The isolation level of this transaction.</param>
-        /// <param name="Name">A name or identification for this transaction.</param>
         /// <param name="CreationTime"></param>
         /// <param name="InvalidationTime"></param>
         public Transaction(T              Id,
@@ -193,7 +193,7 @@ namespace de.ahzf.Blueprints
                            String         Name             = "",
                            Boolean        Distributed      = false,
                            Boolean        LongRunning      = false,
-                           IsolationLevel IsolationLevel   = IsolationLevel.Read,
+                           IsolationLevel IsolationLevel   = IsolationLevel.Write,
                            DateTime?      CreationTime     = null,
                            DateTime?      InvalidationTime = null)
         {

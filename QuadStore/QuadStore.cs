@@ -21,7 +21,6 @@ using System;
 using System.Threading;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
-using de.ahzf.Blueprints;
 
 #endregion
 
@@ -34,7 +33,7 @@ namespace de.ahzf.Blueprints.QuadStore
     /// Vertex  -Edge->      Vertex [HyperEdge]
     /// </summary>
     /// <typeparam name="T">The type of the subjects, predicates and objects of the stored quads.</typeparam>
-    public class QuadStore<T>
+    public class QuadStore<T> : IQuadStore<T>
         where T : IEquatable<T>, IComparable, IComparable<T>
     {
 
@@ -48,10 +47,10 @@ namespace de.ahzf.Blueprints.QuadStore
         #region Indices for the Subject, Predicate, Object and Context
 
         // Maybe look for better data structures in the future.
-        private ConcurrentDictionary<T, List<Quad<T>>> _SubjectIndex;
-        private ConcurrentDictionary<T, List<Quad<T>>> _PredicateIndex;
-        private ConcurrentDictionary<T, List<Quad<T>>> _ObjectIndex;
-        private ConcurrentDictionary<T, List<Quad<T>>> _ContextIndex;
+        private ConcurrentDictionary<T, List<IQuad<T>>> _SubjectIndex;
+        private ConcurrentDictionary<T, List<IQuad<T>>> _PredicateIndex;
+        private ConcurrentDictionary<T, List<IQuad<T>>> _ObjectIndex;
+        private ConcurrentDictionary<T, List<IQuad<T>>> _ContextIndex;
 
         #endregion
 
@@ -109,10 +108,10 @@ namespace de.ahzf.Blueprints.QuadStore
             this._QuadIdConverter = QuadIdConverter;
             this._DefaultContext  = DefaultContext;
 
-            this._SubjectIndex    = new ConcurrentDictionary<T, List<Quad<T>>>();
-            this._PredicateIndex  = new ConcurrentDictionary<T, List<Quad<T>>>();
-            this._ObjectIndex     = new ConcurrentDictionary<T, List<Quad<T>>>();
-            this._ContextIndex    = new ConcurrentDictionary<T, List<Quad<T>>>();
+            this._SubjectIndex    = new ConcurrentDictionary<T, List<IQuad<T>>>();
+            this._PredicateIndex  = new ConcurrentDictionary<T, List<IQuad<T>>>();
+            this._ObjectIndex     = new ConcurrentDictionary<T, List<IQuad<T>>>();
+            this._ContextIndex    = new ConcurrentDictionary<T, List<IQuad<T>>>();
 
         }
 
@@ -120,22 +119,25 @@ namespace de.ahzf.Blueprints.QuadStore
 
         #endregion
 
+
         #region BeginTransaction(...)
 
         /// <summary>
         /// Start a new transaction.
         /// </summary>
-        /// <param name="myDistributed"></param>
-        /// <param name="myLongRunning"></param>
-        /// <param name="myIsolationLevel"></param>
-        /// <param name="myName"></param>
-        /// <param name="myCreated"></param>
-        /// <returns></returns>
-        public Transaction<T> BeginTransaction(Boolean        myDistributed    = false,
-                                               Boolean        myLongRunning    = false,
-                                               IsolationLevel myIsolationLevel = IsolationLevel.Write,
-                                               String         myName           = "",
-                                               DateTime?      myCreated        = null)
+        /// <param name="Name">A name or identification for this transaction.</param>
+        /// <param name="Distributed">Indicates that this transaction should synched within the entire cluster.</param>
+        /// <param name="LongRunning">Indicates that this transaction is a long-running transaction.</param>
+        /// <param name="IsolationLevel">The isolation level of this transaction.</param>
+        /// <param name="CreationTime">The timestamp when this transaction started.</param>
+        /// <param name="InvalidationTime">The timestamp when this transaction will be invalid.</param>
+        /// <returns>A new transaction object.</returns>
+        public Transaction<T> BeginTransaction(String         Name             = "", 
+                                               Boolean        Distributed      = false,
+                                               Boolean        LongRunning      = false,
+                                               IsolationLevel IsolationLevel   = IsolationLevel.Write,
+                                               DateTime?      CreationTime     = null,
+                                               DateTime?      InvalidationTime = null)
         {
 
             if (_ThreadLocalTransaction != null)
@@ -152,7 +154,7 @@ namespace de.ahzf.Blueprints.QuadStore
                     }
                 }
 
-            _ThreadLocalTransaction = new ThreadLocal<Transaction<T>>(() => new Transaction<T>(default(T), _SystemId, myName, myDistributed, myLongRunning, myIsolationLevel, myCreated));
+            _ThreadLocalTransaction = new ThreadLocal<Transaction<T>>(() => new Transaction<T>(default(T), _SystemId, Name, Distributed, LongRunning, IsolationLevel, CreationTime, InvalidationTime));
 
             return _ThreadLocalTransaction.Value;
 
@@ -160,6 +162,8 @@ namespace de.ahzf.Blueprints.QuadStore
 
         #endregion
 
+
+        #region Add(...)
 
         #region Add(Subject, Predicate, Object, Context = default(T), Connect = true)
 
@@ -172,7 +176,7 @@ namespace de.ahzf.Blueprints.QuadStore
         /// <param name="Context">The Context.</param>
         /// <param name="Connect">Connect this quad to other quads in order to achieve an index-free adjacency.</param>
         /// <returns>A new quad based on the given parameters.</returns>
-        public Quad<T> Add(T Subject, T Predicate, T Object, T Context = default(T), Boolean Connect = true)
+        public IQuad<T> Add(T Subject, T Predicate, T Object, T Context = default(T), Boolean Connect = true)
         {
 
             #region Initial checks
@@ -212,7 +216,7 @@ namespace de.ahzf.Blueprints.QuadStore
         /// <param name="NewQuad">The quad to add to the store.</param>
         /// <param name="Connect">Connect this quad to other quads in order to achieve an index-free adjacency.</param>
         /// <returns>The given quad.</returns>
-        private Quad<T> Add(Quad<T> NewQuad, Boolean Connect = true)
+        private IQuad<T> Add(IQuad<T> NewQuad, Boolean Connect = true)
         {
 
             #region Initial checks
@@ -224,34 +228,34 @@ namespace de.ahzf.Blueprints.QuadStore
 
             #region Add quad to Subject, Predicate, Object and Context indices
 
-            List<Quad<T>> _QuadList = null;
+            List<IQuad<T>> _QuadList = null;
 
             // Add to Subject index
             if (_SubjectIndex.TryGetValue(NewQuad.Subject, out _QuadList))
                 _QuadList.Add(NewQuad);
             else
-                if (!_SubjectIndex.TryAdd(NewQuad.Subject, new List<Quad<T>>() { NewQuad }))
+                if (!_SubjectIndex.TryAdd(NewQuad.Subject, new List<IQuad<T>>() { NewQuad }))
                     throw new AddToSubjectIndexException<T>(NewQuad);
 
             // Add to Predicate index
             if (_PredicateIndex.TryGetValue(NewQuad.Predicate, out _QuadList))
                 _QuadList.Add(NewQuad);
             else
-                if (!_PredicateIndex.TryAdd(NewQuad.Predicate, new List<Quad<T>>() { NewQuad }))
+                if (!_PredicateIndex.TryAdd(NewQuad.Predicate, new List<IQuad<T>>() { NewQuad }))
                     throw new AddToPredicateIndexException<T>(NewQuad);
 
             // Add to Object index
             if (_ObjectIndex.TryGetValue(NewQuad.Object, out _QuadList))
                 _QuadList.Add(NewQuad);
             else
-                if (!_ObjectIndex.TryAdd(NewQuad.Object, new List<Quad<T>>() { NewQuad }))
+                if (!_ObjectIndex.TryAdd(NewQuad.Object, new List<IQuad<T>>() { NewQuad }))
                     throw new AddToObjectIndexException<T>(NewQuad);
 
             // Add to Context index
             if (_ContextIndex.TryGetValue(NewQuad.Context, out _QuadList))
                 _QuadList.Add(NewQuad);
             else
-                if (!_ContextIndex.TryAdd(NewQuad.Context, new List<Quad<T>>() { NewQuad }))
+                if (!_ContextIndex.TryAdd(NewQuad.Context, new List<IQuad<T>>() { NewQuad }))
                     throw new AddToContextIndexException<T>(NewQuad);
 
             #endregion
@@ -267,6 +271,126 @@ namespace de.ahzf.Blueprints.QuadStore
 
         #endregion
 
+        #endregion
+
+
+        #region Get(...)
+
+        #region Get(QuadId)
+
+        /// <summary>
+        /// Returns the quad having the given QuadId.
+        /// </summary>
+        /// <param name="QuadId">The QuadId.</param>
+        /// <returns>The quad having the given QuadId.</returns>
+        public IQuad<T> Get(T QuadId)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #region Get(Subject, Predicate, Object, ContextOrGraph = default(T))
+
+        /// <summary>
+        /// Returns all matching quads based on the given parameters.
+        /// </summary>
+        /// <param name="Subject">The Subject.</param>
+        /// <param name="Predicate">The Predicate.</param>
+        /// <param name="Object">The Object.</param>
+        /// <param name="ContextOrGraph">The Context or Graph.</param>
+        /// <returns>All quads matched by the given parameters.</returns>
+        public IEnumerable<IQuad<T>> Get(T Subject,
+                                         T Predicate,
+                                         T Object,
+                                         T ContextOrGraph = default(T))
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #region Get(SubjectSelector = null, PredicateSelector = null, ObjectSelector = null, ContextOrGraphSelector = null)
+
+        /// <summary>
+        /// Removes all matching quads based on the given selectors.
+        /// </summary>
+        /// <param name="SubjectSelector">A delegate for selcting subjects.</param>
+        /// <param name="PredicateSelector">A delegate for selcting predicates.</param>
+        /// <param name="ObjectSelector">A delegate for selcting objects.</param>
+        /// <param name="ContextOrGraphSelector">A delegate for selcting contexts or graphs.</param>
+        /// <returns>An enumeration of selected Quads.</returns>
+        public IEnumerable<IQuad<T>> Get(SubjectSelector<T>        SubjectSelector        = null,
+                                         PredicateSelector<T>      PredicateSelector      = null,
+                                         ObjectSelector<T>         ObjectSelector         = null,
+                                         ContextOrGraphSelector<T> ContextOrGraphSelector = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #endregion
+
+
+        #region Remove(...)
+
+        #region Remove(QuadId)
+
+        /// <summary>
+        /// Removes the quad having the given QuadId.
+        /// </summary>
+        /// <param name="QuadId">The QuadId.</param>
+        /// <returns>The quad after removal having the given QuadId.</returns>
+        public IQuad<T> Remove(T QuadId)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #region Remove(Subject, Predicate, Object, ContextOrGraph = default(T))
+
+        /// <summary>
+        /// Removes all matching quads based on the given parameters.
+        /// </summary>
+        /// <param name="Subject">The Subject.</param>
+        /// <param name="Predicate">The Predicate.</param>
+        /// <param name="Object">The Object.</param>
+        /// <param name="ContextOrGraph">The Context or Graph.</param>
+        /// <returns>All quads after removal matched by the given parameters.</returns>
+        public IEnumerable<IQuad<T>> Remove(T Subject,
+                                            T Predicate,
+                                            T Object,
+                                            T ContextOrGraph = default(T))
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #region Remove(SubjectSelector = null, PredicateSelector = null, ObjectSelector = null, ContextOrGraphSelector = null)
+
+        /// <summary>
+        /// Removes all matching quads based on the given selectors.
+        /// </summary>
+        /// <param name="SubjectSelector">A delegate for selcting subjects.</param>
+        /// <param name="PredicateSelector">A delegate for selcting predicates.</param>
+        /// <param name="ObjectSelector">A delegate for selcting objects.</param>
+        /// <param name="ContextOrGraphSelector">A delegate for selcting contexts or graphs.</param>
+        /// <returns>All quads after removal matched by the given parameters.</returns>
+        public IEnumerable<IQuad<T>> Remove(SubjectSelector<T>        SubjectSelector        = null,
+                                            PredicateSelector<T>      PredicateSelector      = null,
+                                            ObjectSelector<T>         ObjectSelector         = null,
+                                            ContextOrGraphSelector<T> ContextOrGraphSelector = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #endregion
+
 
         #region UpdateReferences(NewQuad)
 
@@ -274,10 +398,10 @@ namespace de.ahzf.Blueprints.QuadStore
         /// Connect this quad to other quads in order to achieve an index-free adjacency.
         /// </summary>
         /// <param name="Quad">A quad to connect to its friends.</param>
-        public void UpdateReferences(Quad<T> Quad)
+        public void UpdateReferences(IQuad<T> Quad)
         {
 
-            List<Quad<T>> _QuadList = null;
+            List<IQuad<T>> _QuadList = null;
 
             // Look for other quads having this Subject as an Object.
             // This means: Which quads want to be connected with me.
@@ -285,7 +409,7 @@ namespace de.ahzf.Blueprints.QuadStore
             if (_ObjectIndex.TryGetValue(Quad.Subject, out _QuadList))
                 foreach (var _Friends in _QuadList)
                     if (_Friends.ObjectReference == null)
-                        _Friends.ObjectReference = new HashSet<Quad<T>>() { Quad };
+                        _Friends.ObjectReference = new HashSet<IQuad<T>>() { Quad };
                     else
                         _Friends.ObjectReference.Add(Quad);
 
@@ -295,7 +419,7 @@ namespace de.ahzf.Blueprints.QuadStore
             if (_SubjectIndex.TryGetValue(Quad.Object, out _QuadList))
                 foreach (var _Quad in _QuadList)
                     if (Quad.ObjectReference == null)
-                        Quad.ObjectReference = new HashSet<Quad<T>>() { _Quad };
+                        Quad.ObjectReference = new HashSet<IQuad<T>>() { _Quad };
                     else
                         Quad.ObjectReference.Add(_Quad);
 

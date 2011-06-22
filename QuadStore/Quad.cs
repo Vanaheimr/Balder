@@ -31,13 +31,21 @@ namespace de.ahzf.Blueprints.QuadStore
     /// VertexId: Vertex -Edge-> AnotherVertex [HyperEdge]
     /// </summary>
     /// <typeparam name="T">The type of the subject, predicate, objects and context of a quad.</typeparam>
-    public class Quad<T> : IEquatable<Quad<T>>, IComparable, IComparable<Quad<T>>
+    public class Quad<T> : IQuad<T>
         where T : IEquatable<T>, IComparable, IComparable<T>
     {
 
         #region Data
 
         #region SystemId, TransactionId and QuadId
+
+        /// <summary>
+        /// The Id of the quad.
+        /// From another point of view this is an EdgeId.
+        /// This Id is just local unique. To get a global unique
+        /// Id add the SystemId of the QuadStore.
+        /// </summary>
+        public T QuadId         { get; private set; }
 
         /// <summary>
         /// The Id of the QuadStore which created this quad.
@@ -51,17 +59,9 @@ namespace de.ahzf.Blueprints.QuadStore
         /// </summary>
         public T TransactionId  { get; private set; }
 
-        /// <summary>
-        /// The Id of the quad.
-        /// From another point of view this is an EdgeId.
-        /// This Id is just local unique. To get a global unique
-        /// Id add the SystemId of the QuadStore.
-        /// </summary>
-        public T QuadId         { get; private set; }
-
         #endregion
 
-        #region Subject, Predicate, Object and Context
+        #region Subject, Predicate, Object and Context/Graph
 
         /// <summary>
         /// The Subject of this quad.
@@ -127,13 +127,13 @@ namespace de.ahzf.Blueprints.QuadStore
         /// <summary>
         /// The on disc position of this quad.
         /// </summary>
-        public T ObjectOnDisc       { get; private set; }
+        public T ObjectOnDisc   { get; private set; }
 
         /// <summary>
         /// A hashset of references to quads having
         /// the Object of this quad as Subject.
         /// </summary>
-        public HashSet<Quad<T>> ObjectReference;
+        public HashSet<IQuad<T>> ObjectReference    { get; set; }
 
         #endregion
 
@@ -242,7 +242,7 @@ namespace de.ahzf.Blueprints.QuadStore
 
         #endregion
 
-        #region IEquatable<Quad<T>> Members
+        #region IEquatable<IQuad<T>> Members
 
         #region Equals(Object)
 
@@ -257,10 +257,10 @@ namespace de.ahzf.Blueprints.QuadStore
             if (Object == null)
                 throw new ArgumentNullException("The given object must not be null!");
 
-            // Check if the given object is a Quad<T>
-            var AnotherQuad = Object as Quad<T>;
+            // Check if the given object is a IQuad<T>
+            var AnotherQuad = Object as IQuad<T>;
             if ((Object) AnotherQuad == null)
-                throw new ArgumentException("The given object is not a Quad<T>!");
+                throw new ArgumentException("The given object is not a IQuad<T>!");
 
             return this.Equals(AnotherQuad);
 
@@ -275,7 +275,7 @@ namespace de.ahzf.Blueprints.QuadStore
         /// </summary>
         /// <param name="AnotherQuad">Another quad to compare with.</param>
         /// <returns>true|false</returns>
-        public Boolean Equals(Quad<T> AnotherQuad)
+        public Boolean Equals(IQuad<T> AnotherQuad)
         {
 
             if ((Object) AnotherQuad == null)
@@ -289,7 +289,7 @@ namespace de.ahzf.Blueprints.QuadStore
 
         #endregion
 
-        #region IComparable<Quad<T>> Members
+        #region IComparable<IQuad<T>> Members
 
         #region CompareTo(Object)
 
@@ -304,10 +304,10 @@ namespace de.ahzf.Blueprints.QuadStore
             if (Object == null)
                 throw new ArgumentNullException("The given object must not be null!");
 
-            // Check if the given object is a Quad<T>
-            var AnotherQuad = Object as Quad<T>;
+            // Check if the given object is a IQuad<T>
+            var AnotherQuad = Object as IQuad<T>;
             if ((Object) AnotherQuad == null)
-                throw new ArgumentException("The given object is not a Quad<T>!");
+                throw new ArgumentException("The given object is not a IQuad<T>!");
 
             return CompareTo(AnotherQuad);
 
@@ -322,11 +322,11 @@ namespace de.ahzf.Blueprints.QuadStore
         /// </summary>
         /// <param name="AnotherQuad">Another quad to compare with.</param>
         /// <returns>true|false</returns>
-        public Int32 CompareTo(Quad<T> AnotherQuad)
+        public Int32 CompareTo(IQuad<T> AnotherQuad)
         {
 
             if ((Object) AnotherQuad == null)
-                throw new ArgumentNullException("The given Quad<T> must not be null!");
+                throw new ArgumentNullException("The given IQuad<T> must not be null!");
 
             return QuadId.CompareTo(AnotherQuad.QuadId);
 
@@ -339,7 +339,7 @@ namespace de.ahzf.Blueprints.QuadStore
         #region GetHashCode()
 
         /// <summary>
-        /// Returns the HashCode.
+        /// Returns the HashCode of this object.
         /// </summary>
         public override Int32 GetHashCode()
         {

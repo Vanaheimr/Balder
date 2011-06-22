@@ -33,7 +33,7 @@ namespace de.ahzf.Blueprints.QuadStore
         where T : IEquatable<T>, IComparable, IComparable<T>
     {
 
-        protected Quad<T> _Quad;
+        protected IQuad<T> _Quad;
 
         /// <summary>
         /// An exception during transaction processing occurred!
@@ -41,7 +41,7 @@ namespace de.ahzf.Blueprints.QuadStore
         /// <param name="Quad">The quad causing the exception.</param>
         /// <param name="Message">The message that describes the error.</param>
         /// <param name="InnerException">The exception that is the cause of the current exception.</param>
-        public IndexingException(Quad<T> Quad, String Message = null, Exception InnerException = null)
+        public IndexingException(IQuad<T> Quad, String Message = null, Exception InnerException = null)
             : base(Message, InnerException)
         {
             _Quad = Quad;
@@ -68,7 +68,7 @@ namespace de.ahzf.Blueprints.QuadStore
         /// <param name="Quad">The quad causing the exception.</param>
         /// <param name="Message">The message that describes the error.</param>
         /// <param name="InnerException">The exception that is the cause of the current exception.</param>
-        public AddToIndexException(Quad<T> Quad = null, String Message = null, Exception InnerException = null)
+        public AddToIndexException(IQuad<T> Quad = null, String Message = null, Exception InnerException = null)
             : base(Quad, Message, InnerException)
         {
             _Quad = Quad;
@@ -95,7 +95,7 @@ namespace de.ahzf.Blueprints.QuadStore
         /// <param name="Quad">The quad causing the exception.</param>
         /// <param name="Message">The message that describes the error.</param>
         /// <param name="InnerException">The exception that is the cause of the current exception.</param>
-        public AddToSubjectIndexException(Quad<T> Quad = null, String Message = null, Exception InnerException = null)
+        public AddToSubjectIndexException(IQuad<T> Quad = null, String Message = null, Exception InnerException = null)
             : base(Quad, Message, InnerException)
         { }
 
@@ -119,7 +119,7 @@ namespace de.ahzf.Blueprints.QuadStore
         /// <param name="Quad">The quad causing the exception.</param>
         /// <param name="Message">The message that describes the error.</param>
         /// <param name="InnerException">The exception that is the cause of the current exception.</param>
-        public AddToPredicateIndexException(Quad<T> Quad = null, String Message = null, Exception InnerException = null)
+        public AddToPredicateIndexException(IQuad<T> Quad = null, String Message = null, Exception InnerException = null)
             : base(Quad, Message, InnerException)
         { }
 
@@ -143,7 +143,7 @@ namespace de.ahzf.Blueprints.QuadStore
         /// <param name="Quad">The quad causing the exception.</param>
         /// <param name="Message">The message that describes the error.</param>
         /// <param name="InnerException">The exception that is the cause of the current exception.</param>
-        public AddToObjectIndexException(Quad<T> Quad = null, String Message = null, Exception InnerException = null)
+        public AddToObjectIndexException(IQuad<T> Quad = null, String Message = null, Exception InnerException = null)
             : base(Quad, Message, InnerException)
         { }
 
@@ -167,7 +167,7 @@ namespace de.ahzf.Blueprints.QuadStore
         /// <param name="Quad">The quad causing the exception.</param>
         /// <param name="Message">The message that describes the error.</param>
         /// <param name="InnerException">The exception that is the cause of the current exception.</param>
-        public AddToContextIndexException(Quad<T> Quad = null, String Message = null, Exception InnerException = null)
+        public AddToContextIndexException(IQuad<T> Quad = null, String Message = null, Exception InnerException = null)
             : base(Quad, Message, InnerException)
         { }
 
