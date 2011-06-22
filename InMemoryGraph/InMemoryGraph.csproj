@@ -42,17 +42,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GenericGraph\GenericVertex.cs" />
-    <Compile Include="GenericGraph\GenericEdge.cs" />
-    <Compile Include="GenericGraph\GenericGraph.cs" />
-    <Compile Include="PropertyGraph\APropertyElement.cs" />
-    <Compile Include="PropertyGraph\Properties.cs" />
-    <Compile Include="PropertyGraph\DynamicGraphObject.cs" />
-    <Compile Include="PropertyGraph\InMemoryPropertyGraph.cs" />
-    <Compile Include="PropertyGraph\PropertyHyperEdge.cs" />
-    <Compile Include="PropertyGraph\PropertyEdge.cs" />
+    <Compile Include="InMemoryGraph\APropertyElement.cs" />
+    <Compile Include="InMemoryGraph\Properties.cs" />
+    <Compile Include="InMemoryGraph\DynamicGraphObject.cs" />
+    <Compile Include="InMemoryGraph\InMemoryPropertyGraph.cs" />
+    <Compile Include="InMemoryGraph\PropertyHyperEdge.cs" />
+    <Compile Include="InMemoryGraph\PropertyEdge.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PropertyGraph\PropertyVertex.cs" />
+    <Compile Include="InMemoryGraph\PropertyVertex.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\blueprints\Blueprints.csproj">
