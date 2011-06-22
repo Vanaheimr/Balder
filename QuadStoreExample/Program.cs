@@ -24,7 +24,7 @@ using System.Linq.Expressions;
 
 #endregion
 
-namespace de.ahzf.Blueprints.BlueQuad
+namespace de.ahzf.Blueprints.QuadStore
 {
 
     public class Program
@@ -34,9 +34,9 @@ namespace de.ahzf.Blueprints.BlueQuad
         {
 
             var _QuadStore = new QuadStore<String>(
-                                     SystemId: "BlueQuad0001",
+                                     SystemId:        "BlueQuad0001",
                                      QuadIdConverter: (QuadId) => QuadId.ToString(),
-                                     DefaultContext: () => "0");
+                                     DefaultContext:  ()       => "0");
 
             // Note: Add repositories!
 
@@ -50,8 +50,8 @@ namespace de.ahzf.Blueprints.BlueQuad
                 }
 
                 var s2 = _QuadStore.Add("Alice", "knows", "Dave");
-                var s3 = _QuadStore.Add("Bob", "knows", "Carol");
-                var s4 = _QuadStore.Add("Eve", "loves", "Alice");
+                var s3 = _QuadStore.Add("Bob",   "knows", "Carol");
+                var s4 = _QuadStore.Add("Eve",   "loves", "Alice");
                 var s5 = _QuadStore.Add("Carol", "loves", "Alice");
 
                 _Transaction.Commit();

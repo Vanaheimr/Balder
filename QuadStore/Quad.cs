@@ -22,13 +22,13 @@ using System.Collections.Generic;
 
 #endregion
 
-namespace de.ahzf.Blueprints.BlueQuad
+namespace de.ahzf.Blueprints.QuadStore
 {
 
     /// <summary>
     /// A Quad is a little fragment of a graph.
-    /// Subject -Predicate-> Object [Context]
-    /// Vertex  -Edge->      Vertex [HyperEdge]
+    /// QuadId: Subject -Predicate-> Object [Context/Graph] or
+    /// VertexId: Vertex -Edge-> AnotherVertex [HyperEdge]
     /// </summary>
     /// <typeparam name="T">The type of the subject, predicate, objects and context of a quad.</typeparam>
     public class Quad<T> : IEquatable<Quad<T>>, IComparable, IComparable<Quad<T>>
@@ -42,14 +42,14 @@ namespace de.ahzf.Blueprints.BlueQuad
         /// <summary>
         /// The Id of the QuadStore which created this quad.
         /// </summary>
-        public readonly T SystemId;
+        public T SystemId       { get; private set; }
 
         /// <summary>
         /// The Id of the transaction this quad was build in.
         /// This Id is just local unique. To get a global unique
         /// Id add the SystemId of the QuadStore.
         /// </summary>
-        public readonly T TransactionId;
+        public T TransactionId  { get; private set; }
 
         /// <summary>
         /// The Id of the quad.
@@ -57,7 +57,7 @@ namespace de.ahzf.Blueprints.BlueQuad
         /// This Id is just local unique. To get a global unique
         /// Id add the SystemId of the QuadStore.
         /// </summary>
-        public readonly T QuadId;
+        public T QuadId         { get; private set; }
 
         #endregion
 
@@ -67,24 +67,58 @@ namespace de.ahzf.Blueprints.BlueQuad
         /// The Subject of this quad.
         /// From another point of view this is an VertexId.
         /// </summary>
-        public readonly T Subject;
+        public T Subject         { get; private set; }
 
         /// <summary>
         /// The Predicate of this quad.
         /// From another point of view this is a PropertyId.
         /// </summary>
-        public readonly T Predicate;
+        public T Predicate       { get; private set; }
 
         /// <summary>
         /// The Object of this quad.
         /// </summary>
-        public readonly T Object;
+        public T Object          { get; private set; }
+
+        private T ContextOrGraph;
 
         /// <summary>
-        /// The Context of this quad.
+        /// The Context or Graph of this quad.
         /// From another point of view this is a HyperEdgeId.
         /// </summary>
-        public readonly T Context;
+        public T Context
+        {
+            
+            get
+            {
+                return ContextOrGraph;
+            }
+
+            private set
+            {
+                ContextOrGraph = value;
+            }
+
+        }
+
+        /// <summary>
+        /// The Context or Graph of this quad.
+        /// From another point of view this is a HyperEdgeId.
+        /// </summary>
+        public T Graph
+        {
+
+            get
+            {
+                return ContextOrGraph;
+            }
+
+            private set
+            {
+                ContextOrGraph = value;
+            }
+
+        }
 
         #endregion
 
@@ -93,7 +127,7 @@ namespace de.ahzf.Blueprints.BlueQuad
         /// <summary>
         /// The on disc position of this quad.
         /// </summary>
-        public readonly T ObjectOnDisc;
+        public T ObjectOnDisc       { get; private set; }
 
         /// <summary>
         /// A hashset of references to quads having
@@ -210,24 +244,23 @@ namespace de.ahzf.Blueprints.BlueQuad
 
         #region IEquatable<Quad<T>> Members
 
-        #region Equals(myObject)
+        #region Equals(Object)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myObject">An object to compare with.</param>
+        /// <param name="Object">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public override Boolean Equals(Object myObject)
+        public override Boolean Equals(Object Object)
         {
 
-            // Check if myObject is null
-            if (myObject == null)
-                throw new ArgumentNullException("Parameter myObject must not be null!");
+            if (Object == null)
+                throw new ArgumentNullException("The given object must not be null!");
 
-            // Check if myObject can be cast to EdgeId
-            var AnotherQuad = myObject as Quad<T>;
+            // Check if the given object is a Quad<T>
+            var AnotherQuad = Object as Quad<T>;
             if ((Object) AnotherQuad == null)
-                throw new ArgumentException("Parameter myObject could not be casted to type Quad<T>!");
+                throw new ArgumentException("The given object is not a Quad<T>!");
 
             return this.Equals(AnotherQuad);
 
@@ -245,8 +278,7 @@ namespace de.ahzf.Blueprints.BlueQuad
         public Boolean Equals(Quad<T> AnotherQuad)
         {
 
-            // Check if OtherQuad is null
-            if (AnotherQuad == null)
+            if ((Object) AnotherQuad == null)
                 throw new ArgumentNullException("Parameter AnotherQuad must not be null!");
 
             return QuadId.Equals(AnotherQuad.QuadId);
@@ -259,24 +291,23 @@ namespace de.ahzf.Blueprints.BlueQuad
 
         #region IComparable<Quad<T>> Members
 
-        #region CompareTo(myObject)
+        #region CompareTo(Object)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myObject">An object to compare with.</param>
+        /// <param name="Object">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public Int32 CompareTo(Object myObject)
+        public Int32 CompareTo(Object Object)
         {
 
-            // Check if myObject is null
-            if (myObject == null)
-                throw new ArgumentNullException("myObject must not be null!");
+            if (Object == null)
+                throw new ArgumentNullException("The given object must not be null!");
 
-            // Check if Object can be casted to an Quad<T> object
-            var AnotherQuad = myObject as Quad<T>;
+            // Check if the given object is a Quad<T>
+            var AnotherQuad = Object as Quad<T>;
             if ((Object) AnotherQuad == null)
-                throw new ArgumentException("myObject is not of type Quad<T>!");
+                throw new ArgumentException("The given object is not a Quad<T>!");
 
             return CompareTo(AnotherQuad);
 
@@ -294,9 +325,8 @@ namespace de.ahzf.Blueprints.BlueQuad
         public Int32 CompareTo(Quad<T> AnotherQuad)
         {
 
-            // Check if AnotherQuad is null
-            if (AnotherQuad == null)
-                throw new ArgumentNullException("AnotherQuad must not be null!");
+            if ((Object) AnotherQuad == null)
+                throw new ArgumentNullException("The given Quad<T> must not be null!");
 
             return QuadId.CompareTo(AnotherQuad.QuadId);
 
@@ -305,7 +335,6 @@ namespace de.ahzf.Blueprints.BlueQuad
         #endregion
 
         #endregion
-
 
         #region GetHashCode()
 

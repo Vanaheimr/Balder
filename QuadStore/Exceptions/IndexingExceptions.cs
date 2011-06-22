@@ -21,7 +21,7 @@ using System;
 
 #endregion
 
-namespace de.ahzf.Blueprints.BlueQuad
+namespace de.ahzf.Blueprints.QuadStore
 {
 
     #region IndexingException<T>

@@ -25,7 +25,7 @@ using de.ahzf.Blueprints;
 
 #endregion
 
-namespace de.ahzf.Blueprints.BlueQuad
+namespace de.ahzf.Blueprints.QuadStore
 {
 
     /// <summary>
