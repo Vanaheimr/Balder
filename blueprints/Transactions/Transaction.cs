@@ -91,7 +91,7 @@ namespace de.ahzf.Blueprints
 
         ///<summary>
         /// Subscribe to this event to get informed if the transaction was closed unexpected.
-        ///</summary>
+        /// </summary>
         //public event TransactionDisposedHandler OnDispose;
 
         #endregion
