@@ -59,8 +59,25 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         where TKey        : IEquatable<TKey>,        IComparable<TKey>,        IComparable
 
         where TLabel      : IEquatable<TLabel>,      IComparable<TLabel>,      IComparable
-
     {
+
+        #region Delegates
+
+        /// <summary>
+        /// A delegate for creating a new TId
+        /// (if no one was provided by the user).
+        /// </summary>
+        /// <returns>A valid TId.</returns>
+        public delegate TId IdCreatorDelegate();
+
+        /// <summary>
+        /// A delegate for creating a new TRevisionId
+        /// (if no one was provided by the user).
+        /// </summary>
+        /// <returns>A valid TRevisionId.</returns>
+        public delegate TRevisionId RevisionIdCreatorDelegate();
+
+        #endregion
 
         #region Constructor(s)
 
@@ -69,7 +86,11 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <summary>
         /// Created a new in-memory property graph.
         /// </summary>
-        public InMemoryPropertyGraph(TId GraphId, TKey IdKey, TKey RevisionIdKey,
+        public InMemoryPropertyGraph(TId                       GraphId,
+                                     TKey                      IdKey,
+                                     IdCreatorDelegate         IdCreatorDelegate,
+                                     TKey                      RevisionIdKey,
+                                     RevisionIdCreatorDelegate RevisionIdCreatorDelegate,
                                      Action<IPropertyGraph<TId, TRevisionId,         TKey, TValue,
                                                            TId, TRevisionId, TLabel, TKey, TValue,
                                                            TId, TRevisionId, TLabel, TKey, TValue>> GraphInitializer = null)
@@ -79,6 +100,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                     () => new Dictionary<TKey, TValue>(),
 
                     // Create a new Vertex
+                    () => IdCreatorDelegate(),
                     (VertexId, VertexPropertyInitializer) =>
                         new PropertyVertex<TId, TRevisionId,         TKey, TValue, IDictionary<TKey, TValue>,
                                            TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
@@ -95,6 +117,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                             ),
 
                    // Create a new Edge
+                   () => IdCreatorDelegate(),
                    (OutVertex, InVertex, EdgeId, Label, EdgeInitializer) =>
                         new PropertyEdge<TId, TRevisionId,         TKey, TValue, IDictionary<TKey, TValue>,
                                          TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
@@ -104,7 +127,9 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                              EdgeInitializer
                             ),
 
+
                    // Create a new HyperEdge
+                   () => IdCreatorDelegate(),
                    (Edges, HyperEdgeId, Label, HyperEdgeInitializer) =>
                        new PropertyHyperEdge<TId, TRevisionId,         TKey, TValue, IDictionary<TKey, TValue>,
                                              TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
@@ -229,9 +254,14 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                                                                         TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> _HyperEdges;
 
 
-        private readonly VertexCreatorDelegate    _VertexCreatorDelegate;
-        private readonly EdgeCreatorDelegate      _EdgeCreatorDelegate;
-        private readonly HyperEdgeCreatorDelegate _HyperEdgeCreatorDelegate;
+        private readonly VertexIdCreatorDelegate    _VertexIdCreatorDelegate;
+        private readonly VertexCreatorDelegate      _VertexCreatorDelegate;
+
+        private readonly EdgeIdCreatorDelegate      _EdgeIdCreatorDelegate;
+        private readonly EdgeCreatorDelegate        _EdgeCreatorDelegate;
+
+        private readonly HyperEdgeIdCreatorDelegate _HyperEdgeIdCreatorDelegate;
+        private readonly HyperEdgeCreatorDelegate   _HyperEdgeCreatorDelegate;
 
         //protected Map<String, TinkerIndex>          indices     = new HashMap<String, TinkerIndex>();
         //protected Map<String, TinkerAutomaticIndex> autoIndices = new HashMap<String, TinkerAutomaticIndex>();
@@ -243,6 +273,17 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         //public delegate void VertexConfiguratorDelegate(IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
         //                                                                TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
         //                                                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Vertex);
+
+        #region VertexIdCreatorDelegate(...)
+
+        /// <summary>
+        /// A delegate for creating a new VertexId
+        /// (if no one was provided by the user).
+        /// </summary>
+        /// <returns>A valid VertexId.</returns>
+        public delegate TIdVertex VertexIdCreatorDelegate();
+
+        #endregion
 
         #region VertexCreatorDelegate(...)
 
@@ -259,6 +300,17 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                                               Action<IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                                      TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> VertexInitializer);
+
+        #endregion
+
+        #region EdgeIdCreatorDelegate(...)
+
+        /// <summary>
+        /// A delegate for creating a new EdgeId
+        /// (if no one was provided by the user).
+        /// </summary>
+        /// <returns>A valid EdgeId.</returns>
+        public delegate TIdEdge EdgeIdCreatorDelegate();
 
         #endregion
 
@@ -288,6 +340,17 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                               Action<IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                    TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                    TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> EdgeInitializer);
+
+        #endregion
+
+        #region HyperEdgeIdCreatorDelegate(...)
+
+        /// <summary>
+        /// A delegate for creating a new HyperEdgeId
+        /// (if no one was provided by the user).
+        /// </summary>
+        /// <returns>A valid HyperEdgeId.</returns>
+        public delegate TIdHyperEdge HyperEdgeIdCreatorDelegate();
 
         #endregion
 
@@ -330,8 +393,11 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="IdKey">The key to access the Id of this graph.</param>
         /// <param name="RevisonIdKey">The key to access the Id of this graph.</param>
         /// <param name="DataInitializer"></param>
+        /// <param name="VertexIdCreatorDelegate">A delegate for creating a new VertexId (if no one was provided by the user).</param>
         /// <param name="VertexCreatorDelegate">A delegate for creating a new vertex.</param>
+        /// <param name="EdgeIdCreatorDelegate">A delegate for creating a new EdgeId (if no one was provided by the user).</param>
         /// <param name="EdgeCreatorDelegate">A delegate for creating a new edge.</param>
+        /// <param name="HyperEdgeIdCreatorDelegate">A delegate for creating a new HyperEdgeId (if no one was provided by the user).</param>
         /// <param name="HyperEdgeCreatorDelegate">A delegate for creating a new hyperedge.</param>
         /// <param name="VerticesCollectionInitializer">A delegate for initializing a new vertex with custom data.</param>
         /// <param name="EdgesCollectionInitializer">A delegate for initializing a new edge with custom data.</param>
@@ -342,8 +408,13 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                                             TKeyVertex                   RevisonIdKey,
                                             Func<TDatastructureVertex>   DataInitializer,
 
+                                            VertexIdCreatorDelegate      VertexIdCreatorDelegate,
                                             VertexCreatorDelegate        VertexCreatorDelegate,
+
+                                            EdgeIdCreatorDelegate        EdgeIdCreatorDelegate,
                                             EdgeCreatorDelegate          EdgeCreatorDelegate,
+
+                                            HyperEdgeIdCreatorDelegate   HyperEdgeIdCreatorDelegate,
                                             HyperEdgeCreatorDelegate     HyperEdgeCreatorDelegate,
 
                                             // Vertices Collection
@@ -373,13 +444,18 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         {
 
-            _VertexCreatorDelegate    = VertexCreatorDelegate;
-            _EdgeCreatorDelegate      = EdgeCreatorDelegate;
-            _HyperEdgeCreatorDelegate = HyperEdgeCreatorDelegate;
+            _VertexIdCreatorDelegate    = VertexIdCreatorDelegate;
+            _VertexCreatorDelegate      = VertexCreatorDelegate;
 
-            _Vertices                 = VerticesCollectionInitializer;
-            _Edges                    = EdgesCollectionInitializer;
-            _HyperEdges               = HyperEdgesCollectionInitializer;
+            _EdgeIdCreatorDelegate      = EdgeIdCreatorDelegate;
+            _EdgeCreatorDelegate        = EdgeCreatorDelegate;
+
+            _HyperEdgeIdCreatorDelegate = HyperEdgeIdCreatorDelegate;
+            _HyperEdgeCreatorDelegate   = HyperEdgeCreatorDelegate;
+
+            _Vertices                   = VerticesCollectionInitializer;
+            _Edges                      = EdgesCollectionInitializer;
+            _HyperEdges                 = HyperEdgesCollectionInitializer;
 
             //this.createIndex(Index.VERTICES, TinkerVertex.class, Index.Type.AUTOMATIC);
             //this.createIndex(Index.EDGES, TinkerEdge.class, Index.Type.AUTOMATIC);
@@ -399,26 +475,29 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// Adds a vertex to the graph using the given VertexId and initializes
         /// its properties by invoking the given vertex initializer.
         /// </summary>
-        /// <param name="myVertexId">A VertexId. If none was given a new one will be generated.</param>
-        /// <param name="myVertexInitializer">A delegate to initialize the newly generated vertex</param>
+        /// <param name="VertexId">A VertexId. If none was given a new one will be generated.</param>
+        /// <param name="VertexInitializer">A delegate to initialize the newly generated vertex</param>
         /// <returns>The new vertex</returns>
         public IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
 
-                               AddVertex(TIdVertex myVertexId = default(TIdVertex),
+                               AddVertex(TIdVertex VertexId = default(TIdVertex),
                                          Action<IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                                 TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> myVertexInitializer = null)
+                                                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> VertexInitializer = null)
 
         {
 
-            if (myVertexId != null && _Vertices.ContainsKey(myVertexId))
-                throw new ArgumentException("Another vertex with id " + myVertexId + " already exists");
+            if (VertexId == null || VertexId.Equals(default(TIdVertex)))
+                VertexId = _VertexIdCreatorDelegate();
 
-            var _Vertex = _VertexCreatorDelegate(myVertexId, myVertexInitializer);
+            if (_Vertices.ContainsKey(VertexId))
+                throw new ArgumentException("Another vertex with id " + VertexId + " already exists");
 
-            _Vertices.Add(myVertexId, _Vertex);
+            var _Vertex = _VertexCreatorDelegate(VertexId, VertexInitializer);
+
+            _Vertices.Add(VertexId, _Vertex);
 
             return _Vertex;
 
@@ -631,17 +710,17 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #region Edge methods
 
-        #region AddEdge(myOutVertex, myInVertex, myEdgeId = null, myLabel = null, myEdgePropertyInitializer = null)
+        #region AddEdge(OutVertex, InVertex, EdgeId = null, Label = null, EdgePropertyInitializer = null)
 
         /// <summary>
         /// Adds an edge to the graph using the given myEdgeId and initializes
         /// its properties by invoking the given edge initializer.
         /// </summary>
-        /// <param name="myOutVertex"></param>
-        /// <param name="myInVertex"></param>
-        /// <param name="myEdgeId">A EdgeId. If none was given a new one will be generated.</param>
-        /// <param name="myLabel"></param>
-        /// <param name="myEdgeInitializer">A delegate to initialize the newly generated edge.</param>
+        /// <param name="OutVertex"></param>
+        /// <param name="InVertex"></param>
+        /// <param name="EdgeId">A EdgeId. If none was given a new one will be generated.</param>
+        /// <param name="Label"></param>
+        /// <param name="EdgeInitializer">A delegate to initialize the newly generated edge.</param>
         /// <returns>The new edge</returns>
         public IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
@@ -649,31 +728,34 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
             
                              AddEdge(IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                      TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> myOutVertex,
+                                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OutVertex,
 
                                      IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                      TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> myInVertex,
+                                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> InVertex,
 
                                      TIdEdge         EdgeId = default(TIdEdge),
                                      TEdgeLabel      Label  = default(TEdgeLabel),
 
                                      Action<IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                           TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                          TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> myEdgeInitializer = null)
+                                                          TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> EdgeInitializer = null)
 
 
         {
 
-            if (EdgeId != null && _Edges.ContainsKey(EdgeId))
+            if (EdgeId == null || EdgeId.Equals(default(TIdEdge)))
+                EdgeId = _EdgeIdCreatorDelegate();
+
+            if (_Edges.ContainsKey(EdgeId))
                 throw new ArgumentException("Another edge with id " + EdgeId + " already exists!");
 
-            var _Edge = _EdgeCreatorDelegate(myOutVertex, myInVertex, EdgeId, Label, myEdgeInitializer);
+            var _Edge = _EdgeCreatorDelegate(OutVertex, InVertex, EdgeId, Label, EdgeInitializer);
             
             _Edges.Add(EdgeId, _Edge);
 
-            myOutVertex.AddOutEdge(_Edge);
-            myInVertex.AddInEdge(_Edge);
+            OutVertex.AddOutEdge(_Edge);
+            InVertex.AddInEdge(_Edge);
 
             return _Edge;
 
@@ -842,13 +924,13 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// Return the hyperedge referenced by the given hyperedge identifier.
         /// If no hyperedge is referenced by that identifier, then return null.
         /// </summary>
-        /// <param name="myEdgeId">The identifier of the edge.</param>
+        /// <param name="HypeEdgeId">The identifier of the edge.</param>
         /// <returns>The edge referenced by the provided identifier or null when no such edge exists.</returns>
         public IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                   TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                   TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
 
-                      GetHyperEdge(TIdHyperEdge myHyperEdgeId)
+                      GetHyperEdge(TIdHyperEdge HyperEdgeId)
         {
             throw new NotImplementedException();
         }
@@ -952,11 +1034,27 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #region Constructor(s)
 
-        #region InMemoryPropertyGraph()
+        #region InMemoryPropertyGraph(GraphInitializer = null)
 
         /// <summary>
         /// Created a new in-memory property graph.
         /// </summary>
+        /// <param name="GraphInitializer">A delegate to initialize the graph.</param>
+        public InMemoryPropertyGraph(Action<IPropertyGraph<VertexId,    RevisionId,         String, Object,
+                                                           EdgeId,      RevisionId, String, String, Object,
+                                                           HyperEdgeId, RevisionId, String, String, Object>> GraphInitializer = null)
+            : this(VertexId.NewVertexId, GraphInitializer)
+        { }
+
+        #endregion
+
+        #region InMemoryPropertyGraph(GraphId, GraphInitializer = null)
+
+        /// <summary>
+        /// Created a new in-memory property graph.
+        /// </summary>
+        /// <param name="GraphId">A unique identification for this graph.</param>
+        /// <param name="GraphInitializer">A delegate to initialize the graph.</param>
         public InMemoryPropertyGraph(VertexId GraphId,
                                      Action<IPropertyGraph<VertexId,    RevisionId,         String, Object,
                                                            EdgeId,      RevisionId, String, String, Object,
@@ -967,6 +1065,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                     () => new Dictionary<String, Object>(),
 
                     // Create a new Vertex
+                    () => VertexId.NewVertexId,
                     (myVertexId, myVertexInitializer) =>
                         new PropertyVertex<VertexId,    RevisionId,         String, Object, IDictionary<String, Object>,
                                            EdgeId,      RevisionId, String, String, Object, IDictionary<String, Object>,
@@ -984,6 +1083,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
                    
                    // Create a new Edge
+                   () => EdgeId.NewEdgeId,
                    (myOutVertex, myInVertex, myEdgeId, myLabel, myEdgeInitializer) =>
                         new PropertyEdge<VertexId,    RevisionId,         String, Object, IDictionary<String, Object>,
                                          EdgeId,      RevisionId, String, String, Object, IDictionary<String, Object>,
@@ -994,6 +1094,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                             ),
 
                    // Create a new HyperEdge
+                   () => HyperEdgeId.NewHyperEdgeId,
                    (myEdges, myHyperEdgeId, myLabel, myHyperEdgeInitializer) =>
                        new PropertyHyperEdge<VertexId,    RevisionId,         String, Object, IDictionary<String, Object>,
                                              EdgeId,      RevisionId, String, String, Object, IDictionary<String, Object>,
@@ -1029,6 +1130,99 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         { }
 
         #endregion
+
+        #endregion
+
+    }
+
+    #endregion
+
+
+    #region SimplePropertyGraph
+
+    /// <summary>
+    /// An in-memory implementation of a simple property graph.
+    /// </summary>
+    public class SimplePropertyGraph : InMemoryPropertyGraph<UInt64, Int64, String, String, Object>
+    {
+
+        #region Constructor(s)
+
+        #region SimplePropertyGraph(GraphInitializer = null)
+
+        /// <summary>
+        /// Created a new simple in-memory property graph.
+        /// </summary>
+        /// <param name="GraphInitializer">A delegate to initialize the graph.</param>
+        public SimplePropertyGraph(Action<IPropertyGraph<UInt64, Int64,         String, Object,
+                                                         UInt64, Int64, String, String, Object,
+                                                         UInt64, Int64, String, String, Object>> GraphInitializer = null)
+            : this(SimplePropertyGraph.NewId, GraphInitializer)
+        { }
+
+        #endregion
+
+        #region SimplePropertyGraph(GraphId, GraphInitializer = null)
+
+        /// <summary>
+        /// Created a new simple in-memory property graph.
+        /// </summary>
+        /// <param name="GraphId">A unique identification for this graph.</param>
+        /// <param name="GraphInitializer">A delegate to initialize the graph.</param>
+        public SimplePropertyGraph(UInt64 GraphId,
+                                   Action<IPropertyGraph<UInt64, Int64,         String, Object,
+                                                         UInt64, Int64, String, String, Object,
+                                                         UInt64, Int64, String, String, Object>> GraphInitializer = null)
+            : base (GraphId,
+
+                    // TId key
+                    "Id",
+
+                    // TId creator delegate
+                    () => SimplePropertyGraph.NewId,
+
+                    // RevisionId key
+                    "RevId",
+
+                    // RevisionId creator delegate
+                    () => SimplePropertyGraph.NewRevisionId,
+
+                    GraphInitializer)
+
+        { }
+
+        #endregion
+
+        #endregion
+
+
+        #region NewId
+
+        /// <summary>
+        /// Return a random Id.
+        /// </summary>
+        public static UInt64 NewId
+        {
+            get
+            {
+                return (UInt64) new Random().Next(Int32.MaxValue);
+            }
+        }
+
+        #endregion
+
+        #region NewRevisionId
+
+        /// <summary>
+        /// Return a random RevisionId.
+        /// </summary>
+        public static Int64 NewRevisionId
+        {
+            get
+            {
+                return DateTime.Now.Ticks;
+            }
+        }
 
         #endregion
 

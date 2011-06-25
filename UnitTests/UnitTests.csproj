@@ -50,6 +50,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DemoGraphFactory.cs" />
     <Compile Include="PropertyGraphs\IntegerPropertyGraph.cs" />
     <Compile Include="InMemoryGraph\EdgeTests.cs" />
     <Compile Include="Basics\EdgeIds.cs" />

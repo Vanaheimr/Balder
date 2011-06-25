@@ -145,7 +145,7 @@ namespace SocialGraphDemo
         public static void Main(String[] myArgs)
         {
 
-            var a = TinkerGraphFactory.CreateTinkerGraph();
+            var a = DemoGraphFactory.CreateDemoGraph();
 
             // Create SocialGraph, if not existant!
             if (!File.Exists(_FileName))
