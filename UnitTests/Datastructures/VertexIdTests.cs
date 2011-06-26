@@ -18,6 +18,8 @@
 #region Usings
 
 using System;
+using System.Collections.Generic;
+
 using NUnit.Framework;
 
 #endregion
@@ -1147,6 +1149,61 @@ namespace de.ahzf.Blueprints.UnitTests
             var _SensorHashCode1 = new VertexId(1).GetHashCode();
             var _SensorHashCode2 = new VertexId(2).GetHashCode();
             Assert.AreNotEqual(_SensorHashCode1, _SensorHashCode2);
+        }
+
+        #endregion
+
+
+        #region VertexIdsAndNUnitTest()
+
+        /// <summary>
+        /// Tests VertexIds in combination with NUnit.
+        /// </summary>
+        [Test]
+        public void VertexIdsAndNUnitTest()
+        {
+
+            var a = new VertexId(1);
+            var b = new VertexId(2);
+            var c = new VertexId(1);
+
+            Assert.AreEqual(a, a);
+            Assert.AreEqual(b, b);
+            Assert.AreEqual(c, c);
+
+            Assert.AreEqual(a, c);
+            Assert.AreNotEqual(a, b);
+            Assert.AreNotEqual(b, c);
+
+        }
+
+        #endregion
+
+        #region VertexIdsInHashSetTest()
+
+        /// <summary>
+        /// Test VertexIds within a HashSet.
+        /// </summary>
+        [Test]
+        public void VertexIdsInHashSetTest()
+        {
+
+            var a = new VertexId(1);
+            var b = new VertexId(2);
+            var c = new VertexId(1);
+
+            var _HashSet = new HashSet<VertexId>();
+            Assert.AreEqual(0, _HashSet.Count);
+
+            _HashSet.Add(a);
+            Assert.AreEqual(1, _HashSet.Count);
+
+            _HashSet.Add(b);
+            Assert.AreEqual(2, _HashSet.Count);
+
+            _HashSet.Add(c);
+            Assert.AreEqual(2, _HashSet.Count);
+
         }
 
         #endregion

@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="InMemoryGraph\APropertyElement.cs" />
+    <Compile Include="InMemoryGraph\SimplePropertyGraph.cs" />
     <Compile Include="InMemoryGraph\Properties.cs" />
     <Compile Include="InMemoryGraph\DynamicGraphObject.cs" />
     <Compile Include="InMemoryGraph\InMemoryPropertyGraph.cs" />

@@ -60,9 +60,8 @@
     <Compile Include="DemoGraphFactory.cs" />
     <Compile Include="PropertyGraphs\IntegerPropertyGraph.cs" />
     <Compile Include="InMemoryGraph\EdgeTests.cs" />
-    <Compile Include="Basics\EdgeIds.cs" />
     <Compile Include="TinkerGraphFactory.cs" />
-    <Compile Include="Basics\UniqueTimestampTests.cs" />
+    <Compile Include="Datastructures\UniqueTimestampTests.cs" />
     <Compile Include="InMemoryGraphTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -77,6 +76,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Basics\" />
     <Folder Include="GenericGraphs\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

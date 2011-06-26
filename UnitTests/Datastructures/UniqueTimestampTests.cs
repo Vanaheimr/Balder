@@ -30,12 +30,18 @@ using NUnit.Framework;
 namespace de.ahzf.Blueprints.UnitTests
 {
 
+    /// <summary>
+    /// A unit test for the UniqueTimestamp class.
+    /// </summary>
     [TestFixture]
     public class UniqueTimestampTests
     {
 
         #region struct: UniqueTimestamps
 
+        /// <summary>
+        /// UniqueTimestamp unit test helper.
+        /// </summary>
         private struct UniqueTimestamps
         {
 
@@ -50,7 +56,6 @@ namespace de.ahzf.Blueprints.UnitTests
         }
 
         #endregion
-
 
         #region ParallelTest()
 
