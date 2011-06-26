@@ -25,111 +25,136 @@ namespace de.ahzf.Blueprints
 {
 
     /// <summary>
-    /// A EdgeId is unique identificator for an edge.
-    /// </summary>
-    public class EdgeId : ElementId, IEquatable<EdgeId>, IComparable<EdgeId>, IComparable
+    /// A EdgeId is the unique identificator of any sensor.
+    /// </summary>    
+    public class EdgeId : IEquatable<EdgeId>, IComparable<EdgeId>, IComparable
     {
+
+        #region Data
+
+        /// <summary>
+        /// The internal identification.
+        /// </summary>
+        protected readonly String _Id;
+
+        #endregion
+
+        #region Properties
+
+        #region Length
+
+        /// <summary>
+        /// Returns the length of the identificator.
+        /// </summary>
+        public UInt64 Length
+        {
+            get
+            {
+                return (UInt64) _Id.Length;
+            }
+        }
+
+        #endregion
+
+        #endregion
 
         #region Constructor(s)
 
         #region EdgeId()
 
         /// <summary>
-        /// Generates a new EdgeId
+        /// Generates a new EdgeId based on a GUID.
         /// </summary>
         public EdgeId()
-            : base()
         {
+            _Id = Guid.NewGuid().ToString();
         }
 
         #endregion
 
-        #region EdgeId(myInt32)
+        #region EdgeId(Int32)
 
         /// <summary>
-        /// Generates a EdgeId based on the content of an Int32
+        /// Generates a EdgeId based on the content of an Int32.
         /// </summary>
-        public EdgeId(Int32 myInt32)
-            : base(myInt32)
-        {
-        }
+        public EdgeId(Int32 Int32)
+            : this(Math.Abs(Int32).ToString())
+        { }
 
         #endregion
 
-        #region EdgeId(myUInt32)
+        #region EdgeId(UInt32)
 
         /// <summary>
-        /// Generates a EdgeId based on the content of an UInt32
+        /// Generates a EdgeId based on the content of an UInt32.
         /// </summary>
-        public EdgeId(UInt32 myUInt32)
-            : base(myUInt32)
-        {
-        }
+        public EdgeId(UInt32 UInt32)
+            : this(UInt32.ToString())
+        { }
 
         #endregion
 
-        #region EdgeId(myInt64)
+        #region EdgeId(Int64)
 
         /// <summary>
-        /// Generates a EdgeId based on the content of an Int64
+        /// Generates a EdgeId based on the content of an Int64.
         /// </summary>
-        public EdgeId(Int64 myInt64)
-            : base(myInt64)
-        {
-        }
+        public EdgeId(Int64 Int64)
+            : this(Int64.ToString())
+        { }
 
         #endregion
 
-        #region EdgeId(myUInt64)
+        #region EdgeId(UInt64)
 
         /// <summary>
-        /// Generates a EdgeId based on the content of an UInt64
+        /// Generates a EdgeId based on the content of an UInt64.
         /// </summary>
-        public EdgeId(UInt64 myUInt64)
-            : base(myUInt64)
-        {
-        }
+        public EdgeId(UInt64 UInt64)
+            : this(UInt64.ToString())
+        { }
 
         #endregion
 
-        #region EdgeId(myString)
+        #region EdgeId(String)
 
         /// <summary>
-        /// Generates a EdgeId based on the content of myString.
+        /// Generates a EdgeId based on the content of String.
         /// </summary>
-        public EdgeId(String myString)
-            : base(myString)
+        public EdgeId(String String)
         {
+            _Id = String.Trim();
         }
 
         #endregion
 
-        #region EdgeId(myUri)
+        #region EdgeId(Uri)
 
         /// <summary>
-        /// Generates a EdgeId based on the content of myUri.
+        /// Generates a EdgeId based on the content of Uri.
         /// </summary>
-        public EdgeId(Uri myUri)
-            : base(myUri)
+        public EdgeId(Uri Uri)
         {
+            _Id = Uri.ToString();
         }
 
         #endregion
 
-        #region EdgeId(myEdgeId)
+        #region EdgeId(EdgeId)
 
         /// <summary>
-        /// Generates a EdgeId based on the content of myEdgeId
+        /// Generates a EdgeId based on the content of EdgeId.
         /// </summary>
-        /// <param name="myEdgeId">A EdgeId</param>
-        public EdgeId(EdgeId myEdgeId)
-            : base(myEdgeId)
+        /// <param name="EdgeId">A EdgeId</param>
+        public EdgeId(EdgeId EdgeId)
         {
+            _Id = EdgeId.ToString();
         }
 
         #endregion
 
         #endregion
+
 
         #region NewEdgeId
 
@@ -149,138 +174,112 @@ namespace de.ahzf.Blueprints
 
         #region Operator overloading
 
-        #region Operator == (myEdgeId1, myEdgeId2)
+        #region Operator == (EdgeId1, EdgeId2)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myEdgeId1">A EdgeId.</param>
-        /// <param name="myEdgeId2">Another EdgeId.</param>
+        /// <param name="EdgeId1">A EdgeId.</param>
+        /// <param name="EdgeId2">Another EdgeId.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator == (EdgeId myEdgeId1, EdgeId myEdgeId2)
+        public static Boolean operator == (EdgeId EdgeId1, EdgeId EdgeId2)
         {
 
             // If both are null, or both are same instance, return true.
-            if (Object.ReferenceEquals(myEdgeId1, myEdgeId2))
+            if (Object.ReferenceEquals(EdgeId1, EdgeId2))
                 return true;
 
             // If one is null, but not both, return false.
-            if (((Object) myEdgeId1 == null) || ((Object) myEdgeId2 == null))
+            if (((Object) EdgeId1 == null) || ((Object) EdgeId2 == null))
                 return false;
 
-            return myEdgeId1.Equals(myEdgeId2);
+            return EdgeId1.Equals(EdgeId2);
 
         }
 
         #endregion
 
-        #region Operator != (myEdgeId1, myEdgeId2)
+        #region Operator != (EdgeId1, EdgeId2)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myEdgeId1">A EdgeId.</param>
-        /// <param name="myEdgeId2">Another EdgeId.</param>
+        /// <param name="EdgeId1">A EdgeId.</param>
+        /// <param name="EdgeId2">Another EdgeId.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator != (EdgeId myEdgeId1, EdgeId myEdgeId2)
+        public static Boolean operator != (EdgeId EdgeId1, EdgeId EdgeId2)
         {
-            return !(myEdgeId1 == myEdgeId2);
+            return !(EdgeId1 == EdgeId2);
         }
 
         #endregion
 
-        #region Operator <  (myEdgeId1, myEdgeId2)
+        #region Operator <  (EdgeId1, EdgeId2)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myEdgeId1">A EdgeId.</param>
-        /// <param name="myEdgeId2">Another EdgeId.</param>
+        /// <param name="EdgeId1">A EdgeId.</param>
+        /// <param name="EdgeId2">Another EdgeId.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator < (EdgeId myEdgeId1, EdgeId myEdgeId2)
+        public static Boolean operator < (EdgeId EdgeId1, EdgeId EdgeId2)
         {
 
-            // Check if myEdgeId1 is null
-            if ((Object) myEdgeId1 == null)
-                throw new ArgumentNullException("Parameter myEdgeId1 must not be null!");
+            if ((Object) EdgeId1 == null)
+                throw new ArgumentNullException("The given EdgeId1 must not be null!");
 
-            // Check if myEdgeId2 is null
-            if ((Object) myEdgeId2 == null)
-                throw new ArgumentNullException("Parameter myEdgeId2 must not be null!");
-
-
-            // Check the length of the EdgeIds
-            if (myEdgeId1.Length < myEdgeId2.Length)
-                return true;
-
-            if (myEdgeId1.Length > myEdgeId2.Length)
-                return false;
-
-            return myEdgeId1.CompareTo(myEdgeId2) < 0;
+            return EdgeId1.CompareTo(EdgeId2) < 0;
 
         }
 
         #endregion
 
-        #region Operator >  (myEdgeId1, myEdgeId2)
+        #region Operator >  (EdgeId1, EdgeId2)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myEdgeId1">A EdgeId.</param>
-        /// <param name="myEdgeId2">Another EdgeId.</param>
+        /// <param name="EdgeId1">A EdgeId.</param>
+        /// <param name="EdgeId2">Another EdgeId.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator > (EdgeId myEdgeId1, EdgeId myEdgeId2)
+        public static Boolean operator > (EdgeId EdgeId1, EdgeId EdgeId2)
         {
 
-            // Check if myEdgeId1 is null
-            if ((Object) myEdgeId1 == null)
-                throw new ArgumentNullException("Parameter myEdgeId1 must not be null!");
+            if ((Object) EdgeId1 == null)
+                throw new ArgumentNullException("The given EdgeId1 must not be null!");
 
-            // Check if myEdgeId2 is null
-            if ((Object) myEdgeId2 == null)
-                throw new ArgumentNullException("Parameter myEdgeId2 must not be null!");
-
-
-            // Check the length of the EdgeIds
-            if (myEdgeId1.Length > myEdgeId2.Length)
-                return true;
-
-            if (myEdgeId1.Length < myEdgeId2.Length)
-                return false;
-
-            return myEdgeId1.CompareTo(myEdgeId2) > 0;
+            return EdgeId1.CompareTo(EdgeId2) > 0;
 
         }
 
         #endregion
 
-        #region Operator <= (myEdgeId1, myEdgeId2)
+        #region Operator <= (EdgeId1, EdgeId2)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myEdgeId1">A EdgeId.</param>
-        /// <param name="myEdgeId2">Another EdgeId.</param>
+        /// <param name="EdgeId1">A EdgeId.</param>
+        /// <param name="EdgeId2">Another EdgeId.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator <= (EdgeId myEdgeId1, EdgeId myEdgeId2)
+        public static Boolean operator <= (EdgeId EdgeId1, EdgeId EdgeId2)
         {
-            return !(myEdgeId1 > myEdgeId2);
+            return !(EdgeId1 > EdgeId2);
         }
 
         #endregion
 
-        #region Operator >= (myEdgeId1, myEdgeId2)
+        #region Operator >= (EdgeId1, EdgeId2)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myEdgeId1">A EdgeId.</param>
-        /// <param name="myEdgeId2">Another EdgeId.</param>
+        /// <param name="EdgeId1">A EdgeId.</param>
+        /// <param name="EdgeId2">Another EdgeId.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator >= (EdgeId myEdgeId1, EdgeId myEdgeId2)
+        public static Boolean operator >= (EdgeId EdgeId1, EdgeId EdgeId2)
         {
-            return !(myEdgeId1 < myEdgeId2);
+            return !(EdgeId1 < EdgeId2);
         }
 
         #endregion
@@ -289,95 +288,98 @@ namespace de.ahzf.Blueprints
 
         #region IComparable<EdgeId> Members
 
-        #region CompareTo(myObject)
+        #region CompareTo(Object)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myObject">An object to compare with.</param>
+        /// <param name="Object">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public new Int32 CompareTo(Object myObject)
+        public Int32 CompareTo(Object Object)
         {
 
-            // Check if myObject is null
-            if (myObject == null)
-                throw new ArgumentNullException("myObject must not be null!");
+            if (Object == null)
+                throw new ArgumentNullException("The given object must not be null!");
 
-            // Check if myObject can be casted to an EdgeId object
-            var myEdgeId = myObject as EdgeId;
-            if ((Object) myEdgeId == null)
-                throw new ArgumentException("myObject is not of type EdgeId!");
+            // Check if the given object is an EdgeId.
+            var EdgeId = Object as EdgeId;
+            if ((Object) EdgeId == null)
+                throw new ArgumentException("The given object is not a EdgeId!");
 
-            return CompareTo(myEdgeId);
+            return CompareTo(EdgeId);
 
         }
 
         #endregion
 
-        #region CompareTo(myEdgeId)
+        #region CompareTo(EdgeId)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myEdgeId">An object to compare with.</param>
+        /// <param name="EdgeId">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public Int32 CompareTo(EdgeId myEdgeId)
+        public Int32 CompareTo(EdgeId EdgeId)
         {
 
-            // Check if myEdgeId is null
-            if (myEdgeId == null)
-                throw new ArgumentNullException("myEdgeId must not be null!");
+            if ((Object) EdgeId == null)
+                throw new ArgumentNullException("The given EdgeId must not be null!");
 
-            return _ElementId.CompareTo(myEdgeId._ElementId);
+            // Compare the length of the EdgeIds
+            var _Result = this.Length.CompareTo(EdgeId.Length);
+
+            // If equal: Compare Ids
+            if (_Result == 0)
+                _Result = _Id.CompareTo(EdgeId._Id);
+
+            return _Result;
 
         }
 
         #endregion
-        
+
         #endregion
 
         #region IEquatable<EdgeId> Members
 
-        #region Equals(myObject)
+        #region Equals(Object)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myObject">An object to compare with.</param>
+        /// <param name="Object">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public override Boolean Equals(Object myObject)
+        public override Boolean Equals(Object Object)
         {
 
-            // Check if myObject is null
-            if (myObject == null)
-                throw new ArgumentNullException("Parameter myObject must not be null!");
+            if (Object == null)
+                throw new ArgumentNullException("The given object must not be null!");
 
-            // Check if myObject can be cast to EdgeId
-            var myEdgeId = myObject as EdgeId;
-            if ((Object) myEdgeId == null)
-                throw new ArgumentException("Parameter myObject could not be casted to type EdgeId!");
+            // Check if the given object is an EdgeId.
+            var EdgeId = Object as EdgeId;
+            if ((Object) EdgeId == null)
+                throw new ArgumentException("The given object is not a EdgeId!");
 
-            return this.Equals(myEdgeId);
+            return this.Equals(EdgeId);
 
         }
 
         #endregion
 
-        #region Equals(myEdgeId)
+        #region Equals(EdgeId)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myEdgeId">An object to compare with.</param>
+        /// <param name="EdgeId">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public Boolean Equals(EdgeId myEdgeId)
+        public Boolean Equals(EdgeId EdgeId)
         {
 
-            // Check if myEdgeId is null
-            if (myEdgeId == null)
-                throw new ArgumentNullException("Parameter myEdgeId must not be null!");
+            if ((Object) EdgeId == null)
+                throw new ArgumentNullException("The given EdgeId must not be null!");
 
-            return _ElementId.Equals(myEdgeId._ElementId);
+            return _Id.Equals(EdgeId._Id);
 
         }
 
@@ -393,7 +395,19 @@ namespace de.ahzf.Blueprints
         /// <returns>The HashCode of this object.</returns>
         public override Int32 GetHashCode()
         {
-            return base.GetHashCode();
+            return _Id.GetHashCode();
+        }
+
+        #endregion
+
+        #region ToString()
+
+        /// <summary>
+        /// Return a string represtentation of this object.
+        /// </summary>
+        public override String ToString()
+        {
+            return _Id.ToString();
         }
 
         #endregion

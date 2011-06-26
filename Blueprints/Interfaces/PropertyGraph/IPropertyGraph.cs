@@ -101,6 +101,23 @@ namespace de.ahzf.Blueprints.PropertyGraph
 
 
         /// <summary>
+        /// Create a new vertex, add it to the graph, and return the newly created vertex.
+        /// If the object identifier is already being used by the graph to reference a vertex,
+        /// then an exception will be thrown.
+        /// </summary>
+        /// <param name="VertexId">The vertex identifier.</param>
+        /// <param name="VertexInitializer">A delegate to initialize the new vertex.</param>
+        /// <returns>The newly created vertex as IPropertyVertex&lt...&gt;.</returns>
+        IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                        TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                        TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
+
+                        AddVertex(Action<IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                         TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                         TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> VertexInitializer);
+
+
+        /// <summary>
         /// Add the given vertex to the graph, and return the newly created vertex.
         /// If the object identifier is already being used by the graph to reference a vertex,
         /// then an exception will be thrown.

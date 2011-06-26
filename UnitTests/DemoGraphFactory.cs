@@ -31,19 +31,18 @@ namespace de.ahzf.Blueprints.UnitTests
     public static class DemoGraphFactory
     {
 
-        public static IPropertyGraph CreateDemoGraph()
+        public static SimplePropertyGraph CreateDemoGraph()
         {
 
-            var _Graph = new InMemoryPropertyGraph() as IPropertyGraph;
-            var _g     = new SimplePropertyGraph();
-            var _A     = _g.AddVertex();
+            var _Graph = new SimplePropertyGraph();
 
             var _Alice1 = _Graph.AddVertex();
+            var _Alice2 = _Graph.AddVertex(v => v.SetProperty("name", "Alice"));
 
-            var _Alice = _Graph.AddVertex(new VertexId("1"), v => v.SetProperty("name", "Alice").SetProperty("age", 18));
-            var _Bob   = _Graph.AddVertex(new VertexId("2"), v => v.SetProperty("name", "Bob").  SetProperty("age", 20));
-            var _Carol = _Graph.AddVertex(new VertexId("3"), v => v.SetProperty("name", "Carol").SetProperty("age", 22));
-            var _Dave  = _Graph.AddVertex(new VertexId("4"), v => v.SetProperty("name", "Dave"). SetProperty("age", 23));
+            var _Alice = _Graph.AddVertex(1, v => v.SetProperty("name", "Alice").SetProperty("age", 18));
+            var _Bob   = _Graph.AddVertex(2, v => v.SetProperty("name", "Bob").  SetProperty("age", 20));
+            var _Carol = _Graph.AddVertex(3, v => v.SetProperty("name", "Carol").SetProperty("age", 22));
+            var _Dave  = _Graph.AddVertex(4, v => v.SetProperty("name", "Dave"). SetProperty("age", 23));
 
             //var e7 = _Graph.AddEdge(marko, vadas, new EdgeId("7"), "knows", e => e.SetProperty("weight", 0.5));
             //var e8 = _Graph.AddEdge(marko, josh, new EdgeId("8"), "knows", e => e.SetProperty("weight", 1.0));

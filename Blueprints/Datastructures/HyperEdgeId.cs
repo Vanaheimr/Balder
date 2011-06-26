@@ -25,111 +25,136 @@ namespace de.ahzf.Blueprints
 {
 
     /// <summary>
-    /// A HyperEdgeId is unique identificator for a hyperedge.
-    /// </summary>
-    public class HyperEdgeId : ElementId, IEquatable<HyperEdgeId>, IComparable<HyperEdgeId>, IComparable
+    /// A HyperEdgeId is the unique identificator of any sensor.
+    /// </summary>    
+    public class HyperEdgeId : IEquatable<HyperEdgeId>, IComparable<HyperEdgeId>, IComparable
     {
+
+        #region Data
+
+        /// <summary>
+        /// The internal identification.
+        /// </summary>
+        protected readonly String _Id;
+
+        #endregion
+
+        #region Properties
+
+        #region Length
+
+        /// <summary>
+        /// Returns the length of the identificator.
+        /// </summary>
+        public UInt64 Length
+        {
+            get
+            {
+                return (UInt64) _Id.Length;
+            }
+        }
+
+        #endregion
+
+        #endregion
 
         #region Constructor(s)
 
         #region HyperEdgeId()
 
         /// <summary>
-        /// Generates a new HyperEdgeId
+        /// Generates a new HyperEdgeId based on a GUID.
         /// </summary>
         public HyperEdgeId()
-            : base()
         {
+            _Id = Guid.NewGuid().ToString();
         }
 
         #endregion
 
-        #region HyperEdgeId(myInt32)
+        #region HyperEdgeId(Int32)
 
         /// <summary>
-        /// Generates a HyperEdgeId based on the content of an Int32
+        /// Generates a HyperEdgeId based on the content of an Int32.
         /// </summary>
-        public HyperEdgeId(Int32 myInt32)
-            : base(myInt32)
-        {
-        }
+        public HyperEdgeId(Int32 Int32)
+            : this(Math.Abs(Int32).ToString())
+        { }
 
         #endregion
 
-        #region HyperEdgeId(myUInt32)
+        #region HyperEdgeId(UInt32)
 
         /// <summary>
-        /// Generates a HyperEdgeId based on the content of an UInt32
+        /// Generates a HyperEdgeId based on the content of an UInt32.
         /// </summary>
-        public HyperEdgeId(UInt32 myUInt32)
-            : base(myUInt32)
-        {
-        }
+        public HyperEdgeId(UInt32 UInt32)
+            : this(UInt32.ToString())
+        { }
 
         #endregion
 
-        #region HyperEdgeId(myInt64)
+        #region HyperEdgeId(Int64)
 
         /// <summary>
-        /// Generates a HyperEdgeId based on the content of an Int64
+        /// Generates a HyperEdgeId based on the content of an Int64.
         /// </summary>
-        public HyperEdgeId(Int64 myInt64)
-            : base(myInt64)
-        {
-        }
+        public HyperEdgeId(Int64 Int64)
+            : this(Int64.ToString())
+        { }
 
         #endregion
 
-        #region HyperEdgeId(myUInt64)
+        #region HyperEdgeId(UInt64)
 
         /// <summary>
-        /// Generates a HyperEdgeId based on the content of an UInt64
+        /// Generates a HyperEdgeId based on the content of an UInt64.
         /// </summary>
-        public HyperEdgeId(UInt64 myUInt64)
-            : base(myUInt64)
-        {
-        }
+        public HyperEdgeId(UInt64 UInt64)
+            : this(UInt64.ToString())
+        { }
 
         #endregion
 
-        #region HyperEdgeId(myString)
+        #region HyperEdgeId(String)
 
         /// <summary>
-        /// Generates a HyperEdgeId based on the content of myString.
+        /// Generates a HyperEdgeId based on the content of String.
         /// </summary>
-        public HyperEdgeId(String myString)
-            : base(myString)
+        public HyperEdgeId(String String)
         {
+            _Id = String.Trim();
         }
 
         #endregion
 
-        #region HyperEdgeId(myUri)
+        #region HyperEdgeId(Uri)
 
         /// <summary>
-        /// Generates a HyperEdgeId based on the content of myUri.
+        /// Generates a HyperEdgeId based on the content of Uri.
         /// </summary>
-        public HyperEdgeId(Uri myUri)
-            : base(myUri)
+        public HyperEdgeId(Uri Uri)
         {
+            _Id = Uri.ToString();
         }
 
         #endregion
 
-        #region HyperEdgeId(myHyperEdgeId)
+        #region HyperEdgeId(HyperEdgeId)
 
         /// <summary>
-        /// Generates a HyperEdgeId based on the content of myHyperEdgeId
+        /// Generates a HyperEdgeId based on the content of HyperEdgeId.
         /// </summary>
-        /// <param name="myHyperEdgeId">A HyperEdgeId</param>
-        public HyperEdgeId(HyperEdgeId myHyperEdgeId)
-            : base(myHyperEdgeId)
+        /// <param name="HyperEdgeId">A HyperEdgeId</param>
+        public HyperEdgeId(HyperEdgeId HyperEdgeId)
         {
+            _Id = HyperEdgeId.ToString();
         }
 
         #endregion
 
         #endregion
+
 
         #region NewHyperEdgeId
 
@@ -149,138 +174,112 @@ namespace de.ahzf.Blueprints
 
         #region Operator overloading
 
-        #region Operator == (myHyperEdgeId1, myHyperEdgeId2)
+        #region Operator == (HyperEdgeId1, HyperEdgeId2)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myHyperEdgeId1">A HyperEdgeId.</param>
-        /// <param name="myHyperEdgeId2">Another HyperEdgeId.</param>
+        /// <param name="HyperEdgeId1">A HyperEdgeId.</param>
+        /// <param name="HyperEdgeId2">Another HyperEdgeId.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator == (HyperEdgeId myHyperEdgeId1, HyperEdgeId myHyperEdgeId2)
+        public static Boolean operator == (HyperEdgeId HyperEdgeId1, HyperEdgeId HyperEdgeId2)
         {
 
             // If both are null, or both are same instance, return true.
-            if (Object.ReferenceEquals(myHyperEdgeId1, myHyperEdgeId2))
+            if (Object.ReferenceEquals(HyperEdgeId1, HyperEdgeId2))
                 return true;
 
             // If one is null, but not both, return false.
-            if (((Object) myHyperEdgeId1 == null) || ((Object) myHyperEdgeId2 == null))
+            if (((Object) HyperEdgeId1 == null) || ((Object) HyperEdgeId2 == null))
                 return false;
 
-            return myHyperEdgeId1.Equals(myHyperEdgeId2);
+            return HyperEdgeId1.Equals(HyperEdgeId2);
 
         }
 
         #endregion
 
-        #region Operator != (myHyperEdgeId1, myHyperEdgeId2)
+        #region Operator != (HyperEdgeId1, HyperEdgeId2)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myHyperEdgeId1">A HyperEdgeId.</param>
-        /// <param name="myHyperEdgeId2">Another HyperEdgeId.</param>
+        /// <param name="HyperEdgeId1">A HyperEdgeId.</param>
+        /// <param name="HyperEdgeId2">Another HyperEdgeId.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator != (HyperEdgeId myHyperEdgeId1, HyperEdgeId myHyperEdgeId2)
+        public static Boolean operator != (HyperEdgeId HyperEdgeId1, HyperEdgeId HyperEdgeId2)
         {
-            return !(myHyperEdgeId1 == myHyperEdgeId2);
+            return !(HyperEdgeId1 == HyperEdgeId2);
         }
 
         #endregion
 
-        #region Operator <  (myHyperEdgeId1, myHyperEdgeId2)
+        #region Operator <  (HyperEdgeId1, HyperEdgeId2)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myHyperEdgeId1">A HyperEdgeId.</param>
-        /// <param name="myHyperEdgeId2">Another HyperEdgeId.</param>
+        /// <param name="HyperEdgeId1">A HyperEdgeId.</param>
+        /// <param name="HyperEdgeId2">Another HyperEdgeId.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator < (HyperEdgeId myHyperEdgeId1, HyperEdgeId myHyperEdgeId2)
+        public static Boolean operator < (HyperEdgeId HyperEdgeId1, HyperEdgeId HyperEdgeId2)
         {
 
-            // Check if myHyperEdgeId1 is null
-            if ((Object) myHyperEdgeId1 == null)
-                throw new ArgumentNullException("Parameter myHyperEdgeId1 must not be null!");
+            if ((Object) HyperEdgeId1 == null)
+                throw new ArgumentNullException("The given HyperEdgeId1 must not be null!");
 
-            // Check if myHyperEdgeId2 is null
-            if ((Object) myHyperEdgeId2 == null)
-                throw new ArgumentNullException("Parameter myHyperEdgeId2 must not be null!");
-
-
-            // Check the length of the HyperEdgeIds
-            if (myHyperEdgeId1.Length < myHyperEdgeId2.Length)
-                return true;
-
-            if (myHyperEdgeId1.Length > myHyperEdgeId2.Length)
-                return false;
-
-            return myHyperEdgeId1.CompareTo(myHyperEdgeId2) < 0;
+            return HyperEdgeId1.CompareTo(HyperEdgeId2) < 0;
 
         }
 
         #endregion
 
-        #region Operator >  (myHyperEdgeId1, myHyperEdgeId2)
+        #region Operator >  (HyperEdgeId1, HyperEdgeId2)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myHyperEdgeId1">A HyperEdgeId.</param>
-        /// <param name="myHyperEdgeId2">Another HyperEdgeId.</param>
+        /// <param name="HyperEdgeId1">A HyperEdgeId.</param>
+        /// <param name="HyperEdgeId2">Another HyperEdgeId.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator > (HyperEdgeId myHyperEdgeId1, HyperEdgeId myHyperEdgeId2)
+        public static Boolean operator > (HyperEdgeId HyperEdgeId1, HyperEdgeId HyperEdgeId2)
         {
 
-            // Check if myHyperEdgeId1 is null
-            if ((Object) myHyperEdgeId1 == null)
-                throw new ArgumentNullException("Parameter myHyperEdgeId1 must not be null!");
+            if ((Object) HyperEdgeId1 == null)
+                throw new ArgumentNullException("The given HyperEdgeId1 must not be null!");
 
-            // Check if myHyperEdgeId2 is null
-            if ((Object) myHyperEdgeId2 == null)
-                throw new ArgumentNullException("Parameter myHyperEdgeId2 must not be null!");
-
-
-            // Check the length of the HyperEdgeIds
-            if (myHyperEdgeId1.Length > myHyperEdgeId2.Length)
-                return true;
-
-            if (myHyperEdgeId1.Length < myHyperEdgeId2.Length)
-                return false;
-
-            return myHyperEdgeId1.CompareTo(myHyperEdgeId2) > 0;
+            return HyperEdgeId1.CompareTo(HyperEdgeId2) > 0;
 
         }
 
         #endregion
 
-        #region Operator <= (myHyperEdgeId1, myHyperEdgeId2)
+        #region Operator <= (HyperEdgeId1, HyperEdgeId2)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myHyperEdgeId1">A HyperEdgeId.</param>
-        /// <param name="myHyperEdgeId2">Another HyperEdgeId.</param>
+        /// <param name="HyperEdgeId1">A HyperEdgeId.</param>
+        /// <param name="HyperEdgeId2">Another HyperEdgeId.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator <= (HyperEdgeId myHyperEdgeId1, HyperEdgeId myHyperEdgeId2)
+        public static Boolean operator <= (HyperEdgeId HyperEdgeId1, HyperEdgeId HyperEdgeId2)
         {
-            return !(myHyperEdgeId1 > myHyperEdgeId2);
+            return !(HyperEdgeId1 > HyperEdgeId2);
         }
 
         #endregion
 
-        #region Operator >= (myHyperEdgeId1, myHyperEdgeId2)
+        #region Operator >= (HyperEdgeId1, HyperEdgeId2)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myHyperEdgeId1">A HyperEdgeId.</param>
-        /// <param name="myHyperEdgeId2">Another HyperEdgeId.</param>
+        /// <param name="HyperEdgeId1">A HyperEdgeId.</param>
+        /// <param name="HyperEdgeId2">Another HyperEdgeId.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator >= (HyperEdgeId myHyperEdgeId1, HyperEdgeId myHyperEdgeId2)
+        public static Boolean operator >= (HyperEdgeId HyperEdgeId1, HyperEdgeId HyperEdgeId2)
         {
-            return !(myHyperEdgeId1 < myHyperEdgeId2);
+            return !(HyperEdgeId1 < HyperEdgeId2);
         }
 
         #endregion
@@ -289,95 +288,98 @@ namespace de.ahzf.Blueprints
 
         #region IComparable<HyperEdgeId> Members
 
-        #region CompareTo(myObject)
+        #region CompareTo(Object)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myObject">An object to compare with.</param>
+        /// <param name="Object">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public new Int32 CompareTo(Object myObject)
+        public Int32 CompareTo(Object Object)
         {
 
-            // Check if myObject is null
-            if (myObject == null)
-                throw new ArgumentNullException("myObject must not be null!");
+            if (Object == null)
+                throw new ArgumentNullException("The given object must not be null!");
 
-            // Check if myObject can be casted to an HyperEdgeId object
-            var myHyperEdgeId = myObject as HyperEdgeId;
-            if ((Object) myHyperEdgeId == null)
-                throw new ArgumentException("myObject is not of type HyperEdgeId!");
+            // Check if the given object is an HyperEdgeId.
+            var HyperEdgeId = Object as HyperEdgeId;
+            if ((Object) HyperEdgeId == null)
+                throw new ArgumentException("The given object is not a HyperEdgeId!");
 
-            return CompareTo(myHyperEdgeId);
+            return CompareTo(HyperEdgeId);
 
         }
 
         #endregion
 
-        #region CompareTo(myHyperEdgeId)
+        #region CompareTo(HyperEdgeId)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myHyperEdgeId">An object to compare with.</param>
+        /// <param name="HyperEdgeId">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public Int32 CompareTo(HyperEdgeId myHyperEdgeId)
+        public Int32 CompareTo(HyperEdgeId HyperEdgeId)
         {
 
-            // Check if myHyperEdgeId is null
-            if (myHyperEdgeId == null)
-                throw new ArgumentNullException("myHyperEdgeId must not be null!");
+            if ((Object) HyperEdgeId == null)
+                throw new ArgumentNullException("The given HyperEdgeId must not be null!");
 
-            return _ElementId.CompareTo(myHyperEdgeId._ElementId);
+            // Compare the length of the HyperEdgeIds
+            var _Result = this.Length.CompareTo(HyperEdgeId.Length);
+
+            // If equal: Compare Ids
+            if (_Result == 0)
+                _Result = _Id.CompareTo(HyperEdgeId._Id);
+
+            return _Result;
 
         }
 
         #endregion
-        
+
         #endregion
 
         #region IEquatable<HyperEdgeId> Members
 
-        #region Equals(myObject)
+        #region Equals(Object)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myObject">An object to compare with.</param>
+        /// <param name="Object">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public override Boolean Equals(Object myObject)
+        public override Boolean Equals(Object Object)
         {
 
-            // Check if myObject is null
-            if (myObject == null)
-                throw new ArgumentNullException("Parameter myObject must not be null!");
+            if (Object == null)
+                throw new ArgumentNullException("The given object must not be null!");
 
-            // Check if myObject can be cast to HyperEdgeId
-            var myHyperEdgeId = myObject as HyperEdgeId;
-            if ((Object) myHyperEdgeId == null)
-                throw new ArgumentException("Parameter myObject could not be casted to type HyperEdgeId!");
+            // Check if the given object is an HyperEdgeId.
+            var HyperEdgeId = Object as HyperEdgeId;
+            if ((Object) HyperEdgeId == null)
+                throw new ArgumentException("The given object is not a HyperEdgeId!");
 
-            return this.Equals(myHyperEdgeId);
+            return this.Equals(HyperEdgeId);
 
         }
 
         #endregion
 
-        #region Equals(myHyperEdgeId)
+        #region Equals(HyperEdgeId)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myHyperEdgeId">An object to compare with.</param>
+        /// <param name="HyperEdgeId">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public Boolean Equals(HyperEdgeId myHyperEdgeId)
+        public Boolean Equals(HyperEdgeId HyperEdgeId)
         {
 
-            // Check if myHyperEdgeId is null
-            if (myHyperEdgeId == null)
-                throw new ArgumentNullException("Parameter myHyperEdgeId must not be null!");
+            if ((Object) HyperEdgeId == null)
+                throw new ArgumentNullException("The given HyperEdgeId must not be null!");
 
-            return _ElementId.Equals(myHyperEdgeId._ElementId);
+            return _Id.Equals(HyperEdgeId._Id);
 
         }
 
@@ -393,7 +395,19 @@ namespace de.ahzf.Blueprints
         /// <returns>The HashCode of this object.</returns>
         public override Int32 GetHashCode()
         {
-            return base.GetHashCode();
+            return _Id.GetHashCode();
+        }
+
+        #endregion
+
+        #region ToString()
+
+        /// <summary>
+        /// Return a string represtentation of this object.
+        /// </summary>
+        public override String ToString()
+        {
+            return _Id.ToString();
         }
 
         #endregion

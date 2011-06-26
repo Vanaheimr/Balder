@@ -25,111 +25,136 @@ namespace de.ahzf.Blueprints
 {
 
     /// <summary>
-    /// A VertexId is unique identificator for a vertex.
+    /// A VertexId is the unique identificator of any sensor.
     /// </summary>    
-    public class VertexId : ElementId, IEquatable<VertexId>, IComparable<VertexId>, IComparable
+    public class VertexId : IEquatable<VertexId>, IComparable<VertexId>, IComparable
     {
+
+        #region Data
+
+        /// <summary>
+        /// The internal identification.
+        /// </summary>
+        protected readonly String _Id;
+
+        #endregion
+
+        #region Properties
+
+        #region Length
+
+        /// <summary>
+        /// Returns the length of the identificator.
+        /// </summary>
+        public UInt64 Length
+        {
+            get
+            {
+                return (UInt64) _Id.Length;
+            }
+        }
+
+        #endregion
+
+        #endregion
 
         #region Constructor(s)
 
         #region VertexId()
 
         /// <summary>
-        /// Generates a new VertexId
+        /// Generates a new VertexId based on a GUID.
         /// </summary>
         public VertexId()
-            : base()
         {
+            _Id = Guid.NewGuid().ToString();
         }
 
         #endregion
 
-        #region VertexId(myInt32)
+        #region VertexId(Int32)
 
         /// <summary>
-        /// Generates a VertexId based on the content of an Int32
+        /// Generates a VertexId based on the content of an Int32.
         /// </summary>
-        public VertexId(Int32 myInt32)
-            : base(myInt32)
-        {
-        }
+        public VertexId(Int32 Int32)
+            : this(Math.Abs(Int32).ToString())
+        { }
 
         #endregion
 
-        #region VertexId(myUInt32)
+        #region VertexId(UInt32)
 
         /// <summary>
-        /// Generates a VertexId based on the content of an UInt32
+        /// Generates a VertexId based on the content of an UInt32.
         /// </summary>
-        public VertexId(UInt32 myUInt32)
-            : base(myUInt32)
-        {
-        }
+        public VertexId(UInt32 UInt32)
+            : this(UInt32.ToString())
+        { }
 
         #endregion
 
-        #region VertexId(myInt64)
+        #region VertexId(Int64)
 
         /// <summary>
-        /// Generates a VertexId based on the content of an Int64
+        /// Generates a VertexId based on the content of an Int64.
         /// </summary>
-        public VertexId(Int64 myInt64)
-            : base(myInt64)
-        {
-        }
+        public VertexId(Int64 Int64)
+            : this(Int64.ToString())
+        { }
 
         #endregion
 
-        #region VertexId(myUInt64)
+        #region VertexId(UInt64)
 
         /// <summary>
-        /// Generates a VertexId based on the content of an UInt64
+        /// Generates a VertexId based on the content of an UInt64.
         /// </summary>
-        public VertexId(UInt64 myUInt64)
-            : base(myUInt64)
-        {
-        }
+        public VertexId(UInt64 UInt64)
+            : this(UInt64.ToString())
+        { }
 
         #endregion
 
-        #region VertexId(myString)
+        #region VertexId(String)
 
         /// <summary>
-        /// Generates a VertexId based on the content of myString.
+        /// Generates a VertexId based on the content of String.
         /// </summary>
-        public VertexId(String myString)
-            : base(myString)
+        public VertexId(String String)
         {
+            _Id = String.Trim();
         }
 
         #endregion
 
-        #region VertexId(myUri)
+        #region VertexId(Uri)
 
         /// <summary>
-        /// Generates a VertexId based on the content of myUri.
+        /// Generates a VertexId based on the content of Uri.
         /// </summary>
-        public VertexId(Uri myUri)
-            : base(myUri)
+        public VertexId(Uri Uri)
         {
+            _Id = Uri.ToString();
         }
 
         #endregion
 
-        #region VertexId(myVertexId)
+        #region VertexId(VertexId)
 
         /// <summary>
-        /// Generates a VertexId based on the content of myVertexId
+        /// Generates a VertexId based on the content of VertexId.
         /// </summary>
-        /// <param name="myVertexId">A VertexId</param>
-        public VertexId(VertexId myVertexId)
-            : base(myVertexId)
+        /// <param name="VertexId">A VertexId</param>
+        public VertexId(VertexId VertexId)
         {
+            _Id = VertexId.ToString();
         }
 
         #endregion
 
         #endregion
+
 
         #region NewVertexId
 
@@ -149,138 +174,112 @@ namespace de.ahzf.Blueprints
 
         #region Operator overloading
 
-        #region Operator == (myVertexId1, myVertexId2)
+        #region Operator == (VertexId1, VertexId2)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myVertexId1">A VertexId.</param>
-        /// <param name="myVertexId2">Another VertexId.</param>
+        /// <param name="VertexId1">A VertexId.</param>
+        /// <param name="VertexId2">Another VertexId.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator == (VertexId myVertexId1, VertexId myVertexId2)
+        public static Boolean operator == (VertexId VertexId1, VertexId VertexId2)
         {
 
             // If both are null, or both are same instance, return true.
-            if (Object.ReferenceEquals(myVertexId1, myVertexId2))
+            if (Object.ReferenceEquals(VertexId1, VertexId2))
                 return true;
 
             // If one is null, but not both, return false.
-            if (((Object) myVertexId1 == null) || ((Object) myVertexId2 == null))
+            if (((Object) VertexId1 == null) || ((Object) VertexId2 == null))
                 return false;
 
-            return myVertexId1.Equals(myVertexId2);
+            return VertexId1.Equals(VertexId2);
 
         }
 
         #endregion
 
-        #region Operator != (myVertexId1, myVertexId2)
+        #region Operator != (VertexId1, VertexId2)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myVertexId1">A VertexId.</param>
-        /// <param name="myVertexId2">Another VertexId.</param>
+        /// <param name="VertexId1">A VertexId.</param>
+        /// <param name="VertexId2">Another VertexId.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator != (VertexId myVertexId1, VertexId myVertexId2)
+        public static Boolean operator != (VertexId VertexId1, VertexId VertexId2)
         {
-            return !(myVertexId1 == myVertexId2);
+            return !(VertexId1 == VertexId2);
         }
 
         #endregion
 
-        #region Operator <  (myVertexId1, myVertexId2)
+        #region Operator <  (VertexId1, VertexId2)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myVertexId1">A VertexId.</param>
-        /// <param name="myVertexId2">Another VertexId.</param>
+        /// <param name="VertexId1">A VertexId.</param>
+        /// <param name="VertexId2">Another VertexId.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator < (VertexId myVertexId1, VertexId myVertexId2)
+        public static Boolean operator < (VertexId VertexId1, VertexId VertexId2)
         {
 
-            // Check if myVertexId1 is null
-            if ((Object) myVertexId1 == null)
-                throw new ArgumentNullException("Parameter myVertexId1 must not be null!");
+            if ((Object) VertexId1 == null)
+                throw new ArgumentNullException("The given VertexId1 must not be null!");
 
-            // Check if myVertexId2 is null
-            if ((Object) myVertexId2 == null)
-                throw new ArgumentNullException("Parameter myVertexId2 must not be null!");
-
-
-            // Check the length of the VertexIds
-            if (myVertexId1.Length < myVertexId2.Length)
-                return true;
-
-            if (myVertexId1.Length > myVertexId2.Length)
-                return false;
-
-            return myVertexId1.CompareTo(myVertexId2) < 0;
+            return VertexId1.CompareTo(VertexId2) < 0;
 
         }
 
         #endregion
 
-        #region Operator >  (myVertexId1, myVertexId2)
+        #region Operator >  (VertexId1, VertexId2)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myVertexId1">A VertexId.</param>
-        /// <param name="myVertexId2">Another VertexId.</param>
+        /// <param name="VertexId1">A VertexId.</param>
+        /// <param name="VertexId2">Another VertexId.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator > (VertexId myVertexId1, VertexId myVertexId2)
+        public static Boolean operator > (VertexId VertexId1, VertexId VertexId2)
         {
 
-            // Check if myVertexId1 is null
-            if ((Object) myVertexId1 == null)
-                throw new ArgumentNullException("Parameter myVertexId1 must not be null!");
+            if ((Object) VertexId1 == null)
+                throw new ArgumentNullException("The given VertexId1 must not be null!");
 
-            // Check if myVertexId2 is null
-            if ((Object) myVertexId2 == null)
-                throw new ArgumentNullException("Parameter myVertexId2 must not be null!");
-
-
-            // Check the length of the VertexIds
-            if (myVertexId1.Length > myVertexId2.Length)
-                return true;
-
-            if (myVertexId1.Length < myVertexId2.Length)
-                return false;
-
-            return myVertexId1.CompareTo(myVertexId2) > 0;
+            return VertexId1.CompareTo(VertexId2) > 0;
 
         }
 
         #endregion
 
-        #region Operator <= (myVertexId1, myVertexId2)
+        #region Operator <= (VertexId1, VertexId2)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myVertexId1">A VertexId.</param>
-        /// <param name="myVertexId2">Another VertexId.</param>
+        /// <param name="VertexId1">A VertexId.</param>
+        /// <param name="VertexId2">Another VertexId.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator <= (VertexId myVertexId1, VertexId myVertexId2)
+        public static Boolean operator <= (VertexId VertexId1, VertexId VertexId2)
         {
-            return !(myVertexId1 > myVertexId2);
+            return !(VertexId1 > VertexId2);
         }
 
         #endregion
 
-        #region Operator >= (myVertexId1, myVertexId2)
+        #region Operator >= (VertexId1, VertexId2)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myVertexId1">A VertexId.</param>
-        /// <param name="myVertexId2">Another VertexId.</param>
+        /// <param name="VertexId1">A VertexId.</param>
+        /// <param name="VertexId2">Another VertexId.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator >= (VertexId myVertexId1, VertexId myVertexId2)
+        public static Boolean operator >= (VertexId VertexId1, VertexId VertexId2)
         {
-            return !(myVertexId1 < myVertexId2);
+            return !(VertexId1 < VertexId2);
         }
 
         #endregion
@@ -289,46 +288,51 @@ namespace de.ahzf.Blueprints
 
         #region IComparable<VertexId> Members
 
-        #region CompareTo(myObject)
+        #region CompareTo(Object)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myObject">An object to compare with.</param>
+        /// <param name="Object">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public new Int32 CompareTo(Object myObject)
+        public Int32 CompareTo(Object Object)
         {
 
-            // Check if myObject is null
-            if (myObject == null)
-                throw new ArgumentNullException("myObject must not be null!");
+            if (Object == null)
+                throw new ArgumentNullException("The given object must not be null!");
 
-            // Check if myObject can be casted to an VertexId object
-            var myVertexId = myObject as VertexId;
-            if ((Object) myVertexId == null)
-                throw new ArgumentException("myObject is not of type VertexId!");
+            // Check if the given object is an VertexId.
+            var VertexId = Object as VertexId;
+            if ((Object) VertexId == null)
+                throw new ArgumentException("The given object is not a VertexId!");
 
-            return CompareTo(myVertexId);
+            return CompareTo(VertexId);
 
         }
 
         #endregion
 
-        #region CompareTo(myVertexId)
+        #region CompareTo(VertexId)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myVertexId">An object to compare with.</param>
+        /// <param name="VertexId">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public Int32 CompareTo(VertexId myVertexId)
+        public Int32 CompareTo(VertexId VertexId)
         {
 
-            // Check if myVertexId is null
-            if (myVertexId == null)
-                throw new ArgumentNullException("myVertexId must not be null!");
+            if ((Object) VertexId == null)
+                throw new ArgumentNullException("The given VertexId must not be null!");
 
-            return _ElementId.CompareTo(myVertexId._ElementId);
+            // Compare the length of the VertexIds
+            var _Result = this.Length.CompareTo(VertexId.Length);
+
+            // If equal: Compare Ids
+            if (_Result == 0)
+                _Result = _Id.CompareTo(VertexId._Id);
+
+            return _Result;
 
         }
 
@@ -338,46 +342,44 @@ namespace de.ahzf.Blueprints
 
         #region IEquatable<VertexId> Members
 
-        #region Equals(myObject)
+        #region Equals(Object)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myObject">An object to compare with.</param>
+        /// <param name="Object">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public override Boolean Equals(Object myObject)
+        public override Boolean Equals(Object Object)
         {
 
-            // Check if myObject is null
-            if (myObject == null)
-                throw new ArgumentNullException("Parameter myObject must not be null!");
+            if (Object == null)
+                throw new ArgumentNullException("The given object must not be null!");
 
-            // Check if myObject can be cast to VertexId
-            var myVertexId = myObject as VertexId;
-            if ((Object) myVertexId == null)
-                throw new ArgumentException("Parameter myObject could not be casted to type VertexId!");
+            // Check if the given object is an VertexId.
+            var VertexId = Object as VertexId;
+            if ((Object) VertexId == null)
+                throw new ArgumentException("The given object is not a VertexId!");
 
-            return this.Equals(myVertexId);
+            return this.Equals(VertexId);
 
         }
 
         #endregion
 
-        #region Equals(myVertexId)
+        #region Equals(VertexId)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myVertexId">An object to compare with.</param>
+        /// <param name="VertexId">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public Boolean Equals(VertexId myVertexId)
+        public Boolean Equals(VertexId VertexId)
         {
 
-            // Check if myVertexId is null
-            if (myVertexId == null)
-                throw new ArgumentNullException("Parameter myVertexId must not be null!");
+            if ((Object) VertexId == null)
+                throw new ArgumentNullException("The given VertexId must not be null!");
 
-            return _ElementId.Equals(myVertexId._ElementId);
+            return _Id.Equals(VertexId._Id);
 
         }
 
@@ -393,7 +395,19 @@ namespace de.ahzf.Blueprints
         /// <returns>The HashCode of this object.</returns>
         public override Int32 GetHashCode()
         {
-            return base.GetHashCode();
+            return _Id.GetHashCode();
+        }
+
+        #endregion
+
+        #region ToString()
+
+        /// <summary>
+        /// Return a string represtentation of this object.
+        /// </summary>
+        public override String ToString()
+        {
+            return _Id.ToString();
         }
 
         #endregion
