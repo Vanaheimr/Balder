@@ -18,10 +18,6 @@
 #region Usings
 
 using System;
-using System.Text;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
 
 #endregion
 
@@ -29,17 +25,18 @@ namespace de.ahzf.Blueprints
 {
 
     /// <summary>
-    /// A Id is unique identificator.
+    /// A ElementId is unique identificator for any graph element.
+    /// It's the base for the VertexId, EdgeId and HyperEdgeId.
     /// </summary>    
-    public class ElementId : IEquatable<ElementId>, IComparable<ElementId>, IComparable
+    public abstract class ElementId : IEquatable<ElementId>, IComparable<ElementId>, IComparable
     {
 
         #region Data
 
         /// <summary>
-        /// Holding the identification of this element.
+        /// The internal identification.
         /// </summary>
-        protected readonly String _ElementId;
+        protected readonly String _Id;
 
         #endregion
 
@@ -54,7 +51,7 @@ namespace de.ahzf.Blueprints
         {
             get
             {
-                return (UInt64) _ElementId.Length;
+                return (UInt64) _Id.Length;
             }
         }
 
@@ -67,96 +64,92 @@ namespace de.ahzf.Blueprints
         #region ElementId()
 
         /// <summary>
-        /// Generates a new ElementId based on a GUID
+        /// Generates a new ElementId based on a GUID.
         /// </summary>
         public ElementId()
         {
-            _ElementId = Guid.NewGuid().ToString();
+            _Id = Guid.NewGuid().ToString();
         }
 
         #endregion
 
-        #region ElementId(myInt32)
+        #region ElementId(Int32)
 
         /// <summary>
-        /// Generates a ElementId based on the content of an Int32
+        /// Generates a ElementId based on the content of an Int32.
         /// </summary>
-        public ElementId(Int32 myInt32)
-            : this(Math.Abs(myInt32).ToString())
+        public ElementId(Int32 Int32)
+            : this(Math.Abs(Int32).ToString())
+        { }
+
+        #endregion
+
+        #region ElementId(UInt32)
+
+        /// <summary>
+        /// Generates a ElementId based on the content of an UInt32.
+        /// </summary>
+        public ElementId(UInt32 UInt32)
+            : this(UInt32.ToString())
+        { }
+
+        #endregion
+
+        #region ElementId(Int64)
+
+        /// <summary>
+        /// Generates a ElementId based on the content of an Int64.
+        /// </summary>
+        public ElementId(Int64 Int64)
+            : this(Int64.ToString())
+        { }
+
+        #endregion
+
+        #region ElementId(UInt64)
+
+        /// <summary>
+        /// Generates a ElementId based on the content of an UInt64.
+        /// </summary>
+        public ElementId(UInt64 UInt64)
+            : this(UInt64.ToString())
+        { }
+
+        #endregion
+
+        #region ElementId(String)
+
+        /// <summary>
+        /// Generates a ElementId based on the content of String.
+        /// </summary>
+        public ElementId(String String)
         {
+            _Id = String.Trim();
         }
 
         #endregion
 
-        #region ElementId(myUInt32)
+        #region ElementId(Uri)
 
         /// <summary>
-        /// Generates a ElementId based on the content of an UInt32
+        /// Generates a ElementId based on the content of Uri.
         /// </summary>
-        public ElementId(UInt32 myUInt32)
-            : this(myUInt32.ToString())
+        public ElementId(Uri Uri)
         {
+            _Id = Uri.ToString();
         }
 
         #endregion
 
-        #region ElementId(myInt64)
+        #region ElementId(ElementId)
 
         /// <summary>
-        /// Generates a ElementId based on the content of an Int64
+        /// Generates a ElementId based on the content of ElementId.
         /// </summary>
-        public ElementId(Int64 myInt64)
-            : this(myInt64.ToString())
+        /// <param name="ElementId">A ElementId</param>
+        public ElementId(ElementId ElementId)
         {
-        }
-
-        #endregion
-
-        #region ElementId(myUInt64)
-
-        /// <summary>
-        /// Generates a ElementId based on the content of an UInt64
-        /// </summary>
-        public ElementId(UInt64 myUInt64)
-            : this(myUInt64.ToString())
-        {
-        }
-
-        #endregion
-
-        #region ElementId(myString)
-
-        /// <summary>
-        /// Generates a ElementId based on the content of myString.
-        /// </summary>
-        public ElementId(String myString)
-        {
-            _ElementId = myString.Trim();
-        }
-
-        #endregion
-
-        #region ElementId(myUri)
-
-        /// <summary>
-        /// Generates a ElementId based on the content of myUri.
-        /// </summary>
-        public ElementId(Uri myUri)
-        {
-            _ElementId = myUri.ToString();
-        }
-
-        #endregion
-
-        #region ElementId(myElementId)
-
-        /// <summary>
-        /// Generates a ElementId based on the content of myElementId
-        /// </summary>
-        /// <param name="myElementId">A ElementId</param>
-        public ElementId(ElementId myElementId)
-        {
-            _ElementId = myElementId.ToString();
+            _Id = ElementId.ToString();
         }
 
         #endregion
@@ -166,46 +159,51 @@ namespace de.ahzf.Blueprints
 
         #region IComparable<ElementId> Members
 
-        #region CompareTo(myObject)
+        #region CompareTo(Object)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myObject">An object to compare with.</param>
+        /// <param name="Object">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public Int32 CompareTo(Object myObject)
+        public virtual Int32 CompareTo(Object Object)
         {
 
-            // Check if myObject is null
-            if (myObject == null)
-                throw new ArgumentNullException("myObject must not be null!");
+            if (Object == null)
+                throw new ArgumentNullException("The given object must not be null!");
 
-            // Check if myObject can be casted to an ElementId object
-            var myElementId = myObject as ElementId;
-            if ((Object) myElementId == null)
-                throw new ArgumentException("myObject is not of type ElementId!");
+            // Check if the given object is an ElementId.
+            var ElementId = Object as ElementId;
+            if ((Object) ElementId == null)
+                throw new ArgumentException("The given object is not a ElementId!");
 
-            return CompareTo(myElementId);
+            return CompareTo(ElementId);
 
         }
 
         #endregion
 
-        #region CompareTo(myElementId)
+        #region CompareTo(ElementId)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myElementId">An object to compare with.</param>
+        /// <param name="ElementId">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public Int32 CompareTo(ElementId myElementId)
+        public Int32 CompareTo(ElementId ElementId)
         {
 
-            // Check if myElementId is null
-            if (myElementId == null)
-                throw new ArgumentNullException("myElementId must not be null!");
+            if ((Object) ElementId == null)
+                throw new ArgumentNullException("The given ElementId must not be null!");
 
-            return _ElementId.CompareTo(myElementId._ElementId);
+            // Compare the length of the ElementIds
+            var _Result = this.Length.CompareTo(ElementId.Length);
+
+            // If equal: Compare Ids
+            if (_Result == 0)
+                _Result = _Id.CompareTo(ElementId._Id);
+
+            return _Result;
 
         }
 
@@ -215,46 +213,44 @@ namespace de.ahzf.Blueprints
 
         #region IEquatable<ElementId> Members
 
-        #region Equals(myObject)
+        #region Equals(Object)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myObject">An object to compare with.</param>
+        /// <param name="Object">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public override Boolean Equals(Object myObject)
+        public override Boolean Equals(Object Object)
         {
 
-            // Check if myObject is null
-            if (myObject == null)
-                throw new ArgumentNullException("Parameter myObject must not be null!");
+            if (Object == null)
+                throw new ArgumentNullException("The given object must not be null!");
 
-            // Check if myObject can be cast to ElementId
-            var myElementId = myObject as ElementId;
-            if ((Object) myElementId == null)
-                throw new ArgumentException("Parameter myObject could not be casted to type ElementId!");
+            // Check if the given object is an ElementId.
+            var ElementId = Object as ElementId;
+            if ((Object) ElementId == null)
+                throw new ArgumentException("The given object is not a ElementId!");
 
-            return this.Equals(myElementId);
+            return this.Equals(ElementId);
 
         }
 
         #endregion
 
-        #region Equals(myElementId)
+        #region Equals(ElementId)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myElementId">An object to compare with.</param>
+        /// <param name="ElementId">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public Boolean Equals(ElementId myElementId)
+        public Boolean Equals(ElementId ElementId)
         {
 
-            // Check if myElementId is null
-            if (myElementId == null)
-                throw new ArgumentNullException("Parameter myElementId must not be null!");
+            if ((Object) ElementId == null)
+                throw new ArgumentNullException("The given ElementId must not be null!");
 
-            return _ElementId.Equals(myElementId._ElementId);
+            return _Id.Equals(ElementId._Id);
 
         }
 
@@ -270,7 +266,7 @@ namespace de.ahzf.Blueprints
         /// <returns>The HashCode of this object.</returns>
         public override Int32 GetHashCode()
         {
-            return _ElementId.GetHashCode();
+            return _Id.GetHashCode();
         }
 
         #endregion
@@ -278,12 +274,11 @@ namespace de.ahzf.Blueprints
         #region ToString()
 
         /// <summary>
-        /// Returns a string representation of this object.
+        /// Return a string represtentation of this object.
         /// </summary>
-        /// <returns>A string representation of this object.</returns>
         public override String ToString()
         {
-            return _ElementId.ToString();
+            return _Id.ToString();
         }
 
         #endregion

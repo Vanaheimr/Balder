@@ -25,38 +25,10 @@ namespace de.ahzf.Blueprints
 {
 
     /// <summary>
-    /// A VertexId is the unique identificator of any sensor.
+    /// A VertexId is unique identificator for a vertex.
     /// </summary>    
-    public class VertexId : IEquatable<VertexId>, IComparable<VertexId>, IComparable
+    public class VertexId : ElementId, IEquatable<VertexId>, IComparable<VertexId>, IComparable
     {
-
-        #region Data
-
-        /// <summary>
-        /// The internal identification.
-        /// </summary>
-        protected readonly String _Id;
-
-        #endregion
-
-        #region Properties
-
-        #region Length
-
-        /// <summary>
-        /// Returns the length of the identificator.
-        /// </summary>
-        public UInt64 Length
-        {
-            get
-            {
-                return (UInt64) _Id.Length;
-            }
-        }
-
-        #endregion
-
-        #endregion
 
         #region Constructor(s)
 
@@ -66,9 +38,8 @@ namespace de.ahzf.Blueprints
         /// Generates a new VertexId based on a GUID.
         /// </summary>
         public VertexId()
-        {
-            _Id = Guid.NewGuid().ToString();
-        }
+            : base()
+        { }
 
         #endregion
 
@@ -78,7 +49,7 @@ namespace de.ahzf.Blueprints
         /// Generates a VertexId based on the content of an Int32.
         /// </summary>
         public VertexId(Int32 Int32)
-            : this(Math.Abs(Int32).ToString())
+            : base(Int32)
         { }
 
         #endregion
@@ -89,7 +60,7 @@ namespace de.ahzf.Blueprints
         /// Generates a VertexId based on the content of an UInt32.
         /// </summary>
         public VertexId(UInt32 UInt32)
-            : this(UInt32.ToString())
+            : base(UInt32)
         { }
 
         #endregion
@@ -100,7 +71,7 @@ namespace de.ahzf.Blueprints
         /// Generates a VertexId based on the content of an Int64.
         /// </summary>
         public VertexId(Int64 Int64)
-            : this(Int64.ToString())
+            : base(Int64)
         { }
 
         #endregion
@@ -111,7 +82,7 @@ namespace de.ahzf.Blueprints
         /// Generates a VertexId based on the content of an UInt64.
         /// </summary>
         public VertexId(UInt64 UInt64)
-            : this(UInt64.ToString())
+            : base(UInt64)
         { }
 
         #endregion
@@ -122,9 +93,8 @@ namespace de.ahzf.Blueprints
         /// Generates a VertexId based on the content of String.
         /// </summary>
         public VertexId(String String)
-        {
-            _Id = String.Trim();
-        }
+            : base(String)
+        { }
 
         #endregion
 
@@ -134,9 +104,8 @@ namespace de.ahzf.Blueprints
         /// Generates a VertexId based on the content of Uri.
         /// </summary>
         public VertexId(Uri Uri)
-        {
-            _Id = Uri.ToString();
-        }
+            : base(Uri)
+        { }
 
         #endregion
 
@@ -147,9 +116,8 @@ namespace de.ahzf.Blueprints
         /// </summary>
         /// <param name="VertexId">A VertexId</param>
         public VertexId(VertexId VertexId)
-        {
-            _Id = VertexId.ToString();
-        }
+            : base(VertexId)
+        { }
 
         #endregion
 
@@ -295,7 +263,7 @@ namespace de.ahzf.Blueprints
         /// </summary>
         /// <param name="Object">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public Int32 CompareTo(Object Object)
+        public override Int32 CompareTo(Object Object)
         {
 
             if (Object == null)
@@ -395,19 +363,7 @@ namespace de.ahzf.Blueprints
         /// <returns>The HashCode of this object.</returns>
         public override Int32 GetHashCode()
         {
-            return _Id.GetHashCode();
-        }
-
-        #endregion
-
-        #region ToString()
-
-        /// <summary>
-        /// Return a string represtentation of this object.
-        /// </summary>
-        public override String ToString()
-        {
-            return _Id.ToString();
+            return base.GetHashCode();
         }
 
         #endregion

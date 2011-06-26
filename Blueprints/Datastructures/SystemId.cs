@@ -18,10 +18,6 @@
 #region Usings
 
 using System;
-using System.Text;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
 
 #endregion
 
@@ -32,109 +28,134 @@ namespace de.ahzf.Blueprints
     /// A SystemId is unique identificator for a single system within
     /// a larger distributed system.
     /// </summary>    
-    public class SystemId : ElementId, IComparable, IComparable<SystemId>, IEquatable<SystemId>
+    public class SystemId : IEquatable<SystemId>, IComparable<SystemId>, IComparable
     {
+
+        #region Data
+
+        /// <summary>
+        /// The internal identification.
+        /// </summary>
+        protected readonly String _Id;
+
+        #endregion
+
+        #region Properties
+
+        #region Length
+
+        /// <summary>
+        /// Returns the length of the identificator.
+        /// </summary>
+        public UInt64 Length
+        {
+            get
+            {
+                return (UInt64) _Id.Length;
+            }
+        }
+
+        #endregion
+
+        #endregion
 
         #region Constructor(s)
 
         #region SystemId()
 
         /// <summary>
-        /// Generates a new SystemId
+        /// Generates a new SystemId based on a GUID.
         /// </summary>
         public SystemId()
-            : base()
         {
+            _Id = Guid.NewGuid().ToString();
         }
 
         #endregion
 
-        #region SystemId(myInt32)
+        #region SystemId(Int32)
 
         /// <summary>
-        /// Generates a SystemId based on the content of an Int32
+        /// Generates a SystemId based on the content of an Int32.
         /// </summary>
-        public SystemId(Int32 myInt32)
-            : base(myInt32)
-        {
-        }
+        public SystemId(Int32 Int32)
+            : this(Math.Abs(Int32).ToString())
+        { }
 
         #endregion
 
-        #region SystemId(myUInt32)
+        #region SystemId(UInt32)
 
         /// <summary>
-        /// Generates a SystemId based on the content of an UInt32
+        /// Generates a SystemId based on the content of an UInt32.
         /// </summary>
-        public SystemId(UInt32 myUInt32)
-            : base(myUInt32)
-        {
-        }
+        public SystemId(UInt32 UInt32)
+            : this(UInt32.ToString())
+        { }
 
         #endregion
 
-        #region SystemId(myInt64)
+        #region SystemId(Int64)
 
         /// <summary>
-        /// Generates a SystemId based on the content of an Int64
+        /// Generates a SystemId based on the content of an Int64.
         /// </summary>
-        public SystemId(Int64 myInt64)
-            : base(myInt64)
-        {
-        }
+        public SystemId(Int64 Int64)
+            : this(Int64.ToString())
+        { }
 
         #endregion
 
-        #region SystemId(myUInt64)
+        #region SystemId(UInt64)
 
         /// <summary>
-        /// Generates a SystemId based on the content of an UInt64
+        /// Generates a SystemId based on the content of an UInt64.
         /// </summary>
-        public SystemId(UInt64 myUInt64)
-            : base(myUInt64)
-        {
-        }
+        public SystemId(UInt64 UInt64)
+            : this(UInt64.ToString())
+        { }
 
         #endregion
 
-        #region SystemId(myString)
+        #region SystemId(String)
 
         /// <summary>
-        /// Generates a SystemId based on the content of myString.
+        /// Generates a SystemId based on the content of String.
         /// </summary>
-        public SystemId(String myString)
-            : base(myString)
+        public SystemId(String String)
         {
+            _Id = String.Trim();
         }
 
         #endregion
 
-        #region SystemId(myUri)
+        #region SystemId(Uri)
 
         /// <summary>
-        /// Generates a SystemId based on the content of myUri.
+        /// Generates a SystemId based on the content of Uri.
         /// </summary>
-        public SystemId(Uri myUri)
-            : base(myUri)
+        public SystemId(Uri Uri)
         {
+            _Id = Uri.ToString();
         }
 
         #endregion
 
-        #region SystemId(mySystemId)
+        #region SystemId(SystemId)
 
         /// <summary>
-        /// Generates a SystemId based on the content of mySystemId
+        /// Generates a SystemId based on the content of SystemId.
         /// </summary>
-        /// <param name="mySystemId">A SystemId</param>
-        public SystemId(SystemId mySystemId)
-            : base(mySystemId)
+        /// <param name="SystemId">A SystemId</param>
+        public SystemId(SystemId SystemId)
         {
+            _Id = SystemId.ToString();
         }
 
         #endregion
 
         #endregion
+
 
         #region NewSystemId
 
@@ -154,138 +175,112 @@ namespace de.ahzf.Blueprints
 
         #region Operator overloading
 
-        #region Operator == (mySystemId1, mySystemId2)
+        #region Operator == (SystemId1, SystemId2)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="mySystemId1">A SystemId.</param>
-        /// <param name="mySystemId2">Another SystemId.</param>
+        /// <param name="SystemId1">A SystemId.</param>
+        /// <param name="SystemId2">Another SystemId.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator == (SystemId mySystemId1, SystemId mySystemId2)
+        public static Boolean operator == (SystemId SystemId1, SystemId SystemId2)
         {
 
             // If both are null, or both are same instance, return true.
-            if (Object.ReferenceEquals(mySystemId1, mySystemId2))
+            if (Object.ReferenceEquals(SystemId1, SystemId2))
                 return true;
 
             // If one is null, but not both, return false.
-            if (((Object) mySystemId1 == null) || ((Object) mySystemId2 == null))
+            if (((Object) SystemId1 == null) || ((Object) SystemId2 == null))
                 return false;
 
-            return mySystemId1.Equals(mySystemId2);
+            return SystemId1.Equals(SystemId2);
 
         }
 
         #endregion
 
-        #region Operator != (mySystemId1, mySystemId2)
+        #region Operator != (SystemId1, SystemId2)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="mySystemId1">A SystemId.</param>
-        /// <param name="mySystemId2">Another SystemId.</param>
+        /// <param name="SystemId1">A SystemId.</param>
+        /// <param name="SystemId2">Another SystemId.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator != (SystemId mySystemId1, SystemId mySystemId2)
+        public static Boolean operator != (SystemId SystemId1, SystemId SystemId2)
         {
-            return !(mySystemId1 == mySystemId2);
+            return !(SystemId1 == SystemId2);
         }
 
         #endregion
 
-        #region Operator <  (mySystemId1, mySystemId2)
+        #region Operator <  (SystemId1, SystemId2)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="mySystemId1">A SystemId.</param>
-        /// <param name="mySystemId2">Another SystemId.</param>
+        /// <param name="SystemId1">A SystemId.</param>
+        /// <param name="SystemId2">Another SystemId.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator < (SystemId mySystemId1, SystemId mySystemId2)
+        public static Boolean operator < (SystemId SystemId1, SystemId SystemId2)
         {
 
-            // Check if mySystemId1 is null
-            if ((Object) mySystemId1 == null)
-                throw new ArgumentNullException("Parameter mySystemId1 must not be null!");
+            if ((Object) SystemId1 == null)
+                throw new ArgumentNullException("The given SystemId1 must not be null!");
 
-            // Check if mySystemId2 is null
-            if ((Object) mySystemId2 == null)
-                throw new ArgumentNullException("Parameter mySystemId2 must not be null!");
-
-
-            // Check the length of the SystemIds
-            if (mySystemId1.Length < mySystemId2.Length)
-                return true;
-
-            if (mySystemId1.Length > mySystemId2.Length)
-                return false;
-
-            return mySystemId1.CompareTo(mySystemId2) < 0;
+            return SystemId1.CompareTo(SystemId2) < 0;
 
         }
 
         #endregion
 
-        #region Operator >  (mySystemId1, mySystemId2)
+        #region Operator >  (SystemId1, SystemId2)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="mySystemId1">A SystemId.</param>
-        /// <param name="mySystemId2">Another SystemId.</param>
+        /// <param name="SystemId1">A SystemId.</param>
+        /// <param name="SystemId2">Another SystemId.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator > (SystemId mySystemId1, SystemId mySystemId2)
+        public static Boolean operator > (SystemId SystemId1, SystemId SystemId2)
         {
 
-            // Check if mySystemId1 is null
-            if ((Object) mySystemId1 == null)
-                throw new ArgumentNullException("Parameter mySystemId1 must not be null!");
+            if ((Object) SystemId1 == null)
+                throw new ArgumentNullException("The given SystemId1 must not be null!");
 
-            // Check if mySystemId2 is null
-            if ((Object) mySystemId2 == null)
-                throw new ArgumentNullException("Parameter mySystemId2 must not be null!");
-
-
-            // Check the length of the SystemIds
-            if (mySystemId1.Length > mySystemId2.Length)
-                return true;
-
-            if (mySystemId1.Length < mySystemId2.Length)
-                return false;
-
-            return mySystemId1.CompareTo(mySystemId2) > 0;
+            return SystemId1.CompareTo(SystemId2) > 0;
 
         }
 
         #endregion
 
-        #region Operator <= (mySystemId1, mySystemId2)
+        #region Operator <= (SystemId1, SystemId2)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="mySystemId1">A SystemId.</param>
-        /// <param name="mySystemId2">Another SystemId.</param>
+        /// <param name="SystemId1">A SystemId.</param>
+        /// <param name="SystemId2">Another SystemId.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator <= (SystemId mySystemId1, SystemId mySystemId2)
+        public static Boolean operator <= (SystemId SystemId1, SystemId SystemId2)
         {
-            return !(mySystemId1 > mySystemId2);
+            return !(SystemId1 > SystemId2);
         }
 
         #endregion
 
-        #region Operator >= (mySystemId1, mySystemId2)
+        #region Operator >= (SystemId1, SystemId2)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="mySystemId1">A SystemId.</param>
-        /// <param name="mySystemId2">Another SystemId.</param>
+        /// <param name="SystemId1">A SystemId.</param>
+        /// <param name="SystemId2">Another SystemId.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator >= (SystemId mySystemId1, SystemId mySystemId2)
+        public static Boolean operator >= (SystemId SystemId1, SystemId SystemId2)
         {
-            return !(mySystemId1 < mySystemId2);
+            return !(SystemId1 < SystemId2);
         }
 
         #endregion
@@ -294,46 +289,51 @@ namespace de.ahzf.Blueprints
 
         #region IComparable<SystemId> Members
 
-        #region CompareTo(myObject)
+        #region CompareTo(Object)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myObject">An object to compare with.</param>
+        /// <param name="Object">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public new Int32 CompareTo(Object myObject)
+        public Int32 CompareTo(Object Object)
         {
 
-            // Check if myObject is null
-            if (myObject == null)
-                throw new ArgumentNullException("myObject must not be null!");
+            if (Object == null)
+                throw new ArgumentNullException("The given object must not be null!");
 
-            // Check if myObject can be casted to an SystemId object
-            var mySystemId = myObject as SystemId;
-            if ((Object) mySystemId == null)
-                throw new ArgumentException("myObject is not of type SystemId!");
+            // Check if the given object is an SystemId.
+            var SystemId = Object as SystemId;
+            if ((Object) SystemId == null)
+                throw new ArgumentException("The given object is not a SystemId!");
 
-            return CompareTo(mySystemId);
+            return CompareTo(SystemId);
 
         }
 
         #endregion
 
-        #region CompareTo(mySystemId)
+        #region CompareTo(SystemId)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="mySystemId">An object to compare with.</param>
+        /// <param name="SystemId">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public Int32 CompareTo(SystemId mySystemId)
+        public Int32 CompareTo(SystemId SystemId)
         {
 
-            // Check if mySystemId is null
-            if (mySystemId == null)
-                throw new ArgumentNullException("mySystemId must not be null!");
+            if ((Object) SystemId == null)
+                throw new ArgumentNullException("The given SystemId must not be null!");
 
-            return _ElementId.CompareTo(mySystemId._ElementId);
+            // Compare the length of the SystemIds
+            var _Result = this.Length.CompareTo(SystemId.Length);
+
+            // If equal: Compare Ids
+            if (_Result == 0)
+                _Result = _Id.CompareTo(SystemId._Id);
+
+            return _Result;
 
         }
 
@@ -343,46 +343,44 @@ namespace de.ahzf.Blueprints
 
         #region IEquatable<SystemId> Members
 
-        #region Equals(myObject)
+        #region Equals(Object)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myObject">An object to compare with.</param>
+        /// <param name="Object">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public override Boolean Equals(Object myObject)
+        public override Boolean Equals(Object Object)
         {
 
-            // Check if myObject is null
-            if (myObject == null)
-                throw new ArgumentNullException("Parameter myObject must not be null!");
+            if (Object == null)
+                throw new ArgumentNullException("The given object must not be null!");
 
-            // Check if myObject can be cast to SystemId
-            var mySystemId = myObject as SystemId;
-            if ((Object) mySystemId == null)
-                throw new ArgumentException("Parameter myObject could not be casted to type SystemId!");
+            // Check if the given object is an SystemId.
+            var SystemId = Object as SystemId;
+            if ((Object) SystemId == null)
+                throw new ArgumentException("The given object is not a SystemId!");
 
-            return this.Equals(mySystemId);
+            return this.Equals(SystemId);
 
         }
 
         #endregion
 
-        #region Equals(mySystemId)
+        #region Equals(SystemId)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="mySystemId">An object to compare with.</param>
+        /// <param name="SystemId">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public Boolean Equals(SystemId mySystemId)
+        public Boolean Equals(SystemId SystemId)
         {
 
-            // Check if mySystemId is null
-            if (mySystemId == null)
-                throw new ArgumentNullException("Parameter mySystemId must not be null!");
+            if ((Object) SystemId == null)
+                throw new ArgumentNullException("The given SystemId must not be null!");
 
-            return _ElementId.Equals(mySystemId._ElementId);
+            return _Id.Equals(SystemId._Id);
 
         }
 
@@ -398,7 +396,19 @@ namespace de.ahzf.Blueprints
         /// <returns>The HashCode of this object.</returns>
         public override Int32 GetHashCode()
         {
-            return base.GetHashCode();
+            return _Id.GetHashCode();
+        }
+
+        #endregion
+
+        #region ToString()
+
+        /// <summary>
+        /// Return a string represtentation of this object.
+        /// </summary>
+        public override String ToString()
+        {
+            return _Id.ToString();
         }
 
         #endregion

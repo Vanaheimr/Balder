@@ -50,6 +50,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Datastructures\SystemIdTests.cs" />
     <Compile Include="SimplePropertyGraphTests\InitGraph.cs" />
     <Compile Include="SimplePropertyGraphTests\CreateGraphTests.cs" />
     <Compile Include="SimplePropertyGraphTests\CreateVerticesTests.cs" />
