@@ -103,9 +103,9 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                             TKeyEdge                 myRevisonIdKey,
                             Func<TDatastructureEdge> myDataInitializer,
 
-                            Action<IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                                 TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                 TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> myEdgeInitializer = null)
+                            EdgeInitializer<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                            TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                            TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> myEdgeInitializer = null)
             
             : base(myEdgeId, myIdKey, myRevisonIdKey, myDataInitializer)
 
@@ -584,6 +584,18 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         public override Int32 GetHashCode()
         {
             return base.GetHashCode();
+        }
+
+        #endregion
+
+        #region ToString()
+
+        /// <summary>
+        /// Returns a string representation of this object.
+        /// </summary>
+        public override String ToString()
+        {
+            return "PropertyEdge [Id: " + Id.ToString() + ", '" + OutVertex.Id + "' -> '" + InVertex.Id + "']";
         }
 
         #endregion

@@ -345,7 +345,7 @@ namespace de.ahzf.Blueprints
         {
 
             if ((Object) HyperEdgeId == null)
-                throw new ArgumentNullException("The given HyperEdgeId must not be null!");
+                return false;
 
             return _Id.Equals(HyperEdgeId._Id);
 

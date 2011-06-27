@@ -345,7 +345,7 @@ namespace de.ahzf.Blueprints
         {
 
             if ((Object) VertexId == null)
-                throw new ArgumentNullException("The given VertexId must not be null!");
+                return false;
 
             return _Id.Equals(VertexId._Id);
 

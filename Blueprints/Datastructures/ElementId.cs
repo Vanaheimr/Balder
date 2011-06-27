@@ -248,7 +248,7 @@ namespace de.ahzf.Blueprints
         {
 
             if ((Object) ElementId == null)
-                throw new ArgumentNullException("The given ElementId must not be null!");
+                return false;
 
             return _Id.Equals(ElementId._Id);
 

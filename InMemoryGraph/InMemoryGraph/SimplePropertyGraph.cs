@@ -90,13 +90,13 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// Created a new in-memory property graph.
         /// </summary>
         public SimplePropertyGraph(TId                       GraphId,
-                                     TKey                      IdKey,
-                                     IdCreatorDelegate         IdCreatorDelegate,
-                                     TKey                      RevisionIdKey,
-                                     RevisionIdCreatorDelegate RevisionIdCreatorDelegate,
-                                     Action<IPropertyGraph<TId, TRevisionId,         TKey, TValue,
-                                                           TId, TRevisionId, TLabel, TKey, TValue,
-                                                           TId, TRevisionId, TLabel, TKey, TValue>> GraphInitializer = null)
+                                   TKey                      IdKey,
+                                   IdCreatorDelegate         IdCreatorDelegate,
+                                   TKey                      RevisionIdKey,
+                                   RevisionIdCreatorDelegate RevisionIdCreatorDelegate,
+                                   GraphInitializer<TId, TRevisionId,         TKey, TValue,
+                                                    TId, TRevisionId, TLabel, TKey, TValue,
+                                                    TId, TRevisionId, TLabel, TKey, TValue> GraphInitializer = null)
             : base (GraphId,
                     IdKey,
                     RevisionIdKey,
@@ -104,7 +104,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
                     // Create a new Vertex
                     () => IdCreatorDelegate(),
-                    (VertexId, VertexPropertyInitializer) =>
+                    (VertexId, VertexInitializer) =>
                         new PropertyVertex<TId, TRevisionId,         TKey, TValue, IDictionary<TKey, TValue>,
                                            TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
                                            TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
@@ -116,7 +116,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                              () => new HashSet<IPropertyEdge<TId, TRevisionId,         TKey, TValue,
                                                              TId, TRevisionId, TLabel, TKey, TValue,
                                                              TId, TRevisionId, TLabel, TKey, TValue>>(),
-                             VertexPropertyInitializer
+                             VertexInitializer
                             ),
 
                    // Create a new Edge
@@ -191,9 +191,9 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// Created a new simple in-memory property graph.
         /// </summary>
         /// <param name="GraphInitializer">A delegate to initialize the graph.</param>
-        public SimplePropertyGraph(Action<IPropertyGraph<UInt64, Int64,         String, Object,
-                                                         UInt64, Int64, String, String, Object,
-                                                         UInt64, Int64, String, String, Object>> GraphInitializer = null)
+        public SimplePropertyGraph(GraphInitializer<UInt64, Int64,         String, Object,
+                                                    UInt64, Int64, String, String, Object,
+                                                    UInt64, Int64, String, String, Object> GraphInitializer = null)
             : this(SimplePropertyGraph.NewId, GraphInitializer)
         { }
 
@@ -207,9 +207,9 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="GraphId">A unique identification for this graph.</param>
         /// <param name="GraphInitializer">A delegate to initialize the graph.</param>
         public SimplePropertyGraph(UInt64 GraphId,
-                                   Action<IPropertyGraph<UInt64, Int64,         String, Object,
-                                                         UInt64, Int64, String, String, Object,
-                                                         UInt64, Int64, String, String, Object>> GraphInitializer = null)
+                                   GraphInitializer<UInt64, Int64,         String, Object,
+                                                    UInt64, Int64, String, String, Object,
+                                                    UInt64, Int64, String, String, Object> GraphInitializer = null)
             : base (GraphId,
 
                     // TId key

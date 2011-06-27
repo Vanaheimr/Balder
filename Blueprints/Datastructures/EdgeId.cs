@@ -345,7 +345,7 @@ namespace de.ahzf.Blueprints
         {
 
             if ((Object) EdgeId == null)
-                throw new ArgumentNullException("The given EdgeId must not be null!");
+                return false;
 
             return _Id.Equals(EdgeId._Id);
 

@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\QuadStore\IQuadStoreExtensions.cs" />
+    <Compile Include="Interfaces\PropertyGraph\Delegates.cs" />
     <Compile Include="Interfaces\QuadStore\Delegates.cs" />
     <Compile Include="Datastructures\HyperEdgeId.cs" />
     <Compile Include="Datastructures\SemanticProperty.cs" />

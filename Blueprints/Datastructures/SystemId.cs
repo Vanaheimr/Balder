@@ -378,7 +378,7 @@ namespace de.ahzf.Blueprints
         {
 
             if ((Object) SystemId == null)
-                throw new ArgumentNullException("The given SystemId must not be null!");
+                return false;
 
             return _Id.Equals(SystemId._Id);
 
