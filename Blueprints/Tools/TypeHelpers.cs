@@ -18,6 +18,8 @@
 #region Usings
 
 using System;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 
 #endregion
 
@@ -26,6 +28,17 @@ namespace de.ahzf.Blueprints.Tools
 
     public class TypeHelpers
     {
+
+		private const TypeAttributes AnonymousTypeAttributes = TypeAttributes.NotPublic;
+
+		public static bool IsAnonymousType(Type t)
+		{
+			return t.GetCustomAttributes(typeof (CompilerGeneratedAttribute), false).Length == 1
+			       && t.IsGenericType
+			       && t.Name.Contains("AnonymousType")
+			       && (t.Name.StartsWith("<>") || t.Name.StartsWith("VB$"))
+			       && (t.Attributes & AnonymousTypeAttributes) == AnonymousTypeAttributes;
+		}
 
         #region IsNumeric(myType)
 
