@@ -86,31 +86,31 @@ namespace de.ahzf.Blueprints.PropertyGraph
         /// Assign a key/value property to the element.
         /// If a value already exists for this key, then the previous key/value is overwritten.
         /// </summary>
-        /// <param name="myKey">A property key.</param>
-        /// <param name="myValue">A property value.</param>
-        IProperties<TKey, TValue> SetProperty(TKey myKey, TValue myValue);
+        /// <param name="Key">A property key.</param>
+        /// <param name="Value">A property value.</param>
+        IProperties<TKey, TValue> SetProperty(TKey Key, TValue Value);
 
 
         /// <summary>
         /// Checks if the given property key is assigned.
         /// </summary>
-        /// <param name="myKey">A property key.</param>
-        Boolean Contains(TKey myKey);
+        /// <param name="Key">A property key.</param>
+        Boolean Contains(TKey Key);
 
 
         /// <summary>
         /// Checks if the given key/value pair is assigned.
         /// </summary>
-        /// <param name="myKey">A property key.</param>
-        /// <param name="myValue">A property value.</param>
-        Boolean Contains(TKey myKey, TValue myValue);
+        /// <param name="Key">A property key.</param>
+        /// <param name="Value">A property value.</param>
+        Boolean Contains(TKey Key, TValue Value);
 
 
         /// <summary>
         /// Checks if the given key/value pair is assigned.
         /// </summary>
-        /// <param name="myKeyValuePair">A KeyValuePair.</param>
-        Boolean Contains(KeyValuePair<TKey, TValue> myKeyValuePair);
+        /// <param name="KeyValuePair">A KeyValuePair.</param>
+        Boolean Contains(KeyValuePair<TKey, TValue> KeyValuePair);
 
 
         /// <summary>
@@ -124,26 +124,26 @@ namespace de.ahzf.Blueprints.PropertyGraph
         /// <summary>
         /// Try to return the property value associated with the given property key.
         /// </summary>
-        /// <param name="myKey">The key of the key/value property.</param>
-        /// <param name="myValue">The value of the key/value property.</param>
+        /// <param name="Key">The key of the key/value property.</param>
+        /// <param name="Value">The value of the key/value property.</param>
         /// <returns>True if the returned value is valid.</returns>
-        Boolean TryGetProperty(TKey myKey, out TValue myValue);
+        Boolean TryGetProperty(TKey Key, out TValue Value);
 
 
         /// <summary>
         /// Allows to return a filtered enumeration of all properties.
         /// </summary>
-        /// <param name="myPropertyFilter">A function to filter a property based on its key and value.</param>
+        /// <param name="PropertyFilter">A function to filter a property based on its key and value.</param>
         /// <returns>A enumeration of all key/value pairs matching the given property filter.</returns>
-        IEnumerable<KeyValuePair<TKey, TValue>> GetProperties(Func<TKey, TValue, Boolean> myPropertyFilter = null);
+        IEnumerable<KeyValuePair<TKey, TValue>> GetProperties(PropertyFilter<TKey, TValue> PropertyFilter = null);
 
 
         /// <summary>
         /// Removes a key/value property from the element.
         /// </summary>
-        /// <param name="myKey">The key of the property to remove.</param>
+        /// <param name="Key">The key of the property to remove.</param>
         /// <returns>The property value associated with that key prior to removal.</returns>
-        TValue RemoveProperty(TKey myKey);
+        TValue RemoveProperty(TKey Key);
 
 
         /// <summary>

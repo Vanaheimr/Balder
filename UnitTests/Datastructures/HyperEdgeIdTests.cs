@@ -1066,12 +1066,11 @@ namespace de.ahzf.Blueprints.UnitTests
         /// A test for equals null.
         /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void EqualsNullTest2()
         {
             var      _HyperEdgeId = HyperEdgeId.NewHyperEdgeId;
             HyperEdgeId _Object   = null;
-            _HyperEdgeId.Equals(_Object);
+            Assert.IsFalse(_HyperEdgeId.Equals(_Object));
         }
 
         #endregion

@@ -26,6 +26,7 @@ using de.ahzf.Blueprints;
 using de.ahzf.Blueprints.UnitTests;
 using de.ahzf.Blueprints.PropertyGraph;
 using de.ahzf.Blueprints.Tools;
+using de.ahzf.Blueprints.PropertyGraph.InMemory;
 
 #endregion
 
@@ -144,9 +145,7 @@ namespace SocialGraphDemo
         /// <param name="myArgs">The command line arguments.</param>
         public static void Main(String[] myArgs)
         {
-
-            var a = DemoGraphFactory.CreateDemoGraph();
-
+            
             // Create SocialGraph, if not existant!
             if (!File.Exists(_FileName))
                 GenerateSocialGraph();

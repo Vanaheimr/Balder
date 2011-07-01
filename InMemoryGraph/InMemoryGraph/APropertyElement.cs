@@ -77,6 +77,21 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #endregion
 
+        #region IdKey
+
+        /// <summary>
+        /// The property key of the identification.
+        /// </summary>
+        public TKey IdKey
+        {
+            get
+            {
+                return _IdKey;
+            }
+        }
+
+        #endregion
+
         #region RevisionId
 
         /// <summary>
@@ -119,111 +134,111 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         #endregion
 
 
-        #region SetProperty(myKey, myValue)
+        #region SetProperty(Key, Value)
 
         /// <summary>
         /// Set a property.
         /// </summary>
-        /// <param name="myKey">The property key.</param>
-        /// <param name="myValue">The property value.</param>
-        public IProperties<TKey, TValue> SetProperty(TKey myKey, TValue myValue)
+        /// <param name="Key">The property key.</param>
+        /// <param name="Value">The property value.</param>
+        public IProperties<TKey, TValue> SetProperty(TKey Key, TValue Value)
         {
-            return _Data.SetProperty(myKey, myValue);
+            return _Data.SetProperty(Key, Value);
         }
 
         #endregion
 
-        #region Contains(myKey)
+        #region Contains(Key)
 
         /// <summary>
         /// Checks if the given property key is assigned.
         /// </summary>
-        /// <param name="myKey">A property key.</param>
-        public Boolean Contains(TKey myKey)
+        /// <param name="Key">A property key.</param>
+        public Boolean Contains(TKey Key)
         {
-            return _Data.Contains(myKey);
+            return _Data.Contains(Key);
         }
 
         #endregion
 
-        #region Contains(myKey, myValue)
+        #region Contains(Key, Value)
 
         /// <summary>
         /// Checks if the given key/value pair is assigned.
         /// </summary>
-        /// <param name="myKey">A property key.</param>
-        /// <param name="myValue">A property value.</param>
-        public Boolean Contains(TKey myKey, TValue myValue)
+        /// <param name="Key">A property key.</param>
+        /// <param name="Value">A property value.</param>
+        public Boolean Contains(TKey Key, TValue Value)
         {
-            return _Data.Contains(myKey, myValue);
+            return _Data.Contains(Key, Value);
         }
 
         #endregion
 
-        #region Contains(myKeyValuePair)
+        #region Contains(KeyValuePair)
 
         /// <summary>
         /// Checks if the given key/value pair is assigned.
         /// </summary>
-        /// <param name="myKeyValuePair">A KeyValuePair.</param>
-        public Boolean Contains(KeyValuePair<TKey, TValue> myKeyValuePair)
+        /// <param name="KeyValuePair">A KeyValuePair.</param>
+        public Boolean Contains(KeyValuePair<TKey, TValue> KeyValuePair)
         {
-            return _Data.Contains(myKeyValuePair);
+            return _Data.Contains(KeyValuePair);
         }
 
         #endregion
 
-        #region GetProperty(myKey)
+        #region GetProperty(Key)
 
         /// <summary>
         /// Returns the value stored using the given property key.
         /// </summary>
-        /// <param name="myKey">A property key.</param>
-        public TValue GetProperty(TKey myKey)
+        /// <param name="Key">A property key.</param>
+        public TValue GetProperty(TKey Key)
         {
-            return _Data.GetProperty(myKey);
+            return _Data.GetProperty(Key);
         }
 
         #endregion
 
-        #region TryGetProperty(myKey, out myValue)
+        #region TryGetProperty(Key, out Value)
 
         /// <summary>
         /// Tries to get the value of the given property key.
         /// </summary>
-        /// <param name="myKey">The property key.</param>
-        /// <param name="myValue">The property value.</param>
+        /// <param name="Key">The property key.</param>
+        /// <param name="Value">The property value.</param>
         /// <returns>True of success; else false.</returns>
-        public Boolean TryGetProperty(TKey myKey, out TValue myValue)
+        public Boolean TryGetProperty(TKey Key, out TValue Value)
         {
-            return _Data.TryGetProperty(myKey, out myValue);
+            return _Data.TryGetProperty(Key, out Value);
         }
 
         #endregion
 
-        #region GetProperties(myPropertyFilter = null)
+        #region GetProperties(PropertyFilter = null)
 
         /// <summary>
         /// Return an enumeration of all key-value pairs stored.
         /// </summary>
-        /// <param name="myPropertyFilter">An optional property filter.</param>
-        public IEnumerable<KeyValuePair<TKey, TValue>> GetProperties(Func<TKey, TValue, Boolean> myPropertyFilter = null)
+        /// <param name="PropertyFilter">An optional property filter.</param>
+        public IEnumerable<KeyValuePair<TKey, TValue>> GetProperties(PropertyFilter<TKey, TValue> PropertyFilter = null)
         {
-            return _Data.GetProperties(myPropertyFilter);
+            return _Data.GetProperties(PropertyFilter);
         }
 
         #endregion
 
-        #region RemoveProperty(myKey)
+        #region RemoveProperty(Key)
 
         /// <summary>
         /// Remove the given property key.
         /// </summary>
-        /// <param name="myKey">The property key.</param>
+        /// <param name="Key">The property key.</param>
         /// <returns>The last value stored before removing it.</returns>
-        public TValue RemoveProperty(TKey myKey)
+        public TValue RemoveProperty(TKey Key)
         {
-            return _Data.RemoveProperty(myKey);
+            return _Data.RemoveProperty(Key);
         }
 
         #endregion

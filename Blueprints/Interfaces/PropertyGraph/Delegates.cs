@@ -359,4 +359,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
 
     #endregion
 
+
+    public delegate Boolean PropertyFilter<in TKey, in TValue>(TKey Key, TValue Value);
+
 }

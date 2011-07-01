@@ -87,7 +87,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="VertexId">The identification of this vertex.</param>
         /// <param name="IdKey">The key to access the Id of this vertex.</param>
         /// <param name="RevisonIdKey">The key to access the RevisionId of this vertex.</param>
-        /// <param name="DataInitializer">A func to initialize the datastructure of this vertex.</param></param>
+        /// <param name="DataInitializer">A func to initialize the datastructure of this vertex.</param>
         /// <param name="EdgeCollectionInitializer">A func to initialize the datastructure for storing all edges.</param>
         /// <param name="VertexInitializer">A delegate to initialize the newly created vertex.</param>
         public PropertyVertex(TIdVertex                    VertexId,
@@ -594,60 +594,68 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #region IEquatable<TIdVertex> Members
 
-        #region Equals(myObject)
+        #region Equals(Object)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myObject">An object to compare with.</param>
+        /// <param name="Object">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public override Boolean Equals(Object myObject)
+        public override Boolean Equals(Object Object)
         {
 
-            if (myObject == null)
+            if (Object == null)
                 return false;
 
-            return Equals((TIdVertex) myObject);
+            // Check if the given object is an PropertyVertex.
+            var PropertyVertex = Object as PropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,    TDatastructureVertex,
+                                                          TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
+                                                          TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
+                                                          TEdgeCollection>;
+            if ((Object) PropertyVertex == null)
+                throw new ArgumentException("The given object is not a PropertyVertex<...>!");
+
+            return this.Equals(PropertyVertex);
 
         }
 
         #endregion
 
-        #region Equals(myVertexId)
+        #region Equals(VertexId)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myVertexId">An object to compare with.</param>
+        /// <param name="VertexId">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public Boolean Equals(TIdVertex myVertexId)
+        public Boolean Equals(TIdVertex VertexId)
         {
 
-            if ((Object) myVertexId == null)
+            if ((Object) VertexId == null)
                 return false;
 
             //TODO: Here it might be good to check all attributes of the UNIQUE constraint!
-            return Id.Equals(myVertexId);
+            return Id.Equals(VertexId);
 
         }
 
         #endregion
 
-        #region Equals(myIPropertyElement)
+        #region Equals(IPropertyElement)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myIPropertyElement">An object to compare with.</param>
+        /// <param name="IPropertyElement">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public Boolean Equals(IPropertyElement<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex> myIPropertyElement)
+        public Boolean Equals(IPropertyElement<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex> IPropertyElement)
         {
 
-            if ((Object) myIPropertyElement == null)
+            if ((Object) IPropertyElement == null)
                 return false;
 
             //TODO: Here it might be good to check all attributes of the UNIQUE constraint!
-            return Id.Equals(myIPropertyElement.Properties.GetProperty(_IdKey));
+            return Id.Equals(IPropertyElement.Properties.GetProperty(_IdKey));
 
         }
 

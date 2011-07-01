@@ -78,50 +78,49 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #region Constructor(s)
 
-        #region PropertyHyperEdge(myIGraph, myEdges, myHyperEdgeId, myLabel, myIdKey, myRevisonIdKey, myDataInitializer, myEdgesCollectionInitializer, myHyperEdgeInitializer = null)
+        #region PropertyHyperEdge(IGraph, Edges, HyperEdgeId, Label, IdKey, RevisonIdKey, DataInitializer, EdgesCollectionInitializer, HyperEdgeInitializer = null)
 
         /// <summary>
         /// Creates a new edge.
         /// </summary>
-        /// <param name="myIGraph">The associated graph.</param>
-        /// <param name="myOutVertex">The vertex at the tail of the edge.</param>
-        /// <param name="myInVertex">The vertex at the head of the edge.</param>
-        /// <param name="myEdgeId">The identification of this edge.</param>
-        /// <param name="myLabel">A label stored within this edge.</param>
-        /// <param name="myEdgeInitializer">A delegate to initialize the newly created edge.</param>
+        /// <param name="IGraph">The associated graph.</param>
+        /// <param name="Edges">An enumeration of edges.</param>
+        /// <param name="HyperEdgeId">The identification of this edge.</param>
+        /// <param name="Label">A label stored within this edge.</param>
+        /// <param name="HyperEdgeInitializer">A delegate to initialize the newly created edge.</param>
         public PropertyHyperEdge(IEnumerable<IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                            TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                            TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
-                                                           myEdges,
+                                                           Edges,
 
-                                 TIdHyperEdge                  myHyperEdgeId,
-                                 THyperEdgeLabel               myLabel,
-                                 TKeyHyperEdge                 myIdKey,
-                                 TKeyHyperEdge                 myRevisonIdKey,
-                                 Func<TDatastructureHyperEdge> myDataInitializer,
-                                 Func<TEdgesCollection>        myEdgesCollectionInitializer,
+                                 TIdHyperEdge                  HyperEdgeId,
+                                 THyperEdgeLabel               Label,
+                                 TKeyHyperEdge                 IdKey,
+                                 TKeyHyperEdge                 RevisonIdKey,
+                                 Func<TDatastructureHyperEdge> DataInitializer,
+                                 Func<TEdgesCollection>        EdgesCollectionInitializer,
 
                                  Action<IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                            TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                           TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> myHyperEdgeInitializer = null)
+                                                           TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> HyperEdgeInitializer = null)
 
-            : base(myHyperEdgeId, myIdKey, myRevisonIdKey, myDataInitializer)
+            : base(HyperEdgeId, IdKey, RevisonIdKey, DataInitializer)
 
         {
 
-            if (myEdges == null)
+            if (Edges == null)
                 throw new ArgumentNullException("The Edges must not be null!");
 
-            _Edges = myEdgesCollectionInitializer();
+            _Edges = EdgesCollectionInitializer();
 
-            foreach (var _Edge in myEdges)
+            foreach (var _Edge in Edges)
                 _Edges.Add(_Edge);
 
             // Add the label
             //_Properties.Add(__Label, myLabel);
 
-            if (myHyperEdgeInitializer != null)
-                myHyperEdgeInitializer(this);
+            if (HyperEdgeInitializer != null)
+                HyperEdgeInitializer(this);
 
         }
 
@@ -525,60 +524,68 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #region IEquatable<TIdHyperEdge> Members
 
-        #region Equals(myObject)
+        #region Equals(Object)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myObject">An object to compare with.</param>
+        /// <param name="Object">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public override Boolean Equals(Object myObject)
+        public override Boolean Equals(Object Object)
         {
 
-            if (myObject == null)
+            if (Object == null)
                 return false;
 
-            return Equals((TIdHyperEdge) myObject);
+            // Check if the given object is an PropertyHyperEdge.
+            var PropertyHyperEdge = Object as PropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,    TDatastructureVertex,
+                                                                TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
+                                                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
+                                                                TEdgesCollection>;
+            if ((Object) PropertyHyperEdge == null)
+                throw new ArgumentException("The given object is not a PropertyHyperEdge<...>!");
+
+            return this.Equals(PropertyHyperEdge);
 
         }
 
         #endregion
 
-        #region Equals(myHyperEdgeId)
+        #region Equals(HyperEdgeId)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myHyperEdgeId">An object to compare with.</param>
+        /// <param name="HyperEdgeId">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public Boolean Equals(TIdHyperEdge myHyperEdgeId)
+        public Boolean Equals(TIdHyperEdge HyperEdgeId)
         {
 
-            if ((Object) myHyperEdgeId == null)
+            if ((Object) HyperEdgeId == null)
                 return false;
 
             //TODO: Here it might be good to check all attributes of the UNIQUE constraint!
-            return Id.Equals(myHyperEdgeId);
+            return Id.Equals(HyperEdgeId);
 
         }
 
         #endregion
 
-        #region Equals(myIPropertyElement)
+        #region Equals(IPropertyElement)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myIPropertyElement">An object to compare with.</param>
+        /// <param name="IPropertyElement">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public Boolean Equals(IPropertyElement<TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge> myIPropertyElement)
+        public Boolean Equals(IPropertyElement<TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge> IPropertyElement)
         {
 
-            if ((Object) myIPropertyElement == null)
+            if ((Object) IPropertyElement == null)
                 return false;
 
             //TODO: Here it might be good to check all attributes of the UNIQUE constraint!
-            return Id.Equals(myIPropertyElement.Properties.GetProperty(_IdKey));
+            return Id.Equals(IPropertyElement.Properties.GetProperty(_IdKey));
 
         }
 

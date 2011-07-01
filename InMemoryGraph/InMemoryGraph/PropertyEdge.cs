@@ -73,58 +73,58 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #region Constructor(s)
 
-        #region PropertyEdge(myIGraph, myOutVertex, myInVertex, myEdgeId, myEdgeInitializer = null)
+        #region PropertyEdge(IGraph, OutVertex, InVertex, EdgeId, EdgeInitializer = null)
 
         /// <summary>
         /// Creates a new edge.
         /// </summary>
-        /// <param name="myIGraph">The associated graph.</param>
-        /// <param name="myOutVertex">The vertex at the tail of the edge.</param>
-        /// <param name="myInVertex">The vertex at the head of the edge.</param>
-        /// <param name="myEdgeId">The identification of this edge.</param>
-        /// <param name="myLabel">A label stored within this edge.</param>
-        /// <param name="myIdKey">The key of the edge identifier.</param>
-        /// <param name="myRevisonIdKey">The key of the edge revision identifier.</param>
-        /// <param name="myDataInitializer">A func to initialize the properties datastructure.</param>
-        /// <param name="myEdgeInitializer">A delegate to initialize the newly created edge.</param>
+        /// <param name="IGraph">The associated graph.</param>
+        /// <param name="OutVertex">The vertex at the tail of the edge.</param>
+        /// <param name="InVertex">The vertex at the head of the edge.</param>
+        /// <param name="EdgeId">The identification of this edge.</param>
+        /// <param name="Label">A label stored within this edge.</param>
+        /// <param name="IdKey">The key of the edge identifier.</param>
+        /// <param name="RevisonIdKey">The key of the edge revision identifier.</param>
+        /// <param name="DataInitializer">A func to initialize the properties datastructure.</param>
+        /// <param name="EdgeInitializer">A delegate to initialize the newly created edge.</param>
         public PropertyEdge(IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                             TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
-                                            myOutVertex,
+                                            OutVertex,
 
                             IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                             TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
-                                            myInVertex,
+                                            InVertex,
 
-                            TIdEdge                  myEdgeId,
-                            TEdgeLabel               myLabel,
-                            TKeyEdge                 myIdKey,
-                            TKeyEdge                 myRevisonIdKey,
-                            Func<TDatastructureEdge> myDataInitializer,
+                            TIdEdge                  EdgeId,
+                            TEdgeLabel               Label,
+                            TKeyEdge                 IdKey,
+                            TKeyEdge                 RevisonIdKey,
+                            Func<TDatastructureEdge> DataInitializer,
 
                             EdgeInitializer<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                             TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                            TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> myEdgeInitializer = null)
+                                            TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeInitializer = null)
             
-            : base(myEdgeId, myIdKey, myRevisonIdKey, myDataInitializer)
+            : base(EdgeId, IdKey, RevisonIdKey, DataInitializer)
 
         {
 
-            if (myOutVertex == null)
-                throw new ArgumentNullException("The OutVertex must not be null!");
+            if (OutVertex == null)
+                throw new ArgumentNullException("The given OutVertex must not be null!");
 
-            if (myInVertex == null)
-                throw new ArgumentNullException("The InVertex must not be null!");
+            if (InVertex == null)
+                throw new ArgumentNullException("The given InVertex must not be null!");
 
-            _OutVertex    = myOutVertex;
-            _InVertex     = myInVertex;
+            this._OutVertex = OutVertex;
+            this._InVertex  = InVertex;
 
             // Add the label
-            Label         = myLabel;
+            this.Label      = Label;
 
-            if (myEdgeInitializer != null)
-                myEdgeInitializer(this);
+            if (EdgeInitializer != null)
+                EdgeInitializer(this);
 
         }
 
@@ -514,60 +514,67 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #region IEquatable<TIdEdge> Members
 
-        #region Equals(myObject)
+        #region Equals(Object)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myObject">An object to compare with.</param>
+        /// <param name="Object">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public override Boolean Equals(Object myObject)
+        public override Boolean Equals(Object Object)
         {
 
-            if (myObject == null)
+            if (Object == null)
                 return false;
 
-            return Equals((TIdEdge) myObject);
+            // Check if the given object is an PropertyEdge.
+            var PropertyEdge = Object as PropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,    TDatastructureVertex,
+                                                      TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
+                                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>;
+            if ((Object) PropertyEdge == null)
+                throw new ArgumentException("The given object is not a PropertyEdge<...>!");
+
+            return this.Equals(PropertyEdge);
 
         }
 
         #endregion
 
-        #region Equals(myEdgeId)
+        #region Equals(EdgeId)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myEdgeId">An object to compare with.</param>
+        /// <param name="EdgeId">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public Boolean Equals(TIdEdge myEdgeId)
+        public Boolean Equals(TIdEdge EdgeId)
         {
 
-            if ((Object) myEdgeId == null)
+            if ((Object) EdgeId == null)
                 return false;
 
             //TODO: Here it might be good to check all attributes of the UNIQUE constraint!
-            return Id.Equals(myEdgeId);
+            return Id.Equals(EdgeId);
 
         }
 
         #endregion
 
-        #region Equals(myIPropertyElement)
+        #region Equals(IPropertyElement)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myIPropertyElement">An object to compare with.</param>
+        /// <param name="IPropertyElement">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public Boolean Equals(IPropertyElement<TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge> myIPropertyElement)
+        public Boolean Equals(IPropertyElement<TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge> IPropertyElement)
         {
 
-            if ((Object) myIPropertyElement == null)
+            if ((Object) IPropertyElement == null)
                 return false;
 
             //TODO: Here it might be good to check all attributes of the UNIQUE constraint!
-            return Id.Equals(myIPropertyElement.Properties.GetProperty(_IdKey));
+            return Id.Equals(IPropertyElement.Properties.GetProperty(_IdKey));
 
         }
 

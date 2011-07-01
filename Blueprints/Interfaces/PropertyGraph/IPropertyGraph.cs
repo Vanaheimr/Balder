@@ -180,11 +180,12 @@ namespace de.ahzf.Blueprints.PropertyGraph
         #region Edge methods
 
         /// <summary>
-        /// Add an edge to the graph. The added edges requires a recommended identifier, a tail vertex, an head vertex, and a label.
-        /// Like adding a vertex, the provided object identifier is can be ignored by the implementation.
+        /// Add an edge to the graph. The added edge requires a tail vertex,
+        /// a head vertex, an identifier, a label and initializes the edge
+        /// by invoking the given EdgeInitializer.
         /// </summary>
-        /// <param name="myOutVertex">The vertex on the tail of the edge.</param>
-        /// <param name="myInVertex">The vertex on the head of the edge.</param>
+        /// <param name="OutVertex">The vertex on the tail of the edge.</param>
+        /// <param name="InVertex">The vertex on the head of the edge.</param>
         /// <param name="EdgeId">The recommended object identifier.</param>
         /// <param name="Label">The label associated with the edge.</param>
         /// <param name="EdgeInitializer">A delegate to initialize the new edge.</param>
@@ -195,11 +196,11 @@ namespace de.ahzf.Blueprints.PropertyGraph
 
                       AddEdge(IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                               TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> myOutVertex,
+                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OutVertex,
 
                               IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                               TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> myInVertex,
+                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> InVertex,
 
                               TIdEdge    EdgeId = default(TIdEdge),
                               TEdgeLabel Label  = default(TEdgeLabel),
