@@ -570,11 +570,12 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #region Edge methods
 
-        #region AddEdge(OutVertex, InVertex, EdgeId = null, Label = null, EdgePropertyInitializer = null)
+        #region AddEdge(OutVertex, InVertex, EdgeId = default, Label = default, EdgeInitializer = null)
 
         /// <summary>
-        /// Adds an edge to the graph using the given myEdgeId and initializes
-        /// its properties by invoking the given edge initializer.
+        /// Add an edge to the graph. The added edge requires a tail vertex,
+        /// a head vertex, an identifier, a label and initializes the edge
+        /// by invoking the given EdgeInitializer.
         /// </summary>
         /// <param name="OutVertex"></param>
         /// <param name="InVertex"></param>

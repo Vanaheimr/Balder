@@ -1066,12 +1066,11 @@ namespace de.ahzf.Blueprints.UnitTests
         /// A test for equals null.
         /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void EqualsNullTest2()
         {
             var      _VertexId = VertexId.NewVertexId;
             VertexId _Object   = null;
-            _VertexId.Equals(_Object);
+            Assert.IsFalse(_VertexId.Equals(_Object));
         }
 
         #endregion

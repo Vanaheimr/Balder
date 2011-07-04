@@ -49,6 +49,11 @@ namespace de.ahzf.Blueprints.PropertyGraph
     {
 
         /// <summary>
+        /// The property key of the identification.
+        /// </summary>
+        TKey IdKey { get; }
+
+        /// <summary>
         /// Return the element properties (its embedded data).
         /// </summary>
         IProperties<TKey, TValue> Properties { get; }

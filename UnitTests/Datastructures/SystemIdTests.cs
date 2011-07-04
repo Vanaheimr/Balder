@@ -1066,12 +1066,11 @@ namespace de.ahzf.Blueprints.UnitTests
         /// A test for equals null.
         /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void EqualsNullTest2()
         {
             var      _SystemId = SystemId.NewSystemId;
             SystemId _Object   = null;
-            _SystemId.Equals(_Object);
+            Assert.IsFalse(_SystemId.Equals(_Object));
         }
 
         #endregion

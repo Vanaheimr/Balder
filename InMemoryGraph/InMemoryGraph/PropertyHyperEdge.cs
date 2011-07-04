@@ -78,50 +78,49 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #region Constructor(s)
 
-        #region PropertyHyperEdge(myIGraph, myEdges, myHyperEdgeId, myLabel, myIdKey, myRevisonIdKey, myDataInitializer, myEdgesCollectionInitializer, myHyperEdgeInitializer = null)
+        #region PropertyHyperEdge(IGraph, Edges, HyperEdgeId, Label, IdKey, RevisonIdKey, DataInitializer, EdgesCollectionInitializer, HyperEdgeInitializer = null)
 
         /// <summary>
         /// Creates a new edge.
         /// </summary>
-        /// <param name="myIGraph">The associated graph.</param>
-        /// <param name="myOutVertex">The vertex at the tail of the edge.</param>
-        /// <param name="myInVertex">The vertex at the head of the edge.</param>
-        /// <param name="myEdgeId">The identification of this edge.</param>
-        /// <param name="myLabel">A label stored within this edge.</param>
-        /// <param name="myEdgeInitializer">A delegate to initialize the newly created edge.</param>
+        /// <param name="IGraph">The associated graph.</param>
+        /// <param name="Edges">An enumeration of edges.</param>
+        /// <param name="HyperEdgeId">The identification of this edge.</param>
+        /// <param name="Label">A label stored within this edge.</param>
+        /// <param name="HyperEdgeInitializer">A delegate to initialize the newly created edge.</param>
         public PropertyHyperEdge(IEnumerable<IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                            TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                            TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
-                                                           myEdges,
+                                                           Edges,
 
-                                 TIdHyperEdge                  myHyperEdgeId,
-                                 THyperEdgeLabel               myLabel,
-                                 TKeyHyperEdge                 myIdKey,
-                                 TKeyHyperEdge                 myRevisonIdKey,
-                                 Func<TDatastructureHyperEdge> myDataInitializer,
-                                 Func<TEdgesCollection>        myEdgesCollectionInitializer,
+                                 TIdHyperEdge                  HyperEdgeId,
+                                 THyperEdgeLabel               Label,
+                                 TKeyHyperEdge                 IdKey,
+                                 TKeyHyperEdge                 RevisonIdKey,
+                                 Func<TDatastructureHyperEdge> DataInitializer,
+                                 Func<TEdgesCollection>        EdgesCollectionInitializer,
 
                                  Action<IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                            TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                           TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> myHyperEdgeInitializer = null)
+                                                           TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> HyperEdgeInitializer = null)
 
-            : base(myHyperEdgeId, myIdKey, myRevisonIdKey, myDataInitializer)
+            : base(HyperEdgeId, IdKey, RevisonIdKey, DataInitializer)
 
         {
 
-            if (myEdges == null)
+            if (Edges == null)
                 throw new ArgumentNullException("The Edges must not be null!");
 
-            _Edges = myEdgesCollectionInitializer();
+            _Edges = EdgesCollectionInitializer();
 
-            foreach (var _Edge in myEdges)
+            foreach (var _Edge in Edges)
                 _Edges.Add(_Edge);
 
             // Add the label
             //_Properties.Add(__Label, myLabel);
 
-            if (myHyperEdgeInitializer != null)
-                myHyperEdgeInitializer(this);
+            if (HyperEdgeInitializer != null)
+                HyperEdgeInitializer(this);
 
         }
 
@@ -653,3 +652,5 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
     }
 
 }
+
+

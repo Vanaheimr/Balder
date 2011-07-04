@@ -87,7 +87,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="VertexId">The identification of this vertex.</param>
         /// <param name="IdKey">The key to access the Id of this vertex.</param>
         /// <param name="RevisonIdKey">The key to access the RevisionId of this vertex.</param>
-        /// <param name="DataInitializer">A func to initialize the datastructure of this vertex.</param></param>
+        /// <param name="DataInitializer">A func to initialize the datastructure of this vertex.</param>
         /// <param name="EdgeCollectionInitializer">A func to initialize the datastructure for storing all edges.</param>
         /// <param name="VertexInitializer">A delegate to initialize the newly created vertex.</param>
         public PropertyVertex(TIdVertex                    VertexId,
@@ -678,12 +678,12 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #endregion
 
-        #region Equals(IPropertyElement)
+        #region Equals(IPropertyVertex)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="IPropertyElement">An object to compare with.</param>
+        /// <param name="IPropertyVertex">An object to compare with.</param>
         /// <returns>true|false</returns>
         public Boolean Equals(IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                               TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
