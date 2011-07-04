@@ -31,7 +31,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
     /// The key/value pairs that are automatically monitored are element properties and their values.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface AutomaticIndex<T> : IIndex<T>
+    public interface AutomaticIndex<T> //: IIndex<T>
 //        where T : IElement
     {
 

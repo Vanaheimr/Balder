@@ -361,7 +361,6 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #endregion
 
-
         #region IDynamicGraphObject<PropertyEdge> Members
 
         #region GetMetaObject(myExpression)
@@ -448,63 +447,88 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #endregion
 
-        #region IComparable<TIdEdge> Members
+        #region IComparable Members
 
-        #region CompareTo(myObject)
+        #region CompareTo(Object)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myObject">An object to compare with.</param>
+        /// <param name="Object">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public Int32 CompareTo(Object myObject)
+        public Int32 CompareTo(Object Object)
         {
 
-            // Check if myObject is null
-            if (myObject == null)
-                throw new ArgumentNullException("myObject must not be null!");
+            if (Object == null)
+                throw new ArgumentNullException("The given Object must not be null!");
 
-            return CompareTo((TIdEdge) myObject);
+            // Check if the given object can be casted to a PropertyEdge
+            var PropertyEdge = Object as PropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,    TDatastructureVertex,
+                                                      TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
+                                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>;
+            if ((Object) PropertyEdge == null)
+                throw new ArgumentException("The given object is not a PropertyEdge!");
+
+            return CompareTo(PropertyEdge);
 
         }
 
         #endregion
 
-        #region CompareTo(myEdgeId)
+        #region CompareTo(EdgeId)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myEdgeId">An object to compare with.</param>
+        /// <param name="EdgeId">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public Int32 CompareTo(TIdEdge myEdgeId)
+        public Int32 CompareTo(TIdEdge EdgeId)
         {
 
-            // Check if myIPropertyEdge is null
-            if (myEdgeId == null)
-                throw new ArgumentNullException("myEdgeId must not be null!");
+            if ((Object) EdgeId == null)
+                throw new ArgumentNullException("The given EdgeId must not be null!");
 
-            return Id.CompareTo(myEdgeId);
+            return Id.CompareTo(EdgeId);
 
         }
 
         #endregion
 
-        #region CompareTo(myIPropertyElement)
+        #region CompareTo(IPropertyElement)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myIPropertyElement">An object to compare with.</param>
+        /// <param name="IPropertyElement">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public Int32 CompareTo(IPropertyElement<TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge> myIPropertyElement)
+        public Int32 CompareTo(IPropertyElement<TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge> IPropertyElement)
         {
 
-            // Check if myIPropertyElement is null
-            if (myIPropertyElement == null)
-                throw new ArgumentNullException("myIPropertyElement must not be null!");
+            if ((Object) IPropertyElement == null)
+                throw new ArgumentNullException("The given IPropertyElement must not be null!");
 
-            return Id.CompareTo(myIPropertyElement.Properties.GetProperty(_IdKey));
+            return Id.CompareTo(IPropertyElement.Properties.GetProperty(_IdKey));
+
+        }
+
+        #endregion
+
+        #region CompareTo(IPropertyEdge)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="IPropertyEdge">An object to compare with.</param>
+        /// <returns>true|false</returns>
+        public Int32 CompareTo(IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                             TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IPropertyEdge)
+        {
+
+            if ((Object) IPropertyEdge == null)
+                throw new ArgumentNullException("The given IPropertyEdge must not be null!");
+
+            return Id.CompareTo(IPropertyEdge.Properties.GetProperty(_IdKey));
 
         }
 
@@ -512,62 +536,91 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #endregion
 
-        #region IEquatable<TIdEdge> Members
+        #region IEquatable Members
 
-        #region Equals(myObject)
+        #region Equals(Object)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myObject">An object to compare with.</param>
+        /// <param name="Object">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public override Boolean Equals(Object myObject)
+        public override Boolean Equals(Object Object)
         {
 
-            if (myObject == null)
+            if (Object == null)
                 return false;
 
-            return Equals((TIdEdge) myObject);
+            // Check if the given object can be casted to a PropertyEdge
+            var PropertyEdge = Object as PropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,    TDatastructureVertex,
+                                                      TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
+                                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>;
+            if ((Object) PropertyEdge == null)
+                throw new ArgumentException("The given object is not a PropertyEdge!");
+
+            return this.Equals(PropertyEdge);
 
         }
 
         #endregion
 
-        #region Equals(myEdgeId)
+        #region Equals(EdgeId)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myEdgeId">An object to compare with.</param>
+        /// <param name="EdgeId">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public Boolean Equals(TIdEdge myEdgeId)
+        public Boolean Equals(TIdEdge EdgeId)
         {
 
-            if ((Object) myEdgeId == null)
+            if ((Object) EdgeId == null)
                 return false;
 
             //TODO: Here it might be good to check all attributes of the UNIQUE constraint!
-            return Id.Equals(myEdgeId);
+            return Id.Equals(EdgeId);
 
         }
 
         #endregion
 
-        #region Equals(myIPropertyElement)
+        #region Equals(IPropertyElement)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myIPropertyElement">An object to compare with.</param>
+        /// <param name="IPropertyElement">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public Boolean Equals(IPropertyElement<TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge> myIPropertyElement)
+        public Boolean Equals(IPropertyElement<TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge> IPropertyElement)
         {
 
-            if ((Object) myIPropertyElement == null)
+            if ((Object) IPropertyElement == null)
                 return false;
 
             //TODO: Here it might be good to check all attributes of the UNIQUE constraint!
-            return Id.Equals(myIPropertyElement.Properties.GetProperty(_IdKey));
+            return Id.Equals(IPropertyElement.Properties.GetProperty(_IdKey));
+
+        }
+
+        #endregion
+
+        #region Equals(IPropertyEdge)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="IPropertyEdge">An object to compare with.</param>
+        /// <returns>true|false</returns>
+        public Boolean Equals(IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                            TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                            TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IPropertyEdge)
+        {
+
+            if ((Object) IPropertyEdge == null)
+                return false;
+
+            //TODO: Here it might be good to check all attributes of the UNIQUE constraint!
+            return Id.Equals(IPropertyEdge.Properties.GetProperty(_IdKey));
 
         }
 

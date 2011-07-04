@@ -43,6 +43,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="InMemoryGraph\APropertyElement.cs" />
+    <Compile Include="InMemoryGraph\Indices\PropertyHyperEdgeIndex.cs" />
+    <Compile Include="InMemoryGraph\Indices\PropertyEdgeIndex.cs" />
+    <Compile Include="InMemoryGraph\Indices\PropertyVertexIndex.cs" />
+    <Compile Include="InMemoryGraph\Indices\PropertyElementIndex.cs" />
     <Compile Include="InMemoryGraph\SimplePropertyGraph.cs" />
     <Compile Include="InMemoryGraph\Properties.cs" />
     <Compile Include="InMemoryGraph\DynamicGraphObject.cs" />
@@ -58,6 +62,7 @@
       <Name>Blueprints</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

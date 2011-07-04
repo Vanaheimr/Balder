@@ -364,7 +364,6 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #endregion
 
-
         #region IDynamicGraphObject<PropertyHyperEdge> Members
 
         #region GetMetaObject(myExpression)
@@ -452,70 +451,92 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #endregion
 
-        #region IComparable<TIdVertex> Members
+        #region IComparable Members
 
-        #region CompareTo(myObject)
+        #region CompareTo(Object)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myObject">An object to compare with.</param>
+        /// <param name="Object">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public Int32 CompareTo(Object myObject)
+        public Int32 CompareTo(Object Object)
         {
 
-            // Check if myObject is null
-            if (myObject == null)
-                throw new ArgumentNullException("myObject must not be null!");
+            if (Object == null)
+                throw new ArgumentNullException("The given Object must not be null!");
 
-            // Check if myObject can be casted to an IPropertyHyperEdge object
-            var myIPropertyHyperEdge = myObject as IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                                                 TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                                                 TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>;
-            if ((Object) myIPropertyHyperEdge == null)
-                throw new ArgumentException("myObject is not of type IPropertyHyperEdge!");
+            // Check if the given object can be casted to a PropertyHyperEdge
+            var PropertyHyperEdge = Object as PropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,    TDatastructureVertex,
+                                                                TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
+                                                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
+                                                                TEdgesCollection>;
+            if ((Object) PropertyHyperEdge == null)
+                throw new ArgumentException("The given object is not a PropertyHyperEdge!");
 
-            return CompareTo(myIPropertyHyperEdge);
+            return CompareTo(PropertyHyperEdge);
 
         }
 
         #endregion
 
-        #region CompareTo(myHyperEdgeId)
+        #region CompareTo(HyperEdgeId)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myHyperEdgeId">An object to compare with.</param>
+        /// <param name="HyperEdgeId">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public Int32 CompareTo(TIdHyperEdge myHyperEdgeId)
+        public Int32 CompareTo(TIdHyperEdge HyperEdgeId)
         {
 
-            // Check if myHyperEdgeId is null
-            if (myHyperEdgeId == null)
-                throw new ArgumentNullException("myHyperEdgeId must not be null!");
+            // Check if HyperEdgeId is null
+            if (HyperEdgeId == null)
+                throw new ArgumentNullException("The given HyperEdgeId must not be null!");
 
-            return Id.CompareTo(myHyperEdgeId);
+            return Id.CompareTo(HyperEdgeId);
 
         }
 
         #endregion
 
-        #region CompareTo(myIPropertyElement)
+        #region CompareTo(IPropertyElement)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myIPropertyElement">An object to compare with.</param>
+        /// <param name="IPropertyElement">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public Int32 CompareTo(IPropertyElement<TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge> myIPropertyElement)
+        public Int32 CompareTo(IPropertyElement<TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge> IPropertyElement)
         {
 
-            // Check if myIPropertyElement is null
-            if (myIPropertyElement == null)
-                throw new ArgumentNullException("myIPropertyElement must not be null!");
+            // Check if IPropertyElement is null
+            if (IPropertyElement == null)
+                throw new ArgumentNullException("The given IPropertyElement must not be null!");
 
-            return Id.CompareTo(myIPropertyElement.Properties.GetProperty(_IdKey));
+            return Id.CompareTo(IPropertyElement.Properties.GetProperty(_IdKey));
+
+        }
+
+        #endregion
+
+        #region CompareTo(IPropertyHyperEdge)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="IPropertyHyperEdge">An object to compare with.</param>
+        /// <returns>true|false</returns>
+        public Int32 CompareTo(IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                  TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IPropertyHyperEdge)
+        {
+
+            // Check if IPropertyHyperEdge is null
+            if (IPropertyHyperEdge == null)
+                throw new ArgumentNullException("The given IPropertyHyperEdge must not be null!");
+
+            return Id.CompareTo(IPropertyHyperEdge.Properties.GetProperty(_IdKey));
 
         }
 
@@ -523,62 +544,92 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #endregion
 
-        #region IEquatable<TIdHyperEdge> Members
+        #region IEquatable Members
 
-        #region Equals(myObject)
+        #region Equals(Object)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myObject">An object to compare with.</param>
+        /// <param name="Object">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public override Boolean Equals(Object myObject)
+        public override Boolean Equals(Object Object)
         {
 
-            if (myObject == null)
+            if (Object == null)
                 return false;
 
-            return Equals((TIdHyperEdge) myObject);
+            // Check if the given object can be casted to a PropertyHyperEdge
+            var PropertyHyperEdge = Object as PropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,    TDatastructureVertex,
+                                                                TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
+                                                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
+                                                                TEdgesCollection>;
+            if ((Object) PropertyHyperEdge == null)
+                throw new ArgumentException("The given object is not a PropertyHyperEdge!");
+
+            return this.Equals(PropertyHyperEdge);
 
         }
 
         #endregion
 
-        #region Equals(myHyperEdgeId)
+        #region Equals(HyperEdgeId)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myHyperEdgeId">An object to compare with.</param>
+        /// <param name="HyperEdgeId">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public Boolean Equals(TIdHyperEdge myHyperEdgeId)
+        public Boolean Equals(TIdHyperEdge HyperEdgeId)
         {
 
-            if ((Object) myHyperEdgeId == null)
+            if ((Object) HyperEdgeId == null)
                 return false;
 
             //TODO: Here it might be good to check all attributes of the UNIQUE constraint!
-            return Id.Equals(myHyperEdgeId);
+            return Id.Equals(HyperEdgeId);
 
         }
 
         #endregion
 
-        #region Equals(myIPropertyElement)
+        #region Equals(IPropertyElement)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myIPropertyElement">An object to compare with.</param>
+        /// <param name="IPropertyElement">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public Boolean Equals(IPropertyElement<TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge> myIPropertyElement)
+        public Boolean Equals(IPropertyElement<TIdHyperEdge, TRevisionIdHyperEdge, TKeyHyperEdge, TValueHyperEdge> IPropertyElement)
         {
 
-            if ((Object) myIPropertyElement == null)
+            if ((Object) IPropertyElement == null)
                 return false;
 
             //TODO: Here it might be good to check all attributes of the UNIQUE constraint!
-            return Id.Equals(myIPropertyElement.Properties.GetProperty(_IdKey));
+            return Id.Equals(IPropertyElement.Properties.GetProperty(_IdKey));
+
+        }
+
+        #endregion
+
+        #region Equals(IPropertyHyperEdge)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="IPropertyHyperEdge">An object to compare with.</param>
+        /// <returns>true|false</returns>
+        public Boolean Equals(IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                 TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                 TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IPropertyHyperEdge)
+        {
+
+            if ((Object) IPropertyHyperEdge == null)
+                return false;
+
+            //TODO: Here it might be good to check all attributes of the UNIQUE constraint!
+            return Id.Equals(IPropertyHyperEdge.Properties.GetProperty(_IdKey));
 
         }
 

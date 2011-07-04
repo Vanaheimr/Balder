@@ -825,6 +825,39 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         #endregion
 
 
+        #region GraphIndexing
+
+        public IPropertyElementIndex<IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TIndexKey>
+            
+               CreateVerticesIndex<TIndexKey>(String Name,
+                                              IndexSelector         <IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TIndexKey> Selector,
+                                              IndexTransformation   <IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TIndexKey> Transformation,
+                                              IDictionary<TIndexKey, IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> Datastructure = null)
+
+            where TIndexKey : IEquatable<TIndexKey>, IComparable<TIndexKey>, IComparable
+
+        {
+
+            return new PropertyVertexIndex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,  
+                                           TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,    
+                                           TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge,
+                                           TIndexKey>
+                                          (Name, Selector, Transformation, Datastructure);
+
+        }
+
+        #endregion
+
+
+
 
         public bool Equals(TIdVertex other)
         {
@@ -855,6 +888,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         {
             throw new NotImplementedException();
         }
+
 
     }
 

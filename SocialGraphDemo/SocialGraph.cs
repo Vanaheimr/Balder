@@ -26,6 +26,7 @@ using de.ahzf.Blueprints;
 using de.ahzf.Blueprints.UnitTests;
 using de.ahzf.Blueprints.PropertyGraph;
 using de.ahzf.Blueprints.Tools;
+using de.ahzf.Blueprints.PropertyGraph.InMemory;
 
 #endregion
 
@@ -45,7 +46,6 @@ namespace SocialGraphDemo
         private const String _FileName         = "SocialGraph_v100000-e500000.csv";
 
         #endregion
-
 
         #region Generate a simple SocialGraph and write it into a CSV-file
 
@@ -145,7 +145,18 @@ namespace SocialGraphDemo
         public static void Main(String[] myArgs)
         {
 
-            var a = DemoGraphFactory.CreateDemoGraph();
+            var _graph = DemoGraphFactory.CreateDemoGraph();
+            var _index = _graph.CreateVerticesIndex("Idx1",
+                                                    element =>
+                                                    {
+                                                      //  if (element.GetProperty("label") != null && element.GetProperty("label").ToString() == "person")
+                                                            return true;
+                                                      //  else
+                                                      //      return false;
+                                                    },
+                                                    element => element.GetProperty("name").ToString());
+
+            _index.Insert(_graph.Vertices.First());
 
             // Create SocialGraph, if not existant!
             if (!File.Exists(_FileName))
