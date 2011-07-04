@@ -135,7 +135,6 @@ namespace SocialGraphDemo
         #endregion
 
 
-
         #region Main(myArgs)
 
         /// <summary>
@@ -145,18 +144,19 @@ namespace SocialGraphDemo
         public static void Main(String[] myArgs)
         {
 
-            var _graph = DemoGraphFactory.CreateDemoGraph();
-            var _index = _graph.CreateVerticesIndex("Idx1",
-                                                    element =>
-                                                    {
-                                                      //  if (element.GetProperty("label") != null && element.GetProperty("label").ToString() == "person")
-                                                            return true;
-                                                      //  else
-                                                      //      return false;
-                                                    },
-                                                    element => element.GetProperty("name").ToString());
+            var _graph  = DemoGraphFactory.CreateDemoGraph();
 
-            _index.Insert(_graph.Vertices.First());
+            var _index1 = _graph.CreateVerticesIndex("IdxNames",
+                                                     e => Indexing.HasKeys(e, "name", "age"),
+                                                     e => e.GetProperty("name").ToString().ToLower() +
+                                                          e.GetProperty("age" ).ToString());
+
+            var _index2 = _graph.CreateVerticesIndex<Int32>("IdxAges",
+                                                            e => Indexing.HasKeys(e, "age"),
+                                                            e => (Int32) e.GetProperty("age"));
+
+            _index1.Insert(_graph.Vertices);
+            _index2.Insert(_graph.Vertices);
 
             // Create SocialGraph, if not existant!
             if (!File.Exists(_FileName))

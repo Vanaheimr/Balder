@@ -43,6 +43,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="InMemoryGraph\APropertyElement.cs" />
+    <Compile Include="InMemoryGraph\Indices\IndexingMethods.cs" />
+    <Compile Include="InMemoryGraph\Indices\IPropertyElementIndexExtensions.cs" />
     <Compile Include="InMemoryGraph\Indices\PropertyHyperEdgeIndex.cs" />
     <Compile Include="InMemoryGraph\Indices\PropertyEdgeIndex.cs" />
     <Compile Include="InMemoryGraph\Indices\PropertyVertexIndex.cs" />

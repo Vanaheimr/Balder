@@ -111,14 +111,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
         public static Boolean HasProperty<TKey, TValue>(this IProperties<TKey, TValue> myIProperties, TKey myKey)
             where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
         {
-
-            var _Value = myIProperties.GetProperty(myKey);
-
-            if (_Value == null)
-                return false;
-
-            return true;
-
+            return myIProperties.Contains(myKey);
         }
 
         #endregion
