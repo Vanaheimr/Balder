@@ -147,16 +147,26 @@ namespace SocialGraphDemo
             var _graph  = DemoGraphFactory.CreateDemoGraph();
 
             var _index1 = _graph.CreateVerticesIndex("IdxNames",
-                                                     e => Indexing.HasKeys(e, "name", "age"),
                                                      e => e.GetProperty("name").ToString().ToLower() +
-                                                          e.GetProperty("age" ).ToString());
+                                                          e.GetProperty("age" ).ToString(),
+                                                     e => Indexing.HasKeys(e, "name", "age"));
 
             var _index2 = _graph.CreateVerticesIndex<Int32>("IdxAges",
-                                                            e => Indexing.HasKeys(e, "age"),
-                                                            e => (Int32) e.GetProperty("age"));
+                                                            e => (Int32) e.GetProperty("age"),
+                                                            e => Indexing.HasKeys(e, "age"));
 
-            _index1.Insert(_graph.Vertices);
+            var _Idx = _graph.VerticesIndices().First();
+            _Idx.Insert(_graph.Vertices);
             _index2.Insert(_graph.Vertices);
+
+            //var x = _Idx.As();
+            var y = _Idx.Get("alice18").ToList();
+            var z = _Idx.Get(18).ToList();
+
+
+            //_Idx.GetType().ContainsGenericParameters
+
+            var m = _index2.Get(18).First();
 
             // Create SocialGraph, if not existant!
             if (!File.Exists(_FileName))

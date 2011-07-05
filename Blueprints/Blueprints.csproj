@@ -79,8 +79,7 @@
     <Compile Include="Interfaces\GenericGraph\IGenericVertex.cs" />
     <Compile Include="Interfaces\GenericGraph\IGenericGraph.cs" />
     <Compile Include="Interfaces\PropertyGraph\Indices\IAutomaticIndex.cs" />
-    <Compile Include="Interfaces\PropertyGraph\Indices\IndexType.cs" />
-    <Compile Include="Interfaces\PropertyGraph\Indices\IIndexablePropertyGraph.cs" />
+    <Compile Include="Interfaces\PropertyGraph\Indices\IGraphIndexing.cs" />
     <Compile Include="Interfaces\PropertyGraph\IPropertyGraph.cs" />
     <Compile Include="Interfaces\PropertyGraph\IPropertyEdge.cs" />
     <Compile Include="Interfaces\PropertyGraph\IProperties.cs" />

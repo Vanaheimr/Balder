@@ -110,17 +110,36 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                                                                         TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> _HyperEdges;
 
 
-        private readonly VertexIdCreatorDelegate    _VertexIdCreatorDelegate;
-        private readonly VertexCreatorDelegate      _VertexCreatorDelegate;
+        private readonly VertexIdCreatorDelegate     _VertexIdCreatorDelegate;
+        private readonly VertexCreatorDelegate       _VertexCreatorDelegate;
 
-        private readonly EdgeIdCreatorDelegate      _EdgeIdCreatorDelegate;
-        private readonly EdgeCreatorDelegate        _EdgeCreatorDelegate;
+        private readonly EdgeIdCreatorDelegate       _EdgeIdCreatorDelegate;
+        private readonly EdgeCreatorDelegate         _EdgeCreatorDelegate;
 
-        private readonly HyperEdgeIdCreatorDelegate _HyperEdgeIdCreatorDelegate;
-        private readonly HyperEdgeCreatorDelegate   _HyperEdgeCreatorDelegate;
+        private readonly HyperEdgeIdCreatorDelegate  _HyperEdgeIdCreatorDelegate;
+        private readonly HyperEdgeCreatorDelegate    _HyperEdgeCreatorDelegate;
 
-        //protected Map<String, TinkerIndex>          indices     = new HashMap<String, TinkerIndex>();
-        //protected Map<String, TinkerAutomaticIndex> autoIndices = new HashMap<String, TinkerAutomaticIndex>();
+
+        private readonly IDictionary<String, IPropertyElementIndex<IPropertyVertex   <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                                      TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>> _ManualVerticesIndices;
+        private readonly IDictionary<String, IPropertyElementIndex<IPropertyVertex   <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                                      TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>> _AutomaticVerticesIndices;
+
+        private readonly IDictionary<String, IPropertyElementIndex<IPropertyEdge     <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                                      TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>> _ManualEdgesIndices;
+        private readonly IDictionary<String, IPropertyElementIndex<IPropertyEdge     <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                                      TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>> _AutomaticEdgesIndices;
+
+        private readonly IDictionary<String, IPropertyElementIndex<IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,      TValueVertex,
+                                                                                      TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>> _ManualHyperEdgesIndices;
+        private readonly IDictionary<String, IPropertyElementIndex<IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,      TValueVertex,
+                                                                                      TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>> _AutomaticHyperEdgesIndices;
 
         #endregion
 
@@ -313,8 +332,27 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
             _Edges                      = EdgesCollectionInitializer;
             _HyperEdges                 = HyperEdgesCollectionInitializer;
 
-            //this.createIndex(Index.VERTICES, TinkerVertex.class, Index.Type.AUTOMATIC);
-            //this.createIndex(Index.EDGES, TinkerEdge.class, Index.Type.AUTOMATIC);
+
+            _ManualVerticesIndices      = new Dictionary<String, IPropertyElementIndex<IPropertyVertex   <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                                                          TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                                          TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>>();
+            _AutomaticVerticesIndices   = new Dictionary<String, IPropertyElementIndex<IPropertyVertex   <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                                                          TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                                          TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>>();
+
+            _ManualEdgesIndices         = new Dictionary<String, IPropertyElementIndex<IPropertyEdge     <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                                                          TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                                          TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>>();
+            _AutomaticEdgesIndices      = new Dictionary<String, IPropertyElementIndex<IPropertyEdge     <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                                                          TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                                          TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>>();
+
+            _ManualHyperEdgesIndices    = new Dictionary<String, IPropertyElementIndex<IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                                                          TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                                          TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>>();
+            _AutomaticHyperEdgesIndices = new Dictionary<String, IPropertyElementIndex<IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                                                          TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                                          TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>>();
 
         }
 
@@ -799,6 +837,401 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         #endregion
 
 
+        #region GraphIndexing
+
+        #region CreateVerticesIndex<TIndexKey>(Name, Transformation, Selector = null, Datastructure = null, AutomaticIndex = false)
+
+        /// <summary>
+        /// Generate an index for vertex lookups.
+        /// </summary>
+        /// <typeparam name="TIndexKey">The type of the index keys.</typeparam>
+        /// <param name="Name">A human-friendly name for the index.</param>
+        /// <param name="Transformation">A delegate for transforming a vertex into an index key.</param>
+        /// <param name="Selector">A delegate for deciding if a vertex should be indexed or not.</param>
+        /// <param name="Datastructure">An optional datastructure for maintaining the index.</param>
+        /// <param name="AutomaticIndex">Should this index be maintained by the database or by the user?</param>
+        /// <returns>A new index data structure.</returns>
+        public IPropertyElementIndex<IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TIndexKey>
+            
+               CreateVerticesIndex<TIndexKey>(String Name,                                              
+                                              IndexTransformation   <IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TIndexKey> Transformation,
+                                              IndexSelector         <IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TIndexKey> Selector = null,
+                                              IDictionary<TIndexKey, IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> Datastructure = null,
+                                              Boolean AutomaticIndex = false)
+
+            where TIndexKey : IEquatable<TIndexKey>, IComparable<TIndexKey>, IComparable
+
+        {
+
+            var _NewIndex = new PropertyVertexIndex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,  
+                                                    TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,    
+                                                    TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge,
+                                                    TIndexKey>
+                                                   (Name, Transformation, Selector, Datastructure);
+
+            if (AutomaticIndex)
+                _AutomaticVerticesIndices.Add(_NewIndex.Name, _NewIndex);
+            else
+                _ManualVerticesIndices.Add(_NewIndex.Name, _NewIndex);
+
+            return _NewIndex;
+
+        }
+
+        #endregion
+
+        #region CreateEdgesIndex<TIndexKey>(Name, Transformation, Selector = null, Datastructure = null, AutomaticIndex = false)
+
+        /// <summary>
+        /// Generate an index for edge lookups.
+        /// </summary>
+        /// <typeparam name="TIndexKey">The type of the index keys.</typeparam>
+        /// <param name="Name">A human-friendly name for the index.</param>
+        /// <param name="Transformation">A delegate for transforming a vertex into an index key.</param>
+        /// <param name="Selector">A delegate for deciding if a vertex should be indexed or not.</param>
+        /// <param name="Datastructure">An optional datastructure for maintaining the index.</param>
+        /// <param name="AutomaticIndex">Should this index be maintained by the database or by the user?</param>
+        /// <returns>A new index data structure.</returns>
+        public IPropertyElementIndex<IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                   TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                   TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TIndexKey>
+            
+               CreateEdgesIndex<TIndexKey>(String Name,                                              
+                                           IndexTransformation   <IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                                TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TIndexKey> Transformation,
+                                           IndexSelector         <IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                                TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TIndexKey> Selector = null,
+                                           IDictionary<TIndexKey, IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                                TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> Datastructure = null,
+                                           Boolean AutomaticIndex = false)
+
+            where TIndexKey : IEquatable<TIndexKey>, IComparable<TIndexKey>, IComparable
+
+        {
+
+            var _NewIndex = new PropertyEdgeIndex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,  
+                                                  TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,    
+                                                  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge,
+                                                  TIndexKey>
+                                                 (Name, Transformation, Selector, Datastructure);
+
+            if (AutomaticIndex)
+                _AutomaticEdgesIndices.Add(_NewIndex.Name, _NewIndex);
+            else
+                _ManualEdgesIndices.Add(_NewIndex.Name, _NewIndex);
+
+            return _NewIndex;
+
+        }
+
+        #endregion
+
+        #region CreateHyperEdgesIndex<TIndexKey>(Name, Transformation, Selector = null, Datastructure = null, AutomaticIndex = false)
+
+        /// <summary>
+        /// Generate an index for hyperedge lookups.
+        /// </summary>
+        /// <typeparam name="TIndexKey">The type of the index keys.</typeparam>
+        /// <param name="Name">A human-friendly name for the index.</param>
+        /// <param name="Transformation">A delegate for transforming a vertex into an index key.</param>
+        /// <param name="Selector">A delegate for deciding if a vertex should be indexed or not.</param>
+        /// <param name="Datastructure">An optional datastructure for maintaining the index.</param>
+        /// <param name="AutomaticIndex">Should this index be maintained by the database or by the user?</param>
+        /// <returns>A new index data structure.</returns>
+        public IPropertyElementIndex<IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                        TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                        TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TIndexKey>
+
+               CreateHyperEdgesIndex<TIndexKey>(String Name,
+                                                IndexTransformation   <IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                                          TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                          TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TIndexKey> Transformation,
+                                                IndexSelector         <IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                                          TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                          TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TIndexKey> Selector = null,
+                                                IDictionary<TIndexKey, IPropertyHyperEdge<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex,
+                                                                                          TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                          TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> Datastructure = null,
+                                                Boolean AutomaticIndex = false)
+
+            where TIndexKey : IEquatable<TIndexKey>, IComparable<TIndexKey>, IComparable
+
+        {
+
+            var _NewIndex = new PropertyHyperEdgeIndex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,  
+                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,    
+                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge,
+                                                       TIndexKey>
+                                                      (Name, Transformation, Selector, Datastructure);
+
+            if (AutomaticIndex)
+                _AutomaticHyperEdgesIndices.Add(_NewIndex.Name, _NewIndex);
+            else
+                _ManualHyperEdgesIndices.Add(_NewIndex.Name, _NewIndex);
+
+            return _NewIndex;
+
+        }
+
+        #endregion
+
+
+        #region VerticesIndices(IndexFilter = null)
+
+        /// <summary>
+        /// Get all vertices indices maintained by the graph.
+        /// </summary>
+        /// <param name="IndexFilter">An optional index filter.</param>
+        /// <returns>The indices associated with the graph.</returns>
+        public IEnumerable<IPropertyElementIndex<IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                 TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                 TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>>
+
+               VerticesIndices(IndexFilter<IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                           TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                           TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> IndexFilter = null)
+
+        {
+            
+            if (IndexFilter == null)
+            {
+                foreach (var _Index in _AutomaticVerticesIndices.Values)
+                    yield return _Index;
+                foreach (var _Index in _ManualVerticesIndices.Values)
+                    yield return _Index;
+            }
+
+            else
+            {
+                foreach (var _Index in _AutomaticVerticesIndices.Values)
+                    if (IndexFilter(_Index))
+                        yield return _Index;
+                foreach (var _Index in _ManualVerticesIndices.Values)
+                    if (IndexFilter(_Index))
+                        yield return _Index;
+            }
+
+        }
+
+        #endregion
+
+        #region VerticesIndices<T>(IndexFilter = null)
+
+        /// <summary>
+        /// Get all vertices indices maintained by the graph.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements to be indexed.</typeparam>
+        /// <param name="IndexFilter">An optional index filter.</param>
+        /// <returns>The indices associated with the graph.</returns>
+        public IEnumerable<IPropertyElementIndex<T>> VerticesIndices<T>(IndexFilter<T> IndexFilter = null)
+            where T : IEquatable<T>, IComparable<T>, IComparable
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #region EdgesIndices(IndexFilter = null)
+
+        /// <summary>
+        /// Get all edges indices maintained by the graph.
+        /// </summary>
+        /// <param name="IndexFilter">An optional index filter.</param>
+        /// <returns>The indices associated with the graph.</returns>
+        public IEnumerable<IPropertyElementIndex<IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                               TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                               TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>>
+
+               EdgesIndices(IndexFilter<IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                      TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> IndexFilter = null)
+
+        {
+
+            if (IndexFilter == null)
+            {
+                foreach (var _Index in _AutomaticEdgesIndices.Values)
+                    yield return _Index;
+                foreach (var _Index in _ManualEdgesIndices.Values)
+                    yield return _Index;
+            }
+
+            else
+            {
+                foreach (var _Index in _AutomaticEdgesIndices.Values)
+                    if (IndexFilter(_Index))
+                        yield return _Index;
+                foreach (var _Index in _ManualEdgesIndices.Values)
+                    if (IndexFilter(_Index))
+                        yield return _Index;
+            }
+
+        }
+
+        #endregion
+
+        #region EdgesIndices<T>(IndexFilter = null)
+
+        /// <summary>
+        /// Get all edges indices maintained by the graph.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements to be indexed.</typeparam>
+        /// <param name="IndexFilter">An optional index filter.</param>
+        /// <returns>The indices associated with the graph.</returns>
+        public IEnumerable<IPropertyElementIndex<T>> EdgesIndices<T>(IndexFilter<T> IndexFilter = null)
+            where T : IEquatable<T>, IComparable<T>, IComparable
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #region HyperEdgesIndices(IndexFilter = null)
+
+        /// <summary>
+        /// Get all hyperedges indices maintained by the graph.
+        /// </summary>
+        /// <param name="IndexFilter">An optional index filter.</param>
+        /// <returns>The indices associated with the graph.</returns>
+        public IEnumerable<IPropertyElementIndex<IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                    TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                    TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>>
+
+            HyperEdgesIndices(IndexFilter<IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                             TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> IndexFilter = null)
+
+        {
+
+            if (IndexFilter == null)
+            {
+                foreach (var _Index in _AutomaticHyperEdgesIndices.Values)
+                    yield return _Index;
+                foreach (var _Index in _ManualHyperEdgesIndices.Values)
+                    yield return _Index;
+            }
+
+            else
+            {
+                foreach (var _Index in _AutomaticHyperEdgesIndices.Values)
+                    if (IndexFilter(_Index))
+                        yield return _Index;
+                foreach (var _Index in _ManualHyperEdgesIndices.Values)
+                    if (IndexFilter(_Index))
+                        yield return _Index;
+            }
+
+        }
+
+        #endregion
+
+        #region HyperEdgesIndices<T>(IndexFilter = null)
+
+        /// <summary>
+        /// Get all hyperedges indices maintained by the graph.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements to be indexed.</typeparam>
+        /// <param name="IndexFilter">An optional index filter.</param>
+        /// <returns>The indices associated with the graph.</returns>
+        public IEnumerable<IPropertyElementIndex<T>> HyperEdgesIndices<T>(IndexFilter<T> IndexFilter = null)
+            where T : IEquatable<T>, IComparable<T>, IComparable
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+
+        #region DropVerticesIndex(Name)
+
+        /// <summary>
+        /// Remove a vertices index associated with the graph.
+        /// </summary>
+        /// <param name="Name">The name of the index to drop.</param>
+        public void DropVerticesIndex(String Name)
+        {
+
+            lock (_AutomaticVerticesIndices)
+            {
+                if (_AutomaticVerticesIndices.ContainsKey(Name))
+                    _AutomaticVerticesIndices.Remove(Name);
+            }
+
+            lock (_ManualVerticesIndices)
+            {
+                if (_ManualVerticesIndices.ContainsKey(Name))
+                    _ManualVerticesIndices.Remove(Name);
+            }
+
+        }
+
+        #endregion
+
+        #region DropEdgesIndex(Name)
+
+        /// <summary>
+        /// Remove an edges index associated with the graph.
+        /// </summary>
+        /// <param name="Name">The name of the index to drop.</param>
+        public void DropEdgesIndex(String Name)
+        {
+
+            lock (_AutomaticEdgesIndices)
+            {
+                if (_AutomaticEdgesIndices.ContainsKey(Name))
+                    _AutomaticEdgesIndices.Remove(Name);
+            }
+
+            lock (_ManualEdgesIndices)
+            {
+                if (_ManualEdgesIndices.ContainsKey(Name))
+                    _ManualEdgesIndices.Remove(Name);
+            }
+
+        }
+
+
+        #endregion
+
+        #region DropHyperEdgesIndex(Name)
+
+        /// <summary>
+        /// Remove a hyperedges index associated with the graph.
+        /// </summary>
+        /// <param name="Name">The name of the index to drop.</param>
+        public void DropHyperEdgesIndex(String Name)
+        {
+
+            lock (_AutomaticHyperEdgesIndices)
+            {
+                if (_AutomaticHyperEdgesIndices.ContainsKey(Name))
+                    _AutomaticHyperEdgesIndices.Remove(Name);
+            }
+
+            lock (_ManualHyperEdgesIndices)
+            {
+                if (_ManualHyperEdgesIndices.ContainsKey(Name))
+                    _ManualHyperEdgesIndices.Remove(Name);
+            }
+
+        }
+
+        #endregion
+
+        #endregion
+
+
         #region Clear()
 
         /// <summary>
@@ -825,37 +1258,6 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #endregion
 
-
-        #region GraphIndexing
-
-        public IPropertyElementIndex<IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TIndexKey>
-            
-               CreateVerticesIndex<TIndexKey>(String Name,
-                                              IndexSelector         <IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                                                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TIndexKey> Selector,
-                                              IndexTransformation   <IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                                                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TIndexKey> Transformation,
-                                              IDictionary<TIndexKey, IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                                                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> Datastructure = null)
-
-            where TIndexKey : IEquatable<TIndexKey>, IComparable<TIndexKey>, IComparable
-
-        {
-
-            return new PropertyVertexIndex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,  
-                                           TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,    
-                                           TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge,
-                                           TIndexKey>
-                                          (Name, Selector, Transformation, Datastructure);
-
-        }
-
-        #endregion
 
 
 
@@ -891,6 +1293,8 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         }
 
 
+
+        
     }
 
     #endregion

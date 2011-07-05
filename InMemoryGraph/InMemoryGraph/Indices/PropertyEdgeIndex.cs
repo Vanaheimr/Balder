@@ -67,20 +67,24 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// the indexing of PropertyEdges in property graphs.
         /// </summary>
         /// <param name="Name">A human-friendly name for this index.</param>
-        /// <param name="Selector">A delegate for deciding if a PropertyEdge should be indexed or not.</param>
-        /// <param name="Transformation">A delegate for transforming a PropertyEdge into an index key.</param>
+        /// <param name="Transformation">A delegate for transforming a edge into an index key.</param>
+        /// <param name="Selector">An optional delegate for deciding if a edge should be indexed or not.</param>
         /// <param name="Datastructure">An optional datastructure for maintaining the index.</param>
+        /// <param name="AutomaticIndex">Should this index be maintained by the database or by the user?</param>
         public PropertyEdgeIndex(String Name,
-                                 IndexSelector         <IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                                                      TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TIndexKey> Selector,
                                  IndexTransformation<   IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TIndexKey> Transformation,
+                                 IndexSelector         <IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                      TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TIndexKey> Selector       = null,
                                  IDictionary<TIndexKey, IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> Datastructure = null)
-            : base(Name, Selector, Transformation, Datastructure)
+                                                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>            Datastructure  = null,
+                                 Boolean                                                                                                                               AutomaticIndex = false)
+
+            : base(Name, Transformation, Selector, Datastructure, AutomaticIndex)
+
         { }
 
         #endregion

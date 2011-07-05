@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Datastructures\SystemIdTests.cs" />
+    <Compile Include="PropertyGraphs\Indices\IndicesTests.cs" />
     <Compile Include="PropertyGraphs\IPropertyGraphExtensionTests.cs" />
     <Compile Include="SimplePropertyGraphTests\InitGraph.cs" />
     <Compile Include="SimplePropertyGraphTests\CreateGraphTests.cs" />

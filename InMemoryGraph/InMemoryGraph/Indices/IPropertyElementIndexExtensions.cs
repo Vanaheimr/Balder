@@ -27,16 +27,20 @@ namespace de.ahzf.Blueprints.PropertyGraph
 {
 
     /// <summary>
-    /// Extensions to the IElement interface
+    /// Extensions to the IPropertyElementIndex interface.
     /// </summary>
     public static class IIndexingExtensions
     {
 
         #region Insert(this IPropertyElementIndex, Elements)
 
-        public static void Insert<T, TIndexKey>(this IPropertyElementIndex<T, TIndexKey> IPropertyElementIndex, IEnumerable<T> Elements)
-            where T         : IEquatable<T>,         IComparable<T>,         IComparable
-            where TIndexKey : IEquatable<TIndexKey>, IComparable<TIndexKey>, IComparable
+        /// <summary>
+        /// Inserts all elements into the index.
+        /// </summary>
+        /// <param name="IPropertyElementIndex">An IPropertyElementIndex.</param>
+        /// <param name="Elements">An enumeration of elements for indexing.</param>
+        public static void Insert<T>(this IPropertyElementIndex<T> IPropertyElementIndex, IEnumerable<T> Elements)
+            where T : IEquatable<T>, IComparable<T>, IComparable
         {
             foreach (var Element in Elements)
                 IPropertyElementIndex.Insert(Element);

@@ -386,6 +386,11 @@ namespace de.ahzf.Blueprints.PropertyGraph
 
     #endregion
 
+    public delegate Boolean IndexFilter(IPropertyElementIndex IPropertyElementIndex);
+
+    public delegate Boolean IndexFilter<T>(IPropertyElementIndex<T> IPropertyElementIndex)
+        where T : IEquatable<T>, IComparable<T>, IComparable;
+
 
     public delegate Boolean PropertyFilter<in TKey, in TValue>(TKey Key, TValue Value);
 
