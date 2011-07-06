@@ -49,6 +49,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Datastructures\Quadtree\Point.cs" />
+    <Compile Include="Datastructures\Quadtree\Rectangle.cs" />
     <Compile Include="Extensions\QuadStore\IQuadStoreExtensions.cs" />
     <Compile Include="Interfaces\PropertyGraph\Delegates.cs" />
     <Compile Include="Interfaces\PropertyGraph\Indices\IPropertyElementIndex.cs" />
