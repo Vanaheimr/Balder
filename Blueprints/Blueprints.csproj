@@ -53,6 +53,8 @@
     <Compile Include="Datastructures\Quadtree\Rectangle.cs" />
     <Compile Include="Extensions\QuadStore\IQuadStoreExtensions.cs" />
     <Compile Include="Interfaces\PropertyGraph\Delegates.cs" />
+    <Compile Include="Interfaces\PropertyGraph\Indices\Delegates.cs" />
+    <Compile Include="Interfaces\ILookup.cs" />
     <Compile Include="Interfaces\PropertyGraph\Indices\IPropertyElementIndex.cs" />
     <Compile Include="Interfaces\QuadStore\Delegates.cs" />
     <Compile Include="Datastructures\HyperEdgeId.cs" />
@@ -80,7 +82,6 @@
     <Compile Include="Interfaces\GenericGraph\IGenericEdge.cs" />
     <Compile Include="Interfaces\GenericGraph\IGenericVertex.cs" />
     <Compile Include="Interfaces\GenericGraph\IGenericGraph.cs" />
-    <Compile Include="Interfaces\PropertyGraph\Indices\IAutomaticIndex.cs" />
     <Compile Include="Interfaces\PropertyGraph\Indices\IGraphIndexing.cs" />
     <Compile Include="Interfaces\PropertyGraph\IPropertyGraph.cs" />
     <Compile Include="Interfaces\PropertyGraph\IPropertyEdge.cs" />

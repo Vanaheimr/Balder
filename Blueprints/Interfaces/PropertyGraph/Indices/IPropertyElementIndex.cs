@@ -45,6 +45,25 @@ namespace de.ahzf.Blueprints.PropertyGraph
         /// </summary>
         Type KeyType { get; }
 
+
+        /// <summary>
+        /// Is this index maintained by the database or by the user?
+        /// </summary>
+        Boolean IsAutomaticIndex { get; }
+
+
+        /// <summary>
+        /// True if the index supports efficient range queries;
+        /// False otherwise.
+        /// </summary>
+        Boolean SupportsEfficentExactMatchQueries { get; }
+
+        /// <summary>
+        /// True if the index supports efficient range queries;
+        /// False otherwise.
+        /// </summary>
+        Boolean SupportsEfficentRangeQueries { get; }
+
     }
 
     #endregion
@@ -60,21 +79,13 @@ namespace de.ahzf.Blueprints.PropertyGraph
         where T : IEquatable<T>, IComparable<T>, IComparable
     {
 
+        #region Insert, Remove
+
         /// <summary>
         /// Inserts an element into the index.
         /// </summary>
         /// <param name="Element">An element for indexing.</param>
         void Insert(T Element);
-
-
-        /// <summary>
-        /// Get the indexed elements for the given typed index key.
-        /// </summary>
-        /// <typeparam name="TIdxKey">The type of the index key which must be at least ICompare/IEquatable.</typeparam>
-        /// <param name="IdxKey">An index key.</param>
-        IEnumerable<T> Get<TIdxKey>(TIdxKey IdxKey)
-            where TIdxKey : IEquatable<TIdxKey>, IComparable<TIdxKey>, IComparable;
-
 
         /// <summary>
         /// Remove an element from the index.
@@ -82,6 +93,74 @@ namespace de.ahzf.Blueprints.PropertyGraph
         /// <param name="Element">An element for indexing.</param>
         void Remove(T Element);
 
+        #endregion
+
+
+        #region <, <=
+
+        /// <summary>
+        /// Get all elements smaller than the given index key.
+        /// </summary>
+        /// <typeparam name="TIdxKey">The type of the index key which must be at least ICompare/IEquatable.</typeparam>
+        /// <param name="IdxKey">An index key.</param>
+        IEnumerable<T> SmallerThan<TIdxKey>(TIdxKey IdxKey)
+            where TIdxKey : IEquatable<TIdxKey>, IComparable<TIdxKey>, IComparable;
+
+
+        /// <summary>
+        /// Get all elements smaller or equals the given index key.
+        /// </summary>
+        /// <typeparam name="TIdxKey">The type of the index key which must be at least ICompare/IEquatable.</typeparam>
+        /// <param name="IdxKey">An index key.</param>
+        IEnumerable<T> SmallerThanOrEquals<TIdxKey>(TIdxKey IdxKey)
+            where TIdxKey : IEquatable<TIdxKey>, IComparable<TIdxKey>, IComparable;
+
+        #endregion
+
+        #region ==, !=
+
+        /// <summary>
+        /// Get all elements exactly matching the given index key.
+        /// </summary>
+        /// <typeparam name="TIdxKey">The type of the index key which must be at least ICompare/IEquatable.</typeparam>
+        /// <param name="IdxKey">An index key.</param>
+        IEnumerable<T> Equals<TIdxKey>(TIdxKey IdxKey)
+            where TIdxKey : IEquatable<TIdxKey>, IComparable<TIdxKey>, IComparable;
+
+
+        /// <summary>
+        /// Get the indexed elements for the given typed index key
+        /// exactly matching the given index key.
+        /// </summary>
+        /// <typeparam name="TIdxKey">The type of the index key which must be at least ICompare/IEquatable.</typeparam>
+        /// <param name="IdxKey">An index key.</param>
+        IEnumerable<T> NotEquals<TIdxKey>(TIdxKey IdxKey)
+            where TIdxKey : IEquatable<TIdxKey>, IComparable<TIdxKey>, IComparable;
+
+        #endregion
+
+        #region >, >=
+
+        /// <summary>
+        /// Get the indexed elements for the given typed index key
+        /// exactly matching the given index key.
+        /// </summary>
+        /// <typeparam name="TIdxKey">The type of the index key which must be at least ICompare/IEquatable.</typeparam>
+        /// <param name="IdxKey">An index key.</param>
+        IEnumerable<T> LargerThan<TIdxKey>(TIdxKey IdxKey)
+            where TIdxKey : IEquatable<TIdxKey>, IComparable<TIdxKey>, IComparable;
+
+
+        /// <summary>
+        /// Get the indexed elements for the given typed index key
+        /// exactly matching the given index key.
+        /// </summary>
+        /// <typeparam name="TIdxKey">The type of the index key which must be at least ICompare/IEquatable.</typeparam>
+        /// <param name="IdxKey">An index key.</param>
+        IEnumerable<T> LargerThanOrEquals<TIdxKey>(TIdxKey IdxKey)
+            where TIdxKey : IEquatable<TIdxKey>, IComparable<TIdxKey>, IComparable;
+
+        #endregion
 
 
         /// <summary>
@@ -102,18 +181,71 @@ namespace de.ahzf.Blueprints.PropertyGraph
     /// A property element index is a data structure that supports the indexing of properties in property graphs.
     /// An index is typically some sort of tree structure that allows for the fast lookup of elements by key/value pairs.
     /// </summary>
-    /// <typeparam name="T">The type of the elements to be indexed.</typeparam>
-    /// <typeparam name="TIndexKey">The type of the index keys.</typeparam>
-    public interface IPropertyElementIndex<T, TIndexKey> : IPropertyElementIndex<T>
-        where T         : IEquatable<T>,         IComparable<T>,         IComparable
-        where TIndexKey : IEquatable<TIndexKey>, IComparable<TIndexKey>, IComparable
+    /// <typeparam name="TKey">The type of the index keys.</typeparam>
+    /// <typeparam name="TValue">The type of the elements to be indexed.</typeparam>
+    public interface IPropertyElementIndex<TKey, TValue> : IPropertyElementIndex<TValue>
+        where TKey   : IEquatable<TKey>,   IComparable<TKey>,   IComparable
+        where TValue : IEquatable<TValue>, IComparable<TValue>, IComparable
     {
 
         /// <summary>
-        /// Get the indexed elements for the given typed index key.
+        /// Get all elements matching the given index evaluator.
+        /// </summary>
+        /// <param name="IndexEvaluator">A delegate for selecting indexed elements.</param>
+        IEnumerable<TValue> Evaluate(IndexEvaluator<TKey, TValue> IndexEvaluator);
+
+        #region <, <=
+
+        /// <summary>
+        /// Get all elements smaller than the given index key.
         /// </summary>
         /// <param name="IdxKey">An index key.</param>
-        IEnumerable<T> Get(TIndexKey IdxKey);
+        IEnumerable<TValue> SmallerThan(TKey IdxKey);
+
+
+        /// <summary>
+        /// Get all elements smaller or equals the given index key.
+        /// </summary>
+        /// <param name="IdxKey">An index key.</param>
+        IEnumerable<TValue> SmallerThanOrEquals(TKey IdxKey);
+
+        #endregion
+
+        #region ==, !=
+
+        /// <summary>
+        /// Get all elements exactly matching the given index key.
+        /// </summary>
+        /// <param name="IdxKey">An index key.</param>
+        IEnumerable<TValue> Equals(TKey IdxKey);
+
+
+        /// <summary>
+        /// Get all elements not matching the given index key exactly.
+        /// </summary>
+        /// <param name="IdxKey">An index key.</param>
+        IEnumerable<TValue> NotEquals(TKey IdxKey);
+
+        #endregion
+
+        #region >, >=
+
+        /// <summary>
+        /// Get the indexed elements for the given typed index key
+        /// exactly matching the given index key.
+        /// </summary>
+        /// <param name="IdxKey">An index key.</param>
+        IEnumerable<TValue> LargerThan(TKey IdxKey);
+
+
+        /// <summary>
+        /// Get the indexed elements for the given typed index key
+        /// exactly matching the given index key.
+        /// </summary>
+        /// <param name="IdxKey">An index key.</param>
+        IEnumerable<TValue> LargerThanOrEquals(TKey IdxKey);
+
+        #endregion
 
     }
 

@@ -43,12 +43,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="InMemoryGraph\APropertyElement.cs" />
+    <Compile Include="InMemoryGraph\Indices\HashIndices\PropertyIndex.cs" />
+    <Compile Include="InMemoryGraph\Indices\HashIndices\DictionaryIndex.cs" />
     <Compile Include="InMemoryGraph\Indices\IndexingMethods.cs" />
     <Compile Include="InMemoryGraph\Indices\IPropertyElementIndexExtensions.cs" />
-    <Compile Include="InMemoryGraph\Indices\PropertyHyperEdgeIndex.cs" />
-    <Compile Include="InMemoryGraph\Indices\PropertyEdgeIndex.cs" />
-    <Compile Include="InMemoryGraph\Indices\PropertyVertexIndex.cs" />
-    <Compile Include="InMemoryGraph\Indices\PropertyElementIndex.cs" />
+    <Compile Include="InMemoryGraph\Indices\HashIndices\PropertyHyperEdgeIndex.cs" />
+    <Compile Include="InMemoryGraph\Indices\HashIndices\PropertyEdgeIndex.cs" />
+    <Compile Include="InMemoryGraph\Indices\HashIndices\PropertyVertexIndex.cs" />
     <Compile Include="InMemoryGraph\SimplePropertyGraph.cs" />
     <Compile Include="InMemoryGraph\Properties.cs" />
     <Compile Include="InMemoryGraph\DynamicGraphObject.cs" />

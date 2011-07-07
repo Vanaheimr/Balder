@@ -365,11 +365,11 @@ namespace de.ahzf.Blueprints.PropertyGraph
     /// <summary>
     /// A delegate for deciding if an element should be indexed or not.
     /// </summary>
-    /// <typeparam name="T">The type of the elements to index.</typeparam>
-    /// <typeparam name="TIndexKey">The type of the index keys.</typeparam>
+    /// <typeparam name="TKey">The type of the index keys.</typeparam>
+    /// <typeparam name="TValue">The type of the elements to index.</typeparam>
     /// <param name="Element">The element to be indexed.</param>
     /// <returns>True if the element should be indexed; False otherwise.</returns>
-    public delegate Boolean IndexSelector<T, TIndexKey> (T Element);
+    public delegate Boolean IndexSelector<TKey, TValue> (TValue Element);
 
     #endregion
 
@@ -378,11 +378,11 @@ namespace de.ahzf.Blueprints.PropertyGraph
     /// <summary>
     /// A delegate for transforming an element into an index key.
     /// </summary>
-    /// <typeparam name="T">The type of the elements to index.</typeparam>
-    /// <typeparam name="TIndexKey">The type of the index keys.</typeparam>
+    /// <typeparam name="TKey">The type of the index keys.</typeparam>
+    /// <typeparam name="TValue">The type of the elements to index.</typeparam>
     /// <param name="Element">The element to be indexed.</param>
     /// <returns>An indexkey.</returns>
-    public delegate TIndexKey IndexTransformation<T, TIndexKey>(T Element);
+    public delegate TKey IndexTransformation<TKey, TValue>(TValue Element);
 
     #endregion
 

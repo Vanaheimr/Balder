@@ -67,97 +67,103 @@ namespace de.ahzf.Blueprints.PropertyGraph
 
     {
 
-        #region CreateVerticesIndex<TIndexKey>(Name, Transformation, Selector = null, Datastructure = null, AutomaticIndex = false)
+        #region CreateVerticesIndex<TIndexKey>(Name, IndexDatastructure, Transformation, Selector = null, IsAutomaticIndex = false)
 
         /// <summary>
         /// Generate an index for vertex lookups.
         /// </summary>
         /// <typeparam name="TIndexKey">The type of the index keys.</typeparam>
         /// <param name="Name">A human-friendly name for the index.</param>
+        /// <param name="IndexDatastructure">A datastructure for maintaining the index.</param>
         /// <param name="Transformation">A delegate for transforming a vertex into an index key.</param>
         /// <param name="Selector">A delegate for deciding if a vertex should be indexed or not.</param>
-        /// <param name="Datastructure">An optional datastructure for maintaining the index.</param>
-        /// <param name="AutomaticIndex">Should this index be maintained by the database or by the user?</param>
+        /// <param name="IsAutomaticIndex">Should this index be maintained by the database or by the user?</param>
         /// <returns>A new index data structure.</returns>
-        IPropertyElementIndex<IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TIndexKey>
+        IPropertyElementIndex<TIndexKey, IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                         TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                         TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
             
                CreateVerticesIndex<TIndexKey>(String Name,
-                                              IndexTransformation   <IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                                                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TIndexKey> Transformation,
-                                              IndexSelector         <IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                                                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TIndexKey> Selector = null,
-                                              IDictionary<TIndexKey, IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                                                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> Datastructure = null,
-                                              Boolean AutomaticIndex = false)
+                                              ILookup<TIndexKey,  IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                                  TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> IndexDatastructure,
+                                              IndexTransformation<TIndexKey,
+                                                                  IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                                  TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> Transformation,
+                                              IndexSelector      <TIndexKey,
+                                                                  IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                                  TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> Selector = null,
+                                              Boolean IsAutomaticIndex = false)
 
             where TIndexKey : IEquatable<TIndexKey>, IComparable<TIndexKey>, IComparable;
 
         #endregion
 
-        #region CreateEdgesIndex<TIndexKey>(Name, Transformation, Selector = null, Datastructure = null, AutomaticIndex = false)
+        #region CreateEdgesIndex<TIndexKey>(Name, IndexDatastructure, Transformation, Selector = null, IsAutomaticIndex = false)
 
         /// <summary>
         /// Generate an index for edge lookups.
         /// </summary>
         /// <typeparam name="TIndexKey">The type of the index keys.</typeparam>
         /// <param name="Name">A human-friendly name for the index.</param>
+        /// <param name="IndexDatastructure">A datastructure for maintaining the index.</param>
         /// <param name="Transformation">A delegate for transforming a edge into an index key.</param>
         /// <param name="Selector">A delegate for deciding if a edge should be indexed or not.</param>
-        /// <param name="Datastructure">An optional datastructure for maintaining the index.</param>
-        /// <param name="AutomaticIndex">Should this index be maintained by the database or by the user?</param>
+        /// <param name="IsAutomaticIndex">Should this index be maintained by the database or by the user?</param>
         /// <returns>A new index data structure.</returns>
-        IPropertyElementIndex<IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                            TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                            TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TIndexKey>
+        IPropertyElementIndex<TIndexKey, IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
 
                CreateEdgesIndex<TIndexKey>(String Name,
-                                           IndexTransformation   <IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                                                                TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TIndexKey> Transformation,
-                                           IndexSelector         <IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                                                                TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TIndexKey> Selector = null,
-                                           IDictionary<TIndexKey, IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                                                                TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> Datastructure = null,
-                                           Boolean AutomaticIndex = false)
+                                           ILookup<TIndexKey,  IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                             TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> IndexDatastructure,
+                                           IndexTransformation<TIndexKey,
+                                                               IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                             TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> Transformation,
+                                           IndexSelector      <TIndexKey,
+                                                               IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                             TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> Selector = null,
+                                           Boolean IsAutomaticIndex = false)
 
             where TIndexKey : IEquatable<TIndexKey>, IComparable<TIndexKey>, IComparable;
 
         #endregion
 
-        #region CreateHyperEdgesIndex<TIndexKey>(Name, Transformation, Selector = null, Datastructure = null, AutomaticIndex = false)
+        #region CreateHyperEdgesIndex<TIndexKey>(Name, IndexDatastructure, Transformation, Selector = null, IsAutomaticIndex = false)
 
         /// <summary>
         /// Generate an index for hyperedge lookups.
         /// </summary>
         /// <typeparam name="TIndexKey">The type of the index keys.</typeparam>
         /// <param name="Name">A human-friendly name for the index.</param>
+        /// <param name="IndexDatastructure">A datastructure for maintaining the index.</param>
         /// <param name="Transformation">A delegate for transforming a hyperedge into an index key.</param>
         /// <param name="Selector">A delegate for deciding if a hyperedge should be indexed or not.</param>
-        /// <param name="Datastructure">An optional datastructure for maintaining the index.</param>
-        /// <param name="AutomaticIndex">Should this index be maintained by the database or by the user?</param>
+        /// <param name="IsAutomaticIndex">Should this index be maintained by the database or by the user?</param>
         /// <returns>A new index data structure.</returns>
-        IPropertyElementIndex<IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                                 TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                 TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TIndexKey>
+        IPropertyElementIndex<TIndexKey, IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                            TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                            TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
 
                CreateHyperEdgesIndex<TIndexKey>(String Name,
-                                                IndexTransformation   <IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                                                                          TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                          TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TIndexKey> Transformation,
-                                                IndexSelector         <IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                                                                          TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                          TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TIndexKey> Selector = null,
-                                                IDictionary<TIndexKey, IPropertyHyperEdge<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex,
-                                                                                          TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                          TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> Datastructure = null,
-                                                Boolean AutomaticIndex = false)
+                                                ILookup<TIndexKey,  IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> IndexDatastructure,
+                                                IndexTransformation<TIndexKey,
+                                                                    IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> Transformation,
+                                                IndexSelector      <TIndexKey,
+                                                                    IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> Selector = null,
+                                                Boolean IsAutomaticIndex = false)
 
             where TIndexKey : IEquatable<TIndexKey>, IComparable<TIndexKey>, IComparable;
 

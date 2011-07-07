@@ -49,12 +49,18 @@ namespace de.ahzf.Blueprints.UnitTests
 
             var _graph = DemoGraphFactory.CreateDemoGraph();
             var _index1 = _graph.CreateVerticesIndex("IdxNames",
+                                                     new DictionaryIndex<String, IPropertyVertex<UInt64, Int64,         String, Object,
+                                                                                                 UInt64, Int64, String, String, Object,
+                                                                                                 UInt64, Int64, String, String, Object>>(),
                                                      e => e.GetProperty("name").ToString().ToLower() +
                                                           e.GetProperty("age").ToString(),
                                                      e => Indexing.HasKeys(e, "name", "age"));
 
             var _index2 = _graph.CreateVerticesIndex<Int32>("IdxAges",
-                                                            e => (Int32)e.GetProperty("age"),
+                                                            new DictionaryIndex<Int32, IPropertyVertex<UInt64, Int64,         String, Object,
+                                                                                                       UInt64, Int64, String, String, Object,
+                                                                                                       UInt64, Int64, String, String, Object>>(),
+                                                            e => (Int32) e.GetProperty("age"),
                                                             e => Indexing.HasKeys(e, "age"));
 
             var _Idx = _graph.VerticesIndices().First();
@@ -62,9 +68,9 @@ namespace de.ahzf.Blueprints.UnitTests
             _index2.Insert(_graph.Vertices);
 
             //var x = _Idx.As();
-            var y = _Idx.Get("alice18").ToList();
-            var z = _Idx.Get(18).ToList();
-            var m = _index2.Get(18);
+            var y = _Idx.Equals("alice18").ToList();
+            var z = _Idx.Equals(18).ToList();
+            var m = _index2.Equals(18);
 
         }
 
