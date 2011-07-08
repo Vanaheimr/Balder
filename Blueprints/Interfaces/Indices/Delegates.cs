@@ -37,4 +37,8 @@ namespace de.ahzf.Blueprints.PropertyGraph
         where T         : IEquatable<T>,         IComparable<T>,         IComparable
         where TIndexKey : IEquatable<TIndexKey>, IComparable<TIndexKey>, IComparable;
 
+
+
+    public delegate Boolean IndexNameEvaluator(String IndexName);
+
 }

@@ -94,7 +94,13 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// True if the index supports efficient range queries;
         /// False otherwise.
         /// </summary>
-        public Boolean SupportsEfficentExactMatchQueries { get; private set; }
+        public Boolean SupportsEfficentExactMatchQueries
+        {
+            get
+            {
+                return IndexDatastructure.SupportsEfficentExactMatchQueries;
+            }
+        }
 
         #endregion
 
@@ -104,7 +110,13 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// True if the index supports efficient range queries;
         /// False otherwise.
         /// </summary>
-        public Boolean SupportsEfficentRangeQueries { get; private set; }
+        public Boolean SupportsEfficentRangeQueries
+        {
+            get
+            {
+                return IndexDatastructure.SupportsEfficentRangeQueries;
+            }
+        }
 
         #endregion
 
@@ -120,7 +132,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="Name">A human-friendly name for this index.</param>
         /// <param name="Transformation">A delegate for transforming a PropertyElement into an index key.</param>
         /// <param name="Selector">An optional delegate for deciding if a PropertyElement should be indexed or not.</param>
-        /// <param name="Datastructure">An optional datastructure for maintaining the index.</param>
+        /// <param name="IndexDatastructure">A datastructure for maintaining the index.</param>
         /// <param name="IsAutomaticIndex">Should this index be maintained by the database or by the user?</param>
         /// <param name="SupportsEfficentExactMatchQueries">True if the index supports efficient range queries; False otherwise.</param>
         /// <param name="SupportsEfficentRangeQueries">True if the index supports efficient range queries; False otherwise.</param>
@@ -142,8 +154,6 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
             this.Selector                          = Selector;
             this.IsAutomaticIndex                  = IsAutomaticIndex;
             this.KeyType                           = typeof(TKey);
-            this.SupportsEfficentExactMatchQueries = SupportsEfficentExactMatchQueries;
-            this.SupportsEfficentRangeQueries      = SupportsEfficentRangeQueries;
 
         }
 
@@ -161,7 +171,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         public void Insert(TValue Element)
         {
             if (this.Selector(Element))
-                IndexDatastructure.TryAddValue(Transformation(Element), Element);
+                IndexDatastructure.Add(Transformation(Element), Element);
         }
 
         #endregion
@@ -285,7 +295,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
             
             ISet<TValue> _Set = null;
 
-            if (IndexDatastructure.TryGetValue(IdxKey, out _Set))
+            if (IndexDatastructure.Get(IdxKey, out _Set))
                 return _Set;
 
             return new List<TValue>();

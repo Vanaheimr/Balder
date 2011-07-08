@@ -25,12 +25,43 @@ using System.Collections.Generic;
 namespace de.ahzf.Blueprints
 {
 
+    #region ILookup
+
+    /// <summary>
+    /// An interface for all lookup datastructures.
+    /// </summary>
+    public interface ILookup
+    {
+
+        /// <summary>
+        /// The name of this index datastructure.
+        /// </summary>
+        String Name { get; }
+
+        /// <summary>
+        /// True if the index supports efficient range queries;
+        /// False otherwise.
+        /// </summary>
+        Boolean SupportsEfficentExactMatchQueries { get; }
+
+        /// <summary>
+        /// True if the index supports efficient range queries;
+        /// False otherwise.
+        /// </summary>
+        Boolean SupportsEfficentRangeQueries { get; }
+
+    }
+
+    #endregion
+
+    #region ILookup<TKey, TValue>
+
     /// <summary>
     /// A generic interface for all lookup datastructures.
     /// </summary>
     /// <typeparam name="TKey">The lookup key.</typeparam>
     /// <typeparam name="TValue">The lookup values.</typeparam>
-    public interface ILookup<TKey, TValue> : IEnumerable<KeyValuePair<TKey, ISet<TValue>>>
+    public interface ILookup<TKey, TValue> : ILookup, IEnumerable<KeyValuePair<TKey, ISet<TValue>>>
         where TKey   : IEquatable<TKey>,   IComparable<TKey>,   IComparable
         where TValue : IEquatable<TValue>, IComparable<TValue>, IComparable
     {
@@ -55,17 +86,19 @@ namespace de.ahzf.Blueprints
         #endregion
 
 
-        Boolean TryAddValue(TKey key, TValue value);
+        Boolean Add(TKey key, TValue value);
 
         Boolean ContainsKey(TKey key);
         Boolean ContainsValue(TValue value);
         Boolean Contains(TKey key, TValue value);
 
-        Boolean TryGetValue(TKey key, out ISet<TValue> value);
+        Boolean Get(TKey key, out ISet<TValue> value);
 
-        Boolean TryRemove(TKey key);
-        Boolean TryRemove(TKey key, TValue value);
+        Boolean Remove(TKey key);
+        Boolean Remove(TKey key, TValue value);
 
     }
+
+    #endregion
 
 }

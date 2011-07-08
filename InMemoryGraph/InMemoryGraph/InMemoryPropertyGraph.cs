@@ -22,6 +22,7 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
+using System.Reflection;
 
 #endregion
 
@@ -837,16 +838,59 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         #endregion
 
 
+        #region (private) ActiveIndex(IndexClassName)
+
+        private ILookup<TIndexKey, TIndexValue>
+
+                ActiveIndex<TIndexKey, TIndexValue>(String IndexClassName)
+
+            where TIndexKey   : IEquatable<TIndexKey>,   IComparable<TIndexKey>,   IComparable
+            where TIndexValue : IEquatable<TIndexValue>, IComparable<TIndexValue>, IComparable
+
+        {
+
+            Type IndexType = null;
+            //if (IndexDatastructure == "DictionaryIndex")
+            //    IndexType = typeof(DictionaryIndex<,>);
+            //var IndexType = IndexDatastructure.GetType().GetGenericTypeDefinition();
+
+            var myAssembly = this.GetType().Assembly;
+
+            if (IndexClassName.IndexOf('.') < 0)
+                IndexType = myAssembly.GetType(this.GetType().Namespace + "." + IndexClassName + "`2");
+            else
+                IndexType = myAssembly.GetType(IndexClassName + "`2");
+
+
+            // Check if the index type implements the ILookup interface
+            if (!IndexType.FindInterfaces((type, o) => { if (type == typeof(ILookup)) return true; else return false; }, null).Any())
+                throw new ArgumentException("The given class does not implement the ILookup interface!");
+
+            var typeArgs = new Type[] { typeof(TIndexKey), typeof(TIndexValue) };
+            
+            Type constructed = IndexType.MakeGenericType(typeArgs);
+
+            var Index = Activator.CreateInstance(constructed) as ILookup<TIndexKey, TIndexValue>;
+
+            if (Index == null)
+                throw new ArgumentException("The given class does not implement the ILookup<TIndexKey, TIndexValue> interface!");
+
+            return Index;
+        
+        }
+
+        #endregion
+
         #region GraphIndexing
 
-        #region CreateVerticesIndex<TIndexKey>(Name, IndexDatastructure, Transformation, Selector = null, AutomaticIndex = false)
+        #region CreateVerticesIndex<TIndexKey>(Name, IndexClassName, Transformation, Selector = null, AutomaticIndex = false)
 
         /// <summary>
         /// Generate an index for vertex lookups.
         /// </summary>
         /// <typeparam name="TIndexKey">The type of the index keys.</typeparam>
         /// <param name="Name">A human-friendly name for the index.</param>
-        /// <param name="IndexDatastructure">A datastructure for maintaining the index.</param>
+        /// <param name="IndexClassName">The class name of a datastructure maintaining the index.</param>
         /// <param name="Transformation">A delegate for transforming a vertex into an index key.</param>
         /// <param name="Selector">A delegate for deciding if a vertex should be indexed or not.</param>
         /// <param name="IsAutomaticIndex">Should this index be maintained by the database or by the user?</param>
@@ -856,9 +900,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                                                                 TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
             
                CreateVerticesIndex<TIndexKey>(String Name,                                              
-                                              ILookup<TIndexKey,  IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                                                                  TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> IndexDatastructure,
+                                              String IndexClassName,
                                               IndexTransformation<TIndexKey,
                                                                   IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                                                   TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
@@ -872,6 +914,10 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
             where TIndexKey : IEquatable<TIndexKey>, IComparable<TIndexKey>, IComparable
 
         {
+
+            var IndexDatastructure = ActiveIndex<TIndexKey, IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                            TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                            TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>(IndexClassName);
 
             var _NewIndex = new PropertyVertexIndex<TIndexKey,
                                                     TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,  
@@ -890,14 +936,14 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #endregion
 
-        #region CreateEdgesIndex<TIndexKey>(Name, IndexDatastructure, Transformation, Selector = null, IsAutomaticIndex = false)
+        #region CreateEdgesIndex<TIndexKey>(Name, IndexClassName, Transformation, Selector = null, IsAutomaticIndex = false)
 
         /// <summary>
         /// Generate an index for edge lookups.
         /// </summary>
         /// <typeparam name="TIndexKey">The type of the index keys.</typeparam>
         /// <param name="Name">A human-friendly name for the index.</param>
-        /// <param name="IndexDatastructure">A datastructure for maintaining the index.</param>
+        /// <param name="IndexClassName">The class name of a datastructure maintaining the index.</param>
         /// <param name="Transformation">A delegate for transforming a vertex into an index key.</param>
         /// <param name="Selector">A delegate for deciding if a vertex should be indexed or not.</param>
         /// <param name="IsAutomaticIndex">Should this index be maintained by the database or by the user?</param>
@@ -907,9 +953,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                                                               TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
             
                CreateEdgesIndex<TIndexKey>(String Name,                                              
-                                           ILookup<TIndexKey,  IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                                                             TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> IndexDatastructure,
+                                           String IndexClassName,
                                            IndexTransformation<TIndexKey,
                                                                IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
@@ -923,6 +967,10 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
             where TIndexKey : IEquatable<TIndexKey>, IComparable<TIndexKey>, IComparable
 
         {
+
+            var IndexDatastructure = ActiveIndex<TIndexKey, IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                          TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                          TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>(IndexClassName);
 
             var _NewIndex = new PropertyEdgeIndex<TIndexKey,
                                                   TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,  
@@ -941,14 +989,14 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #endregion
 
-        #region CreateHyperEdgesIndex<TIndexKey>(Name, IndexDatastructure, Transformation, Selector = null, IsAutomaticIndex = false)
+        #region CreateHyperEdgesIndex<TIndexKey>(Name, IndexClassName, Transformation, Selector = null, IsAutomaticIndex = false)
 
         /// <summary>
         /// Generate an index for hyperedge lookups.
         /// </summary>
         /// <typeparam name="TIndexKey">The type of the index keys.</typeparam>
         /// <param name="Name">A human-friendly name for the index.</param>
-        /// <param name="IndexDatastructure">A datastructure for maintaining the index.</param>
+        /// <param name="IndexClassName">The class name of a datastructure maintaining the index.</param>
         /// <param name="Transformation">A delegate for transforming a vertex into an index key.</param>
         /// <param name="Selector">A delegate for deciding if a vertex should be indexed or not.</param>
         /// <param name="IsAutomaticIndex">Should this index be maintained by the database or by the user?</param>
@@ -964,9 +1012,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
 
                CreateHyperEdgesIndex<TIndexKey>(String Name,
-                                                ILookup<TIndexKey,     IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                                                                          TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                          TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> IndexDatastructure,
+                                                String IndexClassName,
                                                 IndexTransformation   <TIndexKey,
                                                                        IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                                                           TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
@@ -980,6 +1026,10 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
             where TIndexKey : IEquatable<TIndexKey>, IComparable<TIndexKey>, IComparable
 
         {
+
+            var IndexDatastructure = ActiveIndex<TIndexKey, IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                               TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                               TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>(IndexClassName);
 
             var _NewIndex = new PropertyHyperEdgeIndex<TIndexKey,
                                                        TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,  
@@ -1235,6 +1285,179 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
             {
                 if (_ManualHyperEdgesIndices.ContainsKey(Name))
                     _ManualHyperEdgesIndices.Remove(Name);
+            }
+
+        }
+
+        #endregion
+
+
+        #region DropVerticesIndices(IndexNameEvaluator = null)
+
+        /// <summary>
+        /// Remove vertices indices associated with the graph.
+        /// </summary>
+        /// <param name="IndexNameEvaluator">A delegate evaluating the indices to drop.</param>
+        public void DropVerticesIndex(IndexNameEvaluator IndexNameEvaluator = null)
+        {
+
+            lock (_AutomaticVerticesIndices)
+            {
+
+                if (IndexNameEvaluator == null)
+                    _AutomaticEdgesIndices.Clear();
+
+                else
+                {
+                    
+                    var _RemoveList = new List<String>();
+                    
+                    foreach (var _IndexName in _AutomaticVerticesIndices.Keys)
+                        if (IndexNameEvaluator(_IndexName))
+                            _RemoveList.Add(_IndexName);
+
+                    foreach (var _IndexName in _RemoveList)
+                        _AutomaticVerticesIndices.Remove(_IndexName);
+
+                }
+
+            }
+
+            lock (_ManualVerticesIndices)
+            {
+
+                if (IndexNameEvaluator == null)
+                    _ManualVerticesIndices.Clear();
+
+                else
+                {
+
+                    var _RemoveList = new List<String>();
+
+                    foreach (var _IndexName in _ManualVerticesIndices.Keys)
+                        if (IndexNameEvaluator(_IndexName))
+                            _RemoveList.Add(_IndexName);
+
+                    foreach (var _IndexName in _RemoveList)
+                        _ManualVerticesIndices.Remove(_IndexName);
+
+                }
+
+            }
+
+        }
+
+        #endregion
+
+        #region DropEdgesIndices(IndexNameEvaluator = null)
+
+        /// <summary>
+        /// Remove edges indices associated with the graph.
+        /// </summary>
+        /// <param name="IndexNameEvaluator">A delegate evaluating the indices to drop.</param>
+        public void DropEdgesIndex(IndexNameEvaluator IndexNameEvaluator = null)
+        {
+
+            lock (_AutomaticEdgesIndices)
+            {
+
+                if (IndexNameEvaluator == null)
+                    _AutomaticEdgesIndices.Clear();
+
+                else
+                {
+
+                    var _RemoveList = new List<String>();
+
+                    foreach (var _IndexName in _AutomaticEdgesIndices.Keys)
+                        if (IndexNameEvaluator(_IndexName))
+                            _RemoveList.Add(_IndexName);
+
+                    foreach (var _IndexName in _RemoveList)
+                        _AutomaticEdgesIndices.Remove(_IndexName);
+
+                }
+
+            }
+
+            lock (_ManualEdgesIndices)
+            {
+
+                if (IndexNameEvaluator == null)
+                    _ManualEdgesIndices.Clear();
+
+                else
+                {
+
+                    var _RemoveList = new List<String>();
+
+                    foreach (var _IndexName in _ManualEdgesIndices.Keys)
+                        if (IndexNameEvaluator(_IndexName))
+                            _RemoveList.Add(_IndexName);
+
+                    foreach (var _IndexName in _RemoveList)
+                        _ManualEdgesIndices.Remove(_IndexName);
+
+                }
+
+            }
+
+        }
+
+
+        #endregion
+
+        #region DropHyperEdgesIndices(IndexNameEvaluator = null)
+
+        /// <summary>
+        /// Remove hyperedge indices associated with the graph.
+        /// </summary>
+        /// <param name="IndexNameEvaluator">A delegate evaluating the indices to drop.</param>
+        public void DropHyperEdgesIndex(IndexNameEvaluator IndexNameEvaluator = null)
+        {
+
+            lock (_AutomaticHyperEdgesIndices)
+            {
+
+                if (IndexNameEvaluator == null)
+                    _AutomaticHyperEdgesIndices.Clear();
+
+                else
+                {
+
+                    var _RemoveList = new List<String>();
+
+                    foreach (var _IndexName in _AutomaticHyperEdgesIndices.Keys)
+                        if (IndexNameEvaluator(_IndexName))
+                            _RemoveList.Add(_IndexName);
+
+                    foreach (var _IndexName in _RemoveList)
+                        _AutomaticHyperEdgesIndices.Remove(_IndexName);
+
+                }
+
+            }
+
+            lock (_ManualHyperEdgesIndices)
+            {
+
+                if (IndexNameEvaluator == null)
+                    _ManualHyperEdgesIndices.Clear();
+
+                else
+                {
+
+                    var _RemoveList = new List<String>();
+
+                    foreach (var _IndexName in _ManualHyperEdgesIndices.Keys)
+                        if (IndexNameEvaluator(_IndexName))
+                            _RemoveList.Add(_IndexName);
+
+                    foreach (var _IndexName in _RemoveList)
+                        _ManualHyperEdgesIndices.Remove(_IndexName);
+
+                }
+
             }
 
         }

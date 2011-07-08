@@ -53,9 +53,9 @@
     <Compile Include="Datastructures\Quadtree\Rectangle.cs" />
     <Compile Include="Extensions\QuadStore\IQuadStoreExtensions.cs" />
     <Compile Include="Interfaces\PropertyGraph\Delegates.cs" />
-    <Compile Include="Interfaces\PropertyGraph\Indices\Delegates.cs" />
-    <Compile Include="Interfaces\ILookup.cs" />
-    <Compile Include="Interfaces\PropertyGraph\Indices\IPropertyElementIndex.cs" />
+    <Compile Include="Interfaces\Indices\Delegates.cs" />
+    <Compile Include="Interfaces\Indices\ILookup.cs" />
+    <Compile Include="Interfaces\Indices\IPropertyElementIndex.cs" />
     <Compile Include="Interfaces\QuadStore\Delegates.cs" />
     <Compile Include="Datastructures\HyperEdgeId.cs" />
     <Compile Include="Datastructures\SemanticProperty.cs" />
@@ -82,7 +82,7 @@
     <Compile Include="Interfaces\GenericGraph\IGenericEdge.cs" />
     <Compile Include="Interfaces\GenericGraph\IGenericVertex.cs" />
     <Compile Include="Interfaces\GenericGraph\IGenericGraph.cs" />
-    <Compile Include="Interfaces\PropertyGraph\Indices\IGraphIndexing.cs" />
+    <Compile Include="Interfaces\Indices\IGraphIndexing.cs" />
     <Compile Include="Interfaces\PropertyGraph\IPropertyGraph.cs" />
     <Compile Include="Interfaces\PropertyGraph\IPropertyEdge.cs" />
     <Compile Include="Interfaces\PropertyGraph\IProperties.cs" />
@@ -102,7 +102,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Exceptions\GenericGraph\" />
+    <Folder Include="Exceptions\Indices\" />
     <Folder Include="Exceptions\PropertyGraph\" />
+    <Folder Include="Extensions\Indices\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

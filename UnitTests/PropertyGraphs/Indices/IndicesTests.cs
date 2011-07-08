@@ -49,17 +49,13 @@ namespace de.ahzf.Blueprints.UnitTests
 
             var _graph = DemoGraphFactory.CreateDemoGraph();
             var _index1 = _graph.CreateVerticesIndex("IdxNames",
-                                                     new DictionaryIndex<String, IPropertyVertex<UInt64, Int64,         String, Object,
-                                                                                                 UInt64, Int64, String, String, Object,
-                                                                                                 UInt64, Int64, String, String, Object>>(),
+                                                     "DictionaryIndex",
                                                      e => e.GetProperty("name").ToString().ToLower() +
                                                           e.GetProperty("age").ToString(),
                                                      e => Indexing.HasKeys(e, "name", "age"));
 
             var _index2 = _graph.CreateVerticesIndex<Int32>("IdxAges",
-                                                            new DictionaryIndex<Int32, IPropertyVertex<UInt64, Int64,         String, Object,
-                                                                                                       UInt64, Int64, String, String, Object,
-                                                                                                       UInt64, Int64, String, String, Object>>(),
+                                                            "DictionaryIndex",
                                                             e => (Int32) e.GetProperty("age"),
                                                             e => Indexing.HasKeys(e, "age"));
 

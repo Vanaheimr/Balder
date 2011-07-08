@@ -67,14 +67,14 @@ namespace de.ahzf.Blueprints.PropertyGraph
 
     {
 
-        #region CreateVerticesIndex<TIndexKey>(Name, IndexDatastructure, Transformation, Selector = null, IsAutomaticIndex = false)
+        #region CreateVerticesIndex<TIndexKey>(Name, IndexClassName, Transformation, Selector = null, IsAutomaticIndex = false)
 
         /// <summary>
         /// Generate an index for vertex lookups.
         /// </summary>
         /// <typeparam name="TIndexKey">The type of the index keys.</typeparam>
         /// <param name="Name">A human-friendly name for the index.</param>
-        /// <param name="IndexDatastructure">A datastructure for maintaining the index.</param>
+        /// <param name="IndexClassName">The class name of a datastructure maintaining the index.</param>
         /// <param name="Transformation">A delegate for transforming a vertex into an index key.</param>
         /// <param name="Selector">A delegate for deciding if a vertex should be indexed or not.</param>
         /// <param name="IsAutomaticIndex">Should this index be maintained by the database or by the user?</param>
@@ -84,9 +84,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
                                                          TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
             
                CreateVerticesIndex<TIndexKey>(String Name,
-                                              ILookup<TIndexKey,  IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                                                                  TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> IndexDatastructure,
+                                              String IndexClassName,
                                               IndexTransformation<TIndexKey,
                                                                   IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                                                   TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
@@ -101,14 +99,14 @@ namespace de.ahzf.Blueprints.PropertyGraph
 
         #endregion
 
-        #region CreateEdgesIndex<TIndexKey>(Name, IndexDatastructure, Transformation, Selector = null, IsAutomaticIndex = false)
+        #region CreateEdgesIndex<TIndexKey>(Name, IndexClassName, Transformation, Selector = null, IsAutomaticIndex = false)
 
         /// <summary>
         /// Generate an index for edge lookups.
         /// </summary>
         /// <typeparam name="TIndexKey">The type of the index keys.</typeparam>
         /// <param name="Name">A human-friendly name for the index.</param>
-        /// <param name="IndexDatastructure">A datastructure for maintaining the index.</param>
+        /// <param name="IndexClassName">The class name of a datastructure maintaining the index.</param>
         /// <param name="Transformation">A delegate for transforming a edge into an index key.</param>
         /// <param name="Selector">A delegate for deciding if a edge should be indexed or not.</param>
         /// <param name="IsAutomaticIndex">Should this index be maintained by the database or by the user?</param>
@@ -118,9 +116,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
                                                        TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
 
                CreateEdgesIndex<TIndexKey>(String Name,
-                                           ILookup<TIndexKey,  IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                                                             TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> IndexDatastructure,
+                                           String IndexClassName,
                                            IndexTransformation<TIndexKey,
                                                                IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
@@ -135,14 +131,14 @@ namespace de.ahzf.Blueprints.PropertyGraph
 
         #endregion
 
-        #region CreateHyperEdgesIndex<TIndexKey>(Name, IndexDatastructure, Transformation, Selector = null, IsAutomaticIndex = false)
+        #region CreateHyperEdgesIndex<TIndexKey>(Name, IndexClassName, Transformation, Selector = null, IsAutomaticIndex = false)
 
         /// <summary>
         /// Generate an index for hyperedge lookups.
         /// </summary>
         /// <typeparam name="TIndexKey">The type of the index keys.</typeparam>
         /// <param name="Name">A human-friendly name for the index.</param>
-        /// <param name="IndexDatastructure">A datastructure for maintaining the index.</param>
+        /// <param name="IndexClassName">The class name of a datastructure maintaining the index.</param>
         /// <param name="Transformation">A delegate for transforming a hyperedge into an index key.</param>
         /// <param name="Selector">A delegate for deciding if a hyperedge should be indexed or not.</param>
         /// <param name="IsAutomaticIndex">Should this index be maintained by the database or by the user?</param>
@@ -152,9 +148,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
                                                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
 
                CreateHyperEdgesIndex<TIndexKey>(String Name,
-                                                ILookup<TIndexKey,  IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> IndexDatastructure,
+                                                String IndexClassName,
                                                 IndexTransformation<TIndexKey,
                                                                     IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                                                        TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
@@ -249,6 +243,37 @@ namespace de.ahzf.Blueprints.PropertyGraph
         /// </summary>
         /// <param name="Name">The name of the index to drop.</param>
         void DropHyperEdgesIndex(String Name);
+
+        #endregion
+
+
+        #region DropVerticesIndices(IndexNameEvaluator = null)
+
+        /// <summary>
+        /// Remove vertices indices associated with the graph.
+        /// </summary>
+        /// <param name="IndexNameEvaluator">A delegate evaluating the indices to drop.</param>
+        void DropVerticesIndex(IndexNameEvaluator IndexNameEvaluator = null);
+
+        #endregion
+
+        #region DropEdgesIndices(IndexNameEvaluator = null)
+
+        /// <summary>
+        /// Remove edges indices associated with the graph.
+        /// </summary>
+        /// <param name="IndexNameEvaluator">A delegate evaluating the indices to drop.</param>
+        void DropEdgesIndex(IndexNameEvaluator IndexNameEvaluator = null);
+
+        #endregion
+
+        #region DropHyperEdgesIndices(IndexNameEvaluator = null)
+
+        /// <summary>
+        /// Remove hyperedge indices associated with the graph.
+        /// </summary>
+        /// <param name="IndexNameEvaluator">A delegate evaluating the indices to drop.</param>
+        void DropHyperEdgesIndex(IndexNameEvaluator IndexNameEvaluator = null);
 
         #endregion
 

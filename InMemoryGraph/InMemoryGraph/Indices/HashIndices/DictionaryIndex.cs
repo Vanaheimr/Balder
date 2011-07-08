@@ -49,6 +49,47 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #region Properties
 
+        #region Name
+
+        /// <summary>
+        /// The name of this index datastructure.
+        /// </summary>
+        public String Name
+        {
+            get
+            {
+                return this.GetType().Name;
+            }
+        }
+
+        #endregion
+
+        #region SupportsEfficentExactMatchQueries
+
+        /// <summary>
+        /// True if the index supports efficient range queries;
+        /// False otherwise.
+        /// </summary>
+        public Boolean SupportsEfficentExactMatchQueries
+        {
+            get { return true; }
+        }
+
+        #endregion
+
+        #region SupportsEfficentRangeQueries
+
+        /// <summary>
+        /// True if the index supports efficient range queries;
+        /// False otherwise.
+        /// </summary>
+        public Boolean SupportsEfficentRangeQueries
+        {
+            get { return false; }
+        }
+
+        #endregion
+
         #region Keys
 
         /// <summary>
@@ -100,18 +141,28 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #region Constructor(s)
 
-        #region DictionaryIndex(EqualityComparer = null)
+        #region DictionaryIndex()
+
+        /// <summary>
+        /// Creates a new DictionaryIndex.
+        /// (Needed for activating this index datastructure.)
+        /// </summary>
+        public DictionaryIndex()
+        {
+            Index = new Dictionary<TKey, ISet<TValue>>();
+        }
+
+        #endregion
+
+        #region DictionaryIndex(EqualityComparer)
 
         /// <summary>
         /// Creates a new DictionaryIndex.
         /// </summary>
         /// <param name="EqualityComparer">An optional equality comparer for the index key.</param>
-        public DictionaryIndex(IEqualityComparer<TKey> EqualityComparer = null)
+        public DictionaryIndex(IEqualityComparer<TKey> EqualityComparer)
         {
-            if (EqualityComparer == null)
-                Index = new Dictionary<TKey, ISet<TValue>>();
-            else
-                Index = new Dictionary<TKey, ISet<TValue>>(EqualityComparer);
+            Index = new Dictionary<TKey, ISet<TValue>>(EqualityComparer);
         }
 
         #endregion
@@ -123,7 +174,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         
 
-        public Boolean TryAddValue(TKey key, TValue value)
+        public Boolean Add(TKey key, TValue value)
         {
             
             ISet<TValue> _HashSet = null;
@@ -159,17 +210,17 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         }
 
-        public Boolean TryGetValue(TKey key, out ISet<TValue> value)
+        public Boolean Get(TKey key, out ISet<TValue> value)
         {
             return Index.TryGetValue(key, out value);
         }
 
-        public Boolean TryRemove(TKey key)
+        public Boolean Remove(TKey key)
         {
             throw new NotImplementedException();
         }
 
-        public Boolean TryRemove(TKey key, TValue value)
+        public Boolean Remove(TKey key, TValue value)
         {
             throw new NotImplementedException();
         }
@@ -186,6 +237,9 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
             return Index.GetEnumerator();
         }
 
+
+
+        
     }
 
 }
