@@ -42,7 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="InMemoryGraph\APropertyElement.cs" />
+    <Compile Include="InMemoryGraph\AGraphElement.cs" />
     <Compile Include="InMemoryGraph\Indices\HashIndices\PropertyIndex.cs" />
     <Compile Include="InMemoryGraph\Indices\HashIndices\DictionaryIndex.cs" />
     <Compile Include="InMemoryGraph\Indices\IndexingMethods.cs" />
@@ -52,7 +52,7 @@
     <Compile Include="InMemoryGraph\Indices\HashIndices\PropertyVertexIndex.cs" />
     <Compile Include="InMemoryGraph\SimplePropertyGraph.cs" />
     <Compile Include="InMemoryGraph\Properties.cs" />
-    <Compile Include="InMemoryGraph\DynamicGraphObject.cs" />
+    <Compile Include="InMemoryGraph\DynamicGraphElement.cs" />
     <Compile Include="InMemoryGraph\InMemoryPropertyGraph.cs" />
     <Compile Include="InMemoryGraph\PropertyHyperEdge.cs" />
     <Compile Include="InMemoryGraph\PropertyEdge.cs" />

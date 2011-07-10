@@ -20,6 +20,9 @@
 using System;
 using System.Collections.Generic;
 
+using de.ahzf.Blueprints.Indices;
+using de.ahzf.Blueprints.PropertyGraph.Indices;
+
 #endregion
 
 namespace de.ahzf.Blueprints.PropertyGraph.InMemory
@@ -72,7 +75,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="Selector">An optional delegate for deciding if a vertex should be indexed or not.</param>
         /// <param name="AutomaticIndex">Should this index be maintained by the database or by the user?</param>
         public PropertyVertexIndex(String Name,
-                                   ILookup<TIndexKey,  IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                   IIndex<TIndexKey,   IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                                        TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                        TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> IndexDatastructure,
                                    IndexTransformation<TIndexKey,

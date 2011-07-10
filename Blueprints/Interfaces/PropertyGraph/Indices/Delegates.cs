@@ -22,23 +22,20 @@ using System.Collections.Generic;
 
 #endregion
 
-namespace de.ahzf.Blueprints.PropertyGraph
+namespace de.ahzf.Blueprints.PropertyGraph.Indices
 {
 
+    #region IndexFilter<T>(IPropertyElementIndex)
+
     /// <summary>
-    /// A delegate for selecting indexed elements.
+    /// A delegate for selecting indices.
     /// </summary>
-    /// <typeparam name="T">The type of the elements to be indexed.</typeparam>
-    /// <typeparam name="TIndexKey">The type of the index keys.</typeparam>
-    /// <param name="IndexKey">The index key.</param>
-    /// <param name="IndexValues">A set of value for the given index key.</param>
-    /// <returns>True if the elements match; False otherwise.</returns>
-    public delegate Boolean IndexEvaluator<TIndexKey, T>(TIndexKey IndexKey, ISet<T> IndexValues)
-        where T         : IEquatable<T>,         IComparable<T>,         IComparable
-        where TIndexKey : IEquatable<TIndexKey>, IComparable<TIndexKey>, IComparable;
+    /// <typeparam name="TValue">The type of the elements to be indexed.</typeparam>
+    /// <param name="IPropertyElementIndex">An IPropertyElementIndex.</param>
+    /// <returns>True if the index was selected; False otherwise.</returns>
+    public delegate Boolean IndexFilter<TValue>(IPropertyElementIndex<TValue> IPropertyElementIndex)
+        where TValue : IEquatable<TValue>, IComparable<TValue>, IComparable;
 
-
-
-    public delegate Boolean IndexNameEvaluator(String IndexName);
+    #endregion
 
 }

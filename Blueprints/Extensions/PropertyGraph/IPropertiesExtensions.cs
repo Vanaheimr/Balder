@@ -60,7 +60,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
         public static IProperties<TKey, TValue> SetProperty<TKey, TValue>(this IProperties<TKey, TValue> myIProperties, KeyValuePair<TKey, TValue> myKeyValuePair)
             where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
         {
-            return myIProperties.SetProperty(myKeyValuePair.Key, myKeyValuePair.Value);
+            return myIProperties.Set(myKeyValuePair.Key, myKeyValuePair.Value);
         }
 
         #endregion
@@ -77,7 +77,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
             where TKey           : IEquatable<TKey>, IComparable<TKey>, IComparable
         {
             foreach (var _KeyValuePair in myKeyValuePairs)
-                myIProperties.SetProperty(_KeyValuePair.Key, _KeyValuePair.Value);
+                myIProperties.Set(_KeyValuePair.Key, _KeyValuePair.Value);
         }
 
         #endregion
@@ -94,7 +94,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
             where TKey           : IEquatable<TKey>, IComparable<TKey>, IComparable
         {
             foreach (var _KeyValuePair in myIDictionary)
-                myIProperties.SetProperty(_KeyValuePair.Key, _KeyValuePair.Value);
+                myIProperties.Set(_KeyValuePair.Key, _KeyValuePair.Value);
         }
 
         #endregion
@@ -111,7 +111,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
         public static Boolean HasProperty<TKey, TValue>(this IProperties<TKey, TValue> myIProperties, TKey myKey)
             where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
         {
-            return myIProperties.Contains(myKey);
+            return myIProperties.ContainsKey(myKey);
         }
 
         #endregion
@@ -131,7 +131,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
         public static Boolean HasProperty<TKey, TValue>(this IProperties<TKey, TValue> myIProperties, TKey myKey, Object myValue)
             where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
         {
-            return myValue.Equals(myIProperties.GetProperty(myKey));
+            return myValue.Equals(myIProperties[myKey]);
         }
 
         #endregion
@@ -144,7 +144,8 @@ namespace de.ahzf.Blueprints.PropertyGraph
         /// NOTE: Will not work as expected if the values do not implement
         /// the ".Equals(...)"-methods correctly!
         /// </summary>
-        /// <typeparam name="TValue">The type the property.</typeparam>
+        /// <typeparam name="TKey">The type of the property keys.</typeparam>
+        /// <typeparam name="TValue">The type the property values.</typeparam>
         /// <param name="myIProperties">An object implementing IElement.</param>
         /// <param name="myKey">The property key.</param>
         /// <param name="myValue">The property value.</param>
@@ -152,7 +153,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
         public static Boolean HasProperty<TKey, TValue>(this IProperties<TKey, TValue> myIProperties, TKey myKey, TValue myValue)
             where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
         {
-            return myValue.Equals((TValue) myIProperties.GetProperty(myKey));
+            return myValue.Equals((TValue) myIProperties[myKey]);
         }
 
         #endregion
@@ -201,7 +202,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
         /// Return the object value of type TValue associated with the provided string key.
         /// </summary>
         /// <typeparam name="TKey">The type of the property keys.</typeparam>
-        /// <typeparam name="TValue">The type the property.</typeparam>
+        /// <typeparam name="TValue">The type the property values.</typeparam>
         /// <param name="myIProperties">An object implementing IElement.</param>
         /// <param name="myKey">the key of the key/value property</param>
         /// <returns>the object value related to the string key</returns>
@@ -211,7 +212,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
 
             try
             {
-                return (TValue) myIProperties.GetProperty(myKey);
+                return (TValue) myIProperties[myKey];
             }
 
             catch (Exception)
@@ -229,7 +230,8 @@ namespace de.ahzf.Blueprints.PropertyGraph
         /// Get an enumeration of all properties as KeyValuePairs.
         /// An additional property filter may be applied for filtering.
         /// </summary>
-        /// <typeparam name="TValue">The type the properties.</typeparam>
+        /// <typeparam name="TKey">The type of the property keys.</typeparam>
+        /// <typeparam name="TValue">The type the property values.</typeparam>
         /// <param name="myIProperties">An object implementing IElement.</param>
         /// <param name="myPropertyFilter">A delegate for property filtering.</param>
         /// <returns>An enumeration of all selected properties.</returns>
@@ -286,7 +288,9 @@ namespace de.ahzf.Blueprints.PropertyGraph
         /// Get an enumeration of all property values.
         /// An additional property filter may be applied for filtering.
         /// </summary>
-        /// <typeparam name="TValue">The type the properties.</typeparam>
+        /// <typeparam name="TKey">The type of the property keys.</typeparam>
+        /// <typeparam name="TValue">The type the property values.</typeparam>
+        /// <typeparam name="TCast">The type of the cast.</typeparam>
         /// <param name="myIProperties">An object implementing IElement.</param>
         /// <param name="myPropertyFilter">A delegate for property filtering.</param>
         /// <returns>An enumeration of all selected property values.</returns>
@@ -373,7 +377,8 @@ namespace de.ahzf.Blueprints.PropertyGraph
         /// <summary>
         /// Return the given object as an IEnumerable of its type.
         /// </summary>
-        /// <typeparam name="TValue">The type the object.</typeparam>
+        /// <typeparam name="TKey">The type of the property keys.</typeparam>
+        /// <typeparam name="TValue">The type the property values.</typeparam>
         /// <param name="myIProperties">An object implementing IElement.</param>
         /// <returns>The given object as an IEnumerable of its type.</returns>
         public static IEnumerable<TValue> AsList<TKey, TValue>(this TValue myIProperties)

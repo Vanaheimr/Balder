@@ -31,11 +31,11 @@ namespace de.ahzf.Blueprints.PropertyGraph
     #region IProperties<TKey, TValue>
 
     /// <summary>
-    /// This generic interface maintaining a collection of key/value properties
+    /// A generic interface maintaining a collection of key/value properties
     /// within the given datastructure.
     /// </summary>
-    /// <typeparam name="TKey">The type of the property keys.</typeparam>
-    /// <typeparam name="TValue">The type of the property values.</typeparam>
+    /// <typeparam name="TKey">The type of the keys.</typeparam>
+    /// <typeparam name="TValue">The type of the values.</typeparam>
     public interface IProperties<TKey, TValue>
                         : IEnumerable<KeyValuePair<TKey, TValue>>,
                           IPropertyNotifications
@@ -43,6 +43,28 @@ namespace de.ahzf.Blueprints.PropertyGraph
         where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
 
     {
+
+        #region Properties
+
+        #region IdKey
+
+        /// <summary>
+        /// The property key of the identification.
+        /// </summary>
+        TKey IdKey         { get; }
+
+        #endregion
+
+        #region RevisionIdKey
+
+        /// <summary>
+        /// The property key of the revision identification.
+        /// </summary>
+        TKey RevisionIdKey { get; }
+
+        #endregion
+
+        #endregion
 
         #region Events
 
@@ -80,76 +102,102 @@ namespace de.ahzf.Blueprints.PropertyGraph
 
         #endregion
 
-        #region Set and get properties
+        #region Keys/Values
 
         /// <summary>
-        /// Assign a key/value property to the element.
-        /// If a value already exists for this key, then the previous key/value is overwritten.
+        /// An enumeration of all property keys.
         /// </summary>
-        /// <param name="Key">A property key.</param>
-        /// <param name="Value">A property value.</param>
-        IProperties<TKey, TValue> SetProperty(TKey Key, TValue Value);
-
+        IEnumerable<TKey> Keys { get; }
 
         /// <summary>
-        /// Checks if the given property key is assigned.
+        /// An enumeration of all property values.
         /// </summary>
-        /// <param name="Key">A property key.</param>
-        Boolean Contains(TKey Key);
+        IEnumerable<TValue> Values { get; }
 
+        #endregion
+
+        #region Set(Key, Value)
 
         /// <summary>
-        /// Checks if the given key/value pair is assigned.
+        /// Add a KeyValuePair to the graph element.
+        /// If a value already exists for the given key, then the previous value is overwritten.
         /// </summary>
-        /// <param name="Key">A property key.</param>
-        /// <param name="Value">A property value.</param>
+        /// <param name="Key">A key.</param>
+        /// <param name="Value">A value.</param>
+        IProperties<TKey, TValue> Set(TKey Key, TValue Value);
+
+        #endregion
+
+        #region Contains...
+
+        /// <summary>
+        /// Determines if the specified key exists.
+        /// </summary>
+        /// <param name="Key">A key.</param>
+        Boolean ContainsKey(TKey Key);
+
+        /// <summary>
+        /// Determines if the specified value exists.
+        /// </summary>
+        /// <param name="Value">A value.</param>
+        Boolean ContainsValue(TValue Value);
+
+        /// <summary>
+        /// Determines if an KeyValuePair with the specified key and value exists.
+        /// </summary>
+        /// <param name="Key">A key.</param>
+        /// <param name="Value">A value.</param>
         Boolean Contains(TKey Key, TValue Value);
 
+        #endregion
+
+        #region Get...
 
         /// <summary>
-        /// Checks if the given key/value pair is assigned.
+        /// Return the value associated with the given key.
         /// </summary>
-        /// <param name="KeyValuePair">A KeyValuePair.</param>
-        Boolean Contains(KeyValuePair<TKey, TValue> KeyValuePair);
-
+        /// <param name="Key">A key.</param>
+        TValue this[TKey Key] { get; }
 
         /// <summary>
-        /// Return the property value associated with the given property key.
+        /// Return the value associated with the given key.
         /// </summary>
-        /// <param name="myKey">The key of the key/value property.</param>
-        /// <returns>The property value related to the string key.</returns>
-        TValue GetProperty(TKey myKey);
-
+        /// <param name="Key">A key.</param>
+        /// <param name="Value">The associated value.</param>
+        /// <returns>True if the returned value is valid. False otherwise.</returns>
+        Boolean Get(TKey Key, out TValue Value);
 
         /// <summary>
-        /// Try to return the property value associated with the given property key.
+        /// Return a filtered enumeration of all KeyValuePairs.
         /// </summary>
-        /// <param name="Key">The key of the key/value property.</param>
-        /// <param name="Value">The value of the key/value property.</param>
-        /// <returns>True if the returned value is valid.</returns>
-        Boolean TryGetProperty(TKey Key, out TValue Value);
+        /// <param name="KeyValueFilter">A delegate to filter properties based on their keys and values.</param>
+        /// <returns>A enumeration of all key/value pairs matching the given KeyValueFilter.</returns>
+        IEnumerable<KeyValuePair<TKey, TValue>> Get(KeyValueFilter<TKey, TValue> KeyValueFilter = null);
 
+        #endregion
+
+        #region Remove...
 
         /// <summary>
-        /// Allows to return a filtered enumeration of all properties.
+        /// Removes all KeyValuePairs associated with the given key.
         /// </summary>
-        /// <param name="PropertyFilter">A function to filter a property based on its key and value.</param>
-        /// <returns>A enumeration of all key/value pairs matching the given property filter.</returns>
-        IEnumerable<KeyValuePair<TKey, TValue>> GetProperties(PropertyFilter<TKey, TValue> PropertyFilter = null);
-
+        /// <param name="Key">A key.</param>
+        /// <returns>The value associated with that key prior to the removal.</returns>
+        TValue Remove(TKey Key);
 
         /// <summary>
-        /// Removes a key/value property from the element.
+        /// Remove the given KeyValuePair.
         /// </summary>
-        /// <param name="Key">The key of the property to remove.</param>
-        /// <returns>The property value associated with that key prior to removal.</returns>
-        TValue RemoveProperty(TKey Key);
-
+        /// <param name="Key">A key.</param>
+        /// <param name="Value">A value.</param>
+        Boolean Remove(TKey Key, TValue Value);
 
         /// <summary>
-        /// Return all property keys.
+        /// Remove all KeyValuePairs specified by the given KeyValueFilter.
         /// </summary>
-        IEnumerable<TKey> PropertyKeys { get; }
+        /// <param name="KeyValueFilter">A delegate to remove properties based on their keys and values.</param>
+        /// <returns>A enumeration of all key/value pairs removed by the given KeyValueFilter before their removal.</returns>
+        IEnumerable<KeyValuePair<TKey, TValue>> Remove(KeyValueFilter<TKey, TValue> KeyValueFilter = null);
 
         #endregion
 

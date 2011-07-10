@@ -45,7 +45,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
     /// <typeparam name="THyperEdgeLabel">The type of the hyperedge label.</typeparam>
     /// <typeparam name="TKeyHyperEdge">The type of the hyperedge property keys.</typeparam>
     /// <typeparam name="TValueHyperEdge">The type of the hyperedge property values.</typeparam>
-    /// <param name="PropertyVertex">An IPropertyVertex.</param>
+    /// <param name="PropertyGraph">An IPropertyGraph.</param>
     public delegate void GraphInitializer<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                           TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                           TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>(
@@ -358,40 +358,5 @@ namespace de.ahzf.Blueprints.PropertyGraph
         where TKeyHyperEdge           : IEquatable<TKeyHyperEdge>,        IComparable<TKeyHyperEdge>,        IComparable;
 
     #endregion
-
-
-    #region IndexSelector
-
-    /// <summary>
-    /// A delegate for deciding if an element should be indexed or not.
-    /// </summary>
-    /// <typeparam name="TKey">The type of the index keys.</typeparam>
-    /// <typeparam name="TValue">The type of the elements to index.</typeparam>
-    /// <param name="Element">The element to be indexed.</param>
-    /// <returns>True if the element should be indexed; False otherwise.</returns>
-    public delegate Boolean IndexSelector<TKey, TValue> (TValue Element);
-
-    #endregion
-
-    #region IndexTransformation
-
-    /// <summary>
-    /// A delegate for transforming an element into an index key.
-    /// </summary>
-    /// <typeparam name="TKey">The type of the index keys.</typeparam>
-    /// <typeparam name="TValue">The type of the elements to index.</typeparam>
-    /// <param name="Element">The element to be indexed.</param>
-    /// <returns>An indexkey.</returns>
-    public delegate TKey IndexTransformation<TKey, TValue>(TValue Element);
-
-    #endregion
-
-    public delegate Boolean IndexFilter(IPropertyElementIndex IPropertyElementIndex);
-
-    public delegate Boolean IndexFilter<T>(IPropertyElementIndex<T> IPropertyElementIndex)
-        where T : IEquatable<T>, IComparable<T>, IComparable;
-
-
-    public delegate Boolean PropertyFilter<in TKey, in TValue>(TKey Key, TValue Value);
 
 }

@@ -1050,12 +1050,11 @@ namespace de.ahzf.Blueprints.UnitTests
         /// A test for equals null.
         /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void EqualsNullTest1()
         {
             var    _EdgeId = EdgeId.NewEdgeId;
             Object _Object   = null;
-            _EdgeId.Equals(_Object);
+            Assert.IsFalse(_EdgeId.Equals(_Object));
         }
 
         #endregion
@@ -1068,7 +1067,7 @@ namespace de.ahzf.Blueprints.UnitTests
         [Test]
         public void EqualsNullTest2()
         {
-            var      _EdgeId = EdgeId.NewEdgeId;
+            var    _EdgeId = EdgeId.NewEdgeId;
             EdgeId _Object   = null;
             Assert.IsFalse(_EdgeId.Equals(_Object));
         }
@@ -1081,12 +1080,11 @@ namespace de.ahzf.Blueprints.UnitTests
         /// A test for equals a non-EdgeId.
         /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
         public void EqualsNonEdgeIdTest()
         {
             var _EdgeId = EdgeId.NewEdgeId;
             var _Object   = "123";
-            _EdgeId.Equals(_Object);
+            Assert.IsFalse(_EdgeId.Equals(_Object));
         }
 
         #endregion

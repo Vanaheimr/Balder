@@ -1050,12 +1050,11 @@ namespace de.ahzf.Blueprints.UnitTests
         /// A test for equals null.
         /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void EqualsNullTest1()
         {
             var    _HyperEdgeId = HyperEdgeId.NewHyperEdgeId;
             Object _Object   = null;
-            _HyperEdgeId.Equals(_Object);
+            Assert.IsFalse(_HyperEdgeId.Equals(_Object));
         }
 
         #endregion
@@ -1081,12 +1080,11 @@ namespace de.ahzf.Blueprints.UnitTests
         /// A test for equals a non-HyperEdgeId.
         /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
         public void EqualsNonHyperEdgeIdTest()
         {
             var _HyperEdgeId = HyperEdgeId.NewHyperEdgeId;
             var _Object   = "123";
-            _HyperEdgeId.Equals(_Object);
+            Assert.IsFalse(_HyperEdgeId.Equals(_Object));
         }
 
         #endregion

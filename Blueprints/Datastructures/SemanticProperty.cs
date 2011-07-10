@@ -243,7 +243,6 @@ namespace de.ahzf.Blueprints
         /// Compares two instances of this object.
         /// </summary>
         /// <param name="myObject">An object to compare with.</param>
-        /// <returns>true|false</returns>
         public Int32 CompareTo(Object myObject)
         {
 
@@ -268,7 +267,6 @@ namespace de.ahzf.Blueprints
         /// Compares two instances of this object.
         /// </summary>
         /// <param name="mySemanticPropertyKey">An object to compare with.</param>
-        /// <returns>true|false</returns>
         public Int32 CompareTo(SemanticProperty mySemanticPropertyKey)
         {
 
@@ -298,12 +296,12 @@ namespace de.ahzf.Blueprints
 
             // Check if myObject is null
             if (myObject == null)
-                throw new ArgumentNullException("Parameter myObject must not be null!");
+                return false;
 
             // Check if myObject can be cast to SemanticPropertyKey
             var mySemanticPropertyKey = myObject as SemanticProperty;
             if ((Object) mySemanticPropertyKey == null)
-                throw new ArgumentException("Parameter myObject could not be casted to type SemanticPropertyKey!");
+                return false;
 
             return this.Equals(mySemanticPropertyKey);
 
@@ -323,7 +321,7 @@ namespace de.ahzf.Blueprints
 
             // Check if mySemanticPropertyKey is null
             if (mySemanticPropertyKey == null)
-                throw new ArgumentNullException("Parameter mySemanticPropertyKey must not be null!");
+                return false;
 
             return Key.Equals(mySemanticPropertyKey.Key);
 

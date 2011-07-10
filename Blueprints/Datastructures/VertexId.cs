@@ -202,6 +202,21 @@ namespace de.ahzf.Blueprints
 
         #endregion
 
+        #region Operator <= (VertexId1, VertexId2)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="VertexId1">A VertexId.</param>
+        /// <param name="VertexId2">Another VertexId.</param>
+        /// <returns>true|false</returns>
+        public static Boolean operator <= (VertexId VertexId1, VertexId VertexId2)
+        {
+            return !(VertexId1 > VertexId2);
+        }
+
+        #endregion
+
         #region Operator >  (VertexId1, VertexId2)
 
         /// <summary>
@@ -218,21 +233,6 @@ namespace de.ahzf.Blueprints
 
             return VertexId1.CompareTo(VertexId2) > 0;
 
-        }
-
-        #endregion
-
-        #region Operator <= (VertexId1, VertexId2)
-
-        /// <summary>
-        /// Compares two instances of this object.
-        /// </summary>
-        /// <param name="VertexId1">A VertexId.</param>
-        /// <param name="VertexId2">Another VertexId.</param>
-        /// <returns>true|false</returns>
-        public static Boolean operator <= (VertexId VertexId1, VertexId VertexId2)
-        {
-            return !(VertexId1 > VertexId2);
         }
 
         #endregion
@@ -262,7 +262,6 @@ namespace de.ahzf.Blueprints
         /// Compares two instances of this object.
         /// </summary>
         /// <param name="Object">An object to compare with.</param>
-        /// <returns>true|false</returns>
         public override Int32 CompareTo(Object Object)
         {
 
@@ -286,7 +285,6 @@ namespace de.ahzf.Blueprints
         /// Compares two instances of this object.
         /// </summary>
         /// <param name="VertexId">An object to compare with.</param>
-        /// <returns>true|false</returns>
         public Int32 CompareTo(VertexId VertexId)
         {
 
@@ -321,12 +319,12 @@ namespace de.ahzf.Blueprints
         {
 
             if (Object == null)
-                throw new ArgumentNullException("The given object must not be null!");
+                return false;
 
             // Check if the given object is an VertexId.
             var VertexId = Object as VertexId;
             if ((Object) VertexId == null)
-                throw new ArgumentException("The given object is not a VertexId!");
+                return false;
 
             return this.Equals(VertexId);
 

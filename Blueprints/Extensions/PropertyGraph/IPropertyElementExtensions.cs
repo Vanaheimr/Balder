@@ -41,17 +41,16 @@ namespace de.ahzf.Blueprints.PropertyGraph
         /// <typeparam name="TRevisionId">The type of the revision identifiers.</typeparam>
         /// <typeparam name="TKey">The type of the property keys.</typeparam>
         /// <typeparam name="TValue">The type of the property values.</typeparam>
-        /// <typeparam name="TDatastructure">The type of the datastructure to maintain the key/value pairs.</typeparam>
-        /// <param name="myIPropertyElement">An object implementing IPropertyElement&lt;...&gt;.</param>
+        /// <param name="IPropertyElement">An object implementing IPropertyElement&lt;...&gt;.</param>
         /// <returns>A dynamic object</returns>
         public static dynamic AsDynamic<TId, TRevisionId, TKey, TValue>(
-                                        this IPropertyElement<TId, TRevisionId, TKey, TValue> myIPropertyElement)
+                                        this IGraphElement<TId, TRevisionId, TKey, TValue> IPropertyElement)
 
             where TKey        : IEquatable<TKey>,        IComparable<TKey>,        IComparable
             where TId         : IEquatable<TId>,         IComparable<TId>,         IComparable, TValue
             where TRevisionId : IEquatable<TRevisionId>, IComparable<TRevisionId>, IComparable, TValue
         {
-            return myIPropertyElement as dynamic;
+            return IPropertyElement as dynamic;
         }
 
         #endregion

@@ -222,6 +222,21 @@ namespace de.ahzf.Blueprints
 
         #endregion
 
+        #region Operator <= (myRevisionId1, myRevisionId2)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="myRevisionId1">A RevisionId.</param>
+        /// <param name="myRevisionId2">Another RevisionId.</param>
+        /// <returns>true|false</returns>
+        public static Boolean operator <= (RevisionId myRevisionId1, RevisionId myRevisionId2)
+        {
+            return !(myRevisionId1 > myRevisionId2);
+        }
+
+        #endregion
+
         #region Operator >  (myRevisionId1, myRevisionId2)
 
         /// <summary>
@@ -245,21 +260,6 @@ namespace de.ahzf.Blueprints
 
             return false;
 
-        }
-
-        #endregion
-
-        #region Operator <= (myRevisionId1, myRevisionId2)
-
-        /// <summary>
-        /// Compares two instances of this object.
-        /// </summary>
-        /// <param name="myRevisionId1">A RevisionId.</param>
-        /// <param name="myRevisionId2">Another RevisionId.</param>
-        /// <returns>true|false</returns>
-        public static Boolean operator <= (RevisionId myRevisionId1, RevisionId myRevisionId2)
-        {
-            return !(myRevisionId1 > myRevisionId2);
         }
 
         #endregion
@@ -289,7 +289,6 @@ namespace de.ahzf.Blueprints
         /// Compares two instances of this object.
         /// </summary>
         /// <param name="myObject">An object to compare with.</param>
-        /// <returns>true|false</returns>
         public Int32 CompareTo(Object myObject)
         {
 
@@ -317,7 +316,6 @@ namespace de.ahzf.Blueprints
         /// Compares two instances of this object.
         /// </summary>
         /// <param name="myRevisionId">An object to compare with.</param>
-        /// <returns>true|false</returns>
         public Int32 CompareTo(RevisionId myRevisionId)
         {
 

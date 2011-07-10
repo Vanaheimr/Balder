@@ -332,16 +332,19 @@ namespace de.ahzf.Blueprints.Tools
                     Type _Type;
 
                     if (_TypeDictionary.TryGetValue(myImplementationID, out _Type))
+                    {
                         if (_Type != null)
                         {
                             myInstance = (T) Activator.CreateInstance(_Type);
                             return true;
                         }
-
+                    }
 
                 }
-                catch (Exception)
-                { }
+                catch (Exception e)
+                {
+                    throw new Exception("The plugin could not be activated!", e);
+                }
 
                 myInstance = default(T);
 

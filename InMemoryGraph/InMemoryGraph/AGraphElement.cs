@@ -18,7 +18,6 @@
 #region Usings
 
 using System;
-using System.Collections;
 using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Collections.Generic;
@@ -30,32 +29,23 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 {
 
     /// <summary>
-    /// A generic class maintaining a collection of key/value properties
-    /// within the given datastructure.
+    /// The abstract graph element is the base class for all property graph elements:
+    /// The vertices, edges, hyperedges and the property graph itself.
     /// </summary>
-    /// <typeparam name="TId">The type of the ids.</typeparam>
-    /// <typeparam name="TRevisionId">The type of the revision identifiers.</typeparam>
-    /// <typeparam name="TKey">The type of the property keys.</typeparam>
-    /// <typeparam name="TValue">The type of the property values.</typeparam>
-    /// <typeparam name="TDatastructure">The type of the datastructure to maintain the key/value pairs.</typeparam>
-    public class Properties<TId, TRevisionId, TKey, TValue, TDatastructure>
-                    : IProperties<TKey, TValue>,
-                      IProperties<TKey, TValue, TDatastructure>
+    /// <typeparam name="TId">The graph element identification.</typeparam>
+    /// <typeparam name="TRevisionId">The graph element revision identification.</typeparam>
+    /// <typeparam name="TKey">The type of the graph element property keys.</typeparam>
+    /// <typeparam name="TValue">The type of the graph element property values.</typeparam>
+    /// <typeparam name="TDatastructure">A datastructure for storing all properties.</typeparam>
+    public abstract class AGraphElement<TId, TRevisionId, TKey, TValue, TDatastructure>
+                              : IProperties<TKey, TValue>
 
-        where TId            : IEquatable<TId>,  IComparable<TId>,  IComparable, TValue
-        where TKey           : IEquatable<TKey>, IComparable<TKey>, IComparable
-        where TDatastructure : IDictionary<TKey , TValue>
+        where TKey           : IEquatable<TKey>,        IComparable<TKey>,        IComparable
+        where TId            : IEquatable<TId>,         IComparable<TId>,         IComparable, TValue
+        where TRevisionId    : IEquatable<TRevisionId>, IComparable<TRevisionId>, IComparable, TValue
+        where TDatastructure : IDictionary<TKey, TValue>
 
     {
-
-        #region Data
-
-        /// <summary>
-        /// The datastructure holding all graph properties.
-        /// </summary>
-        protected readonly TDatastructure PropertyData;
-
-        #endregion
 
         #region Properties
 
@@ -64,29 +54,26 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <summary>
         /// The property key of the identification.
         /// </summary>
-        public TKey IdKey { get; private set; }
+        public TKey IdKey
+        {
+            get
+            {
+                return PropertyData.IdKey;
+            }
+        }
 
         #endregion
 
         #region Id
 
         /// <summary>
-        /// An identifier that is unique to its inheriting class.
-        /// All vertices of a graph must have unique identifiers.
-        /// All edges of a graph must have unique identifiers.
+        /// The Identification of this property graph element.
         /// </summary>
         public TId Id
         {
             get
             {
-
-                TValue _TValue;
-
-                if (PropertyData.TryGetValue(IdKey, out _TValue))
-                    return (TId) _TValue;
-
-                return default(TId);
-
+                return (TId) PropertyData[IdKey];
             }
         }
 
@@ -97,31 +84,37 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <summary>
         /// The property key of the revision identification.
         /// </summary>
-        public TKey RevisionIdKey { get; private set; }
+        public TKey RevisionIdKey
+        {
+            get
+            {
+                return PropertyData.RevisionIdKey;
+            }
+        }
 
         #endregion
 
         #region RevisionId
 
         /// <summary>
-        /// The RevisionId extends the Id to identify multiple revisions of
-        /// an element during the lifetime of a graph. A RevisionId should
-        /// additionally be unique among all elements of a graph.
+        /// The revision identification of this property graph element.
         /// </summary>
         public TRevisionId RevisionId
         {
             get
             {
-
-                TValue _TValue;
-
-                if (PropertyData.TryGetValue(RevisionIdKey, out _TValue))
-                    return (TRevisionId) (Object) _TValue;
-
-                return default(TRevisionId);
-
+                return (TRevisionId) PropertyData[RevisionIdKey];
             }
         }
+
+        #endregion
+
+        #region PropertyData
+
+        /// <summary>
+        /// The properties of this graph element.
+        /// </summary>
+        public IProperties<TKey, TValue> PropertyData { get; private set; }
 
         #endregion
 
@@ -131,79 +124,112 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #region CollectionChanged/OnCollectionChanged(...)
 
-        public event NotifyCollectionChangedEventHandler CollectionChanged;
+        public event NotifyCollectionChangedEventHandler CollectionChanged
+        {
+
+            add
+            {
+                PropertyData.CollectionChanged += value;
+            }
+
+            remove
+            {
+                PropertyData.CollectionChanged -= value;
+            }
+
+        }
 
         public void OnCollectionChanged(NotifyCollectionChangedEventArgs myNotifyCollectionChangedEventArgs)
         {
-            if (CollectionChanged != null)
-                CollectionChanged(this, myNotifyCollectionChangedEventArgs);
+            PropertyData.OnCollectionChanged(myNotifyCollectionChangedEventArgs);
         }
 
         #endregion
 
         #region PropertyChanging/OnPropertyChanging(...)
 
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public void OnPropertyChanging(String PropertyName)
+        public event PropertyChangingEventHandler PropertyChanging
         {
-            if (PropertyChanging != null)
-                PropertyChanging(this, new PropertyChangingEventArgs(PropertyName));
+
+            add
+            {
+                PropertyData.PropertyChanging += value;
+            }
+
+            remove
+            {
+                PropertyData.PropertyChanging -= value;
+            }
+
+        }
+
+        public void OnPropertyChanging(String myPropertyName)
+        {
+            PropertyData.OnPropertyChanging(myPropertyName);
         }
 
         public void OnPropertyChanging<TResult>(Expression<Func<TResult>> myPropertyExpression)
         {
-            OnPropertyChanged(((MemberExpression) myPropertyExpression.Body).Member.Name);
+            PropertyData.OnPropertyChanging(myPropertyExpression);
         }
 
         #endregion
 
         #region PropertyChanged/OnPropertyChanged(...)
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void OnPropertyChanged(String PropertyName)
+        public event PropertyChangedEventHandler PropertyChanged
         {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(PropertyName));
+
+            add
+            {
+                PropertyData.PropertyChanged += value;
+            }
+
+            remove
+            {
+                PropertyData.PropertyChanged -= value;
+            }
+
+        }
+
+        public void OnPropertyChanged(String myPropertyName)
+        {
+            PropertyData.OnPropertyChanged(myPropertyName);
         }
 
         public void OnPropertyChanged<TResult>(Expression<Func<TResult>> myPropertyExpression)
         {
-            OnPropertyChanged(((MemberExpression)myPropertyExpression.Body).Member.Name);
+            PropertyData.OnPropertyChanged(myPropertyExpression);
         }
 
         #endregion
 
         #endregion
 
-        #region Constructor(s)
+        #region (protected) Constructor(s)
 
-        #region Properties(Id, IdKey, RevisionIdKey, TDatastructureInitializer)
+        #region (protected) AGraphElement(Id, IdKey, RevisonIdKey, DatastructureInitializer, GraphElementInitializer = null)
 
         /// <summary>
-        /// Creates a new collection of key/value properties.
+        /// Creates a new abstract graph element.
         /// </summary>
         /// <param name="Id">The Id of this graph element.</param>
         /// <param name="IdKey">The key to access the Id of this graph element.</param>
-        /// <param name="RevisionIdKey">The key to access the RevisionId of this graph element.</param>
+        /// <param name="RevisonIdKey">The key to access the RevisionId of this graph element.</param>
         /// <param name="DatastructureInitializer">A delegate to initialize the datastructure of the this graph element.</param>
-        public Properties(TId Id, TKey IdKey, TKey RevisionIdKey, Func<TDatastructure> DatastructureInitializer)
+        /// <param name="GraphElementInitializer">An delegate to do some initial operations like adding some properties.</param>
+        internal protected AGraphElement(TId                               Id,
+                                         TKey                              IdKey,
+                                         TKey                              RevisonIdKey,
+                                         Func<TDatastructure>              DatastructureInitializer,
+                                         Action<IProperties<TKey, TValue>> GraphElementInitializer = null)
         {
 
-            if (Id == null)
-                throw new ArgumentNullException("The Id must not be null!");
+            this.PropertyData  = new Properties<TId, TRevisionId, TKey, TValue, TDatastructure>
+                                               (Id, IdKey, RevisonIdKey, DatastructureInitializer);
 
-            if (IdKey == null)
-                throw new ArgumentNullException("The IdKey must not be null!");
-
-            if (RevisionIdKey == null)
-                throw new ArgumentNullException("The RevisionIdKey must not be null!");
-
-            this.IdKey         = IdKey;
-            this.RevisionIdKey = RevisionIdKey;
-            this.PropertyData  = DatastructureInitializer();
-            this.PropertyData.Add(IdKey, Id);
+            if (GraphElementInitializer != null)
+                GraphElementInitializer(PropertyData);
 
         }
 
@@ -253,36 +279,9 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// </summary>
         /// <param name="Key">A key.</param>
         /// <param name="Value">A value.</param>
-        public virtual IProperties<TKey, TValue> Set(TKey Key, TValue Value)
+        public IProperties<TKey, TValue> Set(TKey Key, TValue Value)
         {
-
-            if (Key.Equals(IdKey))
-                throw new ArgumentException("Changing the Id property is not allowed!");
-
-            if (Key.Equals(RevisionIdKey))
-                throw new ArgumentException("Changing the RevisionId property is not allowed!");
-
-            if (PropertyData.ContainsKey(Key))
-            {
-                OnPropertyChanging(Key.ToString());
-                PropertyData[Key] = Value;
-                OnPropertyChanged(Key.ToString());
-            }
-
-            else
-            {
-                
-                PropertyData.Add(Key, Value);
-                
-                OnCollectionChanged(new NotifyCollectionChangedEventArgs(
-                                        NotifyCollectionChangedAction.Add,
-                                        new Object[] { Key, Value })
-                                   );
-
-            }
-
-            return this;
-
+            return PropertyData.Set(Key, Value);
         }
 
         #endregion
@@ -309,13 +308,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="Value">A value.</param>
         public Boolean ContainsValue(TValue Value)
         {
-
-            foreach (var _Value in PropertyData.Values)
-                if (_Value.Equals(Value))
-                    return true;
-
-            return false;
-
+            return PropertyData.ContainsValue(Value);
         }
 
         #endregion
@@ -329,7 +322,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="Value">A value.</param>
         public Boolean Contains(TKey Key, TValue Value)
         {
-            return PropertyData.Contains(new KeyValuePair<TKey,TValue>(Key, Value));
+            return PropertyData.Contains(Key, Value);
         }
 
         #endregion
@@ -341,17 +334,11 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// Return the value associated with the given key.
         /// </summary>
         /// <param name="Key">A key.</param>
-        public virtual TValue this[TKey Key]
+        public TValue this[TKey Key]
         {
             get
             {
-
-                TValue _Object;
-
-                PropertyData.TryGetValue(Key, out _Object);
-
-                return _Object;
-
+                return PropertyData[Key];
             }
         }
 
@@ -365,9 +352,9 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="Key">A key.</param>
         /// <param name="Value">The associated value.</param>
         /// <returns>True if the returned value is valid. False otherwise.</returns>
-        public virtual Boolean Get(TKey Key, out TValue Value)
+        public Boolean Get(TKey Key, out TValue Value)
         {
-            return PropertyData.TryGetValue(Key, out Value);
+            return PropertyData.Get(Key, out Value);
         }
 
         #endregion
@@ -379,24 +366,9 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// </summary>
         /// <param name="KeyValueFilter">A delegate to filter properties based on their keys and values.</param>
         /// <returns>A enumeration of all key/value pairs matching the given KeyValueFilter.</returns>
-        public virtual IEnumerable<KeyValuePair<TKey, TValue>> Get(KeyValueFilter<TKey, TValue> KeyValueFilter = null)
+        public IEnumerable<KeyValuePair<TKey, TValue>> Get(KeyValueFilter<TKey, TValue> KeyValueFilter = null)
         {
-
-            if (KeyValueFilter == null)
-            {
-                foreach (var _KeyValuePair in PropertyData)
-                    if (_KeyValuePair.Value != null)
-                        yield return _KeyValuePair;
-            }
-
-            else
-            {
-                foreach (var _KeyValuePair in PropertyData)
-                    if (_KeyValuePair.Value != null)
-                        if (KeyValueFilter(_KeyValuePair.Key, _KeyValuePair.Value))
-                            yield return _KeyValuePair;
-            }
-
+            return PropertyData.Get(KeyValueFilter);
         }
 
         #endregion
@@ -409,27 +381,9 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// </summary>
         /// <param name="Key">A key.</param>
         /// <returns>The value associated with that key prior to the removal.</returns>
-        public virtual TValue Remove(TKey Key)
+        public TValue Remove(TKey Key)
         {
-
-            if (Key.Equals(IdKey))
-                throw new ArgumentException("Removing the Id property is not allowed!");
-
-            if (Key.Equals(RevisionIdKey))
-                throw new ArgumentException("Removing the RevisionId property is not allowed!");
-
-            TValue _Object;
-
-            if (PropertyData.TryGetValue(Key, out _Object))
-                PropertyData.Remove(Key);
-
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(
-                                        NotifyCollectionChangedAction.Remove,
-                                        Key)
-                                   );
-
-            return _Object;
-
+            return PropertyData.Remove(Key);
         }
 
         #endregion
@@ -443,20 +397,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="Value">A value.</param>
         public Boolean Remove(TKey Key, TValue Value)
         {
-
-            TValue _Value = default(TValue);
-
-            if (Get(Key, out _Value))
-            {
-                if (_Value.Equals(Value))
-                {
-                    Remove(Key);
-                    return true;
-                }
-            }
-
-            return false;
-            
+            return PropertyData.Remove(Key, Value);
         }
 
         #endregion
@@ -470,7 +411,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <returns>A enumeration of all key/value pairs removed by the given KeyValueFilter before their removal.</returns>
         public IEnumerable<KeyValuePair<TKey, TValue>> Remove(KeyValueFilter<TKey, TValue> KeyValueFilter = null)
         {
-            throw new NotImplementedException();
+            return PropertyData.Remove(KeyValueFilter);
         }
 
         #endregion
@@ -480,17 +421,17 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         #region IEnumerable Members
 
         /// <summary>
-        /// Return an enumeration of all properties within this element.
+        /// An enumerator of all key-value pairs stored.
         /// </summary>
-        IEnumerator IEnumerable.GetEnumerator()
+        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
             return PropertyData.GetEnumerator();
         }
 
         /// <summary>
-        /// Return an enumeration of all properties within this element.
+        /// An enumerator of all key-value pairs stored.
         /// </summary>
-        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
             return PropertyData.GetEnumerator();
         }
@@ -506,12 +447,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <returns>The HashCode of this object.</returns>
         public override Int32 GetHashCode()
         {
-
-            if (Id == null)
-                return 0;
-
             return Id.GetHashCode();
-
         }
 
         #endregion

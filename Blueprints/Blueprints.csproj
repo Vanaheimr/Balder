@@ -49,13 +49,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Datastructures\Delegates.cs" />
     <Compile Include="Datastructures\Quadtree\Point.cs" />
     <Compile Include="Datastructures\Quadtree\Rectangle.cs" />
     <Compile Include="Extensions\QuadStore\IQuadStoreExtensions.cs" />
     <Compile Include="Interfaces\PropertyGraph\Delegates.cs" />
-    <Compile Include="Interfaces\Indices\Delegates.cs" />
-    <Compile Include="Interfaces\Indices\ILookup.cs" />
-    <Compile Include="Interfaces\Indices\IPropertyElementIndex.cs" />
+    <Compile Include="Interfaces\Indices\IndexDelegates.cs" />
+    <Compile Include="Interfaces\Indices\IIndex.cs" />
+    <Compile Include="Interfaces\PropertyGraph\Indices\IPropertyElementIndex.cs" />
+    <Compile Include="Interfaces\PropertyGraph\Indices\Delegates.cs" />
     <Compile Include="Interfaces\QuadStore\Delegates.cs" />
     <Compile Include="Datastructures\HyperEdgeId.cs" />
     <Compile Include="Datastructures\SemanticProperty.cs" />
@@ -73,16 +75,16 @@
     <Compile Include="Extensions\PropertyGraph\IPropertiesExtensions.cs" />
     <Compile Include="Interfaces\GenericGraph\IGenericElement.cs" />
     <Compile Include="Interfaces\IRevisionId.cs" />
-    <Compile Include="Interfaces\PropertyGraph\IDynamicGraphObject.cs" />
+    <Compile Include="Interfaces\PropertyGraph\IDynamicGraphElement.cs" />
     <Compile Include="Interfaces\PropertyGraph\IPropertyNotifications.cs" />
-    <Compile Include="Interfaces\PropertyGraph\IPropertyElement.cs" />
+    <Compile Include="Interfaces\PropertyGraph\IGraphElement.cs" />
     <Compile Include="Interfaces\PropertyGraph\IPropertyHyperEdge.cs" />
     <Compile Include="Interfaces\GenericGraph\IGenericHyperEdge.cs" />
     <Compile Include="Interfaces\IIdentifier.cs" />
     <Compile Include="Interfaces\GenericGraph\IGenericEdge.cs" />
     <Compile Include="Interfaces\GenericGraph\IGenericVertex.cs" />
     <Compile Include="Interfaces\GenericGraph\IGenericGraph.cs" />
-    <Compile Include="Interfaces\Indices\IGraphIndexing.cs" />
+    <Compile Include="Interfaces\PropertyGraph\Indices\IGraphIndexing.cs" />
     <Compile Include="Interfaces\PropertyGraph\IPropertyGraph.cs" />
     <Compile Include="Interfaces\PropertyGraph\IPropertyEdge.cs" />
     <Compile Include="Interfaces\PropertyGraph\IProperties.cs" />

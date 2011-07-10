@@ -21,6 +21,8 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
+using de.ahzf.Blueprints.PropertyGraph.Indices;
+
 #endregion
 
 namespace de.ahzf.Blueprints.PropertyGraph

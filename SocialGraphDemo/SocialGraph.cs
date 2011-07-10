@@ -149,13 +149,13 @@ namespace SocialGraphDemo
 
             var _index1 = _graph.CreateVerticesIndex("IdxNames",
                                                      "DictionaryIndex",
-                                                     e => e.GetProperty("name").ToString().ToLower() +
-                                                          e.GetProperty("age" ).ToString(),
+                                                     e => e["name"].ToString().ToLower() +
+                                                          e["age"].ToString(),
                                                      e => Indexing.HasKeys(e, "name", "age"));
 
             var _index2 = _graph.CreateVerticesIndex<Int32>("IdxAges",
                                                             "DictionaryIndex",
-                                                            e => (Int32) e.GetProperty("age"),
+                                                            e => (Int32) e["age"],
                                                             e => Indexing.HasKeys(e, "age"));
 
             var _Idx = _graph.VerticesIndices().First();
@@ -170,6 +170,12 @@ namespace SocialGraphDemo
             //_Idx.GetType().ContainsGenericParameters
 
             var m = _index2.Equals(18).First();
+            var n = _index2.LargerThan(20).ToList();
+            foreach (var nn in n)
+                if (((Int32) nn.GetProperty("age")) <= 20)
+                    throw new Exception("Mist!");
+
+            var n2 = _index1.LargerThan(20).ToList();
 
             // Create SocialGraph, if not existant!
             if (!File.Exists(_FileName))
@@ -178,7 +184,8 @@ namespace SocialGraphDemo
 
             // Create an in-memory graph using reflection
             IPropertyGraph _SocialGraph = null;
-            if (!new AutoDiscovery<IPropertyGraph>().TryActivate("InMemoryGraph", out _SocialGraph))
+            var _AD = new AutoDiscovery<IPropertyGraph>(true);
+            if (!_AD.TryActivate("InMemoryPropertyGraph", out _SocialGraph))
             {
                 Console.WriteLine("Could not find the 'InMemoryGraph' implementation!");
                 Environment.Exit(1);

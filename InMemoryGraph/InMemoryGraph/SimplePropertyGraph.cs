@@ -52,8 +52,8 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         where TId         : IEquatable<TId>,         IComparable<TId>,         IComparable, TValue
         where TRevisionId : IEquatable<TRevisionId>, IComparable<TRevisionId>, IComparable, TValue
         where TKey        : IEquatable<TKey>,        IComparable<TKey>,        IComparable
-
         where TLabel      : IEquatable<TLabel>,      IComparable<TLabel>,      IComparable
+
     {
 
         #region Delegates
@@ -84,10 +84,10 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #region Constructor(s)
 
-        #region InMemoryPropertyGraph()
+        #region SimplePropertyGraph()
 
         /// <summary>
-        /// Created a new in-memory property graph.
+        /// Created a new simplyfied in-memory property graph.
         /// </summary>
         public SimplePropertyGraph(TId                       GraphId,
                                    TKey                      IdKey,
@@ -104,14 +104,14 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
                     // Create a new Vertex
                     () => IdCreatorDelegate(),
-                    (VertexId, VertexInitializer) =>
+                    (Graph, VertexId, VertexInitializer) =>
                         new PropertyVertex<TId, TRevisionId,         TKey, TValue, IDictionary<TKey, TValue>,
                                            TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
                                            TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
                                            ICollection<IPropertyEdge<TId, TRevisionId,         TKey, TValue,
                                                                      TId, TRevisionId, TLabel, TKey, TValue,
                                                                      TId, TRevisionId, TLabel, TKey, TValue>>>
-                            (VertexId, IdKey, RevisionIdKey,
+                            (Graph, VertexId, IdKey, RevisionIdKey,
                              () => new Dictionary<TKey, TValue>(),
                              () => new HashSet<IPropertyEdge<TId, TRevisionId,         TKey, TValue,
                                                              TId, TRevisionId, TLabel, TKey, TValue,
@@ -121,11 +121,11 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
                    // Create a new Edge
                    () => IdCreatorDelegate(),
-                   (OutVertex, InVertex, EdgeId, Label, EdgeInitializer) =>
+                   (Graph, OutVertex, InVertex, EdgeId, Label, EdgeInitializer) =>
                         new PropertyEdge<TId, TRevisionId,         TKey, TValue, IDictionary<TKey, TValue>,
                                          TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
                                          TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>>
-                            (OutVertex, InVertex, EdgeId, Label, IdKey, RevisionIdKey,
+                            (Graph, OutVertex, InVertex, EdgeId, Label, IdKey, RevisionIdKey,
                              () => new Dictionary<TKey, TValue>(),
                              EdgeInitializer
                             ),
@@ -133,14 +133,14 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
                    // Create a new HyperEdge
                    () => IdCreatorDelegate(),
-                   (Edges, HyperEdgeId, Label, HyperEdgeInitializer) =>
+                   (Graph, Edges, HyperEdgeId, Label, HyperEdgeInitializer) =>
                        new PropertyHyperEdge<TId, TRevisionId,         TKey, TValue, IDictionary<TKey, TValue>,
                                              TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
                                              TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
                                              ICollection<IPropertyEdge<TId, TRevisionId,         TKey, TValue,
                                                                        TId, TRevisionId, TLabel, TKey, TValue,
                                                                        TId, TRevisionId, TLabel, TKey, TValue>>>
-                            (Edges, HyperEdgeId, Label, IdKey, RevisionIdKey,
+                            (Graph, Edges, HyperEdgeId, Label, IdKey, RevisionIdKey,
                              () => new Dictionary<TKey, TValue>(),
                              () => new HashSet<IPropertyEdge<TId, TRevisionId,         TKey, TValue,
                                                              TId, TRevisionId, TLabel, TKey, TValue,
@@ -171,6 +171,174 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #endregion
 
+        
+        #region Operator overloading
+
+        #region Operator == (PropertyGraph1, PropertyGraph2)
+
+        /// <summary>
+        /// Compares two property graphs for equality.
+        /// </summary>
+        /// <param name="PropertyGraph1">A graph.</param>
+        /// <param name="PropertyGraph2">Another graph.</param>
+        /// <returns>True if both match; False otherwise.</returns>
+        public static Boolean operator == (SimplePropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph1,
+                                           SimplePropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph2)
+        {
+
+            // If both are null, or both are same instance, return true.
+            if (Object.ReferenceEquals(PropertyGraph1, PropertyGraph2))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (((Object) PropertyGraph1 == null) || ((Object) PropertyGraph2 == null))
+                return false;
+
+            return PropertyGraph1.Equals(PropertyGraph2);
+
+        }
+
+        #endregion
+
+        #region Operator != (PropertyGraph1, PropertyGraph2)
+
+        /// <summary>
+        /// Compares two property graphs for inequality.
+        /// </summary>
+        /// <param name="PropertyGraph1">A graph.</param>
+        /// <param name="PropertyGraph2">Another graph.</param>
+        /// <returns>False if both match; True otherwise.</returns>
+        public static Boolean operator != (SimplePropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph1,
+                                           SimplePropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph2)
+        {
+            return !(PropertyGraph1 == PropertyGraph2);
+        }
+
+        #endregion
+
+        #region Operator <  (PropertyGraph1, PropertyGraph2)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="PropertyGraph1">A graph.</param>
+        /// <param name="PropertyGraph2">Another graph.</param>
+        /// <returns>true|false</returns>
+        public static Boolean operator < (SimplePropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph1,
+                                          SimplePropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph2)
+        {
+
+            if ((Object) PropertyGraph1 == null)
+                throw new ArgumentNullException("The given PropertyGraph1 must not be null!");
+
+            if ((Object) PropertyGraph2 == null)
+                throw new ArgumentNullException("The given PropertyGraph2 must not be null!");
+
+            return PropertyGraph1.CompareTo(PropertyGraph2) < 0;
+
+        }
+
+        #endregion
+
+        #region Operator <= (PropertyGraph1, PropertyGraph2)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="PropertyGraph1">A graph.</param>
+        /// <param name="PropertyGraph2">Another graph.</param>
+        /// <returns>true|false</returns>
+        public static Boolean operator <= (SimplePropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph1,
+                                           SimplePropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph2)
+        {
+            return !(PropertyGraph1 > PropertyGraph2);
+        }
+
+        #endregion
+
+        #region Operator >  (PropertyGraph1, PropertyGraph2)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="PropertyGraph1">A graph.</param>
+        /// <param name="PropertyGraph2">Another graph.</param>
+        /// <returns>true|false</returns>
+        public static Boolean operator > (SimplePropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph1,
+                                          SimplePropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph2)
+        {
+
+            if ((Object) PropertyGraph1 == null)
+                throw new ArgumentNullException("The given PropertyGraph1 must not be null!");
+
+            if ((Object) PropertyGraph2 == null)
+                throw new ArgumentNullException("The given  PropertyGraph2 must not be null!");
+
+            return PropertyGraph1.CompareTo(PropertyGraph2) > 0;
+
+        }
+
+        #endregion
+
+        #region Operator >= (PropertyGraph1, PropertyGraph2)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="PropertyGraph1">A graph.</param>
+        /// <param name="PropertyGraph2">Another graph.</param>
+        /// <returns>true|false</returns>
+        public static Boolean operator >= (SimplePropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph1,
+                                           SimplePropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph2)
+        {
+            return !(PropertyGraph1 < PropertyGraph2);
+        }
+
+        #endregion
+
+        #endregion
+
+        #region IEquatable Members
+
+        #region Equals(Object)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="Object">An object to compare with.</param>
+        /// <returns>True if both match; False otherwise.</returns>
+        public override Boolean Equals(Object Object)
+        {
+
+            if (Object == null)
+                return false;
+
+            // Check if the given object can be casted to a SimplePropertyGraph
+            var PropertyGraph = Object as SimplePropertyGraph<TId, TRevisionId, TLabel, TKey, TValue>;
+            if ((Object) PropertyGraph == null)
+                return false;
+
+            return this.Equals(PropertyGraph);
+
+        }
+
+        #endregion
+
+        #endregion
+
+        #region GetHashCode()
+
+        /// <summary>
+        /// Return the HashCode of this object.
+        /// </summary>
+        /// <returns>The HashCode of this object.</returns>
+        public override Int32 GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        #endregion
+
     }
 
     #endregion
@@ -178,22 +346,34 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
     #region SimplePropertyGraph
 
     /// <summary>
-    /// A simplified in-memory implementation of a generic property graph.
+    /// A simplified in-memory implementation of a property graph.
     /// </summary>
     public class SimplePropertyGraph : SimplePropertyGraph<UInt64, Int64, String, String, Object>
     {
 
         #region Constructor(s)
 
-        #region SimplePropertyGraph(GraphInitializer = null)
+        #region SimplePropertyGraph()
+        // This constructor is needed for automatic activation!
+
+        /// <summary>
+        /// Created a new simple in-memory property graph.
+        /// </summary>
+        public SimplePropertyGraph()
+            : this(SimplePropertyGraph.NewId)
+        { }
+
+        #endregion
+
+        #region SimplePropertyGraph(GraphInitializer)
 
         /// <summary>
         /// Created a new simple in-memory property graph.
         /// </summary>
         /// <param name="GraphInitializer">A delegate to initialize the graph.</param>
-        public SimplePropertyGraph(GraphInitializer<UInt64, Int64,         String, Object,
+        public SimplePropertyGraph(GraphInitializer<UInt64, Int64, String, Object,
                                                     UInt64, Int64, String, String, Object,
-                                                    UInt64, Int64, String, String, Object> GraphInitializer = null)
+                                                    UInt64, Int64, String, String, Object> GraphInitializer)
             : this(SimplePropertyGraph.NewId, GraphInitializer)
         { }
 
@@ -232,6 +412,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #endregion
 
+
         #region (private) NewId
 
         /// <summary>
@@ -258,6 +439,174 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
             {
                 return DateTime.Now.Ticks;
             }
+        }
+
+        #endregion
+
+
+        #region Operator overloading
+
+        #region Operator == (PropertyGraph1, PropertyGraph2)
+
+        /// <summary>
+        /// Compares two property graphs for equality.
+        /// </summary>
+        /// <param name="PropertyGraph1">A graph.</param>
+        /// <param name="PropertyGraph2">Another graph.</param>
+        /// <returns>True if both match; False otherwise.</returns>
+        public static Boolean operator == (SimplePropertyGraph PropertyGraph1,
+                                           SimplePropertyGraph PropertyGraph2)
+        {
+
+            // If both are null, or both are same instance, return true.
+            if (Object.ReferenceEquals(PropertyGraph1, PropertyGraph2))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (((Object) PropertyGraph1 == null) || ((Object) PropertyGraph2 == null))
+                return false;
+
+            return PropertyGraph1.Equals(PropertyGraph2);
+
+        }
+
+        #endregion
+
+        #region Operator != (PropertyGraph1, PropertyGraph2)
+
+        /// <summary>
+        /// Compares two property graphs for inequality.
+        /// </summary>
+        /// <param name="PropertyGraph1">A graph.</param>
+        /// <param name="PropertyGraph2">Another graph.</param>
+        /// <returns>False if both match; True otherwise.</returns>
+        public static Boolean operator != (SimplePropertyGraph PropertyGraph1,
+                                           SimplePropertyGraph PropertyGraph2)
+        {
+            return !(PropertyGraph1 == PropertyGraph2);
+        }
+
+        #endregion
+
+        #region Operator <  (PropertyGraph1, PropertyGraph2)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="PropertyGraph1">A graph.</param>
+        /// <param name="PropertyGraph2">Another graph.</param>
+        /// <returns>true|false</returns>
+        public static Boolean operator < (SimplePropertyGraph PropertyGraph1,
+                                          SimplePropertyGraph PropertyGraph2)
+        {
+
+            if ((Object) PropertyGraph1 == null)
+                throw new ArgumentNullException("The given PropertyGraph1 must not be null!");
+
+            if ((Object) PropertyGraph2 == null)
+                throw new ArgumentNullException("The given PropertyGraph2 must not be null!");
+
+            return PropertyGraph1.CompareTo(PropertyGraph2) < 0;
+
+        }
+
+        #endregion
+
+        #region Operator <= (PropertyGraph1, PropertyGraph2)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="PropertyGraph1">A graph.</param>
+        /// <param name="PropertyGraph2">Another graph.</param>
+        /// <returns>true|false</returns>
+        public static Boolean operator <= (SimplePropertyGraph PropertyGraph1,
+                                           SimplePropertyGraph PropertyGraph2)
+        {
+            return !(PropertyGraph1 > PropertyGraph2);
+        }
+
+        #endregion
+
+        #region Operator >  (PropertyGraph1, PropertyGraph2)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="PropertyGraph1">A graph.</param>
+        /// <param name="PropertyGraph2">Another graph.</param>
+        /// <returns>true|false</returns>
+        public static Boolean operator > (SimplePropertyGraph PropertyGraph1,
+                                          SimplePropertyGraph PropertyGraph2)
+        {
+
+            if ((Object) PropertyGraph1 == null)
+                throw new ArgumentNullException("The given PropertyGraph1 must not be null!");
+
+            if ((Object) PropertyGraph2 == null)
+                throw new ArgumentNullException("The given  PropertyGraph2 must not be null!");
+
+            return PropertyGraph1.CompareTo(PropertyGraph2) > 0;
+
+        }
+
+        #endregion
+
+        #region Operator >= (PropertyGraph1, PropertyGraph2)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="PropertyGraph1">A graph.</param>
+        /// <param name="PropertyGraph2">Another graph.</param>
+        /// <returns>true|false</returns>
+        public static Boolean operator >= (SimplePropertyGraph PropertyGraph1,
+                                           SimplePropertyGraph PropertyGraph2)
+        {
+            return !(PropertyGraph1 < PropertyGraph2);
+        }
+
+        #endregion
+
+        #endregion
+
+        #region IEquatable Members
+
+        #region Equals(Object)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="Object">An object to compare with.</param>
+        /// <returns>True if both match; False otherwise.</returns>
+        public override Boolean Equals(Object Object)
+        {
+
+            if (Object == null)
+                return false;
+
+            // Check if the given object can be casted to a SimplePropertyGraph
+            var PropertyGraph = Object as SimplePropertyGraph;
+            if ((Object) PropertyGraph == null)
+                return false;
+
+            return this.Equals(PropertyGraph);
+
+        }
+
+        #endregion
+
+        #endregion
+
+        #region GetHashCode()
+
+        /// <summary>
+        /// Return the HashCode of this object.
+        /// </summary>
+        /// <returns>The HashCode of this object.</returns>
+        public override Int32 GetHashCode()
+        {
+            return base.GetHashCode();
         }
 
         #endregion

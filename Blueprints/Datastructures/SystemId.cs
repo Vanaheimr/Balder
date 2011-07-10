@@ -235,6 +235,21 @@ namespace de.ahzf.Blueprints
 
         #endregion
 
+        #region Operator <= (SystemId1, SystemId2)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="SystemId1">A SystemId.</param>
+        /// <param name="SystemId2">Another SystemId.</param>
+        /// <returns>true|false</returns>
+        public static Boolean operator <= (SystemId SystemId1, SystemId SystemId2)
+        {
+            return !(SystemId1 > SystemId2);
+        }
+
+        #endregion
+
         #region Operator >  (SystemId1, SystemId2)
 
         /// <summary>
@@ -251,21 +266,6 @@ namespace de.ahzf.Blueprints
 
             return SystemId1.CompareTo(SystemId2) > 0;
 
-        }
-
-        #endregion
-
-        #region Operator <= (SystemId1, SystemId2)
-
-        /// <summary>
-        /// Compares two instances of this object.
-        /// </summary>
-        /// <param name="SystemId1">A SystemId.</param>
-        /// <param name="SystemId2">Another SystemId.</param>
-        /// <returns>true|false</returns>
-        public static Boolean operator <= (SystemId SystemId1, SystemId SystemId2)
-        {
-            return !(SystemId1 > SystemId2);
         }
 
         #endregion
@@ -295,7 +295,6 @@ namespace de.ahzf.Blueprints
         /// Compares two instances of this object.
         /// </summary>
         /// <param name="Object">An object to compare with.</param>
-        /// <returns>true|false</returns>
         public Int32 CompareTo(Object Object)
         {
 
@@ -319,7 +318,6 @@ namespace de.ahzf.Blueprints
         /// Compares two instances of this object.
         /// </summary>
         /// <param name="SystemId">An object to compare with.</param>
-        /// <returns>true|false</returns>
         public Int32 CompareTo(SystemId SystemId)
         {
 
@@ -354,12 +352,12 @@ namespace de.ahzf.Blueprints
         {
 
             if (Object == null)
-                throw new ArgumentNullException("The given object must not be null!");
+                return false;
 
             // Check if the given object is an SystemId.
             var SystemId = Object as SystemId;
             if ((Object) SystemId == null)
-                throw new ArgumentException("The given object is not a SystemId!");
+                return false;
 
             return this.Equals(SystemId);
 

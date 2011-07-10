@@ -19,10 +19,11 @@
 
 using System;
 using System.Collections.Generic;
+using de.ahzf.Blueprints.Indices;
 
 #endregion
 
-namespace de.ahzf.Blueprints.PropertyGraph
+namespace de.ahzf.Blueprints.PropertyGraph.Indices
 {
 
     #region IPropertyElementIndex
@@ -74,9 +75,9 @@ namespace de.ahzf.Blueprints.PropertyGraph
     /// A property element index is a data structure that supports the indexing of properties in property graphs.
     /// An index is typically some sort of tree structure that allows for the fast lookup of elements by key/value pairs.
     /// </summary>
-    /// <typeparam name="T">The type of the elements to be indexed.</typeparam>
-    public interface IPropertyElementIndex<T> : IPropertyElementIndex
-        where T : IEquatable<T>, IComparable<T>, IComparable
+    /// <typeparam name="TValue">The type of the elements to be indexed.</typeparam>
+    public interface IPropertyElementIndex<TValue> : IPropertyElementIndex
+        where TValue : IEquatable<TValue>, IComparable<TValue>, IComparable
     {
 
         #region Insert, Remove
@@ -85,13 +86,13 @@ namespace de.ahzf.Blueprints.PropertyGraph
         /// Inserts an element into the index.
         /// </summary>
         /// <param name="Element">An element for indexing.</param>
-        void Insert(T Element);
+        void Insert(TValue Element);
 
         /// <summary>
         /// Remove an element from the index.
         /// </summary>
         /// <param name="Element">An element for indexing.</param>
-        void Remove(T Element);
+        void Remove(TValue Element);
 
         #endregion
 
@@ -103,7 +104,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
         /// </summary>
         /// <typeparam name="TIdxKey">The type of the index key which must be at least ICompare/IEquatable.</typeparam>
         /// <param name="IdxKey">An index key.</param>
-        IEnumerable<T> SmallerThan<TIdxKey>(TIdxKey IdxKey)
+        IEnumerable<TValue> SmallerThan<TIdxKey>(TIdxKey IdxKey)
             where TIdxKey : IEquatable<TIdxKey>, IComparable<TIdxKey>, IComparable;
 
 
@@ -112,7 +113,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
         /// </summary>
         /// <typeparam name="TIdxKey">The type of the index key which must be at least ICompare/IEquatable.</typeparam>
         /// <param name="IdxKey">An index key.</param>
-        IEnumerable<T> SmallerThanOrEquals<TIdxKey>(TIdxKey IdxKey)
+        IEnumerable<TValue> SmallerThanOrEquals<TIdxKey>(TIdxKey IdxKey)
             where TIdxKey : IEquatable<TIdxKey>, IComparable<TIdxKey>, IComparable;
 
         #endregion
@@ -124,7 +125,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
         /// </summary>
         /// <typeparam name="TIdxKey">The type of the index key which must be at least ICompare/IEquatable.</typeparam>
         /// <param name="IdxKey">An index key.</param>
-        IEnumerable<T> Equals<TIdxKey>(TIdxKey IdxKey)
+        IEnumerable<TValue> Equals<TIdxKey>(TIdxKey IdxKey)
             where TIdxKey : IEquatable<TIdxKey>, IComparable<TIdxKey>, IComparable;
 
 
@@ -134,7 +135,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
         /// </summary>
         /// <typeparam name="TIdxKey">The type of the index key which must be at least ICompare/IEquatable.</typeparam>
         /// <param name="IdxKey">An index key.</param>
-        IEnumerable<T> NotEquals<TIdxKey>(TIdxKey IdxKey)
+        IEnumerable<TValue> NotEquals<TIdxKey>(TIdxKey IdxKey)
             where TIdxKey : IEquatable<TIdxKey>, IComparable<TIdxKey>, IComparable;
 
         #endregion
@@ -147,7 +148,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
         /// </summary>
         /// <typeparam name="TIdxKey">The type of the index key which must be at least ICompare/IEquatable.</typeparam>
         /// <param name="IdxKey">An index key.</param>
-        IEnumerable<T> LargerThan<TIdxKey>(TIdxKey IdxKey)
+        IEnumerable<TValue> LargerThan<TIdxKey>(TIdxKey IdxKey)
             where TIdxKey : IEquatable<TIdxKey>, IComparable<TIdxKey>, IComparable;
 
 
@@ -157,25 +158,25 @@ namespace de.ahzf.Blueprints.PropertyGraph
         /// </summary>
         /// <typeparam name="TIdxKey">The type of the index key which must be at least ICompare/IEquatable.</typeparam>
         /// <param name="IdxKey">An index key.</param>
-        IEnumerable<T> LargerThanOrEquals<TIdxKey>(TIdxKey IdxKey)
+        IEnumerable<TValue> LargerThanOrEquals<TIdxKey>(TIdxKey IdxKey)
             where TIdxKey : IEquatable<TIdxKey>, IComparable<TIdxKey>, IComparable;
 
         #endregion
 
 
         /// <summary>
-        /// Downcast this index to an IPropertyElementIndex&lt;T, TIndexKey&gt; index.
+        /// Downcast this index to an IPropertyElementIndex&lt;TIdxKey, TValue&gt; index.
         /// </summary>
-        /// <typeparam name="TIdxKey">The type of the index keys.</typeparam>
-        IPropertyElementIndex<T, TIdxKey> CastTo<TIdxKey>()
-            where TIdxKey : IEquatable<TIdxKey>, IComparable<TIdxKey>, IComparable;
+        /// <typeparam name="TKey">The type of the index keys.</typeparam>
+        IPropertyElementIndex<TKey, TValue> CastTo<TKey>()
+            where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable;
 
 
     }
 
     #endregion
 
-    #region IPropertyElementIndex<T, TIndexKey>
+    #region IPropertyElementIndex<TKey, TValue>
 
     /// <summary>
     /// A property element index is a data structure that supports the indexing of properties in property graphs.

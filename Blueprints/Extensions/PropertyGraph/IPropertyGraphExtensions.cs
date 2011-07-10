@@ -123,6 +123,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
         /// The added edge requires a tail vertex, a head vertex, a label
         /// and initializes the edge by invoking the given EdgeInitializer.
         /// </summary>
+        /// <param name="IPropertyGraph">A property graph.</param>
         /// <param name="OutVertex">The vertex on the tail of the edge.</param>
         /// <param name="InVertex">The vertex on the head of the edge.</param>
         /// <param name="Label">The label associated with the edge.</param>
@@ -323,7 +324,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
                 DestinationPropertyGraph.AddVertex(
                     _Vertex.Id,
                     NewVertex => {
-                        foreach (var _Property in _Vertex.GetProperties((key, value) => !key.Equals(_Vertex.IdKey)))
+                        foreach (var _Property in _Vertex.Get((key, value) => !key.Equals(_Vertex.IdKey)))
                             NewVertex.SetProperty(_Property);
                     });
             }
@@ -338,7 +339,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
                     _Edge.Id,
                     _Edge.Label,
                     NewEdge => {
-                        foreach (var _Property in _Edge.GetProperties((key, value) => !key.Equals(_Edge.IdKey)))
+                        foreach (var _Property in _Edge.Get((key, value) => !key.Equals(_Edge.IdKey)))
                             NewEdge.SetProperty(_Property);
                     });
             }

@@ -202,6 +202,21 @@ namespace de.ahzf.Blueprints
 
         #endregion
 
+        #region Operator <= (HyperEdgeId1, HyperEdgeId2)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="HyperEdgeId1">A HyperEdgeId.</param>
+        /// <param name="HyperEdgeId2">Another HyperEdgeId.</param>
+        /// <returns>true|false</returns>
+        public static Boolean operator <= (HyperEdgeId HyperEdgeId1, HyperEdgeId HyperEdgeId2)
+        {
+            return !(HyperEdgeId1 > HyperEdgeId2);
+        }
+
+        #endregion
+
         #region Operator >  (HyperEdgeId1, HyperEdgeId2)
 
         /// <summary>
@@ -218,21 +233,6 @@ namespace de.ahzf.Blueprints
 
             return HyperEdgeId1.CompareTo(HyperEdgeId2) > 0;
 
-        }
-
-        #endregion
-
-        #region Operator <= (HyperEdgeId1, HyperEdgeId2)
-
-        /// <summary>
-        /// Compares two instances of this object.
-        /// </summary>
-        /// <param name="HyperEdgeId1">A HyperEdgeId.</param>
-        /// <param name="HyperEdgeId2">Another HyperEdgeId.</param>
-        /// <returns>true|false</returns>
-        public static Boolean operator <= (HyperEdgeId HyperEdgeId1, HyperEdgeId HyperEdgeId2)
-        {
-            return !(HyperEdgeId1 > HyperEdgeId2);
         }
 
         #endregion
@@ -262,7 +262,6 @@ namespace de.ahzf.Blueprints
         /// Compares two instances of this object.
         /// </summary>
         /// <param name="Object">An object to compare with.</param>
-        /// <returns>true|false</returns>
         public override Int32 CompareTo(Object Object)
         {
 
@@ -286,7 +285,6 @@ namespace de.ahzf.Blueprints
         /// Compares two instances of this object.
         /// </summary>
         /// <param name="HyperEdgeId">An object to compare with.</param>
-        /// <returns>true|false</returns>
         public Int32 CompareTo(HyperEdgeId HyperEdgeId)
         {
 
@@ -321,12 +319,12 @@ namespace de.ahzf.Blueprints
         {
 
             if (Object == null)
-                throw new ArgumentNullException("The given object must not be null!");
+                return false;
 
             // Check if the given object is an HyperEdgeId.
             var HyperEdgeId = Object as HyperEdgeId;
             if ((Object) HyperEdgeId == null)
-                throw new ArgumentException("The given object is not a HyperEdgeId!");
+                return false;
 
             return this.Equals(HyperEdgeId);
 

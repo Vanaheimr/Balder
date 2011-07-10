@@ -31,8 +31,8 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
     /// A special implementation of a DynamicObject for property graphs.
     /// </summary>
     /// <typeparam name="CompileTimeType">The compile time type of this DynamicGraphObject.</typeparam>
-    public sealed class DynamicGraphObject<CompileTimeType> : DynamicMetaObject
-        where CompileTimeType : class, IDynamicGraphObject<CompileTimeType>
+    public sealed class DynamicGraphElement<CompileTimeType> : DynamicMetaObject
+        where CompileTimeType : class, IDynamicGraphElement<CompileTimeType>
     {
 
         #region Data
@@ -48,7 +48,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #region (internal) DynamicGraphObject(myParameter, myValue)
 
-        internal DynamicGraphObject(Expression myParameter, CompileTimeType myValue)
+        internal DynamicGraphElement(Expression myParameter, CompileTimeType myValue)
             : this(myParameter, BindingRestrictions.Empty, myValue)
         { }
 
@@ -56,7 +56,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #region (internal) DynamicGraphObject(myParameter, myBindingRestrictions, myValue)
 
-        internal DynamicGraphObject(Expression myParameter, BindingRestrictions myBindingRestrictions, CompileTimeType myValue)
+        internal DynamicGraphElement(Expression myParameter, BindingRestrictions myBindingRestrictions, CompileTimeType myValue)
             : base(myParameter, myBindingRestrictions, myValue)
         {
             _RuntimeValue = Value as CompileTimeType;

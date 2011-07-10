@@ -165,7 +165,6 @@ namespace de.ahzf.Blueprints
         /// Compares two instances of this object.
         /// </summary>
         /// <param name="Object">An object to compare with.</param>
-        /// <returns>true|false</returns>
         public virtual Int32 CompareTo(Object Object)
         {
 
@@ -189,7 +188,6 @@ namespace de.ahzf.Blueprints
         /// Compares two instances of this object.
         /// </summary>
         /// <param name="ElementId">An object to compare with.</param>
-        /// <returns>true|false</returns>
         public Int32 CompareTo(ElementId ElementId)
         {
 
@@ -224,12 +222,12 @@ namespace de.ahzf.Blueprints
         {
 
             if (Object == null)
-                throw new ArgumentNullException("The given object must not be null!");
+                return false;
 
             // Check if the given object is an ElementId.
             var ElementId = Object as ElementId;
             if ((Object) ElementId == null)
-                throw new ArgumentException("The given object is not a ElementId!");
+                return false;
 
             return this.Equals(ElementId);
 

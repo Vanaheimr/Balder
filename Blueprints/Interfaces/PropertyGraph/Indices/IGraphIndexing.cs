@@ -20,9 +20,11 @@
 using System;
 using System.Collections.Generic;
 
+using de.ahzf.Blueprints.Indices;
+
 #endregion
 
-namespace de.ahzf.Blueprints.PropertyGraph
+namespace de.ahzf.Blueprints.PropertyGraph.Indices
 {
 
     /// <summary>
@@ -253,7 +255,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
         /// Remove vertices indices associated with the graph.
         /// </summary>
         /// <param name="IndexNameEvaluator">A delegate evaluating the indices to drop.</param>
-        void DropVerticesIndex(IndexNameEvaluator IndexNameEvaluator = null);
+        void DropVerticesIndex(IndexNameFilter IndexNameEvaluator = null);
 
         #endregion
 
@@ -263,7 +265,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
         /// Remove edges indices associated with the graph.
         /// </summary>
         /// <param name="IndexNameEvaluator">A delegate evaluating the indices to drop.</param>
-        void DropEdgesIndex(IndexNameEvaluator IndexNameEvaluator = null);
+        void DropEdgesIndex(IndexNameFilter IndexNameEvaluator = null);
 
         #endregion
 
@@ -273,7 +275,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
         /// Remove hyperedge indices associated with the graph.
         /// </summary>
         /// <param name="IndexNameEvaluator">A delegate evaluating the indices to drop.</param>
-        void DropHyperEdgesIndex(IndexNameEvaluator IndexNameEvaluator = null);
+        void DropHyperEdgesIndex(IndexNameFilter IndexNameEvaluator = null);
 
         #endregion
 

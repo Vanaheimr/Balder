@@ -42,7 +42,7 @@ namespace de.ahzf.Blueprints
         public T Id { get; private set; }
 
         /// <summary>
-        /// The SystemId of the QuadStore initiating this transaction.</param>
+        /// The SystemId of the QuadStore initiating this transaction.
         /// </summary>
         public T SystemId { get; private set; }
 
@@ -89,9 +89,9 @@ namespace de.ahzf.Blueprints
 
         #region Events
 
-        ///<summary>
-        /// Subscribe to this event to get informed if the transaction was closed unexpected.
-        /// </summary>
+        ///// <summary>
+        ///// Subscribe to this event to get informed if the transaction was closed unexpected.
+        ///// </summary>
         //public event TransactionDisposedHandler OnDispose;
 
         #endregion

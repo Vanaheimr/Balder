@@ -20,6 +20,8 @@
 using System;
 using System.Collections.Generic;
 
+using de.ahzf.Blueprints.PropertyGraph.Indices;
+
 #endregion
 
 namespace de.ahzf.Blueprints.PropertyGraph
@@ -63,10 +65,17 @@ namespace de.ahzf.Blueprints.PropertyGraph
                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
 
-                                    : IPropertyElement<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex>,
+                                    : IGraphElement<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex>,
                                       IGraphIndexing<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                      TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
+                                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
+                                      IEquatable<IPropertyGraph<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>,
+                                      IComparable<IPropertyGraph<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                 TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                 TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>,
+                                      IComparable
 
         where TIdVertex            : IEquatable<TIdVertex>,            IComparable<TIdVertex>,            IComparable, TValueVertex
         where TIdEdge              : IEquatable<TIdEdge>,              IComparable<TIdEdge>,              IComparable, TValueEdge
@@ -94,7 +103,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
         /// </summary>
         /// <param name="VertexId">The vertex identifier.</param>
         /// <param name="VertexInitializer">A delegate to initialize the new vertex.</param>
-        /// <returns>The newly created vertex as IPropertyVertex&lt...&gt;.</returns>
+        /// <returns>The newly created vertex as IPropertyVertex&lt;...&gt;.</returns>
         IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                         TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                         TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
@@ -278,13 +287,13 @@ namespace de.ahzf.Blueprints.PropertyGraph
         /// Return the hyperedge referenced by the given hyperedge identifier.
         /// If no hyperedge is referenced by that identifier, then return null.
         /// </summary>
-        /// <param name="myEdgeId">The identifier of the edge.</param>
-        /// <returns>The edge referenced by the provided identifier or null when no such edge exists.</returns>
+        /// <param name="HyperEdgeId">The identifier of the hyperedge.</param>
+        /// <returns>The edge referenced by the provided identifier or null when no such hyperedge exists.</returns>
         IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                            TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                            TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
 
-                      GetHyperEdge(TIdHyperEdge myHyperEdgeId);
+                      GetHyperEdge(TIdHyperEdge HyperEdgeId);
 
         #endregion
 

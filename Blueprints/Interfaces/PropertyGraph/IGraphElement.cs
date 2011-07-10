@@ -25,21 +25,22 @@ using System.Collections.Generic;
 namespace de.ahzf.Blueprints.PropertyGraph
 {
 
-    #region IPropertyElement<TId, TRevisionId, TKey, TValue>
+    #region IGraphElement<TId, TRevisionId, TKey, TValue>
 
     /// <summary>
-    /// The common interface for all graph elements (vertex, edge, hyperedge).
+    /// The common interface for all property graph elements:
+    /// The vertices, edges, hyperedges and the property graph itself.
     /// </summary>
     /// <typeparam name="TId">The type of the identifiers.</typeparam>
     /// <typeparam name="TRevisionId">The type of the revision identifiers.</typeparam>
     /// <typeparam name="TKey">The type of the property keys.</typeparam>
     /// <typeparam name="TValue">The type of the property values.</typeparam>
-    public interface IPropertyElement<TId, TRevisionId, TKey, TValue>
+    public interface IGraphElement<TId, TRevisionId, TKey, TValue>
                         : IIdentifier<TId>,
                           IRevisionId<TRevisionId>,
                           IProperties<TKey, TValue>,
-                          IEquatable <IPropertyElement<TId, TRevisionId, TKey, TValue>>,
-                          IComparable<IPropertyElement<TId, TRevisionId, TKey, TValue>>,
+                          IEquatable <IGraphElement<TId, TRevisionId, TKey, TValue>>,
+                          IComparable<IGraphElement<TId, TRevisionId, TKey, TValue>>,
                           IComparable
 
         where TId            : IEquatable<TId>,         IComparable<TId>,         IComparable, TValue
@@ -54,26 +55,32 @@ namespace de.ahzf.Blueprints.PropertyGraph
         TKey IdKey { get; }
 
         /// <summary>
-        /// Return the element properties (its embedded data).
+        /// The property key of the revision identification.
         /// </summary>
-        IProperties<TKey, TValue> Properties { get; }
+        TKey RevisionIdKey { get; }
+
+        /// <summary>
+        /// Return the graph element properties (its embedded data).
+        /// </summary>
+        IProperties<TKey, TValue> PropertyData { get; }
 
     }
 
     #endregion
 
-    #region IPropertyElement<TId, TRevisionId, TKey, TValue, TDatastructure>
+    #region IGraphElement<TId, TRevisionId, TKey, TValue, TDatastructure>
 
     /// <summary>
-    /// The common interface for all graph elements (vertex, edge, hyperedge).
+    /// The common interface for all property graph elements:
+    /// The vertices, edges, hyperedges and the property graph itself.
     /// </summary>
     /// <typeparam name="TId">The type of the identifiers.</typeparam>
     /// <typeparam name="TRevisionId">The type of the revision identifiers.</typeparam>
     /// <typeparam name="TKey">The type of the property keys.</typeparam>
     /// <typeparam name="TValue">The type of the property values.</typeparam>
     /// <typeparam name="TDatastructure">The type of the datastructure to maintain the key/value pairs.</typeparam>
-    public interface IPropertyElement<TId, TRevisionId, TKey, TValue, TDatastructure>
-                        : IPropertyElement<TId, TRevisionId, TKey, TValue>
+    public interface IGraphElement<TId, TRevisionId, TKey, TValue, TDatastructure>
+                        : IGraphElement<TId, TRevisionId, TKey, TValue>
 
         where TId            : IEquatable<TId>,         IComparable<TId>,         IComparable, TValue
         where TRevisionId    : IEquatable<TRevisionId>, IComparable<TRevisionId>, IComparable, TValue

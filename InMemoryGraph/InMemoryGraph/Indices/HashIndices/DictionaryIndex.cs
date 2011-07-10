@@ -21,6 +21,9 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
+using de.ahzf.Blueprints.Indices;
+using de.ahzf.Blueprints.PropertyGraph.Indices;
+
 #endregion
 
 namespace de.ahzf.Blueprints.PropertyGraph.InMemory
@@ -30,9 +33,9 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
     /// A property element index is a data structure that supports the indexing of properties in property graphs.
     /// An index is typically some sort of tree structure that allows for the fast lookup of elements by key/value pairs.
     /// </summary>
-    /// <typeparam name="TKey">The type of the elements to be indexed.</typeparam>
-    /// <typeparam name="TValue">The type of the index keys.</typeparam>
-    public class DictionaryIndex<TKey, TValue> : ILookup<TKey, TValue>
+    /// <typeparam name="TKey">The type of the index keys.</typeparam>
+    /// <typeparam name="TValue">The type of the elements to be indexed.</typeparam>
+    public class DictionaryIndex<TKey, TValue> : IIndex<TKey, TValue>
         where TKey   : IEquatable<TKey>,   IComparable<TKey>,   IComparable
         where TValue : IEquatable<TValue>, IComparable<TValue>, IComparable
 
@@ -90,6 +93,41 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #endregion
 
+        #endregion
+
+        #region Constructor(s)
+
+        #region DictionaryIndex()
+
+        /// <summary>
+        /// Creates a new DictionaryIndex.
+        /// (Needed for activating this index datastructure.)
+        /// </summary>
+        public DictionaryIndex()
+        {
+            Index = new Dictionary<TKey, ISet<TValue>>();
+        }
+
+        #endregion
+
+        #region DictionaryIndex(EqualityComparer)
+
+        /// <summary>
+        /// Creates a new DictionaryIndex.
+        /// </summary>
+        /// <param name="EqualityComparer">An optional equality comparer for the index key.</param>
+        public DictionaryIndex(IEqualityComparer<TKey> EqualityComparer)
+        {
+            Index = new Dictionary<TKey, ISet<TValue>>(EqualityComparer);
+        }
+
+        #endregion
+
+        #endregion
+
+
+        #region IIndex Members
+
         #region Keys
 
         /// <summary>
@@ -137,109 +175,326 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #endregion
 
-        #endregion
 
-        #region Constructor(s)
-
-        #region DictionaryIndex()
+        #region Set(Key, Value)
 
         /// <summary>
-        /// Creates a new DictionaryIndex.
-        /// (Needed for activating this index datastructure.)
+        /// Adds an element with the provided key and value.
+        /// If a value already exists for the given key, then nothing will be changed.
         /// </summary>
-        public DictionaryIndex()
-        {
-            Index = new Dictionary<TKey, ISet<TValue>>();
-        }
-
-        #endregion
-
-        #region DictionaryIndex(EqualityComparer)
-
-        /// <summary>
-        /// Creates a new DictionaryIndex.
-        /// </summary>
-        /// <param name="EqualityComparer">An optional equality comparer for the index key.</param>
-        public DictionaryIndex(IEqualityComparer<TKey> EqualityComparer)
-        {
-            Index = new Dictionary<TKey, ISet<TValue>>(EqualityComparer);
-        }
-
-        #endregion
-
-        #endregion
-
-
-
-
-        
-
-        public Boolean Add(TKey key, TValue value)
+        /// <param name="Key">A key.</param>
+        /// <param name="Value">A value.</param>
+        public IIndex<TKey, TValue> Set(TKey Key, TValue Value)
         {
             
             ISet<TValue> _HashSet = null;
 
-            if (Index.TryGetValue(key, out _HashSet))
-                _HashSet.Add(value);
+            if (Index.TryGetValue(Key, out _HashSet))
+                _HashSet.Add(Value);
             else
-                Index.Add(key, new HashSet<TValue>() { value });
+                Index.Add(Key, new HashSet<TValue>() { Value });
 
-            return true;
+            return this;
 
         }
 
-        public Boolean ContainsKey(TKey key)
+        #endregion
+
+
+        #region ContainsKey(Key)
+
+        /// <summary>
+        /// Determines if the specified key exists.
+        /// </summary>
+        /// <param name="Key">A key.</param>
+        public Boolean ContainsKey(TKey Key)
         {
-            return Index.ContainsKey(key);
+            return Index.ContainsKey(Key);
         }
 
-        public Boolean ContainsValue(TValue value)
+        #endregion
+
+        #region ContainsValue(Value)
+
+        /// <summary>
+        /// Determines if the specified value exists.
+        /// </summary>
+        /// <param name="Value">A value.</param>
+        public Boolean ContainsValue(TValue Value)
         {
-            return (from Value in Values where Value.Equals(value) select true).FirstOrDefault();
+            return (from _Value in Values where Value.Equals(_Value) select true).FirstOrDefault();
         }
 
-        public Boolean Contains(TKey key, TValue value)
+        #endregion
+
+        #region Contains(Key, Value)
+
+        /// <summary>
+        /// Determines if an KeyValuePair with the specified key and value exists.
+        /// </summary>
+        /// <param name="Key">A property key.</param>
+        /// <param name="Value">A property value.</param>
+        public Boolean Contains(TKey Key, TValue Value)
         {
 
             ISet<TValue> _HashSet = null;
 
-            if (Index.TryGetValue(key, out _HashSet))
-                return (from Value in _HashSet where Value.Equals(value) select true).FirstOrDefault();
+            if (Index.TryGetValue(Key, out _HashSet))
+                return (from _Value in _HashSet where _Value.Equals(Value) select true).FirstOrDefault();
 
             return false;
 
         }
 
-        public Boolean Get(TKey key, out ISet<TValue> value)
+        #endregion
+
+
+        #region this[Key]
+
+        /// <summary>
+        /// Return the value set associated with the given key.
+        /// </summary>
+        /// <param name="Key">A key.</param>
+        public ISet<TValue> this[TKey Key]
         {
-            return Index.TryGetValue(key, out value);
+            get
+            {
+                return Index[Key];
+            }
         }
 
-        public Boolean Remove(TKey key)
+        #endregion
+
+        #region Get(Key, out Values)
+
+        /// <summary>
+        /// Return the value set associated with the given key.
+        /// </summary>
+        /// <param name="Key">A key.</param>
+        /// <param name="Values">The associated value set.</param>
+        /// <returns>True if the returned value set is valid.</returns>
+        public Boolean Get(TKey Key, out ISet<TValue> Values)
+        {
+            return Index.TryGetValue(Key, out Values);
+        }
+
+        #endregion
+
+        #region Get(KeyValueFilter)
+
+        /// <summary>
+        /// Return a filtered enumeration of all KeyValuePairs.
+        /// </summary>
+        /// <param name="KeyValueFilter">A delegate to filter properties based on their keys and values.</param>
+        /// <returns>A enumeration of all key/value pairs matching the given KeyValueFilter.</returns>
+        public IEnumerable<KeyValuePair<TKey, TValue>> Get(KeyValueFilter<TKey, TValue> KeyValueFilter)
+        {
+            foreach (var _KeySetPair in this)
+                foreach (var _Value in _KeySetPair.Value)
+                    if (KeyValueFilter(_KeySetPair.Key, _Value))
+                        yield return new KeyValuePair<TKey, TValue>(_KeySetPair.Key, _Value);
+        }
+
+        #endregion
+
+        #region Evaluate(IndexEvaluator)
+
+        /// <summary>
+        /// Get all elements matching the given index evaluator.
+        /// </summary>
+        /// <param name="IndexEvaluator">A delegate for selecting indexed elements.</param>
+        public IEnumerable<TValue> Evaluate(IndexEvaluator<TKey, TValue> IndexEvaluator)
+        {
+            foreach (var _KeyValuePair in Index)
+            {
+                if (IndexEvaluator(_KeyValuePair.Key, _KeyValuePair.Value))
+                    foreach (var _Value in _KeyValuePair.Value)
+                        yield return _Value;
+            }
+        }
+
+        #endregion
+
+
+        #region SmallerThan(IdxKey)
+
+        /// <summary>
+        /// Get all elements smaller than the given index key.
+        /// </summary>
+        /// <param name="IdxKey">An index key.</param>
+        public virtual IEnumerable<TValue> SmallerThan(TKey IdxKey)
+        {
+            return Evaluate((k, v) => k.CompareTo(IdxKey) < 0);
+        }
+
+        #endregion
+
+        #region SmallerThanOrEquals(IdxKey)
+
+        /// <summary>
+        /// Get all elements smaller or equals the given index key.
+        /// </summary>
+        /// <param name="IdxKey">An index key.</param>
+        public virtual IEnumerable<TValue> SmallerThanOrEquals(TKey IdxKey)
+        {
+            return Evaluate((k, v) => k.CompareTo(IdxKey) <= 0);
+        }
+
+        #endregion
+
+        #region Equals(IdxKey)
+
+        /// <summary>
+        /// Get all elements exactly matching the given index key.
+        /// </summary>
+        /// <param name="IdxKey">An index key.</param>
+        public virtual IEnumerable<TValue> Equals(TKey IdxKey)
+        {
+
+            ISet<TValue> _Set = null;
+
+            if (Index.TryGetValue(IdxKey, out _Set))
+                return _Set;
+
+            return new List<TValue>();
+
+        }
+
+        #endregion
+
+        #region NotEquals(IdxKey)
+
+        /// <summary>
+        /// Get all elements not matching the given index key exactly.
+        /// </summary>
+        /// <param name="IdxKey">An index key.</param>
+        public virtual IEnumerable<TValue> NotEquals(TKey IdxKey)
+        {
+            return Evaluate((k, v) => !k.Equals(IdxKey));
+        }
+
+        #endregion
+
+        #region LargerThan(IdxKey)
+
+        /// <summary>
+        /// Get all elements larger the given index key.
+        /// </summary>
+        /// <param name="IdxKey">An index key.</param>
+        public virtual IEnumerable<TValue> LargerThan(TKey IdxKey)
+        {
+            return Evaluate((k, v) => k.CompareTo(IdxKey) > 0);
+        }
+
+        #endregion
+
+        #region LargerThanOrEquals(IdxKey)
+
+        /// <summary>
+        /// Get all elements larger or equals the given index key.
+        /// </summary>
+        /// <param name="IdxKey">An index key.</param>
+        public virtual IEnumerable<TValue> LargerThanOrEquals(TKey IdxKey)
+        {
+            return Evaluate((k, v) => k.CompareTo(IdxKey) >= 0);
+        }
+
+        #endregion
+
+
+        #region Remove(Key)
+
+        /// <summary>
+        /// Remove all KeyValuePairs associated with the given key.
+        /// </summary>
+        /// <param name="Key">A key.</param>
+        /// <returns>The value set associated with that key prior to the removal.</returns>
+        public ISet<TValue> Remove(TKey Key)
+        {
+
+            ISet<TValue> _Set = null;
+
+            if (Index.TryGetValue(Key, out _Set))
+            {
+                if (Index.Remove(Key) == true)
+                    return _Set;
+            }
+
+            return new HashSet<TValue>();
+            
+        }
+
+        #endregion
+
+        #region Remove(Key, Value)
+
+        /// <summary>
+        /// Remove the given KeyValuePair.
+        /// </summary>
+        /// <param name="Key">A key.</param>
+        /// <param name="Value">A value.</param>
+        public Boolean Remove(TKey Key, TValue Value)
+        {
+
+            ISet<TValue> _Set = null;
+
+            if (Index.TryGetValue(Key, out _Set))
+            {
+
+                // Remove the value from the ISet<TValue>
+                if (_Set.Contains(Value))
+                    if (_Set.Remove(Value) == false)
+                        return false;
+
+                // If the set is now empty remove it
+                if (_Set.Count == 0)
+                    if (Index.Remove(Key) == false)
+                        return false;
+
+            }
+
+            return true;
+
+        }
+
+        #endregion
+
+        #region Remove(KeyValueFilter = null)
+
+        /// <summary>
+        /// Remove all KeyValuePairs specified by the given KeyValueFilter.
+        /// </summary>
+        /// <param name="KeyValueFilter">A delegate to remove properties based on their keys and values.</param>
+        /// <returns>A enumeration of all key/value pairs removed by the given KeyValueFilter before their removal.</returns>
+        public IEnumerable<KeyValuePair<TKey, TValue>> Remove(KeyValueFilter<TKey, TValue> KeyValueFilter = null)
         {
             throw new NotImplementedException();
         }
 
-        public Boolean Remove(TKey key, TValue value)
-        {
-            throw new NotImplementedException();
-        }
+        #endregion
 
+        #endregion
 
+        #region IEnumerable Members
 
+        /// <summary>
+        /// Returns an enumerator that iterates through the index.
+        /// </summary>
         public IEnumerator<KeyValuePair<TKey, ISet<TValue>>> GetEnumerator()
         {
             return Index.GetEnumerator();
         }
 
+        /// <summary>
+        /// Returns an enumerator that iterates through the index.
+        /// </summary>
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
             return Index.GetEnumerator();
         }
 
+        #endregion
 
-
-        
     }
 
 }

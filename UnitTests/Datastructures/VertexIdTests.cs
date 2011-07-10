@@ -1050,12 +1050,11 @@ namespace de.ahzf.Blueprints.UnitTests
         /// A test for equals null.
         /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void EqualsNullTest1()
         {
             var    _VertexId = VertexId.NewVertexId;
             Object _Object   = null;
-            _VertexId.Equals(_Object);
+            Assert.IsFalse(_VertexId.Equals(_Object));
         }
 
         #endregion
@@ -1081,12 +1080,11 @@ namespace de.ahzf.Blueprints.UnitTests
         /// A test for equals a non-VertexId.
         /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
         public void EqualsNonVertexIdTest()
         {
             var _VertexId = VertexId.NewVertexId;
             var _Object   = "123";
-            _VertexId.Equals(_Object);
+            Assert.IsFalse(_VertexId.Equals(_Object));
         }
 
         #endregion

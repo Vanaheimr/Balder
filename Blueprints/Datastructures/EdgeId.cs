@@ -202,6 +202,21 @@ namespace de.ahzf.Blueprints
 
         #endregion
 
+        #region Operator <= (EdgeId1, EdgeId2)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="EdgeId1">A EdgeId.</param>
+        /// <param name="EdgeId2">Another EdgeId.</param>
+        /// <returns>true|false</returns>
+        public static Boolean operator <= (EdgeId EdgeId1, EdgeId EdgeId2)
+        {
+            return !(EdgeId1 > EdgeId2);
+        }
+
+        #endregion
+
         #region Operator >  (EdgeId1, EdgeId2)
 
         /// <summary>
@@ -218,21 +233,6 @@ namespace de.ahzf.Blueprints
 
             return EdgeId1.CompareTo(EdgeId2) > 0;
 
-        }
-
-        #endregion
-
-        #region Operator <= (EdgeId1, EdgeId2)
-
-        /// <summary>
-        /// Compares two instances of this object.
-        /// </summary>
-        /// <param name="EdgeId1">A EdgeId.</param>
-        /// <param name="EdgeId2">Another EdgeId.</param>
-        /// <returns>true|false</returns>
-        public static Boolean operator <= (EdgeId EdgeId1, EdgeId EdgeId2)
-        {
-            return !(EdgeId1 > EdgeId2);
         }
 
         #endregion
@@ -262,7 +262,6 @@ namespace de.ahzf.Blueprints
         /// Compares two instances of this object.
         /// </summary>
         /// <param name="Object">An object to compare with.</param>
-        /// <returns>true|false</returns>
         public override Int32 CompareTo(Object Object)
         {
 
@@ -286,7 +285,6 @@ namespace de.ahzf.Blueprints
         /// Compares two instances of this object.
         /// </summary>
         /// <param name="EdgeId">An object to compare with.</param>
-        /// <returns>true|false</returns>
         public Int32 CompareTo(EdgeId EdgeId)
         {
 
@@ -321,12 +319,12 @@ namespace de.ahzf.Blueprints
         {
 
             if (Object == null)
-                throw new ArgumentNullException("The given object must not be null!");
+                return false;
 
             // Check if the given object is an EdgeId.
             var EdgeId = Object as EdgeId;
             if ((Object) EdgeId == null)
-                throw new ArgumentException("The given object is not a EdgeId!");
+                return false;
 
             return this.Equals(EdgeId);
 

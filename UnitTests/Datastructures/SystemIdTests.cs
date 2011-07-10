@@ -1050,12 +1050,11 @@ namespace de.ahzf.Blueprints.UnitTests
         /// A test for equals null.
         /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void EqualsNullTest1()
         {
             var    _SystemId = SystemId.NewSystemId;
             Object _Object   = null;
-            _SystemId.Equals(_Object);
+            Assert.IsFalse(_SystemId.Equals(_Object));
         }
 
         #endregion
@@ -1081,12 +1080,11 @@ namespace de.ahzf.Blueprints.UnitTests
         /// A test for equals a non-SystemId.
         /// </summary>
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
         public void EqualsNonSystemIdTest()
         {
             var _SystemId = SystemId.NewSystemId;
             var _Object   = "123";
-            _SystemId.Equals(_Object);
+            Assert.IsFalse(_SystemId.Equals(_Object));
         }
 
         #endregion

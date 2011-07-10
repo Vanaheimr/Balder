@@ -30,7 +30,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
     /// An interface for simplified interaction with dynamic objects.
     /// </summary>
     /// <typeparam name="T">The compile time type of the DynamicMetaObject.</typeparam>
-    public interface IDynamicGraphObject<T> : IDynamicMetaObjectProvider
+    public interface IDynamicGraphElement<T> : IDynamicMetaObjectProvider
     {
 
         /// <summary>

@@ -18,10 +18,10 @@
 #region Usings
 
 using System;
-using System.ComponentModel;
-using System.Linq.Expressions;
 using System.Collections.Generic;
-using System.Collections.Specialized;
+
+using de.ahzf.Blueprints.Indices;
+using de.ahzf.Blueprints.PropertyGraph.Indices;
 
 #endregion
 
@@ -45,7 +45,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <summary>
         /// The internal index datastructure.
         /// </summary>
-        protected readonly ILookup<TKey, TValue> IndexDatastructure;
+        protected readonly IIndex<TKey, TValue> IndexDatastructure;
 
         /// <summary>
         /// A delegate for deciding if an element should be indexed or not.
@@ -124,7 +124,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #region Constructor(s)
 
-        #region HashIndex(Name, Selector, Transformation, Datastructure = null, IsAutomaticIndex = false, SupportsEfficentExactMatchQueries = false, SupportsEfficentRangeQueries = false)
+        #region PropertyIndex(Name, Selector, Transformation, Datastructure = null, IsAutomaticIndex = false, SupportsEfficentExactMatchQueries = false, SupportsEfficentRangeQueries = false)
 
         /// <summary>
         /// Creates a new index for indexing PropertyElements like vertices, edges or hyperedges.
@@ -137,7 +137,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="SupportsEfficentExactMatchQueries">True if the index supports efficient range queries; False otherwise.</param>
         /// <param name="SupportsEfficentRangeQueries">True if the index supports efficient range queries; False otherwise.</param>
         public PropertyIndex(String                            Name,
-                             ILookup<TKey, TValue>             IndexDatastructure,
+                             IIndex<TKey, TValue>              IndexDatastructure,
                              IndexTransformation<TKey, TValue> Transformation,
                              IndexSelector<TKey, TValue>       Selector                          = null,
                              Boolean                           IsAutomaticIndex                  = false,
@@ -148,12 +148,12 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
             if (IndexDatastructure == null)
                 throw new ArgumentNullException("The given Datastructure must not be null!");
 
-            this.Name                              = Name;
-            this.IndexDatastructure                = IndexDatastructure;
-            this.Transformation                    = Transformation;
-            this.Selector                          = Selector;
-            this.IsAutomaticIndex                  = IsAutomaticIndex;
-            this.KeyType                           = typeof(TKey);
+            this.Name               = Name;
+            this.IndexDatastructure = IndexDatastructure;
+            this.Transformation     = Transformation;
+            this.Selector           = Selector;
+            this.IsAutomaticIndex   = IsAutomaticIndex;
+            this.KeyType            = typeof(TKey);
 
         }
 
@@ -171,20 +171,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         public void Insert(TValue Element)
         {
             if (this.Selector(Element))
-                IndexDatastructure.Add(Transformation(Element), Element);
-        }
-
-        #endregion
-
-        #region Remove(Element)
-
-        /// <summary>
-        /// Remove an element from the index.
-        /// </summary>
-        /// <param name="Element">An element for indexing.</param>
-        public void Remove(TValue Element)
-        {
-            throw new NotImplementedException();
+                IndexDatastructure.Set(Transformation(Element), Element);
         }
 
         #endregion
@@ -435,17 +422,30 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         #endregion
 
 
+        #region Remove(Element)
+
+        /// <summary>
+        /// Remove an element from the index.
+        /// </summary>
+        /// <param name="Element">An element for indexing.</param>
+        public void Remove(TValue Element)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
 
         #region CastTo<TKey>()
 
         /// <summary>
-        /// Downcast this index to an IPropertyElementIndex&lt;T, TIndexKey&gt; index.
+        /// Downcast this index to an IPropertyElementIndex&lt;TIdxKey, TValue&gt; index.
         /// </summary>
         /// <typeparam name="TIdxKey">The type of the index keys.</typeparam>
-        public IPropertyElementIndex<TValue, TIdxKey> CastTo<TIdxKey>()
+        public IPropertyElementIndex<TIdxKey, TValue> CastTo<TIdxKey>()
             where TIdxKey : IEquatable<TIdxKey>, IComparable<TIdxKey>, IComparable
         {
-            return (IPropertyElementIndex<TValue, TIdxKey>) this;
+            return (IPropertyElementIndex<TIdxKey, TValue>) this;
         }
 
         #endregion

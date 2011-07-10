@@ -38,13 +38,13 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                               TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
                               TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
         
-                              : APropertyElement<TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge, TDatastructureEdge>,
+                              : AGraphElement<TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge, TDatastructureEdge>,
 
                                 IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,    TDatastructureVertex,
                                               TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
                                               TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>,
 
-                                IDynamicGraphObject<PropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,    TDatastructureVertex,
+                                IDynamicGraphElement<PropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,    TDatastructureVertex,
                                                                  TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
                                                                  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>>
 
@@ -70,68 +70,18 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
     {
 
+        #region Properties
 
-        #region Constructor(s)
-
-        #region PropertyEdge(IGraph, OutVertex, InVertex, EdgeId, EdgeInitializer = null)
+        #region Graph
 
         /// <summary>
-        /// Creates a new edge.
+        /// The associated property graph.
         /// </summary>
-        /// <param name="IGraph">The associated graph.</param>
-        /// <param name="OutVertex">The vertex at the tail of the edge.</param>
-        /// <param name="InVertex">The vertex at the head of the edge.</param>
-        /// <param name="EdgeId">The identification of this edge.</param>
-        /// <param name="Label">A label stored within this edge.</param>
-        /// <param name="IdKey">The key of the edge identifier.</param>
-        /// <param name="RevisonIdKey">The key of the edge revision identifier.</param>
-        /// <param name="DataInitializer">A func to initialize the properties datastructure.</param>
-        /// <param name="EdgeInitializer">A delegate to initialize the newly created edge.</param>
-        public PropertyEdge(IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                            TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                            TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
-                                            OutVertex,
-
-                            IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                            TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                            TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
-                                            InVertex,
-
-                            TIdEdge                  EdgeId,
-                            TEdgeLabel               Label,
-                            TKeyEdge                 IdKey,
-                            TKeyEdge                 RevisonIdKey,
-                            Func<TDatastructureEdge> DataInitializer,
-
-                            EdgeInitializer<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                            TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                            TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeInitializer = null)
-            
-            : base(EdgeId, IdKey, RevisonIdKey, DataInitializer)
-
-        {
-
-            if (OutVertex == null)
-                throw new ArgumentNullException("The given OutVertex must not be null!");
-
-            if (InVertex == null)
-                throw new ArgumentNullException("The given InVertex must not be null!");
-
-            this._OutVertex = OutVertex;
-            this._InVertex  = InVertex;
-
-            // Add the label
-            this.Label      = Label;
-
-            if (EdgeInitializer != null)
-                EdgeInitializer(this);
-
-        }
+        public IPropertyGraph<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,  
+                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,    
+                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Graph { get; private set; }
 
         #endregion
-
-        #endregion
-
 
         #region Label
 
@@ -194,167 +144,230 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #endregion
 
+        #endregion
+
+        #region Constructor(s)
+
+        #region PropertyEdge(Graph, OutVertex, InVertex, EdgeId, EdgeInitializer = null)
+
+        /// <summary>
+        /// Creates a new edge.
+        /// </summary>
+        /// <param name="Graph">The associated property graph.</param>
+        /// <param name="OutVertex">The vertex at the tail of the edge.</param>
+        /// <param name="InVertex">The vertex at the head of the edge.</param>
+        /// <param name="EdgeId">The identification of this edge.</param>
+        /// <param name="Label">A label stored within this edge.</param>
+        /// <param name="IdKey">The key of the edge identifier.</param>
+        /// <param name="RevisonIdKey">The key of the edge revision identifier.</param>
+        /// <param name="DataInitializer">A func to initialize the properties datastructure.</param>
+        /// <param name="EdgeInitializer">A delegate to initialize the newly created edge.</param>
+        public PropertyEdge(IPropertyGraph <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                            TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                            TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Graph,
+                            IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                            TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                            TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
+                                            OutVertex,
+
+                            IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                            TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                            TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
+                                            InVertex,
+
+                            TIdEdge                  EdgeId,
+                            TEdgeLabel               Label,
+                            TKeyEdge                 IdKey,
+                            TKeyEdge                 RevisonIdKey,
+                            Func<TDatastructureEdge> DataInitializer,
+
+                            EdgeInitializer<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                            TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                            TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeInitializer = null)
+            
+            : base(EdgeId, IdKey, RevisonIdKey, DataInitializer)
+
+        {
+
+            if (OutVertex == null)
+                throw new ArgumentNullException("The given OutVertex must not be null!");
+
+            if (InVertex == null)
+                throw new ArgumentNullException("The given InVertex must not be null!");
+
+            this.Graph      = Graph;
+            this._OutVertex = OutVertex;
+            this._InVertex  = InVertex;
+
+            // Add the label
+            this.Label      = Label;
+
+            if (EdgeInitializer != null)
+                EdgeInitializer(this);
+
+        }
+
+        #endregion
+
+        #endregion
+
 
         #region Operator overloading
 
-        #region Operator == (myPropertyEdge1, myPropertyEdge2)
+        #region Operator == (PropertyEdge1, PropertyEdge2)
 
         /// <summary>
-        /// Compares two instances of this object.
+        /// Compares two edges for equality.
         /// </summary>
-        /// <param name="myPropertyEdge1">A Edge.</param>
-        /// <param name="myPropertyEdge2">Another Edge.</param>
-        /// <returns>true|false</returns>
+        /// <param name="PropertyEdge1">A Edge.</param>
+        /// <param name="PropertyEdge2">Another Edge.</param>
+        /// <returns>True if both match; False otherwise.</returns>
         public static Boolean operator == (PropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,    TDatastructureVertex,
                                                         TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
                                                         TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
-                                                        myPropertyEdge1,
+                                                        PropertyEdge1,
                                            PropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,    TDatastructureVertex,
                                                         TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
                                                         TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
-                                                        myPropertyEdge2)
+                                                        PropertyEdge2)
         {
 
             // If both are null, or both are same instance, return true.
-            if (Object.ReferenceEquals(myPropertyEdge1, myPropertyEdge2))
+            if (Object.ReferenceEquals(PropertyEdge1, PropertyEdge2))
                 return true;
 
             // If one is null, but not both, return false.
-            if (((Object) myPropertyEdge1 == null) || ((Object) myPropertyEdge2 == null))
+            if (((Object) PropertyEdge1 == null) || ((Object) PropertyEdge2 == null))
                 return false;
 
-            return myPropertyEdge1.Equals(myPropertyEdge2);
+            return PropertyEdge1.Equals(PropertyEdge2);
 
         }
 
         #endregion
 
-        #region Operator != (myPropertyEdge1, myPropertyEdge2)
+        #region Operator != (PropertyEdge1, PropertyEdge2)
 
         /// <summary>
-        /// Compares two instances of this object.
+        /// Compares two edges for equality.
         /// </summary>
-        /// <param name="myPropertyEdge1">A Edge.</param>
-        /// <param name="myPropertyEdge2">Another Edge.</param>
-        /// <returns>true|false</returns>
+        /// <param name="PropertyEdge1">A Edge.</param>
+        /// <param name="PropertyEdge2">Another Edge.</param>
+        /// <returns>False if both match; True otherwise.</returns>
         public static Boolean operator != (PropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,    TDatastructureVertex,
                                                         TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
                                                         TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
-                                                        myPropertyEdge1,
+                                                        PropertyEdge1,
                                            PropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,    TDatastructureVertex,
                                                         TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
                                                         TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
-                                                        myPropertyEdge2)
+                                                        PropertyEdge2)
         {
-            return !(myPropertyEdge1 == myPropertyEdge2);
+            return !(PropertyEdge1 == PropertyEdge2);
         }
 
         #endregion
 
-        #region Operator <  (myPropertyEdge1, myPropertyEdge2)
+        #region Operator <  (PropertyEdge1, PropertyEdge2)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myPropertyEdge1">A Edge.</param>
-        /// <param name="myPropertyEdge2">Another Edge.</param>
+        /// <param name="PropertyEdge1">A Edge.</param>
+        /// <param name="PropertyEdge2">Another Edge.</param>
         /// <returns>true|false</returns>
         public static Boolean operator < (PropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,    TDatastructureVertex,
                                                        TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
                                                        TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
-                                                       myPropertyEdge1,
+                                                       PropertyEdge1,
                                           PropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,    TDatastructureVertex,
                                                        TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
                                                        TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
-                                                       myPropertyEdge2)
+                                                       PropertyEdge2)
         {
 
-            // Check if myPropertyEdge1 is null
-            if ((Object) myPropertyEdge1 == null)
-                throw new ArgumentNullException("Parameter myPropertyEdge1 must not be null!");
+            if ((Object) PropertyEdge1 == null)
+                throw new ArgumentNullException("The given PropertyEdge1 must not be null!");
 
-            // Check if myPropertyEdge2 is null
-            if ((Object) myPropertyEdge2 == null)
-                throw new ArgumentNullException("Parameter myPropertyEdge2 must not be null!");
+            if ((Object) PropertyEdge2 == null)
+                throw new ArgumentNullException("The given PropertyEdge2 must not be null!");
 
-            return myPropertyEdge1.CompareTo(myPropertyEdge2) < 0;
+            return PropertyEdge1.CompareTo(PropertyEdge2) < 0;
 
         }
 
         #endregion
 
-        #region Operator >  (myPropertyEdge1, myPropertyEdge2)
+        #region Operator <= (PropertyEdge1, PropertyEdge2)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myPropertyEdge1">A Edge.</param>
-        /// <param name="myPropertyEdge2">Another Edge.</param>
-        /// <returns>true|false</returns>
-        public static Boolean operator > (PropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
-                                                       myPropertyEdge1,
-                                          PropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
-                                                       myPropertyEdge2)
-        {
-
-            // Check if myPropertyEdge1 is null
-            if ((Object) myPropertyEdge1 == null)
-                throw new ArgumentNullException("Parameter myPropertyEdge1 must not be null!");
-
-            // Check if myPropertyEdge2 is null
-            if ((Object) myPropertyEdge2 == null)
-                throw new ArgumentNullException("Parameter myPropertyEdge2 must not be null!");
-
-            return myPropertyEdge1.CompareTo(myPropertyEdge2) > 0;
-
-        }
-
-        #endregion
-
-        #region Operator <= (myPropertyEdge1, myPropertyEdge2)
-
-        /// <summary>
-        /// Compares two instances of this object.
-        /// </summary>
-        /// <param name="myPropertyEdge1">A Edge.</param>
-        /// <param name="myPropertyEdge2">Another Edge.</param>
+        /// <param name="PropertyEdge1">A Edge.</param>
+        /// <param name="PropertyEdge2">Another Edge.</param>
         /// <returns>true|false</returns>
         public static Boolean operator <= (PropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,    TDatastructureVertex,
                                                         TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
                                                         TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
-                                                        myPropertyEdge1,
+                                                        PropertyEdge1,
                                            PropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,    TDatastructureVertex,
                                                         TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
                                                         TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
-                                                        myPropertyEdge2)
+                                                        PropertyEdge2)
         {
-            return !(myPropertyEdge1 > myPropertyEdge2);
+            return !(PropertyEdge1 > PropertyEdge2);
         }
 
         #endregion
 
-        #region Operator >= (myPropertyEdge1, myPropertyEdge2)
+        #region Operator >  (PropertyEdge1, PropertyEdge2)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myPropertyEdge1">A Edge.</param>
-        /// <param name="myPropertyEdge2">Another Edge.</param>
+        /// <param name="PropertyEdge1">A Edge.</param>
+        /// <param name="PropertyEdge2">Another Edge.</param>
+        /// <returns>true|false</returns>
+        public static Boolean operator > (PropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,    TDatastructureVertex,
+                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
+                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
+                                                       PropertyEdge1,
+                                          PropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,    TDatastructureVertex,
+                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
+                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
+                                                       PropertyEdge2)
+        {
+
+            if ((Object) PropertyEdge1 == null)
+                throw new ArgumentNullException("The given PropertyEdge1 must not be null!");
+
+            if ((Object) PropertyEdge2 == null)
+                throw new ArgumentNullException("The given PropertyEdge2 must not be null!");
+
+            return PropertyEdge1.CompareTo(PropertyEdge2) > 0;
+
+        }
+
+        #endregion
+
+        #region Operator >= (PropertyEdge1, PropertyEdge2)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="PropertyEdge1">A Edge.</param>
+        /// <param name="PropertyEdge2">Another Edge.</param>
         /// <returns>true|false</returns>
         public static Boolean operator >= (PropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,    TDatastructureVertex,
                                                         TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
                                                         TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
-                                                        myPropertyEdge1,
+                                                        PropertyEdge1,
                                            PropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,    TDatastructureVertex,
                                                         TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
                                                         TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
-                                                        myPropertyEdge2)
+                                                        PropertyEdge2)
         {
-            return !(myPropertyEdge1 < myPropertyEdge2);
+            return !(PropertyEdge1 < PropertyEdge2);
         }
 
         #endregion
@@ -371,7 +384,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="myExpression">An Expression.</param>
         public DynamicMetaObject GetMetaObject(Expression myExpression)
         {
-            return new DynamicGraphObject<PropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,    TDatastructureVertex,
+            return new DynamicGraphElement<PropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,    TDatastructureVertex,
                                                        TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
                                                        TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>>
                                                        (myExpression, this);
@@ -386,7 +399,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// </summary>
         public virtual IEnumerable<String> GetDynamicMemberNames()
         {
-            foreach (var _PropertyKey in _Data.PropertyKeys)
+            foreach (var _PropertyKey in PropertyData.Keys)
                 yield return _PropertyKey.ToString();
         }
 
@@ -402,7 +415,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="myObject">The property value</param>
         public virtual Object SetMember(String myBinder, Object myObject)
         {
-            return _Data.SetProperty((TKeyEdge) (Object) myBinder, (TValueEdge) myObject);
+            return PropertyData.Set((TKeyEdge) (Object) myBinder, (TValueEdge) myObject);
         }
 
         #endregion
@@ -416,7 +429,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         public virtual Object GetMember(String myBinder)
         {
             TValueEdge myObject;
-            _Data.TryGetProperty((TKeyEdge) (Object) myBinder, out myObject);
+            PropertyData.Get((TKeyEdge) (Object) myBinder, out myObject);
             return myObject as Object;
         }
 
@@ -433,7 +446,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
             try
             {
-                _Data.RemoveProperty((TKeyEdge) (Object) myBinder);
+                PropertyData.Remove((TKeyEdge) (Object) myBinder);
                 return true;
             }
             catch
@@ -455,7 +468,6 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// Compares two instances of this object.
         /// </summary>
         /// <param name="Object">An object to compare with.</param>
-        /// <returns>true|false</returns>
         public Int32 CompareTo(Object Object)
         {
 
@@ -481,7 +493,6 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// Compares two instances of this object.
         /// </summary>
         /// <param name="EdgeId">An object to compare with.</param>
-        /// <returns>true|false</returns>
         public Int32 CompareTo(TIdEdge EdgeId)
         {
 
@@ -494,20 +505,19 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #endregion
 
-        #region CompareTo(IPropertyElement)
+        #region CompareTo(IGraphElement)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
         /// <param name="IPropertyElement">An object to compare with.</param>
-        /// <returns>true|false</returns>
-        public Int32 CompareTo(IPropertyElement<TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge> IPropertyElement)
+        public Int32 CompareTo(IGraphElement<TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge> IGraphElement)
         {
 
-            if ((Object) IPropertyElement == null)
-                throw new ArgumentNullException("The given IPropertyElement must not be null!");
+            if ((Object) IGraphElement == null)
+                throw new ArgumentNullException("The given IGraphElement must not be null!");
 
-            return Id.CompareTo(IPropertyElement.Properties.GetProperty(_IdKey));
+            return Id.CompareTo(IGraphElement.PropertyData[IdKey]);
 
         }
 
@@ -516,10 +526,9 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         #region CompareTo(IPropertyEdge)
 
         /// <summary>
-        /// Compares two instances of this object.
+        /// Compares two property edges.
         /// </summary>
-        /// <param name="IPropertyEdge">An object to compare with.</param>
-        /// <returns>true|false</returns>
+        /// <param name="IPropertyEdge">A property edge to compare with.</param>
         public Int32 CompareTo(IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IPropertyEdge)
@@ -528,7 +537,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
             if ((Object) IPropertyEdge == null)
                 throw new ArgumentNullException("The given IPropertyEdge must not be null!");
 
-            return Id.CompareTo(IPropertyEdge.Properties.GetProperty(_IdKey));
+            return Id.CompareTo(IPropertyEdge.PropertyData[IdKey]);
 
         }
 
@@ -544,7 +553,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// Compares two instances of this object.
         /// </summary>
         /// <param name="Object">An object to compare with.</param>
-        /// <returns>true|false</returns>
+        /// <returns>True if both match; False otherwise.</returns>
         public override Boolean Equals(Object Object)
         {
 
@@ -556,7 +565,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>;
             if ((Object) PropertyEdge == null)
-                throw new ArgumentException("The given object is not a PropertyEdge!");
+                return false;
 
             return this.Equals(PropertyEdge);
 
@@ -567,38 +576,37 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         #region Equals(EdgeId)
 
         /// <summary>
-        /// Compares two instances of this object.
+        /// Compares this property edge to an edge identification.
         /// </summary>
-        /// <param name="EdgeId">An object to compare with.</param>
-        /// <returns>true|false</returns>
+        /// <param name="EdgeId">An edge identification to compare with.</param>
+        /// <returns>True if both match; False otherwise.</returns>
         public Boolean Equals(TIdEdge EdgeId)
         {
 
             if ((Object) EdgeId == null)
                 return false;
 
-            //TODO: Here it might be good to check all attributes of the UNIQUE constraint!
             return Id.Equals(EdgeId);
 
         }
 
         #endregion
 
-        #region Equals(IPropertyElement)
+        #region Equals(IGraphElement)
 
         /// <summary>
-        /// Compares two instances of this object.
+        /// Compares this property edge to another property element.
         /// </summary>
-        /// <param name="IPropertyElement">An object to compare with.</param>
-        /// <returns>true|false</returns>
-        public Boolean Equals(IPropertyElement<TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge> IPropertyElement)
+        /// <param name="IGraphElement">An object to compare with.</param>
+        /// <returns>True if both match; False otherwise.</returns>
+        public Boolean Equals(IGraphElement<TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge> IGraphElement)
         {
 
-            if ((Object) IPropertyElement == null)
+            if ((Object) IGraphElement == null)
                 return false;
 
             //TODO: Here it might be good to check all attributes of the UNIQUE constraint!
-            return Id.Equals(IPropertyElement.Properties.GetProperty(_IdKey));
+            return Id.Equals(IGraphElement.PropertyData[IdKey]);
 
         }
 
@@ -607,10 +615,10 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         #region Equals(IPropertyEdge)
 
         /// <summary>
-        /// Compares two instances of this object.
+        /// Compares two property edges for equality.
         /// </summary>
-        /// <param name="IPropertyEdge">An object to compare with.</param>
-        /// <returns>true|false</returns>
+        /// <param name="IPropertyEdge">A property edge to compare with.</param>
+        /// <returns>True if both match; False otherwise.</returns>
         public Boolean Equals(IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                             TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IPropertyEdge)
@@ -620,7 +628,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                 return false;
 
             //TODO: Here it might be good to check all attributes of the UNIQUE constraint!
-            return Id.Equals(IPropertyEdge.Properties.GetProperty(_IdKey));
+            return Id.Equals(IPropertyEdge.PropertyData[IdKey]);
 
         }
 
