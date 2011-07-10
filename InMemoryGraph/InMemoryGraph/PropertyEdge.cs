@@ -415,7 +415,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="myObject">The property value</param>
         public virtual Object SetMember(String myBinder, Object myObject)
         {
-            return PropertyData.Set((TKeyEdge) (Object) myBinder, (TValueEdge) myObject);
+            return PropertyData.SetProperty((TKeyEdge) (Object) myBinder, (TValueEdge) myObject);
         }
 
         #endregion
@@ -429,7 +429,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         public virtual Object GetMember(String myBinder)
         {
             TValueEdge myObject;
-            PropertyData.Get((TKeyEdge) (Object) myBinder, out myObject);
+            PropertyData.GetProperty((TKeyEdge) (Object) myBinder, out myObject);
             return myObject as Object;
         }
 

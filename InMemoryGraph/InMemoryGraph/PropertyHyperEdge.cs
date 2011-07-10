@@ -141,7 +141,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         #region InVertices
 
         /// <summary>
-        /// The vertex at the head of this edge.
+        /// The vertices at the head of this edge.
         /// </summary>
         public IEnumerable<IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                            TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
@@ -424,7 +424,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="myObject">The property value</param>
         public virtual Object SetMember(String myBinder, Object myObject)
         {
-            return PropertyData.Set((TKeyHyperEdge) (Object) myBinder, (TValueHyperEdge) myObject);
+            return PropertyData.SetProperty((TKeyHyperEdge) (Object) myBinder, (TValueHyperEdge) myObject);
         }
 
         #endregion
@@ -438,7 +438,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         public virtual Object GetMember(String myBinder)
         {
             TValueHyperEdge myObject;
-            PropertyData.Get((TKeyHyperEdge) (Object) myBinder, out myObject);
+            PropertyData.GetProperty((TKeyHyperEdge) (Object) myBinder, out myObject);
             return myObject as Object;
         }
 

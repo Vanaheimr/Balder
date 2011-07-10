@@ -324,7 +324,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
                 DestinationPropertyGraph.AddVertex(
                     _Vertex.Id,
                     NewVertex => {
-                        foreach (var _Property in _Vertex.Get((key, value) => !key.Equals(_Vertex.IdKey)))
+                        foreach (var _Property in _Vertex.GetProperties((key, value) => !key.Equals(_Vertex.IdKey)))
                             NewVertex.SetProperty(_Property);
                     });
             }
@@ -339,7 +339,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
                     _Edge.Id,
                     _Edge.Label,
                     NewEdge => {
-                        foreach (var _Property in _Edge.Get((key, value) => !key.Equals(_Edge.IdKey)))
+                        foreach (var _Property in _Edge.GetProperties((key, value) => !key.Equals(_Edge.IdKey)))
                             NewEdge.SetProperty(_Property);
                     });
             }

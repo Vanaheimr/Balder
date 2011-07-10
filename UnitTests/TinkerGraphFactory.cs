@@ -36,19 +36,19 @@ namespace de.ahzf.Blueprints.UnitTests
 
             var _TinkerGraph = new InMemoryPropertyGraph(new VertexId("TinkerGraph")) as IPropertyGraph;
 
-            var marko  = _TinkerGraph.AddVertex(new VertexId("1"), v => v.Set("name", "marko"). Set("age",   29));
-            var vadas  = _TinkerGraph.AddVertex(new VertexId("2"), v => v.Set("name", "vadas"). Set("age",   27));
-            var lop    = _TinkerGraph.AddVertex(new VertexId("3"), v => v.Set("name", "lop").   Set("lang", "java"));
-            var josh   = _TinkerGraph.AddVertex(new VertexId("4"), v => v.Set("name", "josh").  Set("age",   32));
-            var ripple = _TinkerGraph.AddVertex(new VertexId("5"), v => v.Set("name", "ripple").Set("lang", "java"));
-            var peter  = _TinkerGraph.AddVertex(new VertexId("6"), v => v.Set("name", "peter"). Set("age",   35));
+            var marko  = _TinkerGraph.AddVertex(new VertexId("1"), v => v.SetProperty("name", "marko"). SetProperty("age",   29));
+            var vadas  = _TinkerGraph.AddVertex(new VertexId("2"), v => v.SetProperty("name", "vadas"). SetProperty("age",   27));
+            var lop    = _TinkerGraph.AddVertex(new VertexId("3"), v => v.SetProperty("name", "lop").   SetProperty("lang", "java"));
+            var josh   = _TinkerGraph.AddVertex(new VertexId("4"), v => v.SetProperty("name", "josh").  SetProperty("age",   32));
+            var ripple = _TinkerGraph.AddVertex(new VertexId("5"), v => v.SetProperty("name", "ripple").SetProperty("lang", "java"));
+            var peter  = _TinkerGraph.AddVertex(new VertexId("6"), v => v.SetProperty("name", "peter"). SetProperty("age",   35));
 
             marko.CollectionChanged += (o, p) => Console.WriteLine("CollChanged: " + p.Action + " - " + (p.NewItems as IList)[0] + "/" + (p.NewItems as IList)[1]);
             marko.PropertyChanged   += (o, p) => Console.WriteLine("PropChanging: " + p.PropertyName);
             marko.PropertyChanged   += (o, p) => Console.WriteLine("PropChanged: "  + p.PropertyName);
 
-            marko.Set("event", "raised 1!");
-            marko.Set("event", "raised 2!");
+            marko.SetProperty("event", "raised 1!");
+            marko.SetProperty("event", "raised 2!");
 
             var _dynamicMarko = marko.AsDynamic();
             _dynamicMarko.lala    = "123";
@@ -64,14 +64,14 @@ namespace de.ahzf.Blueprints.UnitTests
             var _MarkosNewAge = marko["age"];
 
 
-            var e7  = _TinkerGraph.AddEdge(marko, vadas,  new EdgeId("7"),  "knows",   e => e.Set("weight", 0.5));
-            var e8  = _TinkerGraph.AddEdge(marko, josh,   new EdgeId("8"),  "knows",   e => e.Set("weight", 1.0));
-            var e9  = _TinkerGraph.AddEdge(marko, lop,    new EdgeId("9"),  "created", e => e.Set("weight", 0.4));
+            var e7  = _TinkerGraph.AddEdge(marko, vadas,  new EdgeId("7"),  "knows",   e => e.SetProperty("weight", 0.5));
+            var e8  = _TinkerGraph.AddEdge(marko, josh,   new EdgeId("8"),  "knows",   e => e.SetProperty("weight", 1.0));
+            var e9  = _TinkerGraph.AddEdge(marko, lop,    new EdgeId("9"),  "created", e => e.SetProperty("weight", 0.4));
 
-            var e10 = _TinkerGraph.AddEdge(josh,  ripple, new EdgeId("10"), "created", e => e.Set("weight", 1.0));
-            var e11 = _TinkerGraph.AddEdge(josh,  lop,    new EdgeId("11"), "created", e => e.Set("weight", 0.4));
+            var e10 = _TinkerGraph.AddEdge(josh,  ripple, new EdgeId("10"), "created", e => e.SetProperty("weight", 1.0));
+            var e11 = _TinkerGraph.AddEdge(josh,  lop,    new EdgeId("11"), "created", e => e.SetProperty("weight", 0.4));
 
-            var e12 = _TinkerGraph.AddEdge(peter, lop,    new EdgeId("12"), "created", e => e.Set("weight", 0.2));
+            var e12 = _TinkerGraph.AddEdge(peter, lop,    new EdgeId("12"), "created", e => e.SetProperty("weight", 0.2));
 
             return _TinkerGraph;
 

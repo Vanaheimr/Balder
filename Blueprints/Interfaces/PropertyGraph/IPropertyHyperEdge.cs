@@ -100,33 +100,58 @@ namespace de.ahzf.Blueprints.PropertyGraph
 
     {
 
+        #region Graph
+
         /// <summary>
-        /// Return the label associated with the hyperedge.
+        /// The associated property graph.
+        /// </summary>
+        IPropertyGraph<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Graph { get; }
+
+        #endregion
+
+        #region Label
+
+        /// <summary>
+        /// The label associated with this hyperedge.
         /// </summary>
         THyperEdgeLabel Label { get; }
 
-    
+        #endregion
+
+        #region OutVertex
+
         /// <summary>
-        /// Return the vertex at the tail of the hyperedge.
+        /// The vertex at the tail of this hyperedge.
         /// </summary>
         IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                         TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                         TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OutVertex { get; }
 
+        #endregion
+
+        #region Edges
+
         /// <summary>
-        /// Return the edges wrapped by the hyperedge.
+        /// The edges wrapped by this hyperedge.
         /// </summary>
         IEnumerable<IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                   TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                   TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> Edges { get; }
 
+        #endregion
+
+        #region InVertices
+
         /// <summary>
-        /// Return the vertices at the head of the hyperedge.
+        /// The vertices at the head of this edge.
         /// </summary>
         IEnumerable<IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> InVertices { get; }
-    
+
+        #endregion
 
     }
 

@@ -226,7 +226,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         {
 
             this.PropertyData  = new Properties<TId, TRevisionId, TKey, TValue, TDatastructure>
-                                               (Id, IdKey, RevisonIdKey, DatastructureInitializer);
+                                               (IdKey, Id, RevisonIdKey, default(TRevisionId), DatastructureInitializer);
 
             if (GraphElementInitializer != null)
                 GraphElementInitializer(PropertyData);
@@ -279,9 +279,9 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// </summary>
         /// <param name="Key">A key.</param>
         /// <param name="Value">A value.</param>
-        public IProperties<TKey, TValue> Set(TKey Key, TValue Value)
+        public IProperties<TKey, TValue> SetProperty(TKey Key, TValue Value)
         {
-            return PropertyData.Set(Key, Value);
+            return PropertyData.SetProperty(Key, Value);
         }
 
         #endregion
@@ -352,9 +352,9 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="Key">A key.</param>
         /// <param name="Value">The associated value.</param>
         /// <returns>True if the returned value is valid. False otherwise.</returns>
-        public Boolean Get(TKey Key, out TValue Value)
+        public Boolean GetProperty(TKey Key, out TValue Value)
         {
-            return PropertyData.Get(Key, out Value);
+            return PropertyData.GetProperty(Key, out Value);
         }
 
         #endregion
@@ -366,9 +366,9 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// </summary>
         /// <param name="KeyValueFilter">A delegate to filter properties based on their keys and values.</param>
         /// <returns>A enumeration of all key/value pairs matching the given KeyValueFilter.</returns>
-        public IEnumerable<KeyValuePair<TKey, TValue>> Get(KeyValueFilter<TKey, TValue> KeyValueFilter = null)
+        public IEnumerable<KeyValuePair<TKey, TValue>> GetProperties(KeyValueFilter<TKey, TValue> KeyValueFilter = null)
         {
-            return PropertyData.Get(KeyValueFilter);
+            return PropertyData.GetProperties(KeyValueFilter);
         }
 
         #endregion

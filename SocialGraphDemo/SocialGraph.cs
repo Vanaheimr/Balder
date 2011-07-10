@@ -145,6 +145,13 @@ namespace SocialGraphDemo
         public static void Main(String[] myArgs)
         {
 
+            var _Graph = new SimplePropertyGraph();
+            var _Vertex = _Graph.AddVertex(v => v.SetProperty("key1", "value1").
+                                                  SetProperty("key2", 42));
+
+            //_Vertex.GetProperty(
+
+
             var _graph  = DemoGraphFactory.CreateDemoGraph();
 
             var _index1 = _graph.CreateVerticesIndex("IdxNames",

@@ -116,7 +116,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
 
         #endregion
 
-        #region Set(Key, Value)
+        #region SetProperty(Key, Value)
 
         /// <summary>
         /// Add a KeyValuePair to the graph element.
@@ -124,7 +124,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
         /// </summary>
         /// <param name="Key">A key.</param>
         /// <param name="Value">A value.</param>
-        IProperties<TKey, TValue> Set(TKey Key, TValue Value);
+        IProperties<TKey, TValue> SetProperty(TKey Key, TValue Value);
 
         #endregion
 
@@ -165,14 +165,14 @@ namespace de.ahzf.Blueprints.PropertyGraph
         /// <param name="Key">A key.</param>
         /// <param name="Value">The associated value.</param>
         /// <returns>True if the returned value is valid. False otherwise.</returns>
-        Boolean Get(TKey Key, out TValue Value);
+        Boolean GetProperty(TKey Key, out TValue Value);
 
         /// <summary>
         /// Return a filtered enumeration of all KeyValuePairs.
         /// </summary>
         /// <param name="KeyValueFilter">A delegate to filter properties based on their keys and values.</param>
         /// <returns>A enumeration of all key/value pairs matching the given KeyValueFilter.</returns>
-        IEnumerable<KeyValuePair<TKey, TValue>> Get(KeyValueFilter<TKey, TValue> KeyValueFilter = null);
+        IEnumerable<KeyValuePair<TKey, TValue>> GetProperties(KeyValueFilter<TKey, TValue> KeyValueFilter = null);
 
         #endregion
 

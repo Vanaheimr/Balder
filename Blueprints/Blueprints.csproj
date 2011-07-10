@@ -52,6 +52,8 @@
     <Compile Include="Datastructures\Delegates.cs" />
     <Compile Include="Datastructures\Quadtree\Point.cs" />
     <Compile Include="Datastructures\Quadtree\Rectangle.cs" />
+    <Compile Include="Exceptions\PropertyGraph\VerticesExceptions.cs" />
+    <Compile Include="Exceptions\PropertyGraph\PropertyGraphException.cs" />
     <Compile Include="Extensions\QuadStore\IQuadStoreExtensions.cs" />
     <Compile Include="Interfaces\PropertyGraph\Delegates.cs" />
     <Compile Include="Interfaces\Indices\IndexDelegates.cs" />
@@ -105,7 +107,6 @@
   <ItemGroup>
     <Folder Include="Exceptions\GenericGraph\" />
     <Folder Include="Exceptions\Indices\" />
-    <Folder Include="Exceptions\PropertyGraph\" />
     <Folder Include="Extensions\Indices\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

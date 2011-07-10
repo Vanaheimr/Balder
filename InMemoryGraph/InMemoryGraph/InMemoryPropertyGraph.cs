@@ -403,7 +403,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                 VertexId = _VertexIdCreatorDelegate();
 
             if (_Vertices.ContainsKey(VertexId))
-                throw new ArgumentException("Another vertex with id " + VertexId + " already exists");
+                throw new DuplicateVertexIdException("Another vertex with id " + VertexId + " already exists!");
 
             var _Vertex = _VertexCreatorDelegate(this, VertexId, VertexInitializer);
 
@@ -439,7 +439,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                 throw new ArgumentNullException("The Id of IVertex must not be null!");
 
             if (_Vertices.ContainsKey(IPropertyVertex.Id))
-                throw new ArgumentException("Another vertex with id " + IPropertyVertex.Id + " already exists!");
+                throw new DuplicateVertexIdException("Another vertex with id " + IPropertyVertex.Id + " already exists!");
 
             _Vertices.Add(IPropertyVertex.Id, IPropertyVertex);
 
@@ -1710,7 +1710,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="myObject">The property value</param>
         public virtual Object SetMember(String myBinder, Object myObject)
         {
-            return PropertyData.Set((TKeyVertex) (Object) myBinder, (TValueVertex) myObject);
+            return PropertyData.SetProperty((TKeyVertex) (Object) myBinder, (TValueVertex) myObject);
         }
 
         #endregion
@@ -1724,7 +1724,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         public virtual Object GetMember(String myBinder)
         {
             TValueVertex myObject;
-            PropertyData.Get((TKeyVertex) (Object) myBinder, out myObject);
+            PropertyData.GetProperty((TKeyVertex) (Object) myBinder, out myObject);
             return myObject as Object;
         }
 

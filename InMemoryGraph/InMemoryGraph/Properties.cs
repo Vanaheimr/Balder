@@ -42,9 +42,10 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                     : IProperties<TKey, TValue>,
                       IProperties<TKey, TValue, TDatastructure>
 
-        where TId            : IEquatable<TId>,  IComparable<TId>,  IComparable, TValue
-        where TKey           : IEquatable<TKey>, IComparable<TKey>, IComparable
-        where TDatastructure : IDictionary<TKey , TValue>
+        where TKey           : IEquatable<TKey>,        IComparable<TKey>,        IComparable
+        where TId            : IEquatable<TId>,         IComparable<TId>,         IComparable, TValue
+        where TRevisionId    : IEquatable<TRevisionId>, IComparable<TRevisionId>, IComparable, TValue
+        where TDatastructure : IDictionary<TKey, TValue>
 
     {
 
@@ -179,31 +180,40 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #region Constructor(s)
 
-        #region Properties(Id, IdKey, RevisionIdKey, TDatastructureInitializer)
+        #region Properties(IdKey, Id, RevisionIdKey, RevisionId, TDatastructureInitializer = null)
 
         /// <summary>
         /// Creates a new collection of key/value properties.
         /// </summary>
-        /// <param name="Id">The Id of this graph element.</param>
-        /// <param name="IdKey">The key to access the Id of this graph element.</param>
-        /// <param name="RevisionIdKey">The key to access the RevisionId of this graph element.</param>
-        /// <param name="DatastructureInitializer">A delegate to initialize the datastructure of the this graph element.</param>
-        public Properties(TId Id, TKey IdKey, TKey RevisionIdKey, Func<TDatastructure> DatastructureInitializer)
+        /// <param name="IdKey">The key to access the identification of the properties.</param>
+        /// <param name="Id">The identification of the properties.</param>
+        /// <param name="RevisionIdKey">The key to access the revision identification of the properties.</param>
+        /// <param name="RevisionId">The revision identification of the properties.</param>
+        /// <param name="DatastructureInitializer">A delegate to initialize the datastructure of the the properties.</param>
+        public Properties(TKey IdKey, TId Id, TKey RevisionIdKey, TRevisionId RevisionId, Func<TDatastructure> DatastructureInitializer)
         {
 
-            if (Id == null)
-                throw new ArgumentNullException("The Id must not be null!");
+            #region Initial checks
 
             if (IdKey == null)
-                throw new ArgumentNullException("The IdKey must not be null!");
+                throw new ArgumentNullException("The given IdKey must not be null!");
+
+            if (Id == null)
+                throw new ArgumentNullException("The given Id must not be null!");
 
             if (RevisionIdKey == null)
-                throw new ArgumentNullException("The RevisionIdKey must not be null!");
+                throw new ArgumentNullException("The given RevisionIdKey must not be null!");
+
+            if (DatastructureInitializer == null)
+                throw new ArgumentNullException("The given DatastructureInitializer must not be null!");
+
+            #endregion
 
             this.IdKey         = IdKey;
             this.RevisionIdKey = RevisionIdKey;
             this.PropertyData  = DatastructureInitializer();
-            this.PropertyData.Add(IdKey, Id);
+            this.PropertyData.Add(IdKey,         Id);
+            this.PropertyData.Add(RevisionIdKey, RevisionId);
 
         }
 
@@ -253,7 +263,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// </summary>
         /// <param name="Key">A key.</param>
         /// <param name="Value">A value.</param>
-        public virtual IProperties<TKey, TValue> Set(TKey Key, TValue Value)
+        public virtual IProperties<TKey, TValue> SetProperty(TKey Key, TValue Value)
         {
 
             if (Key.Equals(IdKey))
@@ -365,7 +375,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="Key">A key.</param>
         /// <param name="Value">The associated value.</param>
         /// <returns>True if the returned value is valid. False otherwise.</returns>
-        public virtual Boolean Get(TKey Key, out TValue Value)
+        public virtual Boolean GetProperty(TKey Key, out TValue Value)
         {
             return PropertyData.TryGetValue(Key, out Value);
         }
@@ -379,7 +389,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// </summary>
         /// <param name="KeyValueFilter">A delegate to filter properties based on their keys and values.</param>
         /// <returns>A enumeration of all key/value pairs matching the given KeyValueFilter.</returns>
-        public virtual IEnumerable<KeyValuePair<TKey, TValue>> Get(KeyValueFilter<TKey, TValue> KeyValueFilter = null)
+        public virtual IEnumerable<KeyValuePair<TKey, TValue>> GetProperties(KeyValueFilter<TKey, TValue> KeyValueFilter = null)
         {
 
             if (KeyValueFilter == null)
@@ -446,7 +456,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
             TValue _Value = default(TValue);
 
-            if (Get(Key, out _Value))
+            if (GetProperty(Key, out _Value))
             {
                 if (_Value.Equals(Value))
                 {

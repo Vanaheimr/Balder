@@ -103,7 +103,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         {
 
             foreach (var Key in Keys)
-                if (!Element.HasProperty(Key))
+                if (!Element.ContainsKey(Key))
                     return false;
 
             return true;

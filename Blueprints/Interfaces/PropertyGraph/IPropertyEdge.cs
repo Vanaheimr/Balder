@@ -98,27 +98,47 @@ namespace de.ahzf.Blueprints.PropertyGraph
 
     {
 
+        #region Graph
 
         /// <summary>
-        /// Return the label associated with the edge.
+        /// The associated property graph.
+        /// </summary>
+        IPropertyGraph<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Graph { get; }
+
+        #endregion
+
+        #region Label
+
+        /// <summary>
+        /// The label associated with this edge.
         /// </summary>
         TEdgeLabel Label { get; }
 
-    
+        #endregion
+
+        #region OutVertex
+
         /// <summary>
-        /// Return the vertex at the tail of the edge.
+        /// The vertex at the tail of this edge.
         /// </summary>
         IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                         TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                         TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OutVertex { get; }
 
+        #endregion
+
+        #region InVertex
 
         /// <summary>
-        /// Return the vertex at the head of the edge.
+        /// The vertex at the head of this edge.
         /// </summary>
         IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                         TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                         TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> InVertex { get; }
+
+        #endregion
 
     }
 
