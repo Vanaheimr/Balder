@@ -91,18 +91,18 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #region OutEdges
 
-        #region AddOutEdge(myIEdge)
+        #region AddOutEdge(Edge)
 
         /// <summary>
         /// Add an outgoing edge.
         /// </summary>
-        /// <param name="myIEdge">The edge to add.</param>
+        /// <param name="Edge">The edge to add.</param>
         public void AddOutEdge(IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
-                                             myIEdge)
+                                             Edge)
         {
-            _OutEdges.Add(myIEdge);
+            _OutEdges.Add(Edge);
         }
 
         #endregion
@@ -146,20 +146,20 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #endregion
 
-        #region RemoveOutEdge(myIEdge)
+        #region RemoveOutEdge(Edge)
 
         /// <summary>
         /// Remove an outgoing edge.
         /// </summary>
-        /// <param name="myIEdge">The edge to remove.</param>
+        /// <param name="Edge">The edge to remove.</param>
         public void RemoveOutEdge(IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                 TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                 TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
-                                                myIEdge)
+                                                Edge)
         {
             lock (this)
             {
-                _OutEdges.Remove(myIEdge);
+                _OutEdges.Remove(Edge);
             }
         }
 
@@ -169,18 +169,18 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #region InEdges
 
-        #region AddInEdge(myIEdge)
+        #region AddInEdge(Edge)
 
         /// <summary>
         /// Add an incoming edge.
         /// </summary>
-        /// <param name="myIEdge">The edge to add.</param>
+        /// <param name="Edge">The edge to add.</param>
         public void AddInEdge(IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                             TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
-                                            myIEdge)
+                                            Edge)
         {
-            _InEdges.Add(myIEdge);
+            _InEdges.Add(Edge);
         }
 
         #endregion
@@ -208,7 +208,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #endregion
 
-        #region GetInEdges(myLabel)
+        #region GetInEdges(EdgeLabel)
 
         /// <summary>
         /// The edges incoming to, or arriving at, this vertex
@@ -217,27 +217,27 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         public IEnumerable<IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                          TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                          TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
-                                         GetInEdges(TEdgeLabel myLabel)
+                                         GetInEdges(TEdgeLabel EdgeLabel)
         {
-            return from _Edge in _InEdges where _Edge.Label.Equals(myLabel) select _Edge;
+            return from _Edge in _InEdges where _Edge.Label.Equals(EdgeLabel) select _Edge;
         }
 
         #endregion
 
-        #region RemoveInEdge(myIEdge)
+        #region RemoveInEdge(Edge)
 
         /// <summary>
         /// Remove an incoming edge.
         /// </summary>
-        /// <param name="myIEdge">The edge to remove.</param>
+        /// <param name="Edge">The edge to remove.</param>
         public void RemoveInEdge(IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
-                                               myIEdge)
+                                               Edge)
         {
             lock (this)
             {
-                _InEdges.Remove(myIEdge);
+                _InEdges.Remove(Edge);
             }
         }
 
@@ -249,7 +249,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #region Constructor(s)
 
-        #region PropertyVertex(Graph, VertexId, IdKey, RevisonIdKey, DataInitializer, EdgeCollectionInitializer = null, VertexInitializer = null)
+        #region PropertyVertex(Graph, VertexId, IdKey, RevisonIdKey, DatastructureInitializer, EdgeCollectionInitializer = null, VertexInitializer = null)
 
         /// <summary>
         /// Creates a new vertex.
@@ -258,7 +258,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="VertexId">The identification of this vertex.</param>
         /// <param name="IdKey">The key to access the Id of this vertex.</param>
         /// <param name="RevisonIdKey">The key to access the RevisionId of this vertex.</param>
-        /// <param name="DataInitializer">A delegate to initialize the datastructure of this vertex.</param>
+        /// <param name="DatastructureInitializer">A delegate to initialize the datastructure of this vertex.</param>
         /// <param name="EdgeCollectionInitializer">A delegate to initialize the datastructure for storing all edges.</param>
         /// <param name="VertexInitializer">A delegate to initialize the newly created vertex.</param>
         public PropertyVertex(IPropertyGraph<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,  
@@ -267,13 +267,13 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                               TIdVertex                    VertexId,
                               TKeyVertex                   IdKey,
                               TKeyVertex                   RevisonIdKey,
-                              Func<TDatastructureVertex>   DataInitializer,
+                              Func<TDatastructureVertex>   DatastructureInitializer,
                               Func<TEdgeCollection>        EdgeCollectionInitializer,
                               VertexInitializer<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                 TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                 TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> VertexInitializer = null)
 
-            : base(VertexId, IdKey, RevisonIdKey, DataInitializer)
+            : base(VertexId, IdKey, RevisonIdKey, DatastructureInitializer)
 
         {
 
@@ -734,17 +734,6 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         }
 
         #endregion
-
-        public new IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                   TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                   TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
-
-                                   SetProperty(TKeyVertex myKey, TValueVertex myValue)
-
-        {
-            PropertyData.SetProperty(myKey, myValue);
-            return this;
-        }
 
     }
 

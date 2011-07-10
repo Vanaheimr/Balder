@@ -146,8 +146,13 @@ namespace SocialGraphDemo
         {
 
             var _Graph = new SimplePropertyGraph();
-            var _Vertex = _Graph.AddVertex(v => v.SetProperty("key1", "value1").
-                                                  SetProperty("key2", 42));
+            var _Vertex1 = _Graph.AddVertex(5, v => v.SetProperty("key1", "value1").
+                                                      SetProperty("key2", 42));
+            var _Vertex2 = _Graph.AddVertex(23);
+
+            var b = _Vertex1.CompareTo(_Vertex2);
+
+            var x = _Vertex1.AsDynamic().key1;
 
             //_Vertex.GetProperty(
 

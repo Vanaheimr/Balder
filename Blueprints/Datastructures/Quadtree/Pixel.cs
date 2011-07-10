@@ -21,14 +21,14 @@ using System;
 
 #endregion
 
-namespace de.ahzf.Blueprints.Quadtree
+namespace de.ahzf.Blueprints
 {
 
     /// <summary>
-    /// A point of type T.
+    /// A pixel of type T.
     /// </summary>
-    /// <typeparam name="T">The internal type of the point.</typeparam>
-    public struct Point<T> : IEquatable<Point<T>>, IComparable<Point<T>>, IComparable
+    /// <typeparam name="T">The internal type of the pixel.</typeparam>
+    public abstract class Pixel<T> : IEquatable<Pixel<T>>, IComparable<Pixel<T>>, IComparable
         where T : IEquatable<T>, IComparable<T>, IComparable
     {
 
@@ -37,25 +37,25 @@ namespace de.ahzf.Blueprints.Quadtree
         /// <summary>
         /// X
         /// </summary>
-        public readonly T X;
+        public T X { get; private set; }
 
         /// <summary>
         /// Y
         /// </summary>
-        public readonly T Y;
+        public T Y { get; private set; }
 
         #endregion
 
         #region Constructor(s)
 
-        #region Point(x, y)
+        #region Pixel(x, y)
 
         /// <summary>
-        /// Create a point of type T.
+        /// Create a pixel of type T.
         /// </summary>
         /// <param name="x">X</param>
         /// <param name="y">Y</param>
-        public Point(T x, T y)
+        public Pixel(T x, T y)
         {
             this.X = x;
             this.Y = y;
@@ -66,44 +66,81 @@ namespace de.ahzf.Blueprints.Quadtree
         #endregion
 
 
+        #region Abstract Math Operations
+
+        /// <summary>
+        /// A method to add two internal datatypes.
+        /// </summary>
+        /// <param name="a">An object of type T</param>
+        /// <param name="b">An object of type T</param>
+        /// <returns>The addition of a and b: a + b</returns>
+        protected abstract T Add(T a, T b);
+
+        /// <summary>
+        /// A method to sub two internal datatypes.
+        /// </summary>
+        /// <param name="a">An object of type T</param>
+        /// <param name="b">An object of type T</param>
+        /// <returns>The subtraction of b from a: a - b</returns>
+        protected abstract T Sub(T a, T b);
+
+        /// <summary>
+        /// A method to multiply two internal datatypes.
+        /// </summary>
+        /// <param name="a">An object of type T</param>
+        /// <param name="b">An object of type T</param>
+        /// <returns>The multiplication of a and b: a * b</returns>
+        protected abstract T Mul(T a, T b);
+
+        /// <summary>
+        /// A method to divide two internal datatypes.
+        /// </summary>
+        /// <param name="a">An object of type T</param>
+        /// <param name="b">An object of type T</param>
+        /// <returns>The division of a by b: a / b</returns>
+        protected abstract T Div(T a, T b);
+
+        #endregion
+
+
         #region Operator overloadings
 
-        #region Operator == (Point1, Point2)
+        #region Operator == (Pixel1, Pixel2)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="Point1">A Point&lt;T&gt;.</param>
-        /// <param name="Point2">Another Point&lt;T&gt;.</param>
+        /// <param name="Pixel1">A Pixel&lt;T&gt;.</param>
+        /// <param name="Pixel2">Another Pixel&lt;T&gt;.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator == (Point<T> Point1, Point<T> Point2)
+        public static Boolean operator == (Pixel<T> Pixel1, Pixel<T> Pixel2)
         {
 
             // If both are null, or both are same instance, return true.
-            if (Object.ReferenceEquals(Point1, Point2))
+            if (Object.ReferenceEquals(Pixel1, Pixel2))
                 return true;
 
             // If one is null, but not both, return false.
-            if (((Object) Point1 == null) || ((Object) Point2 == null))
+            if (((Object) Pixel1 == null) || ((Object) Pixel2 == null))
                 return false;
 
-            return Point1.Equals(Point2);
+            return Pixel1.Equals(Pixel2);
 
         }
 
         #endregion
 
-        #region Operator != (Point1, Point2)
+        #region Operator != (Pixel1, Pixel2)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="Point1">A Point&lt;T&gt;.</param>
-        /// <param name="Point2">Another Point&lt;T&gt;.</param>
+        /// <param name="Pixel1">A Pixel&lt;T&gt;.</param>
+        /// <param name="Pixel2">Another Pixel&lt;T&gt;.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator != (Point<T> Point1, Point<T> Point2)
+        public static Boolean operator != (Pixel<T> Pixel1, Pixel<T> Pixel2)
         {
-            return !(Point1.Equals(Point2));
+            return !(Pixel1.Equals(Pixel2));
         }
 
         #endregion
@@ -126,29 +163,29 @@ namespace de.ahzf.Blueprints.Quadtree
             if (Object == null)
                 throw new ArgumentNullException("The given object must not be null!");
 
-            // Check if the given object is an Point<T>.
-            var PointT = (Point<T>) Object;
-            if ((Object) PointT == null)
-                throw new ArgumentException("The given object is not a Point<T>!");
+            // Check if the given object is an Pixel<T>.
+            var PixelT = (Pixel<T>) Object;
+            if ((Object) PixelT == null)
+                throw new ArgumentException("The given object is not a Pixel<T>!");
 
-            return CompareTo(PointT);
+            return CompareTo(PixelT);
 
         }
 
         #endregion
 
-        #region CompareTo(PointT)
+        #region CompareTo(PixelT)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="PointT">An object to compare with.</param>
+        /// <param name="PixelT">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public Int32 CompareTo(Point<T> PointT)
+        public Int32 CompareTo(Pixel<T> PixelT)
         {
 
-            if ((Object) PointT == null)
-                throw new ArgumentNullException("The given Point<T> must not be null!");
+            if ((Object) PixelT == null)
+                throw new ArgumentNullException("The given Pixel<T> must not be null!");
 
             return 0;
 
@@ -173,31 +210,32 @@ namespace de.ahzf.Blueprints.Quadtree
             if (Object == null)
                 return false;
 
-            // Check if the given object is an Point<T>.
-            var PointT = (Point<T>) Object;
-            if ((Object) PointT == null)
+            // Check if the given object is an Pixel<T>.
+            var PixelT = (Pixel<T>) Object;
+            if ((Object) PixelT == null)
                 return false;
 
-            return this.Equals(PointT);
+            return this.Equals(PixelT);
 
         }
 
         #endregion
 
-        #region Equals(PointT)
+        #region Equals(PixelT)
 
         /// <summary>
-        /// Compares two instances of this object.
+        /// Compares two pixels for equality.
         /// </summary>
-        /// <param name="PointT">An object to compare with.</param>
-        /// <returns>true|false</returns>
-        public Boolean Equals(Point<T> PointT)
+        /// <param name="PixelT">A pixel to compare with.</param>
+        /// <returns>True if both match; False otherwise.</returns>
+        public Boolean Equals(Pixel<T> PixelT)
         {
 
-            if ((Object) PointT == null)
+            if ((Object) PixelT == null)
                 return false;
 
-            return X.Equals(PointT.X) && Y.Equals(PointT.Y);
+            return X.Equals(PixelT.X) &&
+                   Y.Equals(PixelT.Y);
 
         }
 

@@ -32,26 +32,6 @@ namespace de.ahzf.Blueprints.PropertyGraph
     public static class IPropertiesExtensions
     {
 
-        #region AsDynamic(this IProperties)
-
-        /// <summary>
-        /// Converts the given IProperties object into a dynamic object
-        /// </summary>
-        /// <typeparam name="TKey">The type of the property keys.</typeparam>
-        /// <typeparam name="TValue">The type of the property values.</typeparam>
-        /// <typeparam name="TDatastructure">The type of the datastructure storing the properties.</typeparam>
-        /// <param name="IProperties">An object implementing IProperties.</param>
-        /// <returns>A dynamic object</returns>
-        public static dynamic AsDynamic<TKey, TValue, TDatastructure>(this IProperties<TKey, TValue, TDatastructure> IProperties)
-            where TKey           : IEquatable<TKey>, IComparable<TKey>, IComparable
-            where TDatastructure : IDictionary<TKey, TValue>
-        {
-            return IProperties as dynamic;
-        }
-
-        #endregion
-        
-
         #region SetProperty(this IProperties, KeyValuePair)
 
         /// <summary>
@@ -264,26 +244,6 @@ namespace de.ahzf.Blueprints.PropertyGraph
         }
 
         #endregion
-
-
-        //#region AsList<TValue>(this myIProperties)
-
-        ///// <summary>
-        ///// Return the given object as an IEnumerable of its type.
-        ///// </summary>
-        ///// <typeparam name="TKey">The type of the property keys.</typeparam>
-        ///// <typeparam name="TValue">The type the property values.</typeparam>
-        ///// <param name="myIProperties">An object implementing IElement.</param>
-        ///// <returns>The given object as an IEnumerable of its type.</returns>
-        //public static IEnumerable<TValue> AsList<TKey, TValue>(this TValue myIProperties)
-        //    where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
-        //{
-
-        //    return new List<TValue>() { myIProperties };
-
-        //}
-
-        //#endregion
 
     }
 

@@ -312,10 +312,10 @@ namespace de.ahzf.Blueprints
         #region Equals(mySemanticPropertyKey)
 
         /// <summary>
-        /// Compares two instances of this object.
+        /// Compares two SemanticPropertys for equality.
         /// </summary>
-        /// <param name="mySemanticPropertyKey">An object to compare with.</param>
-        /// <returns>true|false</returns>
+        /// <param name="SemanticProperty">A SemanticProperty to compare with.</param>
+        /// <returns>True if both match; False otherwise.</returns>
         public Boolean Equals(SemanticProperty mySemanticPropertyKey)
         {
 

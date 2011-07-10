@@ -27,7 +27,7 @@ namespace de.ahzf.Blueprints
     /// <summary>
     /// An EdgeId is unique identificator for an edge.
     /// </summary>    
-    public class EdgeId : ElementId, IEquatable<EdgeId>, IComparable<EdgeId>, IComparable
+    public class EdgeId : GraphElementId, IEquatable<EdgeId>, IComparable<EdgeId>, IComparable
     {
 
         #region Constructor(s)
@@ -335,10 +335,10 @@ namespace de.ahzf.Blueprints
         #region Equals(EdgeId)
 
         /// <summary>
-        /// Compares two instances of this object.
+        /// Compares two EdgeIds for equality.
         /// </summary>
-        /// <param name="EdgeId">An object to compare with.</param>
-        /// <returns>true|false</returns>
+        /// <param name="EdgeId">An EdgeId to compare with.</param>
+        /// <returns>True if both match; False otherwise.</returns>
         public Boolean Equals(EdgeId EdgeId)
         {
 

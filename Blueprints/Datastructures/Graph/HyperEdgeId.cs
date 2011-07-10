@@ -27,7 +27,7 @@ namespace de.ahzf.Blueprints
     /// <summary>
     /// A HyperEdgeId is unique identificator for a hyperedge.
     /// </summary>    
-    public class HyperEdgeId : ElementId, IEquatable<HyperEdgeId>, IComparable<HyperEdgeId>, IComparable
+    public class HyperEdgeId : GraphElementId, IEquatable<HyperEdgeId>, IComparable<HyperEdgeId>, IComparable
     {
 
         #region Constructor(s)
@@ -335,10 +335,10 @@ namespace de.ahzf.Blueprints
         #region Equals(HyperEdgeId)
 
         /// <summary>
-        /// Compares two instances of this object.
+        /// Compares two HyperEdgeIds for equality.
         /// </summary>
-        /// <param name="HyperEdgeId">An object to compare with.</param>
-        /// <returns>true|false</returns>
+        /// <param name="HyperEdgeId">A HyperEdgeId to compare with.</param>
+        /// <returns>True if both match; False otherwise.</returns>
         public Boolean Equals(HyperEdgeId HyperEdgeId)
         {
 

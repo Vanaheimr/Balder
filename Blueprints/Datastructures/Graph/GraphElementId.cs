@@ -25,10 +25,10 @@ namespace de.ahzf.Blueprints
 {
 
     /// <summary>
-    /// A ElementId is unique identificator for any graph element.
+    /// A GraphElementId is unique identificator for any graph element.
     /// It's the base for the VertexId, EdgeId and HyperEdgeId.
     /// </summary>    
-    public abstract class ElementId : IEquatable<ElementId>, IComparable<ElementId>, IComparable
+    public abstract class GraphElementId : IEquatable<GraphElementId>, IComparable<GraphElementId>, IComparable
     {
 
         #region Data
@@ -61,95 +61,95 @@ namespace de.ahzf.Blueprints
 
         #region Constructor(s)
 
-        #region ElementId()
+        #region GraphElementId()
 
         /// <summary>
-        /// Generates a new ElementId based on a GUID.
+        /// Generates a new GraphElementId based on a GUID.
         /// </summary>
-        public ElementId()
+        public GraphElementId()
         {
             _Id = Guid.NewGuid().ToString();
         }
 
         #endregion
 
-        #region ElementId(Int32)
+        #region GraphElementId(Int32)
 
         /// <summary>
-        /// Generates a ElementId based on the content of an Int32.
+        /// Generates a GraphElementId based on the content of an Int32.
         /// </summary>
-        public ElementId(Int32 Int32)
+        public GraphElementId(Int32 Int32)
             : this(Math.Abs(Int32).ToString())
         { }
 
         #endregion
 
-        #region ElementId(UInt32)
+        #region GraphElementId(UInt32)
 
         /// <summary>
-        /// Generates a ElementId based on the content of an UInt32.
+        /// Generates a GraphElementId based on the content of an UInt32.
         /// </summary>
-        public ElementId(UInt32 UInt32)
+        public GraphElementId(UInt32 UInt32)
             : this(UInt32.ToString())
         { }
 
         #endregion
 
-        #region ElementId(Int64)
+        #region GraphElementId(Int64)
 
         /// <summary>
-        /// Generates a ElementId based on the content of an Int64.
+        /// Generates a GraphElementId based on the content of an Int64.
         /// </summary>
-        public ElementId(Int64 Int64)
+        public GraphElementId(Int64 Int64)
             : this(Int64.ToString())
         { }
 
         #endregion
 
-        #region ElementId(UInt64)
+        #region GraphElementId(UInt64)
 
         /// <summary>
-        /// Generates a ElementId based on the content of an UInt64.
+        /// Generates a GraphElementId based on the content of an UInt64.
         /// </summary>
-        public ElementId(UInt64 UInt64)
+        public GraphElementId(UInt64 UInt64)
             : this(UInt64.ToString())
         { }
 
         #endregion
 
-        #region ElementId(String)
+        #region GraphElementId(String)
 
         /// <summary>
-        /// Generates a ElementId based on the content of String.
+        /// Generates a GraphElementId based on the content of String.
         /// </summary>
-        public ElementId(String String)
+        public GraphElementId(String String)
         {
             _Id = String.Trim();
         }
 
         #endregion
 
-        #region ElementId(Uri)
+        #region GraphElementId(Uri)
 
         /// <summary>
-        /// Generates a ElementId based on the content of Uri.
+        /// Generates a GraphElementId based on the content of Uri.
         /// </summary>
-        public ElementId(Uri Uri)
+        public GraphElementId(Uri Uri)
         {
             _Id = Uri.ToString();
         }
 
         #endregion
 
-        #region ElementId(ElementId)
+        #region GraphElementId(GraphElementId)
 
         /// <summary>
-        /// Generates a ElementId based on the content of ElementId.
+        /// Generates a GraphElementId based on the content of GraphElementId.
         /// </summary>
-        /// <param name="ElementId">A ElementId</param>
-        public ElementId(ElementId ElementId)
+        /// <param name="GraphElementId">A GraphElementId</param>
+        public GraphElementId(GraphElementId GraphElementId)
         {
-            _Id = ElementId.ToString();
+            _Id = GraphElementId.ToString();
         }
 
         #endregion
@@ -157,7 +157,7 @@ namespace de.ahzf.Blueprints
         #endregion
 
 
-        #region IComparable<ElementId> Members
+        #region IComparable<GraphElementId> Members
 
         #region CompareTo(Object)
 
@@ -171,35 +171,35 @@ namespace de.ahzf.Blueprints
             if (Object == null)
                 throw new ArgumentNullException("The given object must not be null!");
 
-            // Check if the given object is an ElementId.
-            var ElementId = Object as ElementId;
-            if ((Object) ElementId == null)
-                throw new ArgumentException("The given object is not a ElementId!");
+            // Check if the given object is an GraphElementId.
+            var GraphElementId = Object as GraphElementId;
+            if ((Object) GraphElementId == null)
+                throw new ArgumentException("The given object is not a GraphElementId!");
 
-            return CompareTo(ElementId);
+            return CompareTo(GraphElementId);
 
         }
 
         #endregion
 
-        #region CompareTo(ElementId)
+        #region CompareTo(GraphElementId)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="ElementId">An object to compare with.</param>
-        public Int32 CompareTo(ElementId ElementId)
+        /// <param name="GraphElementId">An object to compare with.</param>
+        public Int32 CompareTo(GraphElementId GraphElementId)
         {
 
-            if ((Object) ElementId == null)
-                throw new ArgumentNullException("The given ElementId must not be null!");
+            if ((Object) GraphElementId == null)
+                throw new ArgumentNullException("The given GraphElementId must not be null!");
 
             // Compare the length of the ElementIds
-            var _Result = this.Length.CompareTo(ElementId.Length);
+            var _Result = this.Length.CompareTo(GraphElementId.Length);
 
             // If equal: Compare Ids
             if (_Result == 0)
-                _Result = _Id.CompareTo(ElementId._Id);
+                _Result = _Id.CompareTo(GraphElementId._Id);
 
             return _Result;
 
@@ -209,7 +209,7 @@ namespace de.ahzf.Blueprints
 
         #endregion
 
-        #region IEquatable<ElementId> Members
+        #region IEquatable<GraphElementId> Members
 
         #region Equals(Object)
 
@@ -224,31 +224,31 @@ namespace de.ahzf.Blueprints
             if (Object == null)
                 return false;
 
-            // Check if the given object is an ElementId.
-            var ElementId = Object as ElementId;
-            if ((Object) ElementId == null)
+            // Check if the given object is an GraphElementId.
+            var GraphElementId = Object as GraphElementId;
+            if ((Object) GraphElementId == null)
                 return false;
 
-            return this.Equals(ElementId);
+            return this.Equals(GraphElementId);
 
         }
 
         #endregion
 
-        #region Equals(ElementId)
+        #region Equals(GraphElementId)
 
         /// <summary>
-        /// Compares two instances of this object.
+        /// Compares two ElementIds for equality.
         /// </summary>
-        /// <param name="ElementId">An object to compare with.</param>
-        /// <returns>true|false</returns>
-        public Boolean Equals(ElementId ElementId)
+        /// <param name="GraphElementId">A GraphElementId to compare with.</param>
+        /// <returns>True if both match; False otherwise.</returns>
+        public Boolean Equals(GraphElementId GraphElementId)
         {
 
-            if ((Object) ElementId == null)
+            if ((Object) GraphElementId == null)
                 return false;
 
-            return _Id.Equals(ElementId._Id);
+            return _Id.Equals(GraphElementId._Id);
 
         }
 

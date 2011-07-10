@@ -368,10 +368,10 @@ namespace de.ahzf.Blueprints
         #region Equals(SystemId)
 
         /// <summary>
-        /// Compares two instances of this object.
+        /// Compares two SystemIds for equality.
         /// </summary>
-        /// <param name="SystemId">An object to compare with.</param>
-        /// <returns>true|false</returns>
+        /// <param name="SystemId">A SystemId to compare with.</param>
+        /// <returns>True if both match; False otherwise.</returns>
         public Boolean Equals(SystemId SystemId)
         {
 

@@ -25,10 +25,10 @@ namespace de.ahzf.Blueprints
 {
 
     /// <summary>
-    /// A rectangle of type T.
+    /// A cube of type T.
     /// </summary>
-    /// <typeparam name="T">The internal type of the rectangle.</typeparam>
-    public abstract class Rectangle<T> : IEquatable<Rectangle<T>>, IComparable<Rectangle<T>>, IComparable
+    /// <typeparam name="T">The internal type of the cube.</typeparam>
+    public struct Cube<T> : IEquatable<Cube<T>>, IComparable<Cube<T>>, IComparable
         where T : IEquatable<T>, IComparable<T>, IComparable
     {
 
@@ -58,16 +58,16 @@ namespace de.ahzf.Blueprints
 
         #region Constructor(s)
 
-        #region Rectangle(left, top, right, bottom)
+        #region Cube(left, top, right, bottom)
 
         /// <summary>
-        /// Create a rectangle of type T.
+        /// Create a cube of type T.
         /// </summary>
         /// <param name="left">The left parameter.</param>
         /// <param name="top">The top parameter.</param>
         /// <param name="right">The right parameter.</param>
         /// <param name="bottom">The bottom parameter.</param>
-        public Rectangle(T left, T top, T right, T bottom)
+        public Cube(T left, T top, T right, T bottom)
         {
             this.Left   = left;
             this.Top    = top;
@@ -76,43 +76,6 @@ namespace de.ahzf.Blueprints
         }
 
         #endregion
-
-        #endregion
-
-
-        #region Abstract Math Operations
-
-        /// <summary>
-        /// A method to add two internal datatypes.
-        /// </summary>
-        /// <param name="a">An object of type T</param>
-        /// <param name="b">An object of type T</param>
-        /// <returns>The addition of a and b: a + b</returns>
-        protected abstract T Add(T a, T b);
-
-        /// <summary>
-        /// A method to sub two internal datatypes.
-        /// </summary>
-        /// <param name="a">An object of type T</param>
-        /// <param name="b">An object of type T</param>
-        /// <returns>The subtraction of b from a: a - b</returns>
-        protected abstract T Sub(T a, T b);
-
-        /// <summary>
-        /// A method to multiply two internal datatypes.
-        /// </summary>
-        /// <param name="a">An object of type T</param>
-        /// <param name="b">An object of type T</param>
-        /// <returns>The multiplication of a and b: a * b</returns>
-        protected abstract T Mul(T a, T b);
-
-        /// <summary>
-        /// A method to divide two internal datatypes.
-        /// </summary>
-        /// <param name="a">An object of type T</param>
-        /// <param name="b">An object of type T</param>
-        /// <returns>The division of a by b: a / b</returns>
-        protected abstract T Div(T a, T b);
 
         #endregion
 
@@ -128,7 +91,7 @@ namespace de.ahzf.Blueprints
             throw new NotImplementedException();
         }
 
-        public bool Contains(Rectangle<T> rect)
+        public bool Contains(Cube<T> rect)
         {
             throw new NotImplementedException();
         }
@@ -136,7 +99,7 @@ namespace de.ahzf.Blueprints
 
 
 
-        public bool Equals(Rectangle<T> other)
+        public bool Equals(Cube<T> other)
         {
             throw new NotImplementedException();
         }
@@ -146,7 +109,7 @@ namespace de.ahzf.Blueprints
             throw new NotImplementedException();
         }
 
-        public int CompareTo(Rectangle<T> other)
+        public int CompareTo(Cube<T> other)
         {
             throw new NotImplementedException();
         }

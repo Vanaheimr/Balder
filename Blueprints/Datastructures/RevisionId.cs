@@ -363,10 +363,10 @@ namespace de.ahzf.Blueprints
         #region Equals(RevisionId)
 
         /// <summary>
-        /// Compares two instances of this object.
+        /// Compares two RevisionIds for equality.
         /// </summary>
-        /// <param name="RevisionId">An object to compare with.</param>
-        /// <returns>true|false</returns>
+        /// <param name="RevisionId">A RevisionId to compare with.</param>
+        /// <returns>True if both match; False otherwise.</returns>
         public Boolean Equals(RevisionId RevisionId)
         {
 

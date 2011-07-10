@@ -27,7 +27,7 @@ namespace de.ahzf.Blueprints
     /// <summary>
     /// A VertexId is unique identificator for a vertex.
     /// </summary>    
-    public class VertexId : ElementId, IEquatable<VertexId>, IComparable<VertexId>, IComparable
+    public class VertexId : GraphElementId, IEquatable<VertexId>, IComparable<VertexId>, IComparable
     {
 
         #region Constructor(s)
@@ -335,10 +335,10 @@ namespace de.ahzf.Blueprints
         #region Equals(VertexId)
 
         /// <summary>
-        /// Compares two instances of this object.
+        /// Compares two VertexIds for equality.
         /// </summary>
-        /// <param name="VertexId">An object to compare with.</param>
-        /// <returns>true|false</returns>
+        /// <param name="VertexId">A VertexId to compare with.</param>
+        /// <returns>True if both match; False otherwise.</returns>
         public Boolean Equals(VertexId VertexId)
         {
 
