@@ -79,16 +79,16 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #endregion
 
-        #region RevisionIdKey
+        #region RevIdKey
 
         /// <summary>
         /// The property key of the revision identification.
         /// </summary>
-        public TKey RevisionIdKey
+        public TKey RevIdKey
         {
             get
             {
-                return PropertyData.RevisionIdKey;
+                return PropertyData.RevIdKey;
             }
         }
 
@@ -103,7 +103,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         {
             get
             {
-                return (TRevisionId) PropertyData[RevisionIdKey];
+                return (TRevisionId) PropertyData[RevIdKey];
             }
         }
 

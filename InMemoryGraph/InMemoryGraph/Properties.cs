@@ -98,7 +98,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <summary>
         /// The property key of the revision identification.
         /// </summary>
-        public TKey RevisionIdKey { get; private set; }
+        public TKey RevIdKey { get; private set; }
 
         #endregion
 
@@ -116,7 +116,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
                 TValue _TValue;
 
-                if (PropertyData.TryGetValue(RevisionIdKey, out _TValue))
+                if (PropertyData.TryGetValue(RevIdKey, out _TValue))
                     return (TRevisionId) (Object) _TValue;
 
                 return default(TRevisionId);
@@ -210,7 +210,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
             #endregion
 
             this.IdKey         = IdKey;
-            this.RevisionIdKey = RevisionIdKey;
+            this.RevIdKey = RevisionIdKey;
             this.PropertyData  = DatastructureInitializer();
             this.PropertyData.Add(IdKey,         Id);
             this.PropertyData.Add(RevisionIdKey, RevisionId);
@@ -267,10 +267,10 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         {
 
             if (Key.Equals(IdKey))
-                throw new ArgumentException("Changing the Id property is not allowed!");
+                throw new IdentificationChangeException();
 
-            if (Key.Equals(RevisionIdKey))
-                throw new ArgumentException("Changing the RevisionId property is not allowed!");
+            if (Key.Equals(RevIdKey))
+                throw new RevisionIdentificationChangeException();
 
             if (PropertyData.ContainsKey(Key))
             {
@@ -425,7 +425,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
             if (Key.Equals(IdKey))
                 throw new ArgumentException("Removing the Id property is not allowed!");
 
-            if (Key.Equals(RevisionIdKey))
+            if (Key.Equals(RevIdKey))
                 throw new ArgumentException("Removing the RevisionId property is not allowed!");
 
             TValue _Object;

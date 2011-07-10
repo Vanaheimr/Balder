@@ -60,7 +60,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
         /// <summary>
         /// The property key of the revision identification.
         /// </summary>
-        TKey RevisionIdKey { get; }
+        TKey RevIdKey { get; }
 
         #endregion
 

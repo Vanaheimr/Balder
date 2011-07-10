@@ -52,6 +52,7 @@
     <Compile Include="Datastructures\Delegates.cs" />
     <Compile Include="Datastructures\Quadtree\Point.cs" />
     <Compile Include="Datastructures\Quadtree\Rectangle.cs" />
+    <Compile Include="Exceptions\PropertyGraph\PropertiesExceptions.cs" />
     <Compile Include="Exceptions\PropertyGraph\VerticesExceptions.cs" />
     <Compile Include="Exceptions\PropertyGraph\PropertyGraphException.cs" />
     <Compile Include="Extensions\QuadStore\IQuadStoreExtensions.cs" />

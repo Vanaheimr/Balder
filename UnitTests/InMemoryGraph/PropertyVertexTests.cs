@@ -56,17 +56,17 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory.UnitTests
             Assert.AreEqual(_Graph, _Vertex.Graph);
             Assert.NotNull(_Vertex.IdKey);
             Assert.NotNull(_Vertex.Id);
-            Assert.NotNull(_Vertex.RevisionIdKey);
+            Assert.NotNull(_Vertex.RevIdKey);
             Assert.NotNull(_Vertex.RevisionId);
 
-            Assert.IsTrue(_Vertex.ContainsKey("Id"));
-            Assert.IsTrue(_Vertex.ContainsKey("RevId"));
+            Assert.IsTrue(_Vertex.ContainsKey(_Graph.IdKey));
+            Assert.IsTrue(_Vertex.ContainsKey(_Graph.RevIdKey));
 
             var _Properties = _Vertex.ToList();
             Assert.AreEqual(2, _Properties.Count);
             foreach (var _KeyValuePair in _Properties)
-                Assert.IsTrue(_KeyValuePair.Key == "Id" ||
-                              _KeyValuePair.Key == "RevId");
+                Assert.IsTrue(_KeyValuePair.Key == _Graph.IdKey ||
+                              _KeyValuePair.Key == _Graph.RevIdKey);
 
         }
 
@@ -93,18 +93,18 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory.UnitTests
             Assert.AreEqual(_Graph, _Vertex.Graph);
             Assert.NotNull(_Vertex.IdKey);
             Assert.AreEqual(5, _Vertex.Id);
-            Assert.NotNull(_Vertex.RevisionIdKey);
+            Assert.NotNull(_Vertex.RevIdKey);
             Assert.NotNull(_Vertex.RevisionId);
 
-            Assert.IsTrue(_Vertex.ContainsKey("Id"));
-            Assert.IsTrue(_Vertex.ContainsKey("RevId"));
+            Assert.IsTrue(_Vertex.ContainsKey(_Graph.IdKey));
+            Assert.IsTrue(_Vertex.ContainsKey(_Graph.RevIdKey));
             Assert.IsTrue(_Vertex.ContainsValue(5UL));
 
             var _Properties = _Vertex.ToList();
             Assert.AreEqual(2, _Properties.Count);
             foreach (var _KeyValuePair in _Properties)
-                Assert.IsTrue(_KeyValuePair.Key == "Id" ||
-                              _KeyValuePair.Key == "RevId");
+                Assert.IsTrue(_KeyValuePair.Key == _Graph.IdKey ||
+                              _KeyValuePair.Key == _Graph.RevIdKey);
 
         }
 
@@ -132,11 +132,11 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory.UnitTests
             Assert.AreEqual(_Graph, _Vertex.Graph);
             Assert.NotNull(_Vertex.IdKey);
             Assert.NotNull(_Vertex.Id);
-            Assert.NotNull(_Vertex.RevisionIdKey);
+            Assert.NotNull(_Vertex.RevIdKey);
             Assert.NotNull(_Vertex.RevisionId);
 
-            Assert.IsTrue(_Vertex.ContainsKey("Id"));
-            Assert.IsTrue(_Vertex.ContainsKey("RevId"));
+            Assert.IsTrue(_Vertex.ContainsKey(_Graph.IdKey));
+            Assert.IsTrue(_Vertex.ContainsKey(_Graph.RevIdKey));
             Assert.IsTrue(_Vertex.ContainsKey("key1"));
             Assert.IsTrue(_Vertex.ContainsKey("key2"));
             Assert.IsTrue(_Vertex.ContainsValue("value1"));
@@ -146,8 +146,8 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory.UnitTests
             Assert.NotNull(_Properties);
             Assert.AreEqual(4, _Properties.Count);
             foreach (var _KeyValuePair in _Properties)
-                Assert.IsTrue( _KeyValuePair.Key == "Id"    ||
-                               _KeyValuePair.Key == "RevId" ||
+                Assert.IsTrue( _KeyValuePair.Key == _Graph.IdKey    ||
+                               _KeyValuePair.Key == _Graph.RevIdKey ||
                               (_KeyValuePair.Key == "key1" && _KeyValuePair.Value.ToString() == "value1") ||
                               (_KeyValuePair.Key == "key2" && ((Int32) _KeyValuePair.Value   == 42)));
 
@@ -155,9 +155,9 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory.UnitTests
             Assert.NotNull(_PropertyKeys);
             Assert.AreEqual(4, _PropertyKeys.Count());
             foreach (var _Keys in _PropertyKeys)
-                Assert.IsTrue(_Keys == "Id"    ||
-                              _Keys == "RevId" ||
-                              _Keys == "key1"  ||
+                Assert.IsTrue(_Keys == _Graph.IdKey    ||
+                              _Keys == _Graph.RevIdKey ||
+                              _Keys == "key1"          ||
                               _Keys == "key2");
 
             var _PropertyValues = _Vertex.Values;
@@ -192,11 +192,11 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory.UnitTests
             Assert.AreEqual(_Graph, _Vertex.Graph);
             Assert.NotNull(_Vertex.IdKey);
             Assert.AreEqual(23, _Vertex.Id);
-            Assert.NotNull(_Vertex.RevisionIdKey);
+            Assert.NotNull(_Vertex.RevIdKey);
             Assert.NotNull(_Vertex.RevisionId);
 
-            Assert.IsTrue(_Vertex.ContainsKey("Id"));
-            Assert.IsTrue(_Vertex.ContainsKey("RevId"));
+            Assert.IsTrue(_Vertex.ContainsKey(_Graph.IdKey));
+            Assert.IsTrue(_Vertex.ContainsKey(_Graph.RevIdKey));
             Assert.IsTrue(_Vertex.ContainsKey("key1"));
             Assert.IsTrue(_Vertex.ContainsKey("key2"));
             Assert.IsTrue(_Vertex.ContainsValue("value1"));
@@ -206,8 +206,8 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory.UnitTests
             Assert.NotNull(_Properties);
             Assert.AreEqual(4, _Properties.Count);
             foreach (var _KeyValuePair in _Properties)
-                Assert.IsTrue((_KeyValuePair.Key == "Id"   && ((UInt64) _KeyValuePair.Value == 23))       ||
-                               _KeyValuePair.Key == "RevId"                                               ||
+                Assert.IsTrue((_KeyValuePair.Key == _Graph.IdKey && ((UInt64)_KeyValuePair.Value == 23))  ||
+                               _KeyValuePair.Key == _Graph.RevIdKey                                       ||
                               (_KeyValuePair.Key == "key1" && _KeyValuePair.Value.ToString() == "value1") ||
                               (_KeyValuePair.Key == "key2" && ((Int32) _KeyValuePair.Value   == 42)));
 
@@ -215,9 +215,9 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory.UnitTests
             Assert.NotNull(_PropertyKeys);
             Assert.AreEqual(4, _PropertyKeys.Count());
             foreach (var _Keys in _PropertyKeys)
-                Assert.IsTrue(_Keys == "Id"    ||
-                              _Keys == "RevId" ||
-                              _Keys == "key1"  ||
+                Assert.IsTrue(_Keys == _Graph.IdKey    ||
+                              _Keys == _Graph.RevIdKey ||
+                              _Keys == "key1"          ||
                               _Keys == "key2");
 
             var _PropertyValues = _Vertex.Values;
@@ -231,6 +231,46 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory.UnitTests
 
         #endregion
 
+
+        #region TryToChangeTheVertexIdentification()
+
+        /// <summary>
+        /// A test for trying to change the vertex identification.
+        /// </summary>
+        [Test]
+        [ExpectedException(typeof(IdentificationChangeException))]
+        public void TryToChangeTheVertexIdentification()
+        {
+
+            var _Graph = new SimplePropertyGraph();
+            Assert.AreEqual(0, _Graph.Vertices.Count());
+
+            var _Vertex1 = _Graph.AddVertex(5);
+            _Vertex1.SetProperty(_Graph.IdKey, 23);
+
+        }
+
+        #endregion
+
+        #region TryToChangeTheVertexRevisionIdentification()
+
+        /// <summary>
+        /// A test for trying to change the vertex revision identification.
+        /// </summary>
+        [Test]
+        [ExpectedException(typeof(RevisionIdentificationChangeException))]
+        public void TryToChangeTheVertexRevisionIdentification()
+        {
+
+            var _Graph = new SimplePropertyGraph();
+            Assert.AreEqual(0, _Graph.Vertices.Count());
+
+            var _Vertex1 = _Graph.AddVertex(5);
+            _Vertex1.SetProperty(_Graph.RevIdKey, 23);
+
+        }
+
+        #endregion
 
 
         #region AddTwoVerticesHavingTheSameIdentification()
@@ -250,6 +290,30 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory.UnitTests
             Assert.AreEqual(1, _Graph.Vertices.Count());
 
             var _Vertex2 = _Graph.AddVertex(5);
+
+        }
+
+        #endregion
+
+        #region AddMultipleVertices()
+
+        /// <summary>
+        /// A test for adding multiple vertices.
+        /// </summary>
+        [Test]
+        public void AddMultipleVertices()
+        {
+
+            var _Graph = new SimplePropertyGraph();
+            Assert.AreEqual(0, _Graph.Vertices.Count());
+
+            var _Random = new Random().Next(100);
+
+            for (var i = 1; i <= _Random; i++)
+            {
+                _Graph.AddVertex((UInt64)i);
+                Assert.AreEqual(i, _Graph.Vertices.Count());
+            }
 
         }
 
