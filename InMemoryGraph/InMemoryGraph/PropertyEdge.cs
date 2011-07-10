@@ -510,7 +510,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="IPropertyElement">An object to compare with.</param>
+        /// <param name="IGraphElement">An object to compare with.</param>
         public Int32 CompareTo(IGraphElement<TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge> IGraphElement)
         {
 

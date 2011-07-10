@@ -18,10 +18,8 @@
 #region Usings
 
 using System;
-using System.Collections.Generic;
 
 using de.ahzf.Blueprints.Indices;
-using de.ahzf.Blueprints.PropertyGraph.Indices;
 
 #endregion
 

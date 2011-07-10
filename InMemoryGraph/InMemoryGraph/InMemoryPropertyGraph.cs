@@ -19,15 +19,13 @@
 
 using System;
 using System.Linq;
-using System.Collections;
+using System.Linq.Expressions;
+using System.Dynamic;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
-using System.Reflection;
 
 using de.ahzf.Blueprints.Indices;
 using de.ahzf.Blueprints.PropertyGraph.Indices;
-using System.Linq.Expressions;
-using System.Dynamic;
 
 #endregion
 
@@ -1818,7 +1816,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <summary>
         /// Compares two property graphs.
         /// </summary>
-        /// <param name="IPropertyVertex">A property graph to compare with.</param>
+        /// <param name="IPropertyGraph">A property graph to compare with.</param>
         public Int32 CompareTo(IPropertyGraph<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                               TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                               TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IPropertyGraph)
@@ -1906,7 +1904,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <summary>
         /// Compares two property graphs for equality.
         /// </summary>
-        /// <param name="IPropertyVertex">A property graph to compare with.</param>
+        /// <param name="IPropertyGraph">A property graph to compare with.</param>
         /// <returns>True if both match; False otherwise.</returns>
         public Boolean Equals(IPropertyGraph<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
