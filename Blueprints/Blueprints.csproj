@@ -50,6 +50,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Datastructures\Delegates.cs" />
+    <Compile Include="Datastructures\Forest\QuadTreeNode.cs" />
+    <Compile Include="Datastructures\Forest\QuadTree.cs" />
     <Compile Include="Interfaces\Math\IVoxel.cs" />
     <Compile Include="Interfaces\Math\IPixel.cs" />
     <Compile Include="Datastructures\Math\MathSingle.cs" />
