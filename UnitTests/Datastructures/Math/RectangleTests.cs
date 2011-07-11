@@ -24,7 +24,7 @@ using NUnit.Framework;
 
 #endregion
 
-namespace de.ahzf.Blueprints.UnitTests
+namespace de.ahzf.Blueprints.UnitTests.Maths
 {
 
     /// <summary>
@@ -34,7 +34,6 @@ namespace de.ahzf.Blueprints.UnitTests
     public class RectangleTests
     {
 
-
         #region WidthAndHeight()
 
         /// <summary>
@@ -43,13 +42,12 @@ namespace de.ahzf.Blueprints.UnitTests
         [Test]
         public void WidthAndHeight()
         {
-            var _Rectangle = new RectangleDouble(1, 1, 5, 10);
+            var _Rectangle = new Rectangle<Double>(1, 1, 5, 10);
             Assert.AreEqual(4.0, _Rectangle.Width);
             Assert.AreEqual(9.0, _Rectangle.Height);
         }
 
         #endregion
-
 
 
         #region ContainsPixelTest()
@@ -60,8 +58,8 @@ namespace de.ahzf.Blueprints.UnitTests
         [Test]
         public void ContainsPixelTest()
         {
-            var _Rectangle = new RectangleDouble(1, 1, 10, 10);
-            var _Pixel     = new PixelDouble(5, 5);
+            var _Rectangle = new Rectangle<Double>(1, 1, 10, 10);
+            var _Pixel     = new Pixel<Double>(5, 5);
             Assert.IsTrue(_Rectangle.Contains(_Pixel));
         }
 
@@ -75,8 +73,8 @@ namespace de.ahzf.Blueprints.UnitTests
         [Test]
         public void NotContainsPixelTest()
         {
-            var _Rectangle = new RectangleDouble(1, 1, 10, 10);
-            var _Pixel     = new PixelDouble(15, 5);
+            var _Rectangle = new Rectangle<Double>(1, 1, 10, 10);
+            var _Pixel     = new Pixel<Double>(15, 5);
             Assert.IsFalse(_Rectangle.Contains(_Pixel));
         }
 
@@ -90,11 +88,11 @@ namespace de.ahzf.Blueprints.UnitTests
         [Test]
         public void ContainsCornerPixelsTest()
         {
-            var _Rectangle = new RectangleDouble(10, 20, 30, 40);
-            var _Pixel1    = new PixelDouble(10, 20);
-            var _Pixel2    = new PixelDouble(30, 20);
-            var _Pixel3    = new PixelDouble(10, 40);
-            var _Pixel4    = new PixelDouble(30, 40);
+            var _Rectangle = new Rectangle<Double>(10, 20, 30, 40);
+            var _Pixel1    = new Pixel<Double>(10, 20);
+            var _Pixel2    = new Pixel<Double>(30, 20);
+            var _Pixel3    = new Pixel<Double>(10, 40);
+            var _Pixel4    = new Pixel<Double>(30, 40);
             Assert.IsTrue(_Rectangle.Contains(_Pixel1));
             Assert.IsTrue(_Rectangle.Contains(_Pixel2));
             Assert.IsTrue(_Rectangle.Contains(_Pixel3));
@@ -112,8 +110,8 @@ namespace de.ahzf.Blueprints.UnitTests
         [Test]
         public void ContainsSmallerRectangleTest()
         {
-            var _Rectangle1 = new RectangleDouble(10, 10, 20, 20);
-            var _Rectangle2 = new RectangleDouble(12, 12, 18, 18);
+            var _Rectangle1 = new Rectangle<Double>(10, 10, 20, 20);
+            var _Rectangle2 = new Rectangle<Double>(12, 12, 18, 18);
             Assert.IsTrue(_Rectangle1.Contains(_Rectangle2));
         }
 
@@ -127,8 +125,8 @@ namespace de.ahzf.Blueprints.UnitTests
         [Test]
         public void ContainsEqualRectangleTest()
         {
-            var _Rectangle1 = new RectangleDouble(10, 10, 20, 20);
-            var _Rectangle2 = new RectangleDouble(10, 10, 20, 20);
+            var _Rectangle1 = new Rectangle<Double>(10, 10, 20, 20);
+            var _Rectangle2 = new Rectangle<Double>(10, 10, 20, 20);
             Assert.IsTrue(_Rectangle1.Contains(_Rectangle2));
         }
 
@@ -142,15 +140,12 @@ namespace de.ahzf.Blueprints.UnitTests
         [Test]
         public void NotContainsRectangleTest1()
         {
-            var _Rectangle1 = new RectangleDouble(10, 10, 20, 20);
-            var _Rectangle2 = new RectangleDouble( 9, 12, 18, 18);
+            var _Rectangle1 = new Rectangle<Double>(10, 10, 20, 20);
+            var _Rectangle2 = new Rectangle<Double>( 9, 12, 18, 18);
             Assert.IsFalse(_Rectangle1.Contains(_Rectangle2));
         }
 
         #endregion
-
-
-
 
     }
 

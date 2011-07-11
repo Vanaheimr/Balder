@@ -24,7 +24,7 @@ using NUnit.Framework;
 
 #endregion
 
-namespace de.ahzf.Blueprints.UnitTests
+namespace de.ahzf.Blueprints.UnitTests.Maths
 {
 
     /// <summary>
@@ -42,8 +42,8 @@ namespace de.ahzf.Blueprints.UnitTests
         [Test]
         public void PixelEqualityTest1()
         {
-            var _Pixel1 = new PixelDouble(23, 5);
-            var _Pixel2 = new PixelDouble(23, 5);
+            var _Pixel1 = new Pixel<Double>(23, 5);
+            var _Pixel2 = new Pixel<Double>(23, 5);
             Assert.AreEqual(_Pixel1, _Pixel2);
         }
 
@@ -57,8 +57,8 @@ namespace de.ahzf.Blueprints.UnitTests
         [Test]
         public void PixelEqualityTest2()
         {
-            var _Pixel1 = new PixelDouble(23, 5);
-            var _Pixel2 = new PixelDouble(23, 5);
+            var _Pixel1 = new Pixel<Double>(23, 5);
+            var _Pixel2 = new Pixel<Double>(23, 5);
             Assert.IsTrue(_Pixel1 == _Pixel2);
         }
 
@@ -72,8 +72,8 @@ namespace de.ahzf.Blueprints.UnitTests
         [Test]
         public void PixelInequalityTest1()
         {
-            var _Pixel1 = new PixelDouble(23, 5);
-            var _Pixel2 = new PixelDouble(5, 23);
+            var _Pixel1 = new Pixel<Double>(23, 5);
+            var _Pixel2 = new Pixel<Double>(5, 23);
             Assert.AreNotEqual(_Pixel1, _Pixel2);
         }
 
@@ -87,8 +87,8 @@ namespace de.ahzf.Blueprints.UnitTests
         [Test]
         public void PixelInequalityTest2()
         {
-            var _Pixel1 = new PixelDouble(23, 5);
-            var _Pixel2 = new PixelDouble(5, 23);
+            var _Pixel1 = new Pixel<Double>(23, 5);
+            var _Pixel2 = new Pixel<Double>(5, 23);
             Assert.IsTrue(_Pixel1 != _Pixel2);
         }
 
@@ -103,8 +103,8 @@ namespace de.ahzf.Blueprints.UnitTests
         [Test]
         public void PixelDistanceTest1()
         {
-            var _Pixel1 = new PixelDouble(0, 0);
-            var _Pixel2 = new PixelDouble(1, 1);
+            var _Pixel1 = new Pixel<Double>(0, 0);
+            var _Pixel2 = new Pixel<Double>(1, 1);
             Assert.AreEqual(Math.Sqrt(2), _Pixel1.DistanceTo(_Pixel2));
         }
 
@@ -118,8 +118,8 @@ namespace de.ahzf.Blueprints.UnitTests
         [Test]
         public void PixelDistanceTest2()
         {
-            var _Pixel1 = new PixelDouble(1, 1);
-            var _Pixel2 = new PixelDouble(3, 3);
+            var _Pixel1 = new Pixel<Double>(1, 1);
+            var _Pixel2 = new Pixel<Double>(3, 3);
             Assert.AreEqual(Math.Sqrt(8), _Pixel1.DistanceTo(_Pixel2));
         }
 

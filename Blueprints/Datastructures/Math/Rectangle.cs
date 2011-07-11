@@ -25,10 +25,10 @@ namespace de.ahzf.Blueprints
 {
 
     /// <summary>
-    /// An abstract rectangle of type T.
+    /// A rectangle of type T.
     /// </summary>
     /// <typeparam name="T">The internal type of the rectangle.</typeparam>
-    public abstract class Rectangle<T> : Math2D<T>, IEquatable<Rectangle<T>>
+    public class Rectangle<T> : AMath<T>, IRectangle<T>
         where T : IEquatable<T>, IComparable<T>, IComparable
     {
 
@@ -80,7 +80,7 @@ namespace de.ahzf.Blueprints
         {
             get
             {
-                return Distance(Left, Right);
+                return Math.Distance(Left, Right);
             }
         }
 
@@ -95,7 +95,7 @@ namespace de.ahzf.Blueprints
         {
             get
             {
-                return Distance(Top, Bottom);
+                return Math.Distance(Top, Bottom);
             }
         }
 
@@ -116,10 +116,10 @@ namespace de.ahzf.Blueprints
         /// <param name="Bottom">The bottom parameter.</param>
         public Rectangle(T Left, T Top, T Right, T Bottom)
         {
-            this.Left   = Min(Left, Right);
-            this.Top    = Min(Top,  Bottom);
-            this.Right  = Max(Left, Right);
-            this.Bottom = Max(Top,  Bottom);
+            this.Left   = Math.Min(Left, Right);
+            this.Top    = Math.Min(Top,  Bottom);
+            this.Right  = Math.Max(Left, Right);
+            this.Bottom = Math.Max(Top,  Bottom);
         }
 
         #endregion
@@ -133,10 +133,10 @@ namespace de.ahzf.Blueprints
         /// <param name="Pixel2">A pixel of type T.</param>
         public Rectangle(Pixel<T> Pixel1, Pixel<T> Pixel2)
         {
-            this.Left   = Min(Pixel1.X, Pixel2.X);
-            this.Top    = Min(Pixel1.Y, Pixel2.Y);
-            this.Right  = Max(Pixel1.X, Pixel2.X);
-            this.Bottom = Max(Pixel1.Y, Pixel2.Y);
+            this.Left   = Math.Min(Pixel1.X, Pixel2.X);
+            this.Top    = Math.Min(Pixel1.Y, Pixel2.Y);
+            this.Right  = Math.Max(Pixel1.X, Pixel2.X);
+            this.Bottom = Math.Max(Pixel1.Y, Pixel2.Y);
         }
 
         #endregion
@@ -153,8 +153,8 @@ namespace de.ahzf.Blueprints
         {
             this.Left   = Pixel.X;
             this.Top    = Pixel.Y;
-            this.Right  = Add(Pixel.X, Width);
-            this.Bottom = Add(Pixel.Y, Height);
+            this.Right  = Math.Add(Pixel.X, Width);
+            this.Bottom = Math.Add(Pixel.Y, Height);
         }
 
         #endregion
@@ -168,8 +168,8 @@ namespace de.ahzf.Blueprints
         /// Checks if the given x- and y-coordinates are
         /// located within this rectangle.
         /// </summary>
-        /// <param name="x">A x-coordinate of type T.</param>
-        /// <param name="y">A y-coordinate of type T.</param>
+        /// <param name="x">The x-coordinate.</param>
+        /// <param name="y">The y-coordinate.</param>
         /// <returns>True if the coordinates are located within this rectangle; False otherwise.</returns>
         public Boolean Contains(T x, T y)
         {
@@ -182,21 +182,6 @@ namespace de.ahzf.Blueprints
 
             return false;
 
-        }
-
-        #endregion
-
-        #region Contains(Pixel)
-
-        /// <summary>
-        /// Checks if the given pixel is located
-        /// within this rectangle.
-        /// </summary>
-        /// <param name="Pixel">A pixel of type T.</param>
-        /// <returns>True if the pixel is located within this rectangle; False otherwise.</returns>
-        public Boolean Contains(Pixel<T> Pixel)
-        {
-            return Contains(Pixel.X, Pixel.Y);
         }
 
         #endregion
@@ -301,23 +286,23 @@ namespace de.ahzf.Blueprints
 
         #endregion
 
-        #region Equals(Rectangle)
+        #region Equals(IRectangle)
 
         /// <summary>
         /// Compares two rectangles for equality.
         /// </summary>
-        /// <param name="Rectangle">A rectangle to compare with.</param>
+        /// <param name="IRectangle">A rectangle to compare with.</param>
         /// <returns>True if both match; False otherwise.</returns>
-        public Boolean Equals(Rectangle<T> Rectangle)
+        public Boolean Equals(IRectangle<T> IRectangle)
         {
 
-            if ((Object) Rectangle == null)
+            if ((Object) IRectangle == null)
                 return false;
 
-            return this.Left.  Equals(Rectangle.Left)  &&
-                   this.Top.   Equals(Rectangle.Top)   &&
-                   this.Right. Equals(Rectangle.Right) &&
-                   this.Bottom.Equals(Rectangle.Bottom);
+            return this.Left.  Equals(IRectangle.Left)  &&
+                   this.Top.   Equals(IRectangle.Top)   &&
+                   this.Right. Equals(IRectangle.Right) &&
+                   this.Bottom.Equals(IRectangle.Bottom);
 
         }
 
@@ -345,7 +330,7 @@ namespace de.ahzf.Blueprints
         /// </summary>
         public override String ToString()
         {
-            return String.Format("{{Left={0}, Top={1}, Right={0}, Bottom={1}}}", Left.ToString(), Top.ToString(), Right.ToString(), Bottom.ToString());
+            return String.Format("{{Left={0}, Top={1}, Right={2}, Bottom={3}}}", Left.ToString(), Top.ToString(), Right.ToString(), Bottom.ToString());
         }
 
         #endregion

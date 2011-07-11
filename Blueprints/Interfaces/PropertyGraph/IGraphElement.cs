@@ -50,16 +50,6 @@ namespace de.ahzf.Blueprints.PropertyGraph
     {
 
         /// <summary>
-        /// The property key of the identification.
-        /// </summary>
-        TKey IdKey         { get; }
-
-        /// <summary>
-        /// The property key of the revision identification.
-        /// </summary>
-        TKey RevIdKey { get; }
-
-        /// <summary>
         /// Return the graph element properties (its embedded data).
         /// </summary>
         IProperties<TKey, TValue> PropertyData { get; }

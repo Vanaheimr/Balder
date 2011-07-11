@@ -25,14 +25,12 @@ namespace de.ahzf.Blueprints
 {
 
     /// <summary>
-    /// 2d Math operations on type T.
+    /// An interface defining math operations on the given datatype.
     /// </summary>
-    /// <typeparam name="T">The internal datatype.</typeparam>
-    public abstract class Math2D<T>
+    /// <typeparam name="T">The internal dataype.</typeparam>
+    public interface IMath<T>
         where T : IEquatable<T>, IComparable<T>, IComparable
     {
-
-        #region Abstract Math Operations
 
         #region Min(a, b)
 
@@ -42,7 +40,7 @@ namespace de.ahzf.Blueprints
         /// <param name="a">An object of type T</param>
         /// <param name="b">An object of type T</param>
         /// <returns>The minimum of a and b: Min(a, b)</returns>
-        protected abstract T Min(T a, T b);
+        T Min(T a, T b);
 
         #endregion
 
@@ -54,20 +52,19 @@ namespace de.ahzf.Blueprints
         /// <param name="a">An object of type T</param>
         /// <param name="b">An object of type T</param>
         /// <returns>The maximum of a and b: Max(a, b)</returns>
-        protected abstract T Max(T a, T b);
+        T Max(T a, T b);
 
         #endregion
 
 
-        #region Add(a, b)
+        #region Add(params Summands)
 
         /// <summary>
-        /// A method to add two internal datatypes.
+        /// A method to add internal datatypes.
         /// </summary>
-        /// <param name="a">An object of type T</param>
-        /// <param name="b">An object of type T</param>
-        /// <returns>The addition of a and b: a + b</returns>
-        protected abstract T Add(T a, T b);
+        /// <param name="Summands">An array of Doubles.</param>
+        /// <returns>The addition of all summands: a + b + ...</returns>
+        T Add(params T[] Summands);
 
         #endregion
 
@@ -79,19 +76,18 @@ namespace de.ahzf.Blueprints
         /// <param name="a">An object of type T</param>
         /// <param name="b">An object of type T</param>
         /// <returns>The subtraction of b from a: a - b</returns>
-        protected abstract T Sub(T a, T b);
+        T Sub(T a, T b);
 
         #endregion
 
-        #region Mul(a, b)
+        #region Mul(params Multiplicators)
 
         /// <summary>
-        /// A method to multiply two internal datatypes.
+        /// A method to multiply internal datatypes.
         /// </summary>
-        /// <param name="a">An object of type T</param>
-        /// <param name="b">An object of type T</param>
-        /// <returns>The multiplication of a and b: a * b</returns>
-        protected abstract T Mul(T a, T b);
+        /// <param name="Multiplicators">An array of type T.</param>
+        /// <returns>The multiplication of all multiplicators: a * b * ...</returns>
+        T Mul(params T[] Multiplicators);
 
         #endregion
 
@@ -103,7 +99,7 @@ namespace de.ahzf.Blueprints
         /// <param name="a">An object of type T</param>
         /// <param name="b">An object of type T</param>
         /// <returns>The division of a by b: a / b</returns>
-        protected abstract T Div(T a, T b);
+        T Div(T a, T b);
 
         #endregion
 
@@ -115,7 +111,7 @@ namespace de.ahzf.Blueprints
         /// <param name="a">An object of type T</param>
         /// <param name="b">An object of type T</param>
         /// <returns>The value a raised to the specified power of b: a^b</returns>
-        protected abstract T Pow(T a, T b);
+        T Pow(T a, T b);
 
         #endregion
 
@@ -127,7 +123,7 @@ namespace de.ahzf.Blueprints
         /// </summary>
         /// <param name="a">An object of type T</param>
         /// <returns>The absolute value of a: Abs(a)</returns>
-        protected abstract T Abs(T a);
+        T Abs(T a);
 
         #endregion
 
@@ -138,9 +134,7 @@ namespace de.ahzf.Blueprints
         /// </summary>
         /// <param name="a">An object of type T</param>
         /// <returns>The square root of a: Sqrt(a)</returns>
-        protected abstract T Sqrt(T a);
-
-        #endregion
+        T Sqrt(T a);
 
         #endregion
 
@@ -153,10 +147,7 @@ namespace de.ahzf.Blueprints
         /// <param name="a">An object of type T</param>
         /// <param name="b">An object of type T</param>
         /// <returns>The distance between a and b.</returns>
-        public T Distance(T a, T b)
-        {
-            return Abs(Sub(a, b));
-        }
+        T Distance(T a, T b);
 
         #endregion
 
