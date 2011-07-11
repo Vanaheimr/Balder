@@ -32,7 +32,7 @@ namespace de.ahzf.Blueprints
         where T : IEquatable<T>, IComparable<T>, IComparable
     {
 
-        #region Data
+        #region Properties
 
         /// <summary>
         /// X

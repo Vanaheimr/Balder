@@ -50,6 +50,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Datastructures\RectangleTests.cs" />
+    <Compile Include="Datastructures\PixelTests.cs" />
     <Compile Include="Datastructures\SystemIdTests.cs" />
     <Compile Include="InMemoryGraph\PropertyVertexTests.cs" />
     <Compile Include="PropertyGraphs\Indices\IndicesTests.cs" />

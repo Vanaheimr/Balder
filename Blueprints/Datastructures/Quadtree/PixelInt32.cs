@@ -50,13 +50,44 @@ namespace de.ahzf.Blueprints
 
         #region Abstract Math Operations
 
+        #region Min(a, b)
+
+        /// <summary>
+        /// A method to get the minimum of two internal datatypes.
+        /// </summary>
+        /// <param name="a">An Int32.</param>
+        /// <param name="b">An Int32.</param>
+        /// <returns>The minimum of a and b: Min(a, b)</returns>
+        protected override Int32 Min(Int32 a, Int32 b)
+        {
+            return Math.Min(a, b);
+        }
+
+        #endregion
+
+        #region Max(a, b)
+
+        /// <summary>
+        /// A method to get the maximum of two internal datatypes.
+        /// </summary>
+        /// <param name="a">An Int32.</param>
+        /// <param name="b">An Int32.</param>
+        /// <returns>The maximum of a and b: Max(a, b)</returns>
+        protected override Int32 Max(Int32 a, Int32 b)
+        {
+            return Math.Max(a, b);
+        }
+
+        #endregion
+
+
         #region Add(a, b)
 
         /// <summary>
         /// A method to add two internal datatypes.
         /// </summary>
-        /// <param name="a">An object of type T</param>
-        /// <param name="b">An object of type T</param>
+        /// <param name="a">An Int32.</param>
+        /// <param name="b">An Int32.</param>
         /// <returns>The addition of a and b: a + b</returns>
         protected override Int32 Add(Int32 a, Int32 b)
         {
@@ -70,8 +101,8 @@ namespace de.ahzf.Blueprints
         /// <summary>
         /// A method to sub two internal datatypes.
         /// </summary>
-        /// <param name="a">An object of type T</param>
-        /// <param name="b">An object of type T</param>
+        /// <param name="a">An Int32.</param>
+        /// <param name="b">An Int32.</param>
         /// <returns>The subtraction of b from a: a - b</returns>
         protected override Int32 Sub(Int32 a, Int32 b)
         {
@@ -85,8 +116,8 @@ namespace de.ahzf.Blueprints
         /// <summary>
         /// A method to multiply two internal datatypes.
         /// </summary>
-        /// <param name="a">An object of type T</param>
-        /// <param name="b">An object of type T</param>
+        /// <param name="a">An Int32.</param>
+        /// <param name="b">An Int32.</param>
         /// <returns>The multiplication of a and b: a * b</returns>
         protected override Int32 Mul(Int32 a, Int32 b)
         {
@@ -100,12 +131,56 @@ namespace de.ahzf.Blueprints
         /// <summary>
         /// A method to divide two internal datatypes.
         /// </summary>
-        /// <param name="a">An object of type T</param>
-        /// <param name="b">An object of type T</param>
+        /// <param name="a">An Int32.</param>
+        /// <param name="b">An Int32.</param>
         /// <returns>The division of a by b: a / b</returns>
         protected override Int32 Div(Int32 a, Int32 b)
         {
             return a / b;
+        }
+
+        #endregion
+
+        #region Pow(a, b)
+
+        /// <summary>
+        /// A method to calculate an internal datatype raised to the specified power.
+        /// </summary>
+        /// <param name="a">A Double.</param>
+        /// <param name="b">A Double.</param>
+        /// <returns>The value a raised to the specified power of b: a^b</returns>
+        protected override Int32 Pow(Int32 a, Int32 b)
+        {
+            return Convert.ToInt32(Math.Round(Math.Pow(a, b)));
+        }
+
+        #endregion
+
+
+        #region Abs(a)
+
+        /// <summary>
+        /// A method to calculate the absolute value of the internal datatype.
+        /// </summary>
+        /// <param name="a">An Int32.</param>
+        /// <returns>The absolute value of a: Abs(a)</returns>
+        protected override Int32 Abs(Int32 a)
+        {
+            return Math.Abs(a);
+        }
+
+        #endregion
+
+        #region Sqrt(a)
+
+        /// <summary>
+        /// A method to calculate the square root of the internal datatype.
+        /// </summary>
+        /// <param name="a">An Int32.</param>
+        /// <returns>The square root of a: Sqrt(a)</returns>
+        protected override Int32 Sqrt(Int32 a)
+        {
+            return Convert.ToInt32(Math.Round(Math.Sqrt(a)));
         }
 
         #endregion

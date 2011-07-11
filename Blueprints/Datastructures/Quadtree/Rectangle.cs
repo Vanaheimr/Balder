@@ -25,54 +25,136 @@ namespace de.ahzf.Blueprints
 {
 
     /// <summary>
-    /// A rectangle of type T.
+    /// An abstract rectangle of type T.
     /// </summary>
     /// <typeparam name="T">The internal type of the rectangle.</typeparam>
-    public abstract class Rectangle<T> : IEquatable<Rectangle<T>>, IComparable<Rectangle<T>>, IComparable
+    public abstract class Rectangle<T> : Math2D<T>, IEquatable<Rectangle<T>>
         where T : IEquatable<T>, IComparable<T>, IComparable
     {
 
-        #region Data
+        #region Properties
+
+        #region Left
 
         /// <summary>
         /// Left
         /// </summary>
-        public readonly T Left;
+        public T Left   { get; private set; }
+
+        #endregion
+
+        #region Top
 
         /// <summary>
         /// Top
         /// </summary>
-        public readonly T Top;
+        public T Top    { get; private set; }
+
+        #endregion
+
+        #region Right
 
         /// <summary>
         /// Right
         /// </summary>
-        public readonly T Right;
+        public T Right  { get; private set; }
+
+        #endregion
+
+        #region Bottom
 
         /// <summary>
         /// Bottom
         /// </summary>
-        public readonly T Bottom;
+        public T Bottom { get; private set; }
 
+        #endregion
+
+
+        #region Width
+
+        /// <summary>
+        /// The width of the rectangle.
+        /// </summary>
+        public T Width
+        {
+            get
+            {
+                return Distance(Left, Right);
+            }
+        }
+
+        #endregion
+
+        #region Height
+
+        /// <summary>
+        /// The height of the rectangle.
+        /// </summary>
+        public T Height
+        {
+            get
+            {
+                return Distance(Top, Bottom);
+            }
+        }
+
+        #endregion
+        
         #endregion
 
         #region Constructor(s)
 
-        #region Rectangle(left, top, right, bottom)
+        #region Rectangle(Left, Top, Right, Bottom)
 
         /// <summary>
         /// Create a rectangle of type T.
         /// </summary>
-        /// <param name="left">The left parameter.</param>
-        /// <param name="top">The top parameter.</param>
-        /// <param name="right">The right parameter.</param>
-        /// <param name="bottom">The bottom parameter.</param>
-        public Rectangle(T left, T top, T right, T bottom)
+        /// <param name="Left">The left parameter.</param>
+        /// <param name="Top">The top parameter.</param>
+        /// <param name="Right">The right parameter.</param>
+        /// <param name="Bottom">The bottom parameter.</param>
+        public Rectangle(T Left, T Top, T Right, T Bottom)
         {
-            this.Left   = left;
-            this.Top    = top;
-            this.Right  = right;
-            this.Bottom = bottom;
+            this.Left   = Min(Left, Right);
+            this.Top    = Min(Top,  Bottom);
+            this.Right  = Max(Left, Right);
+            this.Bottom = Max(Top,  Bottom);
+        }
+
+        #endregion
+
+        #region Rectangle(Pixel1, Pixel2)
+
+        /// <summary>
+        /// Create a rectangle of type T.
+        /// </summary>
+        /// <param name="Pixel1">A pixel of type T.</param>
+        /// <param name="Pixel2">A pixel of type T.</param>
+        public Rectangle(Pixel<T> Pixel1, Pixel<T> Pixel2)
+        {
+            this.Left   = Min(Pixel1.X, Pixel2.X);
+            this.Top    = Min(Pixel1.Y, Pixel2.Y);
+            this.Right  = Max(Pixel1.X, Pixel2.X);
+            this.Bottom = Max(Pixel1.Y, Pixel2.Y);
+        }
+
+        #endregion
+
+        #region Rectangle(Pixel, Width, Height)
+
+        /// <summary>
+        /// Create a rectangle of type T.
+        /// </summary>
+        /// <param name="Pixel">A pixel of type T in the upper left corner of the rectangle.</param>
+        /// <param name="Width">The width of the rectangle.</param>
+        /// <param name="Height">The height of the rectangle.</param>
+        public Rectangle(Pixel<T> Pixel, T Width, T Height)
+        {
+            this.Left   = Pixel.X;
+            this.Top    = Pixel.Y;
+            this.Right  = Add(Pixel.X, Width);
+            this.Bottom = Add(Pixel.Y, Height);
         }
 
         #endregion
@@ -80,78 +162,168 @@ namespace de.ahzf.Blueprints
         #endregion
 
 
-        #region Abstract Math Operations
+        #region Contains(x, y)
 
         /// <summary>
-        /// A method to add two internal datatypes.
+        /// Checks if the given x- and y-coordinates are
+        /// located within this rectangle.
         /// </summary>
-        /// <param name="a">An object of type T</param>
-        /// <param name="b">An object of type T</param>
-        /// <returns>The addition of a and b: a + b</returns>
-        protected abstract T Add(T a, T b);
+        /// <param name="x">A x-coordinate of type T.</param>
+        /// <param name="y">A y-coordinate of type T.</param>
+        /// <returns>True if the coordinates are located within this rectangle; False otherwise.</returns>
+        public Boolean Contains(T x, T y)
+        {
+            
+            if (x.CompareTo(Left)   >= 0 &&
+                x.CompareTo(Right)  <= 0 &&
+                y.CompareTo(Top)    >= 0 &&
+                y.CompareTo(Bottom) <= 0)
+                return true;
+
+            return false;
+
+        }
+
+        #endregion
+
+        #region Contains(Pixel)
 
         /// <summary>
-        /// A method to sub two internal datatypes.
+        /// Checks if the given pixel is located
+        /// within this rectangle.
         /// </summary>
-        /// <param name="a">An object of type T</param>
-        /// <param name="b">An object of type T</param>
-        /// <returns>The subtraction of b from a: a - b</returns>
-        protected abstract T Sub(T a, T b);
+        /// <param name="Pixel">A pixel of type T.</param>
+        /// <returns>True if the pixel is located within this rectangle; False otherwise.</returns>
+        public Boolean Contains(Pixel<T> Pixel)
+        {
+            return Contains(Pixel.X, Pixel.Y);
+        }
+
+        #endregion
+
+        #region Contains(Rectangle)
 
         /// <summary>
-        /// A method to multiply two internal datatypes.
+        /// Checks if the given rectangle is located
+        /// within this rectangle.
         /// </summary>
-        /// <param name="a">An object of type T</param>
-        /// <param name="b">An object of type T</param>
-        /// <returns>The multiplication of a and b: a * b</returns>
-        protected abstract T Mul(T a, T b);
+        /// <param name="Rectangle">A rectangle of type T.</param>
+        /// <returns>True if the rectangle is located within this rectangle; False otherwise.</returns>
+        public Boolean Contains(Rectangle<T> Rectangle)
+        {
+            
+            if (!Contains(Rectangle.Left,  Rectangle.Top))
+                return false;
 
-        /// <summary>
-        /// A method to divide two internal datatypes.
-        /// </summary>
-        /// <param name="a">An object of type T</param>
-        /// <param name="b">An object of type T</param>
-        /// <returns>The division of a by b: a / b</returns>
-        protected abstract T Div(T a, T b);
+            if (!Contains(Rectangle.Right, Rectangle.Top))
+                return false;
+
+            if (!Contains(Rectangle.Left,  Rectangle.Bottom))
+                return false;
+
+            if (!Contains(Rectangle.Right, Rectangle.Bottom))
+                return false;
+
+            return true;
+
+        }
 
         #endregion
 
 
+        #region Operator overloadings
 
-        public bool Contains(T x, T y)
+        #region Operator == (Rectangle1, Rectangle2)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="Rectangle1">A Rectangle&lt;T&gt;.</param>
+        /// <param name="Rectangle2">Another Rectangle&lt;T&gt;.</param>
+        /// <returns>true|false</returns>
+        public static Boolean operator == (Rectangle<T> Rectangle1, Rectangle<T> Rectangle2)
         {
-            throw new NotImplementedException();
+
+            // If both are null, or both are same instance, return true.
+            if (Object.ReferenceEquals(Rectangle1, Rectangle2))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (((Object) Rectangle1 == null) || ((Object) Rectangle2 == null))
+                return false;
+
+            return Rectangle1.Equals(Rectangle2);
+
         }
 
-        public bool Contains(Pixel<T> pt)
+        #endregion
+
+        #region Operator != (Rectangle1, Rectangle2)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="Rectangle1">A Rectangle&lt;T&gt;.</param>
+        /// <param name="Rectangle2">Another Rectangle&lt;T&gt;.</param>
+        /// <returns>true|false</returns>
+        public static Boolean operator != (Rectangle<T> Rectangle1, Rectangle<T> Rectangle2)
         {
-            throw new NotImplementedException();
+            return !(Rectangle1.Equals(Rectangle2));
         }
 
-        public bool Contains(Rectangle<T> rect)
+        #endregion
+
+        #endregion
+
+        #region IEquatable Members
+
+        #region Equals(Object)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="Object">An object to compare with.</param>
+        /// <returns>true|false</returns>
+        public override Boolean Equals(Object Object)
         {
-            throw new NotImplementedException();
+
+            if (Object == null)
+                return false;
+
+            // Check if the given object is an Rectangle<T>.
+            var RectangleT = (Rectangle<T>) Object;
+            if ((Object) RectangleT == null)
+                return false;
+
+            return this.Equals(RectangleT);
+
         }
 
+        #endregion
 
+        #region Equals(Rectangle)
 
-
-        public bool Equals(Rectangle<T> other)
+        /// <summary>
+        /// Compares two rectangles for equality.
+        /// </summary>
+        /// <param name="Rectangle">A rectangle to compare with.</param>
+        /// <returns>True if both match; False otherwise.</returns>
+        public Boolean Equals(Rectangle<T> Rectangle)
         {
-            throw new NotImplementedException();
+
+            if ((Object) Rectangle == null)
+                return false;
+
+            return this.Left.  Equals(Rectangle.Left)  &&
+                   this.Top.   Equals(Rectangle.Top)   &&
+                   this.Right. Equals(Rectangle.Right) &&
+                   this.Bottom.Equals(Rectangle.Bottom);
+
         }
 
-        public int CompareTo(object obj)
-        {
-            throw new NotImplementedException();
-        }
+        #endregion
 
-        public int CompareTo(Rectangle<T> other)
-        {
-            throw new NotImplementedException();
-        }
-
-
+        #endregion
 
         #region GetHashCode()
 

@@ -32,17 +32,44 @@ namespace de.ahzf.Blueprints
 
         #region Constructor(s)
 
-        #region RectangleDouble(left, top, right, bottom)
+        #region RectangleDouble(Left, Top, Right, Bottom)
 
         /// <summary>
         /// Create a rectangle of type Double.
         /// </summary>
-        /// <param name="left">The left parameter.</param>
-        /// <param name="top">The top parameter.</param>
-        /// <param name="right">The right parameter.</param>
-        /// <param name="bottom">The bottom parameter.</param>
-        public RectangleDouble(Double left, Double top, Double right, Double bottom)
-            : base(left, top, right, bottom)
+        /// <param name="Left">The left parameter.</param>
+        /// <param name="Top">The top parameter.</param>
+        /// <param name="Right">The right parameter.</param>
+        /// <param name="Bottom">The bottom parameter.</param>
+        public RectangleDouble(Double Left, Double Top, Double Right, Double Bottom)
+            : base(Left, Top, Right, Bottom)
+        { }
+
+        #endregion
+
+        #region RectangleDouble(Pixel1, Pixel2)
+
+        /// <summary>
+        /// Create a rectangle of type Double.
+        /// </summary>
+        /// <param name="Pixel1">A pixel of type Double.</param>
+        /// <param name="Pixel2">A pixel of type Double.</param>
+        public RectangleDouble(Pixel<Double> Pixel1, Pixel<Double> Pixel2)
+            : base(Pixel1, Pixel2)
+        { }
+
+        #endregion
+
+        #region RectangleDouble(Pixel, Width, Height)
+
+        /// <summary>
+        /// Create a rectangle of type Double.
+        /// </summary>
+        /// <param name="Pixel">A pixel of type Double in the upper left corner of the rectangle.</param>
+        /// <param name="Width">The width of the rectangle.</param>
+        /// <param name="Height">The height of the rectangle.</param>
+        public RectangleDouble(Pixel<Double> Pixel, Double Width, Double Height)
+            : base(Pixel, Width, Height)
         { }
 
         #endregion
@@ -52,13 +79,44 @@ namespace de.ahzf.Blueprints
 
         #region Abstract Math Operations
 
+        #region Min(a, b)
+
+        /// <summary>
+        /// A method to get the minimum of two internal datatypes.
+        /// </summary>
+        /// <param name="a">A Double.</param>
+        /// <param name="b">A Double.</param>
+        /// <returns>The minimum of a and b: Min(a, b)</returns>
+        protected override Double Min(Double a, Double b)
+        {
+            return Math.Min(a, b);
+        }
+
+        #endregion
+
+        #region Max(a, b)
+
+        /// <summary>
+        /// A method to get the maximum of two internal datatypes.
+        /// </summary>
+        /// <param name="a">A Double.</param>
+        /// <param name="b">A Double.</param>
+        /// <returns>The maximum of a and b: Max(a, b)</returns>
+        protected override Double Max(Double a, Double b)
+        {
+            return Math.Max(a, b);
+        }
+
+        #endregion
+
+
         #region Add(a, b)
 
         /// <summary>
         /// A method to add two internal datatypes.
         /// </summary>
-        /// <param name="a">An object of type T</param>
-        /// <param name="b">An object of type T</param>
+        /// <param name="a">A Double.</param>
+        /// <param name="b">A Double.</param>
         /// <returns>The addition of a and b: a + b</returns>
         protected override Double Add(Double a, Double b)
         {
@@ -72,8 +130,8 @@ namespace de.ahzf.Blueprints
         /// <summary>
         /// A method to sub two internal datatypes.
         /// </summary>
-        /// <param name="a">An object of type T</param>
-        /// <param name="b">An object of type T</param>
+        /// <param name="a">A Double.</param>
+        /// <param name="b">A Double.</param>
         /// <returns>The subtraction of b from a: a - b</returns>
         protected override Double Sub(Double a, Double b)
         {
@@ -87,8 +145,8 @@ namespace de.ahzf.Blueprints
         /// <summary>
         /// A method to multiply two internal datatypes.
         /// </summary>
-        /// <param name="a">An object of type T</param>
-        /// <param name="b">An object of type T</param>
+        /// <param name="a">A Double.</param>
+        /// <param name="b">A Double.</param>
         /// <returns>The multiplication of a and b: a * b</returns>
         protected override Double Mul(Double a, Double b)
         {
@@ -102,12 +160,56 @@ namespace de.ahzf.Blueprints
         /// <summary>
         /// A method to divide two internal datatypes.
         /// </summary>
-        /// <param name="a">An object of type T</param>
-        /// <param name="b">An object of type T</param>
+        /// <param name="a">A Double.</param>
+        /// <param name="b">A Double.</param>
         /// <returns>The division of a by b: a / b</returns>
         protected override Double Div(Double a, Double b)
         {
             return a / b;
+        }
+
+        #endregion
+
+        #region Pow(a, b)
+
+        /// <summary>
+        /// A method to calculate an internal datatype raised to the specified power.
+        /// </summary>
+        /// <param name="a">A Double.</param>
+        /// <param name="b">A Double.</param>
+        /// <returns>The value a raised to the specified power of b: a^b</returns>
+        protected override Double Pow(Double a, Double b)
+        {
+            return Math.Pow(a, b);
+        }
+
+        #endregion
+
+
+        #region Abs(a)
+
+        /// <summary>
+        /// A method to calculate the absolute value of the internal datatype.
+        /// </summary>
+        /// <param name="a">An Double.</param>
+        /// <returns>The absolute value of a: Abs(a)</returns>
+        protected override Double Abs(Double a)
+        {
+            return Math.Abs(a);
+        }
+
+        #endregion
+
+        #region Sqrt(a)
+
+        /// <summary>
+        /// A method to calculate the square root of the internal datatype.
+        /// </summary>
+        /// <param name="a">A Double.</param>
+        /// <returns>The square root of a: Sqrt(a)</returns>
+        protected override Double Sqrt(Double a)
+        {
+            return Math.Sqrt(a);
         }
 
         #endregion

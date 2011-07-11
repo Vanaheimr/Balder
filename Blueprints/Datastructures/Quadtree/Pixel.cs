@@ -25,24 +25,32 @@ namespace de.ahzf.Blueprints
 {
 
     /// <summary>
-    /// A pixel of type T.
+    /// An abstract pixel of type T.
     /// </summary>
     /// <typeparam name="T">The internal type of the pixel.</typeparam>
-    public abstract class Pixel<T> : IEquatable<Pixel<T>>, IComparable<Pixel<T>>, IComparable
+    public abstract class Pixel<T> : Math2D<T>, IEquatable<Pixel<T>>
         where T : IEquatable<T>, IComparable<T>, IComparable
     {
 
-        #region Data
+        #region Properties
+
+        #region X
 
         /// <summary>
-        /// X
+        /// The X-coordinate.
         /// </summary>
         public T X { get; private set; }
 
+        #endregion
+
+        #region Y
+
         /// <summary>
-        /// Y
+        /// The Y-coordinate.
         /// </summary>
         public T Y { get; private set; }
+
+        #endregion
 
         #endregion
 
@@ -66,39 +74,20 @@ namespace de.ahzf.Blueprints
         #endregion
 
 
-        #region Abstract Math Operations
+        #region DistanceTo(Pixel)
 
         /// <summary>
-        /// A method to add two internal datatypes.
+        /// A method to calculate the distance between
+        /// this and another pixel of type T.
         /// </summary>
-        /// <param name="a">An object of type T</param>
-        /// <param name="b">An object of type T</param>
-        /// <returns>The addition of a and b: a + b</returns>
-        protected abstract T Add(T a, T b);
-
-        /// <summary>
-        /// A method to sub two internal datatypes.
-        /// </summary>
-        /// <param name="a">An object of type T</param>
-        /// <param name="b">An object of type T</param>
-        /// <returns>The subtraction of b from a: a - b</returns>
-        protected abstract T Sub(T a, T b);
-
-        /// <summary>
-        /// A method to multiply two internal datatypes.
-        /// </summary>
-        /// <param name="a">An object of type T</param>
-        /// <param name="b">An object of type T</param>
-        /// <returns>The multiplication of a and b: a * b</returns>
-        protected abstract T Mul(T a, T b);
-
-        /// <summary>
-        /// A method to divide two internal datatypes.
-        /// </summary>
-        /// <param name="a">An object of type T</param>
-        /// <param name="b">An object of type T</param>
-        /// <returns>The division of a by b: a / b</returns>
-        protected abstract T Div(T a, T b);
+        /// <param name="Pixel">A pixel of type T</param>
+        /// <returns>The distance between this pixel and the given pixel.</returns>
+        public T DistanceTo(Pixel<T> Pixel)
+        {
+            var dX = Distance(X, Pixel.X);
+            var dY = Distance(Y, Pixel.Y);
+            return Sqrt(Add(Mul(dX, dX), Mul(dY, dY)));
+        }
 
         #endregion
 
@@ -147,54 +136,6 @@ namespace de.ahzf.Blueprints
 
         #endregion
 
-
-        #region IComparable Members
-
-        #region CompareTo(Object)
-
-        /// <summary>
-        /// Compares two instances of this object.
-        /// </summary>
-        /// <param name="Object">An object to compare with.</param>
-        /// <returns>true|false</returns>
-        public Int32 CompareTo(Object Object)
-        {
-
-            if (Object == null)
-                throw new ArgumentNullException("The given object must not be null!");
-
-            // Check if the given object is an Pixel<T>.
-            var PixelT = (Pixel<T>) Object;
-            if ((Object) PixelT == null)
-                throw new ArgumentException("The given object is not a Pixel<T>!");
-
-            return CompareTo(PixelT);
-
-        }
-
-        #endregion
-
-        #region CompareTo(PixelT)
-
-        /// <summary>
-        /// Compares two instances of this object.
-        /// </summary>
-        /// <param name="PixelT">An object to compare with.</param>
-        /// <returns>true|false</returns>
-        public Int32 CompareTo(Pixel<T> PixelT)
-        {
-
-            if ((Object) PixelT == null)
-                throw new ArgumentNullException("The given Pixel<T> must not be null!");
-
-            return 0;
-
-        }
-
-        #endregion
-
-        #endregion
-
         #region IEquatable Members
 
         #region Equals(Object)
@@ -221,21 +162,21 @@ namespace de.ahzf.Blueprints
 
         #endregion
 
-        #region Equals(PixelT)
+        #region Equals(Pixel)
 
         /// <summary>
         /// Compares two pixels for equality.
         /// </summary>
-        /// <param name="PixelT">A pixel to compare with.</param>
+        /// <param name="Pixel">A pixel to compare with.</param>
         /// <returns>True if both match; False otherwise.</returns>
-        public Boolean Equals(Pixel<T> PixelT)
+        public Boolean Equals(Pixel<T> Pixel)
         {
 
-            if ((Object) PixelT == null)
+            if ((Object) Pixel == null)
                 return false;
 
-            return X.Equals(PixelT.X) &&
-                   Y.Equals(PixelT.Y);
+            return X.Equals(Pixel.X) &&
+                   Y.Equals(Pixel.Y);
 
         }
 
