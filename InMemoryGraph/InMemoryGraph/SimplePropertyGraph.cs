@@ -20,6 +20,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
+using System.Threading;
 
 #endregion
 
@@ -406,7 +407,9 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
                     GraphInitializer)
 
-        { }
+        {
+            _NewId = 0;
+        }
 
         #endregion
 
@@ -415,6 +418,8 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #region (private) NewId
 
+        private static Int64 _NewId;
+
         /// <summary>
         /// Return a new random Id.
         /// </summary>
@@ -422,7 +427,8 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         {
             get
             {
-                return (UInt64) new Random().Next(Int32.MaxValue);
+                Interlocked.Increment(ref _NewId);
+                return (UInt64) _NewId;
             }
         }
 

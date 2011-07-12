@@ -107,6 +107,24 @@ namespace de.ahzf.Blueprints.PropertyGraph
 
         #endregion
 
+        #region GetPropertyCasted<TKey, TValue, TCast>(this IProperties, Key)
+        // Just an alternative syntax!
+
+        /// <summary>
+        /// Return the object value of type TValue associated with the provided string key.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the property keys.</typeparam>
+        /// <typeparam name="TValue">The type of the property values.</typeparam>
+        /// <param name="IProperties">An object implementing IProperties.</param>
+        /// <param name="Key">A key.</param>
+        public static TCast GetPropertyCasted<TKey, TValue, TCast>(this IProperties<TKey, TValue> IProperties, TKey Key)
+            where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
+        {
+            return (TCast) (Object) IProperties[Key];
+        }
+
+        #endregion
+
         #region GetFilteredKeys<TKey, TValue>(this IProperties, KeyValueFilter)
 
         /// <summary>
