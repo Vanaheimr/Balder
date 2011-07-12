@@ -145,17 +145,40 @@ namespace SocialGraphDemo
         public static void Main(String[] myArgs)
         {
 
-            var _Graph = new SimplePropertyGraph();
-            var _Vertex1 = _Graph.AddVertex(5, v => v.SetProperty("key1", "value1").
-                                                      SetProperty("key2", 42));
-            var _Vertex2 = _Graph.AddVertex(23);
+            //var _Graph = new SimplePropertyGraph();
+            //var _Vertex1 = _Graph.AddVertex(5, v => v.SetProperty("key1", "value1").
+            //                                          SetProperty("key2", 42));
+            //var _Vertex2 = _Graph.AddVertex(23);
 
-            var b = _Vertex1.CompareTo(_Vertex2);
+            //var b = _Vertex1.CompareTo(_Vertex2);
 
-            var x = _Vertex1.AsDynamic().key1;
+            //var x = _Vertex1.AsDynamic().key1;
 
             //_Vertex.GetProperty(
 
+            var _QuadTree = new QuadTree<Double>(0, 0, 100, 100, 4);
+            _QuadTree.OnQuadTreeSplit += (qt, p) => { Console.WriteLine("Now! " + p); };
+            _QuadTree.Add(new Pixel<Double>(1, 1));
+            var lll = _QuadTree.Count;
+            _QuadTree.Add(new Pixel<Double>(9, 1));
+            _QuadTree.Add(new Pixel<Double>(1, 9));
+            _QuadTree.Add(new Pixel<Double>(9, 9));
+            _QuadTree.Add(new Pixel<Double>(4, 4)); // Split!
+            _QuadTree.Add(new Pixel<Double>(5, 5));
+
+            _QuadTree.Add(new Pixel<Double>(50, 5));
+            _QuadTree.Add(new Pixel<Double>(51, 5));
+            _QuadTree.Add(new Pixel<Double>(52, 5));
+            _QuadTree.Add(new Pixel<Double>(53, 5));
+            _QuadTree.Add(new Pixel<Double>(54, 5));
+            _QuadTree.Add(new Pixel<Double>(55, 5));
+            _QuadTree.Add(new Pixel<Double>(56, 5));
+            _QuadTree.Add(new Pixel<Double>(57, 5));
+            _QuadTree.Add(new Pixel<Double>(58, 5));
+            _QuadTree.Add(new Pixel<Double>(59, 5));
+            _QuadTree.Add(new Pixel<Double>(60, 5));
+
+            var l = _QuadTree.Get(new Rectangle<Double>(3, 3, 6, 6)).ToList();
 
             var _graph  = DemoGraphFactory.CreateDemoGraph();
 

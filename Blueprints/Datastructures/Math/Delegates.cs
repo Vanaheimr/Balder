@@ -18,38 +18,23 @@
 #region Usings
 
 using System;
-using System.Linq;
-using System.Reflection;
-using System.Collections.Generic;
 
 #endregion
 
 namespace de.ahzf.Blueprints
 {
 
+    #region PixelSelector<T>(Pixel)
+
     /// <summary>
-    /// Extensions to the ICube interface.
+    /// A delegate selecting which pixel to return.
     /// </summary>
-    public static class ICubeExtensions
-    {
+    /// <typeparam name="T">The internal type of the pixel.</typeparam>
+    /// <param name="Pixel">A pixel of type T.</param>
+    /// <returns>True if the pixel is selected; False otherwise.</returns>
+    public delegate Boolean PixelSelector<T>(IPixel<T> Pixel)
+        where T : IEquatable<T>, IComparable<T>, IComparable;
 
-        #region Contains(this Cube, Pixel)
-
-        /// <summary>
-        /// Checks if the given voxel is located
-        /// within the given cube.
-        /// </summary>
-        /// <param name="Cube">A cube of type T.</param>
-        /// <param name="Voxel">A voxel of type T.</param>
-        /// <returns>True if the voxel is located within the given cube; False otherwise.</returns>
-        public static Boolean Contains<T>(this ICube<T> Cube, IVoxel<T> Voxel)
-            where T : IEquatable<T>, IComparable<T>, IComparable
-        {
-            return Cube.Contains(Voxel.X, Voxel.Y, Voxel.Z);
-        }
-
-        #endregion
-
-    }
+    #endregion
 
 }

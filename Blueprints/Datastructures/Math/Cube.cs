@@ -288,6 +288,50 @@ namespace de.ahzf.Blueprints
         #endregion
 
 
+        #region Operator overloadings
+
+        #region Operator == (Cube1, Cube2)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="Cube1">A Cube&lt;T&gt;.</param>
+        /// <param name="Cube2">Another Cube&lt;T&gt;.</param>
+        /// <returns>true|false</returns>
+        public static Boolean operator == (Cube<T> Cube1, Cube<T> Cube2)
+        {
+
+            // If both are null, or both are same instance, return true.
+            if (Object.ReferenceEquals(Cube1, Cube2))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (((Object) Cube1 == null) || ((Object) Cube2 == null))
+                return false;
+
+            return Cube1.Equals(Cube2);
+
+        }
+
+        #endregion
+
+        #region Operator != (Cube1, Cube2)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="Cube1">A Cube&lt;T&gt;.</param>
+        /// <param name="Cube2">Another Cube&lt;T&gt;.</param>
+        /// <returns>true|false</returns>
+        public static Boolean operator != (Cube<T> Cube1, Cube<T> Cube2)
+        {
+            return !(Cube1 == Cube2);
+        }
+
+        #endregion
+
+        #endregion
+
         #region IEquatable Members
 
         #region Equals(Object)
@@ -360,9 +404,13 @@ namespace de.ahzf.Blueprints
         /// </summary>
         public override String ToString()
         {
-            return String.Format("{{Left={0}, Top={1}, Front={2}, Right={3}, Bottom={4}, Behind={5}}}",
-                                 Left.ToString(),  Top.ToString(),    Front.ToString(),
-                                 Right.ToString(), Bottom.ToString(), Behind.ToString());
+            return String.Format("Left={0}, Top={1}, Front={2}, Right={3}, Bottom={4}, Behind={5}",
+                                 Left.  ToString(),
+                                 Top.   ToString(),
+                                 Front. ToString(),
+                                 Right. ToString(),
+                                 Bottom.ToString(),
+                                 Behind.ToString());
         }
 
         #endregion

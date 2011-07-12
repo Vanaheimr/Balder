@@ -50,6 +50,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Datastructures\Forest\QuadTreeTests.cs" />
     <Compile Include="Datastructures\Math\RectangleTests.cs" />
     <Compile Include="Datastructures\Math\PixelTests.cs" />
     <Compile Include="Datastructures\SystemIdTests.cs" />

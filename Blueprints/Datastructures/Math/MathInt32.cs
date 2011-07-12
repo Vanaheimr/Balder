@@ -176,6 +176,20 @@ namespace de.ahzf.Blueprints
 
         #endregion
 
+        #region Div2(a)
+
+        /// <summary>
+        /// A method to a Int32 by 2.
+        /// </summary>
+        /// <param name="a">A Int32.</param>
+        /// <returns>The division of a by 2: a / 2</returns>
+        public Int32 Div2(Int32 a)
+        {
+            return a / 2;
+        }
+
+        #endregion
+
         #region Pow(a, b)
 
         /// <summary>

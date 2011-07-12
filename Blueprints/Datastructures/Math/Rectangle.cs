@@ -253,7 +253,7 @@ namespace de.ahzf.Blueprints
         /// <returns>true|false</returns>
         public static Boolean operator != (Rectangle<T> Rectangle1, Rectangle<T> Rectangle2)
         {
-            return !(Rectangle1.Equals(Rectangle2));
+            return !(Rectangle1 == Rectangle2);
         }
 
         #endregion
@@ -330,7 +330,11 @@ namespace de.ahzf.Blueprints
         /// </summary>
         public override String ToString()
         {
-            return String.Format("{{Left={0}, Top={1}, Right={2}, Bottom={3}}}", Left.ToString(), Top.ToString(), Right.ToString(), Bottom.ToString());
+            return String.Format("Left={0}, Top={1}, Right={2}, Bottom={3}",
+                                 Left.  ToString(),
+                                 Top.   ToString(),
+                                 Right. ToString(),
+                                 Bottom.ToString());
         }
 
         #endregion

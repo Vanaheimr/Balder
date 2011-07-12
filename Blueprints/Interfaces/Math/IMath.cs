@@ -103,6 +103,17 @@ namespace de.ahzf.Blueprints
 
         #endregion
 
+        #region Div2(a)
+
+        /// <summary>
+        /// A method to divide two internal datatypes.
+        /// </summary>
+        /// <param name="a">An object of type T</param>
+        /// <returns>The division of a by 2: a / 2</returns>
+        T Div2(T a);
+
+        #endregion
+
         #region Pow(a, b)
 
         /// <summary>

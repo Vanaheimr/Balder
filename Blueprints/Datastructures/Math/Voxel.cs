@@ -141,7 +141,7 @@ namespace de.ahzf.Blueprints
         /// <returns>true|false</returns>
         public static Boolean operator != (Voxel<T> Voxel1, Voxel<T> Voxel2)
         {
-            return !(Voxel1.Equals(Voxel2));
+            return !(Voxel1 == Voxel2);
         }
 
         #endregion
@@ -217,7 +217,10 @@ namespace de.ahzf.Blueprints
         /// </summary>
         public override String ToString()
         {
-            return String.Format("{{X={0}, Y={1}, Z={2}}}", X.ToString(), Y.ToString(), Z.ToString());
+            return String.Format("X={0}, Y={1}, Z={2}",
+                                 X.ToString(),
+                                 Y.ToString(),
+                                 Z.ToString());
         }
 
         #endregion

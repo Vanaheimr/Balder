@@ -176,6 +176,20 @@ namespace de.ahzf.Blueprints
 
         #endregion
 
+        #region Div2(a)
+
+        /// <summary>
+        /// A method to a Single by 2.
+        /// </summary>
+        /// <param name="a">A Single.</param>
+        /// <returns>The division of a by 2: a / 2</returns>
+        public Single Div2(Single a)
+        {
+            return a / 2;
+        }
+
+        #endregion
+
         #region Pow(a, b)
 
         /// <summary>

@@ -129,7 +129,7 @@ namespace de.ahzf.Blueprints
         /// <returns>true|false</returns>
         public static Boolean operator != (Pixel<T> Pixel1, Pixel<T> Pixel2)
         {
-            return !(Pixel1.Equals(Pixel2));
+            return !(Pixel1 == Pixel2);
         }
 
         #endregion
@@ -204,7 +204,9 @@ namespace de.ahzf.Blueprints
         /// </summary>
         public override String ToString()
         {
-            return String.Format("{{X={0}, Y={1}}}", X.ToString(), Y.ToString());
+            return String.Format("X={0}, Y={1}",
+                                 X.ToString(),
+                                 Y.ToString());
         }
 
         #endregion

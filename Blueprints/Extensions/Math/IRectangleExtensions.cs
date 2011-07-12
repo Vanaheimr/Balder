@@ -42,7 +42,7 @@ namespace de.ahzf.Blueprints
         /// <param name="Rectangle">A rectanlge of type T.</param>
         /// <param name="Pixel">A pixel of type T.</param>
         /// <returns>True if the pixel is located within the given rectangle; False otherwise.</returns>
-        public static Boolean Contains<T>(this IRectangle<T> Rectangle, Pixel<T> Pixel)
+        public static Boolean Contains<T>(this IRectangle<T> Rectangle, IPixel<T> Pixel)
             where T : IEquatable<T>, IComparable<T>, IComparable
         {
             return Rectangle.Contains(Pixel.X, Pixel.Y);

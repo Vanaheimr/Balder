@@ -58,7 +58,7 @@ namespace de.ahzf.Blueprints
                 this.Math = MathSingle.Instance as IMath<T>;
 
             else if (typeof(T) == typeof(Int32))
-                this.Math = MathInt32.Instance  as IMath<T>;
+                this.Math = MathInt32. Instance as IMath<T>;
 
             if (this.Math == null)
                 throw new Exception("No math class found for datatype '" + typeof(T).Name + "'!");
