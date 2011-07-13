@@ -33,7 +33,10 @@ namespace de.ahzf.Blueprints.QuadStore
         where T : IEquatable<T>, IComparable, IComparable<T>
     {
 
-        protected IQuad<T> _Quad;
+        /// <summary>
+        /// The quad causing this exception.
+        /// </summary>
+        public IQuad<T> Quad { get; private set; }
 
         /// <summary>
         /// An exception during transaction processing occurred!
@@ -44,7 +47,7 @@ namespace de.ahzf.Blueprints.QuadStore
         public IndexingException(IQuad<T> Quad, String Message = null, Exception InnerException = null)
             : base(Message, InnerException)
         {
-            _Quad = Quad;
+            this.Quad = Quad;
         }
 
     }
@@ -71,7 +74,7 @@ namespace de.ahzf.Blueprints.QuadStore
         public AddToIndexException(IQuad<T> Quad = null, String Message = null, Exception InnerException = null)
             : base(Quad, Message, InnerException)
         {
-            _Quad = Quad;
+            Quad = Quad;
         }
 
     }

@@ -50,8 +50,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Datastructures\Delegates.cs" />
-    <Compile Include="Datastructures\Forest\QuadTree.cs" />
+    <Compile Include="Datastructures\Forest\Octree.cs" />
+    <Compile Include="Datastructures\Forest\Quadtree.cs" />
     <Compile Include="Datastructures\Math\Delegates.cs" />
+    <Compile Include="Exceptions\Forest\OctreeExceptions.cs" />
+    <Compile Include="Exceptions\Forest\QuadtreeExceptions.cs" />
     <Compile Include="Interfaces\Math\IVoxel.cs" />
     <Compile Include="Interfaces\Math\IPixel.cs" />
     <Compile Include="Datastructures\Math\MathSingle.cs" />
@@ -69,7 +72,7 @@
     <Compile Include="Datastructures\Math\Rectangle.cs" />
     <Compile Include="Exceptions\PropertyGraph\PropertiesExceptions.cs" />
     <Compile Include="Exceptions\PropertyGraph\VerticesExceptions.cs" />
-    <Compile Include="Exceptions\PropertyGraph\PropertyGraphException.cs" />
+    <Compile Include="Exceptions\PropertyGraph\PropertyGraphExceptions.cs" />
     <Compile Include="Extensions\PropertyGraph\IPropertyVertexExtensions.cs" />
     <Compile Include="Extensions\QuadStore\IQuadStoreExtensions.cs" />
     <Compile Include="Interfaces\PropertyGraph\Delegates.cs" />

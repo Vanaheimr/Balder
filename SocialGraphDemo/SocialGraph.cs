@@ -156,8 +156,8 @@ namespace SocialGraphDemo
 
             //_Vertex.GetProperty(
 
-            var _QuadTree = new QuadTree<Double>(0, 0, 100, 100, 4);
-            _QuadTree.OnQuadTreeSplit += (qt, p) => { Console.WriteLine("Now! " + p); };
+            var _QuadTree = new Quadtree<Double>(0, 0, 100, 100, 4);
+            _QuadTree.OnTreeSplit += (qt, p) => { Console.WriteLine("Now! " + qt.ToString() + " - " + p); };
             _QuadTree.Add(new Pixel<Double>(1, 1));
             var lll = _QuadTree.Count;
             _QuadTree.Add(new Pixel<Double>(9, 1));

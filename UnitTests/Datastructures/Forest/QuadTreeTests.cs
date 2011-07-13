@@ -22,6 +22,7 @@ using System.Linq;
 using System.Collections.Generic;
 
 using NUnit.Framework;
+using System.Threading;
 
 #endregion
 
@@ -29,107 +30,130 @@ namespace de.ahzf.Blueprints.UnitTests.Maths
 {
 
     /// <summary>
-    /// Unit tests for the QuadTree class.
+    /// Unit tests for the Quadtree class.
     /// </summary>
     [TestFixture]
-    public class QuadTreeTests
+    public class QuadtreeTests
     {
 
         #region CheckBounds()
 
         /// <summary>
-        /// A test for the QuadTree bounds.
+        /// A test for the Quadtree bounds.
         /// </summary>
         [Test]
         public void CheckBounds()
         {
             
-            var _QuadTree = new QuadTree<Double>(1, 2, 3, 5);
+            var _Quadtree = new Quadtree<Double>(1, 2, 3, 5);
             
-            Assert.AreEqual(1, _QuadTree.Left);
-            Assert.AreEqual(2, _QuadTree.Top);
-            Assert.AreEqual(3, _QuadTree.Right);
-            Assert.AreEqual(5, _QuadTree.Bottom);
-            Assert.AreEqual(2, _QuadTree.Width);
-            Assert.AreEqual(3, _QuadTree.Height);
-            Assert.AreEqual(0, _QuadTree.Count);
+            Assert.AreEqual(1, _Quadtree.Left);
+            Assert.AreEqual(2, _Quadtree.Top);
+            Assert.AreEqual(3, _Quadtree.Right);
+            Assert.AreEqual(5, _Quadtree.Bottom);
+            Assert.AreEqual(2, _Quadtree.Width);
+            Assert.AreEqual(3, _Quadtree.Height);
+            Assert.AreEqual(0, _Quadtree.Count);
 
         }
 
         #endregion
 
-        #region CheckQuadTreeSplit()
+        #region VerifyOutOfBoundsException()
 
         /// <summary>
-        /// A test for the QuadTree bounds.
+        /// A test verifying the OutOfBoundsException.
         /// </summary>
         [Test]
-        public void CheckQuadTreeSplit()
+        [ExpectedException(typeof(QT_OutOfBoundsException<Double>))]
+        public void VerifyOutOfBoundsException()
+        {
+            var _Quadtree = new Quadtree<Double>(1, 2, 3, 5);
+            _Quadtree.Add(new Pixel<Double>(10, 10));
+        }
+
+        #endregion
+
+        #region CheckSplit()
+
+        /// <summary>
+        /// A test for the Quadtree bounds.
+        /// </summary>
+        [Test]
+        public void CheckSplit()
         {
 
-            var _QuadTree = new QuadTree<Double>(0, 0, 10, 10, MaxNumberOfEmbeddedData: 4);
-            _QuadTree.OnQuadTreeSplit += (qt, p) => { throw new Exception(); };
+            var _NumberOfSplits = 0L;
 
-            _QuadTree.Add(new Pixel<Double>(1, 1));
-            Assert.AreEqual(1UL, _QuadTree.EmbeddedCount);
-            Assert.AreEqual(1UL, _QuadTree.Count);
-            
-            _QuadTree.Add(new Pixel<Double>(9, 1));
-            Assert.AreEqual(2, _QuadTree.EmbeddedCount);
-            Assert.AreEqual(2, _QuadTree.Count);
-            
-            _QuadTree.Add(new Pixel<Double>(1, 9));
-            Assert.AreEqual(3, _QuadTree.EmbeddedCount);
-            Assert.AreEqual(3, _QuadTree.Count);
-            
-            _QuadTree.Add(new Pixel<Double>(9, 9));
-            Assert.AreEqual(4, _QuadTree.EmbeddedCount);
-            Assert.AreEqual(4, _QuadTree.Count);
+            var _Quadtree = new Quadtree<Double>(0, 0, 10, 10, MaxNumberOfEmbeddedData: 4);
+            _Quadtree.OnTreeSplit += (Quadtree, Pixel) =>
+            {
+                Interlocked.Increment(ref _NumberOfSplits);
+            };
+
+            _Quadtree.Add(new Pixel<Double>(1, 1));
+            Assert.AreEqual(1UL, _Quadtree.EmbeddedCount);
+            Assert.AreEqual(1UL, _Quadtree.Count);
+
+            _Quadtree.Add(new Pixel<Double>(9, 1));
+            Assert.AreEqual(2, _Quadtree.EmbeddedCount);
+            Assert.AreEqual(2, _Quadtree.Count);
+
+            _Quadtree.Add(new Pixel<Double>(1, 9));
+            Assert.AreEqual(3, _Quadtree.EmbeddedCount);
+            Assert.AreEqual(3, _Quadtree.Count);
+
+            _Quadtree.Add(new Pixel<Double>(9, 9));
+            Assert.AreEqual(4, _Quadtree.EmbeddedCount);
+            Assert.AreEqual(4, _Quadtree.Count);
+
+            // Add the fifth pixel -> Should cause a split!
+            _Quadtree.Add(new Pixel<Double>(4, 4));
+            Assert.AreEqual(1L, _NumberOfSplits);
+
+            Assert.AreEqual(0, _Quadtree.EmbeddedCount);
+        //    Assert.AreEqual(5, _Quadtree.Count);
 
         }
 
         #endregion
 
-        #region CheckQuadTreeSplit()
+        #region CheckRecursiveSplits()
 
         /// <summary>
-        /// A test for the QuadTree bounds.
+        /// A test for the Quadtree bounds.
         /// </summary>
         [Test]
-        public void CheckQuadTreeSplit2()
+        public void CheckRecursiveSplits()
         {
 
-            Boolean _Split = false;
+            var _NumberOfSplits = 0L;
 
-            var _QuadTree = new QuadTree<Double>(0, 0, 10, 10, MaxNumberOfEmbeddedData: 4);
-            _QuadTree.OnQuadTreeSplit += (qt, p) => { _Split = true; };
+            var _Quadtree = new Quadtree<Double>(0, 0, 100, 100, MaxNumberOfEmbeddedData: 4);
+            _Quadtree.OnTreeSplit += (Quadtree, Pixel) =>
+            {
+                Interlocked.Increment(ref _NumberOfSplits);
+            };
 
-            _QuadTree.Add(new Pixel<Double>(1, 1));
-            Assert.AreEqual(1UL, _QuadTree.EmbeddedCount);
-            Assert.AreEqual(1UL, _QuadTree.Count);
+            _Quadtree.Add(new Pixel<Double>(1, 1));
+            _Quadtree.Add(new Pixel<Double>(9, 1));
+            _Quadtree.Add(new Pixel<Double>(1, 9));
+            _Quadtree.Add(new Pixel<Double>(9, 9));
+            _Quadtree.Add(new Pixel<Double>(4, 4));
+            _Quadtree.Add(new Pixel<Double>(5, 5));
+            _Quadtree.Add(new Pixel<Double>(50, 5));
+            _Quadtree.Add(new Pixel<Double>(51, 5));
+            _Quadtree.Add(new Pixel<Double>(52, 5));
+            _Quadtree.Add(new Pixel<Double>(53, 5));
+            _Quadtree.Add(new Pixel<Double>(54, 5));
+            _Quadtree.Add(new Pixel<Double>(55, 5));
+            _Quadtree.Add(new Pixel<Double>(56, 5));
+            _Quadtree.Add(new Pixel<Double>(57, 5));
+            _Quadtree.Add(new Pixel<Double>(58, 5));
+            _Quadtree.Add(new Pixel<Double>(59, 5));
+            _Quadtree.Add(new Pixel<Double>(60, 5));
 
-            _QuadTree.Add(new Pixel<Double>(9, 1));
-            Assert.AreEqual(2, _QuadTree.EmbeddedCount);
-            Assert.AreEqual(2, _QuadTree.Count);
-
-            _QuadTree.Add(new Pixel<Double>(1, 9));
-            Assert.AreEqual(3, _QuadTree.EmbeddedCount);
-            Assert.AreEqual(3, _QuadTree.Count);
-
-            _QuadTree.Add(new Pixel<Double>(9, 9));
-            Assert.AreEqual(4, _QuadTree.EmbeddedCount);
-            Assert.AreEqual(4, _QuadTree.Count);
-
-            _QuadTree.Add(new Pixel<Double>(4, 4));
-            // QuadTree split happens!
-      //      Assert.IsTrue(_Split);
-
-            Assert.AreEqual(0, _QuadTree.EmbeddedCount);
-        //    Assert.AreEqual(5, _QuadTree.Count);
-
-            _QuadTree.Add(new Pixel<Double>(5, 5));
-            Assert.AreEqual(0, _QuadTree.EmbeddedCount);
-       //     Assert.AreEqual(6, _QuadTree.Count);
+            Assert.AreEqual(8L, _NumberOfSplits);
 
         }
 
