@@ -103,4 +103,90 @@ namespace de.ahzf.Blueprints
 
     }
 
+    #region IQuadtree<T, TValue>
+
+    /// <summary>
+    /// A quadtree is an indexing structure for 2-dimensional spartial data.
+    /// It stores the given maximum number of pixels and forkes itself
+    /// into four subtrees if this number becomes larger.
+    /// Note: This datastructure is not self-balancing!
+    /// </summary>
+    /// <typeparam name="T">The internal datatype of the quadtree.</typeparam>
+    public interface IQuadtree<T, TValue> : IEnumerable<IPixelValuePair<T, TValue>>
+        where T : IEquatable<T>, IComparable<T>, IComparable
+    {
+
+        #region Events
+
+        /// <summary>
+        /// An event to notify about an quadtree split happening.
+        /// </summary>
+        event QuadtreeSplitEventHandler<T, TValue> OnTreeSplit;
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// The maximum number of embedded elements before
+        /// four child node will be created.
+        /// </summary>
+        UInt32 MaxNumberOfEmbeddedPixels { get; }
+
+        /// <summary>
+        /// Return the number of embedded pixels
+        /// stored within this Quadtree(Node).
+        /// </summary>
+        UInt64 EmbeddedCount             { get; }
+
+        /// <summary>
+        /// Return the number of pixels stored
+        /// within the entire quadtree.
+        /// </summary>
+        UInt64 Count                     { get; }
+
+        #endregion
+
+        #region Methods
+
+        void Add(IPixelValuePair<T, TValue> IPixelValuePair);
+
+        void Add(IPixel<T> IPixel, TValue Value);
+
+        /// <summary>
+        /// Add a pixel to the quadtree.
+        /// </summary>
+        /// <param name="Pixel">A pixel of type T.</param>
+        void Add(T X, T Y, TValue Value);
+
+        /// <summary>
+        /// Return all pixels matching the given pixelselector delegate.
+        /// </summary>
+        /// <param name="PixelSelector">A delegate selecting which pixels to return.</param>
+        IEnumerable<IPixelValuePair<T, TValue>> Get(PixelSelector<T> PixelSelector);
+
+        /// <summary>
+        /// Return all pixels within the given rectangle.
+        /// </summary>
+        /// <param name="Rectangle">A rectangle selecting which pixels to return.</param>
+        IEnumerable<IPixelValuePair<T, TValue>> Get(IRectangle<T> Rectangle);
+
+        /// <summary>
+        /// Remove a pixel from the quadtree.
+        /// </summary>
+        /// <param name="Pixel">A pixel of type T.</param>
+        void Remove(IPixelValuePair<T, TValue> Pixel);
+
+        /// <summary>
+        /// Remove all pixels located within the given rectangle.
+        /// </summary>
+        /// <param name="Rectangle">A rectangle selecting which pixels to remove.</param>
+        void Remove(IRectangle<T> Rectangle);
+
+        #endregion
+
+    }
+
+    #endregion
+
 }

@@ -161,6 +161,61 @@ namespace de.ahzf.Blueprints.UnitTests.Forest
 
         #endregion
 
+
+
+
+
+        #region CheckSplit()
+
+        /// <summary>
+        /// A test for splitting the quadtree.
+        /// </summary>
+        [Test]
+        public void CheckSplit2()
+        {
+
+            var _NumberOfSplits = 0L;
+
+            var _Quadtree = new Quadtree<Double, String>(0, 0, 10, 10, MaxNumberOfEmbeddedPixels: 4);
+            _Quadtree.OnTreeSplit += (Quadtree, Pixel) =>
+            {
+                Interlocked.Increment(ref _NumberOfSplits);
+            };
+
+            _Quadtree.Add(new Pixel<Double>(1, 1), "a");
+            Assert.AreEqual(1UL, _Quadtree.EmbeddedCount);
+            Assert.AreEqual(1UL, _Quadtree.Count);
+
+            _Quadtree.Add(new Pixel<Double>(9, 1), "b");
+            Assert.AreEqual(2, _Quadtree.EmbeddedCount);
+            Assert.AreEqual(2, _Quadtree.Count);
+
+            _Quadtree.Add(new Pixel<Double>(1, 9), "c");
+            Assert.AreEqual(3, _Quadtree.EmbeddedCount);
+            Assert.AreEqual(3, _Quadtree.Count);
+
+            _Quadtree.Add(new Pixel<Double>(9, 9), "d");
+            Assert.AreEqual(4, _Quadtree.EmbeddedCount);
+            Assert.AreEqual(4, _Quadtree.Count);
+
+            // Add the fifth pixel -> Should cause a split!
+            _Quadtree.Add(new Pixel<Double>(4, 4), "e");
+            Assert.AreEqual(1L, _NumberOfSplits);
+
+            Assert.AreEqual(0, _Quadtree.EmbeddedCount);
+            //    Assert.AreEqual(5, _Quadtree.Count);
+
+            _Quadtree.Add(new Pixel<Double>(5, 5), "f");
+
+
+            var a = _Quadtree.Get(new Rectangle<Double>(3, 3, 6, 6)).ToArray();
+            Assert.AreEqual(2, a.Count());
+            Assert.IsTrue(a[0].Value == "e" || a[1].Value == "f");
+
+        }
+
+        #endregion
+
     }
 
 }
