@@ -27,9 +27,9 @@ namespace de.ahzf.Blueprints
     #region PixelSelector<T>(Pixel)
 
     /// <summary>
-    /// A delegate selecting which pixel to return.
+    /// A delegate selecting which pixels to return.
     /// </summary>
-    /// <typeparam name="T">The internal type of the pixel.</typeparam>
+    /// <typeparam name="T">The internal datatype of the pixel.</typeparam>
     /// <param name="Pixel">A pixel of type T.</param>
     /// <returns>True if the pixel is selected; False otherwise.</returns>
     public delegate Boolean PixelSelector<T>(IPixel<T> Pixel)
@@ -278,6 +278,17 @@ namespace de.ahzf.Blueprints
         }
 
         #endregion
+
+
+        public int CompareTo(IPixel<T> other)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int CompareTo(object obj)
+        {
+            throw new NotImplementedException();
+        }
 
     }
 

@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="InMemoryGraph\AGraphElement.cs" />
+    <Compile Include="InMemoryGraph\Indices\QuadtreeIndex.cs" />
     <Compile Include="InMemoryGraph\Indices\PropertyIndex\PropertyIndex.cs" />
     <Compile Include="InMemoryGraph\Indices\DictionaryIndex.cs" />
     <Compile Include="InMemoryGraph\Indices\IndexingMethods.cs" />

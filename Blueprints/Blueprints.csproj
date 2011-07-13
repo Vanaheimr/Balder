@@ -52,6 +52,7 @@
     <Compile Include="Datastructures\Delegates.cs" />
     <Compile Include="Datastructures\Forest\Bintree.cs" />
     <Compile Include="Datastructures\Geometry\Line.cs" />
+    <Compile Include="Datastructures\Geometry\PixelValuePair.cs" />
     <Compile Include="Exceptions\Forest\BintreeExceptions.cs" />
     <Compile Include="Interfaces\Forest\IBintree.cs" />
     <Compile Include="Interfaces\Forest\IOctree.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="Exceptions\Forest\QuadtreeExceptions.cs" />
     <Compile Include="Extensions\IComparableExtensions.cs" />
     <Compile Include="Interfaces\Geometry\ILine.cs" />
+    <Compile Include="Interfaces\Geometry\IPixelValuePair.cs" />
     <Compile Include="Interfaces\Geometry\ISphere.cs" />
     <Compile Include="Interfaces\Geometry\ICircle.cs" />
     <Compile Include="Interfaces\Geometry\IVoxel.cs" />
@@ -86,6 +88,7 @@
     <Compile Include="Exceptions\PropertyGraph\PropertyGraphExceptions.cs" />
     <Compile Include="Extensions\PropertyGraph\IPropertyVertexExtensions.cs" />
     <Compile Include="Extensions\QuadStore\IQuadStoreExtensions.cs" />
+    <Compile Include="Interfaces\Indices\IIndex2D.cs" />
     <Compile Include="Interfaces\PropertyGraph\Delegates.cs" />
     <Compile Include="Interfaces\Indices\IndexDelegates.cs" />
     <Compile Include="Interfaces\Indices\IIndex.cs" />

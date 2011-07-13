@@ -27,9 +27,9 @@ namespace de.ahzf.Blueprints
     #region VoxelSelector<T>(Voxel)
 
     /// <summary>
-    /// A delegate selecting which voxel to return.
+    /// A delegate selecting which voxels to return.
     /// </summary>
-    /// <typeparam name="T">The internal type of the voxel.</typeparam>
+    /// <typeparam name="T">The internal datatype of the voxel.</typeparam>
     /// <param name="Voxel">A voxel of type T.</param>
     /// <returns>True if the voxel is selected; False otherwise.</returns>
     public delegate Boolean VoxelSelector<T>(IVoxel<T> Voxel)

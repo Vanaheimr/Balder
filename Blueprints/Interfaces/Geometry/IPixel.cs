@@ -28,7 +28,7 @@ namespace de.ahzf.Blueprints
     /// The interface of a pixel of type T.
     /// </summary>
     /// <typeparam name="T">The internal type of the pixel.</typeparam>
-    public interface IPixel<T> : IEquatable<IPixel<T>>
+    public interface IPixel<T> : IEquatable<IPixel<T>>, IComparable<IPixel<T>>, IComparable
         where T : IEquatable<T>, IComparable<T>, IComparable
     {
 
