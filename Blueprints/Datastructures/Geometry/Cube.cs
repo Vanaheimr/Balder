@@ -151,12 +151,46 @@ namespace de.ahzf.Blueprints
         /// <param name="Behind">The behind parameter.</param>
         public Cube(T Left, T Top, T Front, T Right, T Bottom, T Behind)
         {
+
+            #region Initial Checks
+
+            if (Left   == null)
+                throw new ArgumentNullException("The given left coordinate must not be null!");
+
+            if (Top    == null)
+                throw new ArgumentNullException("The given top coordinate must not be null!");
+
+            if (Front  == null)
+                throw new ArgumentNullException("The given front coordinate must not be null!");
+
+            if (Right  == null)
+                throw new ArgumentNullException("The given right coordinate must not be null!");
+
+            if (Bottom == null)
+                throw new ArgumentNullException("The given bottom coordinate must not be null!");
+
+            if (Behind == null)
+                throw new ArgumentNullException("The given behind coordinate must not be null!");
+
+
+            if (Width.Equals(Math.Zero))
+                throw new ArgumentException("The resulting width must not be zero!");
+
+            if (Height.Equals(Math.Zero))
+                throw new ArgumentException("The resulting height must not be zero!");
+
+            if (Depth.Equals(Math.Zero))
+                throw new ArgumentException("The resulting depth must not be zero!");
+
+            #endregion
+
             this.Left   = Math.Min(Left,  Right);
             this.Top    = Math.Min(Top,   Bottom);
             this.Front  = Math.Min(Front, Behind);
             this.Right  = Math.Max(Left,  Right);
             this.Bottom = Math.Max(Top,   Bottom);
             this.Behind = Math.Max(Front, Behind);
+
         }
 
         #endregion
@@ -170,12 +204,34 @@ namespace de.ahzf.Blueprints
         /// <param name="Voxel2">A Voxel of type T.</param>
         public Cube(Voxel<T> Voxel1, Voxel<T> Voxel2)
         {
+
+            #region Initial Checks
+
+            if (Voxel1 == null)
+                throw new ArgumentNullException("The given first voxel must not be null!");
+
+            if (Voxel2 == null)
+                throw new ArgumentNullException("The given second voxel must not be null!");
+
+
+            if (Width.Equals(Math.Zero))
+                throw new ArgumentException("The resulting width must not be zero!");
+
+            if (Height.Equals(Math.Zero))
+                throw new ArgumentException("The resulting height must not be zero!");
+
+            if (Depth.Equals(Math.Zero))
+                throw new ArgumentException("The resulting depth must not be zero!");
+
+            #endregion
+
             this.Left   = Math.Min(Voxel1.X, Voxel2.X);
             this.Top    = Math.Min(Voxel1.Y, Voxel2.Y);
             this.Front  = Math.Min(Voxel1.Z, Voxel2.Z);
             this.Right  = Math.Max(Voxel1.X, Voxel2.X);
             this.Bottom = Math.Max(Voxel1.Y, Voxel2.Y);
             this.Behind = Math.Max(Voxel1.Z, Voxel2.Z);
+
         }
 
         #endregion
@@ -191,12 +247,40 @@ namespace de.ahzf.Blueprints
         /// <param name="Depth">The depth of the cube.</param>
         public Cube(Voxel<T> Voxel, T Width, T Height, T Depth)
         {
+
+            #region Initial Checks
+
+            if (Voxel  == null)
+                throw new ArgumentNullException("The given voxel must not be null!");
+
+            if (Width  == null)
+                throw new ArgumentNullException("The given width must not be null!");
+
+            if (Height == null)
+                throw new ArgumentNullException("The given height must not be null!");
+
+            if (Depth  == null)
+                throw new ArgumentNullException("The given depth must not be null!");
+
+
+            if (Width.Equals(Math.Zero))
+                throw new ArgumentException("The resulting width must not be zero!");
+
+            if (Height.Equals(Math.Zero))
+                throw new ArgumentException("The resulting height must not be zero!");
+
+            if (Depth.Equals(Math.Zero))
+                throw new ArgumentException("The resulting depth must not be zero!");
+
+            #endregion
+
             this.Left   = Voxel.X;
             this.Top    = Voxel.Y;
             this.Front  = Voxel.Z;
             this.Right  = Math.Add(Voxel.X, Width);
             this.Bottom = Math.Add(Voxel.Y, Height);
             this.Behind = Math.Add(Voxel.Z, Depth);
+
         }
 
         #endregion
@@ -216,7 +300,20 @@ namespace de.ahzf.Blueprints
         /// <returns>True if the coordinates are located within this cube; False otherwise.</returns>
         public Boolean Contains(T x, T y, T z)
         {
-            
+
+            #region Initial Checks
+
+            if (x == null)
+                throw new ArgumentNullException("The given x-coordinate must not be null!");
+
+            if (y == null)
+                throw new ArgumentNullException("The given y-coordinate must not be null!");
+
+            if (z == null)
+                throw new ArgumentNullException("The given z-coordinate must not be null!");
+
+            #endregion
+
             if (x.CompareTo(Left)   >= 0 &&
                 x.CompareTo(Right)  <= 0 &&
                 y.CompareTo(Top)    >= 0 &&
@@ -239,9 +336,18 @@ namespace de.ahzf.Blueprints
         /// </summary>
         /// <param name="Voxel">A voxel of type T.</param>
         /// <returns>True if the voxel is located within this cube; False otherwise.</returns>
-        public Boolean Contains(Voxel<T> Voxel)
+        public Boolean Contains(IVoxel<T> Voxel)
         {
+
+            #region Initial Checks
+
+            if (Voxel == null)
+                throw new ArgumentNullException("The given voxel must not be null!");
+
+            #endregion
+            
             return Contains(Voxel.X, Voxel.Y, Voxel.Z);
+
         }
 
         #endregion
@@ -256,6 +362,17 @@ namespace de.ahzf.Blueprints
         /// <returns>True if the cube is located within this cube; False otherwise.</returns>
         public Boolean Contains(ICube<T> Cube)
         {
+
+            #region Initial Checks
+
+            if (Cube == null)
+                throw new ArgumentNullException("The given cube must not be null!");
+
+            #endregion
+
+
+            // Verify that every corner of the given cube
+            // is located within this cube
 
             if (!Contains(Cube.Left,  Cube.Top,    Cube.Front))
                 return false;
@@ -282,6 +399,58 @@ namespace de.ahzf.Blueprints
                 return false;
 
             return true;
+
+        }
+
+        #endregion
+
+        #region Overlaps(Cube)
+
+        /// <summary>
+        /// Checks if the given cube shares some
+        /// area with this cube.
+        /// </summary>
+        /// <param name="Cube">A cube of type T.</param>
+        /// <returns>True if the cube shares some area with this cube; False otherwise.</returns>
+        public Boolean Overlaps(ICube<T> Cube)
+        {
+
+            #region Initial Checks
+
+            if (Cube == null)
+                throw new ArgumentNullException("The given cube must not be null!");
+
+            #endregion
+
+
+            // Check if any corner of the given cube
+            // is located within this cube
+
+            if (Contains(Cube.Left,  Cube.Top,    Cube.Front))
+                return true;
+
+            if (Contains(Cube.Right, Cube.Top,    Cube.Front))
+                return true;
+
+            if (Contains(Cube.Left,  Cube.Bottom, Cube.Front))
+                return true;
+
+            if (Contains(Cube.Right, Cube.Bottom, Cube.Front))
+                return true;
+
+            if (Contains(Cube.Left,  Cube.Top,    Cube.Behind))
+                return true;
+
+            if (Contains(Cube.Right, Cube.Top,    Cube.Behind))
+                return true;
+
+            if (Contains(Cube.Left,  Cube.Bottom, Cube.Behind))
+                return true;
+
+            if (Contains(Cube.Right, Cube.Bottom, Cube.Behind))
+                return true;
+
+            return false;
 
         }
 

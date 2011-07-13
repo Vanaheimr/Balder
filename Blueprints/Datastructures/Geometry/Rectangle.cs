@@ -37,7 +37,7 @@ namespace de.ahzf.Blueprints
         #region Left
 
         /// <summary>
-        /// Left
+        /// The left-coordinate of the rectangle.
         /// </summary>
         public T Left   { get; private set; }
 
@@ -46,7 +46,7 @@ namespace de.ahzf.Blueprints
         #region Top
 
         /// <summary>
-        /// Top
+        /// The top-coordinate of the rectangle.
         /// </summary>
         public T Top    { get; private set; }
 
@@ -55,7 +55,7 @@ namespace de.ahzf.Blueprints
         #region Right
 
         /// <summary>
-        /// Right
+        /// The right-coordinate of the rectangle.
         /// </summary>
         public T Right  { get; private set; }
 
@@ -64,7 +64,7 @@ namespace de.ahzf.Blueprints
         #region Bottom
 
         /// <summary>
-        /// Bottom
+        /// The bottom-coordinate of the rectangle.
         /// </summary>
         public T Bottom { get; private set; }
 
@@ -100,7 +100,7 @@ namespace de.ahzf.Blueprints
         }
 
         #endregion
-        
+
         #endregion
 
         #region Constructor(s)
@@ -110,16 +110,41 @@ namespace de.ahzf.Blueprints
         /// <summary>
         /// Create a rectangle of type T.
         /// </summary>
-        /// <param name="Left">The left parameter.</param>
-        /// <param name="Top">The top parameter.</param>
-        /// <param name="Right">The right parameter.</param>
-        /// <param name="Bottom">The bottom parameter.</param>
+        /// <param name="Left">The left-coordinate of the rectangle.</param>
+        /// <param name="Top">The top-coordinate of the rectangle.</param>
+        /// <param name="Right">The right-coordinate of the rectangle.</param>
+        /// <param name="Bottom">The bottom-coordinate of the rectangle.</param>
         public Rectangle(T Left, T Top, T Right, T Bottom)
         {
+
+            #region Initial Checks
+
+            if (Left   == null)
+                throw new ArgumentNullException("The given left-coordinate must not be null!");
+
+            if (Top    == null)
+                throw new ArgumentNullException("The given top-coordinate must not be null!");
+
+            if (Right  == null)
+                throw new ArgumentNullException("The given right-coordinate must not be null!");
+
+            if (Bottom == null)
+                throw new ArgumentNullException("The given bottom-coordinate must not be null!");
+
+
+            if (Width.Equals(Math.Zero))
+                throw new ArgumentException("The resulting width must not be zero!");
+
+            if (Height.Equals(Math.Zero))
+                throw new ArgumentException("The resulting height must not be zero!");
+
+            #endregion
+
             this.Left   = Math.Min(Left, Right);
             this.Top    = Math.Min(Top,  Bottom);
             this.Right  = Math.Max(Left, Right);
             this.Bottom = Math.Max(Top,  Bottom);
+
         }
 
         #endregion
@@ -133,10 +158,29 @@ namespace de.ahzf.Blueprints
         /// <param name="Pixel2">A pixel of type T.</param>
         public Rectangle(Pixel<T> Pixel1, Pixel<T> Pixel2)
         {
+
+            #region Initial Checks
+
+            if (Pixel1 == null)
+                throw new ArgumentNullException("The given first pixel must not be null!");
+
+            if (Pixel2 == null)
+                throw new ArgumentNullException("The given second pixel must not be null!");
+
+
+            if (Width.Equals(Math.Zero))
+                throw new ArgumentException("The resulting width must not be zero!");
+
+            if (Height.Equals(Math.Zero))
+                throw new ArgumentException("The resulting height must not be zero!");
+
+            #endregion
+
             this.Left   = Math.Min(Pixel1.X, Pixel2.X);
             this.Top    = Math.Min(Pixel1.Y, Pixel2.Y);
             this.Right  = Math.Max(Pixel1.X, Pixel2.X);
             this.Bottom = Math.Max(Pixel1.Y, Pixel2.Y);
+
         }
 
         #endregion
@@ -151,10 +195,32 @@ namespace de.ahzf.Blueprints
         /// <param name="Height">The height of the rectangle.</param>
         public Rectangle(Pixel<T> Pixel, T Width, T Height)
         {
+
+            #region Initial Checks
+
+            if (Pixel  == null)
+                throw new ArgumentNullException("The given pixel must not be null!");
+
+            if (Width  == null)
+                throw new ArgumentNullException("The given width must not be null!");
+
+            if (Height == null)
+                throw new ArgumentNullException("The given height must not be null!");
+
+
+            if (Width.Equals(Math.Zero))
+                throw new ArgumentException("The resulting width must not be zero!");
+
+            if (Height.Equals(Math.Zero))
+                throw new ArgumentException("The resulting height must not be zero!");
+
+            #endregion
+
             this.Left   = Pixel.X;
-            this.Top    = Pixel.Y;
+            this.Top    = Pixel.Y;            
             this.Right  = Math.Add(Pixel.X, Width);
             this.Bottom = Math.Add(Pixel.Y, Height);
+
         }
 
         #endregion
@@ -173,11 +239,51 @@ namespace de.ahzf.Blueprints
         /// <returns>True if the coordinates are located within this rectangle; False otherwise.</returns>
         public Boolean Contains(T x, T y)
         {
+
+            #region Initial Checks
+
+            if (x == null)
+                throw new ArgumentNullException("The given x-coordinate must not be null!");
+
+            if (y == null)
+                throw new ArgumentNullException("The given y-coordinate must not be null!");
+
+            #endregion
             
             if (x.CompareTo(Left)   >= 0 &&
                 x.CompareTo(Right)  <= 0 &&
                 y.CompareTo(Top)    >= 0 &&
                 y.CompareTo(Bottom) <= 0)
+                return true;
+
+            return false;
+
+        }
+
+        #endregion
+
+        #region Contains(Pixel)
+
+        /// <summary>
+        /// Checks if the given pixel is located
+        /// within this rectangle.
+        /// </summary>
+        /// <param name="Pixel">A pixel.</param>
+        /// <returns>True if the pixel is located within this rectangle; False otherwise.</returns>
+        public Boolean Contains(IPixel<T> Pixel)
+        {
+
+            #region Initial Checks
+
+            if (Pixel == null)
+                throw new ArgumentNullException("The given pixel must not be null!");
+
+            #endregion
+
+            if (Pixel.X.CompareTo(Left)   >= 0 &&
+                Pixel.X.CompareTo(Right)  <= 0 &&
+                Pixel.Y.CompareTo(Top)    >= 0 &&
+                Pixel.Y.CompareTo(Bottom) <= 0)
                 return true;
 
             return false;
@@ -194,9 +300,20 @@ namespace de.ahzf.Blueprints
         /// </summary>
         /// <param name="Rectangle">A rectangle of type T.</param>
         /// <returns>True if the rectangle is located within this rectangle; False otherwise.</returns>
-        public Boolean Contains(Rectangle<T> Rectangle)
+        public Boolean Contains(IRectangle<T> Rectangle)
         {
-            
+
+            #region Initial Checks
+
+            if (Rectangle == null)
+                throw new ArgumentNullException("The given rectangle must not be null!");
+
+            #endregion
+
+
+            // Verify that every corner of the given rectangle
+            // is located within this rectangle
+
             if (!Contains(Rectangle.Left,  Rectangle.Top))
                 return false;
 
@@ -210,6 +327,46 @@ namespace de.ahzf.Blueprints
                 return false;
 
             return true;
+
+        }
+
+        #endregion
+
+        #region Overlaps(Rectangle)
+
+        /// <summary>
+        /// Checks if the given rectangle shares some
+        /// area with this rectangle.
+        /// </summary>
+        /// <param name="Rectangle">A rectangle of type T.</param>
+        /// <returns>True if the rectangle shares some area with this rectangle; False otherwise.</returns>
+        public Boolean Overlaps(IRectangle<T> Rectangle)
+        {
+
+            #region Initial Checks
+
+            if (Rectangle == null)
+                throw new ArgumentNullException("The given rectangle must not be null!");
+
+            #endregion
+
+
+            // Check if any corner of the given rectangle
+            // is located within this rectangle
+
+            if (Contains(Rectangle.Left,  Rectangle.Top))
+                return true;
+
+            if (Contains(Rectangle.Right, Rectangle.Top))
+                return true;
+
+            if (Contains(Rectangle.Left,  Rectangle.Bottom))
+                return true;
+
+            if (Contains(Rectangle.Right, Rectangle.Bottom))
+                return true;
+
+            return false;
 
         }
 

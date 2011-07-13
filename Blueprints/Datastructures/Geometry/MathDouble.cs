@@ -61,6 +61,22 @@ namespace de.ahzf.Blueprints
         #endregion
 
 
+        #region Zero
+
+        /// <summary>
+        /// Return the zero value of this datatype.
+        /// </summary>
+        public Double Zero
+        {
+            get
+            {
+                return 0;
+            }
+        }
+
+        #endregion
+
+
         #region Min(a, b)
 
         /// <summary>

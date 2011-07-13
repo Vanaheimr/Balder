@@ -32,6 +32,16 @@ namespace de.ahzf.Blueprints
         where T : IEquatable<T>, IComparable<T>, IComparable
     {
 
+        #region Zero
+
+        /// <summary>
+        /// Return the zero value of this datatype.
+        /// </summary>
+        T Zero { get; }
+
+        #endregion
+
+
         #region Min(a, b)
 
         /// <summary>

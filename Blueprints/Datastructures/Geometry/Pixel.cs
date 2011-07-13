@@ -25,10 +25,10 @@ namespace de.ahzf.Blueprints
 {
 
     /// <summary>
-    /// A voxel of type T.
+    /// A pixel of type T.
     /// </summary>
-    /// <typeparam name="T">The internal type of the voxel.</typeparam>
-    public class Voxel<T> : AMath<T>, IEquatable<Voxel<T>>
+    /// <typeparam name="T">The internal type of the pixel.</typeparam>
+    public class Pixel<T> : AMath<T>, IPixel<T>
         where T : IEquatable<T>, IComparable<T>, IComparable
     {
 
@@ -52,32 +52,33 @@ namespace de.ahzf.Blueprints
 
         #endregion
 
-        #region Z
-
-        /// <summary>
-        /// The Z-coordinate.
-        /// </summary>
-        public T Z { get; private set; }
-
-        #endregion
-
         #endregion
 
         #region Constructor(s)
 
-        #region Voxel(x, y, z)
+        #region Pixel(x, y)
 
         /// <summary>
-        /// Create a voxel of type T.
+        /// Create a pixel of type T.
         /// </summary>
         /// <param name="x">The X-coordinate.</param>
         /// <param name="y">The Y-coordinate.</param>
-        /// <param name="z">The Z-coordinate.</param>
-        public Voxel(T x, T y, T z)
+        public Pixel(T x, T y)
         {
+
+            #region Initial Checks
+
+            if (x == null)
+                throw new ArgumentNullException("The given x-coordinate must not be null!");
+
+            if (y == null)
+                throw new ArgumentNullException("The given y-coordinate must not be null!");
+
+            #endregion
+
             this.X = x;
             this.Y = y;
-            this.Z = z;
+
         }
 
         #endregion
@@ -85,20 +86,60 @@ namespace de.ahzf.Blueprints
         #endregion
 
 
-        #region DistanceTo(Voxel)
+        #region DistanceTo(x, y)
+
+        /// <summary>
+        /// A method to calculate the distance between this
+        /// pixel and the given coordinates of type T.
+        /// </summary>
+        /// <param name="x">A x-coordinate of type T</param>
+        /// <param name="y">A y-coordinate of type T</param>
+        /// <returns>The distance between this pixel and the given coordinates.</returns>
+        public T DistanceTo(T x, T y)
+        {
+
+            #region Initial Checks
+
+            if (x == null)
+                throw new ArgumentNullException("The given x-coordinate must not be null!");
+
+            if (y == null)
+                throw new ArgumentNullException("The given y-coordinate must not be null!");
+
+            #endregion
+
+            var dX = Math.Distance(X, x);
+            var dY = Math.Distance(Y, y);
+
+            return Math.Sqrt(Math.Add(Math.Mul(dX, dX), Math.Mul(dY, dY)));
+
+        }
+
+        #endregion
+
+        #region DistanceTo(Pixel)
 
         /// <summary>
         /// A method to calculate the distance between
-        /// this and another voxel of type T.
+        /// this and another pixel of type T.
         /// </summary>
-        /// <param name="Voxel">A voxel of type T</param>
-        /// <returns>The distance between this voxel and the given voxel.</returns>
-        public T DistanceTo(Voxel<T> Voxel)
+        /// <param name="Pixel">A pixel of type T</param>
+        /// <returns>The distance between this pixel and the given pixel.</returns>
+        public T DistanceTo(IPixel<T> Pixel)
         {
-            var dX = Math.Distance(X, Voxel.X);
-            var dY = Math.Distance(Y, Voxel.Y);
-            var dZ = Math.Distance(Z, Voxel.Z);
-            return Math.Sqrt(Math.Add(Math.Mul(dX, dX), Math.Mul(dY, dY), Math.Mul(dZ, dZ)));
+
+            #region Initial Checks
+
+            if (Pixel == null)
+                throw new ArgumentNullException("The given pixel must not be null!");
+
+            #endregion
+
+            var dX = Math.Distance(X, Pixel.X);
+            var dY = Math.Distance(Y, Pixel.Y);
+
+            return Math.Sqrt(Math.Add(Math.Mul(dX, dX), Math.Mul(dY, dY)));
+
         }
 
         #endregion
@@ -106,42 +147,42 @@ namespace de.ahzf.Blueprints
 
         #region Operator overloadings
 
-        #region Operator == (Voxel1, Voxel2)
+        #region Operator == (Pixel1, Pixel2)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="Voxel1">A Voxel&lt;T&gt;.</param>
-        /// <param name="Voxel2">Another Voxel&lt;T&gt;.</param>
+        /// <param name="Pixel1">A Pixel&lt;T&gt;.</param>
+        /// <param name="Pixel2">Another Pixel&lt;T&gt;.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator == (Voxel<T> Voxel1, Voxel<T> Voxel2)
+        public static Boolean operator == (Pixel<T> Pixel1, Pixel<T> Pixel2)
         {
 
             // If both are null, or both are same instance, return true.
-            if (Object.ReferenceEquals(Voxel1, Voxel2))
+            if (Object.ReferenceEquals(Pixel1, Pixel2))
                 return true;
 
             // If one is null, but not both, return false.
-            if (((Object) Voxel1 == null) || ((Object) Voxel2 == null))
+            if (((Object) Pixel1 == null) || ((Object) Pixel2 == null))
                 return false;
 
-            return Voxel1.Equals(Voxel2);
+            return Pixel1.Equals(Pixel2);
 
         }
 
         #endregion
 
-        #region Operator != (Voxel1, Voxel2)
+        #region Operator != (Pixel1, Pixel2)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="Voxel1">A Voxel&lt;T&gt;.</param>
-        /// <param name="Voxel2">Another Voxel&lt;T&gt;.</param>
+        /// <param name="Pixel1">A Pixel&lt;T&gt;.</param>
+        /// <param name="Pixel2">Another Pixel&lt;T&gt;.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator != (Voxel<T> Voxel1, Voxel<T> Voxel2)
+        public static Boolean operator != (Pixel<T> Pixel1, Pixel<T> Pixel2)
         {
-            return !(Voxel1 == Voxel2);
+            return !(Pixel1 == Pixel2);
         }
 
         #endregion
@@ -163,33 +204,32 @@ namespace de.ahzf.Blueprints
             if (Object == null)
                 return false;
 
-            // Check if the given object is an Voxel<T>.
-            var VoxelT = (Voxel<T>) Object;
-            if ((Object) VoxelT == null)
+            // Check if the given object is an Pixel<T>.
+            var PixelT = (Pixel<T>) Object;
+            if ((Object) PixelT == null)
                 return false;
 
-            return this.Equals(VoxelT);
+            return this.Equals(PixelT);
 
         }
 
         #endregion
 
-        #region Equals(VoxelT)
+        #region Equals(IPixel)
 
         /// <summary>
-        /// Compares two voxels for equality.
+        /// Compares two pixels for equality.
         /// </summary>
-        /// <param name="VoxelT">A voxel to compare with.</param>
+        /// <param name="IPixel">A pixel to compare with.</param>
         /// <returns>True if both match; False otherwise.</returns>
-        public Boolean Equals(Voxel<T> VoxelT)
+        public Boolean Equals(IPixel<T> IPixel)
         {
 
-            if ((Object) VoxelT == null)
+            if ((Object) IPixel == null)
                 return false;
 
-            return X.Equals(VoxelT.X) &&
-                   Y.Equals(VoxelT.Y) &&
-                   Z.Equals(VoxelT.Z);
+            return X.Equals(IPixel.X) &&
+                   Y.Equals(IPixel.Y);
 
         }
 
@@ -205,7 +245,7 @@ namespace de.ahzf.Blueprints
         /// <returns>The HashCode of this object.</returns>
         public override Int32 GetHashCode()
         {
-            return X.GetHashCode() ^ 1 + Y.GetHashCode() ^ 2 + Z.GetHashCode();
+            return X.GetHashCode() ^ 1 + Y.GetHashCode();
         }
 
         #endregion
@@ -217,10 +257,9 @@ namespace de.ahzf.Blueprints
         /// </summary>
         public override String ToString()
         {
-            return String.Format("X={0}, Y={1}, Z={2}",
+            return String.Format("X={0}, Y={1}",
                                  X.ToString(),
-                                 Y.ToString(),
-                                 Z.ToString());
+                                 Y.ToString());
         }
 
         #endregion

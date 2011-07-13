@@ -25,45 +25,40 @@ namespace de.ahzf.Blueprints
 {
 
     /// <summary>
-    /// The interface of a rectangle of type T.
+    /// The interface of a circle of type T.
     /// </summary>
-    /// <typeparam name="T">The internal type of the rectangle.</typeparam>
-    public interface IRectangle<T> : IEquatable<IRectangle<T>>
+    /// <typeparam name="T">The internal type of the circle.</typeparam>
+    public interface ICircle<T> : IEquatable<ICircle<T>>
         where T : IEquatable<T>, IComparable<T>, IComparable
     {
 
         #region Properties
 
         /// <summary>
-        /// The left-coordinate of the rectangle.
+        /// The left-coordinate of the circle.
         /// </summary>
-        T Left { get; }
+        T         Left     { get; }
 
         /// <summary>
-        /// The top-coordinate of the rectangle.
+        /// The top-coordinate of the circle.
         /// </summary>
-        T Top { get; }
+        T         Top      { get; }
 
         /// <summary>
-        /// The right-coordinate of the rectangle.
+        /// The center of the circle.
         /// </summary>
-        T Right { get; }
+        IPixel<T> Center   { get; }
 
         /// <summary>
-        /// The bottom-coordinate of the rectangle.
+        /// Radius
         /// </summary>
-        T Bottom { get; }
+        T         Radius   { get; }
 
 
         /// <summary>
-        /// The width of the rectangle.
+        /// The diameter of the circle.
         /// </summary>
-        T Width { get; }
-
-        /// <summary>
-        /// The height of the rectangle.
-        /// </summary>
-        T Height { get; }
+        T         Diameter { get; }
 
         #endregion
 
@@ -72,11 +67,11 @@ namespace de.ahzf.Blueprints
 
         /// <summary>
         /// Checks if the given x- and y-coordinates are
-        /// located within this rectangle.
+        /// located within this circle.
         /// </summary>
         /// <param name="x">The x-coordinate.</param>
         /// <param name="y">The y-coordinate.</param>
-        /// <returns>True if the coordinates are located within this rectangle; False otherwise.</returns>
+        /// <returns>True if the coordinates are located within this circle; False otherwise.</returns>
         Boolean Contains(T x, T y);
 
         #endregion
@@ -85,35 +80,35 @@ namespace de.ahzf.Blueprints
 
         /// <summary>
         /// Checks if the given pixel is located
-        /// within this rectangle.
+        /// within this circle.
         /// </summary>
         /// <param name="Pixel">A pixel.</param>
-        /// <returns>True if the pixel is located within this rectangle; False otherwise.</returns>
+        /// <returns>True if the pixel is located within this circle; False otherwise.</returns>
         Boolean Contains(IPixel<T> Pixel);
 
         #endregion
 
-        #region Contains(Rectangle)
+        #region Contains(Circle)
 
         /// <summary>
-        /// Checks if the given rectangle is located
-        /// within this rectangle.
+        /// Checks if the given circle is located
+        /// within this circle.
         /// </summary>
-        /// <param name="Rectangle">A rectangle of type T.</param>
-        /// <returns>True if the rectangle is located within this rectangle; False otherwise.</returns>
-        Boolean Contains(IRectangle<T> Rectangle);
+        /// <param name="Circle">A circle of type T.</param>
+        /// <returns>True if the circle is located within this circle; False otherwise.</returns>
+        Boolean Contains(ICircle<T> Circle);
 
         #endregion
-
-        #region Overlaps(Rectangle)
+        
+        #region Overlaps(Circle)
 
         /// <summary>
-        /// Checks if the given rectangle shares some
-        /// area with this rectangle.
+        /// Checks if the given circle shares some
+        /// area with this circle.
         /// </summary>
-        /// <param name="Rectangle">A rectangle of type T.</param>
-        /// <returns>True if the rectangle shares some area with this rectangle; False otherwise.</returns>
-        Boolean Overlaps(IRectangle<T> Rectangle);
+        /// <param name="Circle">A circle of type T.</param>
+        /// <returns>True if the circle shares some area with this circle; False otherwise.</returns>
+        Boolean Overlaps(ICircle<T> Circle);
 
         #endregion
 

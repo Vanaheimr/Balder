@@ -51,6 +51,21 @@ namespace de.ahzf.Blueprints
 
         #endregion
 
+
+        #region DistanceTo(x, y, z)
+
+        /// <summary>
+        /// A method to calculate the distance between this
+        /// voxel and the given coordinates of type T.
+        /// </summary>
+        /// <param name="x">A x-coordinate of type T</param>
+        /// <param name="y">A y-coordinate of type T</param>
+        /// <param name="z">A z-coordinate of type T</param>
+        /// <returns>The distance between this voxel and the given coordinates.</returns>
+        T DistanceTo(T x, T y, T z);
+
+        #endregion
+
         #region DistanceTo(Voxel)
 
         /// <summary>
@@ -59,7 +74,7 @@ namespace de.ahzf.Blueprints
         /// </summary>
         /// <param name="Voxel">A voxel of type T</param>
         /// <returns>The distance between this voxel and the given voxel.</returns>
-        T DistanceTo(Voxel<T> Voxel);
+        T DistanceTo(IVoxel<T> Voxel);
 
         #endregion
 

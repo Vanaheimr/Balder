@@ -25,60 +25,45 @@ namespace de.ahzf.Blueprints
 {
 
     /// <summary>
-    /// The interface of a cube of type T.
+    /// The interface of a sphere of type T.
     /// </summary>
-    /// <typeparam name="T">The internal type of the cube.</typeparam>
-    public interface ICube<T> : IEquatable<ICube<T>>
+    /// <typeparam name="T">The internal type of the sphere.</typeparam>
+    public interface ISphere<T> : IEquatable<ISphere<T>>
         where T : IEquatable<T>, IComparable<T>, IComparable
     {
 
         #region Properties
 
         /// <summary>
-        /// Left
+        /// The left-coordinate of the sphere.
         /// </summary>
-        T Left { get; }
+        T         Left     { get; }
 
         /// <summary>
-        /// Top
+        /// The top-coordinate of the sphere.
         /// </summary>
-        T Top { get; }
+        T         Top      { get; }
 
         /// <summary>
-        /// Front
+        /// The front-coordinate of the sphere.
         /// </summary>
-        T Front { get; }
+        T         Front    { get; }
 
         /// <summary>
-        /// Right
+        /// The center of the sphere.
         /// </summary>
-        T Right { get; }
+        IVoxel<T> Center   { get; }
 
         /// <summary>
-        /// Bottom
+        /// Radius
         /// </summary>
-        T Bottom { get; }
-
-        /// <summary>
-        /// Behind
-        /// </summary>
-        T Behind { get; }
+        T         Radius   { get; }
 
 
         /// <summary>
-        /// The width of the cube.
+        /// The diameter of the sphere.
         /// </summary>
-        T Width { get; }
-
-        /// <summary>
-        /// The height of the cube.
-        /// </summary>
-        T Height { get; }
-
-        /// <summary>
-        /// The depth of the cube.
-        /// </summary>
-        T Depth { get; }
+        T         Diameter { get; }
 
         #endregion
 
@@ -87,12 +72,12 @@ namespace de.ahzf.Blueprints
 
         /// <summary>
         /// Checks if the given x-, y- and z-coordinates
-        /// are located within this cube.
+        /// are located within this sphere.
         /// </summary>
         /// <param name="x">The x-coordinate.</param>
         /// <param name="y">The y-coordinate.</param>
         /// <param name="z">The z-coordinate.</param>
-        /// <returns>True if the coordinates are located within this cube; False otherwise.</returns>
+        /// <returns>True if the coordinates are located within this sphere; False otherwise.</returns>
         Boolean Contains(T x, T y, T z);
 
         #endregion
@@ -101,35 +86,35 @@ namespace de.ahzf.Blueprints
 
         /// <summary>
         /// Checks if the given voxel is located
-        /// within this cube.
+        /// within this sphere.
         /// </summary>
-        /// <param name="Voxel">A voxel of type T.</param>
-        /// <returns>True if the voxel is located within this cube; False otherwise.</returns>
+        /// <param name="Voxel">A voxel.</param>
+        /// <returns>True if the voxel is located within this sphere; False otherwise.</returns>
         Boolean Contains(IVoxel<T> Voxel);
 
         #endregion
 
-        #region Contains(Cube)
+        #region Contains(Sphere)
 
         /// <summary>
-        /// Checks if the given cube is located
-        /// within this cube.
+        /// Checks if the given sphere is located
+        /// within this sphere.
         /// </summary>
-        /// <param name="Cube">A cube of type T.</param>
-        /// <returns>True if the cube is located within this cube; False otherwise.</returns>
-        Boolean Contains(ICube<T> Cube);
+        /// <param name="Sphere">A sphere of type T.</param>
+        /// <returns>True if the sphere is located within this sphere; False otherwise.</returns>
+        Boolean Contains(ISphere<T> Sphere);
 
         #endregion
-
-        #region Overlaps(Cube)
+        
+        #region Overlaps(Sphere)
 
         /// <summary>
-        /// Checks if the given cube shares some
-        /// area with this cube.
+        /// Checks if the given sphere shares some
+        /// area with this sphere.
         /// </summary>
-        /// <param name="Cube">A cube of type T.</param>
-        /// <returns>True if the cube shares some area with this cube; False otherwise.</returns>
-        Boolean Overlaps(ICube<T> Cube);
+        /// <param name="Sphere">A sphere of type T.</param>
+        /// <returns>True if the sphere shares some area with this sphere; False otherwise.</returns>
+        Boolean Overlaps(ISphere<T> Sphere);
 
         #endregion
 

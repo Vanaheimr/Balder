@@ -46,6 +46,20 @@ namespace de.ahzf.Blueprints
 
         #endregion
 
+
+        #region DistanceTo(x, y)
+
+        /// <summary>
+        /// A method to calculate the distance between this
+        /// pixel and the given coordinates of type T.
+        /// </summary>
+        /// <param name="x">A x-coordinate of type T</param>
+        /// <param name="y">A y-coordinate of type T</param>
+        /// <returns>The distance between this pixel and the given coordinates.</returns>
+        T DistanceTo(T x, T y);
+
+        #endregion
+
         #region DistanceTo(Pixel)
 
         /// <summary>
@@ -54,7 +68,7 @@ namespace de.ahzf.Blueprints
         /// </summary>
         /// <param name="Pixel">A pixel of type T</param>
         /// <returns>The distance between this pixel and the given pixel.</returns>
-        T DistanceTo(Pixel<T> Pixel);
+        T DistanceTo(IPixel<T> Pixel);
 
         #endregion
 

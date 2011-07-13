@@ -349,7 +349,16 @@ namespace de.ahzf.Blueprints
         /// <param name="Rectangle">A rectangle selecting which pixel to return.</param>
         public IEnumerable<IPixel<T>> Get(IRectangle<T> Rectangle)
         {
+
+            #region Initial Checks
+
+            if (Rectangle == null)
+                throw new ArgumentNullException("The given Rectangle must not be null!");
+
+            #endregion
+
             return Get(p => Rectangle.Contains(p));
+
         }
 
         #endregion

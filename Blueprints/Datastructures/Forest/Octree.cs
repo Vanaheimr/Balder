@@ -445,7 +445,16 @@ namespace de.ahzf.Blueprints
         /// <param name="Cube">A cube selecting which voxel to return.</param>
         public IEnumerable<IVoxel<T>> Get(ICube<T> Cube)
         {
+
+            #region Initial Checks
+
+            if (Cube == null)
+                throw new ArgumentNullException("The given Cube must not be null!");
+
+            #endregion
+
             return Get(p => Cube.Contains(p));
+
         }
 
         #endregion
