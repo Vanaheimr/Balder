@@ -21,33 +21,33 @@ using System;
 
 #endregion
 
-namespace de.ahzf.Blueprints
+namespace de.ahzf.Blueprints.Maths
 {
 
     /// <summary>
-    /// An abstract math object for datatype T.
+    /// Build and return an appropriate math object for datatype T.
     /// </summary>
-    /// <typeparam name="T">The internal type of the math object.</typeparam>
-    public static class MathFactory<T>
+    /// <typeparam name="T">The internal type of the maths object.</typeparam>
+    public static class MathsFactory<T>
         where T : IEquatable<T>, IComparable<T>, IComparable
     {
 
         /// <summary>
-        /// A appropriate math object for datatype T.
+        /// Return an appropriate maths object for datatype T.
         /// </summary>
-        public static IMath<T> Instance
+        public static IMaths<T> Instance
         {
             get
             {
                 
-                if (typeof(T) == typeof(Double))
-                    return MathDouble.Instance as IMath<T>;
+                if      (typeof(T) == typeof(Double))
+                    return MathsDouble.Instance as IMaths<T>;
 
                 else if (typeof(T) == typeof(Single))
-                    return MathSingle.Instance as IMath<T>;
+                    return MathsSingle.Instance as IMaths<T>;
 
                 else if (typeof(T) == typeof(Int32))
-                    return MathInt32. Instance as IMath<T>;
+                    return MathsInt32. Instance as IMaths<T>;
 
                 else
                     throw new Exception("No math class found for datatype '" + typeof(T).Name + "'!");

@@ -21,13 +21,13 @@ using System;
 
 #endregion
 
-namespace de.ahzf.Blueprints
+namespace de.ahzf.Blueprints.Maths
 {
 
     /// <summary>
-    /// Defining math operations on Double.
+    /// Defining math operations on Int32.
     /// </summary>
-    public sealed class MathDouble : IMath<Double>
+    public class MathsInt32 : IMaths<Int32>
     {
 
         #region Singelton
@@ -36,19 +36,19 @@ namespace de.ahzf.Blueprints
 
         // Explicit static constructor to tell the compiler
         // not to mark type as 'beforefieldinit'!
-        static MathDouble()
+        static MathsInt32()
         { }
 
         #endregion
 
         #region Instance
 
-        private static readonly IMath<Double> _Instance = new MathDouble();
+        private static readonly IMaths<Int32> _Instance = new MathsInt32();
 
         /// <summary>
-        /// Return a singelton instance of this math class.
+        /// Return a singelton instance of this maths class.
         /// </summary>
-        public static IMath<Double> Instance
+        public static IMaths<Int32> Instance
         {
             get
             {
@@ -66,7 +66,7 @@ namespace de.ahzf.Blueprints
         /// <summary>
         /// Return the zero value of this datatype.
         /// </summary>
-        public Double Zero
+        public Int32 Zero
         {
             get
             {
@@ -80,12 +80,12 @@ namespace de.ahzf.Blueprints
         #region Min(a, b)
 
         /// <summary>
-        /// A method to get the minimum of two Doubles.
+        /// A method to get the minimum of two Int32s.
         /// </summary>
-        /// <param name="a">A Double.</param>
-        /// <param name="b">A Double.</param>
+        /// <param name="a">A Int32.</param>
+        /// <param name="b">A Int32.</param>
         /// <returns>The minimum of a and b: Min(a, b)</returns>
-        public Double Min(Double a, Double b)
+        public Int32 Min(Int32 a, Int32 b)
         {
             return Math.Min(a, b);
         }
@@ -95,12 +95,12 @@ namespace de.ahzf.Blueprints
         #region Max(a, b)
 
         /// <summary>
-        /// A method to get the maximum of two Doubles.
+        /// A method to get the maximum of two Int32s.
         /// </summary>
-        /// <param name="a">A Double.</param>
-        /// <param name="b">A Double.</param>
+        /// <param name="a">A Int32.</param>
+        /// <param name="b">A Int32.</param>
         /// <returns>The maximum of a and b: Max(a, b)</returns>
-        public Double Max(Double a, Double b)
+        public Int32 Max(Int32 a, Int32 b)
         {
             return Math.Max(a, b);
         }
@@ -111,11 +111,11 @@ namespace de.ahzf.Blueprints
         #region Add(params Summands)
 
         /// <summary>
-        /// A method to add Doubles.
+        /// A method to add Int32s.
         /// </summary>
-        /// <param name="Summands">An array of Doubles.</param>
+        /// <param name="Summands">An array of Int32s.</param>
         /// <returns>The addition of all summands: a + b + ...</returns>
-        public Double Add(params Double[] Summands)
+        public Int32 Add(params Int32[] Summands)
         {
             
             if (Summands.Length == 0)
@@ -138,12 +138,12 @@ namespace de.ahzf.Blueprints
         #region Sub(a, b)
 
         /// <summary>
-        /// A method to sub two Doubles.
+        /// A method to sub two Int32s.
         /// </summary>
-        /// <param name="a">A Double.</param>
-        /// <param name="b">A Double.</param>
+        /// <param name="a">A Int32.</param>
+        /// <param name="b">A Int32.</param>
         /// <returns>The subtraction of b from a: a - b</returns>
-        public Double Sub(Double a, Double b)
+        public Int32 Sub(Int32 a, Int32 b)
         {
             return a - b;
         }
@@ -153,11 +153,11 @@ namespace de.ahzf.Blueprints
         #region Mul(params Multiplicators)
 
         /// <summary>
-        /// A method to multiply Doubles.
+        /// A method to multiply Int32s.
         /// </summary>
-        /// <param name="Multiplicators">An array of Doubles.</param>
+        /// <param name="Multiplicators">An array of Int32s.</param>
         /// <returns>The multiplication of all multiplicators: a * b * ...</returns>
-        public Double Mul(params Double[] Multiplicators)
+        public Int32 Mul(params Int32[] Multiplicators)
         {
 
             if (Multiplicators.Length == 0)
@@ -180,12 +180,12 @@ namespace de.ahzf.Blueprints
         #region Div(a, b)
 
         /// <summary>
-        /// A method to divide two Doubles.
+        /// A method to divide two Int32s.
         /// </summary>
-        /// <param name="a">A Double.</param>
-        /// <param name="b">A Double.</param>
+        /// <param name="a">A Int32.</param>
+        /// <param name="b">A Int32.</param>
         /// <returns>The division of a by b: a / b</returns>
-        public Double Div(Double a, Double b)
+        public Int32 Div(Int32 a, Int32 b)
         {
             return a / b;
         }
@@ -195,11 +195,11 @@ namespace de.ahzf.Blueprints
         #region Div2(a)
 
         /// <summary>
-        /// A method to a Double by 2.
+        /// A method to a Int32 by 2.
         /// </summary>
-        /// <param name="a">A Double.</param>
+        /// <param name="a">A Int32.</param>
         /// <returns>The division of a by 2: a / 2</returns>
-        public Double Div2(Double a)
+        public Int32 Div2(Int32 a)
         {
             return a / 2;
         }
@@ -209,14 +209,14 @@ namespace de.ahzf.Blueprints
         #region Pow(a, b)
 
         /// <summary>
-        /// A method to calculate a Double raised to the specified power.
+        /// A method to calculate a Int32 raised to the specified power.
         /// </summary>
-        /// <param name="a">A Double.</param>
-        /// <param name="b">A Double.</param>
+        /// <param name="a">A Int32.</param>
+        /// <param name="b">A Int32.</param>
         /// <returns>The value a raised to the specified power of b: a^b</returns>
-        public Double Pow(Double a, Double b)
+        public Int32 Pow(Int32 a, Int32 b)
         {
-            return Math.Pow(a, b);
+            return Convert.ToInt32(Math.Pow(a, b));
         }
 
         #endregion
@@ -225,11 +225,11 @@ namespace de.ahzf.Blueprints
         #region Abs(a)
 
         /// <summary>
-        /// A method to calculate the absolute value of the Double.
+        /// A method to calculate the absolute value of the Int32.
         /// </summary>
-        /// <param name="a">An Double.</param>
+        /// <param name="a">An Int32.</param>
         /// <returns>The absolute value of a: Abs(a)</returns>
-        public Double Abs(Double a)
+        public Int32 Abs(Int32 a)
         {
             return Math.Abs(a);
         }
@@ -239,13 +239,13 @@ namespace de.ahzf.Blueprints
         #region Sqrt(a)
 
         /// <summary>
-        /// A method to calculate the square root of the Double.
+        /// A method to calculate the square root of the Int32.
         /// </summary>
-        /// <param name="a">A Double.</param>
+        /// <param name="a">A Int32.</param>
         /// <returns>The square root of a: Sqrt(a)</returns>
-        public Double Sqrt(Double a)
+        public Int32 Sqrt(Int32 a)
         {
-            return Math.Sqrt(a);
+            return Convert.ToInt32(Math.Round(Math.Sqrt(a)));
         }
 
         #endregion
@@ -254,12 +254,12 @@ namespace de.ahzf.Blueprints
         #region Distance(a, b)
 
         /// <summary>
-        /// A method to calculate the distance between two Doubles.
+        /// A method to calculate the distance between two Int32s.
         /// </summary>
         /// <param name="a">An object of type T</param>
         /// <param name="b">An object of type T</param>
         /// <returns>The distance between a and b.</returns>
-        public Double Distance(Double a, Double b)
+        public Int32 Distance(Int32 a, Int32 b)
         {
             return Abs(Sub(a, b));
         }

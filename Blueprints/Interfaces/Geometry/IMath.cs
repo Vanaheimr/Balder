@@ -21,14 +21,14 @@ using System;
 
 #endregion
 
-namespace de.ahzf.Blueprints
+namespace de.ahzf.Blueprints.Maths
 {
 
     /// <summary>
-    /// An interface defining math operations on the given datatype.
+    /// An interface defining maths operations on the given datatype.
     /// </summary>
     /// <typeparam name="T">The internal dataype.</typeparam>
-    public interface IMath<T>
+    public interface IMaths<T>
         where T : IEquatable<T>, IComparable<T>, IComparable
     {
 

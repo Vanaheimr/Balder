@@ -19,6 +19,8 @@
 
 using System;
 
+using de.ahzf.Blueprints.Maths;
+
 #endregion
 
 namespace de.ahzf.Blueprints
@@ -37,7 +39,7 @@ namespace de.ahzf.Blueprints
         /// <summary>
         /// Mathoperation helpers.
         /// </summary>
-        protected readonly IMath<T> Math;
+        protected readonly IMaths<T> Math;
 
         #endregion
 
@@ -98,7 +100,7 @@ namespace de.ahzf.Blueprints
 
             #endregion
 
-            this.Math = MathFactory<T>.Instance;
+            this.Math = MathsFactory<T>.Instance;
             this.X    = X;
             this.Y    = Y;
             this.Z    = Z;

@@ -55,7 +55,7 @@
     <Compile Include="Datastructures\Geometry\VoxelSelector.cs" />
     <Compile Include="Datastructures\Geometry\PixelSelector.cs" />
     <Compile Include="Datastructures\Geometry\PixelValuePair.cs" />
-    <Compile Include="Datastructures\Geometry\MathFactory.cs" />
+    <Compile Include="Datastructures\Maths\MathsFactory.cs" />
     <Compile Include="Datastructures\Geometry\Pixel.cs" />
     <Compile Include="Datastructures\Geometry\Line.cs" />
     <Compile Include="Exceptions\Forest\BintreeExceptions.cs" />
@@ -76,15 +76,15 @@
     <Compile Include="Interfaces\Geometry\ICircle.cs" />
     <Compile Include="Interfaces\Geometry\IVoxel.cs" />
     <Compile Include="Interfaces\Geometry\IPixel.cs" />
-    <Compile Include="Datastructures\Geometry\MathSingle.cs" />
+    <Compile Include="Datastructures\Maths\MathsSingle.cs" />
     <Compile Include="Datastructures\Geometry\Cube.cs" />
     <Compile Include="Extensions\Geometry\ICubeExtensions.cs" />
     <Compile Include="Extensions\Geometry\IRectangleExtensions.cs" />
     <Compile Include="Interfaces\Geometry\IRectangle.cs" />
     <Compile Include="Interfaces\Geometry\ICube.cs" />
-    <Compile Include="Datastructures\Geometry\MathInt32.cs" />
+    <Compile Include="Datastructures\Maths\MathsInt32.cs" />
     <Compile Include="Interfaces\Geometry\IMath.cs" />
-    <Compile Include="Datastructures\Geometry\MathDouble.cs" />
+    <Compile Include="Datastructures\Maths\MathsDouble.cs" />
     <Compile Include="Datastructures\Geometry\Voxel.cs" />
     <Compile Include="Datastructures\Geometry\Rectangle.cs" />
     <Compile Include="Exceptions\PropertyGraph\PropertiesExceptions.cs" />
