@@ -225,8 +225,9 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="Value">A value.</param>
         public IIndex2D<TKey, T, TValue> Set(TKey Key, TValue Value)
         {
-            Quadtree.Add(new PixelValuePair<T, TValue>(Key.X, Key.Y, Value));
-            return this;
+            //Quadtree.Add(new PixelValuePair<T, TValue>(Key.X, Key.Y, Value));
+            //return this;
+            throw new NotImplementedException();
         }
 
         #endregion

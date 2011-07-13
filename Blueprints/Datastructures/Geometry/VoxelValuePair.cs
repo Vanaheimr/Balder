@@ -24,14 +24,12 @@ using System;
 namespace de.ahzf.Blueprints
 {
 
-    #region PixelValuePair<T, TValue>
-
     /// <summary>
-    /// A pixel of type T together with a value of type TValue.
+    /// A voxel of type T together with a value of type TValue.
     /// </summary>
-    /// <typeparam name="T">The internal type of the pixel.</typeparam>
+    /// <typeparam name="T">The internal type of the voxel.</typeparam>
     /// <typeparam name="TValue">The type of the value.</typeparam>
-    public class PixelValuePair<T, TValue> : Pixel<T>, IPixelValuePair<T, TValue>
+    public class VoxelValuePair<T, TValue> : Voxel<T>, IVoxelValuePair<T, TValue>
         where T : IEquatable<T>, IComparable<T>, IComparable
     {
 
@@ -50,16 +48,17 @@ namespace de.ahzf.Blueprints
 
         #region Constructor(s)
 
-        #region PixelValuePair(X, Y, Value)
+        #region VoxelValuePair(X, Y, Z, Value)
 
         /// <summary>
-        /// Create a pixel of type T together with a value of type TValue.
+        /// Create a voxel of type T together with a value of type TValue.
         /// </summary>
         /// <param name="X">The X-coordinate.</param>
         /// <param name="Y">The Y-coordinate.</param>
+        /// <param name="Z">The Z-coordinate.</param>
         /// <param name="Value">The value.</param>
-        public PixelValuePair(T X, T Y, TValue Value)
-            : base(X, Y)
+        public VoxelValuePair(T X, T Y, T Z, TValue Value)
+            : base(X, Y, Z)
         {
             this.Value = Value;
         }
@@ -71,42 +70,42 @@ namespace de.ahzf.Blueprints
 
         #region Operator overloadings
 
-        #region Operator == (PixelValuePair1, PixelValuePair2)
+        #region Operator == (VoxelValuePair1, VoxelValuePair2)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="PixelValuePair1">A PixelValuePair.</param>
-        /// <param name="PixelValuePair2">Another PixelValuePair.</param>
+        /// <param name="VoxelValuePair1">A VoxelValuePair.</param>
+        /// <param name="VoxelValuePair2">Another VoxelValuePair.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator == (PixelValuePair<T, TValue> PixelValuePair1, PixelValuePair<T, TValue> PixelValuePair2)
+        public static Boolean operator == (VoxelValuePair<T, TValue> VoxelValuePair1, VoxelValuePair<T, TValue> VoxelValuePair2)
         {
 
             // If both are null, or both are same instance, return true.
-            if (Object.ReferenceEquals(PixelValuePair1, PixelValuePair2))
+            if (Object.ReferenceEquals(VoxelValuePair1, VoxelValuePair2))
                 return true;
 
             // If one is null, but not both, return false.
-            if (((Object) PixelValuePair1 == null) || ((Object) PixelValuePair2 == null))
+            if (((Object) VoxelValuePair1 == null) || ((Object) VoxelValuePair2 == null))
                 return false;
 
-            return PixelValuePair1.Equals(PixelValuePair2);
+            return VoxelValuePair1.Equals(VoxelValuePair2);
 
         }
 
         #endregion
 
-        #region Operator != (PixelValuePair1, PixelValuePair2)
+        #region Operator != (VoxelValuePair1, VoxelValuePair2)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="PixelValuePair1">A PixelValuePair.</param>
-        /// <param name="PixelValuePair2">Another PixelValuePair.</param>
+        /// <param name="VoxelValuePair1">A VoxelValuePair.</param>
+        /// <param name="VoxelValuePair2">Another VoxelValuePair.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator !=  (PixelValuePair<T, TValue> PixelValuePair1, PixelValuePair<T, TValue> PixelValuePair2)
+        public static Boolean operator != (VoxelValuePair<T, TValue> VoxelValuePair1, VoxelValuePair<T, TValue> VoxelValuePair2)
         {
-            return !(PixelValuePair1 == PixelValuePair2);
+            return !(VoxelValuePair1 == VoxelValuePair2);
         }
 
         #endregion
@@ -115,17 +114,17 @@ namespace de.ahzf.Blueprints
 
         #region IComparable Members
 
-        public int CompareTo(object obj)
+        public int CompareTo(Object obj)
         {
             throw new NotImplementedException();
         }
 
-        public int CompareTo(IPixelValuePair<T, TValue> other)
+        public int CompareTo(IVoxelValuePair<T, TValue> other)
         {
             throw new NotImplementedException();
         }
 
-        public int CompareTo(IPixel<T> other)
+        public int CompareTo(IVoxel<T> other)
         {
             throw new NotImplementedException();
         }
@@ -147,15 +146,15 @@ namespace de.ahzf.Blueprints
             if (Object == null)
                 return false;
 
-            // Check if the given object is an IPixelValuePair<T, TValue>.
-            var IPixelValuePair = (IPixelValuePair<T, TValue>) Object;
-            if ((Object) IPixelValuePair != null)
-                return this.Equals(IPixelValuePair);
+            // Check if the given object is an IVoxelValuePair<T, TValue>.
+            var IVoxelValuePair = (IVoxelValuePair<T, TValue>) Object;
+            if ((Object) IVoxelValuePair != null)
+                return this.Equals(IVoxelValuePair);
 
-            // Check if the given object is an IPixel<T>.
-            var IPixel = (IPixel<T>) Object;
-            if ((Object) IPixel != null)
-                return this.Equals(IPixel);
+            // Check if the given object is an IVoxel<T>.
+            var IVoxel = (IVoxel<T>) Object;
+            if ((Object) IVoxel != null)
+                return this.Equals(IVoxel);
 
             return false;
 
@@ -163,41 +162,43 @@ namespace de.ahzf.Blueprints
 
         #endregion
 
-        #region Equals(IPixelValuePair)
+        #region Equals(IVoxelValuePair)
 
         /// <summary>
-        /// Compares two PixelValuePairs for equality.
+        /// Compares two voxels for equality.
         /// </summary>
-        /// <param name="IPixelValuePair">A PixelValuePair to compare with.</param>
+        /// <param name="IVoxelValuePair">A voxel to compare with.</param>
         /// <returns>True if both match; False otherwise.</returns>
-        public Boolean Equals(IPixelValuePair<T, TValue> IPixelValuePair)
+        public Boolean Equals(IVoxelValuePair<T, TValue> IVoxelValuePair)
         {
 
-            if ((Object) IPixelValuePair == null)
+            if ((Object) IVoxelValuePair == null)
                 return false;
 
-            return X.Equals(IPixelValuePair.X) &&
-                   Y.Equals(IPixelValuePair.Y);
+            return X.Equals(IVoxelValuePair.X) &&
+                   Y.Equals(IVoxelValuePair.Y) &&
+                   Z.Equals(IVoxelValuePair.Z);
 
         }
 
         #endregion
 
-        #region Equals(IPixel)
+        #region Equals(IVoxel)
 
         /// <summary>
-        /// Compares two pixels for equality.
+        /// Compares two voxels for equality.
         /// </summary>
-        /// <param name="IPixel">A pixel to compare with.</param>
+        /// <param name="IVoxel">A voxel to compare with.</param>
         /// <returns>True if both match; False otherwise.</returns>
-        public Boolean Equals(IPixel<T> IPixel)
+        public Boolean Equals(IVoxel<T> IVoxel)
         {
 
-            if ((Object) IPixel == null)
+            if ((Object) IVoxel == null)
                 return false;
 
-            return X.Equals(IPixel.X) &&
-                   Y.Equals(IPixel.Y);
+            return X.Equals(IVoxel.X) &&
+                   Y.Equals(IVoxel.Y) &&
+                   Z.Equals(IVoxel.Z);
 
         }
 
@@ -213,7 +214,7 @@ namespace de.ahzf.Blueprints
         /// <returns>The HashCode of this object.</returns>
         public override Int32 GetHashCode()
         {
-            return X.GetHashCode() ^ 1 + Y.GetHashCode();
+            return X.GetHashCode() ^ 1 + Y.GetHashCode() ^ 2 + Z.GetHashCode();
         }
 
         #endregion
@@ -225,15 +226,14 @@ namespace de.ahzf.Blueprints
         /// </summary>
         public override String ToString()
         {
-            return String.Format("X={0}, Y={1}",
+            return String.Format("X={0}, Y={1}, Z={2}",
                                  X.ToString(),
-                                 Y.ToString());
+                                 Y.ToString(),
+                                 Z.ToString());
         }
 
         #endregion
-
+        
     }
-
-    #endregion
 
 }

@@ -28,9 +28,18 @@ namespace de.ahzf.Blueprints
     /// A sphere of type T.
     /// </summary>
     /// <typeparam name="T">The internal type of the sphere.</typeparam>
-    public class Sphere<T> : AMath<T>, ISphere<T>
+    public class Sphere<T> : ISphere<T>
         where T : IEquatable<T>, IComparable<T>, IComparable
     {
+
+        #region Data
+
+        /// <summary>
+        /// Mathoperation helpers.
+        /// </summary>
+        protected readonly IMath<T> Math;
+
+        #endregion
 
         #region Properties
 
@@ -125,6 +134,11 @@ namespace de.ahzf.Blueprints
             if (Radius == null)
                 throw new ArgumentNullException("The given radius must not be null!");
 
+            #endregion
+
+            this.Math   = MathFactory<T>.Instance;
+
+            #region Math Checks
 
             if (Radius.Equals(Math.Zero))
                 throw new ArgumentException("The given radius must not be zero!");

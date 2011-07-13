@@ -28,27 +28,36 @@ namespace de.ahzf.Blueprints
     /// A cube of type T.
     /// </summary>
     /// <typeparam name="T">The internal type of the cube.</typeparam>
-    public class Cube<T> : AMath<T>, ICube<T>
+    public class Cube<T> : ICube<T>
         where T : IEquatable<T>, IComparable<T>, IComparable
     {
+
+        #region Data
+
+        /// <summary>
+        /// Mathoperation helpers.
+        /// </summary>
+        protected readonly IMath<T> Math;
+
+        #endregion
 
         #region Properties
 
         #region Left
 
         /// <summary>
-        /// Left
+        /// The left-coordinate of the circle.
         /// </summary>
-        public T Left { get; private set; }
+        public T Left   { get; private set; }
 
         #endregion
 
         #region Top
 
         /// <summary>
-        /// Top
+        /// The top-coordinate of the circle.
         /// </summary>
-        public T Top { get; private set; }
+        public T Top    { get; private set; }
 
         #endregion
 
@@ -57,7 +66,7 @@ namespace de.ahzf.Blueprints
         /// <summary>
         /// Front
         /// </summary>
-        public T Front { get; private set; }
+        public T Front  { get; private set; }
 
         #endregion
 
@@ -66,7 +75,7 @@ namespace de.ahzf.Blueprints
         /// <summary>
         /// Right
         /// </summary>
-        public T Right { get; private set; }
+        public T Right  { get; private set; }
 
         #endregion
 
@@ -172,6 +181,11 @@ namespace de.ahzf.Blueprints
             if (Behind == null)
                 throw new ArgumentNullException("The given behind coordinate must not be null!");
 
+            #endregion
+
+            this.Math   = MathFactory<T>.Instance;
+
+            #region Math Checks
 
             if (Math.Distance(Left, Right).Equals(Math.Zero))
                 throw new ArgumentException("The resulting width must not be zero!");
@@ -213,6 +227,11 @@ namespace de.ahzf.Blueprints
             if (Voxel2 == null)
                 throw new ArgumentNullException("The given second voxel must not be null!");
 
+            #endregion
+
+            this.Math   = MathFactory<T>.Instance;
+
+            #region Math Checks
 
             if (Math.Distance(Left, Right).Equals(Math.Zero))
                 throw new ArgumentException("The resulting width must not be zero!");
@@ -262,6 +281,11 @@ namespace de.ahzf.Blueprints
             if (Depth  == null)
                 throw new ArgumentNullException("The given depth must not be null!");
 
+            #endregion
+
+            this.Math   = MathFactory<T>.Instance;
+
+            #region Math Checks
 
             if (Math.Distance(Left, Right).Equals(Math.Zero))
                 throw new ArgumentException("The resulting width must not be zero!");

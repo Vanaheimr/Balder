@@ -35,14 +35,14 @@ namespace de.ahzf.Blueprints
         #region Properties
 
         /// <summary>
-        /// The left-coordinate of the circle.
+        /// The x-coordinate of the circle.
         /// </summary>
-        T         Left     { get; }
+        T         X        { get; }
 
         /// <summary>
-        /// The top-coordinate of the circle.
+        /// The y-coordinate of the circle.
         /// </summary>
-        T         Top      { get; }
+        T         Y        { get; }
 
         /// <summary>
         /// The center of the circle.

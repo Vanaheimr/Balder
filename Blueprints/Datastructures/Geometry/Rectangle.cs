@@ -28,9 +28,18 @@ namespace de.ahzf.Blueprints
     /// A rectangle of type T.
     /// </summary>
     /// <typeparam name="T">The internal type of the rectangle.</typeparam>
-    public class Rectangle<T> : AMath<T>, IRectangle<T>
+    public class Rectangle<T> : IRectangle<T>
         where T : IEquatable<T>, IComparable<T>, IComparable
     {
+
+        #region Data
+
+        /// <summary>
+        /// Mathoperation helpers.
+        /// </summary>
+        protected readonly IMath<T> Math;
+
+        #endregion
 
         #region Properties
 
@@ -131,6 +140,11 @@ namespace de.ahzf.Blueprints
             if (Bottom == null)
                 throw new ArgumentNullException("The given bottom-coordinate must not be null!");
 
+            #endregion
+
+            this.Math   = MathFactory<T>.Instance;
+
+            #region Math Checks
 
             if (Math.Distance(Left, Right).Equals(Math.Zero))
                 throw new ArgumentException("The resulting width must not be zero!");
@@ -167,6 +181,11 @@ namespace de.ahzf.Blueprints
             if (Pixel2 == null)
                 throw new ArgumentNullException("The given second pixel must not be null!");
 
+            #endregion
+
+            this.Math   = MathFactory<T>.Instance;
+
+            #region Math Checks
 
             if (Math.Distance(Left, Right).Equals(Math.Zero))
                 throw new ArgumentException("The resulting width must not be zero!");
@@ -207,6 +226,11 @@ namespace de.ahzf.Blueprints
             if (Height == null)
                 throw new ArgumentNullException("The given height must not be null!");
 
+            #endregion
+
+            this.Math   = MathFactory<T>.Instance;
+
+            #region Math Checks
 
             if (Math.Distance(Left, Right).Equals(Math.Zero))
                 throw new ArgumentException("The resulting width must not be zero!");

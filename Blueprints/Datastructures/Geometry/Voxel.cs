@@ -24,28 +24,22 @@ using System;
 namespace de.ahzf.Blueprints
 {
 
-    #region VoxelSelector<T>(Voxel)
-
-    /// <summary>
-    /// A delegate selecting which voxels to return.
-    /// </summary>
-    /// <typeparam name="T">The internal datatype of the voxel.</typeparam>
-    /// <param name="Voxel">A voxel of type T.</param>
-    /// <returns>True if the voxel is selected; False otherwise.</returns>
-    public delegate Boolean VoxelSelector<T>(IVoxel<T> Voxel)
-        where T : IEquatable<T>, IComparable<T>, IComparable;
-
-    #endregion
-
-    #region Voxel<T>
-
     /// <summary>
     /// A voxel of type T.
     /// </summary>
     /// <typeparam name="T">The internal type of the voxel.</typeparam>
-    public class Voxel<T> : AMath<T>, IVoxel<T>
+    public class Voxel<T> : IVoxel<T>
         where T : IEquatable<T>, IComparable<T>, IComparable
     {
+
+        #region Data
+
+        /// <summary>
+        /// Mathoperation helpers.
+        /// </summary>
+        protected readonly IMath<T> Math;
+
+        #endregion
 
         #region Properties
 
@@ -80,33 +74,34 @@ namespace de.ahzf.Blueprints
 
         #region Constructor(s)
 
-        #region Voxel(x, y, z)
+        #region Voxel(X, Y, Z)
 
         /// <summary>
         /// Create a voxel of type T.
         /// </summary>
-        /// <param name="x">The X-coordinate.</param>
-        /// <param name="y">The Y-coordinate.</param>
-        /// <param name="z">The Z-coordinate.</param>
-        public Voxel(T x, T y, T z)
+        /// <param name="X">The X-coordinate.</param>
+        /// <param name="Y">The Y-coordinate.</param>
+        /// <param name="Z">The Z-coordinate.</param>
+        public Voxel(T X, T Y, T Z)
         {
 
             #region Initial Checks
 
-            if (x == null)
+            if (X == null)
                 throw new ArgumentNullException("The given x-coordinate must not be null!");
 
-            if (y == null)
+            if (Y == null)
                 throw new ArgumentNullException("The given y-coordinate must not be null!");
 
-            if (z == null)
+            if (Z == null)
                 throw new ArgumentNullException("The given z-coordinate must not be null!");
 
             #endregion
 
-            this.X = x;
-            this.Y = y;
-            this.Z = z;
+            this.Math = MathFactory<T>.Instance;
+            this.X    = X;
+            this.Y    = Y;
+            this.Z    = Z;
 
         }
 
@@ -224,6 +219,20 @@ namespace de.ahzf.Blueprints
 
         #endregion
 
+        #region IComparable Members
+
+        public int CompareTo(Object obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int CompareTo(IVoxel<T> other)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
         #region IEquatable Members
 
         #region Equals(Object)
@@ -302,7 +311,5 @@ namespace de.ahzf.Blueprints
         #endregion
 
     }
-
-    #endregion
 
 }

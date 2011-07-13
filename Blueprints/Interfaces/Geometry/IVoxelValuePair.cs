@@ -25,13 +25,13 @@ namespace de.ahzf.Blueprints
 {
 
     /// <summary>
-    /// The interface of a PixelValuePair.
+    /// The interface of a VoxelValuePair.
     /// </summary>
-    /// <typeparam name="TKey">The internal type of the pixel.</typeparam>
+    /// <typeparam name="TKey">The internal type of the voxel.</typeparam>
     /// <typeparam name="TValue">The type of the stored values.</typeparam>
-    public interface IPixelValuePair<TKey, TValue> : IPixel<TKey>,
-                                                     IEquatable <IPixelValuePair<TKey, TValue>>,
-                                                     IComparable<IPixelValuePair<TKey, TValue>>,
+    public interface IVoxelValuePair<TKey, TValue> : IVoxel<TKey>,
+                                                     IEquatable <IVoxelValuePair<TKey, TValue>>,
+                                                     IComparable<IVoxelValuePair<TKey, TValue>>,
                                                      IComparable
 
         where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
@@ -39,7 +39,7 @@ namespace de.ahzf.Blueprints
     {
 
         /// <summary>
-        /// The value stored together with a pixel.
+        /// The value stored together with a voxel.
         /// </summary>
         TValue Value { get; }
 

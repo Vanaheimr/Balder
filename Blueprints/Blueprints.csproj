@@ -51,8 +51,13 @@
   <ItemGroup>
     <Compile Include="Datastructures\Delegates.cs" />
     <Compile Include="Datastructures\Forest\Bintree.cs" />
-    <Compile Include="Datastructures\Geometry\Line.cs" />
+    <Compile Include="Datastructures\Geometry\VoxelValuePair.cs" />
+    <Compile Include="Datastructures\Geometry\VoxelSelector.cs" />
+    <Compile Include="Datastructures\Geometry\PixelSelector.cs" />
     <Compile Include="Datastructures\Geometry\PixelValuePair.cs" />
+    <Compile Include="Datastructures\Geometry\MathFactory.cs" />
+    <Compile Include="Datastructures\Geometry\Pixel.cs" />
+    <Compile Include="Datastructures\Geometry\Line.cs" />
     <Compile Include="Exceptions\Forest\BintreeExceptions.cs" />
     <Compile Include="Interfaces\Forest\IBintree.cs" />
     <Compile Include="Interfaces\Forest\IOctree.cs" />
@@ -64,6 +69,7 @@
     <Compile Include="Exceptions\Forest\OctreeExceptions.cs" />
     <Compile Include="Exceptions\Forest\QuadtreeExceptions.cs" />
     <Compile Include="Extensions\IComparableExtensions.cs" />
+    <Compile Include="Interfaces\Geometry\IVoxelValuePair.cs" />
     <Compile Include="Interfaces\Geometry\ILine.cs" />
     <Compile Include="Interfaces\Geometry\IPixelValuePair.cs" />
     <Compile Include="Interfaces\Geometry\ISphere.cs" />
@@ -72,13 +78,11 @@
     <Compile Include="Interfaces\Geometry\IPixel.cs" />
     <Compile Include="Datastructures\Geometry\MathSingle.cs" />
     <Compile Include="Datastructures\Geometry\Cube.cs" />
-    <Compile Include="Datastructures\Geometry\AMath.cs" />
     <Compile Include="Extensions\Geometry\ICubeExtensions.cs" />
     <Compile Include="Extensions\Geometry\IRectangleExtensions.cs" />
     <Compile Include="Interfaces\Geometry\IRectangle.cs" />
     <Compile Include="Interfaces\Geometry\ICube.cs" />
     <Compile Include="Datastructures\Geometry\MathInt32.cs" />
-    <Compile Include="Datastructures\Geometry\Pixel.cs" />
     <Compile Include="Interfaces\Geometry\IMath.cs" />
     <Compile Include="Datastructures\Geometry\MathDouble.cs" />
     <Compile Include="Datastructures\Geometry\Voxel.cs" />

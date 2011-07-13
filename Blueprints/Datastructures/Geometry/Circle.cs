@@ -28,27 +28,36 @@ namespace de.ahzf.Blueprints
     /// A circle of type T.
     /// </summary>
     /// <typeparam name="T">The internal type of the circle.</typeparam>
-    public class Circle<T> : AMath<T>, ICircle<T>
+    public class Circle<T> : ICircle<T>
         where T : IEquatable<T>, IComparable<T>, IComparable
     {
 
-        #region Properties
-
-        #region Left
+        #region Data
 
         /// <summary>
-        /// The left-coordinate of the circle.
+        /// Mathoperation helpers.
         /// </summary>
-        public T Left   { get; private set; }
+        protected readonly IMath<T> Math;
 
         #endregion
 
-        #region Top
+        #region Properties
+
+        #region X
 
         /// <summary>
-        /// The top-coordinate of the circle.
+        /// The X-coordinate.
         /// </summary>
-        public T Top    { get; private set; }
+        public T X { get; private set; }
+
+        #endregion
+
+        #region Y
+
+        /// <summary>
+        /// The Y-coordinate.
+        /// </summary>
+        public T Y { get; private set; }
 
         #endregion
 
@@ -57,7 +66,7 @@ namespace de.ahzf.Blueprints
         /// <summary>
         /// The radius of the circle.
         /// </summary>
-        public T Radius  { get; private set; }
+        public T Radius { get; private set; }
 
         #endregion
 
@@ -90,37 +99,42 @@ namespace de.ahzf.Blueprints
 
         #region Constructor(s)
 
-        #region Circle(Left, Top, Radius)
+        #region Circle(X, Y, Radius)
 
         /// <summary>
         /// Create a circle of type T.
         /// </summary>
-        /// <param name="Left">The left-coordinate of the circle.</param>
-        /// <param name="Top">The top-coordinate of the circle.</param>
-        /// <param name="Radius">The radius parameter.</param>
-        public Circle(T Left, T Top, T Radius)
+        /// <param name="X">The x-coordinate of the circle.</param>
+        /// <param name="Y">The y-coordinate of the circle.</param>
+        /// <param name="Radius">The radius of the circle.</param>
+        public Circle(T X, T Y, T Radius)
         {
 
             #region Initial Checks
 
-            if (Left   == null)
-                throw new ArgumentNullException("The given left-coordinate must not be null!");
+            if (X      == null)
+                throw new ArgumentNullException("The given x-coordinate must not be null!");
 
-            if (Top    == null)
-                throw new ArgumentNullException("The given top-coordinate must not be null!");
+            if (Y      == null)
+                throw new ArgumentNullException("The given y-coordinate must not be null!");
 
             if (Radius == null)
                 throw new ArgumentNullException("The given radius must not be null!");
 
+            #endregion
+
+            this.Math   = MathFactory<T>.Instance;
+
+            #region Math Checks
 
             if (Radius.Equals(Math.Zero))
                 throw new ArgumentException("The given radius must not be zero!");
 
             #endregion
 
-            this.Left   = Left;
-            this.Top    = Top;
-            this.Center = new Pixel<T>(Left, Top);
+            this.X      = X;
+            this.Y      = Y;
+            this.Center = new Pixel<T>(X, Y);
             this.Radius = Radius;
 
         }
@@ -326,8 +340,8 @@ namespace de.ahzf.Blueprints
             if ((Object) ICircle == null)
                 return false;
 
-            return this.Left.  Equals(ICircle.Left)  &&
-                   this.Top.   Equals(ICircle.Top)   &&
+            return this.X.     Equals(ICircle.X) &&
+                   this.Y.     Equals(ICircle.Y) &&
                    this.Radius.Equals(ICircle.Radius);
 
         }
@@ -344,7 +358,7 @@ namespace de.ahzf.Blueprints
         /// <returns>The HashCode of this object.</returns>
         public override Int32 GetHashCode()
         {
-            return Left.GetHashCode() ^ 1 + Top.GetHashCode() ^ 2 + Radius.GetHashCode();
+            return X.GetHashCode() ^ 1 + Y.GetHashCode() ^ 2 + Radius.GetHashCode();
         }
 
         #endregion
@@ -357,8 +371,8 @@ namespace de.ahzf.Blueprints
         public override String ToString()
         {
             return String.Format("Left={0}, Top={1}, Radius={2}",
-                                 Left.  ToString(),
-                                 Top.   ToString(),
+                                 X.     ToString(),
+                                 Y.     ToString(),
                                  Radius.ToString());
         }
 

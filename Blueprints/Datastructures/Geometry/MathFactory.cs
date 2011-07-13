@@ -28,46 +28,32 @@ namespace de.ahzf.Blueprints
     /// An abstract math object for datatype T.
     /// </summary>
     /// <typeparam name="T">The internal type of the math object.</typeparam>
-    public abstract class AMath<T>
+    public static class MathFactory<T>
         where T : IEquatable<T>, IComparable<T>, IComparable
     {
-
-        #region Properties
 
         /// <summary>
         /// A appropriate math object for datatype T.
         /// </summary>
-        public IMath<T> Math { get; private set; }
-
-        #endregion
-
-        #region Constructor(s)
-
-        #region Math()
-
-        /// <summary>
-        /// Create a new abstract Math object for datatype T.
-        /// </summary>
-        public AMath()
+        public static IMath<T> Instance
         {
-            
-            if (typeof(T) == typeof(Double))
-                this.Math = MathDouble.Instance as IMath<T>;
+            get
+            {
+                
+                if (typeof(T) == typeof(Double))
+                    return MathDouble.Instance as IMath<T>;
 
-            else if (typeof(T) == typeof(Single))
-                this.Math = MathSingle.Instance as IMath<T>;
+                else if (typeof(T) == typeof(Single))
+                    return MathSingle.Instance as IMath<T>;
 
-            else if (typeof(T) == typeof(Int32))
-                this.Math = MathInt32. Instance as IMath<T>;
+                else if (typeof(T) == typeof(Int32))
+                    return MathInt32. Instance as IMath<T>;
 
-            if (this.Math == null)
-                throw new Exception("No math class found for datatype '" + typeof(T).Name + "'!");
+                else
+                    throw new Exception("No math class found for datatype '" + typeof(T).Name + "'!");
 
+            }
         }
-
-        #endregion
-
-        #endregion
 
     }
 

@@ -24,28 +24,22 @@ using System;
 namespace de.ahzf.Blueprints
 {
 
-    #region PixelSelector<T>(Pixel)
-
-    /// <summary>
-    /// A delegate selecting which pixels to return.
-    /// </summary>
-    /// <typeparam name="T">The internal datatype of the pixel.</typeparam>
-    /// <param name="Pixel">A pixel of type T.</param>
-    /// <returns>True if the pixel is selected; False otherwise.</returns>
-    public delegate Boolean PixelSelector<T>(IPixel<T> Pixel)
-        where T : IEquatable<T>, IComparable<T>, IComparable;
-
-    #endregion
-
-    #region Pixel<T>
-
     /// <summary>
     /// A pixel of type T.
     /// </summary>
     /// <typeparam name="T">The internal type of the pixel.</typeparam>
-    public class Pixel<T> : AMath<T>, IPixel<T>
+    public class Pixel<T> : IPixel<T>
         where T : IEquatable<T>, IComparable<T>, IComparable
     {
+
+        #region Data
+
+        /// <summary>
+        /// Mathoperation helpers.
+        /// </summary>
+        protected readonly IMath<T> Math;
+
+        #endregion
 
         #region Properties
 
@@ -71,28 +65,29 @@ namespace de.ahzf.Blueprints
 
         #region Constructor(s)
 
-        #region Pixel(x, y)
+        #region Pixel(X, Y)
 
         /// <summary>
         /// Create a pixel of type T.
         /// </summary>
-        /// <param name="x">The X-coordinate.</param>
-        /// <param name="y">The Y-coordinate.</param>
-        public Pixel(T x, T y)
+        /// <param name="X">The X-coordinate.</param>
+        /// <param name="Y">The Y-coordinate.</param>
+        public Pixel(T X, T Y)
         {
 
             #region Initial Checks
 
-            if (x == null)
+            if (X == null)
                 throw new ArgumentNullException("The given x-coordinate must not be null!");
 
-            if (y == null)
+            if (Y == null)
                 throw new ArgumentNullException("The given y-coordinate must not be null!");
 
             #endregion
 
-            this.X = x;
-            this.Y = y;
+            this.Math = MathFactory<T>.Instance;
+            this.X    = X;
+            this.Y    = Y;
 
         }
 
@@ -204,6 +199,20 @@ namespace de.ahzf.Blueprints
 
         #endregion
 
+        #region IComparable Members
+
+        public int CompareTo(object obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int CompareTo(IPixel<T> other)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
         #region IEquatable Members
 
         #region Equals(Object)
@@ -279,19 +288,6 @@ namespace de.ahzf.Blueprints
 
         #endregion
 
-
-        public int CompareTo(IPixel<T> other)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int CompareTo(object obj)
-        {
-            throw new NotImplementedException();
-        }
-
     }
-
-    #endregion
 
 }

@@ -28,7 +28,7 @@ namespace de.ahzf.Blueprints
     /// The interface of a voxel of type T.
     /// </summary>
     /// <typeparam name="T">The internal type of the voxel.</typeparam>
-    public interface IVoxel<T> : IEquatable<IVoxel<T>>
+    public interface IVoxel<T> : IEquatable<IVoxel<T>>, IComparable<IVoxel<T>>, IComparable
         where T : IEquatable<T>, IComparable<T>, IComparable
     {
 

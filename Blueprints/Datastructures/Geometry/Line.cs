@@ -28,9 +28,18 @@ namespace de.ahzf.Blueprints
     /// A 1-dimensional line of type T.
     /// </summary>
     /// <typeparam name="T">The internal type of the line.</typeparam>
-    public class Line<T> : AMath<T>, ILine<T>
+    public class Line<T> : ILine<T>
         where T : IEquatable<T>, IComparable<T>, IComparable
     {
+
+        #region Data
+
+        /// <summary>
+        /// Mathoperation helpers.
+        /// </summary>
+        protected readonly IMath<T> Math;
+
+        #endregion
 
         #region Properties
 
@@ -90,14 +99,19 @@ namespace de.ahzf.Blueprints
             if (Right  == null)
                 throw new ArgumentNullException("The given right-coordinate must not be null!");
 
+            #endregion
+
+            this.Math  = MathFactory<T>.Instance;
+
+            #region Math Checks
 
             if (Math.Distance(Left, Right).Equals(Math.Zero))
                 throw new ArgumentException("The resulting size must not be zero!");
 
             #endregion
 
-            this.Left   = Math.Min(Left, Right);
-            this.Right  = Math.Max(Left, Right);
+            this.Left  = Math.Min(Left, Right);
+            this.Right = Math.Max(Left, Right);
 
         }
 
