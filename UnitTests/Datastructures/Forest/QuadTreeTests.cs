@@ -26,11 +26,11 @@ using System.Threading;
 
 #endregion
 
-namespace de.ahzf.Blueprints.UnitTests.Maths
+namespace de.ahzf.Blueprints.UnitTests.Forest
 {
 
     /// <summary>
-    /// Unit tests for the Quadtree class.
+    /// Unit tests for the quadtree class.
     /// </summary>
     [TestFixture]
     public class QuadtreeTests
@@ -39,7 +39,7 @@ namespace de.ahzf.Blueprints.UnitTests.Maths
         #region CheckBounds()
 
         /// <summary>
-        /// A test for the Quadtree bounds.
+        /// A test for the quadtree bounds.
         /// </summary>
         [Test]
         public void CheckBounds()
@@ -53,6 +53,8 @@ namespace de.ahzf.Blueprints.UnitTests.Maths
             Assert.AreEqual(5, _Quadtree.Bottom);
             Assert.AreEqual(2, _Quadtree.Width);
             Assert.AreEqual(3, _Quadtree.Height);
+
+            Assert.AreEqual(0, _Quadtree.EmbeddedCount);
             Assert.AreEqual(0, _Quadtree.Count);
 
         }
@@ -77,7 +79,7 @@ namespace de.ahzf.Blueprints.UnitTests.Maths
         #region CheckSplit()
 
         /// <summary>
-        /// A test for the Quadtree bounds.
+        /// A test for splitting the quadtree.
         /// </summary>
         [Test]
         public void CheckSplit()
@@ -85,7 +87,7 @@ namespace de.ahzf.Blueprints.UnitTests.Maths
 
             var _NumberOfSplits = 0L;
 
-            var _Quadtree = new Quadtree<Double>(0, 0, 10, 10, MaxNumberOfEmbeddedData: 4);
+            var _Quadtree = new Quadtree<Double>(0, 0, 10, 10, MaxNumberOfEmbeddedPixels: 4);
             _Quadtree.OnTreeSplit += (Quadtree, Pixel) =>
             {
                 Interlocked.Increment(ref _NumberOfSplits);
@@ -121,7 +123,7 @@ namespace de.ahzf.Blueprints.UnitTests.Maths
         #region CheckRecursiveSplits()
 
         /// <summary>
-        /// A test for the Quadtree bounds.
+        /// A test for splitting the quadtree recursively.
         /// </summary>
         [Test]
         public void CheckRecursiveSplits()
@@ -129,7 +131,7 @@ namespace de.ahzf.Blueprints.UnitTests.Maths
 
             var _NumberOfSplits = 0L;
 
-            var _Quadtree = new Quadtree<Double>(0, 0, 100, 100, MaxNumberOfEmbeddedData: 4);
+            var _Quadtree = new Quadtree<Double>(0, 0, 100, 100, MaxNumberOfEmbeddedPixels: 4);
             _Quadtree.OnTreeSplit += (Quadtree, Pixel) =>
             {
                 Interlocked.Increment(ref _NumberOfSplits);

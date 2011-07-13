@@ -156,29 +156,6 @@ namespace SocialGraphDemo
 
             //_Vertex.GetProperty(
 
-            var _QuadTree = new Quadtree<Double>(0, 0, 100, 100, 4);
-            _QuadTree.OnTreeSplit += (qt, p) => { Console.WriteLine("Now! " + qt.ToString() + " - " + p); };
-            _QuadTree.Add(new Pixel<Double>(1, 1));
-            var lll = _QuadTree.Count;
-            _QuadTree.Add(new Pixel<Double>(9, 1));
-            _QuadTree.Add(new Pixel<Double>(1, 9));
-            _QuadTree.Add(new Pixel<Double>(9, 9));
-            _QuadTree.Add(new Pixel<Double>(4, 4)); // Split!
-            _QuadTree.Add(new Pixel<Double>(5, 5));
-
-            _QuadTree.Add(new Pixel<Double>(50, 5));
-            _QuadTree.Add(new Pixel<Double>(51, 5));
-            _QuadTree.Add(new Pixel<Double>(52, 5));
-            _QuadTree.Add(new Pixel<Double>(53, 5));
-            _QuadTree.Add(new Pixel<Double>(54, 5));
-            _QuadTree.Add(new Pixel<Double>(55, 5));
-            _QuadTree.Add(new Pixel<Double>(56, 5));
-            _QuadTree.Add(new Pixel<Double>(57, 5));
-            _QuadTree.Add(new Pixel<Double>(58, 5));
-            _QuadTree.Add(new Pixel<Double>(59, 5));
-            _QuadTree.Add(new Pixel<Double>(60, 5));
-
-            var l = _QuadTree.Get(new Rectangle<Double>(3, 3, 6, 6)).ToList();
 
             var _graph  = DemoGraphFactory.CreateDemoGraph();
 

@@ -24,6 +24,21 @@ using System;
 namespace de.ahzf.Blueprints
 {
 
+    #region PixelSelector<T>(Pixel)
+
+    /// <summary>
+    /// A delegate selecting which pixel to return.
+    /// </summary>
+    /// <typeparam name="T">The internal type of the pixel.</typeparam>
+    /// <param name="Pixel">A pixel of type T.</param>
+    /// <returns>True if the pixel is selected; False otherwise.</returns>
+    public delegate Boolean PixelSelector<T>(IPixel<T> Pixel)
+        where T : IEquatable<T>, IComparable<T>, IComparable;
+
+    #endregion
+
+    #region Pixel<T>
+
     /// <summary>
     /// A pixel of type T.
     /// </summary>
@@ -265,5 +280,7 @@ namespace de.ahzf.Blueprints
         #endregion
 
     }
+
+    #endregion
 
 }

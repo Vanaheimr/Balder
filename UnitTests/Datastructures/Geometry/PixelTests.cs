@@ -24,7 +24,7 @@ using NUnit.Framework;
 
 #endregion
 
-namespace de.ahzf.Blueprints.UnitTests.Maths
+namespace de.ahzf.Blueprints.UnitTests.Geometry
 {
 
     /// <summary>

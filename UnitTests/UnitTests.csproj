@@ -50,9 +50,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Datastructures\Forest\BintreeTests.cs" />
     <Compile Include="Datastructures\Forest\QuadtreeTests.cs" />
-    <Compile Include="Datastructures\Math\RectangleTests.cs" />
-    <Compile Include="Datastructures\Math\PixelTests.cs" />
+    <Compile Include="Datastructures\Geometry\RectangleTests.cs" />
+    <Compile Include="Datastructures\Geometry\PixelTests.cs" />
     <Compile Include="Datastructures\SystemIdTests.cs" />
     <Compile Include="InMemoryGraph\PropertyVertexTests.cs" />
     <Compile Include="PropertyGraphs\Indices\IndicesTests.cs" />

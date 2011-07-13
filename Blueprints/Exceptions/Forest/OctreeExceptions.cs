@@ -27,14 +27,15 @@ namespace de.ahzf.Blueprints
     #region OctreeException(Octree, Voxel = null, Message = null, InnerException = null)
 
     /// <summary>
-    /// The base class for all OctreeExceptions.
+    /// The base class for all octree exceptions.
     /// </summary>
+    /// <typeparam name="T">The internal datatype of the octree.</typeparam>
     public class OctreeException<T> : Exception
         where T : IEquatable<T>, IComparable<T>, IComparable
     {
 
         /// <summary>
-        /// The Octree causing this exception.
+        /// The octree causing this exception.
         /// </summary>
         public Octree<T> Octree { get; private set; }
 
@@ -44,9 +45,9 @@ namespace de.ahzf.Blueprints
         public IVoxel<T>   Voxel    { get; private set; }
 
         /// <summary>
-        /// A general OctreeException exception occurred!
+        /// A general octree exception occurred!
         /// </summary>
-        /// <param name="Octree">The Octree causing this exception.</param>
+        /// <param name="Octree">The octree causing this exception.</param>
         /// <param name="Voxel">An optional voxel causing this exception.</param>
         /// <param name="Message">The message that describes the error.</param>
         /// <param name="InnerException">The exception that is the cause of the current exception.</param>
@@ -66,21 +67,22 @@ namespace de.ahzf.Blueprints
 
     /// <summary>
     /// An exception thrown when at least one dimension
-    /// of the Octree is zero.
+    /// of the octree is zero.
     /// </summary>
+    /// <typeparam name="T">The internal datatype of the octree.</typeparam>
     public class OT_ZeroDimensionException<T> : OctreeException<T>
         where T : IEquatable<T>, IComparable<T>, IComparable
     {
 
         /// <summary>
         /// An exception thrown when at least one dimension
-        /// of the Octree is zero.
+        /// of the octree is zero.
         /// </summary>
-        /// <param name="Octree">The Octree causing this exception.</param>
+        /// <param name="Octree">The octree causing this exception.</param>
         /// <param name="Message">The message that describes the error.</param>
         /// <param name="InnerException">The exception that is the cause of the current exception.</param>
         public OT_ZeroDimensionException(Octree<T> Octree, String Message = null, Exception InnerException = null)
-            : base(Octree, Message: "The given Octree has at least one zero dimension!" + Message, InnerException: InnerException)
+            : base(Octree, Message: "The given octree has at least one zero dimension!" + Message, InnerException: InnerException)
         { }
 
     }
@@ -90,22 +92,24 @@ namespace de.ahzf.Blueprints
     #region OT_OutOfBoundsException(Octree, Voxel, Message = null, InnerException = null)
 
     /// <summary>
-    /// An exception thrown when the given Voxel is
-    /// located outside of the Octree bounds!
+    /// An exception thrown when the given voxel is
+    /// located outside of the octree bounds!
     /// </summary>
+    /// <typeparam name="T">The internal datatype of the octree.</typeparam>
     public class OT_OutOfBoundsException<T> : OctreeException<T>
         where T : IEquatable<T>, IComparable<T>, IComparable
     {
 
         /// <summary>
-        /// A general OctreeException exception occurred!
+        /// An exception thrown when the given voxel is
+        /// located outside of the octree bounds!
         /// </summary>
-        /// <param name="Octree">The Octree causing this exception.</param>
+        /// <param name="Octree">The octree causing this exception.</param>
         /// <param name="Voxel">The voxel causing this exception.</param>
         /// <param name="Message">The message that describes the error.</param>
         /// <param name="InnerException">The exception that is the cause of the current exception.</param>
         public OT_OutOfBoundsException(Octree<T> Octree, IVoxel<T> Voxel, String Message = null, Exception InnerException = null)
-            : base(Octree, Voxel, "The given Voxel is located outside of the Octree bounds!" + Message, InnerException)
+            : base(Octree, Voxel, "The given voxel is located outside of the octree bounds!" + Message, InnerException)
         { }
 
     }

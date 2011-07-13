@@ -25,15 +25,30 @@ using System.Collections.Generic;
 namespace de.ahzf.Blueprints
 {
 
+    #region QuadtreeSplitEventHandler<T>(Quadtree, Pixel)
+
+    /// <summary>
+    /// An event handler delegate definition whenever an
+    /// quadtree splits an internal rectangle.
+    /// </summary>
+    /// <typeparam name="T">The type of the Quadtree.</typeparam>
+    /// <param name="Quadtree">The sending quadtree.</param>
+    /// <param name="Pixel">The pixel causing the split.</param>
     public delegate void QuadtreeSplitEventHandler<T>(Quadtree<T> Quadtree, IPixel<T> Pixel)
         where T : IEquatable<T>, IComparable<T>, IComparable;
 
+    #endregion
+
+    #region Quadtree<T>
+
     /// <summary>
-    /// A Quadtree is an indexing structure for two-dimensional data.
+    /// A quadtree is an indexing structure for 2-dimensional spartial data.
+    /// It stores the given maximum number of pixels and forkes itself
+    /// into four subtrees if this number becomes larger.
     /// Note: This datastructure is not self-balancing!
     /// </summary>
-    /// <typeparam name="T">The internal type of the Quadtree.</typeparam>
-    public class Quadtree<T> : Rectangle<T>, IEnumerable<IPixel<T>>
+    /// <typeparam name="T">The internal datatype of the quadtree.</typeparam>
+    public class Quadtree<T> : Rectangle<T>, IQuadtree<T>
         where T : IEquatable<T>, IComparable<T>, IComparable
     {
 
@@ -53,7 +68,7 @@ namespace de.ahzf.Blueprints
         #region OnTreeSplit
 
         /// <summary>
-        /// An event to inform about an Quadtree split happening.
+        /// An event to notify about a quadtree split happening.
         /// </summary>
         public event QuadtreeSplitEventHandler<T> OnTreeSplit;
 
@@ -63,13 +78,61 @@ namespace de.ahzf.Blueprints
 
         #region Properties
 
-        #region MaxNumberOfEmbeddedData
+        #region MaxNumberOfEmbeddedPixels
 
         /// <summary>
-        /// The maximum number of embedded elements before
-        /// four child node will be created.
+        /// The maximum number of embedded pixels before
+        /// four subtrees will be created.
         /// </summary>
-        public UInt32 MaxNumberOfEmbeddedData { get; private set; }
+        public UInt32 MaxNumberOfEmbeddedPixels { get; private set; }
+
+        #endregion
+
+        #region EmbeddedCount
+
+        /// <summary>
+        /// Return the number of embedded pixels
+        /// stored within this quadtree(-node).
+        /// </summary>
+        public UInt64 EmbeddedCount
+        {
+            get
+            {
+                return (UInt64) EmbeddedPixels.Count;
+            }
+        }
+
+        #endregion
+
+        #region Count
+
+        /// <summary>
+        /// Return the number of pixels stored
+        /// within the entire quadtree.
+        /// </summary>
+        public UInt64 Count
+        {
+            get
+            {
+                
+                var _Count = (UInt64) EmbeddedPixels.Count;
+
+                if (Subtree1 != null)
+                    _Count += Subtree1.Count;
+
+                if (Subtree2 != null)
+                    _Count += Subtree2.Count;
+
+                if (Subtree3 != null)
+                    _Count += Subtree3.Count;
+
+                if (Subtree4 != null)
+                    _Count += Subtree4.Count;
+
+                return _Count;
+
+            }
+        }
 
         #endregion
 
@@ -77,17 +140,17 @@ namespace de.ahzf.Blueprints
 
         #region Constructor(s)
 
-        #region Quadtree(Left, Top, Right, Bottom, MaxNumberOfEmbeddedData = 256)
+        #region Quadtree(Left, Top, Right, Bottom, MaxNumberOfEmbeddedPixels = 256)
 
         /// <summary>
-        /// Create a Quadtree of type T.
+        /// Create a quadtree of type T.
         /// </summary>
-        /// <param name="Left">The left parameter.</param>
-        /// <param name="Top">The top parameter.</param>
-        /// <param name="Right">The right parameter.</param>
-        /// <param name="Bottom">The bottom parameter.</param>
-        /// <param name="MaxNumberOfEmbeddedData">The maximum number of embedded elements before four child node will be created.</param>
-        public Quadtree(T Left, T Top, T Right, T Bottom, UInt32 MaxNumberOfEmbeddedData = 256)
+        /// <param name="Left">The left-coordinate.</param>
+        /// <param name="Top">The top-coordinate.</param>
+        /// <param name="Right">The right-coordinate.</param>
+        /// <param name="Bottom">The bottom-coordinate.</param>
+        /// <param name="MaxNumberOfEmbeddedPixels">The maximum number of embedded pixels before four subtrees will be created.</param>
+        public Quadtree(T Left, T Top, T Right, T Bottom, UInt32 MaxNumberOfEmbeddedPixels = 256)
             : base(Left, Top, Right, Bottom)
         {
 
@@ -97,22 +160,22 @@ namespace de.ahzf.Blueprints
             if (Height.Equals(default(T)))
                 throw new QT_ZeroDimensionException<T>(this, "Height == 0!");
 
-            this.MaxNumberOfEmbeddedData = MaxNumberOfEmbeddedData;
-            this.EmbeddedPixels          = new HashSet<IPixel<T>>();
+            this.MaxNumberOfEmbeddedPixels = MaxNumberOfEmbeddedPixels;
+            this.EmbeddedPixels            = new HashSet<IPixel<T>>();
 
         }
 
         #endregion
 
-        #region Quadtree(Pixel1, Pixel2, MaxNumberOfEmbeddedData = 256)
+        #region Quadtree(Pixel1, Pixel2, MaxNumberOfEmbeddedPixels = 256)
 
         /// <summary>
-        /// Create a Quadtree of type T.
+        /// Create a quadtree of type T.
         /// </summary>
         /// <param name="Pixel1">A pixel of type T.</param>
         /// <param name="Pixel2">A pixel of type T.</param>
-        /// <param name="MaxNumberOfEmbeddedData">The maximum number of embedded elements before four child node will be created.</param>
-        public Quadtree(Pixel<T> Pixel1, Pixel<T> Pixel2, UInt32 MaxNumberOfEmbeddedData = 256)
+        /// <param name="MaxNumberOfEmbeddedPixels">The maximum number of embedded pixels before four subtrees will be created.</param>
+        public Quadtree(Pixel<T> Pixel1, Pixel<T> Pixel2, UInt32 MaxNumberOfEmbeddedPixels = 256)
             : base(Pixel1, Pixel2)
         {
 
@@ -125,23 +188,23 @@ namespace de.ahzf.Blueprints
             if (Height.Equals(default(T)))
                 throw new QT_ZeroDimensionException<T>(this, "Height == 0!");
 
-            this.MaxNumberOfEmbeddedData = MaxNumberOfEmbeddedData;
-            this.EmbeddedPixels          = new HashSet<IPixel<T>>();
+            this.MaxNumberOfEmbeddedPixels = MaxNumberOfEmbeddedPixels;
+            this.EmbeddedPixels            = new HashSet<IPixel<T>>();
 
         }
 
         #endregion
 
-        #region Quadtree(Pixel, Width, Height, MaxNumberOfEmbeddedData = 256)
+        #region Quadtree(Pixel, Width, Height, MaxNumberOfEmbeddedPixels = 256)
 
         /// <summary>
-        /// Create a Quadtree of type T.
+        /// Create a quadtree of type T.
         /// </summary>
-        /// <param name="Pixel">A pixel of type T in the upper left corner of the QuadtreeNode.</param>
-        /// <param name="Width">The width of the QuadtreeNode.</param>
-        /// <param name="Height">The height of the QuadtreeNode.</param>
-        /// <param name="MaxNumberOfEmbeddedData">The maximum number of embedded elements before four child node will be created.</param>
-        public Quadtree(Pixel<T> Pixel, T Width, T Height, UInt32 MaxNumberOfEmbeddedData = 256)
+        /// <param name="Pixel">A pixel of type T in the upper left corner of the quadtree.</param>
+        /// <param name="Width">The width of the quadtree.</param>
+        /// <param name="Height">The height of the quadtree.</param>
+        /// <param name="MaxNumberOfEmbeddedPixels">The maximum number of embedded pixels before four subtrees will be created.</param>
+        public Quadtree(Pixel<T> Pixel, T Width, T Height, UInt32 MaxNumberOfEmbeddedPixels = 256)
             : base(Pixel, Width, Height)
         {
 
@@ -151,8 +214,8 @@ namespace de.ahzf.Blueprints
             if (Height.Equals(default(T)))
                 throw new QT_ZeroDimensionException<T>(this, "Height == 0!");
 
-            this.MaxNumberOfEmbeddedData = MaxNumberOfEmbeddedData;
-            this.EmbeddedPixels          = new HashSet<IPixel<T>>();
+            this.MaxNumberOfEmbeddedPixels = MaxNumberOfEmbeddedPixels;
+            this.EmbeddedPixels            = new HashSet<IPixel<T>>();
 
         }
 
@@ -164,13 +227,13 @@ namespace de.ahzf.Blueprints
         #region Add(Pixel)
 
         /// <summary>
-        /// Add a pixel to the Quadtree.
+        /// Add a pixel to the quadtree.
         /// </summary>
         /// <param name="Pixel">A pixel of type T.</param>
         public void Add(IPixel<T> Pixel)
         {
 
-            if (this.Contains(Pixel.X, Pixel.Y))
+            if (this.Contains(Pixel))
             {
 
                 #region Check subtrees...
@@ -191,7 +254,7 @@ namespace de.ahzf.Blueprints
 
                 #region ...or the embedded data.
 
-                else if (EmbeddedPixels.Count < MaxNumberOfEmbeddedData)
+                else if (EmbeddedPixels.Count < MaxNumberOfEmbeddedPixels)
                     EmbeddedPixels.Add(Pixel);
 
                 #endregion
@@ -209,7 +272,7 @@ namespace de.ahzf.Blueprints
                                                    Top,
                                                    Math.Add(Left, Math.Div2(Width)),
                                                    Math.Add(Top,  Math.Div2(Height)),
-                                                   MaxNumberOfEmbeddedData);
+                                                   MaxNumberOfEmbeddedPixels);
                         Subtree1.OnTreeSplit += OnTreeSplit;
                     }
 
@@ -219,7 +282,7 @@ namespace de.ahzf.Blueprints
                                                    Top,
                                                    Right,
                                                    Math.Add(Top, Math.Div2(Height)),
-                                                   MaxNumberOfEmbeddedData);
+                                                   MaxNumberOfEmbeddedPixels);
                         Subtree2.OnTreeSplit += OnTreeSplit;
                     }
 
@@ -229,7 +292,7 @@ namespace de.ahzf.Blueprints
                                                    Math.Add(Top,  Math.Div2(Height)),
                                                    Math.Add(Left, Math.Div2(Width)),
                                                    Bottom,
-                                                   MaxNumberOfEmbeddedData);
+                                                   MaxNumberOfEmbeddedPixels);
                         Subtree3.OnTreeSplit += OnTreeSplit;
                     }
 
@@ -239,7 +302,7 @@ namespace de.ahzf.Blueprints
                                                    Math.Add(Top,  Math.Div2(Height)),
                                                    Right,
                                                    Bottom,
-                                                   MaxNumberOfEmbeddedData);
+                                                   MaxNumberOfEmbeddedPixels);
                         Subtree4.OnTreeSplit += OnTreeSplit;
                     }
 
@@ -296,9 +359,9 @@ namespace de.ahzf.Blueprints
         #region Get(PixelSelector)
 
         /// <summary>
-        /// Return all pixels matching the given pixel selector delegate.
+        /// Return all pixels matching the given pixelselector delegate.
         /// </summary>
-        /// <param name="PixelSelector">A delegate selecting which pixel to return.</param>
+        /// <param name="PixelSelector">A delegate selecting which pixels to return.</param>
         public IEnumerable<IPixel<T>> Get(PixelSelector<T> PixelSelector)
         {
 
@@ -346,7 +409,7 @@ namespace de.ahzf.Blueprints
         /// <summary>
         /// Return all pixels within the given rectangle.
         /// </summary>
-        /// <param name="Rectangle">A rectangle selecting which pixel to return.</param>
+        /// <param name="Rectangle">A rectangle selecting which pixels to return.</param>
         public IEnumerable<IPixel<T>> Get(IRectangle<T> Rectangle)
         {
 
@@ -357,7 +420,37 @@ namespace de.ahzf.Blueprints
 
             #endregion
 
-            return Get(p => Rectangle.Contains(p));
+            #region Check embedded pixels
+
+            foreach (var _Pixel in EmbeddedPixels)
+                if (Rectangle.Contains(_Pixel))
+                    yield return _Pixel;
+
+            #endregion
+
+            #region Check subtrees
+
+            if (Subtree1 != null)
+                if (Subtree1.Overlaps(Rectangle))
+                    foreach (var _Pixel in Subtree1.Get(Rectangle))
+                        yield return _Pixel;
+
+            if (Subtree2 != null)
+                if (Subtree2.Overlaps(Rectangle))
+                    foreach (var _Pixel in Subtree2.Get(Rectangle))
+                        yield return _Pixel;
+
+            if (Subtree3 != null)
+                if (Subtree3.Overlaps(Rectangle))
+                    foreach (var _Pixel in Subtree3.Get(Rectangle))
+                        yield return _Pixel;
+
+            if (Subtree4 != null)
+                if (Subtree4.Overlaps(Rectangle))
+                    foreach (var _Pixel in Subtree4.Get(Rectangle))
+                        yield return _Pixel;
+
+            #endregion
 
         }
 
@@ -366,45 +459,103 @@ namespace de.ahzf.Blueprints
         #region Remove(Pixel)
 
         /// <summary>
-        /// Remove a pixel from the Quadtree.
+        /// Remove a pixel from the quadtree.
         /// </summary>
-        /// <param name="Pixel"></param>
+        /// <param name="Pixel">A pixel of type T.</param>
         public void Remove(IPixel<T> Pixel)
         {
+
+            #region Initial Checks
+
+            if (Pixel == null)
+                throw new ArgumentNullException("The given pixel must not be null!");
+
+            #endregion
+
+            #region Remove embedded voxel
+
             EmbeddedPixels.Remove(Pixel);
+
+            #endregion
+
+            #region Check subtrees
+
+            if (Subtree1 != null)
+                if (Subtree1.Contains(Pixel))
+                    Subtree1.Remove(Pixel);
+
+            if (Subtree2 != null)
+                if (Subtree2.Contains(Pixel))
+                    Subtree2.Remove(Pixel);
+
+            if (Subtree3 != null)
+                if (Subtree3.Contains(Pixel))
+                    Subtree3.Remove(Pixel);
+
+            if (Subtree4 != null)
+                if (Subtree4.Contains(Pixel))
+                    Subtree4.Remove(Pixel);
+
+            #endregion
+
         }
 
         #endregion
 
-        #region EmbeddedCount
+        #region Remove(Rectangle)
 
         /// <summary>
-        /// Return the number of embedded pixels
-        /// stored within this Quadtree(Node).
+        /// Remove all pixels located within the given rectangle.
         /// </summary>
-        public UInt64 EmbeddedCount
+        /// <param name="Rectangle">A rectangle selecting which pixels to remove.</param>
+        public void Remove(IRectangle<T> Rectangle)
         {
-            get
+
+            #region Initial Checks
+
+            if (Rectangle == null)
+                throw new ArgumentNullException("The given rectangle must not be null!");
+
+            #endregion
+
+            #region Remove embedded voxel
+
+            lock (this)
             {
-                return (UInt64) EmbeddedPixels.Count;
+
+                var _List = new List<IPixel<T>>();
+
+                foreach (var _Pixel in EmbeddedPixels)
+                    if (Rectangle.Contains(_Pixel))
+                        _List.Add(_Pixel);
+
+                foreach (var _Pixel in _List)
+                    EmbeddedPixels.Remove(_Pixel);
+
             }
-        }
 
-        #endregion
+            #endregion
 
-        #region Count
+            #region Check subtrees
 
-        /// <summary>
-        /// Return the number of pixels stored
-        /// within the entire Quadtree.
-        /// </summary>
-        public UInt64 Count
-        {
-            get
-            {
-                //FIXME: !!!
-                return (UInt64) EmbeddedPixels.Count;
-            }
+            if (Subtree1 != null)
+                if (Subtree1.Overlaps(Rectangle))
+                    Subtree1.Remove(Rectangle);
+
+            if (Subtree2 != null)
+                if (Subtree2.Overlaps(Rectangle))
+                    Subtree2.Remove(Rectangle);
+
+            if (Subtree3 != null)
+                if (Subtree3.Overlaps(Rectangle))
+                    Subtree3.Remove(Rectangle);
+
+            if (Subtree4 != null)
+                if (Subtree4.Overlaps(Rectangle))
+                    Subtree4.Remove(Rectangle);
+
+            #endregion
+
         }
 
         #endregion
@@ -487,5 +638,7 @@ namespace de.ahzf.Blueprints
         #endregion
 
     }
+
+    #endregion
 
 }
