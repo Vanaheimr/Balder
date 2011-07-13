@@ -132,10 +132,10 @@ namespace de.ahzf.Blueprints
                 throw new ArgumentNullException("The given bottom-coordinate must not be null!");
 
 
-            if (Width.Equals(Math.Zero))
+            if (Math.Distance(Left, Right).Equals(Math.Zero))
                 throw new ArgumentException("The resulting width must not be zero!");
 
-            if (Height.Equals(Math.Zero))
+            if (Math.Distance(Top, Bottom).Equals(Math.Zero))
                 throw new ArgumentException("The resulting height must not be zero!");
 
             #endregion
@@ -168,10 +168,10 @@ namespace de.ahzf.Blueprints
                 throw new ArgumentNullException("The given second pixel must not be null!");
 
 
-            if (Width.Equals(Math.Zero))
+            if (Math.Distance(Left, Right).Equals(Math.Zero))
                 throw new ArgumentException("The resulting width must not be zero!");
 
-            if (Height.Equals(Math.Zero))
+            if (Math.Distance(Top, Bottom).Equals(Math.Zero))
                 throw new ArgumentException("The resulting height must not be zero!");
 
             #endregion
@@ -208,10 +208,10 @@ namespace de.ahzf.Blueprints
                 throw new ArgumentNullException("The given height must not be null!");
 
 
-            if (Width.Equals(Math.Zero))
+            if (Math.Distance(Left, Right).Equals(Math.Zero))
                 throw new ArgumentException("The resulting width must not be zero!");
 
-            if (Height.Equals(Math.Zero))
+            if (Math.Distance(Top, Bottom).Equals(Math.Zero))
                 throw new ArgumentException("The resulting height must not be zero!");
 
             #endregion

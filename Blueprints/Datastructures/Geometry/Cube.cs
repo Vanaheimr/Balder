@@ -173,13 +173,13 @@ namespace de.ahzf.Blueprints
                 throw new ArgumentNullException("The given behind coordinate must not be null!");
 
 
-            if (Width.Equals(Math.Zero))
+            if (Math.Distance(Left, Right).Equals(Math.Zero))
                 throw new ArgumentException("The resulting width must not be zero!");
 
-            if (Height.Equals(Math.Zero))
+            if (Math.Distance(Top, Bottom).Equals(Math.Zero))
                 throw new ArgumentException("The resulting height must not be zero!");
 
-            if (Depth.Equals(Math.Zero))
+            if (Math.Distance(Front, Behind).Equals(Math.Zero))
                 throw new ArgumentException("The resulting depth must not be zero!");
 
             #endregion
@@ -214,13 +214,13 @@ namespace de.ahzf.Blueprints
                 throw new ArgumentNullException("The given second voxel must not be null!");
 
 
-            if (Width.Equals(Math.Zero))
+            if (Math.Distance(Left, Right).Equals(Math.Zero))
                 throw new ArgumentException("The resulting width must not be zero!");
 
-            if (Height.Equals(Math.Zero))
+            if (Math.Distance(Top, Bottom).Equals(Math.Zero))
                 throw new ArgumentException("The resulting height must not be zero!");
 
-            if (Depth.Equals(Math.Zero))
+            if (Math.Distance(Front, Behind).Equals(Math.Zero))
                 throw new ArgumentException("The resulting depth must not be zero!");
 
             #endregion
@@ -263,13 +263,13 @@ namespace de.ahzf.Blueprints
                 throw new ArgumentNullException("The given depth must not be null!");
 
 
-            if (Width.Equals(Math.Zero))
+            if (Math.Distance(Left, Right).Equals(Math.Zero))
                 throw new ArgumentException("The resulting width must not be zero!");
 
-            if (Height.Equals(Math.Zero))
+            if (Math.Distance(Top, Bottom).Equals(Math.Zero))
                 throw new ArgumentException("The resulting height must not be zero!");
 
-            if (Depth.Equals(Math.Zero))
+            if (Math.Distance(Front, Behind).Equals(Math.Zero))
                 throw new ArgumentException("The resulting depth must not be zero!");
 
             #endregion

@@ -52,15 +52,6 @@ namespace de.ahzf.Blueprints
 
         #endregion
 
-        #region Center
-
-        /// <summary>
-        /// The center of the circle.
-        /// </summary>
-        public IPixel<T> Center { get; private set; }
-
-        #endregion
-
         #region Radius
 
         /// <summary>
@@ -70,6 +61,15 @@ namespace de.ahzf.Blueprints
 
         #endregion
 
+
+        #region Center
+
+        /// <summary>
+        /// The center of the circle.
+        /// </summary>
+        public IPixel<T> Center { get; private set; }
+
+        #endregion
 
         #region Diameter
 
