@@ -25,27 +25,16 @@ using System.Collections.Generic;
 namespace de.ahzf.Blueprints
 {
 
+    #region IQuadtree
+
     /// <summary>
     /// A quadtree is an indexing structure for 2-dimensional spartial data.
     /// It stores the given maximum number of pixels and forkes itself
     /// into four subtrees if this number becomes larger.
     /// Note: This datastructure is not self-balancing!
     /// </summary>
-    /// <typeparam name="T">The internal datatype of the quadtree.</typeparam>
-    public interface IQuadtree<T> : IEnumerable<IPixel<T>>
-        where T : IEquatable<T>, IComparable<T>, IComparable
+    public interface IQuadtree
     {
-
-        #region Events
-
-        /// <summary>
-        /// An event to notify about an quadtree split happening.
-        /// </summary>
-        event QuadtreeSplitEventHandler<T> OnTreeSplit;
-
-        #endregion
-
-        #region Properties
 
         /// <summary>
         /// The maximum number of embedded elements before
@@ -57,13 +46,37 @@ namespace de.ahzf.Blueprints
         /// Return the number of embedded pixels
         /// stored within this Quadtree(Node).
         /// </summary>
-        UInt64 EmbeddedCount{ get; }
+        UInt64 EmbeddedCount             { get; }
 
         /// <summary>
         /// Return the number of pixels stored
         /// within the entire quadtree.
         /// </summary>
-        UInt64 Count { get; }
+        UInt64 Count                     { get; }
+
+    }
+
+    #endregion
+
+    #region IQuadtree<T>
+
+    /// <summary>
+    /// A quadtree is an indexing structure for 2-dimensional spartial data.
+    /// It stores the given maximum number of pixels and forkes itself
+    /// into four subtrees if this number becomes larger.
+    /// Note: This datastructure is not self-balancing!
+    /// </summary>
+    /// <typeparam name="T">The internal datatype of the quadtree.</typeparam>
+    public interface IQuadtree<T> : IQuadtree, IEnumerable<IPixel<T>>
+        where T : IEquatable<T>, IComparable<T>, IComparable
+    {
+
+        #region Events
+
+        /// <summary>
+        /// An event to notify about an quadtree split happening.
+        /// </summary>
+        event QuadtreeSplitEventHandler<T> OnTreeSplit;
 
         #endregion
 
@@ -103,6 +116,8 @@ namespace de.ahzf.Blueprints
 
     }
 
+    #endregion
+
     #region IQuadtree<T, TValue>
 
     /// <summary>
@@ -112,7 +127,7 @@ namespace de.ahzf.Blueprints
     /// Note: This datastructure is not self-balancing!
     /// </summary>
     /// <typeparam name="T">The internal datatype of the quadtree.</typeparam>
-    public interface IQuadtree<T, TValue> : IEnumerable<IPixelValuePair<T, TValue>>
+    public interface IQuadtree<T, TValue> : IQuadtree, IEnumerable<IPixelValuePair<T, TValue>>
         where T : IEquatable<T>, IComparable<T>, IComparable
     {
 
@@ -122,28 +137,6 @@ namespace de.ahzf.Blueprints
         /// An event to notify about an quadtree split happening.
         /// </summary>
         event QuadtreeSplitEventHandler<T, TValue> OnTreeSplit;
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// The maximum number of embedded elements before
-        /// four child node will be created.
-        /// </summary>
-        UInt32 MaxNumberOfEmbeddedPixels { get; }
-
-        /// <summary>
-        /// Return the number of embedded pixels
-        /// stored within this Quadtree(Node).
-        /// </summary>
-        UInt64 EmbeddedCount             { get; }
-
-        /// <summary>
-        /// Return the number of pixels stored
-        /// within the entire quadtree.
-        /// </summary>
-        UInt64 Count                     { get; }
 
         #endregion
 
