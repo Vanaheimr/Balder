@@ -81,6 +81,9 @@ namespace de.ahzf.Blueprints.GenericGraph.InMemory
 
         #endregion
 
+        /// <summary>
+        /// 
+        /// </summary>
         public TRevisionIdVertex RevisionId { get; private set; }
 
 
@@ -95,7 +98,9 @@ namespace de.ahzf.Blueprints.GenericGraph.InMemory
         //}
 
 
-
+        /// <summary>
+        /// 
+        /// </summary>
         public TDataVertex Data { get; private set; }
 
         #endregion

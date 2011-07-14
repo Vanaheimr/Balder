@@ -93,6 +93,7 @@
     <Compile Include="Exceptions\PropertyGraph\PropertyGraphExceptions.cs" />
     <Compile Include="Extensions\PropertyGraph\IPropertyVertexExtensions.cs" />
     <Compile Include="Extensions\QuadStore\IQuadStoreExtensions.cs" />
+    <Compile Include="Interfaces\GenericGraph\Delegates.cs" />
     <Compile Include="Interfaces\Indices\IIndex2D.cs" />
     <Compile Include="Interfaces\PropertyGraph\PropertyNotificationsEventHandler.cs" />
     <Compile Include="Interfaces\PropertyGraph\Delegates.cs" />

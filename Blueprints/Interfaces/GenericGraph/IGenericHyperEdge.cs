@@ -63,15 +63,17 @@ namespace de.ahzf.Blueprints.GenericGraph
     /// </summary>
     /// <typeparam name="TIdVertex">The type of the vertex identifiers.</typeparam>
     /// <typeparam name="TRevisionIdVertex">The type of the vertex revision identifiers.</typeparam>
-    /// <typeparam name="TVertexData">The type of the embedded vertex data.</typeparam>
+    /// <typeparam name="TDataVertex">The type of the embedded vertex data.</typeparam>
     /// 
     /// <typeparam name="TIdEdge">The type of the edge identifiers.</typeparam>
     /// <typeparam name="TRevisionIdEdge">The type of the edge identifiers.</typeparam>
-    /// <typeparam name="TEdgeData">The type of the embedded edge data.</typeparam>
+    /// <typeparam name="TEdgeLabel">The type of the edge label.</typeparam>
+    /// <typeparam name="TDataEdge">The type of the embedded edge data.</typeparam>
     /// 
     /// <typeparam name="TIdHyperEdge">The type of the hyperedge identifiers.</typeparam>
     /// <typeparam name="TRevisionIdHyperEdge">The type of the hyperedge identifiers.</typeparam>
-    /// <typeparam name="THyperEdgeData">The type of the embedded hyperedge data.</typeparam>
+    /// <typeparam name="THyperEdgeLabel">The type of the hyperedge label.</typeparam>
+    /// <typeparam name="TDataHyperEdge">The type of the embedded hyperedge data.</typeparam>
     public interface IGenericHyperEdge<TIdVertex,    TRevisionIdVertex,                     TDataVertex,
                                        TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
                                        TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge>

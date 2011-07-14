@@ -61,11 +61,13 @@ namespace de.ahzf.Blueprints.GenericGraph
     /// 
     /// <typeparam name="TIdEdge">The type of the edge identifiers.</typeparam>
     /// <typeparam name="TRevisionIdEdge">The type of the edge identifiers.</typeparam>
+    /// <typeparam name="TEdgeLabel">The type of the edge label.</typeparam>
     /// <typeparam name="TDataEdge">The type of the embedded edge data.</typeparam>
     /// <typeparam name="TEdge">The type of the edges.</typeparam>
     /// 
     /// <typeparam name="TIdHyperEdge">The type of the hyperedge identifiers.</typeparam>
     /// <typeparam name="TRevisionIdHyperEdge">The type of the hyperedge identifiers.</typeparam>
+    /// <typeparam name="THyperEdgeLabel">The type of the hyperedge label.</typeparam>
     /// <typeparam name="TDataHyperEdge">The type of the embedded hyperedge data.</typeparam>
     /// <typeparam name="THyperEdge">The type of the hyperedges.</typeparam>
     public interface IGenericGraph<TIdVertex,    TRevisionIdVertex,                     TDataVertex,    TVertex,    
@@ -113,6 +115,11 @@ namespace de.ahzf.Blueprints.GenericGraph
         /// <returns>The newly created vertex or the vertex already referenced by the provided identifier.</returns>
         TVertex AddVertex(TIdVertex VertexId = default(TIdVertex), Action<TDataVertex> VertexInitializer = null);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="VertexId"></param>
+        /// <returns></returns>
         TVertex AddVertex(TVertex VertexId);
 
 

@@ -94,7 +94,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #region Data
 
-        // Make it more generic??!
+        // Make IDictionaries more generic??!
 
         /// <summary>
         /// The collection of vertices.
@@ -118,14 +118,20 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                                                                         TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> _HyperEdges;
 
 
-        private readonly VertexIdCreatorDelegate     _VertexIdCreatorDelegate;
-        private readonly VertexCreatorDelegate       _VertexCreatorDelegate;
+        private readonly VertexIdCreatorDelegate   <TIdVertex, TValueVertex>                                                             _VertexIdCreatorDelegate;
+        private readonly VertexCreatorDelegate     <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                    TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                    TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> _VertexCreatorDelegate;
+                                                   
+        private readonly EdgeIdCreatorDelegate     <TIdEdge, TValueEdge>                                                                 _EdgeIdCreatorDelegate;
+        private readonly EdgeCreatorDelegate       <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                    TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                    TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> _EdgeCreatorDelegate;
 
-        private readonly EdgeIdCreatorDelegate       _EdgeIdCreatorDelegate;
-        private readonly EdgeCreatorDelegate         _EdgeCreatorDelegate;
-
-        private readonly HyperEdgeIdCreatorDelegate  _HyperEdgeIdCreatorDelegate;
-        private readonly HyperEdgeCreatorDelegate    _HyperEdgeCreatorDelegate;
+        private readonly HyperEdgeIdCreatorDelegate<TIdHyperEdge, TValueHyperEdge>                                                       _HyperEdgeIdCreatorDelegate;
+        private readonly HyperEdgeCreatorDelegate  <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                    TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                    TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> _HyperEdgeCreatorDelegate;
 
 
         private readonly IDictionary<String, IPropertyElementIndex<IPropertyVertex   <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
@@ -148,128 +154,6 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         private readonly IDictionary<String, IPropertyElementIndex<IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,      TValueVertex,
                                                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>> _AutomaticHyperEdgesIndices;
-
-        #endregion
-
-        #region Delegates
-
-        #region VertexIdCreatorDelegate(...)
-
-        /// <summary>
-        /// A delegate for creating a new VertexId
-        /// (if no one was provided by the user).
-        /// </summary>
-        /// <returns>A valid VertexId.</returns>
-        public delegate TIdVertex VertexIdCreatorDelegate();
-
-        #endregion
-
-        #region VertexCreatorDelegate(...)
-
-        /// <summary>
-        /// A delegate for creating a new vertex.
-        /// </summary>
-        /// <param name="IPropertyGraph">The associated property graph.</param>
-        /// <param name="VertexId">The Id of the vertex.</param>
-        /// <param name="VertexInitializer">A delegate to initialize this edge with custom data.</param>
-        public delegate IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                        TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                        TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
-
-                        VertexCreatorDelegate(IPropertyGraph   <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                                                TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IPropertyGraph,
-                                              TIdVertex VertexId,
-                                              VertexInitializer<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                                                TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> VertexInitializer);
-
-        #endregion
-
-        #region EdgeIdCreatorDelegate(...)
-
-        /// <summary>
-        /// A delegate for creating a new EdgeId
-        /// (if no one was provided by the user).
-        /// </summary>
-        /// <returns>A valid EdgeId.</returns>
-        public delegate TIdEdge EdgeIdCreatorDelegate();
-
-        #endregion
-
-        #region EdgeCreatorDelegate(...)
-
-        /// <summary>
-        /// A delegate for creating a new edge.
-        /// </summary>
-        /// <param name="IPropertyGraph">The associated property graph.</param>
-        /// <param name="SourceVertex">The source vertex.</param>
-        /// <param name="TargetVertex">The target vertex.</param>
-        /// <param name="EdgeId">The Id of this edge.</param>
-        /// <param name="EdgeLabel">The label of this edge.</param>
-        /// <param name="EdgeInitializer">A delegate to initialize this edge with custom data.</param>
-        public delegate IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                      TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
-
-                        EdgeCreatorDelegate(
-                              IPropertyGraph <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IPropertyGraph,
-                              IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> SourceVertex,
-                              IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> TargetVertex,
-                              TIdEdge         EdgeId,
-                              TEdgeLabel      EdgeLabel,
-                              EdgeInitializer<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeInitializer);
-
-        #endregion
-
-        #region HyperEdgeIdCreatorDelegate(...)
-
-        /// <summary>
-        /// A delegate for creating a new HyperEdgeId
-        /// (if no one was provided by the user).
-        /// </summary>
-        /// <returns>A valid HyperEdgeId.</returns>
-        public delegate TIdHyperEdge HyperEdgeIdCreatorDelegate();
-
-        #endregion
-
-        #region HyperEdgeCreatorDelegate(...)
-
-        /// <summary>
-        /// A delegate for creating a new hyperedge.
-        /// </summary>
-        /// <param name="IPropertyGraph">The associated property graph.</param>
-        /// <param name="Edges">The edges of the hyperedge.</param>
-        /// <param name="HyperEdgeId">The Id of this hyperedge.</param>
-        /// <param name="HyperEdgeLabel">The label of this hyperedge.</param>
-        /// <param name="HyperEdgeInitializer">A delegate to initialize this hyperedge with custom data.</param>
-        /// <returns></returns>
-        public delegate IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                           TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                           TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
-            
-                        HyperEdgeCreatorDelegate(
-                              IPropertyGraph           <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                                        TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                        TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IPropertyGraph,
-                              IEnumerable<IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                                        TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                        TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> Edges,
-                              TIdHyperEdge              HyperEdgeId,
-                              THyperEdgeLabel           HyperEdgeLabel,
-                              Action<IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                                        TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                        TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> HyperEdgeInitializer);
-
-        #endregion
 
         #endregion
 
@@ -299,14 +183,20 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                                             TKeyVertex                   RevisonIdKey,
                                             Func<TDatastructureVertex>   DataInitializer,
 
-                                            VertexIdCreatorDelegate      VertexIdCreatorDelegate,
-                                            VertexCreatorDelegate        VertexCreatorDelegate,
+                                            VertexIdCreatorDelegate   <TIdVertex, TValueVertex>                                                             VertexIdCreatorDelegate,
+                                            VertexCreatorDelegate     <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> VertexCreatorDelegate,
+                                                                      
+                                            EdgeIdCreatorDelegate     <TIdEdge, TValueEdge>                                                                 EdgeIdCreatorDelegate,
+                                            EdgeCreatorDelegate       <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeCreatorDelegate,
 
-                                            EdgeIdCreatorDelegate        EdgeIdCreatorDelegate,
-                                            EdgeCreatorDelegate          EdgeCreatorDelegate,
-
-                                            HyperEdgeIdCreatorDelegate   HyperEdgeIdCreatorDelegate,
-                                            HyperEdgeCreatorDelegate     HyperEdgeCreatorDelegate,
+                                            HyperEdgeIdCreatorDelegate<TIdHyperEdge, TValueHyperEdge>                                                       HyperEdgeIdCreatorDelegate,
+                                            HyperEdgeCreatorDelegate  <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> HyperEdgeCreatorDelegate,
 
                                             // Vertices Collection
                                             IDictionary<TIdVertex,    IPropertyVertex   <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
