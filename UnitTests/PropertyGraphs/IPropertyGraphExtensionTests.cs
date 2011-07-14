@@ -52,7 +52,7 @@ namespace de.ahzf.Blueprints.UnitTests
             var _NumberOfVertices = _SourceGraph.Vertices.Count();
             var _NumberOfEdges    = _SourceGraph.Edges.Count();
 
-            var _DestinationGraph = new InMemoryPropertyGraph();
+            var _DestinationGraph = new SimplePropertyGraph();
             _SourceGraph.CopyGraph(_DestinationGraph);
 
             Assert.AreEqual(_NumberOfVertices, _DestinationGraph.Vertices.Count());

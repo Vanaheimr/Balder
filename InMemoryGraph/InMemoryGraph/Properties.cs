@@ -194,10 +194,16 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// </summary>
         /// <param name="Key">The key of the property to be added.</param>
         /// <param name="Value">The value of the property to be added.</param>
-        internal void SendPropertyAdditionNotification(TKey Key, TValue Value)
+        internal Boolean SendPropertyAdditionNotification(TKey Key, TValue Value)
         {
+
+            var _VetoVote = new VetoVote();
+
             if (OnPropertyAddition != null)
-                OnPropertyAddition(this, Key, Value);
+                OnPropertyAddition(this, Key, Value, _VetoVote);
+
+            return _VetoVote.Result;
+
         }
 
         #endregion
@@ -225,10 +231,16 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="Key">The key of the property to be changed.</param>
         /// <param name="OldValue">The old value of the property to be changed.</param>
         /// <param name="NewValue">The new value of the property to be changed.</param>
-        internal void SendPropertyChangingNotification(TKey Key, TValue OldValue, TValue NewValue)
+        internal Boolean SendPropertyChangingNotification(TKey Key, TValue OldValue, TValue NewValue)
         {
+
+            var _VetoVote = new VetoVote();
+
             if (OnPropertyChanging != null)
-                OnPropertyChanging(this, Key, OldValue, NewValue);
+                OnPropertyChanging(this, Key, OldValue, NewValue, _VetoVote);
+
+            return _VetoVote.Result;
+
         }
 
         #endregion
@@ -256,10 +268,16 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// </summary>
         /// <param name="Key">The key of the property to be removed.</param>
         /// <param name="Value">The value of the property to be removed.</param>
-        internal void SendPropertyRemovalNotification(TKey Key, TValue Value)
+        internal Boolean SendPropertyRemovalNotification(TKey Key, TValue Value)
         {
+
+            var _VetoVote = new VetoVote();
+
             if (OnPropertyRemoval != null)
-                OnPropertyRemoval(this, Key, Value);
+                OnPropertyRemoval(this, Key, Value, _VetoVote);
+
+            return _VetoVote.Result;
+
         }
 
         #endregion

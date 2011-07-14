@@ -156,7 +156,7 @@ namespace SocialGraphDemo
 
             //_Vertex.GetProperty(
 
-
+            var _g      = TinkerGraphFactory.CreateTinkerGraph();
             var _graph  = DemoGraphFactory.CreateDemoGraph();
 
             var _index1 = _graph.CreateVerticesIndex("IdxNames",

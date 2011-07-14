@@ -30,7 +30,8 @@ namespace de.ahzf.Blueprints.PropertyGraph
     /// <param name="Sender">The sender of this event.</param>
     /// <param name="Key">The key of the property to be added.</param>
     /// <param name="Value">The value of the property to be added.</param>
-    public delegate void PropertyAdditionEventHandler<TKey, TValue>(IProperties<TKey, TValue> Sender, TKey Key, TValue Value)
+    /// <param name="VetoVote">A veto vote is a simple way to ask multiple event subscribers if the edge should be added or not.</param>
+    public delegate void PropertyAdditionEventHandler<TKey, TValue>(IProperties<TKey, TValue> Sender, TKey Key, TValue Value, VetoVote VetoVote)
         where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable;
 
     /// <summary>
@@ -50,7 +51,8 @@ namespace de.ahzf.Blueprints.PropertyGraph
     /// <param name="Key">The key of the property to be changed.</param>
     /// <param name="OldValue">The old value of the property to be changed.</param>
     /// <param name="NewValue">The new value of the property to be changed.</param>
-    public delegate void PropertyChangingEventHandler<TKey, TValue>(IProperties<TKey, TValue> Sender, TKey Key, TValue OldValue, TValue NewValue)
+    /// <param name="VetoVote">A veto vote is a simple way to ask multiple event subscribers if the edge should be added or not.</param>
+    public delegate void PropertyChangingEventHandler<TKey, TValue>(IProperties<TKey, TValue> Sender, TKey Key, TValue OldValue, TValue NewValue, VetoVote VetoVote)
         where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable;
 
     /// <summary>
@@ -70,7 +72,8 @@ namespace de.ahzf.Blueprints.PropertyGraph
     /// <param name="Sender">The sender of this event.</param>
     /// <param name="Key">The key of the property to be removed.</param>
     /// <param name="Value">The value of the property to be removed.</param>
-    public delegate void PropertyRemovalEventHandler<TKey, TValue>(IProperties<TKey, TValue> Sender, TKey Key, TValue Value)
+    /// <param name="VetoVote">A veto vote is a simple way to ask multiple event subscribers if the edge should be added or not.</param>
+    public delegate void PropertyRemovalEventHandler<TKey, TValue>(IProperties<TKey, TValue> Sender, TKey Key, TValue Value, VetoVote VetoVote)
         where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable;
 
     /// <summary>

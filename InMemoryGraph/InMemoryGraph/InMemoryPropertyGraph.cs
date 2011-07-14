@@ -477,8 +477,6 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
             if (SendVertexAddingNotification(_Vertex))
                 _Vertices.Add(VertexId, _Vertex);
-            else
-                Console.WriteLine("No! No! No!");
 
             return _Vertex;
 
