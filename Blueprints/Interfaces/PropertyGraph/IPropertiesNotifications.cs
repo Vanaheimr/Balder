@@ -25,10 +25,10 @@ namespace de.ahzf.Blueprints.PropertyGraph
 {
 
     /// <summary>
-    /// An interface for all events and notifications of a
-    /// property graph element.
+    /// The interface for all events and notifications
+    /// of property graph elements.
     /// </summary>
-    public interface IPropertyNotifications<TKey, TValue>
+    public interface IPropertiesNotifications<TKey, TValue>
         where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
     {
 

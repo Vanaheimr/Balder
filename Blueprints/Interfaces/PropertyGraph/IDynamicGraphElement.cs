@@ -38,19 +38,19 @@ namespace de.ahzf.Blueprints.PropertyGraph
         /// </summary>
         /// <param name="Binder">A binder name.</param>
         /// <param name="Object">A value.</param>
-        Object SetMember    (String Binder, Object Object);
+        Object SetMember   (String Binder, Object Object);
 
         /// <summary>
         /// Return the value of the given binder name.
         /// </summary>
         /// <param name="Binder">A binder name.</param>
-        Object GetMember    (String Binder);
+        Object GetMember   (String Binder);
 
         /// <summary>
         /// Delete the given binder name.
         /// </summary>
         /// <param name="Binder">A binder name.</param>
-        Object DeleteMember (String Binder);
+        Object DeleteMember(String Binder);
 
     }
 

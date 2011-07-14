@@ -183,6 +183,9 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         
         #endregion
 
+        #endregion
+
+        #region (internal) Send[...]Notifications(...)
 
         #region (internal) SendPropertyAdditionNotification(Key, Value)
 

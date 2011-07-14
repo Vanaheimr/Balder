@@ -157,6 +157,184 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #endregion
 
+        #region Events
+
+        #region OnVertexAdding
+
+        /// <summary>
+        /// Called whenever a vertex will be added to the property graph.
+        /// </summary>
+        public event VertexAddingEventHandler<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnVertexAdding;
+
+        #endregion
+
+        #region OnVertexAdded
+
+        /// <summary>
+        /// Called whenever a vertex was added to the property graph.
+        /// </summary>
+        public event VertexAddedEventHandler<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                             TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnVertexAdded;
+
+        #endregion
+
+
+        #region OnEdgeAdding
+
+        /// <summary>
+        /// Called whenever an edge will be added to the property graph.
+        /// </summary>
+        public event EdgeAddingEventHandler<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                            TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                            TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnEdgeAdding;
+
+        #endregion
+
+        #region OnEdgeAdded
+
+        /// <summary>
+        /// Called whenever an edge was added to the property graph.
+        /// </summary>
+        public event EdgeAddedEventHandler<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                           TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                           TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnEdgeAdded;
+
+        #endregion
+
+
+        #region OnGraphShuttingdown
+
+        /// <summary>
+        /// Called whenever a property graph will be shutting down.
+        /// </summary>
+        public event GraphShuttingdownEventHandler<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                   TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                   TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnGraphShuttingdown;
+
+        #endregion
+
+        #region OnGraphShutteddown
+
+        /// <summary>
+        /// Called whenever a property graph was shutted down.
+        /// </summary>
+        public event GraphShutteddownEventHandler <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                   TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                   TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnGraphShutteddown;
+
+        #endregion
+
+        #endregion
+
+        #region (internal) Send[...]Notifications(...)
+
+        #region (internal) SendVertexAddingNotification(IPropertyVertex)
+
+        /// <summary>
+        /// Notify about a vertex to be added to the graph.
+        /// </summary>
+        internal Boolean SendVertexAddingNotification(IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                      TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IPropertyVertex)
+        {
+
+            var _Vote = new Vote();
+
+            if (OnVertexAdding != null)
+                OnVertexAdding(this, IPropertyVertex, _Vote);
+
+            return _Vote.Result;
+
+        }
+
+        #endregion
+
+        #region (internal) SendVertexAddedNotification(IPropertyVertex)
+
+        /// <summary>
+        /// Notify about a vertex to be added to the graph.
+        /// </summary>
+        internal void SendVertexAddedNotification(IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                  TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IPropertyVertex)
+        {
+            if (OnVertexAdded != null)
+                OnVertexAdded(this, IPropertyVertex);
+        }
+
+        #endregion
+
+
+        #region (internal) SendEdgeAddingNotification(IPropertyEdge)
+
+        /// <summary>
+        /// Notify about an edge to be added to the graph.
+        /// </summary>
+        internal Boolean SendEdgeAddingNotification(IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                  TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IPropertyEdge)
+        {
+
+            var _Vote = new Vote();
+
+            if (OnEdgeAdding != null)
+                OnEdgeAdding(this, IPropertyEdge, _Vote);
+
+            return _Vote.Result;
+
+        }
+
+        #endregion
+
+        #region (internal) SendEdgeAddedNotification(IPropertyEdge)
+
+        /// <summary>
+        /// Notify about an edge to be added to the graph.
+        /// </summary>
+        internal void SendEdgeAddedNotification(IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IPropertyEdge)
+        {
+            if (OnEdgeAdded != null)
+                OnEdgeAdded(this, IPropertyEdge);
+        }
+
+        #endregion
+
+
+
+        #region (internal) SendGraphShuttingdownNotification(Message = "")
+
+        /// <summary>
+        /// Notify about a property graph to be shutted down.
+        /// </summary>
+        /// <param name="Message">An optional message, e.g. a reason for the shutdown.</param>
+        internal void SendGraphShuttingdownNotification(String Message = "")
+        {
+            if (OnGraphShuttingdown != null)
+                OnGraphShuttingdown(this, Message);
+        }
+
+        #endregion
+
+        #region (internal) SendGraphShutteddownNotification()
+
+        /// <summary>
+        /// Notify about a shutted down property graph.
+        /// </summary>
+        internal void SendGraphShutteddownNotification()
+        {
+            if (OnGraphShutteddown != null)
+                OnGraphShutteddown(this);
+        }
+
+        #endregion
+
+        #endregion
+
         #region Constructor(s)
 
         #region InMemoryGenericPropertyGraph(VertexCreatorDelegate, EdgeCreatorDelegate, HyperEdgeCreatorDelegate, VerticesCollectionInitializer, EdgesCollectionInitializer, HyperEdgesCollectionInitializer)
@@ -297,7 +475,10 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
             var _Vertex = _VertexCreatorDelegate(this, VertexId, VertexInitializer);
 
-            _Vertices.Add(VertexId, _Vertex);
+            if (SendVertexAddingNotification(_Vertex))
+                _Vertices.Add(VertexId, _Vertex);
+            else
+                Console.WriteLine("No! No! No!");
 
             return _Vertex;
 
@@ -1390,9 +1571,12 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <summary>
         /// Shutdown and close the graph.
         /// </summary>
-        public void Shutdown()
+        /// <param name="Message">An optional message, e.g. a reason for the shutdown.</param>
+        public void Shutdown(String Message = "")
         {
+            SendGraphShuttingdownNotification(Message);
             Clear();
+            SendGraphShutteddownNotification();
         }
 
         #endregion

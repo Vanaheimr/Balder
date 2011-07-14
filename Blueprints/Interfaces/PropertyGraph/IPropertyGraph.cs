@@ -66,15 +66,23 @@ namespace de.ahzf.Blueprints.PropertyGraph
                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
 
                                     : IGraphElement<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex>,
+
                                       IGraphIndexing<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                      TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
+
+                                      IPropertyGraphNotifications<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                  TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
+
                                       IEquatable<IPropertyGraph<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                                 TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                 TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>,
+
                                       IComparable<IPropertyGraph<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                                  TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>,
+
                                       IComparable
 
         where TIdVertex            : IEquatable<TIdVertex>,            IComparable<TIdVertex>,            IComparable, TValueVertex
@@ -308,7 +316,8 @@ namespace de.ahzf.Blueprints.PropertyGraph
         /// A shutdown function is required to properly close the graph.
         /// This is important for implementations that utilize disk-based serializations.
         /// </summary>
-        void Shutdown();
+        /// <param name="Message">An optional message, e.g. a reason for the shutdown.</param>
+        void Shutdown(String Message = "");
 
         #endregion
 

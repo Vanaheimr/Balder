@@ -38,7 +38,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
     /// <typeparam name="TValue">The type of the values.</typeparam>
     public interface IProperties<TKey, TValue>
                         : IEnumerable<KeyValuePair<TKey, TValue>>,
-                          IPropertyNotifications<TKey, TValue>
+                          IPropertiesNotifications<TKey, TValue>
 
         where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
 
