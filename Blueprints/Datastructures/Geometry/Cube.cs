@@ -354,44 +354,44 @@ namespace de.ahzf.Blueprints
 
         #endregion
 
-        #region Contains(Voxel)
+        #region Contains(IVoxel)
 
         /// <summary>
         /// Checks if the given voxel is located
         /// within this cube.
         /// </summary>
-        /// <param name="Voxel">A voxel of type T.</param>
+        /// <param name="IVoxel">A voxel of type T.</param>
         /// <returns>True if the voxel is located within this cube; False otherwise.</returns>
-        public Boolean Contains(IVoxel<T> Voxel)
+        public Boolean Contains(IVoxel<T> IVoxel)
         {
 
             #region Initial Checks
 
-            if (Voxel == null)
+            if (IVoxel == null)
                 throw new ArgumentNullException("The given voxel must not be null!");
 
             #endregion
-            
-            return Contains(Voxel.X, Voxel.Y, Voxel.Z);
+
+            return Contains(IVoxel.X, IVoxel.Y, IVoxel.Z);
 
         }
 
         #endregion
 
-        #region Contains(Cube)
+        #region Contains(ICube)
 
         /// <summary>
         /// Checks if the given cube is located
         /// within this cube.
         /// </summary>
-        /// <param name="Cube">A cube of type T.</param>
+        /// <param name="ICube">A cube of type T.</param>
         /// <returns>True if the cube is located within this cube; False otherwise.</returns>
-        public Boolean Contains(ICube<T> Cube)
+        public Boolean Contains(ICube<T> ICube)
         {
 
             #region Initial Checks
 
-            if (Cube == null)
+            if (ICube == null)
                 throw new ArgumentNullException("The given cube must not be null!");
 
             #endregion
@@ -400,28 +400,28 @@ namespace de.ahzf.Blueprints
             // Verify that every corner of the given cube
             // is located within this cube
 
-            if (!Contains(Cube.Left,  Cube.Top,    Cube.Front))
+            if (!Contains(ICube.Left,  ICube.Top,    ICube.Front))
                 return false;
 
-            if (!Contains(Cube.Right, Cube.Top,    Cube.Front))
+            if (!Contains(ICube.Right, ICube.Top,    ICube.Front))
                 return false;
 
-            if (!Contains(Cube.Left,  Cube.Bottom, Cube.Front))
+            if (!Contains(ICube.Left,  ICube.Bottom, ICube.Front))
                 return false;
 
-            if (!Contains(Cube.Right, Cube.Bottom, Cube.Front))
+            if (!Contains(ICube.Right, ICube.Bottom, ICube.Front))
                 return false;
 
-            if (!Contains(Cube.Left,  Cube.Top,    Cube.Behind))
+            if (!Contains(ICube.Left,  ICube.Top,    ICube.Behind))
                 return false;
 
-            if (!Contains(Cube.Right, Cube.Top,    Cube.Behind))
+            if (!Contains(ICube.Right, ICube.Top,    ICube.Behind))
                 return false;
 
-            if (!Contains(Cube.Left,  Cube.Bottom, Cube.Behind))
+            if (!Contains(ICube.Left,  ICube.Bottom, ICube.Behind))
                 return false;
 
-            if (!Contains(Cube.Right, Cube.Bottom, Cube.Behind))
+            if (!Contains(ICube.Right, ICube.Bottom, ICube.Behind))
                 return false;
 
             return true;
@@ -430,20 +430,20 @@ namespace de.ahzf.Blueprints
 
         #endregion
 
-        #region Overlaps(Cube)
+        #region Overlaps(ICube)
 
         /// <summary>
         /// Checks if the given cube shares some
         /// area with this cube.
         /// </summary>
-        /// <param name="Cube">A cube of type T.</param>
+        /// <param name="ICube">A cube of type T.</param>
         /// <returns>True if the cube shares some area with this cube; False otherwise.</returns>
-        public Boolean Overlaps(ICube<T> Cube)
+        public Boolean Overlaps(ICube<T> ICube)
         {
 
             #region Initial Checks
 
-            if (Cube == null)
+            if (ICube == null)
                 throw new ArgumentNullException("The given cube must not be null!");
 
             #endregion
@@ -452,28 +452,28 @@ namespace de.ahzf.Blueprints
             // Check if any corner of the given cube
             // is located within this cube
 
-            if (Contains(Cube.Left,  Cube.Top,    Cube.Front))
+            if (Contains(ICube.Left,  ICube.Top,    ICube.Front))
                 return true;
 
-            if (Contains(Cube.Right, Cube.Top,    Cube.Front))
+            if (Contains(ICube.Right, ICube.Top,    ICube.Front))
                 return true;
 
-            if (Contains(Cube.Left,  Cube.Bottom, Cube.Front))
+            if (Contains(ICube.Left,  ICube.Bottom, ICube.Front))
                 return true;
 
-            if (Contains(Cube.Right, Cube.Bottom, Cube.Front))
+            if (Contains(ICube.Right, ICube.Bottom, ICube.Front))
                 return true;
 
-            if (Contains(Cube.Left,  Cube.Top,    Cube.Behind))
+            if (Contains(ICube.Left,  ICube.Top,    ICube.Behind))
                 return true;
 
-            if (Contains(Cube.Right, Cube.Top,    Cube.Behind))
+            if (Contains(ICube.Right, ICube.Top,    ICube.Behind))
                 return true;
 
-            if (Contains(Cube.Left,  Cube.Bottom, Cube.Behind))
+            if (Contains(ICube.Left,  ICube.Bottom, ICube.Behind))
                 return true;
 
-            if (Contains(Cube.Right, Cube.Bottom, Cube.Behind))
+            if (Contains(ICube.Right, ICube.Bottom, ICube.Behind))
                 return true;
 
             return false;

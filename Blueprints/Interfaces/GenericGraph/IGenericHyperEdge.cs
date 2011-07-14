@@ -72,11 +72,11 @@ namespace de.ahzf.Blueprints.GenericGraph
     /// <typeparam name="TIdHyperEdge">The type of the hyperedge identifiers.</typeparam>
     /// <typeparam name="TRevisionIdHyperEdge">The type of the hyperedge identifiers.</typeparam>
     /// <typeparam name="THyperEdgeData">The type of the embedded hyperedge data.</typeparam>
-    public interface IGenericHyperEdge<TIdVertex,    TRevisionIdVertex,    TVertexData,
-                                       TIdEdge,      TRevisionIdEdge,      TEdgeData,
-                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData>
+    public interface IGenericHyperEdge<TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge>
 
-                                       : IGenericElement<TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData>,
+                                       : IGenericElement<TIdHyperEdge, TRevisionIdHyperEdge, TDataHyperEdge>,
                                          IGenericHyperEdge
 
         where TIdVertex            : IEquatable<TIdVertex>,            IComparable<TIdVertex>,            IComparable
@@ -92,17 +92,17 @@ namespace de.ahzf.Blueprints.GenericGraph
         /// <summary>
         /// Return the vertex at the tail of the hyperedge.
         /// </summary>
-        IGenericVertex<TIdVertex,    TRevisionIdVertex,    TVertexData,
-                       TIdEdge,      TRevisionIdEdge,      TEdgeData,
-                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData> OutVertex { get; }
+        IGenericVertex<TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge> OutVertex { get; }
 
 
         /// <summary>
         /// Return the vertices at the head of the hyperedge.
         /// </summary>
-        IEnumerable<IGenericVertex<TIdVertex,    TRevisionIdVertex,    TVertexData,
-                                   TIdEdge,      TRevisionIdEdge,      TEdgeData,
-                                   TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData>> InVertices { get; }
+        IEnumerable<IGenericVertex<TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                   TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                   TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge>> InVertices { get; }
 
     }
 

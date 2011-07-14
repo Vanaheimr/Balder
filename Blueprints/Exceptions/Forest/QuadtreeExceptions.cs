@@ -68,6 +68,7 @@ namespace de.ahzf.Blueprints
     /// The base class for all quadtree exceptions.
     /// </summary>
     /// <typeparam name="T">The internal datatype of the quadtree.</typeparam>
+    /// <typeparam name="TValue">The type of the stored values.</typeparam>
     public class QuadtreeException<T, TValue> : Exception
         where T : IEquatable<T>, IComparable<T>, IComparable
     {
@@ -135,6 +136,7 @@ namespace de.ahzf.Blueprints
     /// of the quadtree is zero.
     /// </summary>
     /// <typeparam name="T">The internal datatype of the quadtree.</typeparam>
+    /// <typeparam name="TValue">The type of the stored values.</typeparam>
     public class QT_ZeroDimensionException<T, TValue> : QuadtreeException<T, TValue>
         where T : IEquatable<T>, IComparable<T>, IComparable
     {
@@ -189,6 +191,7 @@ namespace de.ahzf.Blueprints
     /// located outside of the quadtree bounds!
     /// </summary>
     /// <typeparam name="T">The internal datatype of the quadtree.</typeparam>
+    /// <typeparam name="TValue">The type of the stored values.</typeparam>
     public class QT_OutOfBoundsException<T, TValue> : QuadtreeException<T, TValue>
         where T : IEquatable<T>, IComparable<T>, IComparable
     {

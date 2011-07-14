@@ -31,25 +31,38 @@ namespace de.ahzf.Blueprints.GenericGraph.InMemory
     /// The incoming edges are those edges for which the vertex is the head.
     /// Diagrammatically, ---inEdges---> vertex ---outEdges--->.
     /// </summary>
-    public class GenericGraph<TIdVertex,    TRevisionIdVertex,    TDataVertex,    TVertex,    
-                              TIdEdge,      TRevisionIdEdge,      TDataEdge,      TEdge,      
-                              TIdHyperEdge, TRevisionIdHyperEdge, TDataHyperEdge, THyperEdge>
+    /// <typeparam name="TIdVertex"></ttypeparam>
+    /// <typeparam name="TRevisionIdVertex"></typeparam>
+    /// <typeparam name="TDataVertex"></typeparam>
+    /// 
+    /// <typeparam name="TIdEdge"></typeparam>
+    /// <typeparam name="TRevisionIdEdge"></typeparam>
+    /// <typeparam name="TEdgeLabel"></typeparam>
+    /// <typeparam name="TDataEdge"></typeparam>
+    /// 
+    /// <typeparam name="TIdHyperEdge"></typeparam>
+    /// <typeparam name="TRevisionIdHyperEdge"></typeparam>
+    /// <typeparam name="THyperEdgeLabel"></typeparam>
+    /// <typeparam name="TDataHyperEdge"></typeparam>
+    public class GenericGraph<TIdVertex,    TRevisionIdVertex,                     TDataVertex,    TVertex,    
+                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,      TEdge,      
+                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge, THyperEdge>
 
-                              : IGenericGraph<TIdVertex,    TRevisionIdVertex,    TDataVertex,    TVertex,    
-                                              TIdEdge,      TRevisionIdEdge,      TDataEdge,      TEdge,      
-                                              TIdHyperEdge, TRevisionIdHyperEdge, TDataHyperEdge, THyperEdge>
+                              : IGenericGraph<TIdVertex,    TRevisionIdVertex,                     TDataVertex,    TVertex,    
+                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,      TEdge,
+                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge, THyperEdge>
 
-        where TVertex              : IGenericVertex   <TIdVertex,    TRevisionIdVertex,    TDataVertex,
-                                                       TIdEdge,      TRevisionIdEdge,      TDataEdge, 
-                                                       TIdHyperEdge, TRevisionIdHyperEdge, TDataHyperEdge>
+        where TVertex              : IGenericVertex   <TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge>
 
-        where TEdge                : IGenericEdge     <TIdVertex,    TRevisionIdVertex,    TDataVertex,
-                                                       TIdEdge,      TRevisionIdEdge,      TDataEdge, 
-                                                       TIdHyperEdge, TRevisionIdHyperEdge, TDataHyperEdge>
+        where TEdge                : IGenericEdge     <TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge>
         
-        where THyperEdge           : IGenericHyperEdge<TIdVertex,    TRevisionIdVertex,    TDataVertex,
-                                                       TIdEdge,      TRevisionIdEdge,      TDataEdge, 
-                                                       TIdHyperEdge, TRevisionIdHyperEdge, TDataHyperEdge>
+        where THyperEdge           : IGenericHyperEdge<TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge>
 
         where TIdVertex            : IEquatable<TIdVertex>,            IComparable<TIdVertex>,            IComparable
         where TIdEdge              : IEquatable<TIdEdge>,              IComparable<TIdEdge>,              IComparable
@@ -64,57 +77,75 @@ namespace de.ahzf.Blueprints.GenericGraph.InMemory
         #region Data
 
         // Make it more generic??!
-        private readonly IDictionary<TIdVertex,    IGenericVertex   <TIdVertex,    TRevisionIdVertex,    TDataVertex,
-                                                                     TIdEdge,      TRevisionIdEdge,      TDataEdge,
-                                                                     TIdHyperEdge, TRevisionIdHyperEdge, TDataHyperEdge>> _Vertices;
+        private readonly IDictionary<TIdVertex,    IGenericVertex   <TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge>> _Vertices;
 
-        private readonly IDictionary<TIdEdge,      IGenericEdge     <TIdVertex,    TRevisionIdVertex,    TDataVertex,
-                                                                     TIdEdge,      TRevisionIdEdge,      TDataEdge,
-                                                                     TIdHyperEdge, TRevisionIdHyperEdge, TDataHyperEdge>> _Edges;
+        private readonly IDictionary<TIdEdge,      IGenericEdge     <TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge>> _Edges;
 
-        private readonly IDictionary<TIdHyperEdge, IGenericHyperEdge<TIdVertex,    TRevisionIdVertex,    TDataVertex,
-                                                                     TIdEdge,      TRevisionIdEdge,      TDataEdge,
-                                                                     TIdHyperEdge, TRevisionIdHyperEdge, TDataHyperEdge>> _HyperEdges;
+        private readonly IDictionary<TIdHyperEdge, IGenericHyperEdge<TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge>> _HyperEdges;
 
         private readonly Func<TIdVertex,
                               Action<TDataVertex>,
-                              IGenericVertex   <TIdVertex,    TRevisionIdVertex,    TDataVertex,
-                                                TIdEdge,      TRevisionIdEdge,      TDataEdge,
-                                                TIdHyperEdge, TRevisionIdHyperEdge, TDataHyperEdge>>
+                              IGenericVertex   <TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                                TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge>>
 
                          _VertexCreatorDelegate;
 
-        private readonly Func<IGenericVertex   <TIdVertex,    TRevisionIdVertex,    TDataVertex,
-                                                TIdEdge,      TRevisionIdEdge,      TDataEdge,
-                                                TIdHyperEdge, TRevisionIdHyperEdge, TDataHyperEdge>,
-                              IGenericVertex   <TIdVertex,    TRevisionIdVertex,    TDataVertex,
-                                                TIdEdge,      TRevisionIdEdge,      TDataEdge,
-                                                TIdHyperEdge, TRevisionIdHyperEdge, TDataHyperEdge>,
+        private readonly Func<IGenericVertex   <TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                                TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge>,
+                              IGenericVertex   <TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                                TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge>,
                               TIdEdge,
                               String,
                               Action<TDataEdge>,
-                              IGenericEdge     <TIdVertex,    TRevisionIdVertex,    TDataVertex,
-                                                TIdEdge,      TRevisionIdEdge,      TDataEdge,
-                                                TIdHyperEdge, TRevisionIdHyperEdge, TDataHyperEdge>>
+                              IGenericEdge     <TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                                TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge>>
 
                          _EdgeCreatorDelegate;
 
-        private readonly Func<IEnumerable<IGenericEdge<TIdVertex,    TRevisionIdVertex,    TDataVertex,
-                                                       TIdEdge,      TRevisionIdEdge,      TDataEdge,
-                                                       TIdHyperEdge, TRevisionIdHyperEdge, TDataHyperEdge>>,
+        private readonly Func<IEnumerable<IGenericEdge<TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge>>,
                               TIdHyperEdge,
                               String,
                               Action<TDataHyperEdge>,
-                              IGenericHyperEdge<TIdVertex,    TRevisionIdVertex,    TDataVertex,
-                                                TIdEdge,      TRevisionIdEdge,      TDataEdge,
-                                                TIdHyperEdge, TRevisionIdHyperEdge, TDataHyperEdge>>
+                              IGenericHyperEdge<TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                                TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge>>
 
                          _HyperEdgeCreatorDelegate;
 
-        //protected Map<String, TinkerIndex>          indices     = new HashMap<String, TinkerIndex>();
-        //protected Map<String, TinkerAutomaticIndex> autoIndices = new HashMap<String, TinkerAutomaticIndex>();
 
         #endregion
+
+        /// <summary>
+        /// Create a new GenericGraph
+        /// </summary>
+        public GenericGraph()
+        {
+            
+            _Vertices   = new Dictionary<TIdVertex,    IGenericVertex   <TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                                                         TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                                                         TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge>>();
+            
+            _Edges      = new Dictionary<TIdEdge,      IGenericEdge     <TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                                                         TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                                                         TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge>>();
+
+            _HyperEdges = new Dictionary<TIdHyperEdge, IGenericHyperEdge<TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                                                         TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                                                         TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge>>();
+
+        }
 
 
         public TVertex AddVertex(TIdVertex VertexId = default(TIdVertex), Action<TDataVertex> VertexInitializer = null)
@@ -246,6 +277,7 @@ namespace de.ahzf.Blueprints.GenericGraph.InMemory
         {
             get { throw new NotImplementedException(); }
         }
+
     }
 
 }

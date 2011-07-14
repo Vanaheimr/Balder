@@ -30,15 +30,15 @@ namespace de.ahzf.Blueprints.GeoGraph
     /// <summary>
     /// A simple geo vertex.
     /// </summary>
-    public interface IGeoVertex : IGenericVertex<VertexId,    RevisionId, GeoCoordinate,
-                                                 EdgeId,      RevisionId, Distance,
-                                                 HyperEdgeId, RevisionId, Distance>
+    public interface IGeoVertex : IGenericVertex<VertexId,    RevisionId,         GeoFeature,
+                                                 EdgeId,      RevisionId, String, Distance,
+                                                 HyperEdgeId, RevisionId, String, Distance>
     {
 
         String              Type            { get; }
         IEnumerable<String> Properties      { get; }
 
-        GeoCoordinate       GeoCoordinate   { get; set; }
+        GeoFeature       GeoCoordinate   { get; set; }
 
         Double              Latitude        { get; }
         Double              Longitude       { get; }

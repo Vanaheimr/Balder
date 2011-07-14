@@ -57,11 +57,11 @@ namespace de.ahzf.Blueprints.GenericGraph
     /// <typeparam name="TIdHyperEdge">The type of the hyperedge identifiers.</typeparam>
     /// <typeparam name="TRevisionIdHyperEdge">The type of the hyperedge identifiers.</typeparam>
     /// <typeparam name="THyperEdgeData">The type of the embedded hyperedge data.</typeparam>
-    public interface IGenericVertex<TIdVertex,    TRevisionIdVertex,    TVertexData,
-                                    TIdEdge,      TRevisionIdEdge,      TEdgeData,
-                                    TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData>
+    public interface IGenericVertex<TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                    TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                    TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge>
 
-                                    : IGenericElement<TIdVertex, TRevisionIdVertex, TVertexData>,
+                                    : IGenericElement<TIdVertex, TRevisionIdVertex, TDataVertex>,
                                       IGenericVertex
 
         where TIdVertex            : IEquatable<TIdVertex>,            IComparable<TIdVertex>,            IComparable
@@ -80,32 +80,32 @@ namespace de.ahzf.Blueprints.GenericGraph
         /// Add an outgoing edge.
         /// </summary>
         /// <param name="myIEdge">The edge to add.</param>
-        void AddOutEdge(IGenericEdge<TIdVertex,    TRevisionIdVertex,    TVertexData,
-                                     TIdEdge,      TRevisionIdEdge,      TEdgeData,
-                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData> myIEdge);
+        void AddOutEdge(IGenericEdge<TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge> myIEdge);
 
         /// <summary>
         /// The edges emanating from, or leaving, this vertex.
         /// </summary>
-        IEnumerable<IGenericEdge<TIdVertex,    TRevisionIdVertex,    TVertexData,
-                                 TIdEdge,      TRevisionIdEdge,      TEdgeData,
-                                 TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData>> OutEdges { get; }
+        IEnumerable<IGenericEdge<TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                 TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                 TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge>> OutEdges { get; }
 
         /// <summary>
         /// The edges emanating from, or leaving, this vertex
         /// filtered by their label.
         /// </summary>
-        IEnumerable<IGenericEdge<TIdVertex,    TRevisionIdVertex,    TVertexData,
-                                 TIdEdge,      TRevisionIdEdge,      TEdgeData,
-                                 TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData>> GetOutEdges(String myLabel);
+        IEnumerable<IGenericEdge<TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                 TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                 TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge>> GetOutEdges(String myLabel);
 
         /// <summary>
         /// Remove an outgoing edge.
         /// </summary>
         /// <param name="myIEdge">The edge to remove.</param>
-        void RemoveOutEdge(IGenericEdge<TIdVertex,    TRevisionIdVertex,    TVertexData,
-                                        TIdEdge,      TRevisionIdEdge,      TEdgeData,
-                                        TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData> myIEdge);
+        void RemoveOutEdge(IGenericEdge<TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                        TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                        TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge> myIEdge);
 
         #endregion
 
@@ -115,32 +115,32 @@ namespace de.ahzf.Blueprints.GenericGraph
         /// Add an incoming edge.
         /// </summary>
         /// <param name="myIEdge">The edge to add.</param>
-        void AddInEdge(IGenericEdge<TIdVertex,    TRevisionIdVertex,    TVertexData,
-                                    TIdEdge,      TRevisionIdEdge,      TEdgeData,
-                                    TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData> myIEdge);
+        void AddInEdge(IGenericEdge<TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                    TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                    TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge> myIEdge);
 
         /// <summary>
         /// The edges incoming to, or arriving at, this vertex.
         /// </summary>
-        IEnumerable<IGenericEdge<TIdVertex,    TRevisionIdVertex,    TVertexData,
-                                 TIdEdge,      TRevisionIdEdge,      TEdgeData,
-                                 TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData>> InEdges { get; }
+        IEnumerable<IGenericEdge<TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                 TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                 TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge>> InEdges { get; }
 
         /// <summary>
         /// The edges incoming to, or arriving at, this vertex
         /// filtered by their label.
         /// </summary>
-        IEnumerable<IGenericEdge<TIdVertex,    TRevisionIdVertex,    TVertexData,
-                                 TIdEdge,      TRevisionIdEdge,      TEdgeData,
-                                 TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData>> GetInEdges(String myLabel);
+        IEnumerable<IGenericEdge<TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                 TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                 TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge>> GetInEdges(String myLabel);
 
         /// <summary>
         /// Remove an incoming edge.
         /// </summary>
         /// <param name="myIEdge">The edge to remove.</param>
-        void RemoveInEdge(IGenericEdge<TIdVertex,    TRevisionIdVertex,    TVertexData,
-                                       TIdEdge,      TRevisionIdEdge,      TEdgeData,
-                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData> myIEdge);
+        void RemoveInEdge(IGenericEdge<TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge> myIEdge);
 
         #endregion
 

@@ -26,11 +26,19 @@ using System.Runtime.CompilerServices;
 namespace de.ahzf.Blueprints.Tools
 {
 
+    /// <summary>
+    /// TypeHelpers
+    /// </summary>
     public class TypeHelpers
     {
 
 		private const TypeAttributes AnonymousTypeAttributes = TypeAttributes.NotPublic;
 
+        /// <summary>
+        /// Is the given type an anonymous type?
+        /// </summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
 		public static bool IsAnonymousType(Type t)
 		{
 			return t.GetCustomAttributes(typeof (CompilerGeneratedAttribute), false).Length == 1
@@ -39,126 +47,6 @@ namespace de.ahzf.Blueprints.Tools
 			       && (t.Name.StartsWith("<>") || t.Name.StartsWith("VB$"))
 			       && (t.Attributes & AnonymousTypeAttributes) == AnonymousTypeAttributes;
 		}
-
-        #region IsNumeric(myType)
-
-        public static Boolean IsNumeric(Type myType)
-        {
-
-            var a = myType.IsPrimitive;
-
-            if (IsInteger(myType) ||
-                IsFloatingPoint(myType))
-                return true;
-
-            switch (Type.GetTypeCode(myType))
-            {
-                case TypeCode.Char:
-                case TypeCode.SByte:
-                case TypeCode.Byte:
-                case TypeCode.Int16:
-                case TypeCode.Int32:
-                case TypeCode.Int64:
-                case TypeCode.Double:
-                case TypeCode.Single:
-                case TypeCode.UInt16:
-                case TypeCode.UInt32:
-                case TypeCode.UInt64:
-                    return true;
-            }
-
-            return false;
-
-        }
-
-        #endregion
-
-        #region IsArithmetic(myTypeCode)
-
-        public static Boolean IsArithmetic(Type myType)
-        {
-
-            switch (Type.GetTypeCode(myType))
-            {
-                case TypeCode.Int16:
-                case TypeCode.Int32:
-                case TypeCode.Int64:
-                case TypeCode.Double:
-                case TypeCode.Single:
-                case TypeCode.UInt16:
-                case TypeCode.UInt32:
-                case TypeCode.UInt64:
-                    return true;
-            }
-
-            return false;
-
-        }
-
-        #endregion
-
-        #region IsInteger(myTypeCode)
-
-        public static Boolean IsInteger(Type myType)
-        {
-
-            switch (Type.GetTypeCode(myType))
-            {
-                case TypeCode.Int16:
-                case TypeCode.Int32:
-                case TypeCode.Int64:
-                case TypeCode.UInt16:
-                case TypeCode.UInt32:
-                case TypeCode.UInt64:
-                    return true;
-            }
-
-            return false;
-
-        }
-
-        #endregion
-
-        public static Boolean IsFloatingPoint(Type type)
-        {
- //           type = GetNonNullableType(type);
-            switch (Type.GetTypeCode(type))
-            {
-                case TypeCode.Single:
-                case TypeCode.Double:
-                    return true;
-            }
-
-            return false;
-
-        }
-
-        #region IsNumeric(myTypeCode)
-
-        public static Boolean IsNumeric(TypeCode myTypeCode)
-        {
-
-            switch (myTypeCode)
-            {
-                case TypeCode.Char:
-                case TypeCode.SByte:
-                case TypeCode.Byte:
-                case TypeCode.Int16:
-                case TypeCode.Int32:
-                case TypeCode.Int64:
-                case TypeCode.Double:
-                case TypeCode.Single:
-                case TypeCode.UInt16:
-                case TypeCode.UInt32:
-                case TypeCode.UInt64:
-                    return true;
-            }
-
-            return false;
-
-        }
-
-        #endregion
 
     }
 

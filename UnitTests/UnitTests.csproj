@@ -55,6 +55,8 @@
     <Compile Include="Datastructures\Geometry\RectangleTests.cs" />
     <Compile Include="Datastructures\Geometry\PixelTests.cs" />
     <Compile Include="Datastructures\SystemIdTests.cs" />
+    <Compile Include="GenericGraphs\Distance.cs" />
+    <Compile Include="GenericGraphs\GeoFeature.cs" />
     <Compile Include="InMemoryGraph\PropertyVertexTests.cs" />
     <Compile Include="PropertyGraphs\Indices\IndicesTests.cs" />
     <Compile Include="PropertyGraphs\IPropertyGraphExtensionTests.cs" />
@@ -82,9 +84,7 @@
       <Name>InMemoryGraph</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="GenericGraphs\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

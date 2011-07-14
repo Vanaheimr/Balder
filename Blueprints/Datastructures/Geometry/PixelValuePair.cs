@@ -115,20 +115,46 @@ namespace de.ahzf.Blueprints
 
         #region IComparable Members
 
-        public int CompareTo(object obj)
+        #region CompareTo(Object)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="Object">An object to compare with.</param>
+        public override Int32 CompareTo(Object Object)
         {
-            throw new NotImplementedException();
+
+            if (Object == null)
+                throw new ArgumentNullException("The given object must not be null!");
+
+            // Check if the given object is an IPixelValuePair<T, TValue>.
+            var IPixelValuePair = (IPixelValuePair<T, TValue>) Object;
+            if ((Object) IPixelValuePair != null)
+                return IPixelValuePair.CompareTo(this);
+
+            // Check if the given object is an IPixel<T>.
+            var IPixel = (IPixel<T>) Object;
+            if ((Object) IPixel != null)
+                return IPixel.CompareTo(this);
+
+            throw new ArgumentException("The given object is neither a PixelValuePair<T, TValue> nor a Pixel<T>!");
+
         }
 
-        public int CompareTo(IPixelValuePair<T, TValue> other)
+        #endregion
+
+        #region CompareTo(IPixelT)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="IPixelValuePair">An object to compare with.</param>
+        public Int32 CompareTo(IPixelValuePair<T, TValue> IPixelValuePair)
         {
-            throw new NotImplementedException();
+            return base.CompareTo(IPixelValuePair);
         }
 
-        public int CompareTo(IPixel<T> other)
-        {
-            throw new NotImplementedException();
-        }
+        #endregion
 
         #endregion
 
@@ -178,26 +204,6 @@ namespace de.ahzf.Blueprints
 
             return X.Equals(IPixelValuePair.X) &&
                    Y.Equals(IPixelValuePair.Y);
-
-        }
-
-        #endregion
-
-        #region Equals(IPixel)
-
-        /// <summary>
-        /// Compares two pixels for equality.
-        /// </summary>
-        /// <param name="IPixel">A pixel to compare with.</param>
-        /// <returns>True if both match; False otherwise.</returns>
-        public Boolean Equals(IPixel<T> IPixel)
-        {
-
-            if ((Object) IPixel == null)
-                return false;
-
-            return X.Equals(IPixel.X) &&
-                   Y.Equals(IPixel.Y);
 
         }
 

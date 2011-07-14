@@ -40,7 +40,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <summary>
         /// The runtime value as compile time type.
         /// </summary>
-        protected readonly CompileTimeType _RuntimeValue;
+        private readonly CompileTimeType _RuntimeValue;
 
         #endregion
 
@@ -71,12 +71,17 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         //    return ((T)Value).GetDynamicMemberNames();
         //}
 
-        #region BindSetMember(mySetMemberBinder, myDynamicMetaObject)
+        #region BindSetMember(SetMemberBinder, DynamicMetaObject)
 
-        public override DynamicMetaObject BindSetMember(SetMemberBinder mySetMemberBinder, DynamicMetaObject myDynamicMetaObject)
+        /// <summary>
+        /// Assign the given value to the given binder name.
+        /// </summary>
+        /// <param name="SetMemberBinder">A SetMemberBinder.</param>
+        /// <param name="DynamicMetaObject">A DynamicMetaObject.</param>
+        public override DynamicMetaObject BindSetMember(SetMemberBinder SetMemberBinder, DynamicMetaObject DynamicMetaObject)
         {
 
-            _RuntimeValue.SetMember(mySetMemberBinder.Name, myDynamicMetaObject.Value);
+            _RuntimeValue.SetMember(SetMemberBinder.Name, DynamicMetaObject.Value);
 
             return new DynamicMetaObject(Expression.Constant(this),
                                          BindingRestrictions.GetTypeRestriction(
@@ -99,16 +104,20 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #endregion
 
-        #region BindGetMember(myGetMemberBinder)
+        #region BindGetMember(GetMemberBinder)
 
-        public override DynamicMetaObject BindGetMember(GetMemberBinder myGetMemberBinder)
+        /// <summary>
+        /// Return the value of the given binder name.
+        /// </summary>
+        /// <param name="GetMemberBinder">The GetMemberBinder.</param>
+        public override DynamicMetaObject BindGetMember(GetMemberBinder GetMemberBinder)
         {
 
-            var _Result = _RuntimeValue.GetMember(myGetMemberBinder.Name);
+            var _Result = _RuntimeValue.GetMember(GetMemberBinder.Name);
 
             return new DynamicMetaObject(Expression.Convert(
                                             Expression.Constant(_Result),
-                                            myGetMemberBinder.ReturnType
+                                            GetMemberBinder.ReturnType
                                          ),
                                          BindingRestrictions.GetTypeRestriction(
                                             this.Expression,
@@ -130,16 +139,22 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #endregion
 
-        #region BindInvokeMember(myInvokeMemberBinder, myArguments)
+        #region BindInvokeMember(InvokeMemberBinder, Arguments)
 
-        public override DynamicMetaObject BindInvokeMember(InvokeMemberBinder myInvokeMemberBinder, DynamicMetaObject[] myArguments)
+        /// <summary>
+        /// Invoke the given binder.
+        /// </summary>
+        /// <param name="InvokeMemberBinder">A binder to invoke.</param>
+        /// <param name="Arguments">Arguments.</param>
+        /// <returns>The result of the invocation.</returns>
+        public override DynamicMetaObject BindInvokeMember(InvokeMemberBinder InvokeMemberBinder, DynamicMetaObject[] Arguments)
         {
 
-            var    _Delegate = _RuntimeValue.GetMember(myInvokeMemberBinder.Name) as Delegate;
+            var    _Delegate = _RuntimeValue.GetMember(InvokeMemberBinder.Name) as Delegate;
             Object _Result   = null;
             
             if (_Delegate != null)
-                _Result = _Delegate.DynamicInvoke((from _DynObject in myArguments select _DynObject.Value as Object).ToArray());
+                _Result = _Delegate.DynamicInvoke((from _DynObject in Arguments select _DynObject.Value as Object).ToArray());
 
             return new DynamicMetaObject(Expression.Convert(
                                             Expression.Constant(_Result),

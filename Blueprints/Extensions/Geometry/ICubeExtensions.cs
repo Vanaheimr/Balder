@@ -33,19 +33,19 @@ namespace de.ahzf.Blueprints
     public static class ICubeExtensions
     {
 
-        #region Contains(this Cube, Pixel)
+        #region Contains(this ICube, IVoxel)
 
         /// <summary>
         /// Checks if the given voxel is located
         /// within the given cube.
         /// </summary>
-        /// <param name="Cube">A cube of type T.</param>
-        /// <param name="Voxel">A voxel of type T.</param>
+        /// <param name="ICube">A cube of type T.</param>
+        /// <param name="IVoxel">A voxel of type T.</param>
         /// <returns>True if the voxel is located within the given cube; False otherwise.</returns>
-        public static Boolean Contains<T>(this ICube<T> Cube, IVoxel<T> Voxel)
+        public static Boolean Contains<T>(this ICube<T> ICube, IVoxel<T> IVoxel)
             where T : IEquatable<T>, IComparable<T>, IComparable
         {
-            return Cube.Contains(Voxel.X, Voxel.Y, Voxel.Z);
+            return ICube.Contains(IVoxel.X, IVoxel.Y, IVoxel.Z);
         }
 
         #endregion

@@ -68,24 +68,24 @@ namespace de.ahzf.Blueprints.GenericGraph
     /// <typeparam name="TRevisionIdHyperEdge">The type of the hyperedge identifiers.</typeparam>
     /// <typeparam name="TDataHyperEdge">The type of the embedded hyperedge data.</typeparam>
     /// <typeparam name="THyperEdge">The type of the hyperedges.</typeparam>
-    public interface IGenericGraph<TIdVertex,    TRevisionIdVertex,    TDataVertex,    TVertex,    
-                                   TIdEdge,      TRevisionIdEdge,      TDataEdge,      TEdge,      
-                                   TIdHyperEdge, TRevisionIdHyperEdge, TDataHyperEdge, THyperEdge>
+    public interface IGenericGraph<TIdVertex,    TRevisionIdVertex,                     TDataVertex,    TVertex,    
+                                   TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,      TEdge,
+                                   TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge, THyperEdge>
 
                                    : IGenericElement<TIdVertex, TRevisionIdVertex, TDataVertex>,
                                      IGenericGraph
 
-        where TVertex              : IGenericVertex   <TIdVertex,    TRevisionIdVertex,    TDataVertex,
-                                                       TIdEdge,      TRevisionIdEdge,      TDataEdge, 
-                                                       TIdHyperEdge, TRevisionIdHyperEdge, TDataHyperEdge>
+        where TVertex              : IGenericVertex   <TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge>
 
-        where TEdge                : IGenericEdge     <TIdVertex,    TRevisionIdVertex,    TDataVertex,
-                                                       TIdEdge,      TRevisionIdEdge,      TDataEdge, 
-                                                       TIdHyperEdge, TRevisionIdHyperEdge, TDataHyperEdge>
+        where TEdge                : IGenericEdge     <TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge>
         
-        where THyperEdge           : IGenericHyperEdge<TIdVertex,    TRevisionIdVertex,    TDataVertex,
-                                                       TIdEdge,      TRevisionIdEdge,      TDataEdge, 
-                                                       TIdHyperEdge, TRevisionIdHyperEdge, TDataHyperEdge>
+        where THyperEdge           : IGenericHyperEdge<TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge>
 
         where TIdVertex            : IEquatable<TIdVertex>,            IComparable<TIdVertex>,            IComparable
         where TIdEdge              : IEquatable<TIdEdge>,              IComparable<TIdEdge>,              IComparable
@@ -113,7 +113,7 @@ namespace de.ahzf.Blueprints.GenericGraph
         /// <returns>The newly created vertex or the vertex already referenced by the provided identifier.</returns>
         TVertex AddVertex(TIdVertex VertexId = default(TIdVertex), Action<TDataVertex> VertexInitializer = null);
 
-        TVertex AddVertex(TVertex myVertexId);
+        TVertex AddVertex(TVertex VertexId);
 
 
         /// <summary>

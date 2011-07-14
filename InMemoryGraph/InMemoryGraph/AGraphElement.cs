@@ -122,84 +122,134 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #region Events
 
-        #region CollectionChanged/OnCollectionChanged(...)
+        #region OnPropertyAddition
 
-        public event NotifyCollectionChangedEventHandler CollectionChanged
+        /// <summary>
+        /// Called when a property value will be added.
+        /// </summary>
+        public event PropertyAdditionEventHandler<TKey, TValue> OnPropertyAddition
         {
 
             add
             {
-                PropertyData.CollectionChanged += value;
+                PropertyData.OnPropertyAddition += value;
             }
 
             remove
             {
-                PropertyData.CollectionChanged -= value;
+                PropertyData.OnPropertyAddition -= value;
             }
 
-        }
-
-        public void OnCollectionChanged(NotifyCollectionChangedEventArgs myNotifyCollectionChangedEventArgs)
-        {
-            PropertyData.OnCollectionChanged(myNotifyCollectionChangedEventArgs);
         }
 
         #endregion
 
-        #region PropertyChanging/OnPropertyChanging(...)
+        #region OnPropertyAdded
 
-        public event PropertyChangingEventHandler PropertyChanging
+        /// <summary>
+        /// Called whenever a property value was added.
+        /// </summary>
+        public event PropertyAddedEventHandler<TKey, TValue> OnPropertyAdded
         {
 
             add
             {
-                PropertyData.PropertyChanging += value;
+                PropertyData.OnPropertyAdded += value;
             }
 
             remove
             {
-                PropertyData.PropertyChanging -= value;
+                PropertyData.OnPropertyAdded -= value;
             }
 
-        }
-
-        public void OnPropertyChanging(String myPropertyName)
-        {
-            PropertyData.OnPropertyChanging(myPropertyName);
-        }
-
-        public void OnPropertyChanging<TResult>(Expression<Func<TResult>> myPropertyExpression)
-        {
-            PropertyData.OnPropertyChanging(myPropertyExpression);
         }
 
         #endregion
 
-        #region PropertyChanged/OnPropertyChanged(...)
+        #region OnPropertyChanging
 
-        public event PropertyChangedEventHandler PropertyChanged
+        /// <summary>
+        /// Called whenever a property value will be changed.
+        /// </summary>
+        public event PropertyChangingEventHandler<TKey, TValue> OnPropertyChanging
         {
 
             add
             {
-                PropertyData.PropertyChanged += value;
+                PropertyData.OnPropertyChanging += value;
             }
 
             remove
             {
-                PropertyData.PropertyChanged -= value;
+                PropertyData.OnPropertyChanging -= value;
             }
 
         }
 
-        public void OnPropertyChanged(String myPropertyName)
+        #endregion
+
+        #region OnPropertyChanged
+
+        /// <summary>
+        /// Called whenever a property value was changed.
+        /// </summary>
+        public event PropertyChangedEventHandler<TKey, TValue> OnPropertyChanged
         {
-            PropertyData.OnPropertyChanged(myPropertyName);
+
+            add
+            {
+                PropertyData.OnPropertyChanged += value;
+            }
+
+            remove
+            {
+                PropertyData.OnPropertyChanged -= value;
+            }
+
         }
 
-        public void OnPropertyChanged<TResult>(Expression<Func<TResult>> myPropertyExpression)
+        #endregion
+
+        #region OnPropertyRemoval
+
+        /// <summary>
+        /// Called whenever a property value will be removed.
+        /// </summary>
+        public event PropertyRemovalEventHandler<TKey, TValue> OnPropertyRemoval
         {
-            PropertyData.OnPropertyChanged(myPropertyExpression);
+
+            add
+            {
+                PropertyData.OnPropertyRemoval += value;
+            }
+
+            remove
+            {
+                PropertyData.OnPropertyRemoval -= value;
+            }
+
+        }
+
+        #endregion
+
+        #region OnPropertyRemoved
+
+        /// <summary>
+        /// Called whenever a property value was removed.
+        /// </summary>
+        public event PropertyRemovedEventHandler<TKey, TValue> OnPropertyRemoved
+        {
+
+            add
+            {
+                PropertyData.OnPropertyRemoved += value;
+            }
+
+            remove
+            {
+                PropertyData.OnPropertyRemoved -= value;
+            }
+
         }
 
         #endregion

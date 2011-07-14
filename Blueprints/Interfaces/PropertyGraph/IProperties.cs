@@ -38,7 +38,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
     /// <typeparam name="TValue">The type of the values.</typeparam>
     public interface IProperties<TKey, TValue>
                         : IEnumerable<KeyValuePair<TKey, TValue>>,
-                          IPropertyNotifications
+                          IPropertyNotifications<TKey, TValue>
 
         where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
 
@@ -63,42 +63,6 @@ namespace de.ahzf.Blueprints.PropertyGraph
         TKey RevIdKey { get; }
 
         #endregion
-
-        #endregion
-
-        #region Events
-
-        /// <summary>
-        /// Will be called after a collection was changed.
-        /// </summary>
-        /// <param name="myNotifyCollectionChangedEventArgs">The event arguments.</param>
-        void OnCollectionChanged(NotifyCollectionChangedEventArgs myNotifyCollectionChangedEventArgs);
-
-
-        /// <summary>
-        /// Will be called before a property is being changed.
-        /// </summary>
-        /// <param name="myPropertyName">The name of the property.</param>
-        void OnPropertyChanging(String myPropertyName);
-
-        /// <summary>
-        /// Will be called before a property is being changed.
-        /// </summary>
-        /// <param name="myPropertyExpression">An expression giving additional information.</param>
-        void OnPropertyChanging<TResult>(Expression<Func<TResult>> myPropertyExpression);
-
-
-        /// <summary>
-        /// Will be called after a property was changed.
-        /// </summary>
-        /// <param name="myPropertyName">The name of the property.</param>
-        void OnPropertyChanged(String myPropertyName);
-
-        /// <summary>
-        /// Will be called after a property was changed.
-        /// </summary>
-        /// <param name="myPropertyExpression">An expression giving additional information.</param>
-        void OnPropertyChanged<TResult>(Expression<Func<TResult>> myPropertyExpression);
 
         #endregion
 

@@ -73,9 +73,7 @@ namespace de.ahzf.Blueprints.QuadStore
         /// <param name="InnerException">The exception that is the cause of the current exception.</param>
         public AddToIndexException(IQuad<T> Quad = null, String Message = null, Exception InnerException = null)
             : base(Quad, Message, InnerException)
-        {
-            Quad = Quad;
-        }
+        { }
 
     }
 

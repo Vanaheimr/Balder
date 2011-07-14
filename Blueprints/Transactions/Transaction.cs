@@ -367,6 +367,7 @@ namespace de.ahzf.Blueprints
         /// <param name="LongRunning">Indicates that the nested transaction is a long-running transaction.</param>
         /// <param name="IsolationLevel">The isolation level of the nested transaction.</param>
         /// <param name="Name">A name or identification for the nested transaction.</param>
+        /// <param name="TimeStamp">A timestamp.</param>
         public Transaction<T> BeginNestedTransaction(Boolean Distributed = false, Boolean LongRunning = false, IsolationLevel IsolationLevel = IsolationLevel.Read, String Name = "", DateTime? TimeStamp = null)
         {
 

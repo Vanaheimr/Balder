@@ -17,8 +17,7 @@
 
 #region Usings
 
-using System.ComponentModel;
-using System.Collections.Specialized;
+using System;
 
 #endregion
 
@@ -29,10 +28,42 @@ namespace de.ahzf.Blueprints.PropertyGraph
     /// An interface for all events and notifications of a
     /// property graph element.
     /// </summary>
-    public interface IPropertyNotifications : INotifyCollectionChanged,
-                                              INotifyPropertyChanging,
-                                              INotifyPropertyChanged
+    public interface IPropertyNotifications<TKey, TValue>
+        where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
+    {
 
-    { }
+        /// <summary>
+        /// Called whenever a property value will be added.
+        /// </summary>
+        event PropertyAdditionEventHandler<TKey, TValue> OnPropertyAddition;
+
+        /// <summary>
+        /// Called whenever a property value was added.
+        /// </summary>
+        event PropertyAddedEventHandler<TKey, TValue> OnPropertyAdded;
+
+
+        /// <summary>
+        /// Called whenever a property value will be changed.
+        /// </summary>
+        event PropertyChangingEventHandler<TKey, TValue> OnPropertyChanging;
+
+        /// <summary>
+        /// Called whenever a property value was changed.
+        /// </summary>
+        event PropertyChangedEventHandler<TKey, TValue> OnPropertyChanged;
+
+
+        /// <summary>
+        /// Called whenever a property value will be removed.
+        /// </summary>
+        event PropertyRemovalEventHandler<TKey, TValue> OnPropertyRemoval;
+
+        /// <summary>
+        /// Called whenever a property value was removed.
+        /// </summary>
+        event PropertyRemovedEventHandler<TKey, TValue> OnPropertyRemoved;
+
+    }
 
 }

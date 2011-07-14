@@ -42,16 +42,16 @@ namespace de.ahzf.Blueprints.GeoGraph
         /// <summary>
         /// The edges emanating from, or leaving, this vertex.
         /// </summary>
-        protected readonly HashSet<IGenericEdge<VertexId,    RevisionId, GeoCoordinate,
-                                                EdgeId,      RevisionId, Distance,
-                                                HyperEdgeId, RevisionId, Distance>> _OutEdges;
+        protected readonly HashSet<IGenericEdge<VertexId,    RevisionId,         GeoFeature,
+                                                EdgeId,      RevisionId, String, Distance,
+                                                HyperEdgeId, RevisionId, String, Distance>> _OutEdges;
 
         /// <summary>
         /// The edges incoming to, or arriving at, this vertex.
         /// </summary>
-        protected readonly HashSet<IGenericEdge<VertexId,    RevisionId, GeoCoordinate,
-                                                EdgeId,      RevisionId, Distance,
-                                                HyperEdgeId, RevisionId, Distance>> _InEdges;
+        protected readonly HashSet<IGenericEdge<VertexId,    RevisionId,         GeoFeature,
+                                                EdgeId,      RevisionId, String, Distance,
+                                                HyperEdgeId, RevisionId, String, Distance>> _InEdges;
 
         #endregion
 
@@ -83,7 +83,7 @@ namespace de.ahzf.Blueprints.GeoGraph
 
 
 
-        public GeoCoordinate Data { get; private set; }
+        public GeoFeature Data { get; private set; }
 
         #endregion
 
@@ -100,12 +100,12 @@ namespace de.ahzf.Blueprints.GeoGraph
         internal protected GeoVertex(IGenericGraph myIGraph, VertexId myVertexId, Action<IGeoVertex> myVertexInitializer = null)
         {
             
-            _OutEdges = new HashSet<IGenericEdge<VertexId, RevisionId, GeoCoordinate,
-                                                 EdgeId, RevisionId, Distance,
-                                                 HyperEdgeId, RevisionId, Distance>>();
-            _InEdges  = new HashSet<IGenericEdge<VertexId, RevisionId, GeoCoordinate,
-                                                 EdgeId, RevisionId, Distance,
-                                                 HyperEdgeId, RevisionId, Distance>>();
+            _OutEdges = new HashSet<IGenericEdge<VertexId,    RevisionId,         GeoFeature,
+                                                 EdgeId,      RevisionId, String, Distance,
+                                                 HyperEdgeId, RevisionId, String, Distance>>();
+            _InEdges  = new HashSet<IGenericEdge<VertexId,    RevisionId,         GeoFeature,
+                                                 EdgeId,      RevisionId, String, Distance,
+                                                 HyperEdgeId, RevisionId, String, Distance>>();
 
             Id = myVertexId;
 
@@ -121,7 +121,7 @@ namespace de.ahzf.Blueprints.GeoGraph
 
         #region IGeoVertex Members
 
-        public GeoCoordinate GeoCoordinate { get; set; }
+        public GeoFeature GeoCoordinate { get; set; }
 
         public String Name      { get { return GeoCoordinate.Name;      } }
         public Double Latitude  { get { return GeoCoordinate.Latitude;  } }
@@ -138,9 +138,9 @@ namespace de.ahzf.Blueprints.GeoGraph
         /// Add an outgoing edge.
         /// </summary>
         /// <param name="myIEdge">The edge to add.</param>
-        public void AddOutEdge(IGenericEdge<VertexId, RevisionId, GeoCoordinate,
-                                                 EdgeId, RevisionId, Distance,
-                                                 HyperEdgeId, RevisionId, Distance> myIEdge)
+        public void AddOutEdge(IGenericEdge<VertexId,    RevisionId,         GeoFeature,
+                                            EdgeId,      RevisionId, String, Distance,
+                                            HyperEdgeId, RevisionId, String, Distance> myIEdge)
         {
             _OutEdges.Add(myIEdge);
         }
@@ -152,9 +152,9 @@ namespace de.ahzf.Blueprints.GeoGraph
         /// <summary>
         /// The edges emanating from, or leaving, this vertex.
         /// </summary>
-        public IEnumerable<IGenericEdge<VertexId, RevisionId, GeoCoordinate,
-                                                 EdgeId, RevisionId, Distance,
-                                                 HyperEdgeId, RevisionId, Distance>> OutEdges
+        public IEnumerable<IGenericEdge<VertexId,    RevisionId,         GeoFeature,
+                                        EdgeId,      RevisionId, String, Distance,
+                                        HyperEdgeId, RevisionId, String, Distance>> OutEdges
         {
             get
             {
@@ -170,9 +170,9 @@ namespace de.ahzf.Blueprints.GeoGraph
         /// The edges emanating from, or leaving, this vertex
         /// filtered by their label.
         /// </summary>
-        public IEnumerable<IGenericEdge<VertexId, RevisionId, GeoCoordinate,
-                                                 EdgeId, RevisionId, Distance,
-                                                 HyperEdgeId, RevisionId, Distance>> GetOutEdges(String myLabel)
+        public IEnumerable<IGenericEdge<VertexId,    RevisionId,         GeoFeature,
+                                        EdgeId,      RevisionId, String, Distance,
+                                        HyperEdgeId, RevisionId, String, Distance>> GetOutEdges(String myLabel)
         {
             return from _Edge in _OutEdges where _Edge.Label == myLabel select _Edge;
         }
@@ -185,9 +185,9 @@ namespace de.ahzf.Blueprints.GeoGraph
         /// Remove an outgoing edge.
         /// </summary>
         /// <param name="myIEdge">The edge to remove.</param>
-        public void RemoveOutEdge(IGenericEdge<VertexId, RevisionId, GeoCoordinate,
-                                                 EdgeId, RevisionId, Distance,
-                                                 HyperEdgeId, RevisionId, Distance> myIEdge)
+        public void RemoveOutEdge(IGenericEdge<VertexId,    RevisionId,         GeoFeature,
+                                               EdgeId,      RevisionId, String, Distance,
+                                               HyperEdgeId, RevisionId, String, Distance> myIEdge)
         {
             lock (this)
             {
@@ -207,9 +207,9 @@ namespace de.ahzf.Blueprints.GeoGraph
         /// Add an incoming edge.
         /// </summary>
         /// <param name="myIEdge">The edge to add.</param>
-        public void AddInEdge(IGenericEdge<VertexId, RevisionId, GeoCoordinate,
-                                                 EdgeId, RevisionId, Distance,
-                                                 HyperEdgeId, RevisionId, Distance> myIEdge)
+        public void AddInEdge(IGenericEdge<VertexId,    RevisionId,         GeoFeature,
+                                           EdgeId,      RevisionId, String, Distance,
+                                           HyperEdgeId, RevisionId, String, Distance> myIEdge)
         {
             _InEdges.Add(myIEdge);
         }
@@ -221,9 +221,9 @@ namespace de.ahzf.Blueprints.GeoGraph
         /// <summary>
         /// The edges incoming to, or arriving at, this vertex.
         /// </summary>
-        public IEnumerable<IGenericEdge<VertexId, RevisionId, GeoCoordinate,
-                                                 EdgeId, RevisionId, Distance,
-                                                 HyperEdgeId, RevisionId, Distance>> InEdges
+        public IEnumerable<IGenericEdge<VertexId,    RevisionId,         GeoFeature,
+                                        EdgeId,      RevisionId, String, Distance,
+                                        HyperEdgeId, RevisionId, String, Distance>> InEdges
         {
             get
             {
@@ -239,9 +239,9 @@ namespace de.ahzf.Blueprints.GeoGraph
         /// The edges incoming to, or arriving at, this vertex
         /// filtered by their label.
         /// </summary>
-        public IEnumerable<IGenericEdge<VertexId, RevisionId, GeoCoordinate,
-                                                 EdgeId, RevisionId, Distance,
-                                                 HyperEdgeId, RevisionId, Distance>> GetInEdges(String myLabel)
+        public IEnumerable<IGenericEdge<VertexId,    RevisionId,         GeoFeature,
+                                        EdgeId,      RevisionId, String, Distance,
+                                        HyperEdgeId, RevisionId, String, Distance>> GetInEdges(String myLabel)
         {
             return from _Edge in _InEdges where _Edge.Label == myLabel select _Edge;
         }
@@ -254,9 +254,9 @@ namespace de.ahzf.Blueprints.GeoGraph
         /// Remove an incoming edge.
         /// </summary>
         /// <param name="myIEdge">The edge to remove.</param>
-        public void RemoveInEdge(IGenericEdge<VertexId, RevisionId, GeoCoordinate,
-                                                 EdgeId, RevisionId, Distance,
-                                                 HyperEdgeId, RevisionId, Distance> myIEdge)
+        public void RemoveInEdge(IGenericEdge<VertexId,    RevisionId,         GeoFeature,
+                                              EdgeId,      RevisionId, String, Distance,
+                                              HyperEdgeId, RevisionId, String, Distance> myIEdge)
         {
             lock (this)
             {
@@ -427,9 +427,9 @@ namespace de.ahzf.Blueprints.GeoGraph
         /// </summary>
         /// <param name="myIGenericVertex">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public Int32 CompareTo(IGenericVertex<VertexId,    RevisionId, GeoCoordinate,
-                                              EdgeId,      RevisionId, Distance,
-                                              HyperEdgeId, RevisionId, Distance> myIGenericVertex)
+        public Int32 CompareTo(IGenericVertex<VertexId,    RevisionId,         GeoFeature,
+                                              EdgeId,      RevisionId, String, Distance,
+                                              HyperEdgeId, RevisionId, String, Distance> myIGenericVertex)
         {
 
             // Check if myIGeoVertex is null
@@ -496,9 +496,9 @@ namespace de.ahzf.Blueprints.GeoGraph
         /// </summary>
         /// <param name="myIGenericVertex">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public Boolean Equals(IGenericVertex<VertexId,    RevisionId, GeoCoordinate,
-                                             EdgeId,      RevisionId, Distance,
-                                             HyperEdgeId, RevisionId, Distance> myIGenericVertex)
+        public Boolean Equals(IGenericVertex<VertexId,    RevisionId,         GeoFeature,
+                                             EdgeId,      RevisionId, String, Distance,
+                                             HyperEdgeId, RevisionId, String, Distance> myIGenericVertex)
         {
 
             if ((Object)myIGenericVertex == null)

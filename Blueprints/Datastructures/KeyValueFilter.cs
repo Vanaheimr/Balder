@@ -21,22 +21,17 @@ using System;
 
 #endregion
 
-namespace de.ahzf.Blueprints.GeoGraph
+namespace de.ahzf.Blueprints
 {
 
     /// <summary>
-    /// A simple struct for a distance.
+    /// A delegate to filter KeyValuePairs based on their keys and values.
     /// </summary>
-    public struct Distance
-    {
-
-        public readonly Double Value;
-
-        public Distance(Double myDistance)
-        {
-            Value = myDistance;
-        }
-
-    }
+    /// <typeparam name="TKey">The type of the keys.</typeparam>
+    /// <typeparam name="TValue">The type of the values.</typeparam>
+    /// <param name="Key">A key.</param>
+    /// <param name="Value">A value.</param>
+    /// <returns>True if the KeyValuePair should be returned; False otherwise.</returns>
+    public delegate Boolean KeyValueFilter<in TKey, in TValue>(TKey Key, TValue Value);
 
 }

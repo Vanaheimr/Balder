@@ -31,12 +31,37 @@ namespace de.ahzf.Blueprints
     /// </summary>
     public enum TransactionState
     {
+
+        /// <summary>
+        /// The transaction is still running.
+        /// </summary>
         Running,
+
+        /// <summary>
+        /// The transaction has nested transactions.
+        /// </summary>
         NestedTransaction,
+
+        /// <summary>
+        /// The transaction is currently comitting.
+        /// </summary>
         Committing,
+
+        /// <summary>
+        /// The transaction was comitted.
+        /// </summary>
         Committed,
+
+        /// <summary>
+        /// The transaction is currently rolling back.
+        /// </summary>
         RollingBack,
+
+        /// <summary>
+        /// The transaction was rolled back.
+        /// </summary>
         RolledBack
+
     }
 
 }

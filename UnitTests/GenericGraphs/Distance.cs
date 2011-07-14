@@ -21,27 +21,40 @@ using System;
 
 #endregion
 
-namespace de.ahzf.Blueprints.GeoGraph
+namespace de.ahzf.Blueprints.UnitTests.GeoGraph
 {
 
     /// <summary>
-    /// A simple struct for a geo coordinate.
+    /// A simple distance struct.
     /// </summary>
-    public struct GeoCoordinate
+    public struct Distance
     {
 
-        public readonly String Name;
-        public readonly Double Latitude;
-        public readonly Double Longitude;
-        public readonly Double Height;
+        #region Data
 
-        public GeoCoordinate(String myName, Double myLatitude, Double myLongitude, Double myHeight)
+        /// <summary>
+        /// The distance.
+        /// </summary>
+        public readonly Double Value;
+
+        #endregion
+
+        #region Constructor(s)
+
+        #region Distance(Value)
+
+        /// <summary>
+        /// Creates a new distance based on the given value.
+        /// </summary>
+        /// <param name="Value">The distance.</param>
+        public Distance(Double Value)
         {
-            Name        = myName;
-            Latitude    = myLatitude;
-            Longitude   = myLongitude;
-            Height      = myHeight;
+            this.Value = Value;
         }
+
+        #endregion
+
+        #endregion
 
     }
 

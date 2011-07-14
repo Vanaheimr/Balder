@@ -115,6 +115,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
         /// </summary>
         /// <typeparam name="TKey">The type of the property keys.</typeparam>
         /// <typeparam name="TValue">The type of the property values.</typeparam>
+        /// <typeparam name="TCast">The casted type of the properety values.</typeparam>
         /// <param name="IProperties">An object implementing IProperties.</param>
         /// <param name="Key">A key.</param>
         public static TCast GetPropertyCasted<TKey, TValue, TCast>(this IProperties<TKey, TValue> IProperties, TKey Key)

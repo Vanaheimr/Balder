@@ -17,6 +17,8 @@
 
 #region Usings
 
+using System;
+
 using de.ahzf.Blueprints.GenericGraph;
 
 #endregion
@@ -27,9 +29,9 @@ namespace de.ahzf.Blueprints.GeoGraph
     /// <summary>
     /// A simple geo edge.
     /// </summary>
-    public interface IGeoEdge : IGenericEdge<VertexId,    RevisionId, GeoCoordinate,
-                                             EdgeId,      RevisionId, Distance,
-                                             HyperEdgeId, RevisionId, Distance>
+    public interface IGeoEdge : IGenericEdge<VertexId,    RevisionId,         GeoFeature,
+                                             EdgeId,      RevisionId, String, Distance,
+                                             HyperEdgeId, RevisionId, String, Distance>
     {
         Distance Distance { get; set; }
     }

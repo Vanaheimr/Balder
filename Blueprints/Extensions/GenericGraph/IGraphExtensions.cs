@@ -348,24 +348,30 @@ namespace de.ahzf.Blueprints.GenericGraph
         /// <param name="myLabel"></param>
         /// <param name="myEdgeInitializer">A delegate to initialize the newly generated edge.</param>
         /// <returns>Both new edges.</returns>
-        public static Tuple<TEdge, TEdge> AddDoubleEdge<TIdVertex,    TRevisionIdVertex,    TVertexData,    TVertex,
-                                                        TIdEdge,      TRevisionIdEdge,      TEdgeData,      TEdge,
-                                                        TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData, THyperEdge>(
+        public static Tuple<TEdge, TEdge> AddDoubleEdge<TIdVertex,    TRevisionIdVertex,                     TDataVertex,    TVertex,
+                                                        TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,      TEdge,
+                                                        TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge, THyperEdge>(
 
-                                          this IGenericGraph<TIdVertex,    TRevisionIdVertex,    TVertexData,    TVertex,
-                                                             TIdEdge,      TRevisionIdEdge,      TEdgeData,      TEdge,
-                                                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData, THyperEdge> myIGenericGraph,
+                                          this IGenericGraph<TIdVertex,    TRevisionIdVertex,                     TDataVertex,    TVertex,
+                                                             TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,      TEdge,
+                                                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge, THyperEdge> myIGenericGraph,
 
                                           TIdVertex         myOutVertexId,
                                           TIdVertex         myInVertexId,
                                           TIdEdge           myEdgeId1         = default(TIdEdge),
                                           TIdEdge           myEdgeId2         = default(TIdEdge),
                                           String            myLabel           = null,
-                                          Action<TEdgeData> myEdgeInitializer = null)
+                                          Action<TDataEdge> myEdgeInitializer = null)
 
-            where TVertex              : IGenericVertex   <TIdVertex, TRevisionIdVertex, TVertexData, TIdEdge, TRevisionIdEdge, TEdgeData, TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData>
-            where TEdge                : IGenericEdge     <TIdVertex, TRevisionIdVertex, TVertexData, TIdEdge, TRevisionIdEdge, TEdgeData, TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData>
-            where THyperEdge           : IGenericHyperEdge<TIdVertex, TRevisionIdVertex, TVertexData, TIdEdge, TRevisionIdEdge, TEdgeData, TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData>
+            where TVertex              : IGenericVertex   <TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                                           TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                                           TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge>
+            where TEdge                : IGenericEdge     <TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                                           TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                                           TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge>
+            where THyperEdge           : IGenericHyperEdge<TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                                           TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                                           TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge>
 
             where TIdVertex            : IEquatable<TIdVertex>,            IComparable<TIdVertex>,            IComparable
             where TIdEdge              : IEquatable<TIdEdge>,              IComparable<TIdEdge>,              IComparable

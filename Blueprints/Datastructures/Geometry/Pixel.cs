@@ -203,15 +203,53 @@ namespace de.ahzf.Blueprints
 
         #region IComparable Members
 
-        public int CompareTo(object obj)
+        #region CompareTo(Object)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="Object">An object to compare with.</param>
+        public virtual Int32 CompareTo(Object Object)
         {
-            throw new NotImplementedException();
+
+            if (Object == null)
+                throw new ArgumentNullException("The given object must not be null!");
+
+            // Check if the given object is an IPixel<T>.
+            var IPixelT = Object as IPixel<T>;
+            if ((Object) IPixelT == null)
+                throw new ArgumentException("The given object is not a valid pixel!");
+
+            return CompareTo(IPixelT);
+
         }
 
-        public int CompareTo(IPixel<T> other)
+        #endregion
+
+        #region CompareTo(IPixelT)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="IPixelT">An object to compare with.</param>
+        public Int32 CompareTo(IPixel<T> IPixelT)
         {
-            throw new NotImplementedException();
+            
+            if ((Object) IPixelT == null)
+                throw new ArgumentNullException("The given pixel must not be null!");
+
+            // Compare the x-coordinate of the pixels
+            var _Result = this.X.CompareTo(IPixelT.X);
+
+            // If equal: Compare the y-coordinate of the pixels
+            if (_Result == 0)
+                _Result = this.Y.CompareTo(IPixelT.Y);
+
+            return _Result;
+
         }
+
+        #endregion
 
         #endregion
 

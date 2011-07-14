@@ -35,24 +35,26 @@ namespace de.ahzf.Blueprints.GeoGraph
     /// </summary>
     public class GeoGraph : IGenericGraph<// Vertex definition
                                           VertexId, RevisionId,
-                                          GeoCoordinate,
+                                          GeoFeature,
                                           IGeoVertex,
                                          
                                           // Edge definition
                                           EdgeId, RevisionId,
+                                          String, 
                                           Distance,
                                           IGeoEdge,
                                          
                                           // Hyperedge definition
                                           HyperEdgeId, RevisionId,
+                                          String, 
                                           Distance,
-                                          IGenericHyperEdge<VertexId,    RevisionId, GeoCoordinate,
-                                                            EdgeId,      RevisionId, Distance,
-                                                            HyperEdgeId, RevisionId, Distance>>
+                                          IGenericHyperEdge<VertexId,    RevisionId,         GeoFeature,
+                                                            EdgeId,      RevisionId, String, Distance,
+                                                            HyperEdgeId, RevisionId, String, Distance>>
     {
 
 
-        public IGeoVertex AddVertex(VertexId VertexId = default(VertexId), Action<GeoCoordinate> VertexInitializer = null)
+        public IGeoVertex AddVertex(VertexId VertexId = default(VertexId), Action<GeoFeature> VertexInitializer = null)
         {
             throw new NotImplementedException();
         }
@@ -130,7 +132,7 @@ namespace de.ahzf.Blueprints.GeoGraph
 
 
 
-        public GeoCoordinate Data
+        public GeoFeature Data
         {
             get { throw new NotImplementedException(); }
         }

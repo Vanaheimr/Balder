@@ -284,46 +284,44 @@ namespace de.ahzf.Blueprints
 
         #region IEquatable<SemanticPropertyKey> Members
 
-        #region Equals(myObject)
+        #region Equals(Object)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="myObject">An object to compare with.</param>
+        /// <param name="Object">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public override Boolean Equals(Object myObject)
+        public override Boolean Equals(Object Object)
         {
 
-            // Check if myObject is null
-            if (myObject == null)
+            if (Object == null)
                 return false;
 
             // Check if myObject can be cast to SemanticPropertyKey
-            var mySemanticPropertyKey = myObject as SemanticProperty;
-            if ((Object) mySemanticPropertyKey == null)
+            var _SemanticPropertyKey = Object as SemanticProperty;
+            if ((Object) _SemanticPropertyKey == null)
                 return false;
 
-            return this.Equals(mySemanticPropertyKey);
+            return this.Equals(_SemanticPropertyKey);
 
         }
 
         #endregion
 
-        #region Equals(mySemanticPropertyKey)
+        #region Equals(SemanticPropertyKey)
 
         /// <summary>
         /// Compares two SemanticPropertys for equality.
         /// </summary>
         /// <param name="SemanticProperty">A SemanticProperty to compare with.</param>
         /// <returns>True if both match; False otherwise.</returns>
-        public Boolean Equals(SemanticProperty mySemanticPropertyKey)
+        public Boolean Equals(SemanticProperty SemanticProperty)
         {
 
-            // Check if mySemanticPropertyKey is null
-            if (mySemanticPropertyKey == null)
+            if (SemanticProperty == null)
                 return false;
 
-            return Key.Equals(mySemanticPropertyKey.Key);
+            return Key.Equals(SemanticProperty.Key);
 
         }
 

@@ -46,6 +46,7 @@ namespace de.ahzf.Blueprints
     /// quadtree splits an internal rectangle.
     /// </summary>
     /// <typeparam name="T">The type of the Quadtree.</typeparam>
+    /// <typeparam name="TValue">The type of the stored values.</typeparam>
     /// <param name="Quadtree">The sending quadtree.</param>
     /// <param name="Pixel">The pixel causing the split.</param>
     public delegate void QuadtreeSplitEventHandler<T, TValue>(Quadtree<T, TValue> Quadtree, IPixel<T> Pixel)
@@ -239,43 +240,52 @@ namespace de.ahzf.Blueprints
         #endregion
 
 
-        #region Add(Pixel)
+        #region Add(X, Y)
 
+        /// <summary>
+        /// Add a pixel to the quadtree.
+        /// </summary>
+        /// <param name="X">The x-coordinate of a pixel of type T.</param>
+        /// <param name="Y">The y-coordinate of a pixel of type T.</param>
         public void Add(T X, T Y)
         {
             Add(new Pixel<T>(X, Y));
         }
 
+        #endregion
+
+        #region Add(IPixel)
+
         /// <summary>
         /// Add a pixel to the quadtree.
         /// </summary>
-        /// <param name="Pixel">A pixel of type T.</param>
-        public void Add(IPixel<T> Pixel)
+        /// <param name="IPixel">A pixel of type T.</param>
+        public void Add(IPixel<T> IPixel)
         {
 
-            if (this.Contains(Pixel))
+            if (this.Contains(IPixel))
             {
 
                 #region Check subtrees...
 
-                if      (Subtree1 != null && Subtree1.Contains(Pixel))
-                    Subtree1.Add(Pixel);
+                if      (Subtree1 != null && Subtree1.Contains(IPixel))
+                    Subtree1.Add(IPixel);
                 
-                else if (Subtree2 != null && Subtree2.Contains(Pixel))
-                    Subtree2.Add(Pixel);
+                else if (Subtree2 != null && Subtree2.Contains(IPixel))
+                    Subtree2.Add(IPixel);
                 
-                else if (Subtree3 != null && Subtree3.Contains(Pixel))
-                    Subtree3.Add(Pixel);
+                else if (Subtree3 != null && Subtree3.Contains(IPixel))
+                    Subtree3.Add(IPixel);
                 
-                else if (Subtree4 != null && Subtree4.Contains(Pixel))
-                    Subtree4.Add(Pixel);
+                else if (Subtree4 != null && Subtree4.Contains(IPixel))
+                    Subtree4.Add(IPixel);
 
                 #endregion
 
                 #region ...or the embedded data.
 
                 else if (EmbeddedPixels.Count < MaxNumberOfEmbeddedPixels)
-                    EmbeddedPixels.Add(Pixel);
+                    EmbeddedPixels.Add(IPixel);
 
                 #endregion
 
@@ -331,13 +341,13 @@ namespace de.ahzf.Blueprints
                     #region Fire QuadtreeSplit event
 
                     if (OnTreeSplit != null)
-                        OnTreeSplit(this, Pixel);
+                        OnTreeSplit(this, IPixel);
 
                     #endregion
 
                     #region Move all embedded data into the subtrees
 
-                    EmbeddedPixels.Add(Pixel);
+                    EmbeddedPixels.Add(IPixel);
 
                     foreach (var _Pixel in EmbeddedPixels)
                     {
@@ -370,7 +380,7 @@ namespace de.ahzf.Blueprints
             }
 
             else
-                throw new QT_OutOfBoundsException<T>(this, Pixel);
+                throw new QT_OutOfBoundsException<T>(this, IPixel);
 
         }
 
@@ -670,6 +680,7 @@ namespace de.ahzf.Blueprints
     /// Note: This datastructure is not self-balancing!
     /// </summary>
     /// <typeparam name="T">The internal datatype of the quadtree.</typeparam>
+    /// <typeparam name="TValue">The type of the stored values.</typeparam>
     public class Quadtree<T, TValue> : Rectangle<T>, IQuadtree<T, TValue>
         where T : IEquatable<T>, IComparable<T>, IComparable
     {
@@ -846,22 +857,41 @@ namespace de.ahzf.Blueprints
         #endregion
 
 
-        #region Add(Pixel)
+        #region Add(X, Y, Value)
 
+        /// <summary>
+        /// Add a pixel together with a value to the quadtree.
+        /// </summary>
+        /// <param name="X">The x-coordinate of a pixel of type T.</param>
+        /// <param name="Y">The y-coordinate of a pixel of type T.</param>
+        /// <param name="Value">A value of type TValue.</param>
         public void Add(T X, T Y, TValue Value)
         {
             Add(new PixelValuePair<T, TValue>(X, Y, Value));
         }
 
+        #endregion
+
+        #region Add(IPixel, Value)
+
+        /// <summary>
+        /// Add a pixel together with a value to the quadtree.
+        /// </summary>
+        /// <param name="IPixel">A pixel of type T.</param>
+        /// <param name="Value">A value of type TValue.</param>
         public void Add(IPixel<T> IPixel, TValue Value)
         {
             Add(new PixelValuePair<T, TValue>(IPixel.X, IPixel.Y, Value));
         }
 
+        #endregion
+
+        #region Add(IPixelValuePair)
+
         /// <summary>
-        /// Add a pixel to the quadtree.
+        /// Add a PixelValuePair to the quadtree.
         /// </summary>
-        /// <param name="Pixel">A pixel of type T.</param>
+        /// <param name="IPixelValuePair">A PixelValuePair.</param>
         public void Add(IPixelValuePair<T, TValue> IPixelValuePair)
         {
 

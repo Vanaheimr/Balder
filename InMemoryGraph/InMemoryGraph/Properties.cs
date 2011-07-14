@@ -39,8 +39,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
     /// <typeparam name="TValue">The type of the property values.</typeparam>
     /// <typeparam name="TDatastructure">The type of the datastructure to maintain the key/value pairs.</typeparam>
     public class Properties<TId, TRevisionId, TKey, TValue, TDatastructure>
-                    : IProperties<TKey, TValue>,
-                      IProperties<TKey, TValue, TDatastructure>
+                    : IProperties<TKey, TValue, TDatastructure>
 
         where TKey           : IEquatable<TKey>,        IComparable<TKey>,        IComparable
         where TId            : IEquatable<TId>,         IComparable<TId>,         IComparable, TValue
@@ -130,48 +129,149 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #region Events
 
-        #region CollectionChanged/OnCollectionChanged(...)
+        #region OnPropertyAddition
 
-        public event NotifyCollectionChangedEventHandler CollectionChanged;
+        /// <summary>
+        /// Called when a property value will be added.
+        /// </summary>
+        public event PropertyAdditionEventHandler<TKey, TValue> OnPropertyAddition;
 
-        public void OnCollectionChanged(NotifyCollectionChangedEventArgs myNotifyCollectionChangedEventArgs)
+        #endregion
+
+        #region OnPropertyAdded
+
+        /// <summary>
+        /// Called whenever a property value was added.
+        /// </summary>
+        public event PropertyAddedEventHandler   <TKey, TValue> OnPropertyAdded;
+
+        #endregion
+
+        #region OnPropertyChanging
+
+        /// <summary>
+        /// Called whenever a property value will be changed.
+        /// </summary>
+        public event PropertyChangingEventHandler<TKey, TValue> OnPropertyChanging;
+
+        #endregion
+
+        #region OnPropertyChanged
+
+        /// <summary>
+        /// Called whenever a property value was changed.
+        /// </summary>
+        public event PropertyChangedEventHandler <TKey, TValue> OnPropertyChanged;
+
+        #endregion
+
+        #region OnPropertyRemoval
+
+        /// <summary>
+        /// Called whenever a property value will be removed.
+        /// </summary>
+        public event PropertyRemovalEventHandler <TKey, TValue> OnPropertyRemoval;
+
+        #endregion
+
+        #region OnPropertyRemoved
+
+        /// <summary>
+        /// Called whenever a property value was removed.
+        /// </summary>
+        public event PropertyRemovedEventHandler <TKey, TValue> OnPropertyRemoved;
+        
+        #endregion
+
+
+        #region (internal) SendPropertyAdditionNotification(Key, Value)
+
+        /// <summary>
+        /// Notify about a property to be added.
+        /// </summary>
+        /// <param name="Key">The key of the property to be added.</param>
+        /// <param name="Value">The value of the property to be added.</param>
+        internal void SendPropertyAdditionNotification(TKey Key, TValue Value)
         {
-            if (CollectionChanged != null)
-                CollectionChanged(this, myNotifyCollectionChangedEventArgs);
+            if (OnPropertyAddition != null)
+                OnPropertyAddition(this, Key, Value);
         }
 
         #endregion
 
-        #region PropertyChanging/OnPropertyChanging(...)
+        #region (internal) SendPropertyAddedNotification(Key, Value)
 
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public void OnPropertyChanging(String PropertyName)
+        /// <summary>
+        /// Notify about an added property.
+        /// </summary>
+        /// <param name="Key">The key of the added property.</param>
+        /// <param name="Value">The value of the added property.</param>
+        internal void SendPropertyAddedNotification(TKey Key, TValue Value)
         {
-            if (PropertyChanging != null)
-                PropertyChanging(this, new PropertyChangingEventArgs(PropertyName));
-        }
-
-        public void OnPropertyChanging<TResult>(Expression<Func<TResult>> myPropertyExpression)
-        {
-            OnPropertyChanged(((MemberExpression) myPropertyExpression.Body).Member.Name);
+            if (OnPropertyAdded != null)
+                OnPropertyAdded(this, Key, Value);
         }
 
         #endregion
 
-        #region PropertyChanged/OnPropertyChanged(...)
+        #region (internal) SendPropertyChangingNotification(Key, OldValue, NewValue)
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void OnPropertyChanged(String PropertyName)
+        /// <summary>
+        /// Notify about a property to be changed.
+        /// </summary>
+        /// <param name="Key">The key of the property to be changed.</param>
+        /// <param name="OldValue">The old value of the property to be changed.</param>
+        /// <param name="NewValue">The new value of the property to be changed.</param>
+        internal void SendPropertyChangingNotification(TKey Key, TValue OldValue, TValue NewValue)
         {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(PropertyName));
+            if (OnPropertyChanging != null)
+                OnPropertyChanging(this, Key, OldValue, NewValue);
         }
 
-        public void OnPropertyChanged<TResult>(Expression<Func<TResult>> myPropertyExpression)
+        #endregion
+
+        #region (internal) SendPropertyChangedNotification(Key, OldValue, NewValue)
+
+        /// <summary>
+        /// Notify about a changed property.
+        /// </summary>
+        /// <param name="Key">The key of the changed property.</param>
+        /// <param name="OldValue">The old value of the changed property.</param>
+        /// <param name="NewValue">The new value of the changed property.</param>
+        internal void SendPropertyChangedNotification(TKey Key, TValue OldValue, TValue NewValue)
         {
-            OnPropertyChanged(((MemberExpression)myPropertyExpression.Body).Member.Name);
+            if (OnPropertyChanged != null)
+                OnPropertyChanged(this, Key, OldValue, NewValue);
+        }
+
+        #endregion
+
+        #region (internal) SendPropertyRemovalNotification(Key, Value)
+
+        /// <summary>
+        /// Notify about a property to be removed.
+        /// </summary>
+        /// <param name="Key">The key of the property to be removed.</param>
+        /// <param name="Value">The value of the property to be removed.</param>
+        internal void SendPropertyRemovalNotification(TKey Key, TValue Value)
+        {
+            if (OnPropertyRemoval != null)
+                OnPropertyRemoval(this, Key, Value);
+        }
+
+        #endregion
+
+        #region (internal) SendPropertyRemovedNotification(Key, Value)
+
+        /// <summary>
+        /// Notify about a removed property.
+        /// </summary>
+        /// <param name="Key">The key of the removed property.</param>
+        /// <param name="Value">The value of the removed property.</param>
+        internal void SendPropertyRemovedNotification(TKey Key, TValue Value)
+        {
+            if (OnPropertyRemoved != null)
+                OnPropertyRemoved(this, Key, Value);
         }
 
         #endregion
@@ -266,29 +366,30 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         public virtual IProperties<TKey, TValue> SetProperty(TKey Key, TValue Value)
         {
 
+            #region Initial Checks
+
             if (Key.Equals(IdKey))
                 throw new IdentificationChangeException();
 
             if (Key.Equals(RevIdKey))
                 throw new RevisionIdentificationChangeException();
 
-            if (PropertyData.ContainsKey(Key))
+            #endregion
+
+            TValue _OldValue;
+
+            if (PropertyData.TryGetValue(Key, out _OldValue))
             {
-                OnPropertyChanging(Key.ToString());
+                SendPropertyChangingNotification(Key, _OldValue, Value);
                 PropertyData[Key] = Value;
-                OnPropertyChanged(Key.ToString());
+                SendPropertyChangedNotification (Key, _OldValue, Value);
             }
 
             else
             {
-                
+                SendPropertyAdditionNotification(Key, Value);
                 PropertyData.Add(Key, Value);
-                
-                OnCollectionChanged(new NotifyCollectionChangedEventArgs(
-                                        NotifyCollectionChangedAction.Add,
-                                        new Object[] { Key, Value })
-                                   );
-
+                SendPropertyAddedNotification(Key, Value);
             }
 
             return this;
@@ -422,23 +523,26 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         public virtual TValue Remove(TKey Key)
         {
 
+            #region Initial Checks
+
             if (Key.Equals(IdKey))
                 throw new ArgumentException("Removing the Id property is not allowed!");
 
             if (Key.Equals(RevIdKey))
                 throw new ArgumentException("Removing the RevisionId property is not allowed!");
 
-            TValue _Object;
+            #endregion
 
-            if (PropertyData.TryGetValue(Key, out _Object))
+            TValue _Value;
+
+            if (PropertyData.TryGetValue(Key, out _Value))
+            {
+                SendPropertyRemovalNotification(Key, _Value);
                 PropertyData.Remove(Key);
+                SendPropertyRemovedNotification(Key, _Value);
+            }
 
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(
-                                        NotifyCollectionChangedAction.Remove,
-                                        Key)
-                                   );
-
-            return _Object;
+            return _Value;
 
         }
 
@@ -454,13 +558,25 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         public Boolean Remove(TKey Key, TValue Value)
         {
 
-            TValue _Value = default(TValue);
+            #region Initial Checks
+
+            if (Key.Equals(IdKey))
+                throw new ArgumentException("Removing the Id property is not allowed!");
+
+            if (Key.Equals(RevIdKey))
+                throw new ArgumentException("Removing the RevisionId property is not allowed!");
+
+            #endregion
+
+            TValue _Value;
 
             if (GetProperty(Key, out _Value))
             {
                 if (_Value.Equals(Value))
                 {
+                    SendPropertyRemovalNotification(Key, _Value);
                     Remove(Key);
+                    SendPropertyRemovedNotification(Key, _Value);
                     return true;
                 }
             }

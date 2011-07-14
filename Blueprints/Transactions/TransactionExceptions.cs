@@ -33,6 +33,9 @@ namespace de.ahzf.Blueprints
         where T : IEquatable<T>, IComparable, IComparable<T>
     {
 
+        /// <summary>
+        /// The transaction causing this exception.
+        /// </summary>
         protected Transaction<T> _Transaction = null;
 
         /// <summary>

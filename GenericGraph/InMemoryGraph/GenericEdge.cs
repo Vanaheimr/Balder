@@ -30,13 +30,13 @@ namespace de.ahzf.Blueprints.GenericGraph.InMemory
     /// The incoming edges are those edges for which the vertex is the head.
     /// Diagrammatically, ---inEdges---> vertex ---outEdges--->.
     /// </summary>
-    public class GenericEdge<TIdVertex,    TRevisionIdVertex,    TVertexData,
-                             TIdEdge,      TRevisionIdEdge,      TEdgeData,
-                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData>
+    public class GenericEdge<TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                             TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge>
 
-                             : IGenericEdge<TIdVertex,    TRevisionIdVertex,    TVertexData,
-                                            TIdEdge,      TRevisionIdEdge,      TEdgeData,
-                                            TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData>
+                             : IGenericEdge<TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                            TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                            TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge>
 
         where TIdVertex            : IEquatable<TIdVertex>,            IComparable<TIdVertex>,            IComparable
         where TIdEdge              : IEquatable<TIdEdge>,              IComparable<TIdEdge>,              IComparable
@@ -53,16 +53,16 @@ namespace de.ahzf.Blueprints.GenericGraph.InMemory
         /// <summary>
         /// The vertex at the tail of this edge.
         /// </summary>
-        protected readonly IGenericVertex<TIdVertex,    TRevisionIdVertex,    TVertexData,
-                                          TIdEdge,      TRevisionIdEdge,      TEdgeData,
-                                          TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData> _OutVertex;
+        protected readonly IGenericVertex<TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                          TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                          TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge> _OutVertex;
 
         /// <summary>
         /// The vertex at the head of this edge.
         /// </summary>
-        protected readonly IGenericVertex<TIdVertex,    TRevisionIdVertex,    TVertexData,
-                                          TIdEdge,      TRevisionIdEdge,      TEdgeData,
-                                          TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData> _InVertex;
+        protected readonly IGenericVertex<TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                          TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                          TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge> _InVertex;
 
         #endregion
 
@@ -81,6 +81,9 @@ namespace de.ahzf.Blueprints.GenericGraph.InMemory
 
         #endregion
 
+        /// <summary>
+        /// A revision identification.
+        /// </summary>
         public TRevisionIdEdge RevisionId { get; private set; }
 
         #region Label
@@ -92,7 +95,10 @@ namespace de.ahzf.Blueprints.GenericGraph.InMemory
 
         #endregion
 
-        public TEdgeData Data { get; private set; }
+        /// <summary>
+        /// The stored data.
+        /// </summary>
+        public TDataEdge Data { get; private set; }
 
 
         // Links to the associated vertices
@@ -102,9 +108,9 @@ namespace de.ahzf.Blueprints.GenericGraph.InMemory
         /// <summary>
         /// The vertex at the tail of this edge.
         /// </summary>
-        public IGenericVertex<TIdVertex,    TRevisionIdVertex,    TVertexData,
-                              TIdEdge,      TRevisionIdEdge,      TEdgeData,
-                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData> OutVertex
+        public IGenericVertex<TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge> OutVertex
         {
             get
             {
@@ -119,9 +125,9 @@ namespace de.ahzf.Blueprints.GenericGraph.InMemory
         /// <summary>
         /// The vertex at the head of this edge.
         /// </summary>
-        public IGenericVertex<TIdVertex,    TRevisionIdVertex,    TVertexData,
-                              TIdEdge,      TRevisionIdEdge,      TEdgeData,
-                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData> InVertex
+        public IGenericVertex<TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge> InVertex
         {
             get
             {
@@ -147,17 +153,17 @@ namespace de.ahzf.Blueprints.GenericGraph.InMemory
         /// <param name="myLabel">A label stored within this edge.</param>
         /// <param name="myEdgeInitializer">A delegate to initialize the newly created edge.</param>
         public GenericEdge(IGenericGraph myIGraph,
-                           IGenericVertex<TIdVertex,    TRevisionIdVertex,    TVertexData,
-                                          TIdEdge,      TRevisionIdEdge,      TEdgeData,
-                                          TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData> myOutVertex,
-                           IGenericVertex<TIdVertex,    TRevisionIdVertex,    TVertexData,
-                                          TIdEdge,      TRevisionIdEdge,      TEdgeData,
-                                          TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData> myInVertex,
+                           IGenericVertex<TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                          TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                          TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge> myOutVertex,
+                           IGenericVertex<TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                          TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                          TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge> myInVertex,
                            TIdEdge              myEdgeId,
                            String               myLabel,
-                           Action<IGenericEdge<TIdVertex,    TRevisionIdVertex,    TVertexData,
-                                               TIdEdge,      TRevisionIdEdge,      TEdgeData,
-                                               TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData>> myEdgeInitializer = null)
+                           Action<IGenericEdge<TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                               TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                               TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge>> myEdgeInitializer = null)
         {
 
             if (myOutVertex == null)
@@ -193,12 +199,12 @@ namespace de.ahzf.Blueprints.GenericGraph.InMemory
         /// <param name="myGenericEdge1">A GenericEdge.</param>
         /// <param name="myGenericEdge2">Another GenericEdge.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator == (GenericEdge<TIdVertex,    TRevisionIdVertex,    TVertexData,
-                                                       TIdEdge,      TRevisionIdEdge,      TEdgeData,
-                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData> myGenericEdge1,
-                                           GenericEdge<TIdVertex,    TRevisionIdVertex,    TVertexData,
-                                                       TIdEdge,      TRevisionIdEdge,      TEdgeData,
-                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData> myGenericEdge2)
+        public static Boolean operator == (GenericEdge<TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge> myGenericEdge1,
+                                           GenericEdge<TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge> myGenericEdge2)
         {
 
             // If both are null, or both are same instance, return true.
@@ -223,12 +229,12 @@ namespace de.ahzf.Blueprints.GenericGraph.InMemory
         /// <param name="myGenericEdge1">A GenericEdge.</param>
         /// <param name="myGenericEdge2">Another GenericEdge.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator != (GenericEdge<TIdVertex,    TRevisionIdVertex,    TVertexData,
-                                                       TIdEdge,      TRevisionIdEdge,      TEdgeData,
-                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData> myGenericEdge1,
-                                           GenericEdge<TIdVertex,    TRevisionIdVertex,    TVertexData,
-                                                       TIdEdge,      TRevisionIdEdge,      TEdgeData,
-                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData> myGenericEdge2)
+        public static Boolean operator != (GenericEdge<TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge> myGenericEdge1,
+                                           GenericEdge<TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge> myGenericEdge2)
         {
             return !(myGenericEdge1 == myGenericEdge2);
         }
@@ -243,12 +249,12 @@ namespace de.ahzf.Blueprints.GenericGraph.InMemory
         /// <param name="myGenericEdge1">A GenericEdge.</param>
         /// <param name="myGenericEdge2">Another GenericEdge.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator < (GenericEdge<TIdVertex,    TRevisionIdVertex,    TVertexData,
-                                                      TIdEdge,      TRevisionIdEdge,      TEdgeData,
-                                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData> myGenericEdge1,
-                                          GenericEdge<TIdVertex,    TRevisionIdVertex,    TVertexData,
-                                                      TIdEdge,      TRevisionIdEdge,      TEdgeData,
-                                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData> myGenericEdge2)
+        public static Boolean operator < (GenericEdge<TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                                      TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge> myGenericEdge1,
+                                          GenericEdge<TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                                      TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge> myGenericEdge2)
         {
 
             // Check if myGenericEdge1 is null
@@ -273,12 +279,12 @@ namespace de.ahzf.Blueprints.GenericGraph.InMemory
         /// <param name="myGenericEdge1">A GenericEdge.</param>
         /// <param name="myGenericEdge2">Another GenericEdge.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator > (GenericEdge<TIdVertex,    TRevisionIdVertex,    TVertexData,
-                                                      TIdEdge,      TRevisionIdEdge,      TEdgeData,
-                                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData> myGenericEdge1,
-                                          GenericEdge<TIdVertex,    TRevisionIdVertex,    TVertexData,
-                                                      TIdEdge,      TRevisionIdEdge,      TEdgeData,
-                                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData> myGenericEdge2)
+        public static Boolean operator > (GenericEdge<TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                                      TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge> myGenericEdge1,
+                                          GenericEdge<TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                                      TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge> myGenericEdge2)
         {
 
             // Check if myGenericEdge1 is null
@@ -303,12 +309,12 @@ namespace de.ahzf.Blueprints.GenericGraph.InMemory
         /// <param name="myGenericEdge1">A GenericEdge.</param>
         /// <param name="myGenericEdge2">Another GenericEdge.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator <= (GenericEdge<TIdVertex,    TRevisionIdVertex,    TVertexData,
-                                                       TIdEdge,      TRevisionIdEdge,      TEdgeData,
-                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData> myGenericEdge1,
-                                           GenericEdge<TIdVertex,    TRevisionIdVertex,    TVertexData,
-                                                       TIdEdge,      TRevisionIdEdge,      TEdgeData,
-                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData> myGenericEdge2)
+        public static Boolean operator <= (GenericEdge<TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge> myGenericEdge1,
+                                           GenericEdge<TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge> myGenericEdge2)
         {
             return !(myGenericEdge1 > myGenericEdge2);
         }
@@ -323,12 +329,12 @@ namespace de.ahzf.Blueprints.GenericGraph.InMemory
         /// <param name="myGenericEdge1">A GenericEdge.</param>
         /// <param name="myGenericEdge2">Another GenericEdge.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator >= (GenericEdge<TIdVertex,    TRevisionIdVertex,    TVertexData,
-                                                       TIdEdge,      TRevisionIdEdge,      TEdgeData,
-                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData> myGenericEdge1,
-                                           GenericEdge<TIdVertex,    TRevisionIdVertex,    TVertexData,
-                                                       TIdEdge,      TRevisionIdEdge,      TEdgeData,
-                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData> myGenericEdge2)
+        public static Boolean operator >= (GenericEdge<TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge> myGenericEdge1,
+                                           GenericEdge<TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge> myGenericEdge2)
         {
             return !(myGenericEdge1 < myGenericEdge2);
         }
@@ -371,9 +377,9 @@ namespace de.ahzf.Blueprints.GenericGraph.InMemory
         /// </summary>
         /// <param name="myIGenericEdge">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public Int32 CompareTo(IGenericEdge<TIdVertex,    TRevisionIdVertex,    TVertexData,
-                                            TIdEdge,      TRevisionIdEdge,      TEdgeData,
-                                            TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData> myIGenericEdge)
+        public Int32 CompareTo(IGenericEdge<TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                            TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                            TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge> myIGenericEdge)
         {
 
             // Check if myIGenericEdge is null
@@ -440,9 +446,9 @@ namespace de.ahzf.Blueprints.GenericGraph.InMemory
         /// </summary>
         /// <param name="myIGenericEdge">An object to compare with.</param>
         /// <returns>true|false</returns>
-        public Boolean Equals(IGenericEdge<TIdVertex,    TRevisionIdVertex,    TVertexData,
-                                           TIdEdge,      TRevisionIdEdge,      TEdgeData,
-                                           TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeData> myIGenericEdge)
+        public Boolean Equals(IGenericEdge<TIdVertex,    TRevisionIdVertex,                     TDataVertex,
+                                           TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TDataEdge,
+                                           TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TDataHyperEdge> myIGenericEdge)
         {
 
             if ((Object) myIGenericEdge == null)

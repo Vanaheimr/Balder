@@ -85,6 +85,13 @@ namespace de.ahzf.Blueprints
         /// <summary>
         /// Add a pixel to the quadtree.
         /// </summary>
+        /// <param name="X">The x-coordinate of a pixel of type T.</param>
+        /// <param name="Y">The y-coordinate of a pixel of type T.</param>
+        void Add(T X, T Y);
+
+        /// <summary>
+        /// Add a pixel to the quadtree.
+        /// </summary>
         /// <param name="Pixel">A pixel of type T.</param>
         void Add(IPixel<T> Pixel);
 
@@ -127,6 +134,7 @@ namespace de.ahzf.Blueprints
     /// Note: This datastructure is not self-balancing!
     /// </summary>
     /// <typeparam name="T">The internal datatype of the quadtree.</typeparam>
+    /// <typeparam name="TValue">The type of the stored values.</typeparam>
     public interface IQuadtree<T, TValue> : IQuadtree, IEnumerable<IPixelValuePair<T, TValue>>
         where T : IEquatable<T>, IComparable<T>, IComparable
     {
@@ -142,15 +150,26 @@ namespace de.ahzf.Blueprints
 
         #region Methods
 
-        void Add(IPixelValuePair<T, TValue> IPixelValuePair);
+        /// <summary>
+        /// Add a pixel together with a value to the quadtree.
+        /// </summary>
+        /// <param name="X">The x-coordinate of a pixel of type T.</param>
+        /// <param name="Y">The y-coordinate of a pixel of type T.</param>
+        /// <param name="Value">A value of type TValue.</param>
+        void Add(T X, T Y, TValue Value);
 
+        /// <summary>
+        /// Add a pixel together with a value to the quadtree.
+        /// </summary>
+        /// <param name="IPixel">A pixel of type T.</param>
+        /// <param name="Value">A value of type TValue.</param>
         void Add(IPixel<T> IPixel, TValue Value);
 
         /// <summary>
-        /// Add a pixel to the quadtree.
+        /// Add a PixelValuePair to the quadtree.
         /// </summary>
-        /// <param name="Pixel">A pixel of type T.</param>
-        void Add(T X, T Y, TValue Value);
+        /// <param name="IPixelValuePair">A PixelValuePair.</param>
+        void Add(IPixelValuePair<T, TValue> IPixelValuePair);
 
         /// <summary>
         /// Return all pixels matching the given pixelselector delegate.

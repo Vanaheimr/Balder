@@ -112,7 +112,7 @@ namespace de.ahzf.Blueprints
         #endregion
 
 
-        #region DistanceTo(x, y)
+        #region DistanceTo(x, y, z)
 
         /// <summary>
         /// A method to calculate the distance between this
@@ -147,28 +147,28 @@ namespace de.ahzf.Blueprints
         }
 
         #endregion
-        
-        #region DistanceTo(Voxel)
+
+        #region DistanceTo(IVoxel)
 
         /// <summary>
         /// A method to calculate the distance between
         /// this and another voxel of type T.
         /// </summary>
-        /// <param name="Voxel">A voxel of type T</param>
+        /// <param name="IVoxel">A voxel of type T</param>
         /// <returns>The distance between this voxel and the given voxel.</returns>
-        public T DistanceTo(IVoxel<T> Voxel)
+        public T DistanceTo(IVoxel<T> IVoxel)
         {
 
             #region Initial Checks
 
-            if (Voxel == null)
+            if (IVoxel == null)
                 throw new ArgumentNullException("The given voxel must not be null!");
 
             #endregion
             
-            var dX = Math.Distance(X, Voxel.X);
-            var dY = Math.Distance(Y, Voxel.Y);
-            var dZ = Math.Distance(Z, Voxel.Z);
+            var dX = Math.Distance(X, IVoxel.X);
+            var dY = Math.Distance(Y, IVoxel.Y);
+            var dZ = Math.Distance(Z, IVoxel.Z);
             
             return Math.Sqrt(Math.Add(Math.Mul(dX, dX), Math.Mul(dY, dY), Math.Mul(dZ, dZ)));
 
@@ -223,15 +223,53 @@ namespace de.ahzf.Blueprints
 
         #region IComparable Members
 
-        public int CompareTo(Object obj)
+        #region CompareTo(Object)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="Object">An object to compare with.</param>
+        public virtual Int32 CompareTo(Object Object)
         {
-            throw new NotImplementedException();
+
+            if (Object == null)
+                throw new ArgumentNullException("The given object must not be null!");
+
+            // Check if the given object is an IVoxel<T>.
+            var IVoxelT = Object as IVoxel<T>;
+            if ((Object) IVoxelT == null)
+                throw new ArgumentException("The given object is not a valid voxel!");
+
+            return CompareTo(IVoxelT);
+
         }
 
-        public int CompareTo(IVoxel<T> other)
+        #endregion
+
+        #region CompareTo(IVoxelT)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="IVoxelT">An object to compare with.</param>
+        public Int32 CompareTo(IVoxel<T> IVoxelT)
         {
-            throw new NotImplementedException();
+            
+            if ((Object) IVoxelT == null)
+                throw new ArgumentNullException("The given voxel must not be null!");
+
+            // Compare the x-coordinate of the voxels
+            var _Result = this.X.CompareTo(IVoxelT.X);
+
+            // If equal: Compare the y-coordinate of the voxels
+            if (_Result == 0)
+                _Result = this.Y.CompareTo(IVoxelT.Y);
+
+            return _Result;
+
         }
+
+        #endregion
 
         #endregion
 
@@ -250,33 +288,33 @@ namespace de.ahzf.Blueprints
             if (Object == null)
                 return false;
 
-            // Check if the given object is an Voxel<T>.
-            var VoxelT = (Voxel<T>) Object;
-            if ((Object) VoxelT == null)
+            // Check if the given object is an IVoxel<T>.
+            var IVoxelT = (IVoxel<T>) Object;
+            if ((Object) IVoxelT == null)
                 return false;
 
-            return this.Equals(VoxelT);
+            return this.Equals(IVoxelT);
 
         }
 
         #endregion
 
-        #region Equals(Voxel)
+        #region Equals(IVoxel)
 
         /// <summary>
         /// Compares two voxels for equality.
         /// </summary>
-        /// <param name="Voxel">A voxel to compare with.</param>
+        /// <param name="IVoxel">A voxel to compare with.</param>
         /// <returns>True if both match; False otherwise.</returns>
-        public Boolean Equals(IVoxel<T> Voxel)
+        public Boolean Equals(IVoxel<T> IVoxel)
         {
 
-            if ((Object) Voxel == null)
+            if ((Object) IVoxel == null)
                 return false;
 
-            return X.Equals(Voxel.X) &&
-                   Y.Equals(Voxel.Y) &&
-                   Z.Equals(Voxel.Z);
+            return X.Equals(IVoxel.X) &&
+                   Y.Equals(IVoxel.Y) &&
+                   Z.Equals(IVoxel.Z);
 
         }
 

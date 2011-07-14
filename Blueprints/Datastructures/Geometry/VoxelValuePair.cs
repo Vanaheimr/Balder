@@ -114,20 +114,46 @@ namespace de.ahzf.Blueprints
 
         #region IComparable Members
 
-        public int CompareTo(Object obj)
+        #region CompareTo(Object)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="Object">An object to compare with.</param>
+        public override Int32 CompareTo(Object Object)
         {
-            throw new NotImplementedException();
+
+            if (Object == null)
+                throw new ArgumentNullException("The given object must not be null!");
+
+            // Check if the given object is an IVoxelValuePair<T, TValue>.
+            var IVoxelValuePair = (IVoxelValuePair<T, TValue>) Object;
+            if ((Object) IVoxelValuePair != null)
+                return IVoxelValuePair.CompareTo(this);
+
+            // Check if the given object is an IVoxel<T>.
+            var IVoxel = (IVoxel<T>) Object;
+            if ((Object) IVoxel != null)
+                return IVoxel.CompareTo(this);
+
+            throw new ArgumentException("The given object is neither a VoxelValuePair<T, TValue> nor a Voxel<T>!");
+
         }
 
-        public int CompareTo(IVoxelValuePair<T, TValue> other)
+        #endregion
+
+        #region CompareTo(IVoxelT)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="IVoxelValuePair">An object to compare with.</param>
+        public Int32 CompareTo(IVoxelValuePair<T, TValue> IVoxelValuePair)
         {
-            throw new NotImplementedException();
+            return base.CompareTo(IVoxelValuePair);
         }
 
-        public int CompareTo(IVoxel<T> other)
-        {
-            throw new NotImplementedException();
-        }
+        #endregion
 
         #endregion
 
@@ -178,27 +204,6 @@ namespace de.ahzf.Blueprints
             return X.Equals(IVoxelValuePair.X) &&
                    Y.Equals(IVoxelValuePair.Y) &&
                    Z.Equals(IVoxelValuePair.Z);
-
-        }
-
-        #endregion
-
-        #region Equals(IVoxel)
-
-        /// <summary>
-        /// Compares two voxels for equality.
-        /// </summary>
-        /// <param name="IVoxel">A voxel to compare with.</param>
-        /// <returns>True if both match; False otherwise.</returns>
-        public Boolean Equals(IVoxel<T> IVoxel)
-        {
-
-            if ((Object) IVoxel == null)
-                return false;
-
-            return X.Equals(IVoxel.X) &&
-                   Y.Equals(IVoxel.Y) &&
-                   Z.Equals(IVoxel.Z);
 
         }
 

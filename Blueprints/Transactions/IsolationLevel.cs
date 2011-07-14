@@ -25,10 +25,22 @@ using System.Text;
 namespace de.ahzf.Blueprints
 {
 
+    /// <summary>
+    /// Transaction Isolation Levels
+    /// </summary>
     public enum IsolationLevel
     {
+
+        /// <summary>
+        /// Read
+        /// </summary>
         Read,
+
+        /// <summary>
+        /// Write
+        /// </summary>
         Write
+
     }
 
 }

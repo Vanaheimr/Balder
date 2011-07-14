@@ -43,9 +43,9 @@ namespace de.ahzf.Blueprints.UnitTests
             var ripple = _TinkerGraph.AddVertex(new VertexId("5"), v => v.SetProperty("name", "ripple").SetProperty("lang", "java"));
             var peter  = _TinkerGraph.AddVertex(new VertexId("6"), v => v.SetProperty("name", "peter"). SetProperty("age",   35));
 
-            marko.CollectionChanged += (o, p) => Console.WriteLine("CollChanged: " + p.Action + " - " + (p.NewItems as IList)[0] + "/" + (p.NewItems as IList)[1]);
-            marko.PropertyChanged   += (o, p) => Console.WriteLine("PropChanging: " + p.PropertyName);
-            marko.PropertyChanged   += (o, p) => Console.WriteLine("PropChanged: "  + p.PropertyName);
+            //marko.OnCollectionChanged += (o, p) => Console.WriteLine("CollChanged: " + p.Action + " - " + (p.NewItems as IList)[0] + "/" + (p.NewItems as IList)[1]);
+            marko.OnPropertyChanging  += (sender, Key, oldValue, newValue) => Console.WriteLine(Key + " prop changing: " + oldValue + " -> " + newValue);
+            marko.OnPropertyChanged   += (sender, Key, oldValue, newValue) => Console.WriteLine(Key + " prop changed: "  + oldValue + " -> " + newValue);
 
             marko.SetProperty("event", "raised 1!");
             marko.SetProperty("event", "raised 2!");
