@@ -241,12 +241,12 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IPropertyVertex)
         {
 
-            var _Vote = new Vote();
+            var _VetoVote = new VetoVote();
 
             if (OnVertexAdding != null)
-                OnVertexAdding(this, IPropertyVertex, _Vote);
+                OnVertexAdding(this, IPropertyVertex, _VetoVote);
 
-            return _Vote.Result;
+            return _VetoVote.Result;
 
         }
 
@@ -278,12 +278,12 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                                                                   TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IPropertyEdge)
         {
 
-            var _Vote = new Vote();
+            var _VetoVote = new VetoVote();
 
             if (OnEdgeAdding != null)
-                OnEdgeAdding(this, IPropertyEdge, _Vote);
+                OnEdgeAdding(this, IPropertyEdge, _VetoVote);
 
-            return _Vote.Result;
+            return _VetoVote.Result;
 
         }
 

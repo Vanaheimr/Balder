@@ -49,7 +49,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Datastructures\Vote.cs" />
+    <Compile Include="Datastructures\Votes\IVote.cs" />
+    <Compile Include="Datastructures\Votes\VoteEvaluator.cs" />
+    <Compile Include="Datastructures\Votes\VetoVote.cs" />
+    <Compile Include="Datastructures\Votes\AVote.cs" />
+    <Compile Include="Datastructures\Votes\MajorityVote.cs" />
     <Compile Include="Datastructures\KeyValueFilter.cs" />
     <Compile Include="Datastructures\Forest\Bintree.cs" />
     <Compile Include="Datastructures\Geometry\VoxelValuePair.cs" />

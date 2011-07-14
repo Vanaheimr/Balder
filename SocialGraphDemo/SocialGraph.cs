@@ -135,18 +135,6 @@ namespace SocialGraphDemo
 
         #endregion
 
-        delegate int FunctionToCall();
-        static int IntValue = 5;
-
-            public static int Add2() {
-                IntValue += 2;
-                return IntValue;
-            }
-
-            public static int Add3() {
-               IntValue += 3;
-               return IntValue;
-            }
 
         #region Main(myArgs)
 
@@ -156,13 +144,6 @@ namespace SocialGraphDemo
         /// <param name="myArgs">The command line arguments.</param>
         public static void Main(String[] myArgs)
         {
-
-            FunctionToCall functionDelegate = Add2;
-            functionDelegate += Add3;
-            functionDelegate += Add2;
-
-            Console.WriteLine("Value: {0}", functionDelegate());
-
 
             //var _Graph = new SimplePropertyGraph();
             //var _Vertex1 = _Graph.AddVertex(5, v => v.SetProperty("key1", "value1").

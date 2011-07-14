@@ -31,7 +31,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
     /// </summary>
     /// <param name="IPropertyGraph">The property graph sending this event.</param>
     /// <param name="IPropertyVertex">The vertex to be added to the graph.</param>
-    /// <param name="Vote">A vote is a simple way to ask multiple event subscribers if the vertex should be added or not.</param>
+    /// <param name="VetoVote">A veto vote is a simple way to ask multiple event subscribers if the vertex should be added or not.</param>
     public delegate void VertexAddingEventHandler<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                   TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                   TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>(
@@ -44,7 +44,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IPropertyVertex,
 
-                             Vote Vote)
+                             VetoVote VetoVote)
 
         where TIdVertex            : IEquatable<TIdVertex>,            IComparable<TIdVertex>,            IComparable, TValueVertex
         where TIdEdge              : IEquatable<TIdEdge>,              IComparable<TIdEdge>,              IComparable, TValueEdge
@@ -107,7 +107,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
     /// </summary>
     /// <param name="IPropertyGraph">The property graph sending this event.</param>
     /// <param name="IPropertyEdge">The edge to be added to the graph.</param>
-    /// <param name="Vote">A vote is a simple way to ask multiple event subscribers if the edge should be added or not.</param>
+    /// <param name="VetoVote">A veto vote is a simple way to ask multiple event subscribers if the edge should be added or not.</param>
     public delegate void EdgeAddingEventHandler<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                 TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                 TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>(
@@ -120,7 +120,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
                                             TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IPropertyEdge,
 
-                             Vote Vote)
+                             VetoVote VetoVote)
 
         where TIdVertex            : IEquatable<TIdVertex>,            IComparable<TIdVertex>,            IComparable, TValueVertex
         where TIdEdge              : IEquatable<TIdEdge>,              IComparable<TIdEdge>,              IComparable, TValueEdge

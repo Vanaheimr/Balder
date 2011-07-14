@@ -36,7 +36,7 @@ namespace de.ahzf.Blueprints.UnitTests
 
             var _Graph = new SimplePropertyGraph();
             _Graph.OnVertexAdding += (graph, vertex, vote) => { Console.WriteLine("OnVertexAdding1() called!"); };
-            _Graph.OnVertexAdding += (graph, vertex, vote) => { Console.WriteLine("OnVertexAdding2() called!"); if (vertex.Id < 3) vote.No(); };
+            _Graph.OnVertexAdding += (graph, vertex, vote) => { Console.WriteLine("OnVertexAdding2() called!"); if (vertex.Id < 3) vote.Veto(); };
             _Graph.OnVertexAdding += (graph, vertex, vote) => { Console.WriteLine("OnVertexAdding3() called!"); };
 
 
