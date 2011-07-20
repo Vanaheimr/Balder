@@ -60,8 +60,8 @@ namespace de.ahzf.Blueprints.UnitTests
                                                             e => Indexing.HasKeys(e, "age"));
 
             var _Idx = _graph.VerticesIndices().First();
-            _Idx.Insert(_graph.Vertices);
-            _index2.Insert(_graph.Vertices);
+            _Idx.Insert(_graph.Vertices());
+            _index2.Insert(_graph.Vertices());
 
             //var x = _Idx.As();
             var y = _Idx.Equals("alice18").ToList();

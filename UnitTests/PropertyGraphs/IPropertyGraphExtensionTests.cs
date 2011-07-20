@@ -49,14 +49,14 @@ namespace de.ahzf.Blueprints.UnitTests
             
             var _SourceGraph = TinkerGraphFactory.CreateTinkerGraph();
 
-            var _NumberOfVertices = _SourceGraph.Vertices.Count();
-            var _NumberOfEdges    = _SourceGraph.Edges.Count();
+            var _NumberOfVertices = _SourceGraph.NumberOfVertices();
+            var _NumberOfEdges    = _SourceGraph.NumberOfEdges();
 
             var _DestinationGraph = new SimplePropertyGraph();
             _SourceGraph.CopyGraph(_DestinationGraph);
 
-            Assert.AreEqual(_NumberOfVertices, _DestinationGraph.Vertices.Count());
-            Assert.AreEqual(_NumberOfEdges,    _DestinationGraph.Edges.Count());
+            Assert.AreEqual(_NumberOfVertices, _DestinationGraph.NumberOfVertices());
+            Assert.AreEqual(_NumberOfEdges,    _DestinationGraph.NumberOfEdges());
 
         }
 

@@ -120,8 +120,8 @@ namespace SocialGraphDemo
 
                                               for (var i = 1; i < _CSVLine.Count(); i++)
                                                   mySocialGraph.AddEdge(
-                                                      mySocialGraph.GetVertex(_VertexId0),
-                                                      mySocialGraph.GetVertex(new VertexId(_CSVLine[i]))
+                                                      mySocialGraph.VertexById(_VertexId0),
+                                                      mySocialGraph.VertexById(new VertexId(_CSVLine[i]))
                                                   );
 
                                           }).Wait();
@@ -171,8 +171,8 @@ namespace SocialGraphDemo
                                                             e => Indexing.HasKeys(e, "age"));
 
             var _Idx = _graph.VerticesIndices().First();
-            _Idx.Insert(_graph.Vertices);
-            _index2.Insert(_graph.Vertices);
+            _Idx.Insert(_graph.Vertices());
+            _index2.Insert(_graph.Vertices());
 
             //var x = _Idx.As();
             var y = _Idx.Equals("alice18").ToList();
@@ -209,8 +209,8 @@ namespace SocialGraphDemo
             ImportEdges(_SocialGraph);
 
 
-            var all1 = _SocialGraph.GetVertices().Count();
-            var all2 = _SocialGraph.GetVertices(v => v.Id > new VertexId(10)).Count();
+            var all1 = _SocialGraph.NumberOfVertices();
+            var all2 = _SocialGraph.Vertices(v => v.Id > new VertexId(10)).Count();
 
             Console.ReadLine();
 

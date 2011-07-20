@@ -47,7 +47,7 @@ namespace de.ahzf.Blueprints.UnitTests
             var ripple = _TinkerGraph.AddVertex(6, v => v.SetProperty("name", "ripple").SetProperty("lang", "java"));
             var peter  = _TinkerGraph.AddVertex(7, v => v.SetProperty("name", "peter"). SetProperty("age",   35));
 
-            Console.WriteLine("Number of vertices added: " + _TinkerGraph.Vertices.Count());
+            Console.WriteLine("Number of vertices added: " + _TinkerGraph.NumberOfVertices());
 
             marko.OnPropertyChanging += (sender, Key, oldValue, newValue, vote) => Console.WriteLine("'" + Key + "' property changing: '" + oldValue + "' -> '" + newValue + "'");
             marko.OnPropertyChanged  += (sender, Key, oldValue, newValue)       => Console.WriteLine("'" + Key + "' property changed: '"  + oldValue + "' -> '" + newValue + "'");

@@ -103,27 +103,37 @@ namespace de.ahzf.Blueprints.PropertyGraph
 
         #endregion
 
-        #region OutEdges
+        #region OutEdge methods...
+
+        #region AddOutEdge(Edge)
 
         /// <summary>
         /// Add an outgoing edge.
         /// </summary>
-        /// <param name="myIEdge">The edge to add.</param>
+        /// <param name="Edge">The edge to add.</param>
         void AddOutEdge(IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> myIEdge);
+                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Edge);
 
+        #endregion
+
+
+        #region OutEdges(params EdgeLabels)     // OutEdges()!
 
         /// <summary>
         /// The edges emanating from, or leaving, this vertex
-        /// filtered by their label.
+        /// filtered by their label. If no label was given,
+        /// all edges will be returned.
         /// </summary>
         IEnumerable<IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                   TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                   TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
 
-            OutEdges(TEdgeLabel Label);
+            OutEdges(params TEdgeLabel[] EdgeLabels);
 
+        #endregion
+
+        #region OutEdges(EdgeFilter)
 
         /// <summary>
         /// The edges emanating from, or leaving, this vertex
@@ -136,16 +146,24 @@ namespace de.ahzf.Blueprints.PropertyGraph
             
             OutEdges(EdgeFilter<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                 TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeFilter = null);
+                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeFilter);
 
+        #endregion
+
+
+        #region RemoveOutEdges(params Edges)    // RemoveOutEdges()!
 
         /// <summary>
-        /// Remove an outgoing edge.
+        /// Remove outgoing edges.
         /// </summary>
-        /// <param name="IEdge">The edge to remove.</param>
-        void RemoveOutEdge(IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                         TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                         TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IEdge);
+        /// <param name="Edges">An array of outgoing edges to be removed.</param>
+        void RemoveOutEdges(params IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                 TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                 TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>[] Edges);
+
+        #endregion
+
+        #region RemoveOutEdges(EdgeFilter = null)
 
         /// <summary>
         /// Remove any outgoing edge matching the
@@ -158,38 +176,80 @@ namespace de.ahzf.Blueprints.PropertyGraph
 
         #endregion
 
-        #region InEdges
+        #endregion
+
+        #region InEdge methods...
+
+        #region AddInEdge(Edge)
 
         /// <summary>
         /// Add an incoming edge.
         /// </summary>
-        /// <param name="myIEdge">The edge to add.</param>
+        /// <param name="Edge">The edge to add.</param>
         void AddInEdge(IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                      TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> myIEdge);
+                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Edge);
 
-        /// <summary>
-        /// The edges incoming to, or arriving at, this vertex.
-        /// </summary>
-        IEnumerable<IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                  TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> InEdges { get; }
+        #endregion
+
+
+        #region InEdges(params EdgeLabels)     // InEdges()!
 
         /// <summary>
         /// The edges incoming to, or arriving at, this vertex
-        /// filtered by their label.
+        /// filtered by their label. If no label was given,
+        /// all edges will be returned.
         /// </summary>
         IEnumerable<IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                   TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> GetInEdges(TEdgeLabel myLabel);
+                                  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
+
+            InEdges(params TEdgeLabel[] EdgeLabels);
+
+        #endregion
+
+        #region InEdges(EdgeFilter)
 
         /// <summary>
-        /// Remove an incoming edge.
+        /// The edges incoming to, or arriving at, this vertex
+        /// filtered by the given edge filter delegate.
         /// </summary>
-        /// <param name="myIEdge">The edge to remove.</param>
-        void RemoveInEdge(IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                        TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                        TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> myIEdge);
+        /// <param name="EdgeFilter">A delegate for edge filtering.</param>
+        IEnumerable<IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                  TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
+            
+            InEdges(EdgeFilter<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                               TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                               TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeFilter);
+
+        #endregion
+
+
+        #region RemoveInEdges(params Edges)    // RemoveInEdges()!
+
+        /// <summary>
+        /// Remove incoming edges.
+        /// </summary>
+        /// <param name="Edges">An array of incoming edges to be removed.</param>
+        void RemoveInEdges(params IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>[] Edges);
+
+        #endregion
+
+        #region RemoveInEdges(EdgeFilter = null)
+
+        /// <summary>
+        /// Remove any incoming edge matching the
+        /// given edge filter delegate.
+        /// </summary>
+        /// <param name="EdgeFilter">A delegate for edge filtering.</param>
+        void RemoveInEdges(EdgeFilter<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                      TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeFilter = null);
+
+        #endregion
 
         #endregion
 
