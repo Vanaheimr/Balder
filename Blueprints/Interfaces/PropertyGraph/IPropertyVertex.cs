@@ -150,6 +150,29 @@ namespace de.ahzf.Blueprints.PropertyGraph
 
         #endregion
 
+        #region OutDegree(params EdgeLabels)     // OutDegree()!
+
+        /// <summary>
+        /// The number of edges emanating from, or leaving, this vertex
+        /// filtered by their label. If no label was given,
+        /// all edges will be returned.
+        /// </summary>
+        UInt64 OutDegree(params TEdgeLabel[] EdgeLabels);
+
+        #endregion
+
+        #region OutDegree(EdgeFilter)
+
+        /// <summary>
+        /// The number of edges emanating from, or leaving, this vertex
+        /// filtered by the given edge filter delegate.
+        /// </summary>
+        UInt64 OutDegree(EdgeFilter<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                    TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                    TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeFilter);
+
+        #endregion
+
 
         #region RemoveOutEdges(params Edges)    // RemoveOutEdges()!
 
@@ -222,6 +245,29 @@ namespace de.ahzf.Blueprints.PropertyGraph
             InEdges(EdgeFilter<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeFilter);
+
+        #endregion
+
+        #region InDegree(params EdgeLabels)     // InDegree()!
+
+        /// <summary>
+        /// The number of edges incoming to, or arriving at, this vertex
+        /// filtered by their label. If no label was given,
+        /// all edges will be returned.
+        /// </summary>
+        UInt64 InDegree(params TEdgeLabel[] EdgeLabels);
+
+        #endregion
+
+        #region InDegree(EdgeFilter)
+
+        /// <summary>
+        /// The number of edges incoming to, or arriving at, this vertex
+        /// filtered by the given edge filter delegate.
+        /// </summary>
+        UInt64 InDegree(EdgeFilter<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                   TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                   TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeFilter);
 
         #endregion
 
