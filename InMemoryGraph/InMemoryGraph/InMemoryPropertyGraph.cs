@@ -518,6 +518,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #endregion
 
+
         #region GetVertex(VertexId)
 
         /// <summary>
@@ -608,7 +609,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #endregion
 
-        #region GetVertices(VertexFilter = null)
+        #region GetVertices(VertexFilter)
 
         /// <summary>
         /// Get an enumeration of all vertices in the graph.
@@ -621,68 +622,141 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
             
                GetVertices(VertexFilter<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                         TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                        TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> VertexFilter = null)
+                                        TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> VertexFilter)
         {
 
-            foreach (var _IVertex in _Vertices.Values)
-                if (VertexFilter == null)
-                    yield return _IVertex;
+            if (VertexFilter == null)
+                throw new ArgumentNullException("The given vertex filter delegate must not be null!");
 
-                else if (VertexFilter(_IVertex))
+            foreach (var _IVertex in _Vertices.Values)
+                if (VertexFilter(_IVertex))
                     yield return _IVertex;
 
         }
 
         #endregion
 
-        #region RemoveVertex(myVertexId)
+        #region NumberOfVertices(VertexFilter = null)
+
+        /// <summary>
+        /// Return the current number of vertices which match the given optional filter.
+        /// When the filter is null, this method should use implement an optimized
+        /// way to get the currenty number of vertices.
+        /// </summary>
+        /// <param name="VertexFilter">A delegate for vertex filtering.</param>
+        public UInt64 NumberOfVertices(VertexFilter<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                    TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                    TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> VertexFilter = null)
+        {
+
+            if (VertexFilter == null)
+                return (UInt64) _Vertices.Count;
+
+            else
+            {
+                lock (this)
+                {
+
+                    var _Counter = 0UL;
+
+                    foreach (var _Vertex in _Vertices.Values)
+                        if (VertexFilter(_Vertex))
+                            _Counter++;
+
+                    return _Counter;
+
+                }
+            }
+
+        }
+
+        #endregion
+
+
+        #region RemoveVertex(VertexId)
 
         /// <summary>
         /// Remove the vertex identified by the given VertexId from the graph
         /// </summary>
-        /// <param name="myVertexId">The VertexId of the vertex to remove</param>
-        public void RemoveVertex(TIdVertex myVertexId)
+        /// <param name="VertexId">The VertexId of the vertex to remove</param>
+        public void RemoveVertex(TIdVertex VertexId)
         {
-            RemoveVertex(GetVertex(myVertexId));
+            RemoveVertex(GetVertex(VertexId));
         }
 
         #endregion
 
-        #region RemoveVertex(myIVertex)
+        #region RemoveVertex(IVertex)
 
         /// <summary>
         ///  Remove the given vertex from the graph
         /// </summary>
-        /// <param name="myIVertex">A vertex</param>
+        /// <param name="IVertex">A vertex</param>
         public void RemoveVertex(IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                  TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                 TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> myIVertex)
+                                                 TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IVertex)
         {
 
             lock (this)
             {
 
-                if (_Vertices.ContainsKey(myIVertex.Id))
+                if (_Vertices.ContainsKey(IVertex.Id))
                 {
 
                     var _EdgeList = new List<IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                            TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                            TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>();
 
-                    _EdgeList.AddRange(myIVertex.InEdges);
-                    _EdgeList.AddRange(myIVertex.OutEdges);
+                    _EdgeList.AddRange(IVertex.InEdges);
+                    _EdgeList.AddRange(IVertex.OutEdges);
 
                     // removal requires removal from all indices
                     //for (TinkerIndex index : this.indices.values()) {
                     //    index.remove(vertex);
                     //}
 
-                    _Vertices.Remove(myIVertex.Id);
+                    _Vertices.Remove(IVertex.Id);
 
                 }
 
             }
 
+        }
+
+        #endregion
+
+        #region RemoveVertices(VertexFilter = null)
+
+        /// <summary>
+        /// Remove each vertex matching the given filter.
+        /// </summary>
+        /// <param name="VertexFilter">A delegate for vertex filtering.</param>
+        public void RemoveVertices(VertexFilter<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> VertexFilter = null)
+        {
+
+            lock (this)
+            {
+
+                var _tmp = new List<IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                    TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                    TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>();
+
+                if (VertexFilter == null)
+                    foreach (var _IVertex in _Vertices.Values)
+                        _tmp.Add(_IVertex);
+
+                else foreach (var _IVertex in _Vertices.Values)
+                    if (VertexFilter(_IVertex))
+                        _tmp.Add(_IVertex);
+
+                foreach (var _IVertex in _tmp)
+                    RemoveVertex(_IVertex);
+
+            }
+        
+        
         }
 
         #endregion
@@ -745,24 +819,25 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #endregion
 
-        #region GetEdge(myEdgeId)
+
+        #region GetEdge(EdgeId)
 
         /// <summary>
         /// Return the edge referenced by the given edge identifier.
         /// If no edge is referenced by that identifier, then return null.
         /// </summary>
-        /// <param name="myEdgeId">The identifier of the edge.</param>
+        /// <param name="EdgeId">The identifier of the edge.</param>
         /// <returns>The edge referenced by the provided identifier or null when no such edge exists.</returns>
         public IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> GetEdge(TIdEdge myEdgeId)
+                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> GetEdge(TIdEdge EdgeId)
         {
 
             IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                           TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                           TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> _IEdge;
 
-            _Edges.TryGetValue(myEdgeId, out _IEdge);
+            _Edges.TryGetValue(EdgeId, out _IEdge);
 
             return _IEdge;
 
@@ -817,7 +892,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #endregion
 
-        #region GetEdges(EdgeFilter = null)
+        #region GetEdges(EdgeFilter)
 
         /// <summary>
         /// Get an enumeration of all edges in the graph.
@@ -830,67 +905,139 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
             
                  GetEdges(EdgeFilter<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                      TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeFilter = null)
+                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeFilter)
         {
 
-            foreach (var _IEdge in _Edges.Values)
-                if (EdgeFilter == null)
-                    yield return _IEdge;
+            if (EdgeFilter == null)
+                throw new ArgumentNullException("The given edge filter delegate must not be null!");
 
-                else if (EdgeFilter(_IEdge))
+            foreach (var _IEdge in _Edges.Values)
+                if (EdgeFilter(_IEdge))
                     yield return _IEdge;
 
         }
 
         #endregion
 
-        #region RemoveEdge(myEdgeId)
+        #region NumberOfEdges(EdgeFilter = null)
+
+        /// <summary>
+        /// Return the current number of edges which match the given optional filter.
+        /// When the filter is null, this method should use implement an optimized
+        /// way to get the currenty number of edges.
+        /// </summary>
+        /// <param name="EdgeFilter">A delegate for edge filtering.</param>
+        public UInt64 NumberOfEdges(EdgeFilter<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                               TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                               TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeFilter = null)
+        {
+
+            if (EdgeFilter == null)
+                return (UInt64) _Edges.Count;
+
+            else
+            {
+                lock (this)
+                {
+
+                    var _Counter = 0UL;
+
+                    foreach (var _Edge in _Edges.Values)
+                        if (EdgeFilter(_Edge))
+                            _Counter++;
+
+                    return _Counter;
+
+                }
+            }
+        
+        }
+
+        #endregion
+
+
+        #region RemoveEdge(EdgeId)
 
         /// <summary>
         /// Remove the edge identified by the given EdgeId from the graph
         /// </summary>
-        /// <param name="myEdgeId">The myEdgeId of the edge to remove</param>
-        public void RemoveEdge(TIdEdge myEdgeId)
+        /// <param name="EdgeId">The EdgeId of the edge to remove</param>
+        public void RemoveEdge(TIdEdge EdgeId)
         {
-            RemoveEdge(GetEdge(myEdgeId));
+            RemoveEdge(GetEdge(EdgeId));
         }
 
         #endregion
 
-        #region RemoveEdge(myIEdge)
+        #region RemoveEdge(IEdge)
 
         /// <summary>
-        ///  Remove the given edge from the graph
+        /// Remove the given edge from the graph.
         /// </summary>
-        /// <param name="myIEdge">An edge</param>
+        /// <param name="IEdge">An edge</param>
         public void RemoveEdge(IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> myIEdge)
+                                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IEdge)
         {
 
             lock (this)
             {
 
-                if (_Edges.ContainsKey(myIEdge.Id))
+                if (_Edges.ContainsKey(IEdge.Id))
                 {
 
-                    var _OutVertex = myIEdge.OutVertex;
-                    var _InVertex = myIEdge.InVertex;
+                    var _OutVertex = IEdge.OutVertex;
+                    var _InVertex = IEdge.InVertex;
 
                     if (_OutVertex != null && _OutVertex.OutEdges != null)
-                        _OutVertex.RemoveOutEdge(myIEdge);
+                        _OutVertex.RemoveOutEdge(IEdge);
 
                     if (_InVertex != null && _InVertex.InEdges != null)
-                        _InVertex.RemoveInEdge(myIEdge);
+                        _InVertex.RemoveInEdge(IEdge);
 
                     // removal requires removal from all indices
                     //for (TinkerIndex index : this.indices.values()) {
                     //    index.remove(edge);
                     //}
 
-                    _Edges.Remove(myIEdge.Id);
+                    _Edges.Remove(IEdge.Id);
 
                 }
+
+            }
+
+        }
+
+        #endregion
+
+        #region RemoveEdges(EdgeFilter = null)
+
+        /// <summary>
+        /// Remove each edge matching the given filter.
+        /// </summary>
+        /// <param name="EdgeFilter">A delegate for edge filtering.</param>
+        public void RemoveEdges(EdgeFilter<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex,
+                                           TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                           TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeFilter = null)
+        {
+
+            lock (this)
+            {
+
+                var _tmp = new List<IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                  TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>();
+
+                if (EdgeFilter == null)
+                    foreach (var _IEdge in _Edges.Values)
+                        _tmp.Add(_IEdge);
+
+                else foreach (var _IEdge in _Edges.Values)
+                    if (EdgeFilter(_IEdge))
+                        _tmp.Add(_IEdge);
+
+                foreach (var _IEdge in _tmp)
+                    RemoveEdge(_IEdge);
 
             }
 

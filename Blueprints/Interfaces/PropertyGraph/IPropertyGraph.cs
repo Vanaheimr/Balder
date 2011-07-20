@@ -183,8 +183,25 @@ namespace de.ahzf.Blueprints.PropertyGraph
 
                                     GetVertices(VertexFilter<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> VertexFilter = null);
+                                                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> VertexFilter);
 
+
+        /// <summary>
+        /// Return the current number of vertices which match the given optional filter.
+        /// When the filter is null, this method should use implement an optimized
+        /// way to get the currenty number of vertices.
+        /// </summary>
+        /// <param name="VertexFilter">A delegate for vertex filtering.</param>
+        UInt64 NumberOfVertices(VertexFilter<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                             TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> VertexFilter = null);
+
+
+        /// <summary>
+        /// Remove the vertex identified by the given VertexId from the graph
+        /// </summary>
+        /// <param name="VertexId">The VertexId of the vertex to remove</param>
+        void RemoveVertex(TIdVertex VertexId);
 
         /// <summary>
         /// Remove the provided vertex from the graph.
@@ -194,6 +211,15 @@ namespace de.ahzf.Blueprints.PropertyGraph
         void RemoveVertex(IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                           TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                           TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Vertex);
+
+
+        /// <summary>
+        /// Remove each vertex matching the given filter.
+        /// </summary>
+        /// <param name="VertexFilter">A delegate for vertex filtering.</param>
+        void RemoveVertices(VertexFilter<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                         TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                         TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> VertexFilter = null);
 
         #endregion
 
@@ -276,7 +302,26 @@ namespace de.ahzf.Blueprints.PropertyGraph
             
                                   GetEdges(EdgeFilter<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeFilter = null);
+                                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeFilter);
+
+
+        /// <summary>
+        /// Return the current number of edges which match the given optional filter.
+        /// When the filter is null, this method should use implement an optimized
+        /// way to get the currenty number of edges.
+        /// </summary>
+        /// <param name="EdgeFilter">A delegate for edge filtering.</param>
+        UInt64 NumberOfEdges(EdgeFilter<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                        TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                        TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeFilter = null);
+
+
+
+        /// <summary>
+        /// Remove the edge identified by the given EdgeId from the graph
+        /// </summary>
+        /// <param name="EdgeId">The EdgeId of the edge to remove</param>
+        void RemoveEdge(TIdEdge EdgeId);
 
 
         /// <summary>
@@ -286,6 +331,16 @@ namespace de.ahzf.Blueprints.PropertyGraph
         void RemoveEdge(IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Edge);
+
+
+        /// <summary>
+        /// Remove each edge matching the given filter.
+        /// </summary>
+        /// <param name="EdgeFilter">A delegate for edge filtering.</param>
+        void RemoveEdges(EdgeFilter<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex,
+                                    TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                    TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeFilter = null);
+
 
         #endregion
         

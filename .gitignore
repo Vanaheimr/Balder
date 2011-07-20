@@ -1,8 +1,6 @@
 *.pidb
 *.VisualState.xml
 *.suo
-/blueprints/bin
-/blueprints/obj
 /InMemoryGraph/bin
 /InMemoryGraph/obj
 /UnitTests/bin
@@ -10,11 +8,6 @@
 /UnitTests/TestResult.xml
 /SocialGraphDemo/obj
 /SocialGraphDemo/bin
-/GeoGraph/obj
-/GeoGraph/bin
-
-/Bblueprints/bin
-/Bblueprints/obj
 /Blueprints/obj
 /Blueprints/bin
 /QuadStore/bin
