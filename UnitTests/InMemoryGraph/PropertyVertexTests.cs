@@ -51,7 +51,7 @@ namespace de.ahzf.Blueprints.UnitTests.PropertyGraph.InMemory
 
             var _Vertex = _Graph.AddVertex();
             Assert.AreEqual(1, _Graph.Vertices.Count());
-            Assert.AreEqual(0, _Vertex.OutEdges.Count());
+            Assert.AreEqual(0, _Vertex.OutEdges().Count());
             Assert.AreEqual(0, _Vertex.InEdges.Count());
 
             Assert.NotNull(_Vertex.Graph);
@@ -88,7 +88,7 @@ namespace de.ahzf.Blueprints.UnitTests.PropertyGraph.InMemory
 
             var _Vertex = _Graph.AddVertex(5);
             Assert.AreEqual(1, _Graph.Vertices.Count());
-            Assert.AreEqual(0, _Vertex.OutEdges.Count());
+            Assert.AreEqual(0, _Vertex.OutEdges().Count());
             Assert.AreEqual(0, _Vertex.InEdges.Count());
 
             Assert.NotNull(_Vertex.Graph);
@@ -127,7 +127,7 @@ namespace de.ahzf.Blueprints.UnitTests.PropertyGraph.InMemory
             var _Vertex = _Graph.AddVertex(v => v.SetProperty("key1", "value1").
                                                   SetProperty("key2", 42));
             Assert.AreEqual(1, _Graph.Vertices.Count());
-            Assert.AreEqual(0, _Vertex.OutEdges.Count());
+            Assert.AreEqual(0, _Vertex.OutEdges().Count());
             Assert.AreEqual(0, _Vertex.InEdges.Count());
 
             Assert.NotNull(_Vertex.Graph);
@@ -187,7 +187,7 @@ namespace de.ahzf.Blueprints.UnitTests.PropertyGraph.InMemory
             var _Vertex = _Graph.AddVertex(23, v => v.SetProperty("key1", "value1").
                                                       SetProperty(new KeyValuePair<String, Object>("key2", 42)));
             Assert.AreEqual(1, _Graph.Vertices.Count());
-            Assert.AreEqual(0, _Vertex.OutEdges.Count());
+            Assert.AreEqual(0, _Vertex.OutEdges().Count());
             Assert.AreEqual(0, _Vertex.InEdges.Count());
 
             Assert.NotNull(_Vertex.Graph);

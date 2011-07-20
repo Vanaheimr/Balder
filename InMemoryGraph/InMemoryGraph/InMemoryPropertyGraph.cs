@@ -673,15 +673,17 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         #endregion
 
 
-        #region RemoveVertex(VertexId)
+        #region RemoveVerticesById(params VertexIds)
 
         /// <summary>
         /// Remove the vertex identified by the given VertexId from the graph
         /// </summary>
-        /// <param name="VertexId">The VertexId of the vertex to remove</param>
-        public void RemoveVertex(TIdVertex VertexId)
+        /// <param name="VertexIds">An array of VertexIds of the vertices to remove.</param>
+        public void RemoveVerticesById(params TIdVertex[] VertexIds)
         {
-            RemoveVertex(GetVertex(VertexId));
+            if (VertexIds.Any())
+                foreach (var _VertexId in VertexIds)
+                    RemoveVertex(GetVertex(_VertexId));
         }
 
         #endregion
@@ -708,7 +710,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                                                            TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>();
 
                     _EdgeList.AddRange(IVertex.InEdges);
-                    _EdgeList.AddRange(IVertex.OutEdges);
+                    _EdgeList.AddRange(IVertex.OutEdges());
 
                     // removal requires removal from all indices
                     //for (TinkerIndex index : this.indices.values()) {
@@ -956,15 +958,17 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         #endregion
 
 
-        #region RemoveEdge(EdgeId)
+        #region RemoveEdgesById(params EdgeIds)
 
         /// <summary>
-        /// Remove the edge identified by the given EdgeId from the graph
+        /// Remove the edges identified by their EdgeIds.
         /// </summary>
-        /// <param name="EdgeId">The EdgeId of the edge to remove</param>
-        public void RemoveEdge(TIdEdge EdgeId)
+        /// <param name="EdgeIds">An array of EdgeIds of the edges to remove</param>
+        public void RemoveEdgesById(params TIdEdge[] EdgeIds)
         {
-            RemoveEdge(GetEdge(EdgeId));
+            if (EdgeIds.Any())
+                foreach (var _EdgeId in EdgeIds)
+                    RemoveEdge(GetEdge(_EdgeId));
         }
 
         #endregion
@@ -989,7 +993,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                     var _OutVertex = IEdge.OutVertex;
                     var _InVertex = IEdge.InVertex;
 
-                    if (_OutVertex != null && _OutVertex.OutEdges != null)
+                    if (_OutVertex != null && _OutVertex.OutEdges() != null)
                         _OutVertex.RemoveOutEdge(IEdge);
 
                     if (_InVertex != null && _InVertex.InEdges != null)

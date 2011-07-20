@@ -197,11 +197,13 @@ namespace de.ahzf.Blueprints.PropertyGraph
                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> VertexFilter = null);
 
 
+
         /// <summary>
-        /// Remove the vertex identified by the given VertexId from the graph
+        /// Remove the vertices identified by their VertexIds.
         /// </summary>
-        /// <param name="VertexId">The VertexId of the vertex to remove</param>
-        void RemoveVertex(TIdVertex VertexId);
+        /// <param name="VertexIds">An array of VertexIds of the vertices to remove.</param>
+        void RemoveVerticesById(params TIdVertex[] VertexIds);
+
 
         /// <summary>
         /// Remove the provided vertex from the graph.
@@ -214,7 +216,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
 
 
         /// <summary>
-        /// Remove each vertex matching the given filter.
+        /// Remove any vertex matching the given filter.
         /// </summary>
         /// <param name="VertexFilter">A delegate for vertex filtering.</param>
         void RemoveVertices(VertexFilter<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
@@ -318,10 +320,10 @@ namespace de.ahzf.Blueprints.PropertyGraph
 
 
         /// <summary>
-        /// Remove the edge identified by the given EdgeId from the graph
+        /// Remove the edges identified by their EdgeIds.
         /// </summary>
-        /// <param name="EdgeId">The EdgeId of the edge to remove</param>
-        void RemoveEdge(TIdEdge EdgeId);
+        /// <param name="EdgeIds">An array of EdgeIds of the edges to remove.</param>
+        void RemoveEdgesById(params TIdEdge[] EdgeIds);
 
 
         /// <summary>
@@ -334,10 +336,10 @@ namespace de.ahzf.Blueprints.PropertyGraph
 
 
         /// <summary>
-        /// Remove each edge matching the given filter.
+        /// Remove any edge matching the given filter.
         /// </summary>
         /// <param name="EdgeFilter">A delegate for edge filtering.</param>
-        void RemoveEdges(EdgeFilter<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex,
+        void RemoveEdges(EdgeFilter<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeFilter = null);
 

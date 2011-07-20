@@ -76,6 +76,13 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
     {
 
+        /// <summary>
+        /// The edges emanating from, or leaving, this vertex.
+        /// </summary>
+        protected readonly TEdgeCollection _OutEdges;
+
+
+
         #region Properties
 
         #region Graph
@@ -107,29 +114,6 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #endregion
 
-        #region OutEdges
-
-        /// <summary>
-        /// The edges emanating from, or leaving, this vertex.
-        /// </summary>
-        protected readonly TEdgeCollection _OutEdges;
-
-        /// <summary>
-        /// The edges emanating from, or leaving, this vertex.
-        /// </summary>
-        public IEnumerable<IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,      TValueVertex,
-                                         TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,        TValueEdge,
-                                         TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
-                                         OutEdges
-        {
-            get
-            {
-                return _OutEdges;
-            }
-        }
-
-        #endregion
-
         #region GetOutEdges(EdgeLabel)
 
         /// <summary>
@@ -139,12 +123,41 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         public IEnumerable<IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                          TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                          TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
-                                         GetOutEdges(TEdgeLabel EdgeLabel)
+
+            OutEdges(TEdgeLabel EdgeLabel)
+
         {
             return from _Edge in _OutEdges where _Edge.Label.Equals(EdgeLabel) select _Edge;
         }
 
         #endregion
+
+        #region OutEdges(EdgeFilter = null)
+
+        /// <summary>
+        /// The edges emanating from, or leaving, this vertex
+        /// filtered by the given edge filter delegate.
+        /// </summary>
+        public IEnumerable<IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                         TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                         TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
+            
+            OutEdges(EdgeFilter<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeFilter = null)
+        
+        {
+
+            if (EdgeFilter == null)
+                return _OutEdges;
+
+            else
+                return from _Edge in _OutEdges where EdgeFilter(_Edge) select _Edge;
+
+        }
+
+        #endregion
+
 
         #region RemoveOutEdge(Edge)
 
@@ -161,6 +174,42 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
             {
                 _OutEdges.Remove(Edge);
             }
+        }
+
+        #endregion
+
+        #region RemoveOutEdges(EdgeFilter = null)
+
+        /// <summary>
+        /// Remove any outgoing edge matching the
+        /// given edge filter delegate.
+        /// </summary>
+        /// <param name="EdgeFilter">A delegate for edge filtering.</param>
+        public void RemoveOutEdges(EdgeFilter<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeFilter = null)
+        {
+
+            lock (this)
+            {
+
+                var _tmp = new List<IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                  TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>();
+
+                if (EdgeFilter == null)
+                    foreach (var _IEdge in _OutEdges)
+                        _tmp.Add(_IEdge);
+
+                else foreach (var _IEdge in _OutEdges)
+                    if (EdgeFilter(_IEdge))
+                        _tmp.Add(_IEdge);
+
+                foreach (var _IEdge in _tmp)
+                    RemoveOutEdge(_IEdge);
+
+            }
+
         }
 
         #endregion
@@ -730,7 +779,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// </summary>
         public override String ToString()
         {
-            return "PropertyVertex [Id: " + Id.ToString() + ", " + OutEdges.Count() + " OutEdges, " + InEdges.Count() + " InEdges]";
+            return "PropertyVertex [Id: " + Id.ToString() + ", " + _OutEdges.Count + " OutEdges, " + _InEdges.Count + " InEdges]";
         }
 
         #endregion
