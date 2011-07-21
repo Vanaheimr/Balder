@@ -21,10 +21,11 @@ using System;
 using System.Linq;
 using System.Dynamic;
 using System.Linq.Expressions;
+using de.ahzf.Blueprints.PropertyGraph;
 
 #endregion
 
-namespace de.ahzf.Blueprints.PropertyGraph.InMemory
+namespace de.ahzf.Blueprints
 {
 
     /// <summary>
@@ -46,17 +47,17 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #region Constructor(s)
 
-        #region (internal) DynamicGraphObject(myParameter, myValue)
+        #region DynamicGraphObject(myParameter, myValue)
 
-        internal DynamicGraphElement(Expression myParameter, CompileTimeType myValue)
+        public DynamicGraphElement(Expression myParameter, CompileTimeType myValue)
             : this(myParameter, BindingRestrictions.Empty, myValue)
         { }
 
         #endregion
 
-        #region (internal) DynamicGraphObject(myParameter, myBindingRestrictions, myValue)
+        #region DynamicGraphObject(myParameter, myBindingRestrictions, myValue)
 
-        internal DynamicGraphElement(Expression myParameter, BindingRestrictions myBindingRestrictions, CompileTimeType myValue)
+        public DynamicGraphElement(Expression myParameter, BindingRestrictions myBindingRestrictions, CompileTimeType myValue)
             : base(myParameter, myBindingRestrictions, myValue)
         {
             _RuntimeValue = Value as CompileTimeType;

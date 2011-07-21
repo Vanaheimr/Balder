@@ -53,7 +53,6 @@
     <Compile Include="InMemoryGraph\Indices\PropertyIndex\PropertyVertexIndex.cs" />
     <Compile Include="InMemoryGraph\SimplePropertyGraph.cs" />
     <Compile Include="InMemoryGraph\Properties.cs" />
-    <Compile Include="InMemoryGraph\DynamicGraphElement.cs" />
     <Compile Include="InMemoryGraph\InMemoryPropertyGraph.cs" />
     <Compile Include="InMemoryGraph\PropertyHyperEdge.cs" />
     <Compile Include="InMemoryGraph\PropertyEdge.cs" />
