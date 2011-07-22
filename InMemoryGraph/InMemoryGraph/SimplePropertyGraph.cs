@@ -104,7 +104,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                     () => new Dictionary<TKey, TValue>(),
 
                     // Create a new Vertex
-                    () => IdCreatorDelegate(),
+                    (a) => IdCreatorDelegate(),
                     (Graph, VertexId, VertexInitializer) =>
                         new PropertyVertex<TId, TRevisionId,         TKey, TValue, IDictionary<TKey, TValue>,
                                            TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
@@ -121,7 +121,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                             ),
 
                    // Create a new Edge
-                   () => IdCreatorDelegate(),
+                   (Graph) => IdCreatorDelegate(),
                    (Graph, OutVertex, InVertex, EdgeId, Label, EdgeInitializer) =>
                         new PropertyEdge<TId, TRevisionId,         TKey, TValue, IDictionary<TKey, TValue>,
                                          TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
@@ -133,7 +133,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
 
                    // Create a new HyperEdge
-                   () => IdCreatorDelegate(),
+                   (Graph) => IdCreatorDelegate(),
                    (Graph, Edges, HyperEdgeId, Label, HyperEdgeInitializer) =>
                        new PropertyHyperEdge<TId, TRevisionId,         TKey, TValue, IDictionary<TKey, TValue>,
                                              TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,

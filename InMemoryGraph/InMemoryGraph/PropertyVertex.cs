@@ -73,6 +73,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         where TDatastructureVertex    : IDictionary<TKeyVertex,    TValueVertex>
         where TDatastructureEdge      : IDictionary<TKeyEdge,      TValueEdge>
         where TDatastructureHyperEdge : IDictionary<TKeyHyperEdge, TValueHyperEdge>
+
     {
 
         #region Data

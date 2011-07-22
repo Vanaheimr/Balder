@@ -184,7 +184,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                             EdgeInitializer<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                             TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeInitializer = null)
-            
+
             : base(EdgeId, IdKey, RevisonIdKey, DataInitializer)
 
         {

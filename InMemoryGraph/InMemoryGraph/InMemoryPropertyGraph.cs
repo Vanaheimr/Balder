@@ -118,17 +118,23 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                                                                         TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> _HyperEdges;
 
 
-        private readonly VertexIdCreatorDelegate   <TIdVertex, TValueVertex>                                                             _VertexIdCreatorDelegate;
+        private readonly VertexIdCreatorDelegate   <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                    TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                    TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> _VertexIdCreatorDelegate;
         private readonly VertexCreatorDelegate     <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> _VertexCreatorDelegate;
                                                    
-        private readonly EdgeIdCreatorDelegate     <TIdEdge, TValueEdge>                                                                 _EdgeIdCreatorDelegate;
+        private readonly EdgeIdCreatorDelegate     <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                    TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                    TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> _EdgeIdCreatorDelegate;
         private readonly EdgeCreatorDelegate       <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> _EdgeCreatorDelegate;
 
-        private readonly HyperEdgeIdCreatorDelegate<TIdHyperEdge, TValueHyperEdge>                                                       _HyperEdgeIdCreatorDelegate;
+        private readonly HyperEdgeIdCreatorDelegate<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                    TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                    TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> _HyperEdgeIdCreatorDelegate;
         private readonly HyperEdgeCreatorDelegate  <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> _HyperEdgeCreatorDelegate;
@@ -361,17 +367,23 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                                             TKeyVertex                   RevisonIdKey,
                                             Func<TDatastructureVertex>   DataInitializer,
 
-                                            VertexIdCreatorDelegate   <TIdVertex, TValueVertex>                                                             VertexIdCreatorDelegate,
+                                            VertexIdCreatorDelegate   <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> VertexIdCreatorDelegate,
                                             VertexCreatorDelegate     <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                                        TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                        TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> VertexCreatorDelegate,
                                                                       
-                                            EdgeIdCreatorDelegate     <TIdEdge, TValueEdge>                                                                 EdgeIdCreatorDelegate,
+                                            EdgeIdCreatorDelegate     <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeIdCreatorDelegate,
                                             EdgeCreatorDelegate       <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                                        TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                        TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeCreatorDelegate,
 
-                                            HyperEdgeIdCreatorDelegate<TIdHyperEdge, TValueHyperEdge>                                                       HyperEdgeIdCreatorDelegate,
+                                            HyperEdgeIdCreatorDelegate<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> HyperEdgeIdCreatorDelegate,
                                             HyperEdgeCreatorDelegate  <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                                        TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                        TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> HyperEdgeCreatorDelegate,
@@ -468,7 +480,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         {
 
             if (VertexId == null || VertexId.Equals(default(TIdVertex)))
-                VertexId = _VertexIdCreatorDelegate();
+                VertexId = _VertexIdCreatorDelegate(this);
 
             if (_Vertices.ContainsKey(VertexId))
                 throw new DuplicateVertexIdException("Another vertex with id " + VertexId + " already exists!");
@@ -772,7 +784,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         {
 
             if (EdgeId == null || EdgeId.Equals(default(TIdEdge)))
-                EdgeId = _EdgeIdCreatorDelegate();
+                EdgeId = _EdgeIdCreatorDelegate(this);
 
             if (_Edges.ContainsKey(EdgeId))
                 throw new ArgumentException("Another edge with id " + EdgeId + " already exists!");
@@ -2201,7 +2213,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                     () => new Dictionary<String, Object>(),
 
                     // Create a new Vertex
-                    () => VertexId.NewVertexId, // Automatic VertexId generation
+                    (Graph) => VertexId.NewVertexId, // Automatic VertexId generation
                     (Graph, _VertexId, VertexInitializer) =>
                         new PropertyVertex<VertexId,    RevisionId,         String, Object, IDictionary<String, Object>,
                                            EdgeId,      RevisionId, String, String, Object, IDictionary<String, Object>,
@@ -2219,7 +2231,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
                    
                    // Create a new Edge
-                   () => EdgeId.NewEdgeId,  // Automatic EdgeId generation
+                   (Graph) => EdgeId.NewEdgeId,  // Automatic EdgeId generation
                    (Graph, OutVertex, InVertex, _EdgeId, EdgeLabel, EdgeInitializer) =>
                         new PropertyEdge<VertexId,    RevisionId,         String, Object, IDictionary<String, Object>,
                                          EdgeId,      RevisionId, String, String, Object, IDictionary<String, Object>,
@@ -2230,7 +2242,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                             ),
 
                    // Create a new HyperEdge
-                   () => HyperEdgeId.NewHyperEdgeId,  // Automatic HyperEdgeId generation
+                   (Graph) => HyperEdgeId.NewHyperEdgeId,  // Automatic HyperEdgeId generation
                    (Graph, Edges, _HyperEdgeId, HyperEdgeLabel, HyperEdgeInitializer) =>
                        new PropertyHyperEdge<VertexId,    RevisionId,         String, Object, IDictionary<String, Object>,
                                              EdgeId,      RevisionId, String, String, Object, IDictionary<String, Object>,
