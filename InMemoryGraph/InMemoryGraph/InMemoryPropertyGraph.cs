@@ -790,11 +790,13 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                 throw new ArgumentException("Another edge with id " + EdgeId + " already exists!");
 
             var _Edge = _EdgeCreatorDelegate(this, OutVertex, InVertex, EdgeId, Label, EdgeInitializer);
-            
-            _Edges.Add(EdgeId, _Edge);
 
-            OutVertex.AddOutEdge(_Edge);
-            InVertex.AddInEdge(_Edge);
+            if (SendEdgeAddingNotification(_Edge))
+            {
+                _Edges.Add(EdgeId, _Edge);
+                OutVertex.AddOutEdge(_Edge);
+                InVertex.AddInEdge(_Edge);
+            }
 
             return _Edge;
 
