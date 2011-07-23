@@ -49,6 +49,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Datastructures\Geometry\Triangle.cs" />
     <Compile Include="Datastructures\Votes\IVote.cs" />
     <Compile Include="Datastructures\Votes\VoteEvaluator.cs" />
     <Compile Include="Datastructures\Votes\VetoVote.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="Exceptions\Forest\OctreeExceptions.cs" />
     <Compile Include="Exceptions\Forest\QuadtreeExceptions.cs" />
     <Compile Include="Extensions\IComparableExtensions.cs" />
+    <Compile Include="Interfaces\Datastructures\Geometry\ITriangle.cs" />
     <Compile Include="Interfaces\Datastructures\Geometry\IVoxelValuePair.cs" />
     <Compile Include="Interfaces\Datastructures\Geometry\ILine.cs" />
     <Compile Include="Interfaces\Datastructures\Geometry\IPixelValuePair.cs" />

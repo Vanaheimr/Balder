@@ -98,6 +98,23 @@ namespace de.ahzf.Blueprints
         #endregion
 
 
+        #region (static) Swap(ref Pixel1, ref Pixel2)
+
+        /// <summary>
+        /// Swaps two pixels.
+        /// </summary>
+        /// <param name="Pixel1">The first pixel.</param>
+        /// <param name="Pixel2">The second pixel.</param>
+        public static void Swap(ref IPixel<T> Pixel1, ref IPixel<T> Pixel2)
+        {
+            var tmp = Pixel2;
+            Pixel2 = Pixel1;
+            Pixel1 = tmp;
+        }
+
+        #endregion
+
+
         #region DistanceTo(x, y)
 
         /// <summary>

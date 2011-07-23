@@ -145,6 +145,10 @@ namespace de.ahzf.Blueprints
             #endregion
 
             this.Math   = MathsFactory<T>.Instance;
+            this.Left   = Math.Min(Left, Right);
+            this.Top    = Math.Min(Top,  Bottom);
+            this.Right  = Math.Max(Left, Right);
+            this.Bottom = Math.Max(Top,  Bottom);
 
             #region Math Checks
 
@@ -155,11 +159,6 @@ namespace de.ahzf.Blueprints
                 throw new ArgumentException("The resulting height must not be zero!");
 
             #endregion
-
-            this.Left   = Math.Min(Left, Right);
-            this.Top    = Math.Min(Top,  Bottom);
-            this.Right  = Math.Max(Left, Right);
-            this.Bottom = Math.Max(Top,  Bottom);
 
         }
 
@@ -172,7 +171,7 @@ namespace de.ahzf.Blueprints
         /// </summary>
         /// <param name="Pixel1">A pixel of type T.</param>
         /// <param name="Pixel2">A pixel of type T.</param>
-        public Rectangle(Pixel<T> Pixel1, Pixel<T> Pixel2)
+        public Rectangle(IPixel<T> Pixel1, IPixel<T> Pixel2)
         {
 
             #region Initial Checks
@@ -186,6 +185,10 @@ namespace de.ahzf.Blueprints
             #endregion
 
             this.Math   = MathsFactory<T>.Instance;
+            this.Left   = Math.Min(Pixel1.X, Pixel2.X);
+            this.Top    = Math.Min(Pixel1.Y, Pixel2.Y);
+            this.Right  = Math.Max(Pixel1.X, Pixel2.X);
+            this.Bottom = Math.Max(Pixel1.Y, Pixel2.Y);
 
             #region Math Checks
 
@@ -196,11 +199,6 @@ namespace de.ahzf.Blueprints
                 throw new ArgumentException("The resulting height must not be zero!");
 
             #endregion
-
-            this.Left   = Math.Min(Pixel1.X, Pixel2.X);
-            this.Top    = Math.Min(Pixel1.Y, Pixel2.Y);
-            this.Right  = Math.Max(Pixel1.X, Pixel2.X);
-            this.Bottom = Math.Max(Pixel1.Y, Pixel2.Y);
 
         }
 
@@ -231,6 +229,10 @@ namespace de.ahzf.Blueprints
             #endregion
 
             this.Math   = MathsFactory<T>.Instance;
+            this.Left   = Pixel.X;
+            this.Top    = Pixel.Y;            
+            this.Right  = Math.Add(Pixel.X, Width);
+            this.Bottom = Math.Add(Pixel.Y, Height);
 
             #region Math Checks
 
@@ -241,11 +243,6 @@ namespace de.ahzf.Blueprints
                 throw new ArgumentException("The resulting height must not be zero!");
 
             #endregion
-
-            this.Left   = Pixel.X;
-            this.Top    = Pixel.Y;            
-            this.Right  = Math.Add(Pixel.X, Width);
-            this.Bottom = Math.Add(Pixel.Y, Height);
 
         }
 
