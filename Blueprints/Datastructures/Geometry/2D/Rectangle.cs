@@ -18,6 +18,7 @@
 #region Usings
 
 using System;
+using System.Collections.Generic;
 
 using de.ahzf.Blueprints.Maths;
 
@@ -82,18 +83,31 @@ namespace de.ahzf.Blueprints
         #endregion
 
 
+        #region Pixel1
+
+        /// <summary>
+        /// The left/top pixel of the rectangle.
+        /// </summary>
+        public IPixel<T> Pixel1 { get; private set; }
+
+        #endregion
+
+        #region Pixel2
+
+        /// <summary>
+        /// The right/bottom pixel of the rectangle.
+        /// </summary>
+        public IPixel<T> Pixel2 { get; private set; }
+
+        #endregion
+
+
         #region Width
 
         /// <summary>
         /// The width of the rectangle.
         /// </summary>
-        public T Width
-        {
-            get
-            {
-                return Math.Distance(Left, Right);
-            }
-        }
+        public T Width  { get; private set; }
 
         #endregion
 
@@ -102,11 +116,76 @@ namespace de.ahzf.Blueprints
         /// <summary>
         /// The height of the rectangle.
         /// </summary>
-        public T Height
+        public T Height { get; private set; }
+
+        #endregion
+
+        #region Diameter
+
+        /// <summary>
+        /// The length of the diagonale (diameter) of the rectangle.
+        /// </summary>
+        public T Diameter { get; private set; }
+
+        #endregion
+
+
+        #region Center
+
+        /// <summary>
+        /// The center pixel of the rectangle.
+        /// </summary>
+        public IPixel<T> Center
         {
             get
             {
-                return Math.Distance(Top, Bottom);
+                return new Pixel<T>(Math.Add(Left, Math.Div2(Width)),
+                                    Math.Add(Top,  Math.Div2(Height)));
+            }
+        }
+
+        #endregion
+
+        #region Borders
+
+        /// <summary>
+        /// Return an enumeration of lines representing the
+        /// surrounding borders of the rectangle.
+        /// </summary>
+        public IEnumerable<ILine2D<T>> Borders
+        {
+            get
+            {
+
+                var _Lines = new List<ILine2D<T>>();
+                _Lines.Add(new Line2D<T>(Left,  Top,    Right, Top));
+                _Lines.Add(new Line2D<T>(Right, Top,    Right, Bottom));
+                _Lines.Add(new Line2D<T>(Right, Bottom, Left,  Bottom));
+                _Lines.Add(new Line2D<T>(Left,  Bottom, Left,  Top));
+
+                return _Lines;
+
+            }
+        }
+
+        #endregion
+
+        #region Diagonales
+
+        /// <summary>
+        /// Return an enumeration of lines representing the diagonales of the rectangle.
+        /// </summary>
+        public IEnumerable<ILine2D<T>> Diagonales
+        {
+            get
+            {
+
+                var _Lines = new List<ILine2D<T>>();
+                _Lines.Add(new Line2D<T>(Left, Top,    Right, Bottom));
+                _Lines.Add(new Line2D<T>(Left, Bottom, Right, Top));
+
+                return _Lines;
+
             }
         }
 
@@ -142,23 +221,27 @@ namespace de.ahzf.Blueprints
             if (Bottom == null)
                 throw new ArgumentNullException("The given bottom-coordinate must not be null!");
 
-            #endregion
+            if (Left.Equals(Right))
+                throw new ArgumentException("The width of the rectangle must not be zero!");
 
-            this.Math   = MathsFactory<T>.Instance;
-            this.Left   = Math.Min(Left, Right);
-            this.Top    = Math.Min(Top,  Bottom);
-            this.Right  = Math.Max(Left, Right);
-            this.Bottom = Math.Max(Top,  Bottom);
-
-            #region Math Checks
-
-            if (Math.Distance(Left, Right).Equals(Math.Zero))
-                throw new ArgumentException("The resulting width must not be zero!");
-
-            if (Math.Distance(Top, Bottom).Equals(Math.Zero))
-                throw new ArgumentException("The resulting height must not be zero!");
+            if (Top.Equals(Bottom))
+                throw new ArgumentException("The height of the rectangle must not be zero!");
 
             #endregion
+
+            this.Math     = MathsFactory<T>.Instance;
+
+            this.Left     = Math.Min(Left, Right);
+            this.Top      = Math.Min(Top,  Bottom);
+            this.Right    = Math.Max(Left, Right);
+            this.Bottom   = Math.Max(Top,  Bottom);
+
+            this.Pixel1   = new Pixel<T>(Left,  Top);
+            this.Pixel2   = new Pixel<T>(Right, Bottom);
+
+            this.Width    = Math.Distance(Left, Right);
+            this.Height   = Math.Distance(Top, Bottom);
+            this.Diameter = Pixel1.DistanceTo(Pixel2);
 
         }
 
@@ -182,23 +265,27 @@ namespace de.ahzf.Blueprints
             if (Pixel2 == null)
                 throw new ArgumentNullException("The given second pixel must not be null!");
 
-            #endregion
+            if (Pixel1.X.Equals(Pixel2.X))
+                throw new ArgumentException("The width of the rectangle must not be zero!");
 
-            this.Math   = MathsFactory<T>.Instance;
-            this.Left   = Math.Min(Pixel1.X, Pixel2.X);
-            this.Top    = Math.Min(Pixel1.Y, Pixel2.Y);
-            this.Right  = Math.Max(Pixel1.X, Pixel2.X);
-            this.Bottom = Math.Max(Pixel1.Y, Pixel2.Y);
-
-            #region Math Checks
-
-            if (Math.Distance(Left, Right).Equals(Math.Zero))
-                throw new ArgumentException("The resulting width must not be zero!");
-
-            if (Math.Distance(Top, Bottom).Equals(Math.Zero))
-                throw new ArgumentException("The resulting height must not be zero!");
+            if (Pixel1.Y.Equals(Pixel2.Y))
+                throw new ArgumentException("The height of the rectangle must not be zero!");
 
             #endregion
+
+            this.Math     = MathsFactory<T>.Instance;
+
+            this.Left     = Math.Min(Pixel1.X, Pixel2.X);
+            this.Top      = Math.Min(Pixel1.Y, Pixel2.Y);
+            this.Right    = Math.Max(Pixel1.X, Pixel2.X);
+            this.Bottom   = Math.Max(Pixel1.Y, Pixel2.Y);
+
+            this.Pixel1   = new Pixel<T>(Left, Top);
+            this.Pixel2   = new Pixel<T>(Right, Bottom);
+
+            this.Width    = Math.Distance(Left, Right);
+            this.Height   = Math.Distance(Top, Bottom);
+            this.Diameter = Pixel1.DistanceTo(Pixel2);
 
         }
 
@@ -212,7 +299,7 @@ namespace de.ahzf.Blueprints
         /// <param name="Pixel">A pixel of type T in the upper left corner of the rectangle.</param>
         /// <param name="Width">The width of the rectangle.</param>
         /// <param name="Height">The height of the rectangle.</param>
-        public Rectangle(Pixel<T> Pixel, T Width, T Height)
+        public Rectangle(IPixel<T> Pixel, T Width, T Height)
         {
 
             #region Initial Checks
@@ -220,29 +307,27 @@ namespace de.ahzf.Blueprints
             if (Pixel  == null)
                 throw new ArgumentNullException("The given pixel must not be null!");
 
-            if (Width  == null)
-                throw new ArgumentNullException("The given width must not be null!");
+            if (Width  == null || Width.Equals(Math.Zero))
+                throw new ArgumentNullException("The given width must not be null or zero!");
 
-            if (Height == null)
-                throw new ArgumentNullException("The given height must not be null!");
-
-            #endregion
-
-            this.Math   = MathsFactory<T>.Instance;
-            this.Left   = Pixel.X;
-            this.Top    = Pixel.Y;            
-            this.Right  = Math.Add(Pixel.X, Width);
-            this.Bottom = Math.Add(Pixel.Y, Height);
-
-            #region Math Checks
-
-            if (Math.Distance(Left, Right).Equals(Math.Zero))
-                throw new ArgumentException("The resulting width must not be zero!");
-
-            if (Math.Distance(Top, Bottom).Equals(Math.Zero))
-                throw new ArgumentException("The resulting height must not be zero!");
+            if (Height == null || Height.Equals(Math.Zero))
+                throw new ArgumentNullException("The given height must not be null or zero!");
 
             #endregion
+
+            this.Math     = MathsFactory<T>.Instance;
+
+            this.Left     = Pixel.X;
+            this.Top      = Pixel.Y;            
+            this.Right    = Math.Add(Pixel.X, Width);
+            this.Bottom   = Math.Add(Pixel.Y, Height);
+
+            this.Pixel1   = new Pixel<T>(Left,  Top);
+            this.Pixel2   = new Pixel<T>(Right, Bottom);
+
+            this.Width    = Math.Distance(Left, Right);
+            this.Height   = Math.Distance(Top, Bottom);
+            this.Diameter = Pixel1.DistanceTo(Pixel2);
 
         }
 

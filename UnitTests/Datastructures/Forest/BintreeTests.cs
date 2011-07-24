@@ -49,7 +49,7 @@ namespace de.ahzf.Blueprints.UnitTests.Forest
             
             Assert.AreEqual(1, _Bintree.Left);
             Assert.AreEqual(3, _Bintree.Right);
-            Assert.AreEqual(2, _Bintree.Size);
+            Assert.AreEqual(2, _Bintree.Length);
 
             Assert.AreEqual(0, _Bintree.EmbeddedCount);
             Assert.AreEqual(0, _Bintree.Count);

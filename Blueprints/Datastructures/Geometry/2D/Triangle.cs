@@ -18,9 +18,9 @@
 #region Usings
 
 using System;
+using System.Collections.Generic;
 
 using de.ahzf.Blueprints.Maths;
-using System.Collections.Generic;
 
 #endregion
 
@@ -73,6 +73,72 @@ namespace de.ahzf.Blueprints
 
         #endregion
 
+
+        #region CircumCenter
+
+        /// <summary>
+        /// Return the cirumcenter of the triangle.
+        /// </summary>
+        public IPixel<T> CircumCenter
+        {
+            get
+            {
+
+                var _Line12     = new Line2D<T>(P1, P2);
+                var _Line23     = new Line2D<T>(P2, P3);
+
+                var _Normale12  = _Line12.Normale;
+                var _Normale23  = _Line23.Normale;
+
+                return new Line2D<T>(_Line12.Center, _Normale12.X, _Normale12.Y).
+                           Intersection(
+                       new Line2D<T>(_Line23.Center, _Normale23.X, _Normale23.Y));
+
+
+            }
+        }
+
+        #endregion
+
+        #region CircumCircle
+
+        /// <summary>
+        /// Return the circumcircle of the triangle.
+        /// </summary>
+        public ICircle<T> CircumCircle
+        {
+            get
+            {
+                var _CircumCenter = this.CircumCenter;
+                return new Circle<T>(_CircumCenter, P1.DistanceTo(_CircumCenter));
+            }
+        }
+
+        #endregion
+
+        #region Borders
+
+        /// <summary>
+        /// Return an enumeration of lines representing the
+        /// surrounding borders of the triangle.
+        /// </summary>
+        public IEnumerable<ILine2D<T>> Borders
+        {
+            get
+            {
+
+                var _Lines = new List<ILine2D<T>>();
+                _Lines.Add(new Line2D<T>(P1, P2));
+                _Lines.Add(new Line2D<T>(P2, P3));
+                _Lines.Add(new Line2D<T>(P3, P1));
+
+                return _Lines;
+
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Constructor(s)
@@ -112,11 +178,11 @@ namespace de.ahzf.Blueprints
 
             if (Pixel1.X.Equals(Pixel2.X) &&
                 Pixel2.X.Equals(Pixel3.X))
-                throw new ArgumentException("At least one x-coordinate should be differnet from the others!");
+                throw new ArgumentException("All three pixels must not be on a single line!");
 
             if (Pixel1.Y.Equals(Pixel2.Y) &&
                 Pixel2.Y.Equals(Pixel3.Y))
-                throw new ArgumentException("At least one y-coordinate should be differnet from the others!");
+                throw new ArgumentException("All three pixels must not be on a single line!");
 
             #endregion
 

@@ -77,32 +77,62 @@ namespace de.ahzf.Blueprints.Maths
         #endregion
 
 
-        #region Min(a, b)
+        #region Min(params Values)
 
         /// <summary>
-        /// A method to get the minimum of two Doubles.
+        /// A method to get the minimum of an array of Doubles.
         /// </summary>
-        /// <param name="a">A Double.</param>
-        /// <param name="b">A Double.</param>
-        /// <returns>The minimum of a and b: Min(a, b)</returns>
-        public Double Min(Double a, Double b)
+        /// <param name="Values">An array of Doubles.</param>
+        /// <returns>The minimum of all values: Min(a, b, ...)</returns>
+        public Double Min(params Double[] Values)
         {
-            return Math.Min(a, b);
+
+            if (Values == null)
+                throw new ArgumentException("The given values must not be null!");
+
+            if (Values.Length == 0)
+                return 0;
+
+            if (Values.Length == 1)
+                return Values[0];
+
+            var result = Values[0];
+
+            for (var i = Values.Length - 1; i >= 1; i--)
+                result = Math.Min(result, Values[i]);
+
+            return result;
+
         }
 
         #endregion
 
-        #region Max(a, b)
+        #region Max(params Values)
 
         /// <summary>
-        /// A method to get the maximum of two Doubles.
+        /// A method to get the maximum of an array of Doubles.
         /// </summary>
-        /// <param name="a">A Double.</param>
-        /// <param name="b">A Double.</param>
-        /// <returns>The maximum of a and b: Max(a, b)</returns>
-        public Double Max(Double a, Double b)
+        /// <param name="Values">An array of Doubles.</param>
+        /// <returns>The maximum of all values: Min(a, b, ...)</returns>
+        public Double Max(params Double[] Values)
         {
-            return Math.Max(a, b);
+
+            if (Values == null)
+                throw new ArgumentException("The given values must not be null!");
+
+            if (Values.Length == 0)
+                return 0;
+
+            if (Values.Length == 1)
+                return Values[0];
+
+            var result = Values[0];
+
+            for (var i = Values.Length - 1; i >= 1; i--)
+                result = Math.Max(result, Values[i]);
+
+            return result;
+
         }
 
         #endregion
@@ -117,7 +147,10 @@ namespace de.ahzf.Blueprints.Maths
         /// <returns>The addition of all summands: a + b + ...</returns>
         public Double Add(params Double[] Summands)
         {
-            
+
+            if (Summands == null)
+                throw new ArgumentException("The given summands must not be null!");
+
             if (Summands.Length == 0)
                 return 0;
 
@@ -160,6 +193,9 @@ namespace de.ahzf.Blueprints.Maths
         public Double Mul(params Double[] Multiplicators)
         {
 
+            if (Multiplicators == null)
+                throw new ArgumentException("The given multiplicators must not be null!");
+
             if (Multiplicators.Length == 0)
                 return 0;
 
@@ -195,7 +231,7 @@ namespace de.ahzf.Blueprints.Maths
         #region Div2(a)
 
         /// <summary>
-        /// A method to a Double by 2.
+        /// A method to divide a Double by 2.
         /// </summary>
         /// <param name="a">A Double.</param>
         /// <returns>The division of a by 2: a / 2</returns>
@@ -222,13 +258,27 @@ namespace de.ahzf.Blueprints.Maths
         #endregion
 
 
+        #region Inv(a)
+
+        /// <summary>
+        /// A method to calculate the inverse value of the given Double.
+        /// </summary>
+        /// <param name="a">A Double.</param>
+        /// <returns>The inverse value of a: -a</returns>
+        public Double Inv(Double a)
+        {
+            return -a;
+        }
+
+        #endregion
+
         #region Abs(a)
 
         /// <summary>
-        /// A method to calculate the absolute value of the Double.
+        /// A method to calculate the absolute value of the given Double.
         /// </summary>
-        /// <param name="a">An Double.</param>
-        /// <returns>The absolute value of a: Abs(a)</returns>
+        /// <param name="a">A Double.</param>
+        /// <returns>The absolute value of a: |a|</returns>
         public Double Abs(Double a)
         {
             return Math.Abs(a);

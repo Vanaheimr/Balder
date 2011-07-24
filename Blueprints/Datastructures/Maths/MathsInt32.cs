@@ -77,32 +77,62 @@ namespace de.ahzf.Blueprints.Maths
         #endregion
 
 
-        #region Min(a, b)
+        #region Min(params Values)
 
         /// <summary>
-        /// A method to get the minimum of two Int32s.
+        /// A method to get the minimum of an array of Int32s.
         /// </summary>
-        /// <param name="a">A Int32.</param>
-        /// <param name="b">A Int32.</param>
-        /// <returns>The minimum of a and b: Min(a, b)</returns>
-        public Int32 Min(Int32 a, Int32 b)
+        /// <param name="Values">An array of Int32s.</param>
+        /// <returns>The minimum of all values: Min(a, b, ...)</returns>
+        public Int32 Min(params Int32[] Values)
         {
-            return Math.Min(a, b);
+
+            if (Values == null)
+                throw new ArgumentException("The given values must not be null!");
+
+            if (Values.Length == 0)
+                return 0;
+
+            if (Values.Length == 1)
+                return Values[0];
+
+            var result = Values[0];
+
+            for (var i = Values.Length - 1; i >= 1; i--)
+                result = Math.Min(result, Values[i]);
+
+            return result;
+
         }
 
         #endregion
 
-        #region Max(a, b)
+        #region Max(params Values)
 
         /// <summary>
-        /// A method to get the maximum of two Int32s.
+        /// A method to get the maximum of an array of Int32s.
         /// </summary>
-        /// <param name="a">A Int32.</param>
-        /// <param name="b">A Int32.</param>
-        /// <returns>The maximum of a and b: Max(a, b)</returns>
-        public Int32 Max(Int32 a, Int32 b)
+        /// <param name="Values">An array of Int32s.</param>
+        /// <returns>The maximum of all values: Min(a, b, ...)</returns>
+        public Int32 Max(params Int32[] Values)
         {
-            return Math.Max(a, b);
+
+            if (Values == null)
+                throw new ArgumentException("The given values must not be null!");
+
+            if (Values.Length == 0)
+                return 0;
+
+            if (Values.Length == 1)
+                return Values[0];
+
+            var result = Values[0];
+
+            for (var i = Values.Length - 1; i >= 1; i--)
+                result = Math.Max(result, Values[i]);
+
+            return result;
+
         }
 
         #endregion
@@ -117,7 +147,10 @@ namespace de.ahzf.Blueprints.Maths
         /// <returns>The addition of all summands: a + b + ...</returns>
         public Int32 Add(params Int32[] Summands)
         {
-            
+
+            if (Summands == null)
+                throw new ArgumentException("The given summands must not be null!");
+
             if (Summands.Length == 0)
                 return 0;
 
@@ -160,6 +193,9 @@ namespace de.ahzf.Blueprints.Maths
         public Int32 Mul(params Int32[] Multiplicators)
         {
 
+            if (Multiplicators == null)
+                throw new ArgumentException("The given multiplicators must not be null!");
+
             if (Multiplicators.Length == 0)
                 return 0;
 
@@ -195,7 +231,7 @@ namespace de.ahzf.Blueprints.Maths
         #region Div2(a)
 
         /// <summary>
-        /// A method to a Int32 by 2.
+        /// A method to divide an Int32 by 2.
         /// </summary>
         /// <param name="a">A Int32.</param>
         /// <returns>The division of a by 2: a / 2</returns>
@@ -222,13 +258,27 @@ namespace de.ahzf.Blueprints.Maths
         #endregion
 
 
+        #region Inv(a)
+
+        /// <summary>
+        /// A method to calculate the inverse value of the given Int32.
+        /// </summary>
+        /// <param name="a">An Int32.</param>
+        /// <returns>The inverse value of a: -a</returns>
+        public Int32 Inv(Int32 a)
+        {
+            return -a;
+        }
+
+        #endregion
+
         #region Abs(a)
 
         /// <summary>
-        /// A method to calculate the absolute value of the Int32.
+        /// A method to calculate the absolute value of the given Int32.
         /// </summary>
         /// <param name="a">An Int32.</param>
-        /// <returns>The absolute value of a: Abs(a)</returns>
+        /// <returns>The absolute value of a: |a|</returns>
         public Int32 Abs(Int32 a)
         {
             return Math.Abs(a);

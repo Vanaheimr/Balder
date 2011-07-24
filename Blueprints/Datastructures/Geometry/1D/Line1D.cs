@@ -30,7 +30,7 @@ namespace de.ahzf.Blueprints
     /// A 1-dimensional line of type T.
     /// </summary>
     /// <typeparam name="T">The internal type of the line.</typeparam>
-    public class Line<T> : ILine<T>
+    public class Line1D<T> : ILine1D<T>
         where T : IEquatable<T>, IComparable<T>, IComparable
     {
 
@@ -64,12 +64,12 @@ namespace de.ahzf.Blueprints
         #endregion
 
 
-        #region Size
+        #region Length
 
         /// <summary>
-        /// The size of the line.
+        /// The length of the line.
         /// </summary>
-        public T Size
+        public T Length
         {
             get
             {
@@ -83,14 +83,14 @@ namespace de.ahzf.Blueprints
 
         #region Constructor(s)
 
-        #region Line(Left, Right)
+        #region Line1D(Left, Right)
 
         /// <summary>
-        /// Create a line of type T.
+        /// Create a 1-dimensional line of type T.
         /// </summary>
         /// <param name="Left">The left-coordinate of the line.</param>
         /// <param name="Right">The right-coordinate of the line.</param>
-        public Line(T Left, T Right)
+        public Line1D(T Left, T Right)
         {
 
             #region Initial Checks
@@ -157,7 +157,7 @@ namespace de.ahzf.Blueprints
         /// </summary>
         /// <param name="Line">A line of type T.</param>
         /// <returns>True if the line is located within this line; False otherwise.</returns>
-        public Boolean Contains(ILine<T> Line)
+        public Boolean Contains(ILine1D<T> Line)
         {
 
             #region Initial Checks
@@ -191,7 +191,7 @@ namespace de.ahzf.Blueprints
         /// </summary>
         /// <param name="Line">A line of type T.</param>
         /// <returns>True if the line shares some area with this line; False otherwise.</returns>
-        public Boolean Overlaps(ILine<T> Line)
+        public Boolean Overlaps(ILine1D<T> Line)
         {
 
             #region Initial Checks
@@ -228,7 +228,7 @@ namespace de.ahzf.Blueprints
         /// <param name="Line1">A Line&lt;T&gt;.</param>
         /// <param name="Line2">Another Line&lt;T&gt;.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator == (Line<T> Line1, Line<T> Line2)
+        public static Boolean operator == (Line1D<T> Line1, Line1D<T> Line2)
         {
 
             // If both are null, or both are same instance, return true.
@@ -253,7 +253,7 @@ namespace de.ahzf.Blueprints
         /// <param name="Line1">A Line&lt;T&gt;.</param>
         /// <param name="Line2">Another Line&lt;T&gt;.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator != (Line<T> Line1, Line<T> Line2)
+        public static Boolean operator != (Line1D<T> Line1, Line1D<T> Line2)
         {
             return !(Line1 == Line2);
         }
@@ -278,7 +278,7 @@ namespace de.ahzf.Blueprints
                 return false;
 
             // Check if the given object is an Line<T>.
-            var LineT = (Line<T>) Object;
+            var LineT = (Line1D<T>) Object;
             if ((Object) LineT == null)
                 return false;
 
@@ -295,7 +295,7 @@ namespace de.ahzf.Blueprints
         /// </summary>
         /// <param name="ILine">A line to compare with.</param>
         /// <returns>True if both match; False otherwise.</returns>
-        public Boolean Equals(ILine<T> ILine)
+        public Boolean Equals(ILine1D<T> ILine)
         {
 
             if ((Object) ILine == null)

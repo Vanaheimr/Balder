@@ -85,7 +85,7 @@ namespace de.ahzf.Blueprints
         /// Return all elements within the given line.
         /// </summary>
         /// <param name="Line">A line selecting which elements to return.</param>
-        IEnumerable<T> Get(ILine<T> Line);
+        IEnumerable<T> Get(ILine1D<T> Line);
 
         /// <summary>
         /// Remove a element from the bintree.
@@ -97,7 +97,7 @@ namespace de.ahzf.Blueprints
         /// Remove all elements located within the given line.
         /// </summary>
         /// <param name="Line">A line selecting which elements to remove.</param>
-        void Remove(ILine<T> Line);
+        void Remove(ILine1D<T> Line);
 
         #endregion
 

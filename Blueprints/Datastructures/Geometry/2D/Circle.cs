@@ -143,6 +143,105 @@ namespace de.ahzf.Blueprints
 
         #endregion
 
+        #region Circle(Center, Radius)
+
+        /// <summary>
+        /// Create a circle of type T.
+        /// </summary>
+        /// <param name="Pixel">The center of the circle.</param>
+        /// <param name="Radius">The radius of the circle.</param>
+        public Circle(IPixel<T> Center, T Radius)
+        {
+
+            #region Initial Checks
+
+            if (Center == null)
+                throw new ArgumentNullException("The given center pixel must not be null!");
+
+            if (Radius == null)
+                throw new ArgumentNullException("The given radius must not be null!");
+
+            #endregion
+
+            this.Math   = MathsFactory<T>.Instance;
+
+            #region Math Checks
+
+            if (Radius.Equals(Math.Zero))
+                throw new ArgumentException("The given radius must not be zero!");
+
+            #endregion
+
+            this.X      = Center.X;
+            this.Y      = Center.Y;
+            this.Center = Center;
+            this.Radius = Radius;
+
+        }
+
+        #endregion
+
+        #region Circle(Pixel1, Pixel2, Pixel3)
+
+        /// <summary>
+        /// Creates a circumcircle of type T based on three pixels.
+        /// </summary>
+        /// <param name="Pixel1">The first pixel of the triangle.</param>
+        /// <param name="Pixel2">The second pixel of the triangle.</param>
+        /// <param name="Pixel3">The third pixel of the triangle.</param>
+        public Circle(IPixel<T> Pixel1, IPixel<T> Pixel2, IPixel<T> Pixel3)
+        {
+
+            #region Initial Checks
+
+            if (Pixel1 == null)
+                throw new ArgumentNullException("The given first pixel must not be null!");
+
+            if (Pixel2 == null)
+                throw new ArgumentNullException("The given second pixel must not be null!");
+
+            if (Pixel3 == null)
+                throw new ArgumentNullException("The given third pixel must not be null!");
+
+            #endregion
+
+            this.Math = MathsFactory<T>.Instance;
+
+            #region Math Checks
+
+            if (Pixel1.Equals(Pixel2) ||
+                Pixel1.Equals(Pixel3) ||
+                Pixel2.Equals(Pixel3))
+                throw new ArgumentException("All distances between the pixels must be larger than zero!");
+
+            if (Pixel1.X.Equals(Pixel2.X) &&
+                Pixel2.X.Equals(Pixel3.X))
+                throw new ArgumentException("All three pixels must not be on a single line!");
+
+            if (Pixel1.Y.Equals(Pixel2.Y) &&
+                Pixel2.Y.Equals(Pixel3.Y))
+                throw new ArgumentException("All three pixels must not be on a single line!");
+
+            #endregion
+
+            var _Line12     = new Line2D<T>(Pixel1, Pixel2);
+            var _Line23     = new Line2D<T>(Pixel2, Pixel3);
+
+            var _Normale12  = _Line12.Normale;
+            var _Normale23  = _Line23.Normale;
+
+            Center          = new Line2D<T>(_Line12.Center, _Normale12.X, _Normale12.Y).
+                                  Intersection(
+                              new Line2D<T>(_Line23.Center, _Normale23.X, _Normale23.Y));
+
+            X               = Center.X;
+            Y               = Center.Y;
+            Radius          = Pixel1.DistanceTo(X, Y);
+
+        }
+
+        #endregion
+
         #endregion
 
 

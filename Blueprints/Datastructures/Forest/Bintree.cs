@@ -61,7 +61,7 @@ namespace de.ahzf.Blueprints
     /// Note: This datastructure is not self-balancing!
     /// </summary>
     /// <typeparam name="T">The internal datatype of the Bintree.</typeparam>
-    public class Bintree<T> : Line<T>, IBintree<T>
+    public class Bintree<T> : Line1D<T>, IBintree<T>
         where T : IEquatable<T>, IComparable<T>, IComparable
     {
 
@@ -204,14 +204,14 @@ namespace de.ahzf.Blueprints
                     if (Subtree1 == null)
                     {
                         Subtree1 = new Bintree<T>(Left,
-                                                  Math.Add(Left, Math.Div2(Size)),
+                                                  Math.Add(Left, Math.Div2(Length)),
                                                   MaxNumberOfEmbeddedElements);
                         Subtree1.OnTreeSplit += OnTreeSplit;
                     }
 
                     if (Subtree2 == null)
                     {
-                        Subtree2 = new Bintree<T>(Math.Add(Left, Math.Div2(Size)),
+                        Subtree2 = new Bintree<T>(Math.Add(Left, Math.Div2(Length)),
                                                   Right,
                                                   MaxNumberOfEmbeddedElements);
                         Subtree2.OnTreeSplit += OnTreeSplit;
@@ -307,7 +307,7 @@ namespace de.ahzf.Blueprints
         /// Return all elements within the given line.
         /// </summary>
         /// <param name="Line">A line selecting which elements to return.</param>
-        public IEnumerable<T> Get(ILine<T> Line)
+        public IEnumerable<T> Get(ILine1D<T> Line)
         {
 
             #region Initial Checks
@@ -387,7 +387,7 @@ namespace de.ahzf.Blueprints
         /// Remove all elements located within the given line.
         /// </summary>
         /// <param name="Line">A line selecting which elements to remove.</param>
-        public void Remove(ILine<T> Line)
+        public void Remove(ILine1D<T> Line)
         {
 
             #region Initial Checks

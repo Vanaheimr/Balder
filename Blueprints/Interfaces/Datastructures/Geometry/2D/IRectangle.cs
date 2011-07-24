@@ -18,6 +18,7 @@
 #region Usings
 
 using System;
+using System.Collections.Generic;
 
 #endregion
 
@@ -64,6 +65,28 @@ namespace de.ahzf.Blueprints
         /// The height of the rectangle.
         /// </summary>
         T Height { get; }
+
+        /// <summary>
+        /// The length of the diagonale (diameter) of the rectangle.
+        /// </summary>
+        T Diameter { get; }
+
+
+        /// <summary>
+        /// The center pixel of the rectangle.
+        /// </summary>
+        IPixel<T> Center { get; }
+
+        /// <summary>
+        /// Return an enumeration of lines representing the
+        /// surrounding borders of the rectangle.
+        /// </summary>
+        IEnumerable<ILine2D<T>> Borders { get; }
+
+        /// <summary>
+        /// Return an enumeration of lines representing the diagonales of the rectangle.
+        /// </summary>
+        IEnumerable<ILine2D<T>> Diagonales { get; }
 
         #endregion
 

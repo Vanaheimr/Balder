@@ -28,7 +28,7 @@ namespace de.ahzf.Blueprints
     /// The interface of a 1-dimensional line of type T.
     /// </summary>
     /// <typeparam name="T">The internal type of the line.</typeparam>
-    public interface ILine<T> : IEquatable<ILine<T>>
+    public interface ILine1D<T> : IEquatable<ILine1D<T>>
         where T : IEquatable<T>, IComparable<T>, IComparable
     {
 
@@ -43,6 +43,12 @@ namespace de.ahzf.Blueprints
         /// The right-coordinate of the line.
         /// </summary>
         T Right { get; }
+
+
+        /// <summary>
+        /// The length of the line.
+        /// </summary>
+        T Length { get; }
 
         #endregion
 
@@ -65,7 +71,7 @@ namespace de.ahzf.Blueprints
         /// </summary>
         /// <param name="Line">A line of type T.</param>
         /// <returns>True if the line is located on this line; False otherwise.</returns>
-        Boolean Contains(ILine<T> Line);
+        Boolean Contains(ILine1D<T> Line);
 
         #endregion
 
@@ -77,7 +83,7 @@ namespace de.ahzf.Blueprints
         /// </summary>
         /// <param name="Line">A line of type T.</param>
         /// <returns>True if the line shares some area with this line; False otherwise.</returns>
-        Boolean Overlaps(ILine<T> Line);
+        Boolean Overlaps(ILine1D<T> Line);
 
         #endregion
 

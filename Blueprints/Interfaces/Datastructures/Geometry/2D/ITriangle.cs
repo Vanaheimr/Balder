@@ -18,6 +18,7 @@
 #region Usings
 
 using System;
+using System.Collections.Generic;
 
 #endregion
 
@@ -48,6 +49,26 @@ namespace de.ahzf.Blueprints
         /// The third pixel of the triangle.
         /// </summary>
         IPixel<T> P3 { get; }
+
+
+        /// <summary>
+        /// Return the cirumcenter of the triangle.
+        /// </summary>
+        IPixel<T> CircumCenter { get; }
+
+        //orthocenter
+        //centroid
+
+        /// <summary>
+        /// Return the circumcircle of the triangle.
+        /// </summary>
+        ICircle<T> CircumCircle { get; }
+
+        /// <summary>
+        /// Return an enumeration of lines representing the
+        /// surrounding borders of the triangle.
+        /// </summary>
+        IEnumerable<ILine2D<T>> Borders { get; }
 
         #endregion
 

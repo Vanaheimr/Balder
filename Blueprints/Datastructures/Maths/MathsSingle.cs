@@ -77,32 +77,62 @@ namespace de.ahzf.Blueprints.Maths
         #endregion
 
 
-        #region Min(a, b)
+        #region Min(params Values)
 
         /// <summary>
-        /// A method to get the minimum of two Singles.
+        /// A method to get the minimum of an array of Singles.
         /// </summary>
-        /// <param name="a">A Single.</param>
-        /// <param name="b">A Single.</param>
-        /// <returns>The minimum of a and b: Min(a, b)</returns>
-        public Single Min(Single a, Single b)
+        /// <param name="Values">An array of Singles.</param>
+        /// <returns>The minimum of all values: Min(a, b, ...)</returns>
+        public Single Min(params Single[] Values)
         {
-            return Math.Min(a, b);
+
+            if (Values == null)
+                throw new ArgumentException("The given values must not be null!");
+
+            if (Values.Length == 0)
+                return 0;
+
+            if (Values.Length == 1)
+                return Values[0];
+
+            var result = Values[0];
+
+            for (var i = Values.Length - 1; i >= 1; i--)
+                result = Math.Min(result, Values[i]);
+
+            return result;
+
         }
 
         #endregion
 
-        #region Max(a, b)
+        #region Max(params Values)
 
         /// <summary>
-        /// A method to get the maximum of two Singles.
+        /// A method to get the maximum of an array of Singles.
         /// </summary>
-        /// <param name="a">A Single.</param>
-        /// <param name="b">A Single.</param>
-        /// <returns>The maximum of a and b: Max(a, b)</returns>
-        public Single Max(Single a, Single b)
+        /// <param name="Values">An array of Singles.</param>
+        /// <returns>The maximum of all values: Min(a, b, ...)</returns>
+        public Single Max(params Single[] Values)
         {
-            return Math.Max(a, b);
+
+            if (Values == null)
+                throw new ArgumentException("The given values must not be null!");
+
+            if (Values.Length == 0)
+                return 0;
+
+            if (Values.Length == 1)
+                return Values[0];
+
+            var result = Values[0];
+
+            for (var i = Values.Length - 1; i >= 1; i--)
+                result = Math.Max(result, Values[i]);
+
+            return result;
+
         }
 
         #endregion
@@ -117,7 +147,10 @@ namespace de.ahzf.Blueprints.Maths
         /// <returns>The addition of all summands: a + b + ...</returns>
         public Single Add(params Single[] Summands)
         {
-            
+
+            if (Summands == null)
+                throw new ArgumentException("The given summands must not be null!");
+
             if (Summands.Length == 0)
                 return 0;
 
@@ -160,6 +193,9 @@ namespace de.ahzf.Blueprints.Maths
         public Single Mul(params Single[] Multiplicators)
         {
 
+            if (Multiplicators == null)
+                throw new ArgumentException("The given multiplicators must not be null!");
+
             if (Multiplicators.Length == 0)
                 return 0;
 
@@ -195,7 +231,7 @@ namespace de.ahzf.Blueprints.Maths
         #region Div2(a)
 
         /// <summary>
-        /// A method to a Single by 2.
+        /// A method to divide a Single by 2.
         /// </summary>
         /// <param name="a">A Single.</param>
         /// <returns>The division of a by 2: a / 2</returns>
@@ -222,13 +258,27 @@ namespace de.ahzf.Blueprints.Maths
         #endregion
 
 
+        #region Inv(a)
+
+        /// <summary>
+        /// A method to calculate the inverse value of the given Single.
+        /// </summary>
+        /// <param name="a">A Single.</param>
+        /// <returns>The inverse value of a: -a</returns>
+        public Single Inv(Single a)
+        {
+            return -a;
+        }
+
+        #endregion
+
         #region Abs(a)
 
         /// <summary>
-        /// A method to calculate the absolute value of the Single.
+        /// A method to calculate the absolute value of the given Single.
         /// </summary>
-        /// <param name="a">An Single.</param>
-        /// <returns>The absolute value of a: Abs(a)</returns>
+        /// <param name="a">A Single.</param>
+        /// <returns>The absolute value of a: |a|</returns>
         public Single Abs(Single a)
         {
             return Math.Abs(a);

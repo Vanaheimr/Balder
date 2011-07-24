@@ -42,27 +42,25 @@ namespace de.ahzf.Blueprints.Maths
         #endregion
 
 
-        #region Min(a, b)
+        #region Min(params Values)
 
         /// <summary>
-        /// A method to get the minimum of two internal datatypes.
+        /// A method to get the minimum of an array of internal datatypes.
         /// </summary>
-        /// <param name="a">An object of type T</param>
-        /// <param name="b">An object of type T</param>
-        /// <returns>The minimum of a and b: Min(a, b)</returns>
-        T Min(T a, T b);
+        /// <param name="Values">An array of type T</param>
+        /// <returns>The minimum of all values: Min(a, b, ...)</returns>
+        T Min(params T[] Values);
 
         #endregion
 
-        #region Max(a, b)
+        #region Max(params Values)
 
         /// <summary>
-        /// A method to get the maximum of two internal datatypes.
+        /// A method to get the maximum of an array of internal datatypes.
         /// </summary>
-        /// <param name="a">An object of type T</param>
-        /// <param name="b">An object of type T</param>
-        /// <returns>The maximum of a and b: Max(a, b)</returns>
-        T Max(T a, T b);
+        /// <param name="Values">An array of type T</param>
+        /// <returns>The maximum of all values: Max(a, b, ...)</returns>
+        T Max(params T[] Values);
 
         #endregion
 
@@ -116,7 +114,7 @@ namespace de.ahzf.Blueprints.Maths
         #region Div2(a)
 
         /// <summary>
-        /// A method to divide two internal datatypes.
+        /// A method to divide the internal datatype by 2.
         /// </summary>
         /// <param name="a">An object of type T</param>
         /// <returns>The division of a by 2: a / 2</returns>
@@ -137,13 +135,24 @@ namespace de.ahzf.Blueprints.Maths
         #endregion
 
 
+        #region Inv(a)
+
+        /// <summary>
+        /// A method to calculate the inverse value of the internal datatype.
+        /// </summary>
+        /// <param name="a">An object of type T</param>
+        /// <returns>The inverse value of a: -a</returns>
+        T Inv(T a);
+
+        #endregion
+
         #region Abs(a)
 
         /// <summary>
         /// A method to calculate the absolute value of the internal datatype.
         /// </summary>
         /// <param name="a">An object of type T</param>
-        /// <returns>The absolute value of a: Abs(a)</returns>
+        /// <returns>The absolute value of a: |a|</returns>
         T Abs(T a);
 
         #endregion
