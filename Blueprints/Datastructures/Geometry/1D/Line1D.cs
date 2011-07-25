@@ -330,7 +330,7 @@ namespace de.ahzf.Blueprints
         /// </summary>
         public override String ToString()
         {
-            return String.Format("Left={0}, Right={2}",
+            return String.Format("Line1D: Left={0}, Right={2}",
                                  Left.  ToString(),
                                  Right. ToString());
         }

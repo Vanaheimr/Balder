@@ -389,7 +389,7 @@ namespace de.ahzf.Blueprints
         /// </summary>
         public override String ToString()
         {
-            return String.Format("Left={0}, Top={1}, Front={2}, Radius={3}",
+            return String.Format("Sphere: Left={0}, Top={1}, Front={2}, Radius={3}",
                                  Left.  ToString(),
                                  Top.   ToString(),
                                  Front. ToString(),

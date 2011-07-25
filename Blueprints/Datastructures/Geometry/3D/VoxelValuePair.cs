@@ -231,7 +231,7 @@ namespace de.ahzf.Blueprints
         /// </summary>
         public override String ToString()
         {
-            return String.Format("X={0}, Y={1}, Z={2}",
+            return String.Format("VoxelValuePair: X={0}, Y={1}, Z={2}",
                                  X.ToString(),
                                  Y.ToString(),
                                  Z.ToString());

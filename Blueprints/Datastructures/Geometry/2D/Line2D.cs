@@ -357,6 +357,9 @@ namespace de.ahzf.Blueprints
         #endregion
 
 
+
+        #region Intersect(Line, out Pixel)
+
         /// <summary>
         /// Checks if and where the given lines intersect.
         /// </summary>
@@ -374,18 +377,42 @@ namespace de.ahzf.Blueprints
             #endregion
 
             // Assume both lines are infinite in order to get their intersection
-            var x = Math.Div(Math.Sub(Line.YIntercept, this.YIntercept),
+
+            T x, y;
+
+            // this line is parallel to the y-axis!
+            if (this.Normale.Y.Equals(Math.Zero))
+            {
+                x = this.Pixel1.X;
+                y = Math.Add(Math.Mul(Line.Gradient, this.Pixel1.X), Line.YIntercept);
+            }
+
+            // the given line is parallel to the y-axis!
+            else if (Line.Normale.Y.Equals(Math.Zero))
+            {
+                x = Line.X1;
+                y = Math.Add(Math.Mul(this.Gradient, Line.X1), this.YIntercept);
+            }
+
+            else
+            {
+
+                x = Math.Div(Math.Sub(Line.YIntercept, this.YIntercept),
                              Math.Sub(this.Gradient,   Line.Gradient));
 
-            var y = Math.Div(Math.Sub(Math.Mul(this.YIntercept, Line.Gradient),
+                y = Math.Div(Math.Sub(Math.Mul(this.YIntercept, Line.Gradient),
                                       Math.Mul(Line.YIntercept, this.Gradient)),
                              Math.Sub(Line.Gradient, this.Gradient));
+
+            }
 
             Pixel = new Pixel<T>(x, y);
 
             return this.Contains(Pixel);
 
         }
+
+        #endregion
 
 
         #region Operator overloadings
@@ -471,10 +498,17 @@ namespace de.ahzf.Blueprints
             if ((Object) ILine == null)
                 return false;
 
-            return this.X1.  Equals(ILine.X1)  &&
-                   this.Y1.   Equals(ILine.Y1)   &&
-                   this.X2. Equals(ILine.X2) &&
-                   this.Y2.Equals(ILine.Y2);
+                   // Normal direction
+            return (this.X1.Equals(ILine.X1) &&
+                    this.Y1.Equals(ILine.Y1) &&
+                    this.X2.Equals(ILine.X2) &&
+                    this.Y2.Equals(ILine.Y2))
+                    ||
+                   // Opposite direction
+                   (this.X1.Equals(ILine.X2) &&
+                    this.Y1.Equals(ILine.Y2) &&
+                    this.X2.Equals(ILine.X1) &&
+                    this.Y2.Equals(ILine.Y1));
 
         }
 
@@ -502,7 +536,7 @@ namespace de.ahzf.Blueprints
         /// </summary>
         public override String ToString()
         {
-            return String.Format("X1={0}, Y1={1}, X2={2}, Y2={3}",
+            return String.Format("Line2D: X1={0}, Y1={1}, X2={2}, Y2={3}",
                                  X1.ToString(),
                                  Y1.ToString(),
                                  X2.ToString(),

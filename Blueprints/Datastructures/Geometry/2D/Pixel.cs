@@ -338,7 +338,7 @@ namespace de.ahzf.Blueprints
         /// </summary>
         public override String ToString()
         {
-            return String.Format("X={0}, Y={1}",
+            return String.Format("Pixel: X={0}, Y={1}",
                                  X.ToString(),
                                  Y.ToString());
         }

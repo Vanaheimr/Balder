@@ -231,9 +231,10 @@ namespace de.ahzf.Blueprints
         /// </summary>
         public override String ToString()
         {
-            return String.Format("X={0}, Y={1}",
+            return String.Format("PixelValuePair: X={0}, Y={1}, Value={2}",
                                  X.ToString(),
-                                 Y.ToString());
+                                 Y.ToString(),
+                                 Value.ToString());
         }
 
         #endregion

@@ -213,6 +213,20 @@ namespace de.ahzf.Blueprints.Maths
 
         #endregion
 
+        #region Mul2(a)
+
+        /// <summary>
+        /// A method to multiply a Double by 2.
+        /// </summary>
+        /// <param name="a">A Double.</param>
+        /// <returns>The multiplication of a by 2: 2*a</returns>
+        public Double Mul2(Double a)
+        {
+            return 2 * a;
+        }
+
+        #endregion
+
         #region Div(a, b)
 
         /// <summary>

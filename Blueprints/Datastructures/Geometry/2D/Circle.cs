@@ -245,6 +245,73 @@ namespace de.ahzf.Blueprints
         #endregion
 
 
+        #region (static) IsInCircle(Pixel, EdgePixel1, EdgePixel2, EdgePixel3)
+
+        /// <summary>
+        /// Checks if the given first pixel is within the circle
+        /// defined by the remaining three edge pixels.
+        /// </summary>
+        /// <param name="Pixel">The pixel to be checked.</param>
+        /// <param name="EdgePixel1">The first edge pixel defining a circle.</param>
+        /// <param name="EdgePixel2">The second edge pixel defining a circle.</param>
+        /// <param name="EdgePixel3">The third edge pixel defining a circle.</param>
+        public static Boolean IsInCircle(IPixel<T> Pixel, IPixel<T> EdgePixel1, IPixel<T> EdgePixel2, IPixel<T> EdgePixel3)
+        {
+
+            #region Initial Checks
+
+            if (Pixel == null)
+                throw new ArgumentNullException("The given first pixel must not be null!");
+
+            if (EdgePixel1 == null)
+                throw new ArgumentNullException("The given first edgepixel must not be null!");
+
+            if (EdgePixel2 == null)
+                throw new ArgumentNullException("The given second edgepixel must not be null!");
+
+            if (EdgePixel3 == null)
+                throw new ArgumentNullException("The given third edgepixel must not be null!");
+
+            #endregion
+
+            var Math = MathsFactory<T>.Instance;
+
+            #region Math Checks
+
+            if (EdgePixel1.Equals(EdgePixel2) ||
+                EdgePixel1.Equals(EdgePixel3) ||
+                EdgePixel2.Equals(EdgePixel3))
+                throw new ArgumentException("All distances between the pixels must be larger than zero!");
+
+            if (EdgePixel1.X.Equals(EdgePixel2.X) &&
+                EdgePixel2.X.Equals(EdgePixel3.X))
+                throw new ArgumentException("All three pixels must not be on a single line!");
+
+            if (EdgePixel1.Y.Equals(EdgePixel2.Y) &&
+                EdgePixel2.Y.Equals(EdgePixel3.Y))
+                throw new ArgumentException("All three pixels must not be on a single line!");
+
+            #endregion
+
+            var _Line12     = new Line2D<T>(EdgePixel1, EdgePixel2);
+            var _Line23     = new Line2D<T>(EdgePixel2, EdgePixel3);
+
+            var _Normale12  = _Line12.Normale;
+            var _Normale23  = _Line23.Normale;
+
+            var Center      = new Line2D<T>(_Line12.Center, _Normale12.X, _Normale12.Y).
+                                  Intersection(
+                              new Line2D<T>(_Line23.Center, _Normale23.X, _Normale23.Y));
+
+            return (Center.DistanceTo(Pixel).
+                        IsLessThanOrEquals(
+                    Center.DistanceTo(EdgePixel1)));
+
+        }
+
+        #endregion
+
+
         #region Contains(x, y)
 
         /// <summary>
@@ -471,7 +538,7 @@ namespace de.ahzf.Blueprints
         /// </summary>
         public override String ToString()
         {
-            return String.Format("Left={0}, Top={1}, Radius={2}",
+            return String.Format("Circle2D: Left={0}, Top={1}, Radius={2}",
                                  X.     ToString(),
                                  Y.     ToString(),
                                  Radius.ToString());

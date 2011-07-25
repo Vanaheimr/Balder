@@ -595,7 +595,7 @@ namespace de.ahzf.Blueprints
         /// </summary>
         public override String ToString()
         {
-            return String.Format("Left={0}, Top={1}, Right={2}, Bottom={3}",
+            return String.Format("Rectangle: Left={0}, Top={1}, Right={2}, Bottom={3}",
                                  Left.  ToString(),
                                  Top.   ToString(),
                                  Right. ToString(),

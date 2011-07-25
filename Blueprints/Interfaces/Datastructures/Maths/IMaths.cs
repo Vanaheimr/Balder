@@ -99,6 +99,17 @@ namespace de.ahzf.Blueprints.Maths
 
         #endregion
 
+        #region Mul2(a)
+
+        /// <summary>
+        /// A method to multiply the internal datatype by 2.
+        /// </summary>
+        /// <param name="a">An object of type T</param>
+        /// <returns>The multiplication of a by 2: 2*a</returns>
+        T Mul2(T a);
+
+        #endregion
+
         #region Div(a, b)
 
         /// <summary>

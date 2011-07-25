@@ -349,7 +349,7 @@ namespace de.ahzf.Blueprints
         /// </summary>
         public override String ToString()
         {
-            return String.Format("Pixel1={0}, Pixel2={1}, Pixel3={2}",
+            return String.Format("Triangle: Pixel1={0}, Pixel2={1}, Pixel3={2}",
                                  P1.ToString(),
                                  P2.ToString(),
                                  P3.ToString());

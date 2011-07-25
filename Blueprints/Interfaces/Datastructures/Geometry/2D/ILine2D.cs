@@ -54,6 +54,17 @@ namespace de.ahzf.Blueprints
         /// </summary>
         T Y2 { get; }
 
+
+        /// <summary>
+        /// The left/top pixel of the line.
+        /// </summary>
+        IPixel<T> Pixel1 { get; }
+
+        /// <summary>
+        /// The right/bottom pixel of the line.
+        /// </summary>
+        IPixel<T> Pixel2 { get; }
+
         
         /// <summary>
         /// The length of the line.

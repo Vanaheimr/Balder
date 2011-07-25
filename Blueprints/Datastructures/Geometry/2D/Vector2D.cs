@@ -385,6 +385,21 @@ namespace de.ahzf.Blueprints
 
         #endregion
 
+        #region Mul2(a)
+
+        /// <summary>
+        /// A method to multiply a vector by 2.
+        /// </summary>
+        /// <param name="v">A vector.</param>
+        /// <returns>The multiplication of v by 2: (2*x, 2*y)</returns>
+        public IVector2D<T> Mul2(IVector2D<T> v)
+        {
+            return new Vector2D<T>(Math.Mul2(v.X),
+                                   Math.Mul2(v.Y));
+        }
+
+        #endregion
+
         #region Div(v1, v2)
 
         /// <summary>
@@ -683,7 +698,7 @@ namespace de.ahzf.Blueprints
         /// </summary>
         public override String ToString()
         {
-            return String.Format("X={0}, Y={1}",
+            return String.Format("Vector2D: X={0}, Y={1}",
                                  X.ToString(),
                                  Y.ToString());
         }

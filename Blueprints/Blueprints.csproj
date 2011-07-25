@@ -52,6 +52,7 @@
     <Compile Include="Datastructures\Geometry\2D\Vector2D.cs" />
     <Compile Include="Datastructures\Geometry\2D\Line2D.cs" />
     <Compile Include="Datastructures\Geometry\2D\Triangle.cs" />
+    <Compile Include="Datastructures\Geometry\Delaunay.cs" />
     <Compile Include="Datastructures\Votes\IVote.cs" />
     <Compile Include="Datastructures\Votes\VoteEvaluator.cs" />
     <Compile Include="Datastructures\Votes\VetoVote.cs" />

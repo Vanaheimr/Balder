@@ -599,7 +599,7 @@ namespace de.ahzf.Blueprints
         /// </summary>
         public override String ToString()
         {
-            return String.Format("Left={0}, Top={1}, Front={2}, Right={3}, Bottom={4}, Behind={5}",
+            return String.Format("Cube: Left={0}, Top={1}, Front={2}, Right={3}, Bottom={4}, Behind={5}",
                                  Left.  ToString(),
                                  Top.   ToString(),
                                  Front. ToString(),

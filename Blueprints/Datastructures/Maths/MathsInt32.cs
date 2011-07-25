@@ -213,6 +213,20 @@ namespace de.ahzf.Blueprints.Maths
 
         #endregion
 
+        #region Mul2(a)
+
+        /// <summary>
+        /// A method to multiply an Int32 by 2.
+        /// </summary>
+        /// <param name="a">An Int32.</param>
+        /// <returns>The multiplication of a by 2: 2*a</returns>
+        public Int32 Mul2(Int32 a)
+        {
+            return 2 * a;
+        }
+
+        #endregion
+
         #region Div(a, b)
 
         /// <summary>
