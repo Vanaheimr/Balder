@@ -95,9 +95,13 @@ namespace de.ahzf.Blueprints
             // This is a triangle which encompasses all the sample points.
             // The supertriangle coordinates are added to the end of the
             // vertex list.
-            Points.Add(new Pixel<T>(Math.Sub(xmid, Math.Mul2(dmax)), Math.Sub(ymid, dmax)));
-            Points.Add(new Pixel<T>(xmid,                            Math.Add(ymid, Math.Mul2(dmax))));
-            Points.Add(new Pixel<T>(Math.Add(xmid, Math.Mul2(dmax)), Math.Sub(ymid, dmax)));
+            var st1 = new Pixel<T>(Math.Sub(xmid, Math.Mul2(dmax)), Math.Sub(ymid, dmax));
+            var st2 = new Pixel<T>(xmid,                            Math.Add(ymid, Math.Mul2(dmax)));
+            var st3 = new Pixel<T>(Math.Add(xmid, Math.Mul2(dmax)), Math.Sub(ymid, dmax));
+
+            Points.Add(st1);
+            Points.Add(st2);
+            Points.Add(st3);
 
             // The supertriangle is the first triangle in the triangle list.
             var Triangles = new List<ITriangle<T>>();
@@ -191,16 +195,24 @@ namespace de.ahzf.Blueprints
 
             //T _NoP = (T) (Object) _NumberOfPixels;
 
-            //for (int i = Triangle2.Count - 1; i >= 0; i--)
-            //{
+            for (int i = Triangles.Count - 1; i >= 0; i--)
+            {
 
-            //    if (Triangle2[i].P1.IsLargerThanOrEquals(_NoP) ||
-            //        Triangle2[i].P2.IsLargerThanOrEquals(_NoP) ||
-            //        Triangle2[i].P3.IsLargerThanOrEquals(_NoP))
+                if (Triangles[i].P1.Equals(st1) ||
+                    Triangles[i].P1.Equals(st2) ||
+                    Triangles[i].P2.Equals(st3) ||
+                    
+                    Triangles[i].P2.Equals(st1) ||
+                    Triangles[i].P2.Equals(st2) ||
+                    Triangles[i].P2.Equals(st3) ||
 
-            //        Triangle2.RemoveAt(i);
+                    Triangles[i].P3.Equals(st1) ||
+                    Triangles[i].P3.Equals(st2) ||
+                    Triangles[i].P3.Equals(st3))
+                    
+                    Triangles.RemoveAt(i);
 
-            //}
+            }
 
             #endregion
 
