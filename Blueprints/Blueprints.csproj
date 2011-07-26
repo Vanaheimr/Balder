@@ -69,6 +69,7 @@
     <Compile Include="Datastructures\Geometry\1D\Line1D.cs" />
     <Compile Include="Datastructures\Maths\NumericTypeExtensions.cs" />
     <Compile Include="Exceptions\Forest\BintreeExceptions.cs" />
+    <Compile Include="Extensions\Geometry\IPixelExtensions.cs" />
     <Compile Include="Extensions\Geometry\ILine2DExtensions.cs" />
     <Compile Include="Interfaces\Datastructures\Forest\IBintree.cs" />
     <Compile Include="Interfaces\Datastructures\Forest\IOctree.cs" />

@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 
-// http://paulbourke.net/papers/triangulate/morten.html
 // http://www.codeguru.com/cpp/cpp/algorithms/general/article.php/c8901
 // http://www.ics.uci.edu/~eppstein/gina/delaunay.html
  

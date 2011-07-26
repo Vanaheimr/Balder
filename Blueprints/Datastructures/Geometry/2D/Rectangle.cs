@@ -252,8 +252,8 @@ namespace de.ahzf.Blueprints
         /// <summary>
         /// Create a rectangle of type T.
         /// </summary>
-        /// <param name="Pixel1">A pixel of type T.</param>
-        /// <param name="Pixel2">A pixel of type T.</param>
+        /// <param name="Pixel1">The left/top pixel of the rectangle.</param>
+        /// <param name="Pixel2">The right/bottom pixel of the rectangle.</param>
         public Rectangle(IPixel<T> Pixel1, IPixel<T> Pixel2)
         {
 
