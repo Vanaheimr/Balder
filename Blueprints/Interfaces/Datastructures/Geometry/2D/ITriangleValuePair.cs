@@ -18,6 +18,7 @@
 #region Usings
 
 using System;
+using System.Collections.Generic;
 
 #endregion
 
@@ -25,21 +26,19 @@ namespace de.ahzf.Blueprints
 {
 
     /// <summary>
-    /// The interface of a PixelValuePair.
+    /// A triangle of type T together with a value of type TValue.
     /// </summary>
-    /// <typeparam name="T">The internal type of the pixel.</typeparam>
-    /// <typeparam name="TValue">The type of the stored values.</typeparam>
-    public interface IPixelValuePair<T, TValue> : IPixel<T>,
-                                                  IEquatable <IPixelValuePair<T, TValue>>,
-                                                  IComparable<IPixelValuePair<T, TValue>>,
-                                                  IComparable
+    /// <typeparam name="T">The internal type of the triangle.</typeparam>
+    public interface ITriangleValuePair<T, TValue> : ITriangle<T>,
+                                                     IEquatable<ITriangleValuePair<T, TValue>>,
+                                                     IComparable<ITriangleValuePair<T, TValue>>,
+                                                     IComparable
 
         where T : IEquatable<T>, IComparable<T>, IComparable
-
     {
 
         /// <summary>
-        /// The value stored together with a pixel.
+        /// The value stored together with a triangle.
         /// </summary>
         TValue Value { get; }
 

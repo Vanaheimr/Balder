@@ -49,9 +49,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Datastructures\Geometry\2D\TriangleValuePair.cs" />
     <Compile Include="Datastructures\Geometry\2D\Vector2D.cs" />
     <Compile Include="Datastructures\Geometry\2D\Line2D.cs" />
     <Compile Include="Datastructures\Geometry\2D\Triangle.cs" />
+    <Compile Include="Datastructures\Geometry\Voronoi.cs" />
     <Compile Include="Datastructures\Geometry\Delaunay.cs" />
     <Compile Include="Datastructures\Votes\IVote.cs" />
     <Compile Include="Datastructures\Votes\VoteEvaluator.cs" />
@@ -81,6 +83,7 @@
     <Compile Include="Exceptions\Forest\OctreeExceptions.cs" />
     <Compile Include="Exceptions\Forest\QuadtreeExceptions.cs" />
     <Compile Include="Extensions\IComparableExtensions.cs" />
+    <Compile Include="Interfaces\Datastructures\Geometry\2D\ITriangleValuePair.cs" />
     <Compile Include="Interfaces\Datastructures\Geometry\2D\IVector2D.cs" />
     <Compile Include="Interfaces\Datastructures\Geometry\2D\ILine2D.cs" />
     <Compile Include="Interfaces\Datastructures\Geometry\2D\ITriangle.cs" />

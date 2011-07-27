@@ -280,6 +280,58 @@ namespace de.ahzf.Blueprints
 
         #endregion
 
+        #region IComparable Members
+
+        #region CompareTo(Object)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="Object">An object to compare with.</param>
+        public virtual Int32 CompareTo(Object Object)
+        {
+
+            if (Object == null)
+                throw new ArgumentNullException("The given object must not be null!");
+
+            // Check if the given object is an ITriangle<T>.
+            var ITriangle = Object as ITriangle<T>;
+            if ((Object) ITriangle == null)
+                throw new ArgumentException("The given object is not a valid triangle!");
+
+            return CompareTo(ITriangle);
+
+        }
+
+        #endregion
+
+        #region CompareTo(ITriangle)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="ITriangle">An object to compare with.</param>
+        public Int32 CompareTo(ITriangle<T> ITriangle)
+        {
+            
+            if ((Object) ITriangle == null)
+                throw new ArgumentNullException("The given triangle must not be null!");
+
+            // Compare the x-coordinate of the circumcenter
+            var _Result = CircumCenter.X.CompareTo(ITriangle.CircumCenter.X);
+
+            // If equal: Compare the y-coordinate of the circumcenter
+            if (_Result == 0)
+                _Result = this.CircumCenter.Y.CompareTo(ITriangle.CircumCenter.Y);
+
+            return _Result;
+
+        }
+
+        #endregion
+
+        #endregion
+
         #region IEquatable Members
 
         #region Equals(Object)
@@ -319,9 +371,17 @@ namespace de.ahzf.Blueprints
             if ((Object) ITriangle == null)
                 return false;
 
-            return this.P1.Equals(ITriangle.P1) &&
-                   this.P2.Equals(ITriangle.P2) &&
-                   this.P3.Equals(ITriangle.P3);
+            return (this.P1.Equals(ITriangle.P1) &&
+                    this.P2.Equals(ITriangle.P2) &&
+                    this.P3.Equals(ITriangle.P3)) ||
+
+                   (this.P1.Equals(ITriangle.P2) &&
+                    this.P2.Equals(ITriangle.P3) &&
+                    this.P3.Equals(ITriangle.P1)) ||
+
+                   (this.P1.Equals(ITriangle.P3) &&
+                    this.P2.Equals(ITriangle.P1) &&
+                    this.P3.Equals(ITriangle.P2));
 
         }
 

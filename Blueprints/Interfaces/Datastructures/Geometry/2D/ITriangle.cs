@@ -29,7 +29,7 @@ namespace de.ahzf.Blueprints
     /// The interface of a triangle of type T.
     /// </summary>
     /// <typeparam name="T">The internal type of the triangle.</typeparam>
-    public interface ITriangle<T> : IEquatable<ITriangle<T>>
+    public interface ITriangle<T> : IEquatable<ITriangle<T>>, IComparable<ITriangle<T>>, IComparable
         where T : IEquatable<T>, IComparable<T>, IComparable
     {
 
