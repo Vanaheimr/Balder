@@ -304,8 +304,8 @@ namespace de.ahzf.Blueprints
             this.X2     = Pixel2.X;
             this.Y2     = Pixel2.Y;
 
-            this.Pixel1 = new Pixel<T>(X1, Y1);
-            this.Pixel2 = new Pixel<T>(X2, Y2);
+            this.Pixel1 = Pixel1;
+            this.Pixel2 = Pixel2;
 
             this.Length = Pixel1.DistanceTo(Pixel2);
 

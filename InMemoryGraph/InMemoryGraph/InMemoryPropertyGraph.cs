@@ -584,7 +584,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         {
 
-            if (VertexFilter != null)
+            if (VertexFilter == null)
                 foreach (var _Vertex in _Vertices.Values)
                     yield return _Vertex;
 
