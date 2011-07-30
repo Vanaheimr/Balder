@@ -42,7 +42,7 @@ namespace de.ahzf.Blueprints
         /// <summary>
         /// The Value.
         /// </summary>
-        public TValue Value { get; private set; }
+        public TValue Value { get; set; }
 
         #endregion
 

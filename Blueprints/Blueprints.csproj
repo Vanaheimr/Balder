@@ -49,6 +49,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Datastructures\Geometry\2D\Polygon.cs" />
     <Compile Include="Datastructures\Geometry\2D\TriangleValuePair.cs" />
     <Compile Include="Datastructures\Geometry\2D\Vector2D.cs" />
     <Compile Include="Datastructures\Geometry\2D\Line2D.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="Exceptions\Forest\OctreeExceptions.cs" />
     <Compile Include="Exceptions\Forest\QuadtreeExceptions.cs" />
     <Compile Include="Extensions\IComparableExtensions.cs" />
+    <Compile Include="Interfaces\Datastructures\Geometry\2D\IPolygon.cs" />
     <Compile Include="Interfaces\Datastructures\Geometry\2D\ITriangleValuePair.cs" />
     <Compile Include="Interfaces\Datastructures\Geometry\2D\IVector2D.cs" />
     <Compile Include="Interfaces\Datastructures\Geometry\2D\ILine2D.cs" />

@@ -31,6 +31,57 @@ using de.ahzf.Blueprints.Maths;
 namespace de.ahzf.Blueprints
 {
 
+
+    public struct SensorInfo<T>
+        where T : IEquatable<T>, IComparable<T>, IComparable
+    {
+
+        public readonly String             Name;
+
+        public          Double             Voltage;
+        public          Double             Current;
+        public          Double             phi;
+
+        public          List<ILine2D<T>>   DelaunayEdges;
+        public          List<ITriangle<T>> DelaunayTriangles;
+        public          List<ILine2D<T>>   VoronoiEdges;
+        public          List<IPolygon<T>>  VoronoiPolygons;
+
+        public SensorInfo(String SensorName)
+        {
+            Voltage           = 0;
+            Current           = 0;
+            phi               = 0;
+            DelaunayEdges     = new List<ILine2D<T>>();
+            DelaunayTriangles = new List<ITriangle<T>>();
+            VoronoiEdges      = new List<ILine2D<T>>();
+            VoronoiPolygons   = new List<IPolygon<T>>();
+            Name              = SensorName;
+        }
+
+
+
+        public SensorInfo<T> Clone()
+        {
+
+            var si = new SensorInfo<T>(this.Name);
+
+            si.Voltage           = this.Voltage;
+            si.Current           = this.Current;
+            si.phi               = this.phi;
+            si.DelaunayEdges     = this.DelaunayEdges;
+            si.DelaunayTriangles = this.DelaunayTriangles;
+            si.VoronoiEdges      = this.VoronoiEdges;
+            si.VoronoiPolygons   = this.VoronoiPolygons;
+
+            return si;
+
+        }
+
+    }
+
+
+
     /// <summary>
     /// A class for calculating a delaunay triangulation.
     /// </summary>
@@ -45,7 +96,7 @@ namespace de.ahzf.Blueprints
         /// <typeparam name="T">The type of the pixels.</typeparam>
         /// <param name="Pixels">An enumeration of pixels of type T.</param>
         /// <returns>An enumeration of triangles of type T.</returns>
-        public static IEnumerable<ITriangle<T>> DelaunayTriangulation<T>(this IEnumerable<IPixel<T>> Pixels)
+        public static IEnumerable<ITriangle<T>> DelaunayTriangulation<T>(this IEnumerable<IPixelValuePair<T, SensorInfo<T>>> Pixels)
             where T : IEquatable<T>, IComparable<T>, IComparable
         {
 
@@ -94,9 +145,9 @@ namespace de.ahzf.Blueprints
             // This is a triangle which encompasses all the sample points.
             // The supertriangle coordinates are added to the end of the
             // vertex list.
-            var st1 = new Pixel<T>(Math.Sub(xmid, Math.Mul2(dmax)), Math.Sub(ymid, dmax));
-            var st2 = new Pixel<T>(xmid,                            Math.Add(ymid, Math.Mul2(dmax)));
-            var st3 = new Pixel<T>(Math.Add(xmid, Math.Mul2(dmax)), Math.Sub(ymid, dmax));
+            var st1 = new PixelValuePair<T, SensorInfo<T>>(Math.Sub(xmid, Math.Mul2(dmax)), Math.Sub(ymid, dmax), new SensorInfo<T>("supertriangle1"));
+            var st2 = new PixelValuePair<T, SensorInfo<T>>(xmid,          Math.Add(ymid,    Math.Mul2(dmax)),     new SensorInfo<T>("supertriangle2"));
+            var st3 = new PixelValuePair<T, SensorInfo<T>>(Math.Add(xmid, Math.Mul2(dmax)), Math.Sub(ymid, dmax), new SensorInfo<T>("supertriangle3"));
 
             Points.Add(st1);
             Points.Add(st2);
@@ -106,7 +157,7 @@ namespace de.ahzf.Blueprints
             var Triangles = new List<ITriangle<T>>();
 
             // SuperTriangle placed at index 0
-            Triangles.Add(new Triangle<T>(Points[_NumberOfPixels], Points[_NumberOfPixels + 1], Points[_NumberOfPixels + 2]));
+            Triangles.Add(new Triangle<T>(st1, st2, st3));
 
             #endregion
 
@@ -165,17 +216,8 @@ namespace de.ahzf.Blueprints
 
                 #region Form new triangles for the current point
 
-                // Skipping over any tagged edges.
-                // All edges are arranged in clockwise order.
-                for (int j = 0; j < Edges.Count; j++)
-                {
-
-                    if (Triangles.Count >= _TriMax)
-                        throw new ApplicationException("Exceeded maximum edges");
-
-                    Triangles.Add(new Triangle<T>(Edges[j].Pixel1, Edges[j].Pixel2, Points[i]));
-
-                }
+                foreach (var _Edge in Edges)
+                    Triangles.Add(new Triangle<T>(_Edge.Pixel1, _Edge.Pixel2, Points[i]));
 
                 #endregion
 
@@ -184,15 +226,6 @@ namespace de.ahzf.Blueprints
             #endregion
 
             #region Remove triangles with supertriangle vertices
-
-            // These are triangles which have a vertex number greater than nv
-            //for (int i = Triangles.Count - 1; i >= 0; i--)
-            //{
-            //    if (Triangles[i].p1 >= _NumberOfPixels || Triangles[i].p2 >= _NumberOfPixels || Triangles[i].p3 >= _NumberOfPixels)
-            //        Triangles.RemoveAt(i);
-            //}
-
-            //T _NoP = (T) (Object) _NumberOfPixels;
 
             for (int i = Triangles.Count - 1; i >= 0; i--)
             {
@@ -214,6 +247,17 @@ namespace de.ahzf.Blueprints
             }
 
             #endregion
+
+
+            foreach (var _p3 in Points)
+                _p3.Value.DelaunayTriangles.Clear();
+
+            foreach (var _Tri3 in Triangles)
+            {
+                (_Tri3.P1 as IPixelValuePair<T, SensorInfo<T>>).Value.DelaunayTriangles.Add(_Tri3);
+                (_Tri3.P2 as IPixelValuePair<T, SensorInfo<T>>).Value.DelaunayTriangles.Add(_Tri3);
+                (_Tri3.P3 as IPixelValuePair<T, SensorInfo<T>>).Value.DelaunayTriangles.Add(_Tri3);
+            }
 
             return Triangles;
 

@@ -46,7 +46,8 @@ namespace de.ahzf.Blueprints
             public ILine2D<T> FreeEdge2;
             public ILine2D<T> FreeEdge3;
 
-            public AdjacencyInfo(ITriangle<T> Neighbor1, ITriangle<T> Neighbor2, ITriangle<T> Neighbor3, ILine2D<T> FreeEdge1, ILine2D<T> FreeEdge2, ILine2D<T> FreeEdge3)
+            public AdjacencyInfo(ITriangle<T> Neighbor1, ITriangle<T> Neighbor2, ITriangle<T> Neighbor3,
+                                 ILine2D<T> FreeEdge1, ILine2D<T> FreeEdge2, ILine2D<T> FreeEdge3)
             {
                 this.Neighbor1 = Neighbor1;
                 this.Neighbor2 = Neighbor2;

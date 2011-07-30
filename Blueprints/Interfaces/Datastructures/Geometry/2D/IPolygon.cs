@@ -18,6 +18,7 @@
 #region Usings
 
 using System;
+using System.Collections.Generic;
 
 #endregion
 
@@ -25,23 +26,28 @@ namespace de.ahzf.Blueprints
 {
 
     /// <summary>
-    /// The interface of a PixelValuePair.
+    /// The interface of a polygon of type T.
     /// </summary>
-    /// <typeparam name="T">The internal type of the pixel.</typeparam>
-    /// <typeparam name="TValue">The type of the stored values.</typeparam>
-    public interface IPixelValuePair<T, TValue> : IPixel<T>,
-                                                  IEquatable <IPixelValuePair<T, TValue>>,
-                                                  IComparable<IPixelValuePair<T, TValue>>,
-                                                  IComparable
-
+    /// <typeparam name="T">The internal type of the polygon.</typeparam>
+    public interface IPolygon<T> : IEquatable<IPolygon<T>>, IComparable<IPolygon<T>>, IComparable
         where T : IEquatable<T>, IComparable<T>, IComparable
-
     {
 
+        #region Properties
+
         /// <summary>
-        /// The value stored together with a pixel.
+        /// The pixels of the polygon.
         /// </summary>
-        TValue Value { get; set; }
+        IEnumerable<IPixel<T>> Pixels { get; }
+
+
+        /// <summary>
+        /// Return an enumeration of lines representing the
+        /// surrounding borders of the polygon.
+        /// </summary>
+        IEnumerable<ILine2D<T>> Borders { get; }
+
+        #endregion
 
     }
 
