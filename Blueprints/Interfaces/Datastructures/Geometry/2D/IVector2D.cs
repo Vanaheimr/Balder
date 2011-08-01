@@ -59,6 +59,17 @@ namespace de.ahzf.Blueprints
         #endregion
 
 
+        #region IsParallelTo(Vector)
+
+        /// <summary>
+        /// Determines if the given vector is parallel or
+        /// antiparallel to this vector.
+        /// </summary>
+        /// <param name="Vector">A vector.</param>
+        Boolean IsParallelTo(IVector2D<T> Vector);
+
+        #endregion
+
         #region DistanceTo(x, y)
 
         /// <summary>

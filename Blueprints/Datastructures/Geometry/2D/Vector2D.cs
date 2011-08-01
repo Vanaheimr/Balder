@@ -543,6 +543,31 @@ namespace de.ahzf.Blueprints
         #endregion
 
 
+        #region IsParallelTo(Vector)
+
+        /// <summary>
+        /// Determines if the given vector is parallel or
+        /// antiparallel to this vector.
+        /// </summary>
+        /// <param name="Vector">A vector.</param>
+        public Boolean IsParallelTo(IVector2D<T> Vector)
+        {
+
+            var ThisNormVector = this.NormVector;
+            var ThatNormVector = Vector.NormVector;
+
+            if ((ThisNormVector.X.Equals(ThatNormVector.X) &&
+                 ThisNormVector.Y.Equals(ThatNormVector.Y)) ||
+                (ThisNormVector.X.Equals(Math.Inv(ThatNormVector.X)) &&
+                 ThisNormVector.Y.Equals(Math.Inv(ThatNormVector.Y))))
+                return true;
+
+            return false;
+
+        }
+
+        #endregion
+
         #region DistanceTo(x, y)
 
         /// <summary>
