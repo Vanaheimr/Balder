@@ -156,15 +156,6 @@ namespace SocialGraphDemo
 
             //_Vertex.GetProperty(
 
-            var l1 = new Line2D<Double>(-5, -3, 1, 3);
-            var l2 = new Line2D<Double>(-5, 1, 1, 1);
-            IPixel<Double> p;
-            var i = l1.Intersect(l2, out p);
-
-            var c1 = new Circle<Double>(new Pixel<Double>(-5, 1),
-                                        new Pixel<Double>( 0, 6),
-                                        new Pixel<Double>( 5, 1));
-
 
             var _g      = TinkerGraphFactory.CreateTinkerGraph();
             var _graph  = DemoGraphFactory.CreateDemoGraph();
