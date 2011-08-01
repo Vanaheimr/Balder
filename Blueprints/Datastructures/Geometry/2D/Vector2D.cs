@@ -243,6 +243,36 @@ namespace de.ahzf.Blueprints
 
         #endregion
 
+        #region NegativeInfinity
+
+        /// <summary>
+        /// Return the negative infinity of this datatype.
+        /// </summary>
+        public IVector2D<T> NegativeInfinity
+        {
+            get
+            {
+                return new Vector2D<T>(Math.NegativeInfinity, Math.NegativeInfinity);
+            }
+        }
+
+        #endregion
+
+        #region PositiveInfinity
+
+        /// <summary>
+        /// Return the positive infinity of this datatype.
+        /// </summary>
+        public IVector2D<T> PositiveInfinity
+        {
+            get
+            {
+                return new Vector2D<T>(Math.PositiveInfinity, Math.PositiveInfinity);
+            }
+        }
+
+        #endregion
+
 
         #region Min(params Values)
 

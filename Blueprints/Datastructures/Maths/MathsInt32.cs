@@ -76,6 +76,36 @@ namespace de.ahzf.Blueprints.Maths
 
         #endregion
 
+        #region NegativeInfinity
+
+        /// <summary>
+        /// Return the negative infinity of this datatype.
+        /// </summary>
+        public Int32 NegativeInfinity
+        {
+            get
+            {
+                return Int32.MinValue;
+            }
+        }
+
+        #endregion
+
+        #region PositiveInfinity
+
+        /// <summary>
+        /// Return the positive infinity of this datatype.
+        /// </summary>
+        public Int32 PositiveInfinity
+        {
+            get
+            {
+                return Int32.MaxValue;
+            }
+        }
+
+        #endregion
+
 
         #region Min(params Values)
 
