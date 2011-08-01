@@ -33,36 +33,53 @@ namespace de.ahzf.Blueprints
     public static class ILine2DExtensions
     {
 
-        #region Intersect<T>(this Line1, Line2)
+        #region IntersectsWith<T>(this Line1, Line2, InfiniteLines = false)
 
         /// <summary>
         /// Checks if the given lines intersect.
         /// </summary>
         /// <param name="Line1">A line.</param>
         /// <param name="Line2">A line.</param>
+        /// <param name="InfiniteLines">Wether the lines should be treated as infinite or not.</param>
         /// <returns>True if the lines intersect; False otherwise.</returns>
-        public static Boolean Intersect<T>(this ILine2D<T> Line1, ILine2D<T> Line2)
+        public static Boolean IntersectsWith<T>(this ILine2D<T> Line1, ILine2D<T> Line2, Boolean InfiniteLines = false)
             where T : IEquatable<T>, IComparable<T>, IComparable
         {
             IPixel<T> Intersection;
-            return Line1.Intersect(Line2, out Intersection);
+            return Line1.IntersectsWith(Line2, out Intersection, InfiniteLines);
         }
 
         #endregion
 
-        #region Intersection<T>(this Line1, Line2)
+        #region Intersection<T>(this Line1, Line2, InfiniteLines = false)
 
         /// <summary>
         /// Returns the intersection of both lines.
         /// </summary>
         /// <param name="Line1">A line.</param>
         /// <param name="Line2">A line.</param>
-        public static IPixel<T> Intersection<T>(this ILine2D<T> Line1, ILine2D<T> Line2)
+        /// <param name="InfiniteLines">Wether the lines should be treated as infinite or not.</param>
+        public static IPixel<T> Intersection<T>(this ILine2D<T> Line1, ILine2D<T> Line2, Boolean InfiniteLines = false)
             where T : IEquatable<T>, IComparable<T>, IComparable
         {
             IPixel<T> Intersection;
-            Line1.Intersect(Line2, out Intersection);
+            Line1.IntersectsWith(Line2, out Intersection, InfiniteLines);
             return Intersection;
+        }
+
+        #endregion
+
+        #region IsJustAPixel<T>(this Line)
+
+        /// <summary>
+        /// Checks if the given line is "just a pixel".
+        /// </summary>
+        /// <param name="Line">A line.</param>
+        public static Boolean IsJustAPixel<T>(this ILine2D<T> Line)
+            where T : IEquatable<T>, IComparable<T>, IComparable
+        {
+            return (Line.X1.Equals(Line.X2) &&
+                    Line.Y1.Equals(Line.Y2));
         }
 
         #endregion

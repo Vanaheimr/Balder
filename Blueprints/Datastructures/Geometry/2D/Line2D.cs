@@ -356,59 +356,120 @@ namespace de.ahzf.Blueprints
 
         #endregion
 
-
-
-        #region Intersect(Line, out Pixel)
+        #region IntersectsWith(Line, out Pixel, InfiniteLines = false)
 
         /// <summary>
         /// Checks if and where the given lines intersect.
         /// </summary>
         /// <param name="Line">A line.</param>
-        /// <param name="Pixel">The intersection of both lines.</param>        
+        /// <param name="Pixel">The intersection of both lines.</param>
+        /// <param name="InfiniteLines">Wether the lines should be treated as infinite or not.</param>
         /// <returns>True if the lines intersect; False otherwise.</returns>
-        public Boolean Intersect(ILine2D<T> Line, out IPixel<T> Pixel)
+        public Boolean IntersectsWith(ILine2D<T> Line, out IPixel<T> Pixel, Boolean InfiniteLines = false)
         {
 
             #region Initial Checks
 
             if (Line == null)
-                throw new ArgumentNullException("The given line must not be null!");
+            {
+                Pixel = null;
+                return false;
+            }
 
             #endregion
 
-            // Assume both lines are infinite in order to get their intersection
+            // Assume both lines are infinite in order to get their intersection...
 
-            T x, y;
+            #region This line is just a pixel
 
-            // this line is parallel to the y-axis!
-            if (this.Normale.Y.Equals(Math.Zero))
+            if (this.IsJustAPixel())
             {
-                x = this.Pixel1.X;
-                y = Math.Add(Math.Mul(Line.Gradient, this.Pixel1.X), Line.YIntercept);
+                
+                var p = new Pixel<T>(this.X1, this.Y1);
+                
+                if (Line.Contains(p))
+                {
+                    Pixel = p;
+                    return true;
+                }
+
+                Pixel = null;
+                return false;
+
             }
 
-            // the given line is parallel to the y-axis!
+            #endregion
+
+            #region The given line is just a pixel
+
+            else if (Line.IsJustAPixel())
+            {
+
+                var p = new Pixel<T>(Line.X1, Line.Y1);
+
+                if (this.Contains(p))
+                {
+                    Pixel = p;
+                    return true;
+                }
+
+                Pixel = null;
+                return false;
+
+            }
+
+            #endregion
+
+            #region Both lines are parallel or antiparallel
+
+            else if (this.Normale.IsParallelTo(Line.Normale))
+            {
+                Pixel = null;
+                return false;
+            }
+
+            #endregion
+
+            #region This line is parallel to the y-axis
+
+            else if (this.Normale.Y.Equals(Math.Zero))
+            {
+                Pixel = new Pixel<T>(this.Pixel1.X,
+                                     Math.Add(Math.Mul(Line.Gradient, this.Pixel1.X), Line.YIntercept));
+            }
+
+            #endregion
+
+            #region The given line is parallel to the y-axis
+
             else if (Line.Normale.Y.Equals(Math.Zero))
             {
-                x = Line.X1;
-                y = Math.Add(Math.Mul(this.Gradient, Line.X1), this.YIntercept);
+                Pixel = new Pixel<T>(Line.X1,
+                                     Math.Add(Math.Mul(this.Gradient, Line.X1), this.YIntercept));
             }
+
+            #endregion
+
+            #region There is a real intersection
 
             else
             {
 
-                x = Math.Div(Math.Sub(Line.YIntercept, this.YIntercept),
-                             Math.Sub(this.Gradient,   Line.Gradient));
+                Pixel = new Pixel<T>(Math.Div(Math.Sub(Line.YIntercept, this.YIntercept),
+                                     Math.Sub(this.Gradient,   Line.Gradient)),
 
-                y = Math.Div(Math.Sub(Math.Mul(this.YIntercept, Line.Gradient),
-                                      Math.Mul(Line.YIntercept, this.Gradient)),
-                             Math.Sub(Line.Gradient, this.Gradient));
+                                     Math.Div(Math.Sub(Math.Mul(this.YIntercept, Line.Gradient),
+                                                       Math.Mul(Line.YIntercept, this.Gradient)),
+                                              Math.Sub(Line.Gradient, this.Gradient)));
 
             }
 
-            Pixel = new Pixel<T>(x, y);
+            #endregion
 
-            return this.Contains(Pixel);
+            if (InfiniteLines)
+                return true;            
+            else
+                return this.Contains(Pixel);
 
         }
 
