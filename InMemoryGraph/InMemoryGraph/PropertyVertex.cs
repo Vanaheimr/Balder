@@ -22,6 +22,7 @@ using System.Linq;
 using System.Dynamic;
 using System.Linq.Expressions;
 using System.Collections.Generic;
+using System.Threading;
 
 #endregion
 
@@ -88,6 +89,16 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// </summary>
         protected readonly TEdgeCollection _InEdges;
 
+        /// <summary>
+        /// Cached number of OutEdges.
+        /// </summary>
+        protected UInt64 _NumberOfOutEdges;
+
+        /// <summary>
+        /// Cached number of InEdges.
+        /// </summary>
+        protected UInt64 _NumberOfInEdges;
+
         #endregion
 
         #region Properties
@@ -119,6 +130,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                                              Edge)
         {
             _OutEdges.Add(Edge);
+            _NumberOfOutEdges++;
         }
 
         #endregion
@@ -185,7 +197,12 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// </summary>
         public UInt64 OutDegree(params TEdgeLabel[] EdgeLabels)
         {
+            
+            if (EdgeLabels.Length == 0)
+                return _NumberOfOutEdges;
+            
             return (UInt64) OutEdges(EdgeLabels).Count();
+
         }
 
         #endregion
@@ -221,11 +238,19 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
             {
 
                 if (Edges.Any())
+                {
                     foreach (var _Edge in Edges)
+                    {
                         _OutEdges.Remove(_Edge);
+                        _NumberOfOutEdges--;
+                    }
+                }
 
                 else
+                {
                     _OutEdges.Clear();
+                    _NumberOfOutEdges = 0;
+                }
 
             }
         }
@@ -263,7 +288,10 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                         _tmp.Add(_IEdge);
 
                 foreach (var _IEdge in _tmp)
+                {
                     _OutEdges.Remove(_IEdge);
+                    _NumberOfOutEdges--;
+                }
 
             }
 
@@ -287,6 +315,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                                             Edge)
         {
             _InEdges.Add(Edge);
+            _NumberOfInEdges++;
         }
 
         #endregion
@@ -350,7 +379,12 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// </summary>
         public UInt64 InDegree(params TEdgeLabel[] EdgeLabels)
         {
+
+            if (EdgeLabels.Length == 0)
+                return _NumberOfInEdges;
+
             return (UInt64) InEdges(EdgeLabels).Count();
+
         }
 
         #endregion
@@ -386,11 +420,19 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
             {
 
                 if (Edges.Any())
+                {
                     foreach (var _Edge in Edges)
+                    {
                         _InEdges.Remove(_Edge);
+                        _NumberOfInEdges--;
+                    }
+                }
 
                 else
+                {
                     _InEdges.Clear();
+                    _NumberOfInEdges = 0;
+                }
 
             }
         }
@@ -428,7 +470,10 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                         _tmp.Add(_IEdge);
 
                 foreach (var _IEdge in _tmp)
+                {
                     _InEdges.Remove(_IEdge);
+                    _NumberOfInEdges--;
+                }
 
             }
 
