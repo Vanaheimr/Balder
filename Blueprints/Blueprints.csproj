@@ -56,6 +56,7 @@
     <Compile Include="Datastructures\Geometry\2D\Triangle.cs" />
     <Compile Include="Datastructures\Geometry\Voronoi.cs" />
     <Compile Include="Datastructures\Geometry\Delaunay.cs" />
+    <Compile Include="Datastructures\Maths\MathsUInt32.cs" />
     <Compile Include="Datastructures\Votes\IVote.cs" />
     <Compile Include="Datastructures\Votes\VoteEvaluator.cs" />
     <Compile Include="Datastructures\Votes\VetoVote.cs" />
@@ -72,6 +73,7 @@
     <Compile Include="Datastructures\Geometry\1D\Line1D.cs" />
     <Compile Include="Datastructures\Maths\NumericTypeExtensions.cs" />
     <Compile Include="Exceptions\Forest\BintreeExceptions.cs" />
+    <Compile Include="Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Extensions\Geometry\IPixelExtensions.cs" />
     <Compile Include="Extensions\Geometry\ILine2DExtensions.cs" />
     <Compile Include="Interfaces\Datastructures\Forest\IBintree.cs" />
