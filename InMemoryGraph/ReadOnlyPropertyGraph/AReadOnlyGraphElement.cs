@@ -22,10 +22,11 @@ using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using de.ahzf.Blueprints.PropertyGraph.ReadOnly;
 
 #endregion
 
-namespace de.ahzf.Blueprints.PropertyGraph.InMemory
+namespace de.ahzf.Blueprints.PropertyGraph.InMemory.ReadOnly
 {
 
     /// <summary>
@@ -114,7 +115,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <summary>
         /// The properties of this graph element.
         /// </summary>
-        public IProperties<TKey, TValue> PropertyData { get; private set; }
+        public IReadOnlyProperties<TKey, TValue> PropertyData { get; private set; }
 
         #endregion
 
@@ -122,7 +123,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #region (protected) Constructor(s)
 
-        #region (protected) AGraphElement(Id, IdKey, RevisonIdKey, DatastructureInitializer, GraphElementInitializer = null)
+        #region (protected) AReadOnlyGraphElement(Id, IdKey, RevisonIdKey, DatastructureInitializer, GraphElementInitializer = null)
 
         /// <summary>
         /// Creates a new abstract graph element.
@@ -132,10 +133,14 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="RevisonIdKey">The key to access the RevisionId of this graph element.</param>
         /// <param name="DatastructureInitializer">A delegate to initialize the datastructure of the this graph element.</param>
         /// <param name="GraphElementInitializer">An delegate to do some initial operations like adding some properties.</param>
-        internal protected AReadOnlyGraphElement(TId Id)
+        internal protected AReadOnlyGraphElement(TId                               Id,
+                                                 TKey                              IdKey,
+                                                 TKey                              RevisonIdKey,
+                                                 Func<TDatastructure>              DatastructureInitializer,
+                                                 Action<IProperties<TKey, TValue>> GraphElementInitializer = null)
         {
-            //this.PropertyData  = new Properties<TId, TRevisionId, TKey, TValue, TDatastructure>
-            //                                   (IdKey, Id, RevisonIdKey, default(TRevisionId), DatastructureInitializer);
+            this.PropertyData  = new ReadOnlyProperties<TId, TRevisionId, TKey, TValue, TDatastructure>
+                                                       (IdKey, Id, RevisonIdKey, default(TRevisionId), DatastructureInitializer);
         }
 
         #endregion

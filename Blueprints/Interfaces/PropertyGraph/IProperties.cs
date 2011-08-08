@@ -37,7 +37,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
     /// <typeparam name="TKey">The type of the keys.</typeparam>
     /// <typeparam name="TValue">The type of the values.</typeparam>
     public interface IProperties<TKey, TValue>
-                        : IReadOnlyProperties<TKey, TValue>,
+                        : IEnumerable<KeyValuePair<TKey, TValue>>,
                           IPropertiesNotifications<TKey, TValue>
 
         where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
@@ -55,6 +55,92 @@ namespace de.ahzf.Blueprints.PropertyGraph
         IProperties<TKey, TValue> SetProperty(TKey Key, TValue Value);
 
         #endregion
+
+
+        #region Properties
+
+        #region IdKey
+
+        /// <summary>
+        /// The property key of the identification.
+        /// </summary>
+        TKey IdKey         { get; }
+
+        #endregion
+
+        #region RevisionIdKey
+
+        /// <summary>
+        /// The property key of the revision identification.
+        /// </summary>
+        TKey RevIdKey { get; }
+
+        #endregion
+
+        #endregion
+
+        #region Keys/Values
+
+        /// <summary>
+        /// An enumeration of all property keys.
+        /// </summary>
+        IEnumerable<TKey> Keys { get; }
+
+        /// <summary>
+        /// An enumeration of all property values.
+        /// </summary>
+        IEnumerable<TValue> Values { get; }
+
+        #endregion
+
+        #region Contains...
+
+        /// <summary>
+        /// Determines if the specified key exists.
+        /// </summary>
+        /// <param name="Key">A key.</param>
+        Boolean ContainsKey(TKey Key);
+
+        /// <summary>
+        /// Determines if the specified value exists.
+        /// </summary>
+        /// <param name="Value">A value.</param>
+        Boolean ContainsValue(TValue Value);
+
+        /// <summary>
+        /// Determines if an KeyValuePair with the specified key and value exists.
+        /// </summary>
+        /// <param name="Key">A key.</param>
+        /// <param name="Value">A value.</param>
+        Boolean Contains(TKey Key, TValue Value);
+
+        #endregion
+
+        #region Get...
+
+        /// <summary>
+        /// Return the value associated with the given key.
+        /// </summary>
+        /// <param name="Key">A key.</param>
+        TValue this[TKey Key] { get; }
+
+        /// <summary>
+        /// Return the value associated with the given key.
+        /// </summary>
+        /// <param name="Key">A key.</param>
+        /// <param name="Value">The associated value.</param>
+        /// <returns>True if the returned value is valid. False otherwise.</returns>
+        Boolean GetProperty(TKey Key, out TValue Value);
+
+        /// <summary>
+        /// Return a filtered enumeration of all KeyValuePairs.
+        /// </summary>
+        /// <param name="KeyValueFilter">A delegate to filter properties based on their keys and values.</param>
+        /// <returns>A enumeration of all key/value pairs matching the given KeyValueFilter.</returns>
+        IEnumerable<KeyValuePair<TKey, TValue>> GetProperties(KeyValueFilter<TKey, TValue> KeyValueFilter = null);
+
+        #endregion
+
 
         #region Remove...
 

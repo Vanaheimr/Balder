@@ -486,7 +486,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #region Constructor(s)
 
-        #region PropertyVertex(Graph, VertexId, IdKey, RevisonIdKey, DatastructureInitializer, EdgeCollectionInitializer = null, VertexInitializer = null)
+        #region PropertyVertex(Graph, VertexId, IdKey, RevisonIdKey, DatastructureInitializer, EdgeCollectionInitializer, VertexInitializer = null)
 
         /// <summary>
         /// Creates a new vertex.
@@ -815,37 +815,19 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #endregion
 
-        #region CompareTo(IReadOnlyGraphElement)
-
-        /// <summary>
-        /// Compares two instances of this object.
-        /// </summary>
-        /// <param name="IReadOnlyGraphElement">An object to compare with.</param>
-        public Int32 CompareTo(IReadOnlyGraphElement<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex> IReadOnlyGraphElement)
-        {
-
-            if ((Object) IReadOnlyGraphElement == null)
-                throw new ArgumentNullException("The given IReadOnlyGraphElement must not be null!");
-
-            return Id.CompareTo(IReadOnlyGraphElement.PropertyData[IdKey]);
-
-        }
-
-        #endregion
-
         #region CompareTo(IGraphElement)
 
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="IPropertyElement">An object to compare with.</param>
-        public Int32 CompareTo(IGraphElement<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex> IPropertyElement)
+        /// <param name="IGraphElement">An object to compare with.</param>
+        public Int32 CompareTo(IGraphElement<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex> IGraphElement)
         {
 
-            if ((Object) IPropertyElement == null)
-                throw new ArgumentNullException("The given IPropertyElement must not be null!");
+            if ((Object) IGraphElement == null)
+                throw new ArgumentNullException("The given IGraphElement must not be null!");
 
-            return Id.CompareTo(IPropertyElement.PropertyData[IdKey]);
+            return Id.CompareTo(IGraphElement.PropertyData[IdKey]);
 
         }
 
@@ -854,12 +836,12 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         #region CompareTo(IPropertyVertex)
 
         /// <summary>
-        /// Compares two property vertices.
+        /// Compares two read-only property vertices.
         /// </summary>
         /// <param name="IPropertyVertex">A property vertex to compare with.</param>
         public Int32 CompareTo(IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                               TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                               TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IPropertyVertex)
+                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IPropertyVertex)
         {
             
             if ((Object) IPropertyVertex == null)
@@ -921,41 +903,21 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #endregion
 
-        #region Equals(IReadOnlyGraphElement)
+        #region Equals(IGraphElement)
 
         /// <summary>
         /// Compares this property graph to another graph element.
         /// </summary>
-        /// <param name="IReadOnlyGraphElement">An object to compare with.</param>
+        /// <param name="IGraphElement">An object to compare with.</param>
         /// <returns>True if both match; False otherwise.</returns>
-        public Boolean Equals(IReadOnlyGraphElement<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex> IReadOnlyGraphElement)
+        public Boolean Equals(IGraphElement<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex> IGraphElement)
         {
 
-            if ((Object) IReadOnlyGraphElement == null)
+            if ((Object) IGraphElement == null)
                 return false;
 
             //TODO: Here it might be good to check all attributes of the UNIQUE constraint!
-            return Id.Equals(IReadOnlyGraphElement.PropertyData[IdKey]);
-
-        }
-
-        #endregion
-
-        #region Equals(IGraphElement)
-
-        /// <summary>
-        /// Compares this property graph to another property element.
-        /// </summary>
-        /// <param name="IPropertyElement">An object to compare with.</param>
-        /// <returns>True if both match; False otherwise.</returns>
-        public Boolean Equals(IGraphElement<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex> IPropertyElement)
-        {
-
-            if ((Object) IPropertyElement == null)
-                return false;
-
-            //TODO: Here it might be good to check all attributes of the UNIQUE constraint!
-            return Id.Equals(IPropertyElement.PropertyData[IdKey]);
+            return Id.Equals(IGraphElement.PropertyData[IdKey]);
 
         }
 
@@ -964,13 +926,13 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         #region Equals(IPropertyVertex)
 
         /// <summary>
-        /// Compares two property vertices for equality.
+        /// Compares two read-only property vertices for equality.
         /// </summary>
-        /// <param name="IPropertyVertex">A property vertex to compare with.</param>
+        /// <param name="IPropertyVertex">A read-only property vertex to compare with.</param>
         /// <returns>True if both match; False otherwise.</returns>
         public Boolean Equals(IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IPropertyVertex)
+                                                      TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IPropertyVertex)
         {
             
             if ((Object) IPropertyVertex == null)

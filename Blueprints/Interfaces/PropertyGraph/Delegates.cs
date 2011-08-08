@@ -243,7 +243,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
         where TKeyHyperEdge           : IEquatable<TKeyHyperEdge>,        IComparable<TKeyHyperEdge>,        IComparable;
 
     #endregion
-
+    
     
     #region EdgeIdCreatorDelegate
 

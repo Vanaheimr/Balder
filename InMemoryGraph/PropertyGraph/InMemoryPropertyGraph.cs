@@ -2159,24 +2159,6 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #endregion
 
-        #region CompareTo(IReadOnlyGraphElement)
-
-        /// <summary>
-        /// Compares two instances of this object.
-        /// </summary>
-        /// <param name="IReadOnlyGraphElement">An object to compare with.</param>
-        public Int32 CompareTo(IReadOnlyGraphElement<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex> IReadOnlyGraphElement)
-        {
-
-            if ((Object) IReadOnlyGraphElement == null)
-                throw new ArgumentNullException("The given IReadOnlyGraphElement must not be null!");
-
-            return Id.CompareTo(IReadOnlyGraphElement.PropertyData[IdKey]);
-
-        }
-
-        #endregion
-
         #region CompareTo(IGraphElement)
 
         /// <summary>
@@ -2190,26 +2172,6 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                 throw new ArgumentNullException("The given IGraphElement must not be null!");
 
             return Id.CompareTo(IGraphElement.PropertyData[IdKey]);
-
-        }
-
-        #endregion
-
-        #region CompareTo(IReadOnlyPropertyGraph)
-
-        /// <summary>
-        /// Compares two read-only property graphs.
-        /// </summary>
-        /// <param name="IReadOnlyPropertyGraph">A read-only property graph to compare with.</param>
-        public Int32 CompareTo(IReadOnlyPropertyGraph<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                                      TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IReadOnlyPropertyGraph)
-        {
-
-            if ((Object) IReadOnlyPropertyGraph == null)
-                throw new ArgumentNullException("The given IReadOnlyPropertyGraph must not be null!");
-
-            return Id.CompareTo(IReadOnlyPropertyGraph.PropertyData[IdKey]);
 
         }
 
@@ -2284,25 +2246,6 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #endregion
 
-        #region Equals(IReadOnlyGraphElement)
-
-        /// <summary>
-        /// Compares this property graph to another graph element.
-        /// </summary>
-        /// <param name="IReadOnlyGraphElement">An object to compare with.</param>
-        /// <returns>True if both match; False otherwise.</returns>
-        public Boolean Equals(IReadOnlyGraphElement<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex> IReadOnlyGraphElement)
-        {
-
-            if ((Object) IReadOnlyGraphElement == null)
-                return false;
-
-            return Id.Equals(IReadOnlyGraphElement.PropertyData[IdKey]);
-
-        }
-
-        #endregion
-
         #region Equals(IGraphElement)
 
         /// <summary>
@@ -2317,27 +2260,6 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                 return false;
 
             return Id.Equals(IGraphElement.PropertyData[IdKey]);
-
-        }
-
-        #endregion
-
-        #region Equals(IReadOnlyPropertyGraph)
-
-        /// <summary>
-        /// Compares two property graphs for equality.
-        /// </summary>
-        /// <param name="IPropertyGraph">A property graph to compare with.</param>
-        /// <returns>True if both match; False otherwise.</returns>
-        public Boolean Equals(IReadOnlyPropertyGraph<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IReadOnlyPropertyGraph)
-        {
-
-            if ((Object) IReadOnlyPropertyGraph == null)
-                return false;
-
-            return Id.Equals(IReadOnlyPropertyGraph.PropertyData[IdKey]);
 
         }
 

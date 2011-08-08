@@ -36,7 +36,8 @@ namespace de.ahzf.Blueprints.PropertyGraph
     /// <typeparam name="TKey">The type of the property keys.</typeparam>
     /// <typeparam name="TValue">The type of the property values.</typeparam>
     public interface IGraphElement<TId, TRevisionId, TKey, TValue>
-                        : IReadOnlyGraphElement<TId, TRevisionId, TKey, TValue>,
+                        : IIdentifier<TId>,
+                          IRevisionId<TRevisionId>,
                           IProperties<TKey, TValue>,
                           IEquatable <IGraphElement<TId, TRevisionId, TKey, TValue>>,
                           IComparable<IGraphElement<TId, TRevisionId, TKey, TValue>>,
@@ -46,7 +47,14 @@ namespace de.ahzf.Blueprints.PropertyGraph
         where TRevisionId    : IEquatable<TRevisionId>, IComparable<TRevisionId>, IComparable, TValue
         where TKey           : IEquatable<TKey>,        IComparable<TKey>,        IComparable
 
-    { }
+    {
+
+        /// <summary>
+        /// Return the graph element properties (its embedded data).
+        /// </summary>
+        IProperties<TKey, TValue> PropertyData { get; }
+
+    }
 
     #endregion
 

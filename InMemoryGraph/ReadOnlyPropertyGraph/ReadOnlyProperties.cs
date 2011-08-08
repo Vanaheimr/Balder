@@ -23,10 +23,11 @@ using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using de.ahzf.Blueprints.PropertyGraph.ReadOnly;
 
 #endregion
 
-namespace de.ahzf.Blueprints.PropertyGraph.InMemory
+namespace de.ahzf.Blueprints.PropertyGraph.InMemory.ReadOnly
 {
 
     /// <summary>

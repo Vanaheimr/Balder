@@ -21,10 +21,11 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.Threading;
+using de.ahzf.Blueprints.PropertyGraph.ReadOnly;
 
 #endregion
 
-namespace de.ahzf.Blueprints.PropertyGraph.InMemory
+namespace de.ahzf.Blueprints.PropertyGraph.InMemory.ReadOnly
 {
 
     #region SimpleReadOnlyPropertyGraph<TId, TRevisionId, TKey, TValue>
@@ -74,7 +75,25 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                                      Boolean SyncedEdgeIds      = false,
                                      UInt64  NumberOfHyperEdges = 0,
                                      Boolean SyncedHyperEdgeIds = false)
-            : base(GraphId, SimplePropertyGraph, NumberOfVertices, SyncedVertexIds, NumberOfEdges, SyncedEdgeIds, NumberOfHyperEdges, SyncedHyperEdgeIds)
+            : base(GraphId,
+                   SimplePropertyGraph,
+                   (_Graph, _Vertex) => new ReadOnlyPropertyVertex<TId, TRevisionId,         TKey, TValue, IDictionary<TKey, TValue>,
+                                                                   TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
+                                                                   TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
+                                                                   ICollection<IReadOnlyPropertyEdge<TId, TRevisionId, TKey, TValue,
+                                                                                                     TId, TRevisionId, TLabel, TKey, TValue,
+                                                                                                     TId, TRevisionId, TLabel, TKey, TValue>>>(
+                                                                                                     _Graph,
+                                                                                                     _Vertex,
+                                                                                                     () => new Dictionary<TKey, TValue>(),
+                                                                                                     () => new HashSet<IReadOnlyPropertyEdge<TId, TRevisionId, TKey, TValue,
+                                                                                                                                                                 TId, TRevisionId, TLabel, TKey, TValue,
+                                                                                                                                                                 TId, TRevisionId, TLabel, TKey, TValue>>()),
+            (_Graph, _Edge) => new ReadOnlyPropertyEdge<TId, TRevisionId,         TKey, TValue, IDictionary<TKey, TValue>,
+                                                        TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
+                                                        TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>>(_Graph, _Edge, () => new Dictionary<TKey, TValue>()),
+
+            NumberOfVertices, SyncedVertexIds, NumberOfEdges, SyncedEdgeIds, NumberOfHyperEdges, SyncedHyperEdgeIds)
 
         { }
 
@@ -280,18 +299,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                                            UInt64  NumberOfHyperEdges = 0,
                                            Boolean SyncedHyperEdgeIds = false)
             : base(GraphId, SimplePropertyGraph, NumberOfVertices, SyncedVertexIds, NumberOfEdges, SyncedEdgeIds, NumberOfHyperEdges, SyncedHyperEdgeIds)
-        {
-
-            //foreach (var _Vertex in SimplePropertyGraph.Vertices())
-            //    _Vertices  [_Vertex.Id]    = _Vertex;
-
-            //foreach (var _Edge   in SimplePropertyGraph.Edges())
-            //    _Edges     [_Edge.Id]      = _Edge;
-
-            //foreach (var _HyperEdge in SimplePropertyGraph.HyperEdges())
-            //    _HyperEdges[_HyperEdge.Id] = _HyperEdge;
-
-        }
+        { }
 
         #endregion
 

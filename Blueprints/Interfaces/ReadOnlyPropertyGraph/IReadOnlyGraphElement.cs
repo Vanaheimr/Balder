@@ -22,7 +22,7 @@ using System.Collections.Generic;
 
 #endregion
 
-namespace de.ahzf.Blueprints.PropertyGraph
+namespace de.ahzf.Blueprints.PropertyGraph.ReadOnly
 {
 
     #region IReadOnlyGraphElement<TId, TRevisionId, TKey, TValue>
@@ -52,7 +52,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
         /// <summary>
         /// Return the graph element properties (its embedded data).
         /// </summary>
-        IProperties<TKey, TValue> PropertyData { get; }
+        IReadOnlyProperties<TKey, TValue> PropertyData { get; }
 
     }
 

@@ -73,6 +73,10 @@
     <Compile Include="Datastructures\Geometry\1D\Line1D.cs" />
     <Compile Include="Datastructures\Maths\NumericTypeExtensions.cs" />
     <Compile Include="Exceptions\Forest\BintreeExceptions.cs" />
+    <Compile Include="Extensions\ReadOnlyPropertyGraph\IGraphElementExtensions.cs" />
+    <Compile Include="Extensions\ReadOnlyPropertyGraph\IPropertiesExtensions.cs" />
+    <Compile Include="Extensions\ReadOnlyPropertyGraph\IPropertyGraphExtensions.cs" />
+    <Compile Include="Extensions\ReadOnlyPropertyGraph\IPropertyVertexExtensions.cs" />
     <Compile Include="Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Extensions\Geometry\IPixelExtensions.cs" />
     <Compile Include="Extensions\Geometry\ILine2DExtensions.cs" />
@@ -116,9 +120,15 @@
     <Compile Include="Extensions\QuadStore\IQuadStoreExtensions.cs" />
     <Compile Include="Interfaces\GenericGraph\Delegates.cs" />
     <Compile Include="Interfaces\Indices\IIndex2D.cs" />
+    <Compile Include="Interfaces\ReadOnlyPropertyGraph\Delegates.cs" />
+    <Compile Include="Interfaces\ReadOnlyPropertyGraph\Indices\Delegates.cs" />
+    <Compile Include="Interfaces\ReadOnlyPropertyGraph\Indices\IReadOnlyPropertyElementIndex.cs" />
+    <Compile Include="Interfaces\ReadOnlyPropertyGraph\IReadOnlyPropertyHyperEdge.cs" />
+    <Compile Include="Interfaces\ReadOnlyPropertyGraph\IReadOnlyPropertyEdge.cs" />
+    <Compile Include="Interfaces\ReadOnlyPropertyGraph\IReadOnlyPropertyVertex.cs" />
     <Compile Include="Interfaces\ReadOnlyPropertyGraph\IReadOnlyGraphElement.cs" />
     <Compile Include="Interfaces\ReadOnlyPropertyGraph\IReadOnlyProperties.cs" />
-    <Compile Include="Interfaces\ReadOnlyPropertyGraph\IReadOnlyGraphIndexing.cs" />
+    <Compile Include="Interfaces\ReadOnlyPropertyGraph\Indices\IReadOnlyGraphIndexing.cs" />
     <Compile Include="Interfaces\ReadOnlyPropertyGraph\IReadOnlyPropertyGraph.cs" />
     <Compile Include="Interfaces\PropertyGraph\IPropertyGraphNotificationsEventHandlers.cs" />
     <Compile Include="Interfaces\PropertyGraph\IPropertyGraphNotifications.cs" />

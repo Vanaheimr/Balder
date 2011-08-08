@@ -65,11 +65,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
 
-                                    : IReadOnlyPropertyGraph<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                                             TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
-        
-                                      IGraphElement<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex>,
+                                    : IGraphElement<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex>,
 
                                       IGraphIndexing<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                      TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
@@ -165,6 +161,54 @@ namespace de.ahzf.Blueprints.PropertyGraph
                         AddVertex(IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                   TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                   TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Vertex);
+
+        #endregion
+
+
+        #region VerticesById(params VertexIds)
+
+        /// <summary>
+        /// Return the vertices referenced by the given array of vertex identifiers.
+        /// If no vertex is referenced by a given identifier this value will be
+        /// skipped.
+        /// </summary>
+        /// <param name="VertexIds">An array of vertex identifiers.</param>
+        IEnumerable<IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                    TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                    TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
+
+                                    VerticesById(params TIdVertex[] VertexIds);
+
+        #endregion
+
+        #region Vertices(VertexFilter = null)
+
+        /// <summary>
+        /// Get an enumeration of all vertices in the graph.
+        /// An optional vertex filter may be applied for filtering.
+        /// </summary>
+        /// <param name="VertexFilter">A delegate for vertex filtering.</param>
+        IEnumerable<IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                    TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                    TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
+
+                                    Vertices(VertexFilter<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                          TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                          TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> VertexFilter = null);
+
+        #endregion
+
+        #region NumberOfVertices(VertexFilter = null)
+
+        /// <summary>
+        /// Return the current number of vertices which match the given optional filter.
+        /// When the filter is null, this method should implement an optimized
+        /// way to get the currenty number of vertices.
+        /// </summary>
+        /// <param name="VertexFilter">A delegate for vertex filtering.</param>
+        UInt64 NumberOfVertices(VertexFilter<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                             TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> VertexFilter = null);
 
         #endregion
 
@@ -276,6 +320,54 @@ namespace de.ahzf.Blueprints.PropertyGraph
         #endregion
 
 
+        #region EdgesById(params EdgeIds)
+
+        /// <summary>
+        /// Return the edges referenced by the given array of edge identifiers.
+        /// If no edge is referenced by a given identifier this value will be
+        /// skipped.
+        /// </summary>
+        /// <param name="EdgeIds">An array of edge identifiers.</param>
+        IEnumerable<IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                  TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
+
+                                  EdgesById(params TIdEdge[] EdgeIds);
+
+        #endregion
+
+        #region Edges(EdgeFilter = null)
+
+        /// <summary>
+        /// Get an enumeration of all edges in the graph.
+        /// An optional edge filter may be applied for filtering.
+        /// </summary>
+        /// <param name="EdgeFilter">A delegate for edge filtering.</param>
+        IEnumerable<IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                  TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
+            
+                                  Edges(EdgeFilter<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                   TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                   TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeFilter = null);
+
+        #endregion
+
+        #region NumberOfEdges(EdgeFilter = null)
+
+        /// <summary>
+        /// Return the current number of edges matching the given optional edge filter.
+        /// When the filter is null, this method should implement an optimized
+        /// way to get the currenty number of edges.
+        /// </summary>
+        /// <param name="EdgeFilter">A delegate for edge filtering.</param>
+        UInt64 NumberOfEdges(EdgeFilter<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                        TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                        TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeFilter = null);
+
+        #endregion
+
+
         #region RemoveEdgesById(params EdgeIds)
 
         /// <summary>
@@ -313,6 +405,53 @@ namespace de.ahzf.Blueprints.PropertyGraph
         #endregion
 
         #region HyperEdge methods
+        
+        #region HyperEdgesById(params HyperEdgeIds)
+
+        /// <summary>
+        /// Return the HyperEdges referenced by the given array of HyperEdge identifiers.
+        /// If no HyperEdge is referenced by a given identifier this value will be
+        /// skipped.
+        /// </summary>
+        /// <param name="HyperEdgeIds">An array of HyperEdge identifiers.</param>
+        IEnumerable<IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
+
+                                       HyperEdgesById(params TIdHyperEdge[] HyperEdgeIds);
+
+        #endregion
+
+        #region HyperEdges(HyperEdgeFilter = null)
+
+        /// <summary>
+        /// Get an enumeration of all HyperEdges in the graph.
+        /// An optional HyperEdge filter may be applied for filtering.
+        /// </summary>
+        /// <param name="HyperEdgeFilter">A delegate for HyperEdge filtering.</param>
+        IEnumerable<IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
+
+                                       HyperEdges(HyperEdgeFilter<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                  TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> HyperEdgeFilter = null);
+
+        #endregion
+
+        #region NumberOfHyperEdges(HyperEdgeFilter = null)
+
+        /// <summary>
+        /// Return the current number of HyperEdges matching the given optional HyperEdge filter.
+        /// When the filter is null, this method should implement an optimized
+        /// way to get the currenty number of edges.
+        /// </summary>
+        /// <param name="HyperEdgeFilter">A delegate for HyperEdge filtering.</param>
+        UInt64 NumberOfHyperEdges(HyperEdgeFilter<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                  TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> HyperEdgeFilter = null);
+
+        #endregion
 
         #endregion
 

@@ -156,6 +156,9 @@ namespace SocialGraphDemo
 
             //_Vertex.GetProperty(
 
+            var aa = new List<Double>() { 1, 3 };
+            var bb = aa.Sum(_ => _ * _);
+
 
             var _g      = TinkerGraphFactory.CreateTinkerGraph();
             var _graph  = DemoGraphFactory.CreateDemoGraph();

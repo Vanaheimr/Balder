@@ -59,6 +59,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyGraph\PropertyVertex.cs" />
     <Compile Include="ReadOnlyPropertyGraph\AReadOnlyGraphElement.cs" />
+    <Compile Include="ReadOnlyPropertyGraph\ReadOnlyPropertyEdge.cs" />
+    <Compile Include="ReadOnlyPropertyGraph\ReadOnlyPropertyVertex.cs" />
     <Compile Include="ReadOnlyPropertyGraph\ReadOnlyProperties.cs" />
     <Compile Include="ReadOnlyPropertyGraph\ReadOnlyPropertyGraph.cs" />
     <Compile Include="ReadOnlyPropertyGraph\SimpleReadOnlyPropertyGraph.cs" />

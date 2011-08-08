@@ -26,10 +26,12 @@ using System.Collections.Concurrent;
 
 using de.ahzf.Blueprints.Indices;
 using de.ahzf.Blueprints.PropertyGraph.Indices;
+using de.ahzf.Blueprints.PropertyGraph.ReadOnly;
+using de.ahzf.Blueprints.PropertyGraph.ReadOnly.Indices;
 
 #endregion
 
-namespace de.ahzf.Blueprints.PropertyGraph.InMemory
+namespace de.ahzf.Blueprints.PropertyGraph.InMemory.ReadOnly
 {
 
     #region ReadOnlyPropertyGraph<...>
@@ -98,6 +100,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         protected readonly Boolean SyncedEdgeIds;
         protected readonly Boolean SyncedHyperEdgeIds;
 
+        private readonly Func<TDatastructureVertex> _DatastructureInitializer;
 
         /// <summary>
         /// The cached number of vertices.
@@ -115,17 +118,17 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         protected readonly UInt64 _NumberOfHyperEdges;
 
 
-        protected readonly IPropertyVertex   <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>[] _Vertices;
+        protected readonly IReadOnlyPropertyVertex   <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                      TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>[] _Vertices;
 
-        protected readonly IPropertyEdge     <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>[] _Edges;
+        protected readonly IReadOnlyPropertyEdge     <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                      TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>[] _Edges;
 
-        protected readonly IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>[] _HyperEdges;
+        protected readonly IReadOnlyPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                      TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>[] _HyperEdges;
 
 
 
@@ -147,26 +150,26 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         protected readonly IDictionary<TIdHyperEdge, UInt64> _HyperEdgeIdIndex;
 
 
-        private readonly IDictionary<String, IPropertyElementIndex<IPropertyVertex   <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                                                                      TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>> _ManualVerticesIndices;
-        private readonly IDictionary<String, IPropertyElementIndex<IPropertyVertex   <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                                                                      TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>> _AutomaticVerticesIndices;
+        private readonly IDictionary<String, IReadOnlyPropertyElementIndex<IReadOnlyPropertyVertex   <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>> _ManualVerticesIndices;
+        private readonly IDictionary<String, IReadOnlyPropertyElementIndex<IReadOnlyPropertyVertex   <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>> _AutomaticVerticesIndices;
 
-        private readonly IDictionary<String, IPropertyElementIndex<IPropertyEdge     <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                                                                      TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>> _ManualEdgesIndices;
-        private readonly IDictionary<String, IPropertyElementIndex<IPropertyEdge     <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                                                                      TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>> _AutomaticEdgesIndices;
+        private readonly IDictionary<String, IReadOnlyPropertyElementIndex<IReadOnlyPropertyEdge     <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>> _ManualEdgesIndices;
+        private readonly IDictionary<String, IReadOnlyPropertyElementIndex<IReadOnlyPropertyEdge     <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>> _AutomaticEdgesIndices;
 
-        private readonly IDictionary<String, IPropertyElementIndex<IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,      TValueVertex,
-                                                                                      TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>> _ManualHyperEdgesIndices;
-        private readonly IDictionary<String, IPropertyElementIndex<IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,      TValueVertex,
-                                                                                      TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>> _AutomaticHyperEdgesIndices;
+        private readonly IDictionary<String, IReadOnlyPropertyElementIndex<IReadOnlyPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,      TValueVertex,
+                                                                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>> _ManualHyperEdgesIndices;
+        private readonly IDictionary<String, IReadOnlyPropertyElementIndex<IReadOnlyPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,    TKeyVertex,      TValueVertex,
+                                                                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>> _AutomaticHyperEdgesIndices;
 
         #endregion
 
@@ -183,13 +186,32 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                                      IPropertyGraph<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IPropertyGraph,
+                                            //Func<TDatastructureVertex>   DataInitializer,
+
+                                            ReadOnlyVertexCreatorDelegate     <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                               TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                               TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> VertexCreatorDelegate,
+                                                                      
+                                            ReadOnlyEdgeCreatorDelegate     <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                             TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeCreatorDelegate,
+
+                                            //HyperEdgeCreatorDelegate  <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                            //                           TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                            //                           TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> HyperEdgeCreatorDelegate,
+
+                                            //GraphInitializer<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                            //                 TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                            //                 TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> GraphInitializer = null,
+
                                      UInt64  NumberOfVertices   = 0,
                                      Boolean SyncedVertexIds    = false,
                                      UInt64  NumberOfEdges      = 0,
                                      Boolean SyncedEdgeIds      = false,
                                      UInt64  NumberOfHyperEdges = 0,
                                      Boolean SyncedHyperEdgeIds = false)
-            : base(GraphId)
+
+            : base(GraphId, IPropertyGraph.IdKey, IPropertyGraph.RevIdKey, null)
 
         {
 
@@ -202,17 +224,17 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
             _NumberOfHyperEdges = (NumberOfHyperEdges > 0) ? NumberOfHyperEdges : IPropertyGraph.NumberOfHyperEdges();
 
             //ToDo: Remove size limitations!
-            _Vertices   = new IPropertyVertex   <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                                 TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                 TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>[_NumberOfVertices];
+            _Vertices   = new IReadOnlyPropertyVertex   <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                         TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                         TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>[_NumberOfVertices];
 
-            _Edges      = new IPropertyEdge     <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                                 TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                 TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>[_NumberOfEdges];
+            _Edges      = new IReadOnlyPropertyEdge     <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                         TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                         TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>[_NumberOfEdges];
 
-            _HyperEdges = new IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                                 TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                 TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>[_NumberOfHyperEdges];
+            _HyperEdges = new IReadOnlyPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                         TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                         TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>[_NumberOfHyperEdges];
 
             #region Copy Vertices
 
@@ -225,7 +247,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                     typeof(TIdVertex) != typeof(UInt64))
                 {
                     foreach (var _Vertex in IPropertyGraph.Vertices())
-                        _Vertices[(UInt64) (Object) _Vertex.Id] = _Vertex;
+                        _Vertices[(UInt64) (Object) _Vertex.Id] = VertexCreatorDelegate(this, _Vertex);
                 }
 
                 else
@@ -242,7 +264,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                 foreach (var _Vertex in IPropertyGraph.Vertices())
                 {
                     _VertexIdIndex.Add(_Vertex.Id, i);
-                    _Vertices[i++] = _Vertex;
+                    _Vertices[i++] = VertexCreatorDelegate(this, _Vertex);
                 }
 
             }
@@ -260,7 +282,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                     typeof(TIdVertex) != typeof(UInt64))
                 {
                     foreach (var _Edge in IPropertyGraph.Edges())
-                        _Edges[(UInt64) (Object) _Edge.Id] = _Edge;
+                        _Edges[(UInt64) (Object) _Edge.Id] = EdgeCreatorDelegate(this, _Edge);
                 }
 
                 else
@@ -277,7 +299,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                 foreach (var _Edge in IPropertyGraph.Edges())
                 {
                     _EdgeIdIndex.Add(_Edge.Id, i);
-                    _Edges[i++] = _Edge;
+                    _Edges[i++] = EdgeCreatorDelegate(this, _Edge);
                 }
 
             }
@@ -295,7 +317,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                     typeof(TIdVertex) != typeof(UInt64))
                 {
                     foreach (var _HyperEdge in IPropertyGraph.HyperEdges())
-                        _HyperEdges[(UInt64) (Object) _HyperEdge.Id] = _HyperEdge;
+                        _HyperEdges[(UInt64) (Object) _HyperEdge.Id] = null;// _HyperEdge;
                 }
 
                 else
@@ -312,7 +334,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                 foreach (var _HyperEdge in IPropertyGraph.HyperEdges())
                 {
                     _HyperEdgeIdIndex.Add(_HyperEdge.Id, i);
-                    _HyperEdges[i++] = _HyperEdge;
+                    _HyperEdges[i++] = null;// _HyperEdge;
                 }
 
             }
@@ -320,24 +342,24 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
             #endregion
 
 
-            _ManualVerticesIndices      = new Dictionary<String, IPropertyElementIndex<IPropertyVertex   <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+            _ManualVerticesIndices      = new Dictionary<String, IReadOnlyPropertyElementIndex<IReadOnlyPropertyVertex   <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                                                                           TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                                                           TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>>();
-            _AutomaticVerticesIndices   = new Dictionary<String, IPropertyElementIndex<IPropertyVertex   <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                                                                                          TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                                          TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>>();
-
-            _ManualEdgesIndices         = new Dictionary<String, IPropertyElementIndex<IPropertyEdge     <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                                                                                          TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                                          TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>>();
-            _AutomaticEdgesIndices      = new Dictionary<String, IPropertyElementIndex<IPropertyEdge     <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+            _AutomaticVerticesIndices   = new Dictionary<String, IReadOnlyPropertyElementIndex<IReadOnlyPropertyVertex   <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                                                                           TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                                                           TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>>();
 
-            _ManualHyperEdgesIndices    = new Dictionary<String, IPropertyElementIndex<IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+            _ManualEdgesIndices         = new Dictionary<String, IReadOnlyPropertyElementIndex<IReadOnlyPropertyEdge     <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                                                                           TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                                                           TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>>();
-            _AutomaticHyperEdgesIndices = new Dictionary<String, IPropertyElementIndex<IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+            _AutomaticEdgesIndices      = new Dictionary<String, IReadOnlyPropertyElementIndex<IReadOnlyPropertyEdge     <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                                                          TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                                          TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>>();
+
+            _ManualHyperEdgesIndices    = new Dictionary<String, IReadOnlyPropertyElementIndex<IReadOnlyPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                                                          TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                                          TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>>();
+            _AutomaticHyperEdgesIndices = new Dictionary<String, IReadOnlyPropertyElementIndex<IReadOnlyPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                                                                           TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                                                           TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>>();
 
@@ -358,11 +380,11 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// skipped.
         /// </summary>
         /// <param name="VertexIds">An array of vertex identifiers.</param>
-        public virtual IEnumerable<IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                                   TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                   TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
+        public virtual IEnumerable<IReadOnlyPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                           TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                           TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
 
-                                                   VerticesById(params TIdVertex[] VertexIds)
+                                                           VerticesById(params TIdVertex[] VertexIds)
 
         {
 
@@ -391,13 +413,13 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// An optional vertex filter may be applied for filtering.
         /// </summary>
         /// <param name="VertexFilter">A delegate for vertex filtering.</param>
-        public virtual IEnumerable<IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                                   TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                   TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
+        public virtual IEnumerable<IReadOnlyPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                           TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                           TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
             
-               Vertices(VertexFilter<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> VertexFilter = null)
+               Vertices(ReadOnlyVertexFilter<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                             TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> VertexFilter = null)
 
         {
 
@@ -422,9 +444,9 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// way to get the currenty number of vertices.
         /// </summary>
         /// <param name="VertexFilter">A delegate for vertex filtering.</param>
-        public UInt64 NumberOfVertices(VertexFilter<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                                    TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                    TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> VertexFilter = null)
+        public UInt64 NumberOfVertices(ReadOnlyVertexFilter<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                            TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                            TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> VertexFilter = null)
         {
 
             if (VertexFilter == null)
@@ -458,9 +480,9 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// An additional edge filter may be applied for filtering.
         /// </summary>
         /// <param name="EdgeIds">An array of edge identifiers.</param>
-        public IEnumerable<IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                         TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                         TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
+        public IEnumerable<IReadOnlyPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                 TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                 TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
 
             EdgesById(params TIdEdge[] EdgeIds)
 
@@ -489,13 +511,13 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// An optional edge filter may be applied for filtering.
         /// </summary>
         /// <param name="EdgeFilter">A delegate for edge filtering.</param>
-        public IEnumerable<IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                         TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                         TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
+        public IEnumerable<IReadOnlyPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                 TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                 TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
 
-                 Edges(EdgeFilter<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                  TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeFilter = null)
+                 Edges(ReadOnlyEdgeFilter<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                          TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                          TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeFilter = null)
 
         {
 
@@ -519,9 +541,9 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// way to get the currenty number of edges.
         /// </summary>
         /// <param name="EdgeFilter">A delegate for edge filtering.</param>
-        public UInt64 NumberOfEdges(EdgeFilter<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                               TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                               TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeFilter = null)
+        public UInt64 NumberOfEdges(ReadOnlyEdgeFilter<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeFilter = null)
         {
 
             if (EdgeFilter == null)
@@ -556,11 +578,11 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// skipped.
         /// </summary>
         /// <param name="HyperEdgeIds">An array of HyperEdge identifiers.</param>
-        public IEnumerable<IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
+        public IEnumerable<IReadOnlyPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                      TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
 
-                                              HyperEdgesById(params TIdHyperEdge[] HyperEdgeIds)
+                                                      HyperEdgesById(params TIdHyperEdge[] HyperEdgeIds)
         {
             
             if (HyperEdgeIds == null || !HyperEdgeIds.Any())
@@ -588,13 +610,13 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// An optional HyperEdge filter may be applied for filtering.
         /// </summary>
         /// <param name="HyperEdgeFilter">A delegate for HyperEdge filtering.</param>
-        public IEnumerable<IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
+        public IEnumerable<IReadOnlyPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                      TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
 
-                                              HyperEdges(HyperEdgeFilter<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                                                         TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                         TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> HyperEdgeFilter = null)
+                                                      HyperEdges(ReadOnlyHyperEdgeFilter<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                                         TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                         TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> HyperEdgeFilter = null)
         {
 
             if (HyperEdgeFilter == null)
@@ -618,9 +640,9 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// way to get the currenty number of edges.
         /// </summary>
         /// <param name="HyperEdgeFilter">A delegate for HyperEdge filtering.</param>
-        public UInt64 NumberOfHyperEdges(HyperEdgeFilter<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                                         TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                         TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> HyperEdgeFilter = null)
+        public UInt64 NumberOfHyperEdges(ReadOnlyHyperEdgeFilter<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                 TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                 TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> HyperEdgeFilter = null)
         {
 
             if (HyperEdgeFilter == null)
@@ -699,11 +721,11 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// </summary>
         /// <param name="IndexFilter">An optional index filter.</param>
         /// <returns>The indices associated with the graph.</returns>
-        public IEnumerable<IPropertyElementIndex<IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+        public IEnumerable<IReadOnlyPropertyElementIndex<IReadOnlyPropertyVertex<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex,
                                                                  TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>>
 
-               VerticesIndices(IndexFilter<IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+               VerticesIndices(ReadOnlyIndexFilter<IReadOnlyPropertyVertex<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex,
                                                            TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                            TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> IndexFilter = null)
 
@@ -739,7 +761,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <typeparam name="T">The type of the elements to be indexed.</typeparam>
         /// <param name="IndexFilter">An optional index filter.</param>
         /// <returns>The indices associated with the graph.</returns>
-        public IEnumerable<IPropertyElementIndex<T>> VerticesIndices<T>(IndexFilter<T> IndexFilter = null)
+        public IEnumerable<IReadOnlyPropertyElementIndex<T>> VerticesIndices<T>(ReadOnlyIndexFilter<T> IndexFilter = null)
             where T : IEquatable<T>, IComparable<T>, IComparable
         {
             throw new NotImplementedException();
@@ -754,11 +776,11 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// </summary>
         /// <param name="IndexFilter">An optional index filter.</param>
         /// <returns>The indices associated with the graph.</returns>
-        public IEnumerable<IPropertyElementIndex<IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+        public IEnumerable<IReadOnlyPropertyElementIndex<IReadOnlyPropertyEdge<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex,
                                                                TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>>
 
-               EdgesIndices(IndexFilter<IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+               EdgesIndices(ReadOnlyIndexFilter<IReadOnlyPropertyEdge<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex,
                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> IndexFilter = null)
 
@@ -794,7 +816,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <typeparam name="T">The type of the elements to be indexed.</typeparam>
         /// <param name="IndexFilter">An optional index filter.</param>
         /// <returns>The indices associated with the graph.</returns>
-        public IEnumerable<IPropertyElementIndex<T>> EdgesIndices<T>(IndexFilter<T> IndexFilter = null)
+        public IEnumerable<IReadOnlyPropertyElementIndex<T>> EdgesIndices<T>(ReadOnlyIndexFilter<T> IndexFilter = null)
             where T : IEquatable<T>, IComparable<T>, IComparable
         {
             throw new NotImplementedException();
@@ -809,11 +831,11 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// </summary>
         /// <param name="IndexFilter">An optional index filter.</param>
         /// <returns>The indices associated with the graph.</returns>
-        public IEnumerable<IPropertyElementIndex<IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+        public IEnumerable<IReadOnlyPropertyElementIndex<IReadOnlyPropertyHyperEdge<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex,
                                                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>>
 
-            HyperEdgesIndices(IndexFilter<IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+            HyperEdgesIndices(ReadOnlyIndexFilter<IReadOnlyPropertyHyperEdge<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex,
                                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> IndexFilter = null)
 
@@ -849,7 +871,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <typeparam name="T">The type of the elements to be indexed.</typeparam>
         /// <param name="IndexFilter">An optional index filter.</param>
         /// <returns>The indices associated with the graph.</returns>
-        public IEnumerable<IPropertyElementIndex<T>> HyperEdgesIndices<T>(IndexFilter<T> IndexFilter = null)
+        public IEnumerable<IReadOnlyPropertyElementIndex<T>> HyperEdgesIndices<T>(ReadOnlyIndexFilter<T> IndexFilter = null)
             where T : IEquatable<T>, IComparable<T>, IComparable
         {
             throw new NotImplementedException();
@@ -1062,7 +1084,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="myObject">The property value</param>
         public virtual Object SetMember(String myBinder, Object myObject)
         {
-            return PropertyData.SetProperty((TKeyVertex) (Object) myBinder, (TValueVertex) myObject);
+            throw new NotSupportedException("This data structure is read-only!");
         }
 
         #endregion
@@ -1090,17 +1112,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="myBinder">The property key.</param>
         public virtual Object DeleteMember(String myBinder)
         {
-
-            try
-            {
-                PropertyData.Remove((TKeyVertex) (Object) myBinder);
-                return true;
-            }
-            catch
-            { }
-
-            return false;
-
+            throw new NotSupportedException("This data structure is read-only!");
         }
 
         #endregion
@@ -1163,24 +1175,6 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #endregion
 
-        #region CompareTo(IGraphElement)
-
-        /// <summary>
-        /// Compares two instances of this object.
-        /// </summary>
-        /// <param name="IGraphElement">An object to compare with.</param>
-        public Int32 CompareTo(IGraphElement<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex> IGraphElement)
-        {
-
-            if ((Object) IGraphElement == null)
-                throw new ArgumentNullException("The given IGraphElement must not be null!");
-
-            return Id.CompareTo(IGraphElement.PropertyData[IdKey]);
-
-        }
-
-        #endregion
-
         #region CompareTo(IReadOnlyPropertyGraph)
 
         /// <summary>
@@ -1199,26 +1193,6 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         }
 
-        #endregion
-
-        #region CompareTo(IPropertyGraph)
-
-        /// <summary>
-        /// Compares two property graphs.
-        /// </summary>
-        /// <param name="IPropertyGraph">A property graph to compare with.</param>
-        public Int32 CompareTo(IPropertyGraph<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IPropertyGraph)
-        {
-            
-            if ((Object) IPropertyGraph == null)
-                throw new ArgumentNullException("The given IPropertyGraph must not be null!");
-
-            return Id.CompareTo(IPropertyGraph.PropertyData[IdKey]);
-
-        }
-        
         #endregion
 
         #endregion
@@ -1289,25 +1263,6 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #endregion
 
-        #region Equals(IGraphElement)
-
-        /// <summary>
-        /// Compares this property graph to another property element.
-        /// </summary>
-        /// <param name="IPropertyElement">An object to compare with.</param>
-        /// <returns>True if both match; False otherwise.</returns>
-        public Boolean Equals(IGraphElement<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex> IPropertyElement)
-        {
-
-            if ((Object) IPropertyElement == null)
-                return false;
-
-            return Id.Equals(IPropertyElement.PropertyData[IdKey]);
-
-        }
-
-        #endregion
-
         #region Equals(IReadOnlyPropertyGraph)
 
         /// <summary>
@@ -1324,27 +1279,6 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                 return false;
 
             return Id.Equals(IReadOnlyPropertyGraph.PropertyData[IdKey]);
-
-        }
-
-        #endregion
-
-        #region Equals(IPropertyGraph)
-
-        /// <summary>
-        /// Compares two property graphs for equality.
-        /// </summary>
-        /// <param name="IPropertyGraph">A property graph to compare with.</param>
-        /// <returns>True if both match; False otherwise.</returns>
-        public Boolean Equals(IPropertyGraph<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                             TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IPropertyGraph)
-        {
-            
-            if ((Object) IPropertyGraph == null)
-                return false;
-
-            return Id.Equals(IPropertyGraph.PropertyData[IdKey]);
 
         }
 
@@ -1452,7 +1386,22 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                                      Boolean SyncedEdgeIds      = false,
                                      UInt64  NumberOfHyperEdges = 0,
                                      Boolean SyncedHyperEdgeIds = false)
-            : base(GraphId, IPropertyGraph, NumberOfVertices, SyncedVertexIds, NumberOfEdges, SyncedEdgeIds, NumberOfHyperEdges, SyncedHyperEdgeIds)
+            : base(GraphId,
+                   IPropertyGraph,
+                   (_Graph, _Vertex) => new ReadOnlyPropertyVertex<VertexId,    RevisionId,         String, Object, IDictionary<String, Object>,
+                                                                   EdgeId,      RevisionId, String, String, Object, IDictionary<String, Object>,
+                                                                   HyperEdgeId, RevisionId, String, String, Object, IDictionary<String, Object>,
+                                                                   ICollection<IReadOnlyPropertyEdge<VertexId,    RevisionId,         String, Object,
+                                                                                                     EdgeId,      RevisionId, String, String, Object,
+                                                                                                     HyperEdgeId, RevisionId, String, String, Object>>>(
+                                                                                                     _Graph, _Vertex, null, () => new List<IReadOnlyPropertyEdge<VertexId,    RevisionId,         String, Object,
+                                                                                                                                                                 EdgeId,      RevisionId, String, String, Object,
+                                                                                                                                                                 HyperEdgeId, RevisionId, String, String, Object>>()),
+                   (_Graph, _Edge) => new ReadOnlyPropertyEdge<VertexId,    RevisionId,         String, Object, IDictionary<String, Object>,
+                                                               EdgeId,      RevisionId, String, String, Object, IDictionary<String, Object>,
+                                                               HyperEdgeId, RevisionId, String, String, Object, IDictionary<String, Object>>(
+                                                                                                     _Graph, _Edge, null),
+                   NumberOfVertices, SyncedVertexIds, NumberOfEdges, SyncedEdgeIds, NumberOfHyperEdges, SyncedHyperEdgeIds)
 
         { }
 

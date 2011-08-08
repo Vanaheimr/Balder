@@ -25,7 +25,7 @@ using System.Collections.Specialized;
 
 #endregion
 
-namespace de.ahzf.Blueprints.PropertyGraph
+namespace de.ahzf.Blueprints.PropertyGraph.ReadOnly
 {
 
     #region IReadOnlyProperties<TKey, TValue>
