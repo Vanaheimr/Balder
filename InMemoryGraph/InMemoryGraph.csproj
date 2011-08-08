@@ -42,22 +42,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="InMemoryGraph\AGraphElement.cs" />
-    <Compile Include="InMemoryGraph\Indices\QuadtreeIndex.cs" />
-    <Compile Include="InMemoryGraph\Indices\PropertyIndex\PropertyIndex.cs" />
-    <Compile Include="InMemoryGraph\Indices\DictionaryIndex.cs" />
-    <Compile Include="InMemoryGraph\Indices\IndexingMethods.cs" />
-    <Compile Include="InMemoryGraph\Indices\IPropertyElementIndexExtensions.cs" />
-    <Compile Include="InMemoryGraph\Indices\PropertyIndex\PropertyHyperEdgeIndex.cs" />
-    <Compile Include="InMemoryGraph\Indices\PropertyIndex\PropertyEdgeIndex.cs" />
-    <Compile Include="InMemoryGraph\Indices\PropertyIndex\PropertyVertexIndex.cs" />
-    <Compile Include="InMemoryGraph\SimplePropertyGraph.cs" />
-    <Compile Include="InMemoryGraph\Properties.cs" />
-    <Compile Include="InMemoryGraph\InMemoryPropertyGraph.cs" />
-    <Compile Include="InMemoryGraph\PropertyHyperEdge.cs" />
-    <Compile Include="InMemoryGraph\PropertyEdge.cs" />
+    <Compile Include="PropertyGraph\AGraphElement.cs" />
+    <Compile Include="PropertyGraph\Indices\QuadtreeIndex.cs" />
+    <Compile Include="PropertyGraph\Indices\PropertyIndex\PropertyIndex.cs" />
+    <Compile Include="PropertyGraph\Indices\DictionaryIndex.cs" />
+    <Compile Include="PropertyGraph\Indices\IndexingMethods.cs" />
+    <Compile Include="PropertyGraph\Indices\IPropertyElementIndexExtensions.cs" />
+    <Compile Include="PropertyGraph\Indices\PropertyIndex\PropertyHyperEdgeIndex.cs" />
+    <Compile Include="PropertyGraph\Indices\PropertyIndex\PropertyEdgeIndex.cs" />
+    <Compile Include="PropertyGraph\Indices\PropertyIndex\PropertyVertexIndex.cs" />
+    <Compile Include="PropertyGraph\SimplePropertyGraph.cs" />
+    <Compile Include="PropertyGraph\Properties.cs" />
+    <Compile Include="PropertyGraph\InMemoryPropertyGraph.cs" />
+    <Compile Include="PropertyGraph\PropertyHyperEdge.cs" />
+    <Compile Include="PropertyGraph\PropertyEdge.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="InMemoryGraph\PropertyVertex.cs" />
+    <Compile Include="PropertyGraph\PropertyVertex.cs" />
+    <Compile Include="ReadOnlyPropertyGraph\AReadOnlyGraphElement.cs" />
+    <Compile Include="ReadOnlyPropertyGraph\ReadOnlyProperties.cs" />
+    <Compile Include="ReadOnlyPropertyGraph\ReadOnlyPropertyGraph.cs" />
+    <Compile Include="ReadOnlyPropertyGraph\SimpleReadOnlyPropertyGraph.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\blueprints\Blueprints.csproj">

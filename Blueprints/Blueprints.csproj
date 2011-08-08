@@ -116,6 +116,10 @@
     <Compile Include="Extensions\QuadStore\IQuadStoreExtensions.cs" />
     <Compile Include="Interfaces\GenericGraph\Delegates.cs" />
     <Compile Include="Interfaces\Indices\IIndex2D.cs" />
+    <Compile Include="Interfaces\ReadOnlyPropertyGraph\IReadOnlyGraphElement.cs" />
+    <Compile Include="Interfaces\ReadOnlyPropertyGraph\IReadOnlyProperties.cs" />
+    <Compile Include="Interfaces\ReadOnlyPropertyGraph\IReadOnlyGraphIndexing.cs" />
+    <Compile Include="Interfaces\ReadOnlyPropertyGraph\IReadOnlyPropertyGraph.cs" />
     <Compile Include="Interfaces\PropertyGraph\IPropertyGraphNotificationsEventHandlers.cs" />
     <Compile Include="Interfaces\PropertyGraph\IPropertyGraphNotifications.cs" />
     <Compile Include="Interfaces\PropertyGraph\IPropertiesNotificationsEventHandlers.cs" />

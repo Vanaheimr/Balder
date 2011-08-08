@@ -505,6 +505,24 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #endregion
 
+        #region CompareTo(IReadOnlyGraphElement)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="IReadOnlyGraphElement">An object to compare with.</param>
+        public Int32 CompareTo(IReadOnlyGraphElement<TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge> IReadOnlyGraphElement)
+        {
+
+            if ((Object) IReadOnlyGraphElement == null)
+                throw new ArgumentNullException("The given IReadOnlyGraphElement must not be null!");
+
+            return Id.CompareTo(IReadOnlyGraphElement.PropertyData[IdKey]);
+
+        }
+
+        #endregion
+
         #region CompareTo(IGraphElement)
 
         /// <summary>
@@ -587,6 +605,26 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                 return false;
 
             return Id.Equals(EdgeId);
+
+        }
+
+        #endregion
+
+        #region Equals(IReadOnlyGraphElement)
+
+        /// <summary>
+        /// Compares this property edge to another property element.
+        /// </summary>
+        /// <param name="IReadOnlyGraphElement">An object to compare with.</param>
+        /// <returns>True if both match; False otherwise.</returns>
+        public Boolean Equals(IReadOnlyGraphElement<TIdEdge, TRevisionIdEdge, TKeyEdge, TValueEdge> IReadOnlyGraphElement)
+        {
+
+            if ((Object) IReadOnlyGraphElement == null)
+                return false;
+
+            //TODO: Here it might be good to check all attributes of the UNIQUE constraint!
+            return Id.Equals(IReadOnlyGraphElement.PropertyData[IdKey]);
 
         }
 

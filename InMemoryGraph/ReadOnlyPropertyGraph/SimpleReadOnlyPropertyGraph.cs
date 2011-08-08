@@ -27,7 +27,7 @@ using System.Threading;
 namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 {
 
-    #region SimplePropertyGraph<TId, TRevisionId, TKey, TValue>
+    #region SimpleReadOnlyPropertyGraph<TId, TRevisionId, TKey, TValue>
 
     /// <summary>
     /// A simplified in-memory implementation of a generic property graph.
@@ -37,8 +37,8 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
     /// <typeparam name="TLabel">The type of the (hyper-)edge labels.</typeparam>
     /// <typeparam name="TKey">The type of the graph element property keys.</typeparam>
     /// <typeparam name="TValue">The type of the graph element property values.</typeparam>
-    public class SimplePropertyGraph<TId, TRevisionId, TLabel, TKey, TValue>
-                     : InMemoryGenericPropertyGraph<// Vertex definition
+    public class SimpleReadOnlyPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue>
+                     : ReadOnlyPropertyGraph<// Vertex definition
                                                     TId, TRevisionId,         TKey, TValue, IDictionary<TKey, TValue>,
                                                     ICollection<IPropertyEdge<TId, TRevisionId,         TKey, TValue,
                                                                               TId, TRevisionId, TLabel, TKey, TValue,
@@ -57,114 +57,24 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
     {
 
-        #region Delegates
-
-        #region IdCreatorDelegate()
-
-        /// <summary>
-        /// A delegate for creating a new TId
-        /// (if no one was provided by the user).
-        /// </summary>
-        /// <returns>A valid TId.</returns>
-        public delegate TId IdCreatorDelegate();
-
-        #endregion
-
-        #region RevisionIdCreatorDelegate()
-
-        /// <summary>
-        /// A delegate for creating a new TRevisionId
-        /// (if no one was provided by the user).
-        /// </summary>
-        /// <returns>A valid TRevisionId.</returns>
-        public delegate TRevisionId RevisionIdCreatorDelegate();
-
-        #endregion
-
-        #endregion
-
         #region Constructor(s)
 
-        #region SimplePropertyGraph()
+        #region SimpleReadOnlyPropertyGraph()
 
         /// <summary>
         /// Created a new simplyfied in-memory property graph.
         /// </summary>
-        public SimplePropertyGraph(TId                       GraphId,
-                                   TKey                      IdKey,
-                                   IdCreatorDelegate         IdCreatorDelegate,
-                                   TKey                      RevisionIdKey,
-                                   RevisionIdCreatorDelegate RevisionIdCreatorDelegate,
-                                   GraphInitializer<TId, TRevisionId,         TKey, TValue,
-                                                    TId, TRevisionId, TLabel, TKey, TValue,
-                                                    TId, TRevisionId, TLabel, TKey, TValue> GraphInitializer = null)
-            : base (GraphId,
-                    IdKey,
-                    RevisionIdKey,
-                    () => new Dictionary<TKey, TValue>(),
-
-                    // Create a new Vertex
-                    (a) => IdCreatorDelegate(),
-                    (Graph, VertexId, VertexInitializer) =>
-                        new PropertyVertex<TId, TRevisionId,         TKey, TValue, IDictionary<TKey, TValue>,
-                                           TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
-                                           TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
-                                           ICollection<IPropertyEdge<TId, TRevisionId,         TKey, TValue,
-                                                                     TId, TRevisionId, TLabel, TKey, TValue,
-                                                                     TId, TRevisionId, TLabel, TKey, TValue>>>
-                            (Graph, VertexId, IdKey, RevisionIdKey,
-                             () => new Dictionary<TKey, TValue>(),
-                             () => new HashSet<IPropertyEdge<TId, TRevisionId,         TKey, TValue,
-                                                             TId, TRevisionId, TLabel, TKey, TValue,
-                                                             TId, TRevisionId, TLabel, TKey, TValue>>(),
-                             VertexInitializer
-                            ),
-
-                   // Create a new Edge
-                   (Graph) => IdCreatorDelegate(),
-                   (Graph, OutVertex, InVertex, EdgeId, Label, EdgeInitializer) =>
-                        new PropertyEdge<TId, TRevisionId,         TKey, TValue, IDictionary<TKey, TValue>,
-                                         TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
-                                         TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>>
-                            (Graph, OutVertex, InVertex, EdgeId, Label, IdKey, RevisionIdKey,
-                             () => new Dictionary<TKey, TValue>(),
-                             EdgeInitializer
-                            ),
-
-
-                   // Create a new HyperEdge
-                   (Graph) => IdCreatorDelegate(),
-                   (Graph, Edges, HyperEdgeId, Label, HyperEdgeInitializer) =>
-                       new PropertyHyperEdge<TId, TRevisionId,         TKey, TValue, IDictionary<TKey, TValue>,
-                                             TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
-                                             TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
-                                             ICollection<IPropertyEdge<TId, TRevisionId,         TKey, TValue,
-                                                                       TId, TRevisionId, TLabel, TKey, TValue,
-                                                                       TId, TRevisionId, TLabel, TKey, TValue>>>
-                            (Graph, Edges, HyperEdgeId, Label, IdKey, RevisionIdKey,
-                             () => new Dictionary<TKey, TValue>(),
-                             () => new HashSet<IPropertyEdge<TId, TRevisionId,         TKey, TValue,
-                                                             TId, TRevisionId, TLabel, TKey, TValue,
-                                                             TId, TRevisionId, TLabel, TKey, TValue>>(),
-                             HyperEdgeInitializer
-                            ),
-
-                   // The vertices collection
-                   new ConcurrentDictionary<TId, IPropertyVertex   <TId, TRevisionId,         TKey, TValue,
-                                                                    TId, TRevisionId, TLabel, TKey, TValue,
-                                                                    TId, TRevisionId, TLabel, TKey, TValue>>(),
-
-                   // The edges collection
-                   new ConcurrentDictionary<TId, IPropertyEdge     <TId, TRevisionId,         TKey, TValue,
-                                                                    TId, TRevisionId, TLabel, TKey, TValue,
-                                                                    TId, TRevisionId, TLabel, TKey, TValue>>(),
-
-                   // The hyperedges collection
-                   new ConcurrentDictionary<TId, IPropertyHyperEdge<TId, TRevisionId,         TKey, TValue,
-                                                                    TId, TRevisionId, TLabel, TKey, TValue,
-                                                                    TId, TRevisionId, TLabel, TKey, TValue>>(),
-
-                   GraphInitializer)
+        /// <param name="GraphId">A unique identification for this graph.</param>
+        /// <param name="SimplePropertyGraph">A simple property graph to copy the data from.</param>
+        public SimpleReadOnlyPropertyGraph(TId GraphId,
+                                           SimplePropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> SimplePropertyGraph,
+                                     UInt64  NumberOfVertices   = 0,
+                                     Boolean SyncedVertexIds    = false,
+                                     UInt64  NumberOfEdges      = 0,
+                                     Boolean SyncedEdgeIds      = false,
+                                     UInt64  NumberOfHyperEdges = 0,
+                                     Boolean SyncedHyperEdgeIds = false)
+            : base(GraphId, SimplePropertyGraph, NumberOfVertices, SyncedVertexIds, NumberOfEdges, SyncedEdgeIds, NumberOfHyperEdges, SyncedHyperEdgeIds)
 
         { }
 
@@ -183,8 +93,8 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="PropertyGraph1">A graph.</param>
         /// <param name="PropertyGraph2">Another graph.</param>
         /// <returns>True if both match; False otherwise.</returns>
-        public static Boolean operator == (SimplePropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph1,
-                                           SimplePropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph2)
+        public static Boolean operator == (SimpleReadOnlyPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph1,
+                                           SimpleReadOnlyPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph2)
         {
 
             // If both are null, or both are same instance, return true.
@@ -209,8 +119,8 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="PropertyGraph1">A graph.</param>
         /// <param name="PropertyGraph2">Another graph.</param>
         /// <returns>False if both match; True otherwise.</returns>
-        public static Boolean operator != (SimplePropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph1,
-                                           SimplePropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph2)
+        public static Boolean operator != (SimpleReadOnlyPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph1,
+                                           SimpleReadOnlyPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph2)
         {
             return !(PropertyGraph1 == PropertyGraph2);
         }
@@ -225,8 +135,8 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="PropertyGraph1">A graph.</param>
         /// <param name="PropertyGraph2">Another graph.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator < (SimplePropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph1,
-                                          SimplePropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph2)
+        public static Boolean operator < (SimpleReadOnlyPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph1,
+                                          SimpleReadOnlyPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph2)
         {
 
             if ((Object) PropertyGraph1 == null)
@@ -249,8 +159,8 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="PropertyGraph1">A graph.</param>
         /// <param name="PropertyGraph2">Another graph.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator <= (SimplePropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph1,
-                                           SimplePropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph2)
+        public static Boolean operator <= (SimpleReadOnlyPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph1,
+                                           SimpleReadOnlyPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph2)
         {
             return !(PropertyGraph1 > PropertyGraph2);
         }
@@ -265,8 +175,8 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="PropertyGraph1">A graph.</param>
         /// <param name="PropertyGraph2">Another graph.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator > (SimplePropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph1,
-                                          SimplePropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph2)
+        public static Boolean operator > (SimpleReadOnlyPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph1,
+                                          SimpleReadOnlyPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph2)
         {
 
             if ((Object) PropertyGraph1 == null)
@@ -289,8 +199,8 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="PropertyGraph1">A graph.</param>
         /// <param name="PropertyGraph2">Another graph.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator >= (SimplePropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph1,
-                                           SimplePropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph2)
+        public static Boolean operator >= (SimpleReadOnlyPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph1,
+                                           SimpleReadOnlyPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph2)
         {
             return !(PropertyGraph1 < PropertyGraph2);
         }
@@ -314,8 +224,8 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
             if (Object == null)
                 return false;
 
-            // Check if the given object can be casted to a SimplePropertyGraph
-            var PropertyGraph = Object as SimplePropertyGraph<TId, TRevisionId, TLabel, TKey, TValue>;
+            // Check if the given object can be casted to a SimpleReadOnlyPropertyGraph
+            var PropertyGraph = Object as SimpleReadOnlyPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue>;
             if ((Object) PropertyGraph == null)
                 return false;
 
@@ -344,71 +254,43 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
     #endregion
 
-    #region SimplePropertyGraph
+    #region SimpleReadOnlyPropertyGraph
 
     /// <summary>
     /// A simplified in-memory implementation of a property graph.
     /// </summary>
-    public class SimplePropertyGraph : SimplePropertyGraph<UInt64, Int64, String, String, Object>
+    public class SimpleReadOnlyPropertyGraph : SimpleReadOnlyPropertyGraph<UInt64, Int64, String, String, Object>
     {
 
         #region Constructor(s)
 
-        #region SimplePropertyGraph()
-        // This constructor is needed for automatic activation!
-
-        /// <summary>
-        /// Created a new simple in-memory property graph.
-        /// </summary>
-        public SimplePropertyGraph()
-            : this(SimplePropertyGraph.NewId)
-        { }
-
-        #endregion
-
-        #region SimplePropertyGraph(GraphInitializer)
-
-        /// <summary>
-        /// Created a new simple in-memory property graph.
-        /// </summary>
-        /// <param name="GraphInitializer">A delegate to initialize the graph.</param>
-        public SimplePropertyGraph(GraphInitializer<UInt64, Int64, String, Object,
-                                                    UInt64, Int64, String, String, Object,
-                                                    UInt64, Int64, String, String, Object> GraphInitializer)
-            : this(SimplePropertyGraph.NewId, GraphInitializer)
-        { }
-
-        #endregion
-
-        #region SimplePropertyGraph(GraphId, GraphInitializer = null)
+        #region SimpleReadOnlyPropertyGraph(GraphId, GraphInitializer = null)
 
         /// <summary>
         /// Created a new simple in-memory property graph.
         /// </summary>
         /// <param name="GraphId">A unique identification for this graph.</param>
-        /// <param name="GraphInitializer">A delegate to initialize the graph.</param>
-        public SimplePropertyGraph(UInt64 GraphId,
-                                   GraphInitializer<UInt64, Int64,         String, Object,
-                                                    UInt64, Int64, String, String, Object,
-                                                    UInt64, Int64, String, String, Object> GraphInitializer = null)
-            : base (GraphId,
-
-                    // TId key
-                    "Id",
-
-                    // TId creator delegate
-                    () => SimplePropertyGraph.NewId,
-
-                    // RevisionId key
-                    "RevId",
-
-                    // RevisionId creator delegate
-                    () => SimplePropertyGraph.NewRevisionId,
-
-                    GraphInitializer)
-
+        /// <param name="SimplePropertyGraph">A simple property graph to copy the data from.</param>
+        public SimpleReadOnlyPropertyGraph(UInt64 GraphId,
+                                           SimplePropertyGraph<UInt64, Int64, String, String, Object> SimplePropertyGraph,
+                                           UInt64  NumberOfVertices   = 0,
+                                           Boolean SyncedVertexIds    = false,
+                                           UInt64  NumberOfEdges      = 0,
+                                           Boolean SyncedEdgeIds      = false,
+                                           UInt64  NumberOfHyperEdges = 0,
+                                           Boolean SyncedHyperEdgeIds = false)
+            : base(GraphId, SimplePropertyGraph, NumberOfVertices, SyncedVertexIds, NumberOfEdges, SyncedEdgeIds, NumberOfHyperEdges, SyncedHyperEdgeIds)
         {
-            _NewId = 0;
+
+            //foreach (var _Vertex in SimplePropertyGraph.Vertices())
+            //    _Vertices  [_Vertex.Id]    = _Vertex;
+
+            //foreach (var _Edge   in SimplePropertyGraph.Edges())
+            //    _Edges     [_Edge.Id]      = _Edge;
+
+            //foreach (var _HyperEdge in SimplePropertyGraph.HyperEdges())
+            //    _HyperEdges[_HyperEdge.Id] = _HyperEdge;
+
         }
 
         #endregion
@@ -428,7 +310,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
             get
             {
                 Interlocked.Increment(ref _NewId);
-                return (UInt64) _NewId;
+                return (UInt64) _NewId - 1;
             }
         }
 
@@ -460,8 +342,8 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="PropertyGraph1">A graph.</param>
         /// <param name="PropertyGraph2">Another graph.</param>
         /// <returns>True if both match; False otherwise.</returns>
-        public static Boolean operator == (SimplePropertyGraph PropertyGraph1,
-                                           SimplePropertyGraph PropertyGraph2)
+        public static Boolean operator == (SimpleReadOnlyPropertyGraph PropertyGraph1,
+                                           SimpleReadOnlyPropertyGraph PropertyGraph2)
         {
 
             // If both are null, or both are same instance, return true.
@@ -486,8 +368,8 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="PropertyGraph1">A graph.</param>
         /// <param name="PropertyGraph2">Another graph.</param>
         /// <returns>False if both match; True otherwise.</returns>
-        public static Boolean operator != (SimplePropertyGraph PropertyGraph1,
-                                           SimplePropertyGraph PropertyGraph2)
+        public static Boolean operator != (SimpleReadOnlyPropertyGraph PropertyGraph1,
+                                           SimpleReadOnlyPropertyGraph PropertyGraph2)
         {
             return !(PropertyGraph1 == PropertyGraph2);
         }
@@ -502,8 +384,8 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="PropertyGraph1">A graph.</param>
         /// <param name="PropertyGraph2">Another graph.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator < (SimplePropertyGraph PropertyGraph1,
-                                          SimplePropertyGraph PropertyGraph2)
+        public static Boolean operator < (SimpleReadOnlyPropertyGraph PropertyGraph1,
+                                          SimpleReadOnlyPropertyGraph PropertyGraph2)
         {
 
             if ((Object) PropertyGraph1 == null)
@@ -526,8 +408,8 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="PropertyGraph1">A graph.</param>
         /// <param name="PropertyGraph2">Another graph.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator <= (SimplePropertyGraph PropertyGraph1,
-                                           SimplePropertyGraph PropertyGraph2)
+        public static Boolean operator <= (SimpleReadOnlyPropertyGraph PropertyGraph1,
+                                           SimpleReadOnlyPropertyGraph PropertyGraph2)
         {
             return !(PropertyGraph1 > PropertyGraph2);
         }
@@ -542,8 +424,8 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="PropertyGraph1">A graph.</param>
         /// <param name="PropertyGraph2">Another graph.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator > (SimplePropertyGraph PropertyGraph1,
-                                          SimplePropertyGraph PropertyGraph2)
+        public static Boolean operator > (SimpleReadOnlyPropertyGraph PropertyGraph1,
+                                          SimpleReadOnlyPropertyGraph PropertyGraph2)
         {
 
             if ((Object) PropertyGraph1 == null)
@@ -566,8 +448,8 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="PropertyGraph1">A graph.</param>
         /// <param name="PropertyGraph2">Another graph.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator >= (SimplePropertyGraph PropertyGraph1,
-                                           SimplePropertyGraph PropertyGraph2)
+        public static Boolean operator >= (SimpleReadOnlyPropertyGraph PropertyGraph1,
+                                           SimpleReadOnlyPropertyGraph PropertyGraph2)
         {
             return !(PropertyGraph1 < PropertyGraph2);
         }
@@ -591,8 +473,8 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
             if (Object == null)
                 return false;
 
-            // Check if the given object can be casted to a SimplePropertyGraph
-            var PropertyGraph = Object as SimplePropertyGraph;
+            // Check if the given object can be casted to a SimpleReadOnlyPropertyGraph
+            var PropertyGraph = Object as SimpleReadOnlyPropertyGraph;
             if ((Object) PropertyGraph == null)
                 return false;
 

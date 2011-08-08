@@ -25,7 +25,7 @@ using System.Collections.Generic;
 namespace de.ahzf.Blueprints.PropertyGraph
 {
 
-    #region IGraphElement<TId, TRevisionId, TKey, TValue>
+    #region IReadOnlyGraphElement<TId, TRevisionId, TKey, TValue>
 
     /// <summary>
     /// The common interface for all property graph elements:
@@ -35,22 +35,30 @@ namespace de.ahzf.Blueprints.PropertyGraph
     /// <typeparam name="TRevisionId">The type of the revision identifiers.</typeparam>
     /// <typeparam name="TKey">The type of the property keys.</typeparam>
     /// <typeparam name="TValue">The type of the property values.</typeparam>
-    public interface IGraphElement<TId, TRevisionId, TKey, TValue>
-                        : IReadOnlyGraphElement<TId, TRevisionId, TKey, TValue>,
-                          IProperties<TKey, TValue>,
-                          IEquatable <IGraphElement<TId, TRevisionId, TKey, TValue>>,
-                          IComparable<IGraphElement<TId, TRevisionId, TKey, TValue>>,
+    public interface IReadOnlyGraphElement<TId, TRevisionId, TKey, TValue>
+                        : IIdentifier<TId>,
+                          IRevisionId<TRevisionId>,
+                          IReadOnlyProperties<TKey, TValue>,
+                          IEquatable <IReadOnlyGraphElement<TId, TRevisionId, TKey, TValue>>,
+                          IComparable<IReadOnlyGraphElement<TId, TRevisionId, TKey, TValue>>,
                           IComparable
 
         where TId            : IEquatable<TId>,         IComparable<TId>,         IComparable, TValue
         where TRevisionId    : IEquatable<TRevisionId>, IComparable<TRevisionId>, IComparable, TValue
         where TKey           : IEquatable<TKey>,        IComparable<TKey>,        IComparable
 
-    { }
+    {
+
+        /// <summary>
+        /// Return the graph element properties (its embedded data).
+        /// </summary>
+        IProperties<TKey, TValue> PropertyData { get; }
+
+    }
 
     #endregion
 
-    #region IGraphElement<TId, TRevisionId, TKey, TValue, TDatastructure>
+    #region IReadOnlyGraphElement<TId, TRevisionId, TKey, TValue, TDatastructure>
 
     /// <summary>
     /// The common interface for all property graph elements:
@@ -61,8 +69,8 @@ namespace de.ahzf.Blueprints.PropertyGraph
     /// <typeparam name="TKey">The type of the property keys.</typeparam>
     /// <typeparam name="TValue">The type of the property values.</typeparam>
     /// <typeparam name="TDatastructure">The type of the datastructure to maintain the key/value pairs.</typeparam>
-    public interface IGraphElement<TId, TRevisionId, TKey, TValue, TDatastructure>
-                        : IGraphElement<TId, TRevisionId, TKey, TValue>
+    public interface IReadOnlyGraphElement<TId, TRevisionId, TKey, TValue, TDatastructure>
+                        : IReadOnlyGraphElement<TId, TRevisionId, TKey, TValue>
 
         where TId            : IEquatable<TId>,         IComparable<TId>,         IComparable, TValue
         where TRevisionId    : IEquatable<TRevisionId>, IComparable<TRevisionId>, IComparable, TValue
