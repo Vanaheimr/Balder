@@ -38,17 +38,9 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
     /// <typeparam name="TKey">The type of the graph element property keys.</typeparam>
     /// <typeparam name="TValue">The type of the graph element property values.</typeparam>
     public class SimplePropertyGraph<TId, TRevisionId, TLabel, TKey, TValue>
-                     : InMemoryGenericPropertyGraph<// Vertex definition
-                                                    TId, TRevisionId,         TKey, TValue, IDictionary<TKey, TValue>,
-                                                    ICollection<IPropertyEdge<TId, TRevisionId,         TKey, TValue,
-                                                                              TId, TRevisionId, TLabel, TKey, TValue,
-                                                                              TId, TRevisionId, TLabel, TKey, TValue>>,
-
-                                                    // Edge definition
-                                                    TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
-
-                                                    // Hyperedge definition
-                                                    TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>>
+                     : InMemoryGenericPropertyGraph<TId, TRevisionId,         TKey, TValue, IDictionary<TKey, TValue>,  // Vertex definition
+                                                    TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,  // Edge definition
+                                                    TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>>  // Hyperedge definition
 
         where TId         : IEquatable<TId>,         IComparable<TId>,         IComparable, TValue
         where TRevisionId : IEquatable<TRevisionId>, IComparable<TRevisionId>, IComparable, TValue
@@ -111,12 +103,18 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                                            TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
                                            ICollection<IPropertyEdge<TId, TRevisionId,         TKey, TValue,
                                                                      TId, TRevisionId, TLabel, TKey, TValue,
-                                                                     TId, TRevisionId, TLabel, TKey, TValue>>>
+                                                                     TId, TRevisionId, TLabel, TKey, TValue>>,
+                                           IDictionary<TLabel, IPropertyHyperEdge<TId, TRevisionId,         TKey, TValue,
+                                                                                  TId, TRevisionId, TLabel, TKey, TValue,
+                                                                                  TId, TRevisionId, TLabel, TKey, TValue>>>
                             (Graph, VertexId, IdKey, RevisionIdKey,
                              () => new Dictionary<TKey, TValue>(),
                              () => new HashSet<IPropertyEdge<TId, TRevisionId,         TKey, TValue,
                                                              TId, TRevisionId, TLabel, TKey, TValue,
                                                              TId, TRevisionId, TLabel, TKey, TValue>>(),
+                             () => new Dictionary<TLabel, IPropertyHyperEdge<TId, TRevisionId,         TKey, TValue,
+                                                                             TId, TRevisionId, TLabel, TKey, TValue,
+                                                                             TId, TRevisionId, TLabel, TKey, TValue>>(),
                              VertexInitializer
                             ),
 
@@ -134,14 +132,14 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
                    // Create a new HyperEdge
                    (Graph) => IdCreatorDelegate(),
-                   (Graph, Edges, HyperEdgeId, Label, HyperEdgeInitializer) =>
+                   (Graph, EdgeSelector, HyperEdgeId, Label, HyperEdgeInitializer) =>
                        new PropertyHyperEdge<TId, TRevisionId,         TKey, TValue, IDictionary<TKey, TValue>,
                                              TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
                                              TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
                                              ICollection<IPropertyEdge<TId, TRevisionId,         TKey, TValue,
                                                                        TId, TRevisionId, TLabel, TKey, TValue,
                                                                        TId, TRevisionId, TLabel, TKey, TValue>>>
-                            (Graph, Edges, HyperEdgeId, Label, IdKey, RevisionIdKey,
+                            (Graph, EdgeSelector, HyperEdgeId, Label, IdKey, RevisionIdKey,
                              () => new Dictionary<TKey, TValue>(),
                              () => new HashSet<IPropertyEdge<TId, TRevisionId,         TKey, TValue,
                                                              TId, TRevisionId, TLabel, TKey, TValue,

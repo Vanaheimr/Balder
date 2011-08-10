@@ -177,10 +177,10 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         public PropertyHyperEdge(IPropertyGraph<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
                                                 TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                 TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Graph,
-                                 IEnumerable<IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                                           TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                           TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
-                                                           Edges,
+
+                                 HyperEdgeEdgeSelector<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Edges,
 
                                  TIdHyperEdge                  HyperEdgeId,
                                  THyperEdgeLabel               Label,
@@ -204,9 +204,6 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
             _Edges = EdgesCollectionInitializer();
 
-            foreach (var _Edge in Edges)
-                _Edges.Add(_Edge);
-
             // Add the label
             //_Properties.Add(__Label, myLabel);
 
@@ -218,6 +215,21 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         #endregion
 
         #endregion
+
+
+        public Boolean CheckIfMatches(IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                    TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                    TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Edge)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Boolean AddIfMatches(IPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                  TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Edge)
+        {
+            throw new NotImplementedException();
+        }
 
 
         #region Operator overloading

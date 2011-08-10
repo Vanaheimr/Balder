@@ -110,6 +110,29 @@ namespace de.ahzf.Blueprints.PropertyGraph
         #endregion
 
 
+        #region OnHyperEdgeAdding
+
+        /// <summary>
+        /// Called whenever a hyperedge will be added to the property graph.
+        /// </summary>
+        event HyperEdgeAddingEventHandler<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                          TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                          TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnHyperEdgeAdding;
+
+        #endregion
+
+        #region OnHyperEdgeAdded
+
+        /// <summary>
+        /// Called whenever a hyperedge was added to the property graph.
+        /// </summary>
+        event HyperEdgeAddedEventHandler<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                         TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                         TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnHyperEdgeAdded;
+
+        #endregion
+
+
         #region OnGraphShuttingdown
 
         /// <summary>

@@ -221,9 +221,39 @@ namespace de.ahzf.Blueprints.PropertyGraph.ReadOnly
 
         #endregion
 
-        #region In/Out HyperEdges
+        #region HyperEdge methods...
 
-        // yet to come!
+        #region HyperEdges(params HyperEdgeLabels)      // HyperEdges()!
+
+        /// <summary>
+        /// The hyperedges emanating from, or leaving, this vertex
+        /// filtered by their label. If no label was given,
+        /// all hyperedges will be returned.
+        /// </summary>
+        IEnumerable<IReadOnlyPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                               TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                               TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
+
+            HyperEdges(params THyperEdgeLabel[] HyperEdgeLabels);
+
+        #endregion
+
+        #region HyperEdges(HyperEdgeFilter)
+
+        /// <summary>
+        /// The hyperedges emanating from, or leaving, this vertex
+        /// filtered by the given hyperedge filter delegate.
+        /// </summary>
+        /// <param name="HyperEdgeFilter">A delegate for hyperedge filtering.</param>
+        IEnumerable<IReadOnlyPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                               TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                               TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
+            
+            HyperEdges(ReadOnlyHyperEdgeFilter<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                               TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                               TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> HyperEdgeFilter);
+
+        #endregion
 
         #endregion
 

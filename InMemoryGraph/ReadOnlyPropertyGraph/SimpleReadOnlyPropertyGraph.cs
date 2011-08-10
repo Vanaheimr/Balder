@@ -39,17 +39,9 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory.ReadOnly
     /// <typeparam name="TKey">The type of the graph element property keys.</typeparam>
     /// <typeparam name="TValue">The type of the graph element property values.</typeparam>
     public class SimpleReadOnlyPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue>
-                     : ReadOnlyPropertyGraph<// Vertex definition
-                                                    TId, TRevisionId,         TKey, TValue, IDictionary<TKey, TValue>,
-                                                    ICollection<IPropertyEdge<TId, TRevisionId,         TKey, TValue,
-                                                                              TId, TRevisionId, TLabel, TKey, TValue,
-                                                                              TId, TRevisionId, TLabel, TKey, TValue>>,
-
-                                                    // Edge definition
-                                                    TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
-
-                                                    // Hyperedge definition
-                                                    TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>>
+                     : ReadOnlyPropertyGraph<TId, TRevisionId,         TKey, TValue, IDictionary<TKey, TValue>,  // Vertex definition
+                                             TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,  // Edge definition
+                                             TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>>  // Hyperedge definition
 
         where TId         : IEquatable<TId>,         IComparable<TId>,         IComparable, TValue
         where TRevisionId : IEquatable<TRevisionId>, IComparable<TRevisionId>, IComparable, TValue
@@ -80,9 +72,12 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory.ReadOnly
                    (_Graph, _Vertex) => new ReadOnlyPropertyVertex<TId, TRevisionId,         TKey, TValue, IDictionary<TKey, TValue>,
                                                                    TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
                                                                    TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
-                                                                   ICollection<IReadOnlyPropertyEdge<TId, TRevisionId, TKey, TValue,
+                                                                   ICollection<IReadOnlyPropertyEdge<TId, TRevisionId,         TKey, TValue,
                                                                                                      TId, TRevisionId, TLabel, TKey, TValue,
-                                                                                                     TId, TRevisionId, TLabel, TKey, TValue>>>(
+                                                                                                     TId, TRevisionId, TLabel, TKey, TValue>>,
+                                                                   ICollection<IReadOnlyPropertyHyperEdge<TId, TRevisionId,         TKey, TValue,
+                                                                                                          TId, TRevisionId, TLabel, TKey, TValue,
+                                                                                                          TId, TRevisionId, TLabel, TKey, TValue>>>(
                                                                                                      _Graph,
                                                                                                      _Vertex,
                                                                                                      () => new Dictionary<TKey, TValue>(),

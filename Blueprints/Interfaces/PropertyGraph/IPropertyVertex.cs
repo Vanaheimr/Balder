@@ -118,7 +118,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
         #endregion
 
 
-        #region OutEdges(params EdgeLabels)     // OutEdges()!
+        #region OutEdges(params EdgeLabels)      // OutEdges()!
 
         /// <summary>
         /// The edges emanating from, or leaving, this vertex
@@ -299,9 +299,78 @@ namespace de.ahzf.Blueprints.PropertyGraph
 
         #endregion
 
-        #region In/Out HyperEdges
+        #region HyperEdge methods...
 
-        // yet to come!
+        #region AddHyperEdge(HyperEdge)
+
+        /// <summary>
+        /// Add a hyperedge.
+        /// </summary>
+        /// <param name="HyperEdge">The hyperedge to add.</param>
+        void AddHyperEdge(IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                             TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> HyperEdge);
+
+        #endregion
+
+
+        #region HyperEdges(params HyperEdgeLabels)      // HyperEdges()!
+
+        /// <summary>
+        /// The hyperedges emanating from, or leaving, this vertex
+        /// filtered by their label. If no label was given,
+        /// all hyperedges will be returned.
+        /// </summary>
+        IEnumerable<IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
+
+            HyperEdges(params THyperEdgeLabel[] HyperEdgeLabels);
+
+        #endregion
+
+        #region HyperEdges(HyperEdgeFilter)
+
+        /// <summary>
+        /// The hyperedges emanating from, or leaving, this vertex
+        /// filtered by the given hyperedge filter delegate.
+        /// </summary>
+        /// <param name="HyperEdgeFilter">A delegate for hyperedge filtering.</param>
+        IEnumerable<IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
+            
+            HyperEdges(HyperEdgeFilter<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> HyperEdgeFilter);
+
+        #endregion
+
+
+        #region RemoveHyperEdges(params HyperEdges)    // RemoveHyperEdges()!
+
+        /// <summary>
+        /// Remove hyperedges.
+        /// </summary>
+        /// <param name="HyperEdges">An array of outgoing edges to be removed.</param>
+        void RemoveHyperEdges(params IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                        TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                        TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>[] HyperEdges);
+
+        #endregion
+
+        #region RemoveHyperEdges(HyperEdgeFilter = null)
+
+        /// <summary>
+        /// Remove any outgoing hyperedge matching
+        /// the given hyperedge filter delegate.
+        /// </summary>
+        /// <param name="HyperEdgeFilter">A delegate for hyperedge filtering.</param>
+        void RemoveHyperEdges(HyperEdgeFilter<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> HyperEdgeFilter = null);
+
+        #endregion
 
         #endregion
 

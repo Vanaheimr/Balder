@@ -39,7 +39,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory.ReadOnly
     public class ReadOnlyPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,    TDatastructureVertex,
                                         TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
                                         TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
-                                        TEdgeCollection>
+                                        TEdgeCollection, THyperEdgeCollection>
 
                                 : AReadOnlyGraphElement<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex, TDatastructureVertex>,
 
@@ -50,12 +50,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory.ReadOnly
                                   IDynamicGraphElement<ReadOnlyPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,    TDatastructureVertex,
                                                                               TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
                                                                               TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
-                                                                              TEdgeCollection>>
-
-
-        where TEdgeCollection         : ICollection<IReadOnlyPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                                                          TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                          TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
+                                                                              TEdgeCollection, THyperEdgeCollection>>
 
         where TIdVertex               : IEquatable<TIdVertex>,            IComparable<TIdVertex>,            IComparable, TValueVertex
         where TIdEdge                 : IEquatable<TIdEdge>,              IComparable<TIdEdge>,              IComparable, TValueEdge
@@ -75,6 +70,14 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory.ReadOnly
         where TDatastructureVertex    : IDictionary<TKeyVertex,    TValueVertex>
         where TDatastructureEdge      : IDictionary<TKeyEdge,      TValueEdge>
         where TDatastructureHyperEdge : IDictionary<TKeyHyperEdge, TValueHyperEdge>
+
+        where TEdgeCollection         : ICollection<IReadOnlyPropertyEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                          TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                          TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
+
+        where THyperEdgeCollection    : ICollection<IReadOnlyPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                                               TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                               TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
 
     {
 
@@ -294,6 +297,48 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory.ReadOnly
 
         #endregion
 
+        #region HyperEdge methods...
+
+        #region HyperEdges(params HyperEdgeLabels)      // HyperEdges()!
+
+        /// <summary>
+        /// The hyperedges emanating from, or leaving, this vertex
+        /// filtered by their label. If no label was given,
+        /// all hyperedges will be returned.
+        /// </summary>
+        public IEnumerable<IReadOnlyPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                      TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
+
+            HyperEdges(params THyperEdgeLabel[] HyperEdgeLabels)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #region HyperEdges(HyperEdgeFilter)
+
+        /// <summary>
+        /// The hyperedges emanating from, or leaving, this vertex
+        /// filtered by the given hyperedge filter delegate.
+        /// </summary>
+        /// <param name="HyperEdgeFilter">A delegate for hyperedge filtering.</param>
+        public IEnumerable<IReadOnlyPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                      TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
+            
+            HyperEdges(ReadOnlyHyperEdgeFilter<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                               TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                               TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> HyperEdgeFilter)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #endregion
+
 
         #region Constructor(s)
 
@@ -350,11 +395,11 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory.ReadOnly
         public static Boolean operator == (ReadOnlyPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,    TDatastructureVertex,
                                                                   TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
                                                                   TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
-                                                                  TEdgeCollection> ReadOnlyPropertyVertex1,
+                                                                  TEdgeCollection, THyperEdgeCollection> ReadOnlyPropertyVertex1,
                                            ReadOnlyPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,    TDatastructureVertex,
                                                                   TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
                                                                   TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
-                                                                  TEdgeCollection> ReadOnlyPropertyVertex2)
+                                                                  TEdgeCollection, THyperEdgeCollection> ReadOnlyPropertyVertex2)
         {
 
             // If both are null, or both are same instance, return true.
@@ -382,11 +427,11 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory.ReadOnly
         public static Boolean operator != (ReadOnlyPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,    TDatastructureVertex,
                                                                   TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
                                                                   TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
-                                                                  TEdgeCollection> ReadOnlyPropertyVertex1,
+                                                                  TEdgeCollection, THyperEdgeCollection> ReadOnlyPropertyVertex1,
                                            ReadOnlyPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,    TDatastructureVertex,
                                                                   TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
                                                                   TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
-                                                                  TEdgeCollection> ReadOnlyPropertyVertex2)
+                                                                  TEdgeCollection, THyperEdgeCollection> ReadOnlyPropertyVertex2)
         {
             return !(ReadOnlyPropertyVertex1 == ReadOnlyPropertyVertex2);
         }
@@ -404,11 +449,11 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory.ReadOnly
         public static Boolean operator < (ReadOnlyPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,    TDatastructureVertex,
                                                                  TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
                                                                  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
-                                                                 TEdgeCollection> ReadOnlyPropertyVertex1,
+                                                                 TEdgeCollection, THyperEdgeCollection> ReadOnlyPropertyVertex1,
                                           ReadOnlyPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,    TDatastructureVertex,
                                                                  TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
                                                                  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
-                                                                 TEdgeCollection> ReadOnlyPropertyVertex2)
+                                                                 TEdgeCollection, THyperEdgeCollection> ReadOnlyPropertyVertex2)
         {
 
             if ((Object) ReadOnlyPropertyVertex1 == null)
@@ -434,11 +479,11 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory.ReadOnly
         public static Boolean operator <= (ReadOnlyPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,    TDatastructureVertex,
                                                                   TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
                                                                   TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
-                                                                  TEdgeCollection> ReadOnlyPropertyVertex1,
+                                                                  TEdgeCollection, THyperEdgeCollection> ReadOnlyPropertyVertex1,
                                            ReadOnlyPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,    TDatastructureVertex,
                                                                   TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
                                                                   TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
-                                                                  TEdgeCollection> ReadOnlyPropertyVertex2)
+                                                                  TEdgeCollection, THyperEdgeCollection> ReadOnlyPropertyVertex2)
         {
             return !(ReadOnlyPropertyVertex1 > ReadOnlyPropertyVertex2);
         }
@@ -456,11 +501,11 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory.ReadOnly
         public static Boolean operator > (ReadOnlyPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,    TDatastructureVertex,
                                                                  TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
                                                                  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
-                                                                 TEdgeCollection> ReadOnlyPropertyVertex1,
+                                                                 TEdgeCollection, THyperEdgeCollection> ReadOnlyPropertyVertex1,
                                           ReadOnlyPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,    TDatastructureVertex,
                                                                  TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
                                                                  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
-                                                                 TEdgeCollection> ReadOnlyPropertyVertex2)
+                                                                 TEdgeCollection, THyperEdgeCollection> ReadOnlyPropertyVertex2)
         {
 
             if ((Object) ReadOnlyPropertyVertex1 == null)
@@ -486,11 +531,11 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory.ReadOnly
         public static Boolean operator >= (ReadOnlyPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,    TDatastructureVertex,
                                                                   TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
                                                                   TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
-                                                                  TEdgeCollection> ReadOnlyPropertyVertex1,
+                                                                  TEdgeCollection, THyperEdgeCollection> ReadOnlyPropertyVertex1,
                                            ReadOnlyPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,    TDatastructureVertex,
                                                                   TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
                                                                   TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
-                                                                  TEdgeCollection> ReadOnlyPropertyVertex2)
+                                                                  TEdgeCollection, THyperEdgeCollection> ReadOnlyPropertyVertex2)
         {
             return !(ReadOnlyPropertyVertex1 < ReadOnlyPropertyVertex2);
         }
@@ -512,7 +557,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory.ReadOnly
             return new DynamicGraphElement<ReadOnlyPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,    TDatastructureVertex,
                                                                   TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
                                                                   TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
-                                                                  TEdgeCollection>>(myExpression, this);
+                                                                  TEdgeCollection, THyperEdgeCollection>>(myExpression, this);
         }
 
         #endregion
@@ -710,7 +755,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory.ReadOnly
             var PropertyVertex = Object as ReadOnlyPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,    TDatastructureVertex,
                                                                   TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
                                                                   TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge,
-                                                                  TEdgeCollection>;
+                                                                  TEdgeCollection, THyperEdgeCollection>;
             if ((Object) PropertyVertex == null)
                 return false;
 
