@@ -120,9 +120,11 @@
     <Compile Include="Extensions\QuadStore\IQuadStoreExtensions.cs" />
     <Compile Include="Interfaces\GenericGraph\Delegates.cs" />
     <Compile Include="Interfaces\Indices\IIndex2D.cs" />
+    <Compile Include="Interfaces\PropertyGraph\IPropertyMultiEdge.cs" />
     <Compile Include="Interfaces\ReadOnlyPropertyGraph\Delegates.cs" />
     <Compile Include="Interfaces\ReadOnlyPropertyGraph\Indices\Delegates.cs" />
     <Compile Include="Interfaces\ReadOnlyPropertyGraph\Indices\IReadOnlyPropertyElementIndex.cs" />
+    <Compile Include="Interfaces\ReadOnlyPropertyGraph\IReadOnlyPropertyMultiEdge.cs" />
     <Compile Include="Interfaces\ReadOnlyPropertyGraph\IReadOnlyPropertyHyperEdge.cs" />
     <Compile Include="Interfaces\ReadOnlyPropertyGraph\IReadOnlyPropertyEdge.cs" />
     <Compile Include="Interfaces\ReadOnlyPropertyGraph\IReadOnlyPropertyVertex.cs" />

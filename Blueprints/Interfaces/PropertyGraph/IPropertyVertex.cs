@@ -299,6 +299,10 @@ namespace de.ahzf.Blueprints.PropertyGraph
 
         #endregion
 
+        #region MultiEdge methods...
+
+        #endregion
+
         #region HyperEdge methods...
 
         #region AddHyperEdge(HyperEdge)

@@ -130,6 +130,77 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #endregion
 
+        #region Constructor(s)
+
+        #region PropertyVertex(Graph, VertexId, IdKey, RevisonIdKey, DatastructureInitializer, EdgeCollectionInitializer, HyperEdgeCollectionInitializer, VertexInitializer = null)
+
+        /// <summary>
+        /// Creates a new vertex.
+        /// </summary>
+        /// <param name="Graph">The associated property graph.</param>
+        /// <param name="VertexId">The identification of this vertex.</param>
+        /// <param name="IdKey">The key to access the Id of this vertex.</param>
+        /// <param name="RevisonIdKey">The key to access the RevisionId of this vertex.</param>
+        /// <param name="DatastructureInitializer">A delegate to initialize the datastructure of this vertex.</param>
+        /// <param name="EdgeCollectionInitializer">A delegate to initialize the datastructure for storing all edges.</param>
+        /// <param name="HyperEdgeCollectionInitializer">A delegate to initialize the datastructure for storing all hyperedges.</param>
+        /// <param name="VertexInitializer">A delegate to initialize the newly created vertex.</param>
+        public PropertyVertex(IPropertyGraph<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,  
+                                             TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,    
+                                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Graph,
+                              TIdVertex                    VertexId,
+                              TKeyVertex                   IdKey,
+                              TKeyVertex                   RevisonIdKey,
+                              Func<TDatastructureVertex>   DatastructureInitializer,
+                              Func<TEdgeCollection>        EdgeCollectionInitializer,
+                              Func<THyperEdgeCollection>   HyperEdgeCollectionInitializer,
+                              VertexInitializer<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                                TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> VertexInitializer = null)
+
+            : base(VertexId, IdKey, RevisonIdKey, DatastructureInitializer)
+        {
+
+            #region Initial Checks
+
+            if (Graph == null)
+                throw new ArgumentNullException("The given graph must not be null!");
+
+            if (VertexId == null)
+                throw new ArgumentNullException("The given VertexId must not be null!");
+
+            if (IdKey == null)
+                throw new ArgumentNullException("The given IdKey must not be null!");
+
+            if (RevisonIdKey == null)
+                throw new ArgumentNullException("The given RevisonIdKey must not be null!");
+
+            if (DatastructureInitializer == null)
+                throw new ArgumentNullException("The given DatastructureInitializer must not be null!");
+
+            if (EdgeCollectionInitializer == null)
+                throw new ArgumentNullException("The given EdgeCollectionInitializer must not be null!");
+
+            if (HyperEdgeCollectionInitializer == null)
+                throw new ArgumentNullException("The given HyperEdgeCollectionInitializer must not be null!");
+
+            #endregion
+
+            this.Graph       = Graph;
+            this._OutEdges   = EdgeCollectionInitializer();
+            this._InEdges    = EdgeCollectionInitializer();
+            this._HyperEdges = HyperEdgeCollectionInitializer();
+
+            if (VertexInitializer != null)
+                VertexInitializer(this);
+
+        }
+
+        #endregion
+
+        #endregion
+
+
         #region OutEdge methods...
 
         #region AddOutEdge(Edge)
@@ -500,6 +571,10 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #endregion
 
+        #region MultiEdge methods...
+
+        #endregion
+
         #region HyperEdge methods...
 
         #region AddHyperEdge(HyperEdge)
@@ -585,77 +660,6 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> HyperEdgeFilter = null)
         {
             throw new NotImplementedException();
-        }
-
-        #endregion
-
-        #endregion
-
-
-        #region Constructor(s)
-
-        #region PropertyVertex(Graph, VertexId, IdKey, RevisonIdKey, DatastructureInitializer, EdgeCollectionInitializer, HyperEdgeCollectionInitializer, VertexInitializer = null)
-
-        /// <summary>
-        /// Creates a new vertex.
-        /// </summary>
-        /// <param name="Graph">The associated property graph.</param>
-        /// <param name="VertexId">The identification of this vertex.</param>
-        /// <param name="IdKey">The key to access the Id of this vertex.</param>
-        /// <param name="RevisonIdKey">The key to access the RevisionId of this vertex.</param>
-        /// <param name="DatastructureInitializer">A delegate to initialize the datastructure of this vertex.</param>
-        /// <param name="EdgeCollectionInitializer">A delegate to initialize the datastructure for storing all edges.</param>
-        /// <param name="HyperEdgeCollectionInitializer">A delegate to initialize the datastructure for storing all hyperedges.</param>
-        /// <param name="VertexInitializer">A delegate to initialize the newly created vertex.</param>
-        public PropertyVertex(IPropertyGraph<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,  
-                                             TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,    
-                                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Graph,
-                              TIdVertex                    VertexId,
-                              TKeyVertex                   IdKey,
-                              TKeyVertex                   RevisonIdKey,
-                              Func<TDatastructureVertex>   DatastructureInitializer,
-                              Func<TEdgeCollection>        EdgeCollectionInitializer,
-                              Func<THyperEdgeCollection>   HyperEdgeCollectionInitializer,
-                              VertexInitializer<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
-                                                TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> VertexInitializer = null)
-
-            : base(VertexId, IdKey, RevisonIdKey, DatastructureInitializer)
-        {
-
-            #region Initial Checks
-
-            if (Graph == null)
-                throw new ArgumentNullException("The given graph must not be null!");
-
-            if (VertexId == null)
-                throw new ArgumentNullException("The given VertexId must not be null!");
-
-            if (IdKey == null)
-                throw new ArgumentNullException("The given IdKey must not be null!");
-
-            if (RevisonIdKey == null)
-                throw new ArgumentNullException("The given RevisonIdKey must not be null!");
-
-            if (DatastructureInitializer == null)
-                throw new ArgumentNullException("The given DatastructureInitializer must not be null!");
-
-            if (EdgeCollectionInitializer == null)
-                throw new ArgumentNullException("The given EdgeCollectionInitializer must not be null!");
-
-            if (HyperEdgeCollectionInitializer == null)
-                throw new ArgumentNullException("The given HyperEdgeCollectionInitializer must not be null!");
-
-            #endregion
-
-            this.Graph       = Graph;
-            this._OutEdges   = EdgeCollectionInitializer();
-            this._InEdges    = EdgeCollectionInitializer();
-            this._HyperEdges = HyperEdgeCollectionInitializer();
-
-            if (VertexInitializer != null)
-                VertexInitializer(this);
-
         }
 
         #endregion
