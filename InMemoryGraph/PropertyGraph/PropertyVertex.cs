@@ -242,7 +242,6 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                     foreach (var _Label in EdgeLabels)
                         if (_Edge.Label.Equals(_Label))
                             yield return _Edge;
-
             }
 
             else
@@ -426,14 +425,16 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         {
 
             if (EdgeLabels != null && EdgeLabels.Any())
-                foreach (var _Edge in _InEdges)
-                    yield return _Edge;
-
-            else
+            {
                 foreach (var _Edge in _InEdges)
                     foreach (var _Label in EdgeLabels)
                         if (_Edge.Label.Equals(_Label))
                             yield return _Edge;
+            }
+
+            else
+                foreach (var _Edge in _InEdges)
+                    yield return _Edge;
 
         }
 

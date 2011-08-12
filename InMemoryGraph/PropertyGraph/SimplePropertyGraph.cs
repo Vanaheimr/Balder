@@ -419,14 +419,14 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         private static Int64 _NewId;
 
         /// <summary>
-        /// Return a new random Id.
+        /// Return a new Id.
         /// </summary>
         private static UInt64 NewId
         {
             get
             {
-                Interlocked.Increment(ref _NewId);
-                return (UInt64) _NewId - 1;
+                var _NewLocalId = Interlocked.Increment(ref _NewId);
+                return (UInt64) _NewLocalId;
             }
         }
 

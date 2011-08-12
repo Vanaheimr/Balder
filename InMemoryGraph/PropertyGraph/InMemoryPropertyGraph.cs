@@ -551,9 +551,11 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
             {
                 _Vertices.Add(VertexId, _Vertex);
                 _NumberOfVertices++;
+                SendVertexAddedNotification(_Vertex);
+                return _Vertex;
             }
 
-            return _Vertex;
+            return null;
 
         }
 
@@ -906,9 +908,11 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                 _NumberOfEdges++;
                 OutVertex.AddOutEdge(_Edge);
                 InVertex.AddInEdge(_Edge);
+                SendEdgeAddedNotification(_Edge);
+                return _Edge;
             }
 
-            return _Edge;
+            return null;
 
         }
 
