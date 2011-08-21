@@ -24,6 +24,7 @@ using System.Dynamic;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
 
+using de.ahzf.Blueprints.Tools;
 using de.ahzf.Blueprints.Indices;
 using de.ahzf.Blueprints.PropertyGraph.Indices;
 using de.ahzf.Blueprints.PropertyGraph.ReadOnly;

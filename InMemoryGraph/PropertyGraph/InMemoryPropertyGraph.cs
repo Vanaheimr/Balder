@@ -24,6 +24,7 @@ using System.Dynamic;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
 
+using de.ahzf.Blueprints.Tools;
 using de.ahzf.Blueprints.Indices;
 using de.ahzf.Blueprints.PropertyGraph.Indices;
 
@@ -2462,6 +2463,22 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                              HyperEdgeInitializer
                             ),
 
+#if SILVERLIGHT
+                   // The vertices collection
+                   new Dictionary<VertexId,    IPropertyVertex   <VertexId,    RevisionId,         String, Object,
+                                                                  EdgeId,      RevisionId, String, String, Object,
+                                                                  HyperEdgeId, RevisionId, String, String, Object>>(),
+
+                   // The edges collection
+                   new Dictionary<EdgeId,      IPropertyEdge     <VertexId,    RevisionId,         String, Object,
+                                                                  EdgeId,      RevisionId, String, String, Object,
+                                                                  HyperEdgeId, RevisionId, String, String, Object>>(),
+
+                   // The hyperedges collection
+                   new Dictionary<HyperEdgeId, IPropertyHyperEdge<VertexId,    RevisionId,         String, Object,
+                                                                  EdgeId,      RevisionId, String, String, Object,
+                                                                  HyperEdgeId, RevisionId, String, String, Object>>(),
+#else
                    // The vertices collection
                    new ConcurrentDictionary<VertexId,    IPropertyVertex   <VertexId,    RevisionId,         String, Object,
                                                                             EdgeId,      RevisionId, String, String, Object,
@@ -2476,8 +2493,9 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                    new ConcurrentDictionary<HyperEdgeId, IPropertyHyperEdge<VertexId,    RevisionId,         String, Object,
                                                                             EdgeId,      RevisionId, String, String, Object,
                                                                             HyperEdgeId, RevisionId, String, String, Object>>(),
+#endif
 
-                   GraphInitializer)
+ GraphInitializer)
 
         { }
 

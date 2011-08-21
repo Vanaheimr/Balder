@@ -147,6 +147,23 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                              HyperEdgeInitializer
                             ),
 
+
+#if SILVERLIGHT
+                   // The vertices collection
+                   new Dictionary<TId, IPropertyVertex   <TId, TRevisionId,         TKey, TValue,
+                                                          TId, TRevisionId, TLabel, TKey, TValue,
+                                                          TId, TRevisionId, TLabel, TKey, TValue>>(),
+
+                   // The edges collection
+                   new Dictionary<TId, IPropertyEdge     <TId, TRevisionId,         TKey, TValue,
+                                                          TId, TRevisionId, TLabel, TKey, TValue,
+                                                          TId, TRevisionId, TLabel, TKey, TValue>>(),
+
+                   // The hyperedges collection
+                   new Dictionary<TId, IPropertyHyperEdge<TId, TRevisionId,         TKey, TValue,
+                                                          TId, TRevisionId, TLabel, TKey, TValue,
+                                                          TId, TRevisionId, TLabel, TKey, TValue>>(),
+#else
                    // The vertices collection
                    new ConcurrentDictionary<TId, IPropertyVertex   <TId, TRevisionId,         TKey, TValue,
                                                                     TId, TRevisionId, TLabel, TKey, TValue,
@@ -161,8 +178,9 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                    new ConcurrentDictionary<TId, IPropertyHyperEdge<TId, TRevisionId,         TKey, TValue,
                                                                     TId, TRevisionId, TLabel, TKey, TValue,
                                                                     TId, TRevisionId, TLabel, TKey, TValue>>(),
+#endif
 
-                   GraphInitializer)
+            GraphInitializer)
 
         { }
 

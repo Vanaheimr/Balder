@@ -1,6 +1,7 @@
 *.pidb
 *.VisualState.xml
 *.suo
+*.csproj.user
 /InMemoryGraph/bin
 /InMemoryGraph/obj
 /UnitTests/bin
