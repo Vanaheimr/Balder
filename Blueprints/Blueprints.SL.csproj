@@ -112,6 +112,7 @@
     <Compile Include="Extensions\Geometry\IRectangleExtensions.cs" />
     <Compile Include="Extensions\IComparableExtensions.cs" />
     <Compile Include="Extensions\IEnumerableExtensions.cs" />
+    <Compile Include="Extensions\PropertyGraph\IPropertyEdgeExtensions.cs" />
     <Compile Include="Extensions\PropertyGraph\IGraphElementExtensions.cs" />
     <Compile Include="Extensions\PropertyGraph\IPropertiesExtensions.cs" />
     <Compile Include="Extensions\PropertyGraph\IPropertyGraphExtensions.cs" />
@@ -119,6 +120,7 @@
     <Compile Include="Extensions\QuadStore\IQuadStoreExtensions.cs" />
     <Compile Include="Extensions\ReadOnlyPropertyGraph\IGraphElementExtensions.cs" />
     <Compile Include="Extensions\ReadOnlyPropertyGraph\IPropertiesExtensions.cs" />
+    <Compile Include="Extensions\ReadOnlyPropertyGraph\IPropertyEdgeExtensions.cs" />
     <Compile Include="Extensions\ReadOnlyPropertyGraph\IPropertyGraphExtensions.cs" />
     <Compile Include="Extensions\ReadOnlyPropertyGraph\IPropertyVertexExtensions.cs" />
     <Compile Include="Interfaces\Datastructures\Forest\IBintree.cs" />

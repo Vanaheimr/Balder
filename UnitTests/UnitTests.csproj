@@ -58,6 +58,7 @@
     <Compile Include="GenericGraphs\Distance.cs" />
     <Compile Include="GenericGraphs\GeoFeature.cs" />
     <Compile Include="InMemoryGraph\PropertyVertexTests.cs" />
+    <Compile Include="PropertyGraphs\IPropertiesTests.cs" />
     <Compile Include="PropertyGraphs\Indices\IndicesTests.cs" />
     <Compile Include="PropertyGraphs\IPropertyGraphExtensionTests.cs" />
     <Compile Include="SimplePropertyGraphTests\InitGraph.cs" />

@@ -73,8 +73,10 @@
     <Compile Include="Datastructures\Geometry\1D\Line1D.cs" />
     <Compile Include="Datastructures\Maths\NumericTypeExtensions.cs" />
     <Compile Include="Exceptions\Forest\BintreeExceptions.cs" />
+    <Compile Include="Extensions\PropertyGraph\IPropertyEdgeExtensions.cs" />
     <Compile Include="Extensions\ReadOnlyPropertyGraph\IGraphElementExtensions.cs" />
     <Compile Include="Extensions\ReadOnlyPropertyGraph\IPropertiesExtensions.cs" />
+    <Compile Include="Extensions\ReadOnlyPropertyGraph\IPropertyEdgeExtensions.cs" />
     <Compile Include="Extensions\ReadOnlyPropertyGraph\IPropertyGraphExtensions.cs" />
     <Compile Include="Extensions\ReadOnlyPropertyGraph\IPropertyVertexExtensions.cs" />
     <Compile Include="Extensions\IEnumerableExtensions.cs" />

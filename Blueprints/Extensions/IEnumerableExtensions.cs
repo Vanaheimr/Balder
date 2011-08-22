@@ -83,6 +83,35 @@ namespace de.ahzf.Blueprints
 
         #endregion
 
+
+        #region ForEach<T>(IEnumerable, Action)
+
+        /// <summary>
+        /// Call the given delegate for each element of the enumeration.
+        /// </summary>
+        /// <typeparam name="T">The type of the enumeration.</typeparam>
+        /// <param name="IEnumerable">An enumertion of type T.</param>
+        /// <param name="Action">An action to call for each element of the enumeration.</param>
+        public static void ForEach<T>(this IEnumerable<T> IEnumerable, Action<T> Action)
+        {
+
+            #region Initial checks
+
+            if (IEnumerable == null)
+                throw new ArgumentNullException("The given IEnumerable must not be null!");
+
+            if (Action == null)
+                throw new ArgumentNullException("The given Action must not be null!");
+
+            #endregion
+
+            foreach (var Element in IEnumerable)
+                Action(Element);
+
+        }
+
+        #endregion
+
     }
 
 }
