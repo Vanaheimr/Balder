@@ -48,6 +48,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
     /// </summary>
     /// <typeparam name="TIdVertex">The type of the vertex identifiers.</typeparam>
     /// <typeparam name="TRevisionIdVertex">The type of the vertex revision identifiers.</typeparam>
+    /// <typeparam name="TVertexType">The type of the vertex type.</typeparam>
     /// <typeparam name="TKeyVertex">The type of the vertex property keys.</typeparam>
     /// <typeparam name="TValueVertex">The type of the vertex property values.</typeparam>
     /// 
@@ -68,17 +69,17 @@ namespace de.ahzf.Blueprints.PropertyGraph
     /// <typeparam name="THyperEdgeLabel">The type of the hyperedge label.</typeparam>
     /// <typeparam name="TKeyHyperEdge">The type of the hyperedge property keys.</typeparam>
     /// <typeparam name="TValueHyperEdge">The type of the hyperedge property values.</typeparam>
-    public interface IPropertyMultiEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+    public interface IPropertyMultiEdge<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
                                         TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                         TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                         TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
 
                                         : IGraphElement<TIdMultiEdge, TRevisionIdMultiEdge, TKeyMultiEdge, TValueMultiEdge>,
-                                          IEquatable <IPropertyMultiEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                          IEquatable <IPropertyMultiEdge<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
                                                                          TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                          TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                          TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>,
-                                          IComparable<IPropertyMultiEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                          IComparable<IPropertyMultiEdge<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
                                                                          TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                          TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                          TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>,
@@ -94,7 +95,8 @@ namespace de.ahzf.Blueprints.PropertyGraph
         where TIdMultiEdge            : IEquatable<TIdMultiEdge>,         IComparable<TIdMultiEdge>,         IComparable, TValueMultiEdge
         where TIdHyperEdge            : IEquatable<TIdHyperEdge>,         IComparable<TIdHyperEdge>,         IComparable, TValueHyperEdge
 
-        where TEdgeLabel              : IEquatable<TEdgeLabel>,           IComparable<TEdgeLabel>,           IComparable
+        where TVertexType             : IEquatable<TVertexType>,          IComparable<TVertexType>,          IComparable
+            where TEdgeLabel              : IEquatable<TEdgeLabel>,           IComparable<TEdgeLabel>,           IComparable
         where TMultiEdgeLabel         : IEquatable<TMultiEdgeLabel>,      IComparable<TMultiEdgeLabel>,      IComparable
         where THyperEdgeLabel         : IEquatable<THyperEdgeLabel>,      IComparable<THyperEdgeLabel>,      IComparable
 
@@ -110,7 +112,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
         /// <summary>
         /// The associated property graph.
         /// </summary>
-        IPropertyGraph<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+        IPropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
                        TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                        TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Graph { get; }
 
@@ -130,7 +132,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
         /// <summary>
         /// The enumeration of all vertices connected by this multiedge.
         /// </summary>
-        IEnumerable<IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+        IEnumerable<IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> Vertices { get; }
 
@@ -150,6 +152,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
     /// </summary>
     /// <typeparam name="TIdVertex">The type of the vertex identifiers.</typeparam>
     /// <typeparam name="TRevisionIdVertex">The type of the vertex revision identifiers.</typeparam>
+    /// <typeparam name="TVertexType">The type of the vertex type.</typeparam>
     /// <typeparam name="TKeyVertex">The type of the vertex property keys.</typeparam>
     /// <typeparam name="TValueVertex">The type of the vertex property values.</typeparam>
     /// <typeparam name="TDatastructureVertex"></typeparam>
@@ -173,12 +176,12 @@ namespace de.ahzf.Blueprints.PropertyGraph
     /// <typeparam name="TKeyHyperEdge">The type of the hyperedge property keys.</typeparam>
     /// <typeparam name="TValueHyperEdge">The type of the hyperedge property values.</typeparam>
     /// <typeparam name="TDatastructureHyperEdge"></typeparam>
-    public interface IPropertyMultiEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,    TDatastructureVertex,
+    public interface IPropertyMultiEdge<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,    TDatastructureVertex,
                                         TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
                                         TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TDatastructureMultiEdge,
                                         TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
 
-                                        : IPropertyMultiEdge<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                        : IPropertyMultiEdge<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
                                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                              TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
@@ -201,7 +204,8 @@ namespace de.ahzf.Blueprints.PropertyGraph
         where TIdMultiEdge            : IEquatable<TIdMultiEdge>,         IComparable<TIdMultiEdge>,         IComparable, TValueMultiEdge
         where TIdHyperEdge            : IEquatable<TIdHyperEdge>,         IComparable<TIdHyperEdge>,         IComparable, TValueHyperEdge
 
-        where TEdgeLabel              : IEquatable<TEdgeLabel>,           IComparable<TEdgeLabel>,           IComparable
+        where TVertexType             : IEquatable<TVertexType>,          IComparable<TVertexType>,          IComparable
+            where TEdgeLabel              : IEquatable<TEdgeLabel>,           IComparable<TEdgeLabel>,           IComparable
         where TMultiEdgeLabel         : IEquatable<TMultiEdgeLabel>,      IComparable<TMultiEdgeLabel>,      IComparable
         where THyperEdgeLabel         : IEquatable<THyperEdgeLabel>,      IComparable<THyperEdgeLabel>,      IComparable
 

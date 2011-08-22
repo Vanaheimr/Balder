@@ -39,11 +39,11 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// </summary>
         /// <param name="Element"></param>
         /// <returns>True</returns>
-        public  static Boolean SelectAll<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+        public  static Boolean SelectAll<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
                                          TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                          TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
 
-                                         (IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                         (IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
                                                           TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                           TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Element)
 
@@ -55,6 +55,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
             where TIdEdge                 : IEquatable<TIdEdge>,              IComparable<TIdEdge>,              IComparable, TValueEdge
             where TIdHyperEdge            : IEquatable<TIdHyperEdge>,         IComparable<TIdHyperEdge>,         IComparable, TValueHyperEdge
 
+            where TVertexType             : IEquatable<TVertexType>,          IComparable<TVertexType>,          IComparable
             where TEdgeLabel              : IEquatable<TEdgeLabel>,           IComparable<TEdgeLabel>,           IComparable
             where THyperEdgeLabel         : IEquatable<THyperEdgeLabel>,      IComparable<THyperEdgeLabel>,      IComparable
 
@@ -76,11 +77,11 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="Element"></param>
         /// <param name="Keys"></param>
         /// <returns>True</returns>
-        public static Boolean HasKeys<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+        public static Boolean HasKeys<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
 
-                                          (IPropertyVertex<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+                                          (IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
                                                            TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                            TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Element,
                                            params TKeyVertex[] Keys)
@@ -93,6 +94,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
             where TIdEdge                 : IEquatable<TIdEdge>,              IComparable<TIdEdge>,              IComparable, TValueEdge
             where TIdHyperEdge            : IEquatable<TIdHyperEdge>,         IComparable<TIdHyperEdge>,         IComparable, TValueHyperEdge
 
+            where TVertexType             : IEquatable<TVertexType>,          IComparable<TVertexType>,          IComparable
             where TEdgeLabel              : IEquatable<TEdgeLabel>,           IComparable<TEdgeLabel>,           IComparable
             where THyperEdgeLabel         : IEquatable<THyperEdgeLabel>,      IComparable<THyperEdgeLabel>,      IComparable
 

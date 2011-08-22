@@ -29,6 +29,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
     /// </summary>
     /// <typeparam name="TIdVertex">The type of the vertex identifiers.</typeparam>
     /// <typeparam name="TRevisionIdVertex">The type of the vertex revision identifiers.</typeparam>
+    /// <typeparam name="TVertexType">The type of the vertex type.</typeparam>
     /// <typeparam name="TKeyVertex">The type of the vertex property keys.</typeparam>
     /// <typeparam name="TValueVertex">The type of the vertex property values.</typeparam>
     /// 
@@ -43,7 +44,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
     /// <typeparam name="THyperEdgeLabel">The type of the hyperedge label.</typeparam>
     /// <typeparam name="TKeyHyperEdge">The type of the hyperedge property keys.</typeparam>
     /// <typeparam name="TValueHyperEdge">The type of the hyperedge property values.</typeparam>
-    public interface IPropertyGraphNotifications<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+    public interface IPropertyGraphNotifications<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
                                                  TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
         
@@ -55,7 +56,8 @@ namespace de.ahzf.Blueprints.PropertyGraph
         where TRevisionIdEdge      : IEquatable<TRevisionIdEdge>,      IComparable<TRevisionIdEdge>,      IComparable, TValueEdge
         where TRevisionIdHyperEdge : IEquatable<TRevisionIdHyperEdge>, IComparable<TRevisionIdHyperEdge>, IComparable, TValueHyperEdge
 
-        where TEdgeLabel           : IEquatable<TEdgeLabel>,           IComparable<TEdgeLabel>,           IComparable
+        where TVertexType           : IEquatable<TVertexType>,           IComparable<TVertexType>,           IComparable
+            where TEdgeLabel          : IEquatable<TEdgeLabel>,           IComparable<TEdgeLabel>,           IComparable
         where THyperEdgeLabel      : IEquatable<THyperEdgeLabel>,      IComparable<THyperEdgeLabel>,      IComparable
 
         where TKeyVertex           : IEquatable<TKeyVertex>,           IComparable<TKeyVertex>,           IComparable
@@ -69,7 +71,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
         /// <summary>
         /// Called whenever a vertex will be added to the property graph.
         /// </summary>
-        event VertexAddingEventHandler<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+        event VertexAddingEventHandler<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
                                        TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                        TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnVertexAdding;
 
@@ -80,7 +82,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
         /// <summary>
         /// Called whenever a vertex was added to the property graph.
         /// </summary>
-        event VertexAddedEventHandler<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+        event VertexAddedEventHandler<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnVertexAdded;
 
@@ -92,7 +94,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
         /// <summary>
         /// Called whenever an edge will be added to the property graph.
         /// </summary>
-        event EdgeAddingEventHandler<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+        event EdgeAddingEventHandler<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
                                      TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnEdgeAdding;
 
@@ -103,7 +105,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
         /// <summary>
         /// Called whenever an edge was added to the property graph.
         /// </summary>
-        event EdgeAddedEventHandler<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+        event EdgeAddedEventHandler<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnEdgeAdded;
 
@@ -115,7 +117,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
         /// <summary>
         /// Called whenever a hyperedge will be added to the property graph.
         /// </summary>
-        event HyperEdgeAddingEventHandler<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+        event HyperEdgeAddingEventHandler<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
                                           TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                           TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnHyperEdgeAdding;
 
@@ -126,7 +128,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
         /// <summary>
         /// Called whenever a hyperedge was added to the property graph.
         /// </summary>
-        event HyperEdgeAddedEventHandler<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+        event HyperEdgeAddedEventHandler<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
                                          TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                          TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnHyperEdgeAdded;
 
@@ -138,7 +140,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
         /// <summary>
         /// Called whenever a property graph will be shutting down.
         /// </summary>
-        event GraphShuttingdownEventHandler<TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+        event GraphShuttingdownEventHandler<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
                                             TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnGraphShuttingdown;
 
@@ -149,7 +151,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
         /// <summary>
         /// Called whenever a property graphy was shutted down.
         /// </summary>
-        event GraphShutteddownEventHandler <TIdVertex,    TRevisionIdVertex,                     TKeyVertex,    TValueVertex,
+        event GraphShutteddownEventHandler <TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
                                             TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnGraphShutteddown;
 
