@@ -80,6 +80,7 @@
     <Compile Include="Datastructures\GraphElementIds\EdgeId.cs" />
     <Compile Include="Datastructures\GraphElementIds\GraphElementId.cs" />
     <Compile Include="Datastructures\GraphElementIds\HyperEdgeId.cs" />
+    <Compile Include="Datastructures\GraphElementIds\MultiEdgeId.cs" />
     <Compile Include="Datastructures\GraphElementIds\VertexId.cs" />
     <Compile Include="Datastructures\KeyValueFilter.cs" />
     <Compile Include="Datastructures\Maths\MathsDouble.cs" />
