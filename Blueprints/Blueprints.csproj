@@ -83,6 +83,7 @@
     <Compile Include="Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Extensions\Geometry\IPixelExtensions.cs" />
     <Compile Include="Extensions\Geometry\ILine2DExtensions.cs" />
+    <Compile Include="Extensions\SilverlightExtensions.cs" />
     <Compile Include="Interfaces\Datastructures\Forest\IBintree.cs" />
     <Compile Include="Interfaces\Datastructures\Forest\IOctree.cs" />
     <Compile Include="Interfaces\Datastructures\Forest\IQuadtree.cs" />

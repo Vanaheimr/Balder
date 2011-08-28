@@ -81,7 +81,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Blueprints\Blueprints.SL.csproj">
       <Project>{C907FBA5-7DE0-4244-9872-806FCFF97175}</Project>
-      <Name>Blueprints</Name>
+      <Name>Blueprints.SL</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />

@@ -185,7 +185,7 @@
     <Compile Include="Interfaces\ReadOnlyPropertyGraph\IReadOnlyPropertyVertex.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools\DynamicGraphElement.cs" />
-    <Compile Include="Tools\SilverlightHelpers.cs" />
+    <Compile Include="Extensions\SilverlightExtensions.cs" />
     <Compile Include="Tools\TypeHelpers.cs" />
     <Compile Include="Transactions\IsolationLevel.cs" />
     <Compile Include="Transactions\Transaction.cs" />

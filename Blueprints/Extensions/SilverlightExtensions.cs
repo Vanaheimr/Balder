@@ -22,7 +22,7 @@ using System.Collections.Generic;
 
 #endregion
 
-namespace de.ahzf.Blueprints.Tools
+namespace de.ahzf.Blueprints.Extensions
 {
 
     public static class Silverlight5Extensions
