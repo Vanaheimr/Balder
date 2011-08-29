@@ -2,6 +2,7 @@
 *.VisualState.xml
 *.suo
 *.csproj.user
+*.vsp
 /InMemoryGraph/bin
 /InMemoryGraph/obj
 /UnitTests/bin
