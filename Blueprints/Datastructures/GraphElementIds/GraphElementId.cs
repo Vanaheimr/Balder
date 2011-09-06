@@ -238,7 +238,7 @@ namespace de.ahzf.Blueprints
         #region Equals(GraphElementId)
 
         /// <summary>
-        /// Compares two ElementIds for equality.
+        /// Compares two GraphElementIds for equality.
         /// </summary>
         /// <param name="GraphElementId">A GraphElementId to compare with.</param>
         /// <returns>True if both match; False otherwise.</returns>
