@@ -1,15 +1,22 @@
 ![Blueprints.NET logo](/ahzf/blueprints.NET/raw/master/doc/blueprints.NET-logo.png)
 
-Blueprints.NET is a [property graph model interface](http://github.com/tinkerpop/gremlin/wiki/Defining-a-Property-Graph) for .NET, Silverlight and Mono. [Graph](http://en.wikipedia.org/wiki/Graph_database) [databases](http://www.graph-database.org) and frameworks that implement the Blueprints interface automatically support Blueprints-enabled applications. Likewise, Blueprints-enabled applications can plug-and-play different Blueprints-enabled graph backends.
+Blueprints.NET is a generic [graph model](http://en.wikipedia.org/wiki/Graph_(mathematics)) interface for .NET,
+Silverlight and Mono. Graph libraries, Graph databases [1](http://en.wikipedia.org/wiki/Graph_database),
+[2](http://www.graph-database.org) and frameworks that implement the Blueprints interface automatically support
+Blueprints-enabled applications. Likewise, Blueprints-enabled applications can plug-and-play different
+Blueprints-enabled graph backends.
 
-Blueprints does not define an interface for remote network access. For a [HTTP/REST](http://en.wikipedia.org/wiki/Representational_State_Transfer) interface please take a look at [Rexster.NET](http://github.com/ahzf/rexster.NET).
+Blueprints does not define an interface for remote network access. For a
+[HTTP/REST](http://en.wikipedia.org/wiki/Representational_State_Transfer) interface please take a look
+at [Gera](http://github.com/ahzf/Gera).
 
 #### Implementations
 
-* A simple in-memory Property Graph.
-* [Gera](http://github.com/ahzf/Gera) a framework for processing large-scale semantic graphs (coming soon).
+* In-Memory Generic Graphs
+* In-Memory Generic Property Graphs
+* In-Memory Simplified Property Graphs
 
-#### Usage
+#### An usage example for property graphs
 
     var _TinkerGraph = new SimplePropertyGraph();
 
@@ -62,7 +69,9 @@ Blueprints does not define an interface for remote network access. For a [HTTP/R
 
 #### Help and Documentation
 
-Additional help and much more examples can be found in the [Wiki](http://github.com/ahzf/blueprints.NET/wiki).   
+Additional help and background information can be found in the [Wiki](http://github.com/ahzf/blueprints.NET/wiki).
+For more examples and tutorials please look at the [Thor](http://github.com/ahzf/Thor) project if you are interessted
+in simple but interactive graph visualizations consult the [Loki](http://github.com/ahzf/Loki) project.    
 News and updates can also be found on twitter by following: [@ahzf](http://www.twitter.com/ahzf) or [@graphdbs](http://www.twitter.com/graphdbs).
 
 #### Installation
@@ -81,5 +90,6 @@ The coding standards can be found by reading the code ;)
 
 #### Acknowledgments
 
-Blueprints.NET is a reimplementation of the [blueprints](http://github.com/tinkerpop/blueprints) library for Java provided by [Tinkerpop](http://tinkerpop.com).    
+Blueprints.NET is a reimplementation of the [blueprints](http://github.com/tinkerpop/blueprints) library for Java
+provided by [Tinkerpop](http://tinkerpop.com). Additional ideas are based on the [Boost Graph Library](http://www.boost.org/doc/libs/1_47_0/libs/graph/doc/index.html).    
 Please read the [NOTICE](/ahzf/blueprints.NET/blob/master/NOTICE) file for further credits.
