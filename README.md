@@ -1,10 +1,11 @@
 ![Blueprints.NET logo](/ahzf/blueprints.NET/raw/master/doc/blueprints.NET-logo.png)
 
-Blueprints.NET is a generic [graph model](http://en.wikipedia.org/wiki/Graph_(mathematics) ) interface for .NET,
-Silverlight and Mono. Graph libraries, Graph databases [[1](http://en.wikipedia.org/wiki/Graph_database)],
-[[2](http://www.graph-database.org)] and frameworks that implement the Blueprints interface automatically support
-Blueprints-enabled applications. Likewise, Blueprints-enabled applications can plug-and-play different
-Blueprints-enabled graph backends.
+Blueprints.NET is a generic graph model [[1](http://en.wikipedia.org/wiki/Graph_(mathematics\))], 
+[[2](http://en.wikipedia.org/wiki/Graph_(data_structure)], [[3](http://en.wikipedia.org/wiki/Graph_theory] 
+interface for .NET, Silverlight and Mono. Graph libraries, Graph databases 
+[[1](http://en.wikipedia.org/wiki/Graph_database)], [[2](http://www.graph-database.org)] and frameworks 
+that implement the Blueprints interface automatically support Blueprints-enabled applications. Likewise, 
+Blueprints-enabled applications can plug-and-play different Blueprints-enabled graph backends.
 
 Blueprints does not define an interface for remote network access. For a
 [HTTP/REST](http://en.wikipedia.org/wiki/Representational_State_Transfer) interface please take a look
