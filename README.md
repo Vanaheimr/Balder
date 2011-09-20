@@ -1,8 +1,8 @@
 ![Blueprints.NET logo](/ahzf/blueprints.NET/raw/master/doc/blueprints.NET-logo.png)
 
-Blueprints.NET is a generic [graph model](http://en.wikipedia.org/wiki/Graph_(mathematics)) interface for .NET,
-Silverlight and Mono. Graph libraries, Graph databases [1](http://en.wikipedia.org/wiki/Graph_database),
-[2](http://www.graph-database.org) and frameworks that implement the Blueprints interface automatically support
+Blueprints.NET is a generic [graph model](http://en.wikipedia.org/wiki/Graph_(mathematics) ) interface for .NET,
+Silverlight and Mono. Graph libraries, Graph databases [[1](http://en.wikipedia.org/wiki/Graph_database)],
+[[2](http://www.graph-database.org)] and frameworks that implement the Blueprints interface automatically support
 Blueprints-enabled applications. Likewise, Blueprints-enabled applications can plug-and-play different
 Blueprints-enabled graph backends.
 
