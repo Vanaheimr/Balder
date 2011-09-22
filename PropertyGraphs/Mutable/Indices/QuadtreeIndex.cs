@@ -1,19 +1,19 @@
-﻿/*
- * Copyright (c) 2010-2011, Achim 'ahzf' Friedland <code@ahzf.de>
- * This file is part of Blueprints.NET <http://www.github.com/ahzf/Blueprints.NET>
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+﻿//*
+// * Copyright (c) 2010-2011, Achim 'ahzf' Friedland <code@ahzf.de>
+// * This file is part of Blueprints.NET <http://www.github.com/ahzf/Blueprints.NET>
+// *
+// * Licensed under the Apache License, Version 2.0 (the "License");
+// * you may not use this file except in compliance with the License.
+// * You may obtain a copy of the License at
+// *
+// *     http://www.apache.org/licenses/LICENSE-2.0
+// *
+// * Unless required by applicable law or agreed to in writing, software
+// * distributed under the License is distributed on an "AS IS" BASIS,
+// * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// * See the License for the specific language governing permissions and
+// * limitations under the License.
+// */
 
 #region Usings
 
@@ -22,12 +22,52 @@ using System.Linq;
 using System.Collections.Generic;
 
 using de.ahzf.Blueprints.Indices;
-using de.ahzf.Blueprints.PropertyGraph.Indices;
+using de.ahzf.Blueprints.PropertyGraphs.Indices;
 
 #endregion
 
-namespace de.ahzf.Blueprints.PropertyGraph.InMemory
+namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 {
+
+    //public class IndexPixel<TKey, TValue> : Pixel<TKey>,
+    //                                        IEquatable<IndexPixel<TKey, TValue>>, IComparable<IndexPixel<TKey, TValue>>, IComparable
+    //    where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
+    //{
+
+    //    public ISet<TValue> Set
+    //    {
+    //        get;
+    //        set;
+    //    }
+
+    //    public IndexPixel(TKey x, TKey y)
+    //        : base(x, y)
+    //    {
+    //        this.Set = new HashSet<TValue>();
+    //    }
+
+
+    //    public bool Equals(IndexPixel<TKey, TValue> other)
+    //    {
+    //        return base.Equals(other);
+    //    }
+
+    //    public int CompareTo(IndexPixel<TKey, TValue> other)
+    //    {
+    //        if (base.Equals(other))
+    //            return 0;
+    //        return 1;
+    //    }
+
+    //    public int CompareTo(object obj)
+    //    {
+    //        if (base.Equals(obj))
+    //            return 0;
+    //        return 1;
+    //    }
+
+    //}
+
 
     /// <summary>
     /// A property element index is a data structure that supports the indexing of properties in property graphs.
@@ -35,10 +75,10 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
     /// </summary>
     /// <typeparam name="TKey">The type of the index keys.</typeparam>
     /// <typeparam name="TValue">The type of the elements to be indexed.</typeparam>
-    public class DictionaryIndex<TKey, TValue> : IIndex<TKey, TValue>
-        where TKey   : IEquatable<TKey>,   IComparable<TKey>,   IComparable
+    public class QuadtreeIndex<TKey, T, TValue> : IIndex2D<TKey, T, TValue>
+        where TKey : IPixel<T>, IEquatable<TKey>, IComparable<TKey>, IComparable
+        where T : IEquatable<T>, IComparable<T>, IComparable
         where TValue : IEquatable<TValue>, IComparable<TValue>, IComparable
-
     {
 
         #region Data
@@ -46,7 +86,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <summary>
         /// The internal index datastructure.
         /// </summary>
-        private readonly IDictionary<TKey, ISet<TValue>> Index;
+        private readonly Quadtree<T> Quadtree;
 
         #endregion
 
@@ -97,31 +137,31 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #region Constructor(s)
 
-        #region DictionaryIndex()
+        #region QuadtreeIndex()
 
         /// <summary>
         /// Creates a new DictionaryIndex.
         /// (Needed for activating this index datastructure.)
         /// </summary>
-        public DictionaryIndex()
+        public QuadtreeIndex()
         {
-            Index = new Dictionary<TKey, ISet<TValue>>();
+            Quadtree = new Quadtree<T>(default(T), default(T), default(T), default(T));
         }
 
         #endregion
 
-        #region DictionaryIndex(EqualityComparer)
+        //#region DictionaryIndex(EqualityComparer)
 
-        /// <summary>
-        /// Creates a new DictionaryIndex.
-        /// </summary>
-        /// <param name="EqualityComparer">An optional equality comparer for the index key.</param>
-        public DictionaryIndex(IEqualityComparer<TKey> EqualityComparer)
-        {
-            Index = new Dictionary<TKey, ISet<TValue>>(EqualityComparer);
-        }
+        ///// <summary>
+        ///// Creates a new DictionaryIndex.
+        ///// </summary>
+        ///// <param name="EqualityComparer">An optional equality comparer for the index key.</param>
+        //public DictionaryIndex(IEqualityComparer<TKey> EqualityComparer)
+        //{
+        //    Index = new Dictionary<TKey, ISet<TValue>>(EqualityComparer);
+        //}
 
-        #endregion
+        //#endregion
 
         #endregion
 
@@ -137,7 +177,8 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         {
             get
             {
-                return Index.Keys;
+                foreach (var x in Quadtree)
+                    yield return (TKey) x;
             }
         }
 
@@ -152,7 +193,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         {
             get
             {
-                return Index.Values;
+                throw new NotImplementedException();
             }
         }
 
@@ -167,9 +208,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         {
             get
             {
-                foreach (var _Set in Index.Values)
-                    foreach (var _Value in _Set)
-                        yield return _Value;
+                throw new NotImplementedException();
             }
         }
 
@@ -184,18 +223,11 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// </summary>
         /// <param name="Key">A key.</param>
         /// <param name="Value">A value.</param>
-        public IIndex<TKey, TValue> Set(TKey Key, TValue Value)
+        public IIndex2D<TKey, T, TValue> Set(TKey Key, TValue Value)
         {
-            
-            ISet<TValue> _HashSet = null;
-
-            if (Index.TryGetValue(Key, out _HashSet))
-                _HashSet.Add(Value);
-            else
-                Index.Add(Key, new HashSet<TValue>() { Value });
-
-            return this;
-
+            //Quadtree.Add(new PixelValuePair<T, TValue>(Key.X, Key.Y, Value));
+            //return this;
+            throw new NotImplementedException();
         }
 
         #endregion
@@ -209,7 +241,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="Key">A key.</param>
         public Boolean ContainsKey(TKey Key)
         {
-            return Index.ContainsKey(Key);
+            throw new NotImplementedException();
         }
 
         #endregion
@@ -222,7 +254,8 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="Value">A value.</param>
         public Boolean ContainsValue(TValue Value)
         {
-            return (from _Value in Values where Value.Equals(_Value) select true).FirstOrDefault();
+            //return (from _Value in Values where Value.Equals(_Value) select true).FirstOrDefault();
+            throw new NotImplementedException();
         }
 
         #endregion
@@ -236,14 +269,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="Value">A property value.</param>
         public Boolean Contains(TKey Key, TValue Value)
         {
-
-            ISet<TValue> _HashSet = null;
-
-            if (Index.TryGetValue(Key, out _HashSet))
-                return (from _Value in _HashSet where _Value.Equals(Value) select true).FirstOrDefault();
-
-            return false;
-
+            throw new NotImplementedException();
         }
 
         #endregion
@@ -259,7 +285,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         {
             get
             {
-                return Index[Key];
+                throw new NotImplementedException();
             }
         }
 
@@ -275,7 +301,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <returns>True if the returned value set is valid.</returns>
         public Boolean Get(TKey Key, out ISet<TValue> Values)
         {
-            return Index.TryGetValue(Key, out Values);
+            throw new NotImplementedException();
         }
 
         #endregion
@@ -305,12 +331,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="IndexEvaluator">A delegate for selecting indexed elements.</param>
         public IEnumerable<TValue> Evaluate(IndexEvaluator<TKey, TValue> IndexEvaluator)
         {
-            foreach (var _KeyValuePair in Index)
-            {
-                if (IndexEvaluator(_KeyValuePair.Key, _KeyValuePair.Value))
-                    foreach (var _Value in _KeyValuePair.Value)
-                        yield return _Value;
-            }
+            throw new NotImplementedException();
         }
 
         #endregion
@@ -324,7 +345,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="IdxKey">An index key.</param>
         public virtual IEnumerable<TValue> SmallerThan(TKey IdxKey)
         {
-            return Evaluate((k, v) => k.CompareTo(IdxKey) < 0);
+            throw new NotImplementedException();
         }
 
         #endregion
@@ -337,7 +358,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="IdxKey">An index key.</param>
         public virtual IEnumerable<TValue> SmallerThanOrEquals(TKey IdxKey)
         {
-            return Evaluate((k, v) => k.CompareTo(IdxKey) <= 0);
+            throw new NotImplementedException();
         }
 
         #endregion
@@ -350,14 +371,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="IdxKey">An index key.</param>
         public virtual IEnumerable<TValue> Equals(TKey IdxKey)
         {
-
-            ISet<TValue> _Set = null;
-
-            if (Index.TryGetValue(IdxKey, out _Set))
-                return _Set;
-
-            return new List<TValue>();
-
+            throw new NotImplementedException();
         }
 
         #endregion
@@ -370,7 +384,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="IdxKey">An index key.</param>
         public virtual IEnumerable<TValue> NotEquals(TKey IdxKey)
         {
-            return Evaluate((k, v) => !k.Equals(IdxKey));
+            throw new NotImplementedException();
         }
 
         #endregion
@@ -383,7 +397,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="IdxKey">An index key.</param>
         public virtual IEnumerable<TValue> LargerThan(TKey IdxKey)
         {
-            return Evaluate((k, v) => k.CompareTo(IdxKey) > 0);
+            throw new NotImplementedException();
         }
 
         #endregion
@@ -396,7 +410,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="IdxKey">An index key.</param>
         public virtual IEnumerable<TValue> LargerThanOrEquals(TKey IdxKey)
         {
-            return Evaluate((k, v) => k.CompareTo(IdxKey) >= 0);
+            throw new NotImplementedException();
         }
 
         #endregion
@@ -411,17 +425,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <returns>The value set associated with that key prior to the removal.</returns>
         public ISet<TValue> Remove(TKey Key)
         {
-
-            ISet<TValue> _Set = null;
-
-            if (Index.TryGetValue(Key, out _Set))
-            {
-                if (Index.Remove(Key) == true)
-                    return _Set;
-            }
-
-            return new HashSet<TValue>();
-            
+            throw new NotImplementedException();
         }
 
         #endregion
@@ -435,26 +439,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="Value">A value.</param>
         public Boolean Remove(TKey Key, TValue Value)
         {
-
-            ISet<TValue> _Set = null;
-
-            if (Index.TryGetValue(Key, out _Set))
-            {
-
-                // Remove the value from the ISet<TValue>
-                if (_Set.Contains(Value))
-                    if (_Set.Remove(Value) == false)
-                        return false;
-
-                // If the set is now empty remove it
-                if (_Set.Count == 0)
-                    if (Index.Remove(Key) == false)
-                        return false;
-
-            }
-
-            return true;
-
+            throw new NotImplementedException();
         }
 
         #endregion
@@ -482,7 +467,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// </summary>
         public IEnumerator<KeyValuePair<TKey, ISet<TValue>>> GetEnumerator()
         {
-            return Index.GetEnumerator();
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -490,10 +475,12 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// </summary>
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
-            return Index.GetEnumerator();
+            throw new NotImplementedException();
         }
 
         #endregion
+
+
 
     }
 

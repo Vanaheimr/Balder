@@ -20,11 +20,11 @@
 using System;
 using System.Collections.Generic;
 
-using de.ahzf.Blueprints.PropertyGraph.Indices;
+using de.ahzf.Blueprints.PropertyGraphs.Indices;
 
 #endregion
 
-namespace de.ahzf.Blueprints.PropertyGraph
+namespace de.ahzf.Blueprints.PropertyGraphs
 {
 
     #region IPropertyGraph
@@ -32,10 +32,24 @@ namespace de.ahzf.Blueprints.PropertyGraph
     /// <summary>
     /// A standardized property graph.
     /// </summary>
-    public interface IPropertyGraph : IPropertyGraph<VertexId,    RevisionId, String, String, Object, IDictionary<String, Object>,
-                                                     EdgeId,      RevisionId, String, String, Object, IDictionary<String, Object>,
-                                                     MultiEdgeId, RevisionId, String, String, Object, IDictionary<String, Object>,
-                                                     HyperEdgeId, RevisionId, String, String, Object, IDictionary<String, Object>>
+    public interface IPropertyGraph : IPropertyGraph<UInt64, Int64, String, String, Object, IDictionary<String, Object>,
+                                                     UInt64, Int64, String, String, Object, IDictionary<String, Object>,
+                                                     UInt64, Int64, String, String, Object, IDictionary<String, Object>,
+                                                     UInt64, Int64, String, String, Object, IDictionary<String, Object>>
+
+    { }
+
+    #endregion
+
+    #region IDistributedPropertyGraph
+
+    /// <summary>
+    /// A distributed property graph.
+    /// </summary>
+    public interface IDistributedPropertyGraph : IPropertyGraph<VertexId,    RevisionId, String, String, Object, IDictionary<String, Object>,
+                                                                EdgeId,      RevisionId, String, String, Object, IDictionary<String, Object>,
+                                                                MultiEdgeId, RevisionId, String, String, Object, IDictionary<String, Object>,
+                                                                HyperEdgeId, RevisionId, String, String, Object, IDictionary<String, Object>>
 
     { }
 
@@ -44,7 +58,7 @@ namespace de.ahzf.Blueprints.PropertyGraph
     #region IPropertyGraph<...>
 
     /// <summary>
-    /// A generic property graph.
+    /// The interface of a generic property graph.
     /// </summary>
     /// <typeparam name="TIdVertex">The type of the vertex identifiers.</typeparam>
     /// <typeparam name="TRevisionIdVertex">The type of the vertex revision identifiers.</typeparam>
@@ -80,15 +94,15 @@ namespace de.ahzf.Blueprints.PropertyGraph
                                                                   TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                   TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
 
-                                      IEquatable<IPropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
-                                                                TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>,
+                                      IEquatable<IPropertyGraph  <TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                                                                  TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                  TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>,
 
-                                      IComparable<IPropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
-                                                                 TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                 TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                 TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>,
+                                      IComparable<IPropertyGraph <TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                                                                  TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                  TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>,
 
                                       IComparable
 
@@ -522,10 +536,10 @@ namespace de.ahzf.Blueprints.PropertyGraph
     /// <summary>
     /// Generic property graph helper interface.
     /// </summary>
-    public interface IPropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                    TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                    TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TDatastructureMultiEdge,
-                                    TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
+    public interface IPropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,    TPropertiesCollectionVertex,
+                                    TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TPropertiesCollectionEdge,
+                                    TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TPropertiesCollectionMultiEdge,
+                                    TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TPropertiesCollectionHyperEdge>
 
                                     : IPropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
                                                      TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
@@ -552,9 +566,10 @@ namespace de.ahzf.Blueprints.PropertyGraph
         where TKeyMultiEdge           : IEquatable<TKeyMultiEdge>,        IComparable<TKeyMultiEdge>,        IComparable
         where TKeyHyperEdge           : IEquatable<TKeyHyperEdge>,        IComparable<TKeyHyperEdge>,        IComparable
 
-        where TDatastructureVertex    : IDictionary<TKeyVertex,    TValueVertex>
-        where TDatastructureEdge      : IDictionary<TKeyEdge,      TValueEdge>
-        where TDatastructureHyperEdge : IDictionary<TKeyHyperEdge, TValueHyperEdge>
+        where TPropertiesCollectionVertex    : IDictionary<TKeyVertex,    TValueVertex>
+        where TPropertiesCollectionEdge      : IDictionary<TKeyEdge,      TValueEdge>
+        where TPropertiesCollectionMultiEdge : IDictionary<TKeyMultiEdge, TValueMultiEdge>
+        where TPropertiesCollectionHyperEdge : IDictionary<TKeyHyperEdge, TValueHyperEdge>
 
     { }
 

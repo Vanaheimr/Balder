@@ -76,13 +76,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\blueprints\blueprints.csproj">
+    <ProjectReference Include="..\Blueprints\Blueprints.csproj">
       <Project>{B9DE4181-416E-4DE4-A983-B90FC9412774}</Project>
-      <Name>blueprints</Name>
+      <Name>Blueprints</Name>
     </ProjectReference>
-    <ProjectReference Include="..\InMemoryGraph\InMemoryGraph.csproj">
-      <Project>{D4D2ACAD-FF2E-44AD-9D4A-6E332C246FAD}</Project>
-      <Name>InMemoryGraph</Name>
+    <ProjectReference Include="..\PropertyGraphs\PropertyGraphs.csproj">
+      <Project>{562AC94F-60EA-4911-8C62-684F02867783}</Project>
+      <Name>PropertyGraphs</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

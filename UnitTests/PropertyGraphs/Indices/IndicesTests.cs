@@ -21,8 +21,9 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-using de.ahzf.Blueprints.PropertyGraph;
-using de.ahzf.Blueprints.PropertyGraph.InMemory;
+using de.ahzf.Blueprints.PropertyGraphs;
+using de.ahzf.Blueprints.PropertyGraphs.InMemory;
+using de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable;
 
 using NUnit.Framework;
 

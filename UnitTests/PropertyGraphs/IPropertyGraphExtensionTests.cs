@@ -21,10 +21,11 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-using de.ahzf.Blueprints.PropertyGraph;
-using de.ahzf.Blueprints.PropertyGraph.InMemory;
+using de.ahzf.Blueprints.PropertyGraphs;
+using de.ahzf.Blueprints.PropertyGraphs.InMemory;
 
 using NUnit.Framework;
+using de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable;
 
 #endregion
 
@@ -52,7 +53,7 @@ namespace de.ahzf.Blueprints.UnitTests
             var _NumberOfVertices = _SourceGraph.NumberOfVertices();
             var _NumberOfEdges    = _SourceGraph.NumberOfEdges();
 
-            var _DestinationGraph = new SimplePropertyGraph();
+            var _DestinationGraph = new PropertyGraph();
             _SourceGraph.CopyGraph(_DestinationGraph);
 
             Assert.AreEqual(_NumberOfVertices, _DestinationGraph.NumberOfVertices());

@@ -20,12 +20,12 @@
 using System;
 using System.Collections.Generic;
 
-using de.ahzf.Blueprints.PropertyGraph.Indices;
-using de.ahzf.Blueprints.PropertyGraph.ReadOnly.Indices;
+using de.ahzf.Blueprints.PropertyGraphs.Indices;
+using de.ahzf.Blueprints.PropertyGraphs.ReadOnly.Indices;
 
 #endregion
 
-namespace de.ahzf.Blueprints.PropertyGraph.ReadOnly
+namespace de.ahzf.Blueprints.PropertyGraphs.ReadOnly
 {
 
     #region IReadOnlyPropertyGraph
@@ -284,10 +284,10 @@ namespace de.ahzf.Blueprints.PropertyGraph.ReadOnly
     /// <summary>
     /// Generic read-only property graph helper interface.
     /// </summary>
-    public interface IReadOnlyPropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                            TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                            TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TDatastructureMultiEdge,
-                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
+    public interface IReadOnlyPropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,    TPropertiesCollectionVertex,
+                                            TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TPropertiesCollectionEdge,
+                                            TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TPropertiesCollectionMultiEdge,
+                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TPropertiesCollectionHyperEdge>
 
                                             : IReadOnlyPropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
                                                                      TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
@@ -314,9 +314,9 @@ namespace de.ahzf.Blueprints.PropertyGraph.ReadOnly
         where TKeyMultiEdge           : IEquatable<TKeyMultiEdge>,        IComparable<TKeyMultiEdge>,        IComparable
             where TKeyHyperEdge           : IEquatable<TKeyHyperEdge>,        IComparable<TKeyHyperEdge>,        IComparable
 
-        where TDatastructureVertex    : IDictionary<TKeyVertex,    TValueVertex>
-        where TDatastructureEdge      : IDictionary<TKeyEdge,      TValueEdge>
-        where TDatastructureHyperEdge : IDictionary<TKeyHyperEdge, TValueHyperEdge>
+        where TPropertiesCollectionVertex    : IDictionary<TKeyVertex,    TValueVertex>
+        where TPropertiesCollectionEdge      : IDictionary<TKeyEdge,      TValueEdge>
+        where TPropertiesCollectionHyperEdge : IDictionary<TKeyHyperEdge, TValueHyperEdge>
 
     { }
 

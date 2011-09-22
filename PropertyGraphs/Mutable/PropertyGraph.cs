@@ -18,62 +18,70 @@
 #region Usings
 
 using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Dynamic;
-using System.Collections.Generic;
-using System.Collections.Concurrent;
+using System.Threading;
 
 using de.ahzf.Blueprints.Extensions;
 using de.ahzf.Blueprints.Indices;
-using de.ahzf.Blueprints.PropertyGraph.Indices;
+using de.ahzf.Blueprints.PropertyGraphs.Indices;
 
 #endregion
 
-namespace de.ahzf.Blueprints.PropertyGraph.InMemory
+namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 {
 
-    #region InMemoryGenericPropertyGraph<...>
+    #region PropertyGraph<...>
 
     /// <summary>
-    /// An in-memory implementation of the IPropertyGraph interface.
+    /// A class-based in-memory implementation of a generic property graph.
     /// </summary>
     /// <typeparam name="TIdVertex">The type of the vertex identifiers.</typeparam>
     /// <typeparam name="TRevisionIdVertex">The type of the vertex revision identifiers.</typeparam>
     /// <typeparam name="TVertexType">The type of the vertex type.</typeparam>
     /// <typeparam name="TKeyVertex">The type of the vertex property keys.</typeparam>
     /// <typeparam name="TValueVertex">The type of the vertex property values.</typeparam>
-    /// <typeparam name="TDatastructureVertex">The datastructure for hosting the keyvalue-pairs of the vertices.</typeparam>
+    /// <typeparam name="TPropertiesCollectionVertex">A data structure to store the properties of the vertices.</typeparam>
     /// 
     /// <typeparam name="TIdEdge">The type of the edge identifiers.</typeparam>
     /// <typeparam name="TRevisionIdEdge">The type of the edge revision identifiers.</typeparam>
     /// <typeparam name="TEdgeLabel">The type of the edge label.</typeparam>
     /// <typeparam name="TKeyEdge">The type of the edge property keys.</typeparam>
     /// <typeparam name="TValueEdge">The type of the edge property values.</typeparam>
-    /// <typeparam name="TDatastructureEdge">The datastructure for hosting the keyvalue-pairs of the edges.</typeparam>
+    /// <typeparam name="TPropertiesCollectionEdge">A data structure to store the properties of the edges.</typeparam>
+    /// 
+    /// <typeparam name="TIdMultiEdge">The type of the multiedge identifiers.</typeparam>
+    /// <typeparam name="TRevisionIdMultiEdge">The type of the multiedge revision identifiers.</typeparam>
+    /// <typeparam name="TMultiEdgeLabel">The type of the multiedge label.</typeparam>
+    /// <typeparam name="TKeyMultiEdge">The type of the multiedge property keys.</typeparam>
+    /// <typeparam name="TValueMultiEdge">The type of the multiedge property values.</typeparam>
+    /// <typeparam name="TPropertiesCollectionMultiEdge">A data structure to store the properties of the multiedges.</typeparam>
     /// 
     /// <typeparam name="TIdHyperEdge">The type of the hyperedge identifiers.</typeparam>
     /// <typeparam name="TRevisionIdHyperEdge">The type of the hyperedge revision identifiers.</typeparam>
     /// <typeparam name="THyperEdgeLabel">The type of the hyperedge label.</typeparam>
     /// <typeparam name="TKeyHyperEdge">The type of the hyperedge property keys.</typeparam>
     /// <typeparam name="TValueHyperEdge">The type of the hyperedge property values.</typeparam>
-    /// <typeparam name="TDatastructureHyperEdge">The datastructure for hosting the keyvalue-pairs of the hyperedges.</typeparam>
-    public class InMemoryGenericPropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                              TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TDatastructureMultiEdge,
-                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
+    /// <typeparam name="TPropertiesCollectionHyperEdge">A data structure to store the properties of the hyperedges.</typeparam>
+    public class PropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,    TPropertiesCollectionVertex,
+                               TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TPropertiesCollectionEdge,
+                               TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TPropertiesCollectionMultiEdge,
+                               TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TPropertiesCollectionHyperEdge>
 
-                                              : AGraphElement<TIdVertex,    TRevisionIdVertex,    TKeyVertex,    TValueVertex, TDatastructureVertex>,
+                               : AGraphElement<TIdVertex, TRevisionIdVertex, TKeyVertex, TValueVertex, TPropertiesCollectionVertex>,
 
-                                                IPropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                                               TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                                               TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TDatastructureMultiEdge,
-                                                               TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>,
+                                 IPropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,    TPropertiesCollectionVertex,
+                                                TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TPropertiesCollectionEdge,
+                                                TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TPropertiesCollectionMultiEdge,
+                                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TPropertiesCollectionHyperEdge>,
 
-                                                IDynamicGraphElement<InMemoryGenericPropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                                                                                  TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                                                                                  TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TDatastructureMultiEdge,
-                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>>
+                                 IDynamicGraphElement<PropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,    TPropertiesCollectionVertex,
+                                                                    TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TPropertiesCollectionEdge,
+                                                                    TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TPropertiesCollectionMultiEdge,
+                                                                    TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TPropertiesCollectionHyperEdge>>
 
         where TIdVertex               : IEquatable<TIdVertex>,            IComparable<TIdVertex>,            IComparable, TValueVertex
         where TIdEdge                 : IEquatable<TIdEdge>,              IComparable<TIdEdge>,              IComparable, TValueEdge
@@ -95,9 +103,10 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         where TKeyMultiEdge           : IEquatable<TKeyMultiEdge>,        IComparable<TKeyMultiEdge>,        IComparable
         where TKeyHyperEdge           : IEquatable<TKeyHyperEdge>,        IComparable<TKeyHyperEdge>,        IComparable
 
-        where TDatastructureVertex    : IDictionary<TKeyVertex,    TValueVertex>
-        where TDatastructureEdge      : IDictionary<TKeyEdge,      TValueEdge>
-        where TDatastructureHyperEdge : IDictionary<TKeyHyperEdge, TValueHyperEdge>
+        where TPropertiesCollectionVertex    : IDictionary<TKeyVertex,    TValueVertex>
+        where TPropertiesCollectionEdge      : IDictionary<TKeyEdge,      TValueEdge>
+        where TPropertiesCollectionMultiEdge : IDictionary<TKeyMultiEdge, TValueMultiEdge>
+        where TPropertiesCollectionHyperEdge : IDictionary<TKeyHyperEdge, TValueHyperEdge>
 
     {
 
@@ -112,6 +121,11 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// The cached number of edges.
         /// </summary>
         protected UInt64 _NumberOfEdges;
+
+        /// <summary>
+        /// The cached number of multiedges.
+        /// </summary>
+        protected UInt64 _NumberOfMultiEdges;
 
         /// <summary>
         /// The cached number of hyperedges.
@@ -136,6 +150,14 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                                                                         TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                         TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                         TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> _Edges;
+
+        /// <summary>
+        /// The collection of multiedges.
+        /// </summary>
+        protected readonly IDictionary<TIdMultiEdge, IPropertyMultiEdge<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                                                                        TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                        TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                        TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> _MultiEdges;
 
         /// <summary>
         /// The collection of hyperedges.
@@ -163,6 +185,15 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                     TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> _EdgeCreatorDelegate;
+
+        private readonly MultiEdgeIdCreatorDelegate<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                                                    TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                    TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                    TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> _MultiEdgeIdCreatorDelegate;
+        private readonly MultiEdgeCreatorDelegate  <TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                                                    TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                    TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                    TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> _MultiEdgeCreatorDelegate;
 
         private readonly HyperEdgeIdCreatorDelegate<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
                                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
@@ -255,6 +286,31 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         #endregion
 
 
+        #region OnMultiEdgeAdding
+
+        /// <summary>
+        /// Called whenever a multiedge will be added to the property graph.
+        /// </summary>
+        public event MultiEdgeAddingEventHandler<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                                                 TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                 TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                 TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnMultiEdgeAdding;
+
+        #endregion
+
+        #region OnMultiEdgeAdded
+
+        /// <summary>
+        /// Called whenever a multiedge was added to the property graph.
+        /// </summary>
+        public event MultiEdgeAddedEventHandler<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                                                TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnMultiEdgeAdded;
+
+        #endregion
+
+
         #region OnHyperEdgeAdding
 
         /// <summary>
@@ -263,7 +319,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         public event HyperEdgeAddingEventHandler<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
                                                  TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                  TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                    TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnHyperEdgeAdding;
+                                                 TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnHyperEdgeAdding;
 
         #endregion
 
@@ -275,7 +331,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         public event HyperEdgeAddedEventHandler<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
                                                 TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                 TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                    TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnHyperEdgeAdded;
+                                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnHyperEdgeAdded;
 
         #endregion
 
@@ -421,7 +477,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         #region InMemoryGenericPropertyGraph(VertexCreatorDelegate, EdgeCreatorDelegate, HyperEdgeCreatorDelegate, VerticesCollectionInitializer, EdgesCollectionInitializer, HyperEdgesCollectionInitializer)
 
         /// <summary>
-        /// Created a new genric and in-memory property graph.
+        /// Created a new class-based in-memory implementation of a generic property graph.
         /// </summary>
         /// <param name="GraphId">The identification of this graph.</param>
         /// <param name="IdKey">The key to access the Id of this graph.</param>
@@ -437,10 +493,10 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="EdgesCollectionInitializer">A delegate for initializing a new edge with custom data.</param>
         /// <param name="HyperEdgesCollectionInitializer">A delegate for initializing a new hyperedge with custom data.</param>
         /// <param name="GraphInitializer">A delegate to initialize the newly created graph.</param>
-        public InMemoryGenericPropertyGraph(TIdVertex                    GraphId,
+        public PropertyGraph(TIdVertex                    GraphId,
                                             TKeyVertex                   IdKey,
                                             TKeyVertex                   RevisonIdKey,
-                                            Func<TDatastructureVertex>   DataInitializer,
+                                            Func<TPropertiesCollectionVertex>   DataInitializer,
 
                                             VertexIdCreatorDelegate   <TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
                                                                        TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
@@ -1213,6 +1269,115 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                 foreach (var _IEdge in _tmp)
                     RemoveEdges(_IEdge);
 
+            }
+
+        }
+
+        #endregion
+
+        #endregion
+
+        #region MultiEdge methods
+
+        #region MultiEdgesById(params MultiEdgeIds)
+
+        /// <summary>
+        /// Return the MultiEdges referenced by the given array of MultiEdge identifiers.
+        /// If no MultiEdge is referenced by a given identifier this value will be
+        /// skipped.
+        /// </summary>
+        /// <param name="MultiEdgeIds">An array of MultiEdge identifiers.</param>
+        public IEnumerable<IPropertyMultiEdge<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                              TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
+
+                                              MultiEdgesById(params TIdMultiEdge[] MultiEdgeIds)
+        {
+            
+            if (MultiEdgeIds == null || !MultiEdgeIds.Any())
+                throw new ArgumentNullException("The given array of MultiEdge identifiers must not be null or its length zero!");
+
+            IPropertyMultiEdge<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                               TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                               TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                               TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> _MultiEdge;
+
+            foreach (var _MultiEdgeId in MultiEdgeIds)
+            {
+                if (_MultiEdgeId != null)
+                {
+                    _MultiEdges.TryGetValue(_MultiEdgeId, out _MultiEdge);
+                    yield return _MultiEdge;
+                }
+            }
+
+        }
+
+        #endregion
+
+        #region MultiEdges(MultiEdgeFilter = null)
+
+        /// <summary>
+        /// Get an enumeration of all MultiEdges in the graph.
+        /// An optional MultiEdge filter may be applied for filtering.
+        /// </summary>
+        /// <param name="MultiEdgeFilter">A delegate for MultiEdge filtering.</param>
+        public IEnumerable<IPropertyMultiEdge<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                              TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
+
+                                              MultiEdges(MultiEdgeFilter<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                                                                         TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                         TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                         TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> MultiEdgeFilter = null)
+        {
+
+            if (MultiEdgeFilter == null)
+                foreach (var _MultiEdge in _MultiEdges.Values)
+                    yield return _MultiEdge;
+
+            else
+                foreach (var _MultiEdge in _MultiEdges.Values)
+                    if (MultiEdgeFilter(_MultiEdge))
+                        yield return _MultiEdge;
+
+        }
+
+        #endregion
+
+        #region NumberOfMultiEdges(MultiEdgeFilter = null)
+
+        /// <summary>
+        /// Return the current number of MultiEdges matching the given optional MultiEdge filter.
+        /// When the filter is null, this method should implement an optimized
+        /// way to get the currenty number of edges.
+        /// </summary>
+        /// <param name="MultiEdgeFilter">A delegate for MultiEdge filtering.</param>
+        public UInt64 NumberOfMultiEdges(MultiEdgeFilter<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                                                         TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                         TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                         TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> MultiEdgeFilter = null)
+        {
+
+            if (MultiEdgeFilter == null)
+                return _NumberOfMultiEdges;
+
+            else
+            {
+                lock (this)
+                {
+
+                    var _Counter = 0UL;
+
+                    foreach (var _MultiEdge in _MultiEdges.Values)
+                        if (MultiEdgeFilter(_MultiEdge))
+                            _Counter++;
+
+                    return _Counter;
+
+                }
             }
 
         }
@@ -2022,15 +2187,15 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="PropertyGraph1">A graph.</param>
         /// <param name="PropertyGraph2">Another graph.</param>
         /// <returns>True if both match; False otherwise.</returns>
-        public static Boolean operator == (InMemoryGenericPropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                                                        TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                                                        TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TDatastructureMultiEdge,
-                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
+        public static Boolean operator == (PropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,    TPropertiesCollectionVertex,
+                                                                        TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TPropertiesCollectionEdge,
+                                                                        TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TPropertiesCollectionMultiEdge,
+                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TPropertiesCollectionHyperEdge>
                                                                         PropertyGraph1,
-                                           InMemoryGenericPropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                                                        TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                                                        TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TDatastructureMultiEdge,
-                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
+                                           PropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,    TPropertiesCollectionVertex,
+                                                                        TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TPropertiesCollectionEdge,
+                                                                        TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TPropertiesCollectionMultiEdge,
+                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TPropertiesCollectionHyperEdge>
                                                                         PropertyGraph2)
         {
 
@@ -2056,15 +2221,15 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="PropertyGraph1">A graph.</param>
         /// <param name="PropertyGraph2">Another graph.</param>
         /// <returns>False if both match; True otherwise.</returns>
-        public static Boolean operator != (InMemoryGenericPropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                                                        TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                                                        TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TDatastructureMultiEdge,
-                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
+        public static Boolean operator != (PropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,    TPropertiesCollectionVertex,
+                                                                        TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TPropertiesCollectionEdge,
+                                                                        TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TPropertiesCollectionMultiEdge,
+                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TPropertiesCollectionHyperEdge>
                                                                         PropertyGraph1,
-                                           InMemoryGenericPropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                                                        TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                                                        TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TDatastructureMultiEdge,
-                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
+                                           PropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,    TPropertiesCollectionVertex,
+                                                                        TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TPropertiesCollectionEdge,
+                                                                        TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TPropertiesCollectionMultiEdge,
+                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TPropertiesCollectionHyperEdge>
                                                                         PropertyGraph2)
         {
             return !(PropertyGraph1 == PropertyGraph2);
@@ -2080,15 +2245,15 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="PropertyGraph1">A graph.</param>
         /// <param name="PropertyGraph2">Another graph.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator < (InMemoryGenericPropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                                                       TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TDatastructureMultiEdge,
-                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
+        public static Boolean operator < (PropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,    TPropertiesCollectionVertex,
+                                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TPropertiesCollectionEdge,
+                                                                       TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TPropertiesCollectionMultiEdge,
+                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TPropertiesCollectionHyperEdge>
                                                                        PropertyGraph1,
-                                          InMemoryGenericPropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                                                       TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TDatastructureMultiEdge,
-                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
+                                          PropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,    TPropertiesCollectionVertex,
+                                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TPropertiesCollectionEdge,
+                                                                       TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TPropertiesCollectionMultiEdge,
+                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TPropertiesCollectionHyperEdge>
                                                                        PropertyGraph2)
         {
 
@@ -2112,15 +2277,15 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="PropertyGraph1">A graph.</param>
         /// <param name="PropertyGraph2">Another graph.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator <= (InMemoryGenericPropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                                                        TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                                                        TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TDatastructureMultiEdge,
-                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
+        public static Boolean operator <= (PropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,    TPropertiesCollectionVertex,
+                                                                        TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TPropertiesCollectionEdge,
+                                                                        TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TPropertiesCollectionMultiEdge,
+                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TPropertiesCollectionHyperEdge>
                                                                         PropertyGraph1,
-                                           InMemoryGenericPropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                                                        TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                                                        TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TDatastructureMultiEdge,
-                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
+                                           PropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,    TPropertiesCollectionVertex,
+                                                                        TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TPropertiesCollectionEdge,
+                                                                        TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TPropertiesCollectionMultiEdge,
+                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TPropertiesCollectionHyperEdge>
                                                                         PropertyGraph2)
         {
             return !(PropertyGraph1 > PropertyGraph2);
@@ -2136,15 +2301,15 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="PropertyGraph1">A graph.</param>
         /// <param name="PropertyGraph2">Another graph.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator > (InMemoryGenericPropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                                                       TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TDatastructureMultiEdge,
-                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
+        public static Boolean operator > (PropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,    TPropertiesCollectionVertex,
+                                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TPropertiesCollectionEdge,
+                                                                       TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TPropertiesCollectionMultiEdge,
+                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TPropertiesCollectionHyperEdge>
                                                                        PropertyGraph1,
-                                          InMemoryGenericPropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                                                       TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TDatastructureMultiEdge,
-                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
+                                          PropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,    TPropertiesCollectionVertex,
+                                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TPropertiesCollectionEdge,
+                                                                       TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TPropertiesCollectionMultiEdge,
+                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TPropertiesCollectionHyperEdge>
                                                                        PropertyGraph2)
         {
 
@@ -2168,15 +2333,15 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="PropertyGraph1">A graph.</param>
         /// <param name="PropertyGraph2">Another graph.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator >= (InMemoryGenericPropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                                                        TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                                                        TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TDatastructureMultiEdge,
-                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
+        public static Boolean operator >= (PropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,    TPropertiesCollectionVertex,
+                                                                        TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TPropertiesCollectionEdge,
+                                                                        TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TPropertiesCollectionMultiEdge,
+                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TPropertiesCollectionHyperEdge>
                                                                         PropertyGraph1,
-                                           InMemoryGenericPropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                                                        TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                                                        TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TDatastructureMultiEdge,
-                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>
+                                           PropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,    TPropertiesCollectionVertex,
+                                                                        TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TPropertiesCollectionEdge,
+                                                                        TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TPropertiesCollectionMultiEdge,
+                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TPropertiesCollectionHyperEdge>
                                                                         PropertyGraph2)
         {
             return !(PropertyGraph1 < PropertyGraph2);
@@ -2196,10 +2361,10 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="myExpression">An Expression.</param>
         public DynamicMetaObject GetMetaObject(Expression myExpression)
         {
-            return new DynamicGraphElement<InMemoryGenericPropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                                                        TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                                                        TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TDatastructureMultiEdge,
-                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>>(myExpression, this);
+            return new DynamicGraphElement<PropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,    TPropertiesCollectionVertex,
+                                                                        TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TPropertiesCollectionEdge,
+                                                                        TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TPropertiesCollectionMultiEdge,
+                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TPropertiesCollectionHyperEdge>>(myExpression, this);
         }
 
         #endregion
@@ -2367,10 +2532,10 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                 return false;
 
             // Check if the given object can be casted to a InMemoryGenericPropertyGraph
-            var PropertyGraph = Object as InMemoryGenericPropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,    TDatastructureVertex,
-                                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TDatastructureEdge,
-                                                                       TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TDatastructureMultiEdge,
-                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TDatastructureHyperEdge>;
+            var PropertyGraph = Object as PropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,    TPropertiesCollectionVertex,
+                                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TPropertiesCollectionEdge,
+                                                                       TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TPropertiesCollectionMultiEdge,
+                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TPropertiesCollectionHyperEdge>;
             if ((Object) PropertyGraph == null)
                 return false;
 
@@ -2471,16 +2636,370 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
     #endregion
 
-    #region InMemoryPropertyGraph
+    #region PropertyGraph<TId, TRevisionId, TKey, TValue>
 
     /// <summary>
-    /// An in-memory implementation of a property graph.
+    /// A class-based in-memory implementation of a simplified generic property graph.
     /// </summary>
-    public class InMemoryPropertyGraph : InMemoryGenericPropertyGraph<VertexId,    RevisionId, String, String, Object, IDictionary<String, Object>,  // Vertices definition
-                                                                      EdgeId,      RevisionId, String, String, Object, IDictionary<String, Object>,  // Edges definition
-                                                                      MultiEdgeId, RevisionId, String, String, Object, IDictionary<String, Object>,
-                                         HyperEdgeId, RevisionId, String, String, Object, IDictionary<String, Object>>, // Hyperedges definition
-                                         IPropertyGraph
+    /// <typeparam name="TId">The type of the graph element identifiers.</typeparam>
+    /// <typeparam name="TRevisionId">The type of the graph element revision identifiers.</typeparam>
+    /// <typeparam name="TLabel">The type of the labels.</typeparam>
+    /// <typeparam name="TKey">The type of the graph element property keys.</typeparam>
+    /// <typeparam name="TValue">The type of the graph element property values.</typeparam>
+    public class PropertyGraph<TId, TRevisionId, TLabel, TKey, TValue>
+                     : PropertyGraph<TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,  // Vertex definition
+                                     TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,  // Edge definition
+                                     TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,  // MultiEdge definition
+                                     TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>>  // Hyperedge definition
+
+        where TId         : IEquatable<TId>,         IComparable<TId>,         IComparable, TValue
+        where TRevisionId : IEquatable<TRevisionId>, IComparable<TRevisionId>, IComparable, TValue
+        where TKey        : IEquatable<TKey>,        IComparable<TKey>,        IComparable
+        where TLabel      : IEquatable<TLabel>,      IComparable<TLabel>,      IComparable
+
+    {
+
+        #region Delegates
+
+        #region IdCreatorDelegate()
+
+        /// <summary>
+        /// A delegate for creating a new TId
+        /// (if no one was provided by the user).
+        /// </summary>
+        /// <returns>A valid TId.</returns>
+        public delegate TId IdCreatorDelegate();
+
+        #endregion
+
+        #region RevisionIdCreatorDelegate()
+
+        /// <summary>
+        /// A delegate for creating a new TRevisionId
+        /// (if no one was provided by the user).
+        /// </summary>
+        /// <returns>A valid TRevisionId.</returns>
+        public delegate TRevisionId RevisionIdCreatorDelegate();
+
+        #endregion
+
+        #endregion
+
+        #region Constructor(s)
+
+        #region SimplePropertyGraph()
+
+        /// <summary>
+        /// Created a new class-based in-memory implementation of a simplified generic property graph.
+        /// </summary>
+        public PropertyGraph(TId                       GraphId,
+                             TKey                      IdKey,
+                             IdCreatorDelegate         IdCreatorDelegate,
+                             TKey                      RevisionIdKey,
+                             RevisionIdCreatorDelegate RevisionIdCreatorDelegate,
+                             GraphInitializer<TId, TRevisionId, TLabel, TKey, TValue,
+                                              TId, TRevisionId, TLabel, TKey, TValue,
+                                              TId, TRevisionId, TLabel, TKey, TValue,
+                                              TId, TRevisionId, TLabel, TKey, TValue> GraphInitializer = null)
+
+            : base (GraphId,
+                    IdKey,
+                    RevisionIdKey,
+                    () => new Dictionary<TKey, TValue>(),
+
+                    // Create a new Vertex
+                    (a) => IdCreatorDelegate(),
+                    (Graph, VertexId, VertexInitializer) =>
+                        new PropertyVertex<TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
+                                           TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>, ICollection<IPropertyEdge<TId, TRevisionId, TLabel, TKey, TValue,
+                                                                                                                                        TId, TRevisionId, TLabel, TKey, TValue,
+                                                                                                                                        TId, TRevisionId, TLabel, TKey, TValue,
+                                                                                                                                        TId, TRevisionId, TLabel, TKey, TValue>>,
+                                           TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>, IDictionary<TLabel, IPropertyMultiEdge<TId, TRevisionId, TLabel, TKey, TValue,
+                                                                                                                                                     TId, TRevisionId, TLabel, TKey, TValue,
+                                                                                                                                                     TId, TRevisionId, TLabel, TKey, TValue,
+                                                                                                                                                     TId, TRevisionId, TLabel, TKey, TValue>>,
+                                           TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>, IDictionary<TLabel, IPropertyHyperEdge<TId, TRevisionId, TLabel, TKey, TValue,
+                                                                                                                                                     TId, TRevisionId, TLabel, TKey, TValue,
+                                                                                                                                                     TId, TRevisionId, TLabel, TKey, TValue,
+                                                                                                                                                     TId, TRevisionId, TLabel, TKey, TValue>>>
+                            (Graph, VertexId, IdKey, RevisionIdKey,
+                             () => new Dictionary<TKey, TValue>(),
+                             () => new HashSet<IPropertyEdge<TId, TRevisionId, TLabel, TKey, TValue,
+                                                             TId, TRevisionId, TLabel, TKey, TValue,
+                                                             TId, TRevisionId, TLabel, TKey, TValue,
+                                                             TId, TRevisionId, TLabel, TKey, TValue>>(),
+                             () => new Dictionary<TLabel, IPropertyHyperEdge<TId, TRevisionId, TLabel, TKey, TValue,
+                                                                             TId, TRevisionId, TLabel, TKey, TValue,
+                                                                             TId, TRevisionId, TLabel, TKey, TValue,
+                                                                             TId, TRevisionId, TLabel, TKey, TValue>>(),
+                             VertexInitializer
+                            ),
+
+                   // Create a new Edge
+                   (Graph) => IdCreatorDelegate(),
+                   (Graph, OutVertex, InVertex, EdgeId, Label, EdgeInitializer) =>
+                        new PropertyEdge<TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
+                                         TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
+                                         TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
+                                         TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>>
+                            (Graph, OutVertex, InVertex, EdgeId, Label, IdKey, RevisionIdKey,
+                             () => new Dictionary<TKey, TValue>(),
+                             EdgeInitializer
+                            ),
+
+
+                   // Create a new HyperEdge
+                   (Graph) => IdCreatorDelegate(),
+                   (Graph, EdgeSelector, HyperEdgeId, Label, HyperEdgeInitializer) =>
+                       new PropertyHyperEdge<TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
+                                             TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
+                                             TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
+                                             TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
+                                             ICollection<IPropertyEdge<TId, TRevisionId, TLabel, TKey, TValue,
+                                                                       TId, TRevisionId, TLabel, TKey, TValue,
+                                                                       TId, TRevisionId, TLabel, TKey, TValue,
+                                                                       TId, TRevisionId, TLabel, TKey, TValue>>>
+                            (Graph, EdgeSelector, HyperEdgeId, Label, IdKey, RevisionIdKey,
+                             () => new Dictionary<TKey, TValue>(),
+                             () => new HashSet<IPropertyEdge<TId, TRevisionId, TLabel, TKey, TValue,
+                                                             TId, TRevisionId, TLabel, TKey, TValue,
+                                                             TId, TRevisionId, TLabel, TKey, TValue,
+                                                             TId, TRevisionId, TLabel, TKey, TValue>>(),
+                             HyperEdgeInitializer
+                            ),
+
+
+#if SILVERLIGHT
+                   // The vertices collection
+                   new Dictionary<TId, IPropertyVertex   <TId, TRevisionId, TLabel, TKey, TValue,
+                                                          TId, TRevisionId, TLabel, TKey, TValue,
+                                                          TId, TRevisionId, TLabel, TKey, TValue,
+                                                          TId, TRevisionId, TLabel, TKey, TValue>>(),
+
+                   // The edges collection
+                   new Dictionary<TId, IPropertyEdge     <TId, TRevisionId, TLabel, TKey, TValue,
+                                                          TId, TRevisionId, TLabel, TKey, TValue,
+                                                          TId, TRevisionId, TLabel, TKey, TValue,
+                                                          TId, TRevisionId, TLabel, TKey, TValue>>(),
+
+                   // The hyperedges collection
+                   new Dictionary<TId, IPropertyHyperEdge<TId, TRevisionId, TLabel, TKey, TValue,
+                                                          TId, TRevisionId, TLabel, TKey, TValue,
+                                                          TId, TRevisionId, TLabel, TKey, TValue,
+                                                          TId, TRevisionId, TLabel, TKey, TValue>>(),
+#else
+                // The vertices collection
+                   new ConcurrentDictionary<TId, IPropertyVertex   <TId, TRevisionId, TLabel, TKey, TValue,
+                                                                    TId, TRevisionId, TLabel, TKey, TValue,
+                                                                    TId, TRevisionId, TLabel, TKey, TValue,
+                                                                    TId, TRevisionId, TLabel, TKey, TValue>>(),
+
+                   // The edges collection
+                   new ConcurrentDictionary<TId, IPropertyEdge     <TId, TRevisionId, TLabel, TKey, TValue,
+                                                                    TId, TRevisionId, TLabel, TKey, TValue,
+                                                                    TId, TRevisionId, TLabel, TKey, TValue,
+                                                                    TId, TRevisionId, TLabel, TKey, TValue>>(),
+
+                   // The hyperedges collection
+                   new ConcurrentDictionary<TId, IPropertyHyperEdge<TId, TRevisionId, TLabel, TKey, TValue,
+                                                                    TId, TRevisionId, TLabel, TKey, TValue,
+                                                                    TId, TRevisionId, TLabel, TKey, TValue,
+                                                                    TId, TRevisionId, TLabel, TKey, TValue>>(),
+#endif
+
+            GraphInitializer)
+
+        { }
+
+        #endregion
+
+        #endregion
+
+        
+        #region Operator overloading
+
+        #region Operator == (PropertyGraph1, PropertyGraph2)
+
+        /// <summary>
+        /// Compares two property graphs for equality.
+        /// </summary>
+        /// <param name="PropertyGraph1">A graph.</param>
+        /// <param name="PropertyGraph2">Another graph.</param>
+        /// <returns>True if both match; False otherwise.</returns>
+        public static Boolean operator == (PropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph1,
+                                           PropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph2)
+        {
+
+            // If both are null, or both are same instance, return true.
+            if (Object.ReferenceEquals(PropertyGraph1, PropertyGraph2))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (((Object) PropertyGraph1 == null) || ((Object) PropertyGraph2 == null))
+                return false;
+
+            return PropertyGraph1.Equals(PropertyGraph2);
+
+        }
+
+        #endregion
+
+        #region Operator != (PropertyGraph1, PropertyGraph2)
+
+        /// <summary>
+        /// Compares two property graphs for inequality.
+        /// </summary>
+        /// <param name="PropertyGraph1">A graph.</param>
+        /// <param name="PropertyGraph2">Another graph.</param>
+        /// <returns>False if both match; True otherwise.</returns>
+        public static Boolean operator != (PropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph1,
+                                           PropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph2)
+        {
+            return !(PropertyGraph1 == PropertyGraph2);
+        }
+
+        #endregion
+
+        #region Operator <  (PropertyGraph1, PropertyGraph2)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="PropertyGraph1">A graph.</param>
+        /// <param name="PropertyGraph2">Another graph.</param>
+        /// <returns>true|false</returns>
+        public static Boolean operator < (PropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph1,
+                                          PropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph2)
+        {
+
+            if ((Object) PropertyGraph1 == null)
+                throw new ArgumentNullException("The given PropertyGraph1 must not be null!");
+
+            if ((Object) PropertyGraph2 == null)
+                throw new ArgumentNullException("The given PropertyGraph2 must not be null!");
+
+            return PropertyGraph1.CompareTo(PropertyGraph2) < 0;
+
+        }
+
+        #endregion
+
+        #region Operator <= (PropertyGraph1, PropertyGraph2)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="PropertyGraph1">A graph.</param>
+        /// <param name="PropertyGraph2">Another graph.</param>
+        /// <returns>true|false</returns>
+        public static Boolean operator <= (PropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph1,
+                                           PropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph2)
+        {
+            return !(PropertyGraph1 > PropertyGraph2);
+        }
+
+        #endregion
+
+        #region Operator >  (PropertyGraph1, PropertyGraph2)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="PropertyGraph1">A graph.</param>
+        /// <param name="PropertyGraph2">Another graph.</param>
+        /// <returns>true|false</returns>
+        public static Boolean operator > (PropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph1,
+                                          PropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph2)
+        {
+
+            if ((Object) PropertyGraph1 == null)
+                throw new ArgumentNullException("The given PropertyGraph1 must not be null!");
+
+            if ((Object) PropertyGraph2 == null)
+                throw new ArgumentNullException("The given  PropertyGraph2 must not be null!");
+
+            return PropertyGraph1.CompareTo(PropertyGraph2) > 0;
+
+        }
+
+        #endregion
+
+        #region Operator >= (PropertyGraph1, PropertyGraph2)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="PropertyGraph1">A graph.</param>
+        /// <param name="PropertyGraph2">Another graph.</param>
+        /// <returns>true|false</returns>
+        public static Boolean operator >= (PropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph1,
+                                           PropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph2)
+        {
+            return !(PropertyGraph1 < PropertyGraph2);
+        }
+
+        #endregion
+
+        #endregion
+
+        #region IEquatable Members
+
+        #region Equals(Object)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="Object">An object to compare with.</param>
+        /// <returns>True if both match; False otherwise.</returns>
+        public override Boolean Equals(Object Object)
+        {
+
+            if (Object == null)
+                return false;
+
+            // Check if the given object can be casted to a SimplePropertyGraph
+            var PropertyGraph = Object as PropertyGraph<TId, TRevisionId, TLabel, TKey, TValue>;
+            if ((Object) PropertyGraph == null)
+                return false;
+
+            return this.Equals(PropertyGraph);
+
+        }
+
+        #endregion
+
+        #endregion
+
+        #region GetHashCode()
+
+        /// <summary>
+        /// Return the HashCode of this object.
+        /// </summary>
+        /// <returns>The HashCode of this object.</returns>
+        public override Int32 GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        #endregion
+
+    }
+
+    #endregion
+
+    #region DistributedPropertyGraph
+
+    /// <summary>
+    /// A class-based in-memory implementation of a distributed property graph.
+    /// </summary>
+    public class DistributedPropertyGraph : PropertyGraph<VertexId,    RevisionId, String, String, Object, IDictionary<String, Object>,
+                                                          EdgeId,      RevisionId, String, String, Object, IDictionary<String, Object>,
+                                                          MultiEdgeId, RevisionId, String, String, Object, IDictionary<String, Object>,
+                                                          HyperEdgeId, RevisionId, String, String, Object, IDictionary<String, Object>>,
+
+                                            IDistributedPropertyGraph
+
     {
 
         #region Data
@@ -2497,25 +3016,25 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #region Constructor(s)
 
-        #region InMemoryPropertyGraph()
-        // This constructor is needed for automatic activation!
+        #region DistributedPropertyGraph()
 
         /// <summary>
-        /// Created a new in-memory property graph.
+        /// Created a new class-based in-memory implementation of a distributed property graph.
+        /// (This constructor is needed for automatic activation!)
         /// </summary>
-        public InMemoryPropertyGraph()
+        public DistributedPropertyGraph()
             : this(VertexId.NewVertexId)
         { }
 
         #endregion
 
-        #region InMemoryPropertyGraph(GraphInitializer)
+        #region DistributedPropertyGraph(GraphInitializer)
 
         /// <summary>
-        /// Created a new in-memory property graph.
+        /// Created a new class-based in-memory implementation of a distributed property graph.
         /// </summary>
         /// <param name="GraphInitializer">A delegate to initialize the graph.</param>
-        public InMemoryPropertyGraph(GraphInitializer<VertexId,    RevisionId, String, String, Object,
+        public DistributedPropertyGraph(GraphInitializer<VertexId,    RevisionId, String, String, Object,
                                                       EdgeId,      RevisionId, String, String, Object,
                                                       MultiEdgeId, RevisionId, String, String, Object,
                                                     HyperEdgeId, RevisionId, String, String, Object> GraphInitializer)
@@ -2524,14 +3043,14 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #endregion
 
-        #region InMemoryPropertyGraph(GraphId, GraphInitializer = null)
+        #region DistributedPropertyGraph(GraphId, GraphInitializer = null)
 
         /// <summary>
-        /// Created a new in-memory property graph.
+        /// Created a new class-based in-memory implementation of a distributed property graph.
         /// </summary>
         /// <param name="GraphId">A unique identification for this graph.</param>
         /// <param name="GraphInitializer">A delegate to initialize the graph.</param>
-        public InMemoryPropertyGraph(VertexId GraphId,
+        public DistributedPropertyGraph(VertexId GraphId,
                                      GraphInitializer<VertexId,    RevisionId, String, String, Object,
                                                       EdgeId,      RevisionId, String, String, Object,
                                                       MultiEdgeId, RevisionId, String, String, Object,
@@ -2545,17 +3064,18 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                     (Graph) => VertexId.NewVertexId, // Automatic VertexId generation
                     (Graph, _VertexId, VertexInitializer) =>
                         new PropertyVertex<VertexId,    RevisionId, String, String, Object, IDictionary<String, Object>,
-                                           EdgeId,      RevisionId, String, String, Object, IDictionary<String, Object>,
-                                           MultiEdgeId, RevisionId, String, String, Object, IDictionary<String, Object>,
-                                           HyperEdgeId, RevisionId, String, String, Object, IDictionary<String, Object>,
-                                           ICollection<IPropertyEdge<VertexId,    RevisionId, String, String, Object,
-                                                                     EdgeId,      RevisionId, String, String, Object,
-                                                                     MultiEdgeId, RevisionId, String, String, Object,
-                                                    HyperEdgeId, RevisionId, String, String, Object>>,
-                                           IDictionary<String, IPropertyHyperEdge<VertexId,    RevisionId, String, String, Object,
-                                                                                  EdgeId,      RevisionId, String, String, Object,
-                                                                                  MultiEdgeId, RevisionId, String, String, Object,
-                                                    HyperEdgeId, RevisionId, String, String, Object>>>
+                                           EdgeId,      RevisionId, String, String, Object, IDictionary<String, Object>, ICollection<IPropertyEdge<VertexId,    RevisionId, String, String, Object,
+                                                                                                                                                   EdgeId,      RevisionId, String, String, Object,
+                                                                                                                                                   MultiEdgeId, RevisionId, String, String, Object,
+                                                                                                                                                   HyperEdgeId, RevisionId, String, String, Object>>,
+                                           MultiEdgeId, RevisionId, String, String, Object, IDictionary<String, Object>, IDictionary<String, IPropertyMultiEdge<VertexId,    RevisionId, String, String, Object,
+                                                                                                                                                                EdgeId,      RevisionId, String, String, Object,
+                                                                                                                                                                MultiEdgeId, RevisionId, String, String, Object,
+                                                                                                                                                                HyperEdgeId, RevisionId, String, String, Object>>,
+                                           HyperEdgeId, RevisionId, String, String, Object, IDictionary<String, Object>, IDictionary<String, IPropertyHyperEdge<VertexId,    RevisionId, String, String, Object,
+                                                                                                                                                                EdgeId,      RevisionId, String, String, Object,
+                                                                                                                                                                MultiEdgeId, RevisionId, String, String, Object,
+                                                                                                                                                                HyperEdgeId, RevisionId, String, String, Object>>>
                             (Graph, _VertexId, _VertexIdKey, _VertexRevisionIdKey,
                              () => new Dictionary<String, Object>(),
                              () => new HashSet<IPropertyEdge<VertexId,    RevisionId, String, String, Object,
@@ -2659,8 +3179,8 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="PropertyGraph1">A graph.</param>
         /// <param name="PropertyGraph2">Another graph.</param>
         /// <returns>True if both match; False otherwise.</returns>
-        public static Boolean operator == (InMemoryPropertyGraph PropertyGraph1,
-                                           InMemoryPropertyGraph PropertyGraph2)
+        public static Boolean operator == (DistributedPropertyGraph PropertyGraph1,
+                                           DistributedPropertyGraph PropertyGraph2)
         {
 
             // If both are null, or both are same instance, return true.
@@ -2685,8 +3205,8 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="PropertyGraph1">A graph.</param>
         /// <param name="PropertyGraph2">Another graph.</param>
         /// <returns>False if both match; True otherwise.</returns>
-        public static Boolean operator != (InMemoryPropertyGraph PropertyGraph1,
-                                           InMemoryPropertyGraph PropertyGraph2)
+        public static Boolean operator != (DistributedPropertyGraph PropertyGraph1,
+                                           DistributedPropertyGraph PropertyGraph2)
         {
             return !(PropertyGraph1 == PropertyGraph2);
         }
@@ -2701,8 +3221,8 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="PropertyGraph1">A graph.</param>
         /// <param name="PropertyGraph2">Another graph.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator < (InMemoryPropertyGraph PropertyGraph1,
-                                          InMemoryPropertyGraph PropertyGraph2)
+        public static Boolean operator < (DistributedPropertyGraph PropertyGraph1,
+                                          DistributedPropertyGraph PropertyGraph2)
         {
 
             if ((Object) PropertyGraph1 == null)
@@ -2725,8 +3245,8 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="PropertyGraph1">A graph.</param>
         /// <param name="PropertyGraph2">Another graph.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator <= (InMemoryPropertyGraph PropertyGraph1,
-                                           InMemoryPropertyGraph PropertyGraph2)
+        public static Boolean operator <= (DistributedPropertyGraph PropertyGraph1,
+                                           DistributedPropertyGraph PropertyGraph2)
         {
             return !(PropertyGraph1 > PropertyGraph2);
         }
@@ -2741,8 +3261,8 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="PropertyGraph1">A graph.</param>
         /// <param name="PropertyGraph2">Another graph.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator > (InMemoryPropertyGraph PropertyGraph1,
-                                          InMemoryPropertyGraph PropertyGraph2)
+        public static Boolean operator > (DistributedPropertyGraph PropertyGraph1,
+                                          DistributedPropertyGraph PropertyGraph2)
         {
 
             if ((Object) PropertyGraph1 == null)
@@ -2765,8 +3285,8 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="PropertyGraph1">A graph.</param>
         /// <param name="PropertyGraph2">Another graph.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator >= (InMemoryPropertyGraph PropertyGraph1,
-                                           InMemoryPropertyGraph PropertyGraph2)
+        public static Boolean operator >= (DistributedPropertyGraph PropertyGraph1,
+                                           DistributedPropertyGraph PropertyGraph2)
         {
             return !(PropertyGraph1 < PropertyGraph2);
         }
@@ -2791,8 +3311,287 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
                 return false;
 
             // Check if the given object can be casted to a InMemoryPropertyGraph
-            var PropertyGraph = Object as InMemoryPropertyGraph;
+            var PropertyGraph = Object as DistributedPropertyGraph;
             if ((Object)PropertyGraph == null)
+                return false;
+
+            return this.Equals(PropertyGraph);
+
+        }
+
+        #endregion
+
+        #endregion
+
+        #region GetHashCode()
+
+        /// <summary>
+        /// Return the HashCode of this object.
+        /// </summary>
+        /// <returns>The HashCode of this object.</returns>
+        public override Int32 GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        #endregion
+
+    }
+
+    #endregion
+
+    #region PropertyGraph
+
+    /// <summary>
+    /// A class-based in-memory implementation of a property graph.
+    /// </summary>
+    public class PropertyGraph : PropertyGraph<UInt64, Int64, String, String, Object>
+    {
+
+        #region Constructor(s)
+
+        #region PropertyGraph()
+
+        /// <summary>
+        /// Created a new class-based in-memory implementation of a property graph.
+        /// (This constructor is needed for automatic activation!)
+        /// </summary>
+        public PropertyGraph()
+            : this(PropertyGraph.NewId)
+        { }
+
+        #endregion
+
+        #region PropertyGraph(GraphInitializer)
+
+        /// <summary>
+        /// Created a new class-based in-memory implementation of a property graph.
+        /// </summary>
+        /// <param name="GraphInitializer">A delegate to initialize the graph.</param>
+        public PropertyGraph(GraphInitializer<UInt64, Int64, String, String, Object,
+                                              UInt64, Int64, String, String, Object,
+                                              UInt64, Int64, String, String, Object,
+                                              UInt64, Int64, String, String, Object> GraphInitializer)
+            : this(PropertyGraph.NewId, GraphInitializer)
+        { }
+
+        #endregion
+
+        #region PropertyGraph(GraphId, GraphInitializer = null)
+
+        /// <summary>
+        /// Created a new class-based in-memory implementation of a property graph.
+        /// </summary>
+        /// <param name="GraphId">A unique identification for this graph.</param>
+        /// <param name="GraphInitializer">A delegate to initialize the graph.</param>
+        public PropertyGraph(UInt64 GraphId,
+                             GraphInitializer<UInt64, Int64, String, String, Object,
+                                              UInt64, Int64, String, String, Object,
+                                              UInt64, Int64, String, String, Object,
+                                              UInt64, Int64, String, String, Object> GraphInitializer = null)
+            : base (GraphId,
+
+                    // TId key
+                    "Id",
+
+                    // TId creator delegate
+                    () => PropertyGraph.NewId,
+
+                    // RevisionId key
+                    "RevId",
+
+                    // RevisionId creator delegate
+                    () => PropertyGraph.NewRevisionId,
+
+                    GraphInitializer)
+
+        {
+            _NewId = 0;
+        }
+
+        #endregion
+
+        #endregion
+
+
+        #region (private) NewId
+
+        private static Int64 _NewId;
+
+        /// <summary>
+        /// Return a new Id.
+        /// </summary>
+        private static UInt64 NewId
+        {
+            get
+            {
+                var _NewLocalId = Interlocked.Increment(ref _NewId);
+                return (UInt64) _NewLocalId;
+            }
+        }
+
+        #endregion
+
+        #region (private) NewRevisionId
+
+        /// <summary>
+        /// Return a new random RevisionId.
+        /// </summary>
+        private static Int64 NewRevisionId
+        {
+            get
+            {
+                return DateTime.Now.Ticks;
+            }
+        }
+
+        #endregion
+
+
+        #region Operator overloading
+
+        #region Operator == (PropertyGraph1, PropertyGraph2)
+
+        /// <summary>
+        /// Compares two property graphs for equality.
+        /// </summary>
+        /// <param name="PropertyGraph1">A graph.</param>
+        /// <param name="PropertyGraph2">Another graph.</param>
+        /// <returns>True if both match; False otherwise.</returns>
+        public static Boolean operator == (PropertyGraph PropertyGraph1,
+                                           PropertyGraph PropertyGraph2)
+        {
+
+            // If both are null, or both are same instance, return true.
+            if (Object.ReferenceEquals(PropertyGraph1, PropertyGraph2))
+                return true;
+
+            // If one is null, but not both, return false.
+            if (((Object) PropertyGraph1 == null) || ((Object) PropertyGraph2 == null))
+                return false;
+
+            return PropertyGraph1.Equals(PropertyGraph2);
+
+        }
+
+        #endregion
+
+        #region Operator != (PropertyGraph1, PropertyGraph2)
+
+        /// <summary>
+        /// Compares two property graphs for inequality.
+        /// </summary>
+        /// <param name="PropertyGraph1">A graph.</param>
+        /// <param name="PropertyGraph2">Another graph.</param>
+        /// <returns>False if both match; True otherwise.</returns>
+        public static Boolean operator != (PropertyGraph PropertyGraph1,
+                                           PropertyGraph PropertyGraph2)
+        {
+            return !(PropertyGraph1 == PropertyGraph2);
+        }
+
+        #endregion
+
+        #region Operator <  (PropertyGraph1, PropertyGraph2)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="PropertyGraph1">A graph.</param>
+        /// <param name="PropertyGraph2">Another graph.</param>
+        /// <returns>true|false</returns>
+        public static Boolean operator < (PropertyGraph PropertyGraph1,
+                                          PropertyGraph PropertyGraph2)
+        {
+
+            if ((Object) PropertyGraph1 == null)
+                throw new ArgumentNullException("The given PropertyGraph1 must not be null!");
+
+            if ((Object) PropertyGraph2 == null)
+                throw new ArgumentNullException("The given PropertyGraph2 must not be null!");
+
+            return PropertyGraph1.CompareTo(PropertyGraph2) < 0;
+
+        }
+
+        #endregion
+
+        #region Operator <= (PropertyGraph1, PropertyGraph2)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="PropertyGraph1">A graph.</param>
+        /// <param name="PropertyGraph2">Another graph.</param>
+        /// <returns>true|false</returns>
+        public static Boolean operator <= (PropertyGraph PropertyGraph1,
+                                           PropertyGraph PropertyGraph2)
+        {
+            return !(PropertyGraph1 > PropertyGraph2);
+        }
+
+        #endregion
+
+        #region Operator >  (PropertyGraph1, PropertyGraph2)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="PropertyGraph1">A graph.</param>
+        /// <param name="PropertyGraph2">Another graph.</param>
+        /// <returns>true|false</returns>
+        public static Boolean operator > (PropertyGraph PropertyGraph1,
+                                          PropertyGraph PropertyGraph2)
+        {
+
+            if ((Object) PropertyGraph1 == null)
+                throw new ArgumentNullException("The given PropertyGraph1 must not be null!");
+
+            if ((Object) PropertyGraph2 == null)
+                throw new ArgumentNullException("The given  PropertyGraph2 must not be null!");
+
+            return PropertyGraph1.CompareTo(PropertyGraph2) > 0;
+
+        }
+
+        #endregion
+
+        #region Operator >= (PropertyGraph1, PropertyGraph2)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="PropertyGraph1">A graph.</param>
+        /// <param name="PropertyGraph2">Another graph.</param>
+        /// <returns>true|false</returns>
+        public static Boolean operator >= (PropertyGraph PropertyGraph1,
+                                           PropertyGraph PropertyGraph2)
+        {
+            return !(PropertyGraph1 < PropertyGraph2);
+        }
+
+        #endregion
+
+        #endregion
+
+        #region IEquatable Members
+
+        #region Equals(Object)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="Object">An object to compare with.</param>
+        /// <returns>True if both match; False otherwise.</returns>
+        public override Boolean Equals(Object Object)
+        {
+
+            if (Object == null)
+                return false;
+
+            // Check if the given object can be casted to a SimplePropertyGraph
+            var PropertyGraph = Object as PropertyGraph;
+            if ((Object) PropertyGraph == null)
                 return false;
 
             return this.Equals(PropertyGraph);

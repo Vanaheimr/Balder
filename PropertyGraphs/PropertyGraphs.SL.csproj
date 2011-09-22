@@ -5,12 +5,12 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{E4F1D941-58DC-43AC-84A6-1B4ABC60294C}</ProjectGuid>
+    <ProjectGuid>{5D45EC93-0E79-4F4B-94C6-F5F5A38B99A0}</ProjectGuid>
     <ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PropertyGraph</RootNamespace>
-    <AssemblyName>PropertyGraph</AssemblyName>
+    <RootNamespace>PropertyGraphs.SL</RootNamespace>
+    <AssemblyName>PropertyGraphs.SL</AssemblyName>
     <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
     <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
@@ -55,28 +55,28 @@
     <Reference Include="System.Windows.Browser" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Immutable\AReadOnlyGraphElement.cs" />
+    <Compile Include="Immutable\ReadOnlyProperties.cs" />
+    <Compile Include="Immutable\ReadOnlyPropertyEdge.cs" />
+    <Compile Include="Immutable\ReadOnlyPropertyGraph.cs" />
+    <Compile Include="Immutable\ReadOnlyPropertyVertex.cs" />
+    <Compile Include="Immutable\SimpleReadOnlyPropertyGraph.cs" />
+    <Compile Include="Mutable\AGraphElement.cs" />
+    <Compile Include="Mutable\Indices\DictionaryIndex.cs" />
+    <Compile Include="Mutable\Indices\IndexingMethods.cs" />
+    <Compile Include="Mutable\Indices\IPropertyElementIndexExtensions.cs" />
+    <Compile Include="Mutable\Indices\PropertyIndex\PropertyEdgeIndex.cs" />
+    <Compile Include="Mutable\Indices\PropertyIndex\PropertyHyperEdgeIndex.cs" />
+    <Compile Include="Mutable\Indices\PropertyIndex\PropertyIndex.cs" />
+    <Compile Include="Mutable\Indices\PropertyIndex\PropertyVertexIndex.cs" />
+    <Compile Include="Mutable\Indices\QuadtreeIndex.cs" />
+    <Compile Include="Mutable\Properties.cs" />
+    <Compile Include="Mutable\PropertyEdge.cs" />
+    <Compile Include="Mutable\PropertyGraph.cs" />
+    <Compile Include="Mutable\PropertyHyperEdge.cs" />
+    <Compile Include="Mutable\PropertyMultiEdge.cs" />
+    <Compile Include="Mutable\PropertyVertex.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PropertyGraph\AGraphElement.cs" />
-    <Compile Include="PropertyGraph\Indices\DictionaryIndex.cs" />
-    <Compile Include="PropertyGraph\Indices\IndexingMethods.cs" />
-    <Compile Include="PropertyGraph\Indices\IPropertyElementIndexExtensions.cs" />
-    <Compile Include="PropertyGraph\Indices\PropertyIndex\PropertyEdgeIndex.cs" />
-    <Compile Include="PropertyGraph\Indices\PropertyIndex\PropertyHyperEdgeIndex.cs" />
-    <Compile Include="PropertyGraph\Indices\PropertyIndex\PropertyIndex.cs" />
-    <Compile Include="PropertyGraph\Indices\PropertyIndex\PropertyVertexIndex.cs" />
-    <Compile Include="PropertyGraph\Indices\QuadtreeIndex.cs" />
-    <Compile Include="PropertyGraph\InMemoryPropertyGraph.cs" />
-    <Compile Include="PropertyGraph\Properties.cs" />
-    <Compile Include="PropertyGraph\PropertyEdge.cs" />
-    <Compile Include="PropertyGraph\PropertyHyperEdge.cs" />
-    <Compile Include="PropertyGraph\PropertyVertex.cs" />
-    <Compile Include="PropertyGraph\SimplePropertyGraph.cs" />
-    <Compile Include="ReadOnlyPropertyGraph\AReadOnlyGraphElement.cs" />
-    <Compile Include="ReadOnlyPropertyGraph\ReadOnlyProperties.cs" />
-    <Compile Include="ReadOnlyPropertyGraph\ReadOnlyPropertyEdge.cs" />
-    <Compile Include="ReadOnlyPropertyGraph\ReadOnlyPropertyGraph.cs" />
-    <Compile Include="ReadOnlyPropertyGraph\ReadOnlyPropertyVertex.cs" />
-    <Compile Include="ReadOnlyPropertyGraph\SimpleReadOnlyPropertyGraph.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Blueprints\Blueprints.SL.csproj">

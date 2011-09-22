@@ -22,10 +22,11 @@ using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using de.ahzf.Blueprints.PropertyGraphs.ReadOnly;
 
 #endregion
 
-namespace de.ahzf.Blueprints.PropertyGraph.InMemory
+namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.ReadOnly
 {
 
     /// <summary>
@@ -37,8 +38,8 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
     /// <typeparam name="TKey">The type of the graph element property keys.</typeparam>
     /// <typeparam name="TValue">The type of the graph element property values.</typeparam>
     /// <typeparam name="TDatastructure">A datastructure for storing all properties.</typeparam>
-    public abstract class AGraphElement<TId, TRevisionId, TKey, TValue, TDatastructure>
-                              : IProperties<TKey, TValue>
+    public abstract class AReadOnlyGraphElement<TId, TRevisionId, TKey, TValue, TDatastructure>
+                              : IReadOnlyProperties<TKey, TValue>
 
         where TKey           : IEquatable<TKey>,        IComparable<TKey>,        IComparable
         where TId            : IEquatable<TId>,         IComparable<TId>,         IComparable, TValue
@@ -114,143 +115,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <summary>
         /// The properties of this graph element.
         /// </summary>
-        public IProperties<TKey, TValue> PropertyData { get; private set; }
-
-        #endregion
-
-        #endregion
-
-        #region Events
-
-        #region OnPropertyAddition
-
-        /// <summary>
-        /// Called when a property value will be added.
-        /// </summary>
-        public event PropertyAdditionEventHandler<TKey, TValue> OnPropertyAddition
-        {
-
-            add
-            {
-                PropertyData.OnPropertyAddition += value;
-            }
-
-            remove
-            {
-                PropertyData.OnPropertyAddition -= value;
-            }
-
-        }
-
-        #endregion
-
-        #region OnPropertyAdded
-
-        /// <summary>
-        /// Called whenever a property value was added.
-        /// </summary>
-        public event PropertyAddedEventHandler<TKey, TValue> OnPropertyAdded
-        {
-
-            add
-            {
-                PropertyData.OnPropertyAdded += value;
-            }
-
-            remove
-            {
-                PropertyData.OnPropertyAdded -= value;
-            }
-
-        }
-
-        #endregion
-
-        #region OnPropertyChanging
-
-        /// <summary>
-        /// Called whenever a property value will be changed.
-        /// </summary>
-        public event PropertyChangingEventHandler<TKey, TValue> OnPropertyChanging
-        {
-
-            add
-            {
-                PropertyData.OnPropertyChanging += value;
-            }
-
-            remove
-            {
-                PropertyData.OnPropertyChanging -= value;
-            }
-
-        }
-
-        #endregion
-
-        #region OnPropertyChanged
-
-        /// <summary>
-        /// Called whenever a property value was changed.
-        /// </summary>
-        public event PropertyChangedEventHandler<TKey, TValue> OnPropertyChanged
-        {
-
-            add
-            {
-                PropertyData.OnPropertyChanged += value;
-            }
-
-            remove
-            {
-                PropertyData.OnPropertyChanged -= value;
-            }
-
-        }
-
-        #endregion
-
-        #region OnPropertyRemoval
-
-        /// <summary>
-        /// Called whenever a property value will be removed.
-        /// </summary>
-        public event PropertyRemovalEventHandler<TKey, TValue> OnPropertyRemoval
-        {
-
-            add
-            {
-                PropertyData.OnPropertyRemoval += value;
-            }
-
-            remove
-            {
-                PropertyData.OnPropertyRemoval -= value;
-            }
-
-        }
-
-        #endregion
-
-        #region OnPropertyRemoved
-
-        /// <summary>
-        /// Called whenever a property value was removed.
-        /// </summary>
-        public event PropertyRemovedEventHandler<TKey, TValue> OnPropertyRemoved
-        {
-
-            add
-            {
-                PropertyData.OnPropertyRemoved += value;
-            }
-
-            remove
-            {
-                PropertyData.OnPropertyRemoved -= value;
-            }
-
-        }
+        public IReadOnlyProperties<TKey, TValue> PropertyData { get; private set; }
 
         #endregion
 
@@ -258,7 +123,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
 
         #region (protected) Constructor(s)
 
-        #region (protected) AGraphElement(Id, IdKey, RevisonIdKey, DatastructureInitializer, GraphElementInitializer = null)
+        #region (protected) AReadOnlyGraphElement(Id, IdKey, RevisonIdKey, DatastructureInitializer, GraphElementInitializer = null)
 
         /// <summary>
         /// Creates a new abstract graph element.
@@ -268,19 +133,14 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         /// <param name="RevisonIdKey">The key to access the RevisionId of this graph element.</param>
         /// <param name="DatastructureInitializer">A delegate to initialize the datastructure of the this graph element.</param>
         /// <param name="GraphElementInitializer">An delegate to do some initial operations like adding some properties.</param>
-        internal protected AGraphElement(TId                               Id,
-                                         TKey                              IdKey,
-                                         TKey                              RevisonIdKey,
-                                         Func<TDatastructure>              DatastructureInitializer,
-                                         Action<IProperties<TKey, TValue>> GraphElementInitializer = null)
+        internal protected AReadOnlyGraphElement(TId                               Id,
+                                                 TKey                              IdKey,
+                                                 TKey                              RevisonIdKey,
+                                                 Func<TDatastructure>              DatastructureInitializer,
+                                                 Action<IProperties<TKey, TValue>> GraphElementInitializer = null)
         {
-
-            this.PropertyData  = new Properties<TId, TRevisionId, TKey, TValue, TDatastructure>
-                                               (IdKey, Id, RevisonIdKey, default(TRevisionId), DatastructureInitializer);
-
-            if (GraphElementInitializer != null)
-                GraphElementInitializer(PropertyData);
-
+            this.PropertyData  = new ReadOnlyProperties<TId, TRevisionId, TKey, TValue, TDatastructure>
+                                                       (IdKey, Id, RevisonIdKey, default(TRevisionId), DatastructureInitializer);
         }
 
         #endregion
@@ -288,7 +148,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         #endregion
 
 
-        #region IProperties Members
+        #region IReadOnlyProperties Members
 
         #region Keys
 
@@ -316,22 +176,6 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
             {
                 return PropertyData.Values;
             }
-        }
-
-        #endregion
-
-
-        #region SetProperty(Key, Value)
-
-        /// <summary>
-        /// Add a KeyValuePair to the graph element.
-        /// If a value already exists for the given key, then the previous value is overwritten.
-        /// </summary>
-        /// <param name="Key">A key.</param>
-        /// <param name="Value">A value.</param>
-        public IProperties<TKey, TValue> SetProperty(TKey Key, TValue Value)
-        {
-            return PropertyData.SetProperty(Key, Value);
         }
 
         #endregion
@@ -419,49 +263,6 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory
         public IEnumerable<KeyValuePair<TKey, TValue>> GetProperties(KeyValueFilter<TKey, TValue> KeyValueFilter = null)
         {
             return PropertyData.GetProperties(KeyValueFilter);
-        }
-
-        #endregion
-
-
-        #region Remove(Key)
-
-        /// <summary>
-        /// Removes all KeyValuePairs associated with the given key.
-        /// </summary>
-        /// <param name="Key">A key.</param>
-        /// <returns>The value associated with that key prior to the removal.</returns>
-        public TValue Remove(TKey Key)
-        {
-            return PropertyData.Remove(Key);
-        }
-
-        #endregion
-
-        #region Remove(Key, Value)
-
-        /// <summary>
-        /// Remove the given KeyValuePair.
-        /// </summary>
-        /// <param name="Key">A key.</param>
-        /// <param name="Value">A value.</param>
-        public Boolean Remove(TKey Key, TValue Value)
-        {
-            return PropertyData.Remove(Key, Value);
-        }
-
-        #endregion
-
-        #region Remove(KeyValueFilter = null)
-
-        /// <summary>
-        /// Remove all KeyValuePairs specified by the given KeyValueFilter.
-        /// </summary>
-        /// <param name="KeyValueFilter">A delegate to remove properties based on their keys and values.</param>
-        /// <returns>A enumeration of all key/value pairs removed by the given KeyValueFilter before their removal.</returns>
-        public IEnumerable<KeyValuePair<TKey, TValue>> Remove(KeyValueFilter<TKey, TValue> KeyValueFilter = null)
-        {
-            return PropertyData.Remove(KeyValueFilter);
         }
 
         #endregion

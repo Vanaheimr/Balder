@@ -21,8 +21,8 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-using de.ahzf.Blueprints.PropertyGraph;
-using de.ahzf.Blueprints.PropertyGraph.InMemory;
+using de.ahzf.Blueprints.PropertyGraphs;
+using de.ahzf.Blueprints.PropertyGraphs.InMemory;
 
 using NUnit.Framework;
 
@@ -46,10 +46,10 @@ namespace de.ahzf.Blueprints.UnitTests
 
             var _Graph = DemoGraphFactory.CreateDemoGraph();
 
-            var Alice = _Graph.Vertices(v => v.GetProperty("Name").ToString() == "Alice").First();
+            var Alice = _Graph.Vertices(v => v.GetProperty("name").ToString() == "Alice").First();
             Assert.IsNotNull(Alice);
             
-            Alice = _Graph.Vertices("Name", "Alice").First();
+            Alice = _Graph.Vertices("name", "Alice").First();
             Assert.IsNotNull(Alice);
 
             Object _Object;

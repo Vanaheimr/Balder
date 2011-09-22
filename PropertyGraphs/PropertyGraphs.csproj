@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{D4D2ACAD-FF2E-44AD-9D4A-6E332C246FAD}</ProjectGuid>
+    <ProjectGuid>{562AC94F-60EA-4911-8C62-684F02867783}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>InMemoryGraph</RootNamespace>
-    <AssemblyName>InMemoryGraph</AssemblyName>
+    <RootNamespace>PropertyGraphs</RootNamespace>
+    <AssemblyName>PropertyGraphs</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -21,7 +21,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\InMemoryGraph.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,7 +29,6 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\InMemoryGraph.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -42,36 +40,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PropertyGraph\AGraphElement.cs" />
-    <Compile Include="PropertyGraph\Indices\QuadtreeIndex.cs" />
-    <Compile Include="PropertyGraph\Indices\PropertyIndex\PropertyIndex.cs" />
-    <Compile Include="PropertyGraph\Indices\DictionaryIndex.cs" />
-    <Compile Include="PropertyGraph\Indices\IndexingMethods.cs" />
-    <Compile Include="PropertyGraph\Indices\IPropertyElementIndexExtensions.cs" />
-    <Compile Include="PropertyGraph\Indices\PropertyIndex\PropertyHyperEdgeIndex.cs" />
-    <Compile Include="PropertyGraph\Indices\PropertyIndex\PropertyEdgeIndex.cs" />
-    <Compile Include="PropertyGraph\Indices\PropertyIndex\PropertyVertexIndex.cs" />
-    <Compile Include="PropertyGraph\SimplePropertyGraph.cs" />
-    <Compile Include="PropertyGraph\Properties.cs" />
-    <Compile Include="PropertyGraph\InMemoryPropertyGraph.cs" />
-    <Compile Include="PropertyGraph\PropertyHyperEdge.cs" />
-    <Compile Include="PropertyGraph\PropertyEdge.cs" />
+    <Compile Include="Immutable\AReadOnlyGraphElement.cs" />
+    <Compile Include="Immutable\ReadOnlyProperties.cs" />
+    <Compile Include="Immutable\ReadOnlyPropertyEdge.cs" />
+    <Compile Include="Immutable\ReadOnlyPropertyGraph.cs" />
+    <Compile Include="Immutable\ReadOnlyPropertyVertex.cs" />
+    <Compile Include="Immutable\SimpleReadOnlyPropertyGraph.cs" />
+    <Compile Include="Mutable\AGraphElement.cs" />
+    <Compile Include="Mutable\Indices\DictionaryIndex.cs" />
+    <Compile Include="Mutable\Indices\IndexingMethods.cs" />
+    <Compile Include="Mutable\Indices\IPropertyElementIndexExtensions.cs" />
+    <Compile Include="Mutable\Indices\PropertyIndex\PropertyEdgeIndex.cs" />
+    <Compile Include="Mutable\Indices\PropertyIndex\PropertyHyperEdgeIndex.cs" />
+    <Compile Include="Mutable\Indices\PropertyIndex\PropertyIndex.cs" />
+    <Compile Include="Mutable\Indices\PropertyIndex\PropertyVertexIndex.cs" />
+    <Compile Include="Mutable\Indices\QuadtreeIndex.cs" />
+    <Compile Include="Mutable\Properties.cs" />
+    <Compile Include="Mutable\PropertyEdge.cs" />
+    <Compile Include="Mutable\PropertyGraph.cs" />
+    <Compile Include="Mutable\PropertyHyperEdge.cs" />
+    <Compile Include="Mutable\PropertyMultiEdge.cs" />
+    <Compile Include="Mutable\PropertyVertex.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PropertyGraph\PropertyVertex.cs" />
-    <Compile Include="ReadOnlyPropertyGraph\AReadOnlyGraphElement.cs" />
-    <Compile Include="ReadOnlyPropertyGraph\ReadOnlyPropertyEdge.cs" />
-    <Compile Include="ReadOnlyPropertyGraph\ReadOnlyPropertyVertex.cs" />
-    <Compile Include="ReadOnlyPropertyGraph\ReadOnlyProperties.cs" />
-    <Compile Include="ReadOnlyPropertyGraph\ReadOnlyPropertyGraph.cs" />
-    <Compile Include="ReadOnlyPropertyGraph\SimpleReadOnlyPropertyGraph.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\blueprints\Blueprints.csproj">
+    <ProjectReference Include="..\Blueprints\Blueprints.csproj">
       <Project>{B9DE4181-416E-4DE4-A983-B90FC9412774}</Project>
       <Name>Blueprints</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -19,14 +19,11 @@
 
 using System;
 using System.Collections;
-using System.ComponentModel;
-using System.Linq.Expressions;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 
 #endregion
 
-namespace de.ahzf.Blueprints.PropertyGraph.InMemory
+namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 {
 
     /// <summary>

@@ -24,7 +24,7 @@ using System.Collections.Generic;
 
 #endregion
 
-namespace de.ahzf.Blueprints.PropertyGraph.ReadOnly
+namespace de.ahzf.Blueprints.PropertyGraphs.ReadOnly
 {
 
     /// <summary>

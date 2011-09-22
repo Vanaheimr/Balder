@@ -21,8 +21,8 @@ using System;
 using System.Linq;
 using System.Collections;
 
-using de.ahzf.Blueprints.PropertyGraph;
-using de.ahzf.Blueprints.PropertyGraph.InMemory;
+using de.ahzf.Blueprints.PropertyGraphs;
+using de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable;
 
 #endregion
 
@@ -32,10 +32,10 @@ namespace de.ahzf.Blueprints.UnitTests
     public static class TinkerGraphFactory
     {
 
-        public static SimplePropertyGraph CreateTinkerGraph()
+        public static PropertyGraph CreateTinkerGraph()
         {
 
-            var _TinkerGraph = new SimplePropertyGraph();
+            var _TinkerGraph = new PropertyGraph();
             _TinkerGraph.OnVertexAdding += (graph, vertex, vote) => { Console.WriteLine("I like all vertices!"); };
             _TinkerGraph.OnVertexAdding += (graph, vertex, vote) => { if (vertex.Id == 5) { Console.WriteLine("I'm a Jedi!"); vote.Veto(); } };
 

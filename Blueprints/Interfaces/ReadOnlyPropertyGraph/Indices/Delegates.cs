@@ -22,7 +22,7 @@ using System.Collections.Generic;
 
 #endregion
 
-namespace de.ahzf.Blueprints.PropertyGraph.ReadOnly.Indices
+namespace de.ahzf.Blueprints.PropertyGraphs.ReadOnly.Indices
 {
 
     #region ReadOnlyIndexFilter<T>(IReadOnlyPropertyElementIndex)

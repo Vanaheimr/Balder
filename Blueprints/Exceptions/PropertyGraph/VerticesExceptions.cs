@@ -21,7 +21,7 @@ using System;
 
 #endregion
 
-namespace de.ahzf.Blueprints.PropertyGraph
+namespace de.ahzf.Blueprints.PropertyGraphs
 {
 
     #region VerticesException

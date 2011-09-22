@@ -18,11 +18,8 @@
 #region Usings
 
 using System;
-using System.Linq;
-using System.Diagnostics;
-using System.Collections.Generic;
 
-using de.ahzf.Blueprints.PropertyGraph.InMemory;
+using de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable;
 
 using NUnit.Framework;
 
@@ -38,14 +35,14 @@ namespace de.ahzf.Blueprints.UnitTests.SimplePropertyGraphTests
     public class InitGraph
     {
 
-        protected SimplePropertyGraph CreateGraph()
+        protected PropertyGraph CreateGraph()
         {
-            return new SimplePropertyGraph();
+            return new PropertyGraph();
         }
 
-        protected SimplePropertyGraph CreateGraph(UInt64 GraphId)
+        protected PropertyGraph CreateGraph(UInt64 GraphId)
         {
-            return new SimplePropertyGraph(GraphId);
+            return new PropertyGraph(GraphId);
         }
 
     }

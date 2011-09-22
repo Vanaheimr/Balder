@@ -23,7 +23,7 @@ using de.ahzf.Blueprints.Indices;
 
 #endregion
 
-namespace de.ahzf.Blueprints.PropertyGraph.InMemory
+namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 {
 
     /// <summary>

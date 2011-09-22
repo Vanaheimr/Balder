@@ -21,11 +21,12 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.Threading;
-using de.ahzf.Blueprints.PropertyGraph.ReadOnly;
+using de.ahzf.Blueprints.PropertyGraphs.ReadOnly;
+using de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable;
 
 #endregion
 
-namespace de.ahzf.Blueprints.PropertyGraph.InMemory.ReadOnly
+namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.ReadOnly
 {
 
     #region SimpleReadOnlyPropertyGraph<TId, TRevisionId, TKey, TValue>
@@ -61,7 +62,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory.ReadOnly
         /// <param name="GraphId">A unique identification for this graph.</param>
         /// <param name="SimplePropertyGraph">A simple property graph to copy the data from.</param>
         public SimpleReadOnlyPropertyGraph(TId GraphId,
-                                           SimplePropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> SimplePropertyGraph,
+                                           PropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> SimplePropertyGraph,
                                      UInt64  NumberOfVertices   = 0,
                                      Boolean SyncedVertexIds    = false,
                                      UInt64  NumberOfEdges      = 0,
@@ -292,7 +293,7 @@ namespace de.ahzf.Blueprints.PropertyGraph.InMemory.ReadOnly
         /// <param name="GraphId">A unique identification for this graph.</param>
         /// <param name="SimplePropertyGraph">A simple property graph to copy the data from.</param>
         public SimpleReadOnlyPropertyGraph(UInt64 GraphId,
-                                           SimplePropertyGraph<UInt64, Int64, String, String, Object> SimplePropertyGraph,
+                                           PropertyGraph<UInt64, Int64, String, String, Object> SimplePropertyGraph,
                                            UInt64  NumberOfVertices   = 0,
                                            Boolean SyncedVertexIds    = false,
                                            UInt64  NumberOfEdges      = 0,

@@ -22,7 +22,7 @@ using System.Linq;
 using System.Diagnostics;
 using System.Collections.Generic;
 
-using de.ahzf.Blueprints.PropertyGraph.InMemory;
+using de.ahzf.Blueprints.PropertyGraphs.InMemory;
 
 using NUnit.Framework;
 

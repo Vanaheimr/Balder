@@ -3,8 +3,8 @@
 *.suo
 *.csproj.user
 *.vsp
-/InMemoryGraph/bin
-/InMemoryGraph/obj
+/PropertyGraphs/bin
+/PropertyGraphs/obj
 /UnitTests/bin
 /UnitTests/obj
 /UnitTests/TestResult.xml

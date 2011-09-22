@@ -24,7 +24,7 @@ using de.ahzf.Blueprints.Indices;
 
 #endregion
 
-namespace de.ahzf.Blueprints.PropertyGraph.Indices
+namespace de.ahzf.Blueprints.PropertyGraphs.Indices
 {
 
     /// <summary>

@@ -22,12 +22,13 @@ using System.Linq;
 using System.Collections.Generic;
 
 using NUnit.Framework;
-using de.ahzf.Blueprints.PropertyGraph.InMemory;
-using de.ahzf.Blueprints.PropertyGraph;
+using de.ahzf.Blueprints.PropertyGraphs.InMemory;
+using de.ahzf.Blueprints.PropertyGraphs;
+using de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable;
 
 #endregion
 
-namespace de.ahzf.Blueprints.UnitTests.PropertyGraph.InMemory
+namespace de.ahzf.Blueprints.UnitTests.PropertyGraphs.InMemory
 {
 
     /// <summary>
@@ -46,7 +47,7 @@ namespace de.ahzf.Blueprints.UnitTests.PropertyGraph.InMemory
         public void AddVertexEmptyAddMethodTest()
         {
             
-            var _Graph  = new SimplePropertyGraph();
+            var _Graph  = new PropertyGraph();
             Assert.AreEqual(0, _Graph.NumberOfVertices());
 
             var _Vertex = _Graph.AddVertex();
@@ -83,7 +84,7 @@ namespace de.ahzf.Blueprints.UnitTests.PropertyGraph.InMemory
         public void AddVertexWithIdTest()
         {
 
-            var _Graph = new SimplePropertyGraph();
+            var _Graph = new PropertyGraph();
             Assert.AreEqual(0, _Graph.NumberOfVertices());
 
             var _Vertex = _Graph.AddVertex(5);
@@ -121,7 +122,7 @@ namespace de.ahzf.Blueprints.UnitTests.PropertyGraph.InMemory
         public void AddVertexWithVertexInitializerTest()
         {
 
-            var _Graph = new SimplePropertyGraph();
+            var _Graph = new PropertyGraph();
             Assert.AreEqual(0, _Graph.NumberOfVertices());
 
             var _Vertex = _Graph.AddVertex(v => v.SetProperty("key1", "value1").
@@ -181,7 +182,7 @@ namespace de.ahzf.Blueprints.UnitTests.PropertyGraph.InMemory
         public void AddVertexWithIdAndVertexInitializerTest()
         {
 
-            var _Graph = new SimplePropertyGraph();
+            var _Graph = new PropertyGraph();
             Assert.AreEqual(0, _Graph.NumberOfVertices());
 
             var _Vertex = _Graph.AddVertex(23, v => v.SetProperty("key1", "value1").
@@ -244,7 +245,7 @@ namespace de.ahzf.Blueprints.UnitTests.PropertyGraph.InMemory
         public void TryToChangeTheVertexIdentification()
         {
 
-            var _Graph = new SimplePropertyGraph();
+            var _Graph = new PropertyGraph();
             Assert.AreEqual(0, _Graph.NumberOfVertices());
 
             var _Vertex1 = _Graph.AddVertex(5);
@@ -264,7 +265,7 @@ namespace de.ahzf.Blueprints.UnitTests.PropertyGraph.InMemory
         public void TryToChangeTheVertexRevisionIdentification()
         {
 
-            var _Graph = new SimplePropertyGraph();
+            var _Graph = new PropertyGraph();
             Assert.AreEqual(0, _Graph.NumberOfVertices());
 
             var _Vertex1 = _Graph.AddVertex(5);
@@ -285,7 +286,7 @@ namespace de.ahzf.Blueprints.UnitTests.PropertyGraph.InMemory
         public void AddTwoVerticesHavingTheSameIdentification()
         {
 
-            var _Graph = new SimplePropertyGraph();
+            var _Graph = new PropertyGraph();
             Assert.AreEqual(0, _Graph.NumberOfVertices());
 
             var _Vertex1 = _Graph.AddVertex(5);
@@ -306,7 +307,7 @@ namespace de.ahzf.Blueprints.UnitTests.PropertyGraph.InMemory
         public void AddMultipleVertices()
         {
 
-            var _Graph = new SimplePropertyGraph();
+            var _Graph = new PropertyGraph();
             Assert.AreEqual(0, _Graph.NumberOfVertices());
 
             var _Random = new Random().Next(100);

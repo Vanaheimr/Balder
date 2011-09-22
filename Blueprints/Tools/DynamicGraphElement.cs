@@ -21,7 +21,7 @@ using System;
 using System.Linq;
 using System.Dynamic;
 using System.Linq.Expressions;
-using de.ahzf.Blueprints.PropertyGraph;
+using de.ahzf.Blueprints.PropertyGraphs;
 
 #endregion
 

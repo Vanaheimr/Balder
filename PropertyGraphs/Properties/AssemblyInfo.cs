@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("InMemoryGraph")]
-[assembly: AssemblyDescription("An in-memory implementation of the Blueprints.NET PropertyGraph interface.")]
+[assembly: AssemblyTitle("PropertyGraphs")]
+[assembly: AssemblyDescription("A class-based in-memory implementation of the Blueprints.NET PropertyGraph interface.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("ahzf.de")]
-[assembly: AssemblyProduct("InMemoryGraph")]
+[assembly: AssemblyProduct("PropertyGraphs")]
 [assembly: AssemblyCopyright("Copyright © Achim Friedland 2010-2011")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("6f17a259-30fe-441e-97a7-8296bc3c5f10")]
+[assembly: Guid("afae308b-d811-4270-9a22-c51e22329506")]
 
 // Version information for an assembly consists of the following four values:
 //

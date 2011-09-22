@@ -22,7 +22,7 @@ using System.Collections.Generic;
 
 #endregion
 
-namespace de.ahzf.Blueprints.PropertyGraph.Indices
+namespace de.ahzf.Blueprints.PropertyGraphs.Indices
 {
 
     #region IndexFilter<T>(IPropertyElementIndex)
