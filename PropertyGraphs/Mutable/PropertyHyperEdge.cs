@@ -110,6 +110,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         where TPropertiesCollectionVertex    : IDictionary<TKeyVertex,    TValueVertex>
         where TPropertiesCollectionEdge      : IDictionary<TKeyEdge,      TValueEdge>
+        where TPropertiesCollectionMultiEdge : IDictionary<TKeyMultiEdge, TValueMultiEdge>
         where TPropertiesCollectionHyperEdge : IDictionary<TKeyHyperEdge, TValueHyperEdge>
 
     {

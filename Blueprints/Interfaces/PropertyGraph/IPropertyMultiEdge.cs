@@ -33,7 +33,10 @@ namespace de.ahzf.Blueprints.PropertyGraphs
     /// The multiedge label determines the type of relationship that exists
     /// between all these vertices.
     /// </summary>
-    public interface IPropertyMultiEdge : IComparable
+    public interface IPropertyMultiEdge : IPropertyMultiEdge<UInt64, Int64, String, String, Object, IDictionary<String, Object>,
+                                                             UInt64, Int64, String, String, Object, IDictionary<String, Object>,
+                                                             UInt64, Int64, String, String, Object, IDictionary<String, Object>,
+                                                             UInt64, Int64, String, String, Object, IDictionary<String, Object>>
     { }
 
     #endregion
@@ -57,7 +60,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
     /// <typeparam name="TEdgeLabel">The type of the edge label.</typeparam>
     /// <typeparam name="TKeyEdge">The type of the edge property keys.</typeparam>
     /// <typeparam name="TValueEdge">The type of the edge property values.</typeparam>
-    ///
+    /// 
     /// <typeparam name="TIdMultiEdge">The type of the multiedge identifiers.</typeparam>
     /// <typeparam name="TRevisionIdMultiEdge">The type of the multiedge revision identifiers.</typeparam>
     /// <typeparam name="TMultiEdgeLabel">The type of the multiedge label.</typeparam>
@@ -86,7 +89,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
                                                                          TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                          TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>,
 
-                                          IPropertyMultiEdge
+                                          IComparable
 
 
         where TKeyVertex              : IEquatable<TKeyVertex>,           IComparable<TKeyVertex>,           IComparable

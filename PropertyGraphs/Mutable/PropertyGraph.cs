@@ -3345,7 +3345,8 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
     /// <summary>
     /// A class-based in-memory implementation of a property graph.
     /// </summary>
-    public class PropertyGraph : PropertyGraph<UInt64, Int64, String, String, Object>
+    public class PropertyGraph : PropertyGraph<UInt64, Int64, String, String, Object>,
+                                 IPropertyGraph
     {
 
         #region Constructor(s)
