@@ -91,7 +91,7 @@ namespace de.ahzf.Blueprints
 
         #region Constructor(s)
 
-        #region AVote(VoteEvaluator = null)
+        #region AVote(VoteEvaluator)
 
         /// <summary>
         /// A vote is a simple way to ask multiple event subscribers
@@ -100,9 +100,18 @@ namespace de.ahzf.Blueprints
         /// <param name="VoteEvaluator">A delegate for evaluating a vote based on the overall number of votes and a shared integer.</param>
         public AVote(VoteEvaluator<TResult> VoteEvaluator)
         {
+
+            #region Initial Checks
+
+            if (VoteEvaluator == null)
+                throw new ArgumentNullException("VoteEvaluator", "The given VoteEvaluator delegate must not be null!");
+
+            #endregion
+
             this._Vote          = 0;
             this._NumberOfVotes = 0;
             this.VoteEvaluator  = VoteEvaluator;
+
         }
 
         #endregion
@@ -117,9 +126,18 @@ namespace de.ahzf.Blueprints
         /// <param name="VoteEvaluator">A delegate for evaluating a vote based on the overall number of votes and a shared integer.</param>
         public AVote(Int32 InitialVote, VoteEvaluator<TResult> VoteEvaluator)
         {
+
+            #region Initial Checks
+
+            if (VoteEvaluator == null)
+                throw new ArgumentNullException("VoteEvaluator", "The given VoteEvaluator delegate must not be null!");
+
+            #endregion
+
             this._Vote          = InitialVote;
             this._NumberOfVotes = 0;
             this.VoteEvaluator  = VoteEvaluator;
+
         }
 
         #endregion

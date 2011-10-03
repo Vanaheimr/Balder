@@ -190,6 +190,7 @@
     <Compile Include="Transactions\TransactionState.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Datastructures\SkipList\" />
     <Folder Include="Exceptions\GenericGraph\" />
     <Folder Include="Exceptions\Indices\" />
     <Folder Include="Extensions\Indices\" />
