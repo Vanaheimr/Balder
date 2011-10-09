@@ -144,7 +144,13 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
             #endregion
 
-            return IProperties[PropertyKey];
+            TValue PropertyValue = default(TValue);
+
+            if (IProperties.GetProperty(PropertyKey, out PropertyValue))
+                return PropertyValue;
+
+            else
+                return default(TValue);
 
         }
 
