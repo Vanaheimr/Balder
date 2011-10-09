@@ -173,6 +173,15 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         #endregion
 
+        #region Type
+
+        /// <summary>
+        /// The type associated with this vertex.
+        /// </summary>
+        public TVertexType Type { get; private set; }
+
+        #endregion
+
         #endregion
 
         #region Constructor(s)

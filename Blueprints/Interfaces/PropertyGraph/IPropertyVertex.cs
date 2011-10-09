@@ -125,6 +125,15 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
         #endregion
 
+        #region Type
+
+        /// <summary>
+        /// The type associated with this vertex.
+        /// </summary>
+        TVertexType Type { get; }
+
+        #endregion
+
         #region OutEdge methods...
 
         #region AddOutEdge(Edge)

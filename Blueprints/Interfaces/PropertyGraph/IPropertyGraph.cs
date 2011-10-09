@@ -456,6 +456,61 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
         #endregion
 
+        #region MultiEdge methods
+
+        #region MultiEdgesById(params MultiEdgeIds)
+
+        /// <summary>
+        /// Return the MultiEdges referenced by the given array of MultiEdge identifiers.
+        /// If no MultiEdge is referenced by a given identifier this value will be
+        /// skipped.
+        /// </summary>
+        /// <param name="MultiEdgeIds">An array of MultiEdge identifiers.</param>
+        IEnumerable<IPropertyMultiEdge<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                       TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
+
+                                       MultiEdgesById(params TIdMultiEdge[] MultiEdgeIds);
+
+        #endregion
+
+        #region MultiEdges(MultiEdgeFilter = null)
+
+        /// <summary>
+        /// Get an enumeration of all MultiEdges in the graph.
+        /// An optional MultiEdge filter may be applied for filtering.
+        /// </summary>
+        /// <param name="MultiEdgeFilter">A delegate for MultiEdge filtering.</param>
+        IEnumerable<IPropertyMultiEdge<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                       TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
+
+                                       MultiEdges(MultiEdgeFilter<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                                                                  TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                  TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> MultiEdgeFilter = null);
+
+        #endregion
+
+        #region NumberOfMultiEdges(MultiEdgeFilter = null)
+
+        /// <summary>
+        /// Return the current number of MultiEdges matching the given optional MultiEdge filter.
+        /// When the filter is null, this method should implement an optimized
+        /// way to get the currenty number of edges.
+        /// </summary>
+        /// <param name="MultiEdgeFilter">A delegate for MultiEdge filtering.</param>
+        UInt64 NumberOfMultiEdges(MultiEdgeFilter<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                                                  TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                  TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> MultiEdgeFilter = null);
+
+        #endregion
+
+        #endregion
+
         #region HyperEdge methods
         
         #region HyperEdgesById(params HyperEdgeIds)
