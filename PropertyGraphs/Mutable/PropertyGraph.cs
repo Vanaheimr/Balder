@@ -753,6 +753,21 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         #endregion
 
+        #region VerticesByType(params VertexTypes)
+
+        /// <summary>
+        /// The enumeration of all vertices having one of the given types.
+        /// </summary>
+        public IEnumerable<IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                                           TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                           TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                           TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> VerticesByType(params TVertexType[] VertexTypes)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
         #region Vertices(VertexFilter = null)
 
         /// <summary>
@@ -1052,6 +1067,42 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         #endregion
 
 
+        #region EdgeById(MultiEdgeId)
+
+        /// <summary>
+        /// Return the Edge referenced by the given Edge identifier.
+        /// If no Edge is referenced by the identifier return null.
+        /// </summary>
+        /// <param name="EdgeId">A Edge identifier.</param>
+        public IPropertyEdge<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                             TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                             TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
+
+                             EdgeById(TIdEdge EdgeId)
+        {
+
+            #region Initial checks
+
+            if (EdgeId == null)
+                throw new ArgumentNullException("EdgeId", "The given Edge identifier must not be null!");
+
+            #endregion
+
+            IPropertyEdge<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                          TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                          TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                          TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> _Edge = null;
+
+            if (_Edges.TryGetValue(EdgeId, out _Edge))
+                return _Edge;
+            else
+                return null;
+
+        }
+
+        #endregion
+
         #region EdgesById(params EdgeIds)
 
         /// <summary>
@@ -1279,6 +1330,42 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         #region MultiEdge methods
 
+        #region MultiEdgeById(MultiEdgeId)
+
+        /// <summary>
+        /// Return the MultiEdge referenced by the given MultiEdge identifier.
+        /// If no MultiEdge is referenced by the identifier return null.
+        /// </summary>
+        /// <param name="MultiEdgeId">A MultiEdge identifier.</param>
+        public IPropertyMultiEdge<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                                  TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                  TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
+
+                                  MultiEdgeById(TIdMultiEdge MultiEdgeId)
+        {
+
+            #region Initial checks
+
+            if (MultiEdgeId == null)
+                throw new ArgumentNullException("MultiEdgeId", "The given MultiEdge identifier must not be null!");
+
+            #endregion
+
+            IPropertyMultiEdge<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                               TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                               TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                               TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> _MultiEdge = null;
+
+            if (_MultiEdges.TryGetValue(MultiEdgeId, out _MultiEdge))
+                return _MultiEdge;
+            else
+                return null;
+
+        }
+
+        #endregion
+
         #region MultiEdgesById(params MultiEdgeIds)
 
         /// <summary>
@@ -1387,6 +1474,42 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         #endregion
 
         #region HyperEdge methods
+
+        #region HyperEdgeById(HyperEdgeId)
+
+        /// <summary>
+        /// Return the HyperEdge referenced by the given HyperEdge identifier.
+        /// If no HyperEdge is referenced by the identifier return null.
+        /// </summary>
+        /// <param name="HyperEdgeId">A HyperEdge identifier.</param>
+        public IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                                  TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                  TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
+
+                                  HyperEdgeById(TIdHyperEdge HyperEdgeId)
+        {
+
+            #region Initial checks
+
+            if (HyperEdgeId == null)
+                throw new ArgumentNullException("HyperEdgeId", "The given HyperEdge identifier must not be null!");
+
+            #endregion
+
+            IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,    TVertexType,     TKeyVertex,    TValueVertex,
+                               TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                               TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                               TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> _HyperEdge = null;
+
+            if (_HyperEdges.TryGetValue(HyperEdgeId, out _HyperEdge))
+                return _HyperEdge;
+            else
+                return null;
+
+        }
+
+        #endregion
 
         #region HyperEdgesById(params HyperEdgeIds)
 
