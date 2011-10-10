@@ -706,7 +706,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// </summary>
         public override String ToString()
         {
-            return "PropertyEdge [Id: " + Id.ToString() + ", '" + OutVertex.Id + "' -> '" + InVertex.Id + "']";
+            return "PropertyEdge [Id: " + Id.ToString() + ", '" + OutVertex.Id + "' --" + Label + "-> '" + InVertex.Id + "']";
         }
 
         #endregion
