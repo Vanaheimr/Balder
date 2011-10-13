@@ -46,7 +46,13 @@
     <Compile Include="Immutable\ReadOnlyPropertyGraph.cs" />
     <Compile Include="Immutable\ReadOnlyPropertyVertex.cs" />
     <Compile Include="Immutable\SimpleReadOnlyPropertyGraph.cs" />
-    <Compile Include="Mutable\AGraphElement.cs" />
+    <Compile Include="GraphDBOntology.cs" />
+    <Compile Include="Mutable\SimpleGenericPropertyGraph.cs" />
+    <Compile Include="Mutable\TypedPropertyGraph.cs" />
+    <Compile Include="Mutable\GenericPropertyGraph.cs" />
+    <Compile Include="Mutable\DistributedPropertyGraph.cs" />
+    <Compile Include="Mutable\SemanticPropertyGraph.cs" />
+    <Compile Include="Mutable\GraphElements\AGraphElement.cs" />
     <Compile Include="Mutable\Indices\DictionaryIndex.cs" />
     <Compile Include="Mutable\Indices\IndexingMethods.cs" />
     <Compile Include="Mutable\Indices\IPropertyElementIndexExtensions.cs" />
@@ -55,12 +61,12 @@
     <Compile Include="Mutable\Indices\PropertyIndex\PropertyIndex.cs" />
     <Compile Include="Mutable\Indices\PropertyIndex\PropertyVertexIndex.cs" />
     <Compile Include="Mutable\Indices\QuadtreeIndex.cs" />
-    <Compile Include="Mutable\Properties.cs" />
-    <Compile Include="Mutable\PropertyEdge.cs" />
+    <Compile Include="Mutable\GraphElements\Properties.cs" />
+    <Compile Include="Mutable\GraphElements\PropertyEdge.cs" />
     <Compile Include="Mutable\PropertyGraph.cs" />
-    <Compile Include="Mutable\PropertyHyperEdge.cs" />
-    <Compile Include="Mutable\PropertyMultiEdge.cs" />
-    <Compile Include="Mutable\PropertyVertex.cs" />
+    <Compile Include="Mutable\GraphElements\PropertyHyperEdge.cs" />
+    <Compile Include="Mutable\GraphElements\PropertyMultiEdge.cs" />
+    <Compile Include="Mutable\GraphElements\PropertyVertex.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

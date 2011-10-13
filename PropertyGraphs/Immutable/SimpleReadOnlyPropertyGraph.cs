@@ -62,7 +62,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.ReadOnly
         /// <param name="GraphId">A unique identification for this graph.</param>
         /// <param name="SimplePropertyGraph">A simple property graph to copy the data from.</param>
         public SimpleReadOnlyPropertyGraph(TId GraphId,
-                                           PropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> SimplePropertyGraph,
+                                           SimpleGenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> SimplePropertyGraph,
                                      UInt64  NumberOfVertices   = 0,
                                      Boolean SyncedVertexIds    = false,
                                      UInt64  NumberOfEdges      = 0,
@@ -293,7 +293,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.ReadOnly
         /// <param name="GraphId">A unique identification for this graph.</param>
         /// <param name="SimplePropertyGraph">A simple property graph to copy the data from.</param>
         public SimpleReadOnlyPropertyGraph(UInt64 GraphId,
-                                           PropertyGraph<UInt64, Int64, String, String, Object> SimplePropertyGraph,
+                                           SimpleGenericPropertyGraph<UInt64, Int64, String, String, Object> SimplePropertyGraph,
                                            UInt64  NumberOfVertices   = 0,
                                            Boolean SyncedVertexIds    = false,
                                            UInt64  NumberOfEdges      = 0,
