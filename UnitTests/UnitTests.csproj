@@ -57,21 +57,20 @@
     <Compile Include="Datastructures\SystemIdTests.cs" />
     <Compile Include="GenericGraphs\Distance.cs" />
     <Compile Include="GenericGraphs\GeoFeature.cs" />
-    <Compile Include="InMemoryGraph\PropertyVertexTests.cs" />
-    <Compile Include="PropertyGraphs\IPropertiesTests.cs" />
-    <Compile Include="PropertyGraphs\Indices\IndicesTests.cs" />
-    <Compile Include="PropertyGraphs\IPropertyGraphExtensionTests.cs" />
-    <Compile Include="SimplePropertyGraphTests\InitGraph.cs" />
-    <Compile Include="SimplePropertyGraphTests\CreateGraphTests.cs" />
-    <Compile Include="SimplePropertyGraphTests\CreateVerticesTests.cs" />
+    <Compile Include="PropertyGraphTests\PropertyVertexTests.cs" />
+    <Compile Include="Datastructures\IPropertiesTests.cs" />
+    <Compile Include="PropertyGraphTests\Indices\IndicesTests.cs" />
+    <Compile Include="PropertyGraphTests\IPropertyGraphExtensionTests.cs" />
+    <Compile Include="PropertyGraphTests\InitGraph.cs" />
+    <Compile Include="PropertyGraphTests\CreateGraphTests.cs" />
+    <Compile Include="PropertyGraphTests\CreateVerticesTests.cs" />
     <Compile Include="Datastructures\HyperEdgeIdTests.cs" />
     <Compile Include="Datastructures\EdgeIdTests.cs" />
     <Compile Include="Datastructures\VertexIdTests.cs" />
     <Compile Include="DemoGraphFactory.cs" />
-    <Compile Include="InMemoryGraph\EdgeTests.cs" />
+    <Compile Include="PropertyGraphTests\EdgeTests.cs" />
     <Compile Include="TinkerGraphFactory.cs" />
     <Compile Include="Datastructures\UniqueTimestampTests.cs" />
-    <Compile Include="InMemoryGraphTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
