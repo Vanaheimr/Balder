@@ -68,7 +68,6 @@
     <Compile Include="Datastructures\EdgeIdTests.cs" />
     <Compile Include="Datastructures\VertexIdTests.cs" />
     <Compile Include="DemoGraphFactory.cs" />
-    <Compile Include="PropertyGraphs\IntegerPropertyGraph.cs" />
     <Compile Include="InMemoryGraph\EdgeTests.cs" />
     <Compile Include="TinkerGraphFactory.cs" />
     <Compile Include="Datastructures\UniqueTimestampTests.cs" />

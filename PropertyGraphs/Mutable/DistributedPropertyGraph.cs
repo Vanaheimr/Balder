@@ -38,20 +38,6 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
     {
 
-        #region Data
-
-        private const String _VertexIdKey            = "Id";
-        private const String _EdgeIdKey              = "Id";
-        private const String _MultiEdgeIdKey         = "Id";
-        private const String _HyperEdgeIdKey         = "Id";
-
-        private const String _VertexRevisionIdKey    = "RevId";
-        private const String _EdgeRevisionIdKey      = "RevId";
-        private const String _MultiEdgeRevisionIdKey = "RevId";
-        private const String _HyperEdgeRevisionIdKey = "RevId";
-
-        #endregion
-
         #region Constructor(s)
 
         #region DistributedPropertyGraph()
@@ -94,8 +80,8 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                                       MultiEdgeId, RevisionId, String, String, Object,
                                                       HyperEdgeId, RevisionId, String, String, Object> GraphInitializer = null)
             : base (GraphId,
-                    "Id",
-                    "RevId",
+                    GraphDBOntology.Id().Suffix,
+                    GraphDBOntology.RevId().Suffix,
                     () => new Dictionary<String, Object>(),
 
                     // Create a new Vertex
@@ -114,16 +100,16 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                                                                                                                                                 EdgeId,      RevisionId, String, String, Object,
                                                                                                                                                                 MultiEdgeId, RevisionId, String, String, Object,
                                                                                                                                                                 HyperEdgeId, RevisionId, String, String, Object>>>
-                            (Graph, _VertexId, _VertexIdKey, _VertexRevisionIdKey,
+                            (Graph, _VertexId, GraphDBOntology.Id().Suffix, GraphDBOntology.RevId().Suffix,
                              () => new Dictionary<String, Object>(),
                              () => new HashSet<IPropertyEdge<VertexId,    RevisionId, String, String, Object,
                                                              EdgeId,      RevisionId, String, String, Object,
                                                              MultiEdgeId, RevisionId, String, String, Object,
-                                                    HyperEdgeId, RevisionId, String, String, Object>>(),
+                                                             HyperEdgeId, RevisionId, String, String, Object>>(),
                              () => new Dictionary<String, IPropertyHyperEdge<VertexId,    RevisionId, String, String, Object,
                                                                              EdgeId,      RevisionId, String, String, Object,
                                                                              MultiEdgeId, RevisionId, String, String, Object,
-                                                    HyperEdgeId, RevisionId, String, String, Object>>(),
+                                                                             HyperEdgeId, RevisionId, String, String, Object>>(),
                              VertexInitializer
                             ),
 
@@ -135,7 +121,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                          EdgeId,      RevisionId, String, String, Object, IDictionary<String, Object>,
                                          MultiEdgeId, RevisionId, String, String, Object, IDictionary<String, Object>,
                                          HyperEdgeId, RevisionId, String, String, Object, IDictionary<String, Object>>
-                            (Graph, OutVertex, InVertex, _EdgeId, EdgeLabel, _EdgeIdKey, _EdgeRevisionIdKey,
+                            (Graph, OutVertex, InVertex, _EdgeId, EdgeLabel, GraphDBOntology.Id().Suffix, GraphDBOntology.RevId().Suffix,
                              () => new Dictionary<String, Object>(),
                              EdgeInitializer
                             ),
@@ -151,7 +137,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                                                          EdgeId,      RevisionId, String, String, Object,
                                                                          MultiEdgeId, RevisionId, String, String, Object,
                                                                          HyperEdgeId, RevisionId, String, String, Object>>>
-                            (Graph, Edges, _MultiEdgeId, MultiEdgeLabel, _MultiEdgeIdKey, _MultiEdgeRevisionIdKey,
+                            (Graph, Edges, _MultiEdgeId, MultiEdgeLabel, GraphDBOntology.Id().Suffix, GraphDBOntology.RevId().Suffix,
                              () => new Dictionary<String, Object>(),
                              () => new HashSet<IPropertyVertex<VertexId,    RevisionId, String, String, Object,
                                                                EdgeId,      RevisionId, String, String, Object,
@@ -171,7 +157,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                                                        EdgeId,      RevisionId, String, String, Object,
                                                                        MultiEdgeId, RevisionId, String, String, Object,
                                                                        HyperEdgeId, RevisionId, String, String, Object>>>
-                            (Graph, Edges, _HyperEdgeId, HyperEdgeLabel, _HyperEdgeIdKey, _HyperEdgeRevisionIdKey,
+                            (Graph, Edges, _HyperEdgeId, HyperEdgeLabel, GraphDBOntology.Id().Suffix, GraphDBOntology.RevId().Suffix,
                              () => new Dictionary<String, Object>(),
                              () => new HashSet<IPropertyEdge<VertexId,    RevisionId, String, String, Object,
                                                              EdgeId,      RevisionId, String, String, Object,

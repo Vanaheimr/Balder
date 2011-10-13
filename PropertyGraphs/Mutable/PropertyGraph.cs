@@ -76,13 +76,13 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
             : base (GraphId,
 
                     // TId key
-                    "Id",
+                    GraphDBOntology.Id().Suffix,
 
                     // TId creator delegate
                     () => PropertyGraph.NewId,
 
                     // RevisionId key
-                    "RevId",
+                    GraphDBOntology.RevId().Suffix,
 
                     // RevisionId creator delegate
                     () => PropertyGraph.NewRevisionId,
@@ -125,7 +125,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         {
             get
             {
-                return DateTime.Now.Ticks;
+                return (Int64) UniqueTimestamp.Ticks;
             }
         }
 
