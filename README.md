@@ -19,7 +19,7 @@ at [Gera](http://github.com/ahzf/Gera).
 
 #### An usage example for property graphs
 
-    var _TinkerGraph = new SimplePropertyGraph();
+    var _TinkerGraph = new PropertyGraph();
 
     _TinkerGraph.OnVertexAdding += (graph, vertex, vote) => {
         Console.WriteLine("I like all vertices!");
@@ -41,7 +41,7 @@ at [Gera](http://github.com/ahzf/Gera).
     var ripple = _TinkerGraph.AddVertex(6, v => v.SetProperty("name", "ripple").SetProperty("lang", "java"));
     var peter  = _TinkerGraph.AddVertex(7, v => v.SetProperty("name", "peter"). SetProperty("age",   35));
 
-    Console.WriteLine("Number of vertices added: " + _TinkerGraph.Vertices.Count());
+    Console.WriteLine("Number of vertices added: " + _TinkerGraph.Vertices().Count());
 
     marko.OnPropertyChanging += (sender, Key, oldValue, newValue, vote) =>
         Console.WriteLine("'" + Key + "' property changing: '" + oldValue + "' -> '" + newValue + "'");
