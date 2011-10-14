@@ -1,4 +1,4 @@
-![Blueprints.NET logo](/ahzf/blueprints.NET/raw/master/doc/blueprints.NET-logo.png)
+![Blueprints.NET logo](/ahzf/blueprints.NET/raw/master/logo.png)
 
 Blueprints.NET is a generic graph model [[1](http://en.wikipedia.org/wiki/Graph_(mathematics\)), 
 [2](http://en.wikipedia.org/wiki/Graph_(data_structure\)), [3](http://en.wikipedia.org/wiki/Graph_theory)] 
