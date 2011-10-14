@@ -164,7 +164,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         /// </summary>
         /// <typeparam name="TKey">The type of the property keys.</typeparam>
         /// <typeparam name="TValue">The type of the property values.</typeparam>
-        /// <param name="Key">The property key.</param>
+        /// <param name="PropertyKey">The property key.</param>
         /// <param name="PropertyType">The expected type of the property.</param>
         /// <param name="IProperties">An object implementing IProperties.</param>
         public static TValue GetProperty<TKey, TValue>(this IProperties<TKey, TValue> IProperties, TKey PropertyKey, Type PropertyType)

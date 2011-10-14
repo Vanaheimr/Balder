@@ -27,12 +27,17 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 {
 
     /// <summary>
-    /// A semantic property graph.
+    /// A class-based in-memory implementation of a semantic property graph.
     /// </summary>
-    public class SemanticPropertyGraph : GenericPropertyGraph<VertexId,    RevisionId, SemanticProperty, SemanticProperty, Object, IDictionary<SemanticProperty, Object>,
-                                                              EdgeId,      RevisionId, SemanticProperty, SemanticProperty, Object, IDictionary<SemanticProperty, Object>,
-                                                              MultiEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object, IDictionary<SemanticProperty, Object>,
-                                                              HyperEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object, IDictionary<SemanticProperty, Object>>
+    public class SemanticPropertyGraph
+
+                     : GenericPropertyGraph<VertexId,    RevisionId, SemanticProperty, SemanticProperty, Object, IDictionary<SemanticProperty, Object>,
+                                            EdgeId,      RevisionId, SemanticProperty, SemanticProperty, Object, IDictionary<SemanticProperty, Object>,
+                                            MultiEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object, IDictionary<SemanticProperty, Object>,
+                                            HyperEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object, IDictionary<SemanticProperty, Object>>,
+
+                       ISemanticPropertyGraph
+
     {
 
         /// <summary>

@@ -40,15 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Immutable\AReadOnlyGraphElement.cs" />
-    <Compile Include="Immutable\ReadOnlyProperties.cs" />
-    <Compile Include="Immutable\ReadOnlyPropertyEdge.cs" />
-    <Compile Include="Immutable\ReadOnlyPropertyGraph.cs" />
-    <Compile Include="Immutable\ReadOnlyPropertyVertex.cs" />
-    <Compile Include="Immutable\SimpleReadOnlyPropertyGraph.cs" />
     <Compile Include="GraphDBOntology.cs" />
     <Compile Include="Mutable\SimpleGenericPropertyGraph.cs" />
-    <Compile Include="Mutable\TypedPropertyGraph.cs" />
+    <Compile Include="Mutable\LabeledPropertyGraph.cs" />
     <Compile Include="Mutable\GenericPropertyGraph.cs" />
     <Compile Include="Mutable\DistributedPropertyGraph.cs" />
     <Compile Include="Mutable\SemanticPropertyGraph.cs" />
@@ -74,6 +68,9 @@
       <Project>{B9DE4181-416E-4DE4-A983-B90FC9412774}</Project>
       <Name>Blueprints</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Immutable\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -148,7 +148,7 @@ namespace de.ahzf.Blueprints
         /// <summary>
         /// Create a circle of type T.
         /// </summary>
-        /// <param name="Pixel">The center of the circle.</param>
+        /// <param name="Center">The center of the circle.</param>
         /// <param name="Radius">The radius of the circle.</param>
         public Circle(IPixel<T> Center, T Radius)
         {

@@ -27,20 +27,22 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 {
 
     /// <summary>
-    /// A class-based in-memory implementation of a simplified generic property graph.
+    /// A class-based in-memory implementation of a labeled property graph.
     /// </summary>
-    /// <typeparam name="TId">The type of the graph element identifiers.</typeparam>
-    /// <typeparam name="TRevisionId">The type of the graph element revision identifiers.</typeparam>
-    /// <typeparam name="TLabel">The type of the labels.</typeparam>
-    /// <typeparam name="TKey">The type of the graph element property keys.</typeparam>
-    /// <typeparam name="TValue">The type of the graph element property values.</typeparam>
-    public class TypedPropertyGraph<TVertexType, TEdgeLabel, TMultiEdgeLabel, THyperEdgeLabel>
-                     : GenericPropertyGraph<UInt64, Int64, TVertexType,     String, Object, IDictionary<String, Object>,  // Vertex definition
-                                            UInt64, Int64, TEdgeLabel,      String, Object, IDictionary<String, Object>,  // Edge definition
-                                            UInt64, Int64, TMultiEdgeLabel, String, Object, IDictionary<String, Object>,  // MultiEdge definition
-                                            UInt64, Int64, THyperEdgeLabel, String, Object, IDictionary<String, Object>>  // Hyperedge definition
+    /// <typeparam name="TVertexLabel">The type of the vertex type.</typeparam>
+    /// <typeparam name="TEdgeLabel">The type of the edge label.</typeparam>
+    /// <typeparam name="TMultiEdgeLabel">The type of the multiedge label.</typeparam>
+    /// <typeparam name="THyperEdgeLabel">The type of the hyperedge label.</typeparam>
+    public class LabeledPropertyGraph<TVertexLabel, TEdgeLabel, TMultiEdgeLabel, THyperEdgeLabel>
 
-        where TVertexType     : IEquatable<TVertexType>,     IComparable<TVertexType>,     IComparable
+                     : GenericPropertyGraph<UInt64, Int64, TVertexLabel,    String, Object, IDictionary<String, Object>,
+                                            UInt64, Int64, TEdgeLabel,      String, Object, IDictionary<String, Object>,
+                                            UInt64, Int64, TMultiEdgeLabel, String, Object, IDictionary<String, Object>,
+                                            UInt64, Int64, THyperEdgeLabel, String, Object, IDictionary<String, Object>>,
+
+                       ILabeledPropertyGraph<TVertexLabel, TEdgeLabel, TMultiEdgeLabel, THyperEdgeLabel>
+
+        where TVertexLabel    : IEquatable<TVertexLabel>,    IComparable<TVertexLabel>,    IComparable
         where TEdgeLabel      : IEquatable<TEdgeLabel>,      IComparable<TEdgeLabel>,      IComparable
         where TMultiEdgeLabel : IEquatable<TMultiEdgeLabel>, IComparable<TMultiEdgeLabel>, IComparable
         where THyperEdgeLabel : IEquatable<THyperEdgeLabel>, IComparable<THyperEdgeLabel>, IComparable
@@ -80,12 +82,12 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <summary>
         /// Created a new class-based in-memory implementation of a simplified generic property graph.
         /// </summary>
-        public TypedPropertyGraph(UInt64                    GraphId,
+        public LabeledPropertyGraph(UInt64                    GraphId,
                              String                    IdKey,
                              IdCreatorDelegate         IdCreatorDelegate,
                              String                    RevisionIdKey,
                              RevisionIdCreatorDelegate RevisionIdCreatorDelegate,
-                             GraphInitializer<UInt64, Int64, TVertexType,     String, Object,
+                             GraphInitializer<UInt64, Int64, TVertexLabel,    String, Object,
                                               UInt64, Int64, TEdgeLabel,      String, Object,
                                               UInt64, Int64, TMultiEdgeLabel, String, Object,
                                               UInt64, Int64, THyperEdgeLabel, String, Object> GraphInitializer = null)
@@ -98,26 +100,26 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                     // Create a new Vertex
                     (a) => IdCreatorDelegate(),
                     (Graph, VertexId, VertexInitializer) =>
-                        new PropertyVertex<UInt64, Int64, TVertexType,     String, Object, IDictionary<String, Object>,
-                                           UInt64, Int64, TEdgeLabel,      String, Object, IDictionary<String, Object>, ICollection<IPropertyEdge<UInt64, Int64, TVertexType,     String, Object,
+                        new PropertyVertex<UInt64, Int64, TVertexLabel,    String, Object, IDictionary<String, Object>,
+                                           UInt64, Int64, TEdgeLabel,      String, Object, IDictionary<String, Object>, ICollection<IPropertyEdge<UInt64, Int64, TVertexLabel,    String, Object,
                                                                                                                                                   UInt64, Int64, TEdgeLabel,      String, Object,
                                                                                                                                                   UInt64, Int64, TMultiEdgeLabel, String, Object,
                                                                                                                                                   UInt64, Int64, THyperEdgeLabel, String, Object>>,
-                                           UInt64, Int64, TMultiEdgeLabel, String, Object, IDictionary<String, Object>, IDictionary<TMultiEdgeLabel, IPropertyMultiEdge<UInt64, Int64, TVertexType,     String, Object,
+                                           UInt64, Int64, TMultiEdgeLabel, String, Object, IDictionary<String, Object>, IDictionary<TMultiEdgeLabel, IPropertyMultiEdge<UInt64, Int64, TVertexLabel,    String, Object,
                                                                                                                                                                         UInt64, Int64, TEdgeLabel,      String, Object,
                                                                                                                                                                         UInt64, Int64, TMultiEdgeLabel, String, Object,
                                                                                                                                                                         UInt64, Int64, THyperEdgeLabel, String, Object>>,
-                                           UInt64, Int64, THyperEdgeLabel, String, Object, IDictionary<String, Object>, IDictionary<THyperEdgeLabel, IPropertyHyperEdge<UInt64, Int64, TVertexType,     String, Object,
+                                           UInt64, Int64, THyperEdgeLabel, String, Object, IDictionary<String, Object>, IDictionary<THyperEdgeLabel, IPropertyHyperEdge<UInt64, Int64, TVertexLabel,    String, Object,
                                                                                                                                                                         UInt64, Int64, TEdgeLabel,      String, Object,
                                                                                                                                                                         UInt64, Int64, TMultiEdgeLabel, String, Object,
                                                                                                                                                                         UInt64, Int64, THyperEdgeLabel, String, Object>>>
                             (Graph, VertexId, IdKey, RevisionIdKey,
                              () => new Dictionary<String, Object>(),
-                             () => new HashSet<IPropertyEdge<UInt64, Int64, TVertexType,     String, Object,
+                             () => new HashSet<IPropertyEdge<UInt64, Int64, TVertexLabel,    String, Object,
                                                              UInt64, Int64, TEdgeLabel,      String, Object,
                                                              UInt64, Int64, TMultiEdgeLabel, String, Object,
                                                              UInt64, Int64, THyperEdgeLabel, String, Object>>(),
-                             () => new Dictionary<THyperEdgeLabel, IPropertyHyperEdge<UInt64, Int64, TVertexType,     String, Object,
+                             () => new Dictionary<THyperEdgeLabel, IPropertyHyperEdge<UInt64, Int64, TVertexLabel,    String, Object,
                                                                                       UInt64, Int64, TEdgeLabel,      String, Object,
                                                                                       UInt64, Int64, TMultiEdgeLabel, String, Object,
                                                                                       UInt64, Int64, THyperEdgeLabel, String, Object>>(),
@@ -127,7 +129,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                    // Create a new Edge
                    (Graph) => IdCreatorDelegate(),
                    (Graph, OutVertex, InVertex, EdgeId, Label, EdgeInitializer) =>
-                        new PropertyEdge<UInt64, Int64, TVertexType,     String, Object, IDictionary<String, Object>,
+                        new PropertyEdge<UInt64, Int64, TVertexLabel,    String, Object, IDictionary<String, Object>,
                                          UInt64, Int64, TEdgeLabel,      String, Object, IDictionary<String, Object>,
                                          UInt64, Int64, TMultiEdgeLabel, String, Object, IDictionary<String, Object>,
                                          UInt64, Int64, THyperEdgeLabel, String, Object, IDictionary<String, Object>>
@@ -140,17 +142,17 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                    // Create a new MultiEdge
                    (Graph) => IdCreatorDelegate(),
                    (Graph, EdgeSelector, MultiEdgeId, Label, MultiEdgeInitializer) =>
-                       new PropertyMultiEdge<UInt64, Int64, TVertexType,     String, Object, IDictionary<String, Object>,
+                       new PropertyMultiEdge<UInt64, Int64, TVertexLabel,    String, Object, IDictionary<String, Object>,
                                              UInt64, Int64, TEdgeLabel,      String, Object, IDictionary<String, Object>,
                                              UInt64, Int64, TMultiEdgeLabel, String, Object, IDictionary<String, Object>,
                                              UInt64, Int64, THyperEdgeLabel, String, Object, IDictionary<String, Object>,
-                                             ICollection<IPropertyVertex<UInt64, Int64, TVertexType,     String, Object,
+                                             ICollection<IPropertyVertex<UInt64, Int64, TVertexLabel,    String, Object,
                                                                          UInt64, Int64, TEdgeLabel,      String, Object,
                                                                          UInt64, Int64, TMultiEdgeLabel, String, Object,
                                                                          UInt64, Int64, THyperEdgeLabel, String, Object>>>
                             (Graph, EdgeSelector, MultiEdgeId, Label, IdKey, RevisionIdKey,
                              () => new Dictionary<String, Object>(),
-                             () => new HashSet<IPropertyVertex<UInt64, Int64, TVertexType,     String, Object,
+                             () => new HashSet<IPropertyVertex<UInt64, Int64, TVertexLabel,    String, Object,
                                                                UInt64, Int64, TEdgeLabel,      String, Object,
                                                                UInt64, Int64, TMultiEdgeLabel, String, Object,
                                                                UInt64, Int64, THyperEdgeLabel, String, Object>>(),
@@ -160,17 +162,17 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                     // Create a new HyperEdge
                    (Graph) => IdCreatorDelegate(),
                    (Graph, EdgeSelector, HyperEdgeId, Label, HyperEdgeInitializer) =>
-                       new PropertyHyperEdge<UInt64, Int64, TVertexType,     String, Object, IDictionary<String, Object>,
+                       new PropertyHyperEdge<UInt64, Int64, TVertexLabel,    String, Object, IDictionary<String, Object>,
                                              UInt64, Int64, TEdgeLabel,      String, Object, IDictionary<String, Object>,
                                              UInt64, Int64, TMultiEdgeLabel, String, Object, IDictionary<String, Object>,
                                              UInt64, Int64, THyperEdgeLabel, String, Object, IDictionary<String, Object>,
-                                             ICollection<IPropertyEdge<UInt64, Int64, TVertexType,     String, Object,
+                                             ICollection<IPropertyEdge<UInt64, Int64, TVertexLabel,    String, Object,
                                                                        UInt64, Int64, TEdgeLabel,      String, Object,
                                                                        UInt64, Int64, TMultiEdgeLabel, String, Object,
                                                                        UInt64, Int64, THyperEdgeLabel, String, Object>>>
                             (Graph, EdgeSelector, HyperEdgeId, Label, IdKey, RevisionIdKey,
                              () => new Dictionary<String, Object>(),
-                             () => new HashSet<IPropertyEdge<UInt64, Int64, TVertexType,     String, Object,
+                             () => new HashSet<IPropertyEdge<UInt64, Int64, TVertexLabel,    String, Object,
                                                              UInt64, Int64, TEdgeLabel,      String, Object,
                                                              UInt64, Int64, TMultiEdgeLabel, String, Object,
                                                              UInt64, Int64, THyperEdgeLabel, String, Object>>(),
@@ -180,49 +182,49 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
 #if SILVERLIGHT
                    // The vertices collection
-                   new Dictionary<UInt64, IPropertyVertex   <UInt64, Int64, TVertexType,     String, Object,
+                   new Dictionary<UInt64, IPropertyVertex   <UInt64, Int64, TVertexLabel,    String, Object,
                                                              UInt64, Int64, TEdgeLabel,      String, Object,
                                                              UInt64, Int64, TMultiEdgeLabel, String, Object,
                                                              UInt64, Int64, THyperEdgeLabel, String, Object>>(),
 
                    // The edges collection
-                   new Dictionary<UInt64, IPropertyEdge     <UInt64, Int64, TVertexType,     String, Object,
+                   new Dictionary<UInt64, IPropertyEdge     <UInt64, Int64, TVertexLabel,    String, Object,
                                                              UInt64, Int64, TEdgeLabel,      String, Object,
                                                              UInt64, Int64, TMultiEdgeLabel, String, Object,
                                                              UInt64, Int64, THyperEdgeLabel, String, Object>>(),
 
                    // The multiedges collection
-                   new Dictionary<UInt64, IPropertyMultiEdge<UInt64, Int64, TVertexType,     String, Object,
+                   new Dictionary<UInt64, IPropertyMultiEdge<UInt64, Int64, TVertexLabel,    String, Object,
                                                              UInt64, Int64, TEdgeLabel,      String, Object,
                                                              UInt64, Int64, TMultiEdgeLabel, String, Object,
                                                              UInt64, Int64, THyperEdgeLabel, String, Object>>(),
 
                    // The hyperedges collection
-                   new Dictionary<UInt64, IPropertyHyperEdge<UInt64, Int64, TVertexType,     String, Object,
+                   new Dictionary<UInt64, IPropertyHyperEdge<UInt64, Int64, TVertexLabel,    String, Object,
                                                              UInt64, Int64, TEdgeLabel,      String, Object,
                                                              UInt64, Int64, TMultiEdgeLabel, String, Object,
                                                              UInt64, Int64, THyperEdgeLabel, String, Object>>(),
 #else
                 // The vertices collection
-                   new ConcurrentDictionary<UInt64, IPropertyVertex   <UInt64, Int64, TVertexType,     String, Object,
+                   new ConcurrentDictionary<UInt64, IPropertyVertex   <UInt64, Int64, TVertexLabel,    String, Object,
                                                                        UInt64, Int64, TEdgeLabel,      String, Object,
                                                                        UInt64, Int64, TMultiEdgeLabel, String, Object,
                                                                        UInt64, Int64, THyperEdgeLabel, String, Object>>(),
 
                    // The edges collection
-                   new ConcurrentDictionary<UInt64, IPropertyEdge     <UInt64, Int64, TVertexType,     String, Object,
+                   new ConcurrentDictionary<UInt64, IPropertyEdge     <UInt64, Int64, TVertexLabel,    String, Object,
                                                                        UInt64, Int64, TEdgeLabel,      String, Object,
                                                                        UInt64, Int64, TMultiEdgeLabel, String, Object,
                                                                        UInt64, Int64, THyperEdgeLabel, String, Object>>(),
 
                    // The multiedges collection
-                   new ConcurrentDictionary<UInt64, IPropertyMultiEdge<UInt64, Int64, TVertexType,     String, Object,
+                   new ConcurrentDictionary<UInt64, IPropertyMultiEdge<UInt64, Int64, TVertexLabel,    String, Object,
                                                                        UInt64, Int64, TEdgeLabel,      String, Object,
                                                                        UInt64, Int64, TMultiEdgeLabel, String, Object,
                                                                        UInt64, Int64, THyperEdgeLabel, String, Object>>(),
 
                    // The hyperedges collection
-                   new ConcurrentDictionary<UInt64, IPropertyHyperEdge<UInt64, Int64, TVertexType,     String, Object,
+                   new ConcurrentDictionary<UInt64, IPropertyHyperEdge<UInt64, Int64, TVertexLabel,    String, Object,
                                                                        UInt64, Int64, TEdgeLabel,      String, Object,
                                                                        UInt64, Int64, TMultiEdgeLabel, String, Object,
                                                                        UInt64, Int64, THyperEdgeLabel, String, Object>>(),
@@ -247,8 +249,8 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <param name="PropertyGraph1">A graph.</param>
         /// <param name="PropertyGraph2">Another graph.</param>
         /// <returns>True if both match; False otherwise.</returns>
-        public static Boolean operator == (TypedPropertyGraph<TVertexType, TEdgeLabel, TMultiEdgeLabel, THyperEdgeLabel> PropertyGraph1,
-                                           TypedPropertyGraph<TVertexType, TEdgeLabel, TMultiEdgeLabel, THyperEdgeLabel> PropertyGraph2)
+        public static Boolean operator == (LabeledPropertyGraph<TVertexLabel, TEdgeLabel, TMultiEdgeLabel, THyperEdgeLabel> PropertyGraph1,
+                                           LabeledPropertyGraph<TVertexLabel, TEdgeLabel, TMultiEdgeLabel, THyperEdgeLabel> PropertyGraph2)
         {
 
             // If both are null, or both are same instance, return true.
@@ -273,8 +275,8 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <param name="PropertyGraph1">A graph.</param>
         /// <param name="PropertyGraph2">Another graph.</param>
         /// <returns>False if both match; True otherwise.</returns>
-        public static Boolean operator != (TypedPropertyGraph<TVertexType, TEdgeLabel, TMultiEdgeLabel, THyperEdgeLabel> PropertyGraph1,
-                                           TypedPropertyGraph<TVertexType, TEdgeLabel, TMultiEdgeLabel, THyperEdgeLabel> PropertyGraph2)
+        public static Boolean operator != (LabeledPropertyGraph<TVertexLabel, TEdgeLabel, TMultiEdgeLabel, THyperEdgeLabel> PropertyGraph1,
+                                           LabeledPropertyGraph<TVertexLabel, TEdgeLabel, TMultiEdgeLabel, THyperEdgeLabel> PropertyGraph2)
         {
             return !(PropertyGraph1 == PropertyGraph2);
         }
@@ -289,8 +291,8 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <param name="PropertyGraph1">A graph.</param>
         /// <param name="PropertyGraph2">Another graph.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator < (TypedPropertyGraph<TVertexType, TEdgeLabel, TMultiEdgeLabel, THyperEdgeLabel> PropertyGraph1,
-                                          TypedPropertyGraph<TVertexType, TEdgeLabel, TMultiEdgeLabel, THyperEdgeLabel> PropertyGraph2)
+        public static Boolean operator < (LabeledPropertyGraph<TVertexLabel, TEdgeLabel, TMultiEdgeLabel, THyperEdgeLabel> PropertyGraph1,
+                                          LabeledPropertyGraph<TVertexLabel, TEdgeLabel, TMultiEdgeLabel, THyperEdgeLabel> PropertyGraph2)
         {
 
             if ((Object) PropertyGraph1 == null)
@@ -313,8 +315,8 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <param name="PropertyGraph1">A graph.</param>
         /// <param name="PropertyGraph2">Another graph.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator <= (TypedPropertyGraph<TVertexType, TEdgeLabel, TMultiEdgeLabel, THyperEdgeLabel> PropertyGraph1,
-                                           TypedPropertyGraph<TVertexType, TEdgeLabel, TMultiEdgeLabel, THyperEdgeLabel> PropertyGraph2)
+        public static Boolean operator <= (LabeledPropertyGraph<TVertexLabel, TEdgeLabel, TMultiEdgeLabel, THyperEdgeLabel> PropertyGraph1,
+                                           LabeledPropertyGraph<TVertexLabel, TEdgeLabel, TMultiEdgeLabel, THyperEdgeLabel> PropertyGraph2)
         {
             return !(PropertyGraph1 > PropertyGraph2);
         }
@@ -329,8 +331,8 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <param name="PropertyGraph1">A graph.</param>
         /// <param name="PropertyGraph2">Another graph.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator > (TypedPropertyGraph<TVertexType, TEdgeLabel, TMultiEdgeLabel, THyperEdgeLabel> PropertyGraph1,
-                                          TypedPropertyGraph<TVertexType, TEdgeLabel, TMultiEdgeLabel, THyperEdgeLabel> PropertyGraph2)
+        public static Boolean operator > (LabeledPropertyGraph<TVertexLabel, TEdgeLabel, TMultiEdgeLabel, THyperEdgeLabel> PropertyGraph1,
+                                          LabeledPropertyGraph<TVertexLabel, TEdgeLabel, TMultiEdgeLabel, THyperEdgeLabel> PropertyGraph2)
         {
 
             if ((Object) PropertyGraph1 == null)
@@ -353,8 +355,8 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <param name="PropertyGraph1">A graph.</param>
         /// <param name="PropertyGraph2">Another graph.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator >= (TypedPropertyGraph<TVertexType, TEdgeLabel, TMultiEdgeLabel, THyperEdgeLabel> PropertyGraph1,
-                                           TypedPropertyGraph<TVertexType, TEdgeLabel, TMultiEdgeLabel, THyperEdgeLabel> PropertyGraph2)
+        public static Boolean operator >= (LabeledPropertyGraph<TVertexLabel, TEdgeLabel, TMultiEdgeLabel, THyperEdgeLabel> PropertyGraph1,
+                                           LabeledPropertyGraph<TVertexLabel, TEdgeLabel, TMultiEdgeLabel, THyperEdgeLabel> PropertyGraph2)
         {
             return !(PropertyGraph1 < PropertyGraph2);
         }
@@ -379,7 +381,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                 return false;
 
             // Check if the given object can be casted to a SimplePropertyGraph
-            var PropertyGraph = Object as TypedPropertyGraph<TVertexType, TEdgeLabel, TMultiEdgeLabel, THyperEdgeLabel>;
+            var PropertyGraph = Object as LabeledPropertyGraph<TVertexLabel, TEdgeLabel, TMultiEdgeLabel, THyperEdgeLabel>;
             if ((Object) PropertyGraph == null)
                 return false;
 

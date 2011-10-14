@@ -29,10 +29,12 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
     /// <summary>
     /// A class-based in-memory implementation of a distributed property graph.
     /// </summary>
-    public class DistributedPropertyGraph : GenericPropertyGraph<VertexId,    RevisionId, String, String, Object, IDictionary<String, Object>,
-                                                          EdgeId,      RevisionId, String, String, Object, IDictionary<String, Object>,
-                                                          MultiEdgeId, RevisionId, String, String, Object, IDictionary<String, Object>,
-                                                          HyperEdgeId, RevisionId, String, String, Object, IDictionary<String, Object>>,
+    public class DistributedPropertyGraph
+
+                     : GenericPropertyGraph<VertexId,    RevisionId, String, String, Object, IDictionary<String, Object>,
+                                            EdgeId,      RevisionId, String, String, Object, IDictionary<String, Object>,
+                                            MultiEdgeId, RevisionId, String, String, Object, IDictionary<String, Object>,
+                                            HyperEdgeId, RevisionId, String, String, Object, IDictionary<String, Object>>,
 
                                             IDistributedPropertyGraph
 

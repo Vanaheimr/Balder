@@ -26,12 +26,14 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 {
 
     /// <summary>
-    /// A standardized property graph.
+    /// A semantic property graph.
     /// </summary>
-    public interface IPropertyGraph : IGenericPropertyGraph<UInt64, Int64, String, String, Object, IDictionary<String, Object>,
-                                                            UInt64, Int64, String, String, Object, IDictionary<String, Object>,
-                                                            UInt64, Int64, String, String, Object, IDictionary<String, Object>,
-                                                            UInt64, Int64, String, String, Object, IDictionary<String, Object>>
+    public interface ISemanticPropertyGraph
+
+                         : IGenericPropertyGraph<VertexId,    RevisionId, SemanticProperty, SemanticProperty, Object, IDictionary<SemanticProperty, Object>,
+                                                 EdgeId,      RevisionId, SemanticProperty, SemanticProperty, Object, IDictionary<SemanticProperty, Object>,
+                                                 MultiEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object, IDictionary<SemanticProperty, Object>,
+                                                 HyperEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object, IDictionary<SemanticProperty, Object>>
 
     { }
 

@@ -30,6 +30,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
     /// </summary>
     public class PropertyGraph : SimpleGenericPropertyGraph<UInt64, Int64, String, String, Object>,
                                  IPropertyGraph
+
     {
 
         #region Constructor(s)

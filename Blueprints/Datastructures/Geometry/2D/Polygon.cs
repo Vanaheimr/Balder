@@ -215,7 +215,7 @@ namespace de.ahzf.Blueprints
         /// <summary>
         /// Compares two instances of this object.
         /// </summary>
-        /// <param name="ITriangle">An object to compare with.</param>
+        /// <param name="IPolygon">An object to compare with.</param>
         public Int32 CompareTo(IPolygon<T> IPolygon)
         {
             

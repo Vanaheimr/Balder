@@ -22,20 +22,17 @@ using System.Collections.Generic;
 
 #endregion
 
-namespace de.ahzf.Blueprints.PropertyGraphs.ReadOnly.Indices
+namespace de.ahzf.Blueprints.PropertyGraphs
 {
 
-    #region ReadOnlyIndexFilter<T>(IReadOnlyPropertyElementIndex)
-
     /// <summary>
-    /// A delegate for selecting indices.
+    /// A distributed property graph.
     /// </summary>
-    /// <typeparam name="TValue">The type of the elements to be indexed.</typeparam>
-    /// <param name="IPropertyElementIndex">An IPropertyElementIndex.</param>
-    /// <returns>True if the index was selected; False otherwise.</returns>
-    public delegate Boolean ReadOnlyIndexFilter<TValue>(IReadOnlyPropertyElementIndex<TValue> IReadOnlyPropertyElementIndex)
-        where TValue : IEquatable<TValue>, IComparable<TValue>, IComparable;
+    public interface IDistributedPropertyGraph : IGenericPropertyGraph<VertexId,    RevisionId, String, String, Object, IDictionary<String, Object>,
+                                                                       EdgeId,      RevisionId, String, String, Object, IDictionary<String, Object>,
+                                                                       MultiEdgeId, RevisionId, String, String, Object, IDictionary<String, Object>,
+                                                                       HyperEdgeId, RevisionId, String, String, Object, IDictionary<String, Object>>
 
-    #endregion
+    { }
 
 }
