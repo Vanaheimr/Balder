@@ -31,12 +31,31 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
     /// </summary>
     public class SemanticPropertyGraph
 
-                     : GenericPropertyGraph<VertexId,    RevisionId, SemanticProperty, SemanticProperty, Object, IDictionary<SemanticProperty, Object>,
-                                            EdgeId,      RevisionId, SemanticProperty, SemanticProperty, Object, IDictionary<SemanticProperty, Object>,
-                                            MultiEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object, IDictionary<SemanticProperty, Object>,
-                                            HyperEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object, IDictionary<SemanticProperty, Object>>,
+                     : GenericPropertyGraph<// Vertex definition
+                                            VertexId,    RevisionId, SemanticProperty, SemanticProperty, Object, IDictionary<SemanticProperty, Object>,
 
-                       ISemanticPropertyGraph
+                                            // Edge definition
+                                            EdgeId,      RevisionId, SemanticProperty, SemanticProperty, Object, IDictionary<SemanticProperty, Object>,
+                                                ICollection<                  IPropertyEdge     <VertexId,    RevisionId, SemanticProperty, SemanticProperty, Object,
+                                                                                                 EdgeId,      RevisionId, SemanticProperty, SemanticProperty, Object,
+                                                                                                 MultiEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object,
+                                                                                                 HyperEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object>>,
+
+                                            // MultiEdge definition
+                                            MultiEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object, IDictionary<SemanticProperty, Object>,
+                                                IDictionary<SemanticProperty, IPropertyMultiEdge<VertexId,    RevisionId, SemanticProperty, SemanticProperty, Object,
+                                                                                                 EdgeId,      RevisionId, SemanticProperty, SemanticProperty, Object,
+                                                                                                 MultiEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object,
+                                                                                                 HyperEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object>>,
+
+                                            // Hyperedge definition
+                                            HyperEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object, IDictionary<SemanticProperty, Object>,
+                                                IDictionary<SemanticProperty, IPropertyHyperEdge<VertexId,    RevisionId, SemanticProperty, SemanticProperty, Object,
+                                                                                                 EdgeId,      RevisionId, SemanticProperty, SemanticProperty, Object,
+                                                                                                 MultiEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object,
+                                                                                                 HyperEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object>>>,
+
+                                            ISemanticPropertyGraph
 
     {
 

@@ -36,12 +36,31 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
     /// <typeparam name="TValue">The type of the graph element property values.</typeparam>
     public class SimpleGenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue>
 
-                     : GenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,  // Vertex definition
-                                            TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,  // Edge definition
-                                            TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,  // MultiEdge definition
-                                            TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>>, // Hyperedge definition
+                     : GenericPropertyGraph<// Vertex definition
+                                            TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
 
-                       ISimpleGenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue>
+                                            // Edge definition
+                                            TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
+                                                ICollection<        IPropertyEdge     <TId, TRevisionId, TLabel, TKey, TValue,
+                                                                                       TId, TRevisionId, TLabel, TKey, TValue,
+                                                                                       TId, TRevisionId, TLabel, TKey, TValue,
+                                                                                       TId, TRevisionId, TLabel, TKey, TValue>>,
+
+                                            // MultiEdge definition
+                                            TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
+                                                IDictionary<TLabel, IPropertyMultiEdge<TId, TRevisionId, TLabel, TKey, TValue,
+                                                                                       TId, TRevisionId, TLabel, TKey, TValue,
+                                                                                       TId, TRevisionId, TLabel, TKey, TValue,
+                                                                                       TId, TRevisionId, TLabel, TKey, TValue>>,
+
+                                            // Hyperedge definition
+                                            TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
+                                                IDictionary<TLabel, IPropertyHyperEdge<TId, TRevisionId, TLabel, TKey, TValue,
+                                                                                       TId, TRevisionId, TLabel, TKey, TValue,
+                                                                                       TId, TRevisionId, TLabel, TKey, TValue,
+                                                                                       TId, TRevisionId, TLabel, TKey, TValue>>>,
+
+                        ISimpleGenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue>
 
         where TId         : IEquatable<TId>,         IComparable<TId>,         IComparable, TValue
         where TRevisionId : IEquatable<TRevisionId>, IComparable<TRevisionId>, IComparable, TValue

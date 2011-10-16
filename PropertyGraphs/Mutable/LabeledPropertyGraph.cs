@@ -35,10 +35,29 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
     /// <typeparam name="THyperEdgeLabel">The type of the hyperedge label.</typeparam>
     public class LabeledPropertyGraph<TVertexLabel, TEdgeLabel, TMultiEdgeLabel, THyperEdgeLabel>
 
-                     : GenericPropertyGraph<UInt64, Int64, TVertexLabel,    String, Object, IDictionary<String, Object>,
+                     : GenericPropertyGraph<// Vertex definition
+                                            UInt64, Int64, TVertexLabel,    String, Object, IDictionary<String, Object>,
+
+                                            // Edge definition
                                             UInt64, Int64, TEdgeLabel,      String, Object, IDictionary<String, Object>,
+                                                ICollection<                 IPropertyEdge     <UInt64, Int64, TVertexLabel,    String, Object,
+                                                                                                UInt64, Int64, TEdgeLabel,      String, Object,
+                                                                                                UInt64, Int64, TMultiEdgeLabel, String, Object,
+                                                                                                UInt64, Int64, THyperEdgeLabel, String, Object>>,
+
+                                            // MultiEdge definition
                                             UInt64, Int64, TMultiEdgeLabel, String, Object, IDictionary<String, Object>,
-                                            UInt64, Int64, THyperEdgeLabel, String, Object, IDictionary<String, Object>>,
+                                                IDictionary<TMultiEdgeLabel, IPropertyMultiEdge<UInt64, Int64, TVertexLabel,    String, Object,
+                                                                                                UInt64, Int64, TEdgeLabel,      String, Object,
+                                                                                                UInt64, Int64, TMultiEdgeLabel, String, Object,
+                                                                                                UInt64, Int64, THyperEdgeLabel, String, Object>>,
+
+                                            // Hyperedge definition
+                                            UInt64, Int64, THyperEdgeLabel, String, Object, IDictionary<String, Object>,
+                                                IDictionary<THyperEdgeLabel, IPropertyHyperEdge<UInt64, Int64, TVertexLabel,    String, Object,
+                                                                                                UInt64, Int64, TEdgeLabel,      String, Object,
+                                                                                                UInt64, Int64, TMultiEdgeLabel, String, Object,
+                                                                                                UInt64, Int64, THyperEdgeLabel, String, Object>>>,
 
                        ILabeledPropertyGraph<TVertexLabel, TEdgeLabel, TMultiEdgeLabel, THyperEdgeLabel>
 

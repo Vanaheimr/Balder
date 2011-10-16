@@ -31,10 +31,29 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
     /// </summary>
     public class DistributedPropertyGraph
 
-                     : GenericPropertyGraph<VertexId,    RevisionId, String, String, Object, IDictionary<String, Object>,
+                     : GenericPropertyGraph<// Vertex definition
+                                            VertexId,    RevisionId, String, String, Object, IDictionary<String, Object>,
+
+                                            // Edge definition
                                             EdgeId,      RevisionId, String, String, Object, IDictionary<String, Object>,
+                                                ICollection<        IPropertyEdge     <VertexId,    RevisionId, String, String, Object,
+                                                                                       EdgeId,      RevisionId, String, String, Object,
+                                                                                       MultiEdgeId, RevisionId, String, String, Object,
+                                                                                       HyperEdgeId, RevisionId, String, String, Object>>,
+
+                                            // MultiEdge definition
                                             MultiEdgeId, RevisionId, String, String, Object, IDictionary<String, Object>,
-                                            HyperEdgeId, RevisionId, String, String, Object, IDictionary<String, Object>>,
+                                                IDictionary<String, IPropertyMultiEdge<VertexId,    RevisionId, String, String, Object,
+                                                                                       EdgeId,      RevisionId, String, String, Object,
+                                                                                       MultiEdgeId, RevisionId, String, String, Object,
+                                                                                       HyperEdgeId, RevisionId, String, String, Object>>,
+
+                                            // Hyperedge definition
+                                            HyperEdgeId, RevisionId, String, String, Object, IDictionary<String, Object>,
+                                                IDictionary<String, IPropertyHyperEdge<VertexId, RevisionId, String, String, Object,
+                                                                                       EdgeId,      RevisionId, String, String, Object,
+                                                                                       MultiEdgeId, RevisionId, String, String, Object,
+                                                                                       HyperEdgeId, RevisionId, String, String, Object>>>,
 
                                             IDistributedPropertyGraph
 
