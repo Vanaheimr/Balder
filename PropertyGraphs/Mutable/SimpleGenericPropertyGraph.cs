@@ -36,31 +36,12 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
     /// <typeparam name="TValue">The type of the graph element property values.</typeparam>
     public class SimpleGenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue>
 
-                     : GenericPropertyGraph<// Vertex definition
-                                            TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
+                     : GenericPropertyGraph2<TId, TRevisionId, TLabel, TKey, TValue,   // Vertex definition
+                                             TId, TRevisionId, TLabel, TKey, TValue,   // Edge definition
+                                             TId, TRevisionId, TLabel, TKey, TValue,   // MultiEdge definition
+                                             TId, TRevisionId, TLabel, TKey, TValue>,  // Hyperedge definition
 
-                                            // Edge definition
-                                            TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
-                                                ICollection<        IPropertyEdge     <TId, TRevisionId, TLabel, TKey, TValue,
-                                                                                       TId, TRevisionId, TLabel, TKey, TValue,
-                                                                                       TId, TRevisionId, TLabel, TKey, TValue,
-                                                                                       TId, TRevisionId, TLabel, TKey, TValue>>,
-
-                                            // MultiEdge definition
-                                            TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
-                                                IDictionary<TLabel, IPropertyMultiEdge<TId, TRevisionId, TLabel, TKey, TValue,
-                                                                                       TId, TRevisionId, TLabel, TKey, TValue,
-                                                                                       TId, TRevisionId, TLabel, TKey, TValue,
-                                                                                       TId, TRevisionId, TLabel, TKey, TValue>>,
-
-                                            // Hyperedge definition
-                                            TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
-                                                IDictionary<TLabel, IPropertyHyperEdge<TId, TRevisionId, TLabel, TKey, TValue,
-                                                                                       TId, TRevisionId, TLabel, TKey, TValue,
-                                                                                       TId, TRevisionId, TLabel, TKey, TValue,
-                                                                                       TId, TRevisionId, TLabel, TKey, TValue>>>,
-
-                        ISimpleGenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue>
+                       ISimpleGenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue>
 
         where TId         : IEquatable<TId>,         IComparable<TId>,         IComparable, TValue
         where TRevisionId : IEquatable<TRevisionId>, IComparable<TRevisionId>, IComparable, TValue
@@ -97,160 +78,46 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         #region Constructor(s)
 
-        #region SimplePropertyGraph()
+        #region SimpleGenericPropertyGraph()
 
         /// <summary>
         /// Created a new class-based in-memory implementation of a simplified generic property graph.
         /// </summary>
         public SimpleGenericPropertyGraph(TId                       GraphId,
-                             TKey                      IdKey,
-                             IdCreatorDelegate         IdCreatorDelegate,
-                             TKey                      RevisionIdKey,
-                             RevisionIdCreatorDelegate RevisionIdCreatorDelegate,
-                             GraphInitializer<TId, TRevisionId, TLabel, TKey, TValue,
-                                              TId, TRevisionId, TLabel, TKey, TValue,
-                                              TId, TRevisionId, TLabel, TKey, TValue,
-                                              TId, TRevisionId, TLabel, TKey, TValue> GraphInitializer = null)
+                                          TKey                      IdKey,
+                                          IdCreatorDelegate         IdCreatorDelegate,
+                                          TKey                      RevisionIdKey,
+                                          RevisionIdCreatorDelegate RevisionIdCreatorDelegate,
+                                          GraphInitializer<TId, TRevisionId, TLabel, TKey, TValue,
+                                                           TId, TRevisionId, TLabel, TKey, TValue,
+                                                           TId, TRevisionId, TLabel, TKey, TValue,
+                                                           TId, TRevisionId, TLabel, TKey, TValue> GraphInitializer = null)
 
-            : base (GraphId,
+            : base (IdKey,
+                    RevisionIdKey,
+                    GraphId,
+                    
+                    // Create a new vertex
                     IdKey,
                     RevisionIdKey,
-                    () => new Dictionary<TKey, TValue>(),
-
-                    // Create a new Vertex
                     (a) => IdCreatorDelegate(),
-                    (Graph, VertexId, VertexInitializer) =>
-                        new PropertyVertex<TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
-                                           TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>, ICollection<IPropertyEdge<TId, TRevisionId, TLabel, TKey, TValue,
-                                                                                                                                        TId, TRevisionId, TLabel, TKey, TValue,
-                                                                                                                                        TId, TRevisionId, TLabel, TKey, TValue,
-                                                                                                                                        TId, TRevisionId, TLabel, TKey, TValue>>,
-                                           TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>, IDictionary<TLabel, IPropertyMultiEdge<TId, TRevisionId, TLabel, TKey, TValue,
-                                                                                                                                                     TId, TRevisionId, TLabel, TKey, TValue,
-                                                                                                                                                     TId, TRevisionId, TLabel, TKey, TValue,
-                                                                                                                                                     TId, TRevisionId, TLabel, TKey, TValue>>,
-                                           TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>, IDictionary<TLabel, IPropertyHyperEdge<TId, TRevisionId, TLabel, TKey, TValue,
-                                                                                                                                                     TId, TRevisionId, TLabel, TKey, TValue,
-                                                                                                                                                     TId, TRevisionId, TLabel, TKey, TValue,
-                                                                                                                                                     TId, TRevisionId, TLabel, TKey, TValue>>>
-                            (Graph, VertexId, IdKey, RevisionIdKey,
-                             () => new Dictionary<TKey, TValue>(),
-                             () => new HashSet<IPropertyEdge<TId, TRevisionId, TLabel, TKey, TValue,
-                                                             TId, TRevisionId, TLabel, TKey, TValue,
-                                                             TId, TRevisionId, TLabel, TKey, TValue,
-                                                             TId, TRevisionId, TLabel, TKey, TValue>>(),
-                             () => new Dictionary<TLabel, IPropertyHyperEdge<TId, TRevisionId, TLabel, TKey, TValue,
-                                                                             TId, TRevisionId, TLabel, TKey, TValue,
-                                                                             TId, TRevisionId, TLabel, TKey, TValue,
-                                                                             TId, TRevisionId, TLabel, TKey, TValue>>(),
-                             VertexInitializer
-                            ),
 
-                   // Create a new Edge
-                   (Graph) => IdCreatorDelegate(),
-                   (Graph, OutVertex, InVertex, EdgeId, Label, EdgeInitializer) =>
-                        new PropertyEdge<TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
-                                         TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
-                                         TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
-                                         TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>>
-                            (Graph, OutVertex, InVertex, EdgeId, Label, IdKey, RevisionIdKey,
-                             () => new Dictionary<TKey, TValue>(),
-                             EdgeInitializer
-                            ),
+                    // Create a new edge
+                    IdKey,
+                    RevisionIdKey,
+                    (Graph) => IdCreatorDelegate(),
 
+                    // Create a new multiedge
+                    IdKey,
+                    RevisionIdKey,
+                    (Graph) => IdCreatorDelegate(),
 
-                   // Create a new MultiEdge
-                   (Graph) => IdCreatorDelegate(),
-                   (Graph, EdgeSelector, MultiEdgeId, Label, MultiEdgeInitializer) =>
-                       new PropertyMultiEdge<TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
-                                             TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
-                                             TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
-                                             TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
-                                             ICollection<IPropertyVertex<TId, TRevisionId, TLabel, TKey, TValue,
-                                                                         TId, TRevisionId, TLabel, TKey, TValue,
-                                                                         TId, TRevisionId, TLabel, TKey, TValue,
-                                                                         TId, TRevisionId, TLabel, TKey, TValue>>>
-                            (Graph, EdgeSelector, MultiEdgeId, Label, IdKey, RevisionIdKey,
-                             () => new Dictionary<TKey, TValue>(),
-                             () => new HashSet<IPropertyVertex<TId, TRevisionId, TLabel, TKey, TValue,
-                                                               TId, TRevisionId, TLabel, TKey, TValue,
-                                                               TId, TRevisionId, TLabel, TKey, TValue,
-                                                               TId, TRevisionId, TLabel, TKey, TValue>>(),
-                             MultiEdgeInitializer
-                            ),
+                    // Create a new hyperedge
+                    IdKey,
+                    RevisionIdKey,
+                    (Graph) => IdCreatorDelegate(),
 
-                    // Create a new HyperEdge
-                   (Graph) => IdCreatorDelegate(),
-                   (Graph, EdgeSelector, HyperEdgeId, Label, HyperEdgeInitializer) =>
-                       new PropertyHyperEdge<TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
-                                             TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
-                                             TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
-                                             TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,
-                                             ICollection<IPropertyEdge<TId, TRevisionId, TLabel, TKey, TValue,
-                                                                       TId, TRevisionId, TLabel, TKey, TValue,
-                                                                       TId, TRevisionId, TLabel, TKey, TValue,
-                                                                       TId, TRevisionId, TLabel, TKey, TValue>>>
-                            (Graph, EdgeSelector, HyperEdgeId, Label, IdKey, RevisionIdKey,
-                             () => new Dictionary<TKey, TValue>(),
-                             () => new HashSet<IPropertyEdge<TId, TRevisionId, TLabel, TKey, TValue,
-                                                             TId, TRevisionId, TLabel, TKey, TValue,
-                                                             TId, TRevisionId, TLabel, TKey, TValue,
-                                                             TId, TRevisionId, TLabel, TKey, TValue>>(),
-                             HyperEdgeInitializer
-                            ),
-
-
-#if SILVERLIGHT
-                   // The vertices collection
-                   new Dictionary<TId, IPropertyVertex   <TId, TRevisionId, TLabel, TKey, TValue,
-                                                          TId, TRevisionId, TLabel, TKey, TValue,
-                                                          TId, TRevisionId, TLabel, TKey, TValue,
-                                                          TId, TRevisionId, TLabel, TKey, TValue>>(),
-
-                   // The edges collection
-                   new Dictionary<TId, IPropertyEdge     <TId, TRevisionId, TLabel, TKey, TValue,
-                                                          TId, TRevisionId, TLabel, TKey, TValue,
-                                                          TId, TRevisionId, TLabel, TKey, TValue,
-                                                          TId, TRevisionId, TLabel, TKey, TValue>>(),
-
-                   // The multiedges collection
-                   new Dictionary<TId, IPropertyMultiEdge<TId, TRevisionId, TLabel, TKey, TValue,
-                                                          TId, TRevisionId, TLabel, TKey, TValue,
-                                                          TId, TRevisionId, TLabel, TKey, TValue,
-                                                          TId, TRevisionId, TLabel, TKey, TValue>>(),
-
-                   // The hyperedges collection
-                   new Dictionary<TId, IPropertyHyperEdge<TId, TRevisionId, TLabel, TKey, TValue,
-                                                          TId, TRevisionId, TLabel, TKey, TValue,
-                                                          TId, TRevisionId, TLabel, TKey, TValue,
-                                                          TId, TRevisionId, TLabel, TKey, TValue>>(),
-#else
-                   // The vertices collection
-                   new ConcurrentDictionary<TId, IPropertyVertex   <TId, TRevisionId, TLabel, TKey, TValue,
-                                                                    TId, TRevisionId, TLabel, TKey, TValue,
-                                                                    TId, TRevisionId, TLabel, TKey, TValue,
-                                                                    TId, TRevisionId, TLabel, TKey, TValue>>(),
-
-                   // The edges collection
-                   new ConcurrentDictionary<TId, IPropertyEdge     <TId, TRevisionId, TLabel, TKey, TValue,
-                                                                    TId, TRevisionId, TLabel, TKey, TValue,
-                                                                    TId, TRevisionId, TLabel, TKey, TValue,
-                                                                    TId, TRevisionId, TLabel, TKey, TValue>>(),
-
-                   // The multiedges collection
-                   new ConcurrentDictionary<TId, IPropertyMultiEdge<TId, TRevisionId, TLabel, TKey, TValue,
-                                                                    TId, TRevisionId, TLabel, TKey, TValue,
-                                                                    TId, TRevisionId, TLabel, TKey, TValue,
-                                                                    TId, TRevisionId, TLabel, TKey, TValue>>(),
-
-                   // The hyperedges collection
-                   new ConcurrentDictionary<TId, IPropertyHyperEdge<TId, TRevisionId, TLabel, TKey, TValue,
-                                                                    TId, TRevisionId, TLabel, TKey, TValue,
-                                                                    TId, TRevisionId, TLabel, TKey, TValue,
-                                                                    TId, TRevisionId, TLabel, TKey, TValue>>(),
-#endif
-
-                   GraphInitializer)
+                    GraphInitializer)
 
         { }
 

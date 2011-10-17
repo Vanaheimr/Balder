@@ -31,30 +31,11 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
     /// </summary>
     public class SemanticPropertyGraph
 
-                     : GenericPropertyGraph<// Vertex definition
-                                            VertexId,    RevisionId, SemanticProperty, SemanticProperty, Object, IDictionary<SemanticProperty, Object>,
-
-                                            // Edge definition
-                                            EdgeId,      RevisionId, SemanticProperty, SemanticProperty, Object, IDictionary<SemanticProperty, Object>,
-                                                ICollection<                  IPropertyEdge     <VertexId,    RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                                                                 EdgeId,      RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                                                                 MultiEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                                                                 HyperEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object>>,
-
-                                            // MultiEdge definition
-                                            MultiEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object, IDictionary<SemanticProperty, Object>,
-                                                IDictionary<SemanticProperty, IPropertyMultiEdge<VertexId,    RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                                                                 EdgeId,      RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                                                                 MultiEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                                                                 HyperEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object>>,
-
-                                            // Hyperedge definition
-                                            HyperEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object, IDictionary<SemanticProperty, Object>,
-                                                IDictionary<SemanticProperty, IPropertyHyperEdge<VertexId,    RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                                                                 EdgeId,      RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                                                                 MultiEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                                                                 HyperEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object>>>,
-
+                     : GenericPropertyGraph2<VertexId,    RevisionId, SemanticProperty, SemanticProperty, Object,   // Vertex definition
+                                             EdgeId,      RevisionId, SemanticProperty, SemanticProperty, Object,   // Edge definition
+                                             MultiEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object,   // MultiEdge definition
+                                             HyperEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object>,  // Hyperedge definition
+         
                                             ISemanticPropertyGraph
 
     {
@@ -70,157 +51,32 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                                       MultiEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object,
                                                       HyperEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object> GraphInitializer = null)
 
-            : base (GraphId,
+            : base (GraphDBOntology.Id(),
+                    GraphDBOntology.RevId(),
+                    GraphId,
+
+
+                    // Create a new vertex identification
                     GraphDBOntology.Id(),
                     GraphDBOntology.RevId(),
-                    () => new Dictionary<SemanticProperty, Object>(),
-
-                    // Create a new Vertex
                     (Graph) => VertexId.NewVertexId,
-                    (Graph, myVertexId, myVertexPropertyInitializer) =>
-                        new PropertyVertex<VertexId,    RevisionId, SemanticProperty, SemanticProperty, Object, IDictionary<SemanticProperty, Object>,
-                                           EdgeId,      RevisionId, SemanticProperty, SemanticProperty, Object, IDictionary<SemanticProperty, Object>, ICollection<IPropertyEdge<VertexId,    RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                                                                                                                                                 EdgeId,      RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                                                                                                                                                 MultiEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                                                                                                                                                 HyperEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object>>,
 
-                                           MultiEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object, IDictionary<SemanticProperty, Object>, IDictionary<SemanticProperty, IPropertyMultiEdge<VertexId,    RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                                                                                                                                                                        EdgeId,      RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                                                                                                                                                                        MultiEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                                                                                                                                                                        HyperEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object>>,
+                    // Create a new Edge
+                    GraphDBOntology.Id(),
+                    GraphDBOntology.RevId(),
+                    (Graph) => EdgeId.NewEdgeId,
+                    
+                    // Create a new MultiEdge
+                    GraphDBOntology.Id(),
+                    GraphDBOntology.RevId(),
+                    (Graph) => MultiEdgeId.NewMultiEdgeId,
 
-                                           HyperEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object, IDictionary<SemanticProperty, Object>, IDictionary<SemanticProperty, IPropertyHyperEdge<VertexId,    RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                                                                                                                                                                        EdgeId,      RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                                                                                                                                                                        MultiEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                                                                                                                                                                        HyperEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object>>>
-
-                            (Graph, myVertexId, GraphDBOntology.Id(), GraphDBOntology.RevId(),
-                             () => new Dictionary<SemanticProperty, Object>(),
-                             () => new HashSet<IPropertyEdge<VertexId,    RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                             EdgeId,      RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                             MultiEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                             HyperEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object>>(),
-                             () => new Dictionary<SemanticProperty, IPropertyHyperEdge<VertexId,    RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                                                       EdgeId,      RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                                                       MultiEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                                                       HyperEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object>>(),
-                             myVertexPropertyInitializer
-                            ),
-
-                   
-                   // Create a new Edge
-                   (Graph) => EdgeId.NewEdgeId,
-                   (Graph, myOutVertex, myInVertex, myEdgeId, myLabel, myEdgePropertyInitializer) =>
-                        new PropertyEdge<VertexId,    RevisionId, SemanticProperty, SemanticProperty, Object, IDictionary<SemanticProperty, Object>,
-                                         EdgeId,      RevisionId, SemanticProperty, SemanticProperty, Object, IDictionary<SemanticProperty, Object>,
-                                         MultiEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object, IDictionary<SemanticProperty, Object>,
-                                         HyperEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object, IDictionary<SemanticProperty, Object>>
-
-                            (Graph, myOutVertex, myInVertex, myEdgeId, myLabel, GraphDBOntology.Id(), GraphDBOntology.RevId(),
-                             () => new Dictionary<SemanticProperty, Object>(),
-                             myEdgePropertyInitializer
-                            ),
-
-                   // Create a new MultiEdge
-                   (Graph) => MultiEdgeId.NewMultiEdgeId,
-                   (Graph, myEdges, myMultiEdgeId, myLabel, myMultiEdgePropertyInitializer) =>
-                       new PropertyMultiEdge<VertexId,    RevisionId, SemanticProperty, SemanticProperty, Object, IDictionary<SemanticProperty, Object>,
-                                             EdgeId,      RevisionId, SemanticProperty, SemanticProperty, Object, IDictionary<SemanticProperty, Object>,
-                                             MultiEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object, IDictionary<SemanticProperty, Object>,
-                                             HyperEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object, IDictionary<SemanticProperty, Object>,
-
-                                             ICollection<IPropertyVertex<VertexId,    RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                                         EdgeId,      RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                                         MultiEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                                         HyperEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object>>>
-
-                            (Graph, myEdges, myMultiEdgeId, myLabel, GraphDBOntology.Id(), GraphDBOntology.RevId(),
-                             () => new Dictionary<SemanticProperty, Object>(),
-                             () => new HashSet<IPropertyVertex<VertexId,    RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                               EdgeId,      RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                               MultiEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                               HyperEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object>>(),
-                             myMultiEdgePropertyInitializer
-                            ),
-
-                   // Create a new HyperEdge
-                   (Graph) => HyperEdgeId.NewHyperEdgeId,
-                   (Graph, myEdges, myHyperEdgeId, myLabel, myHyperEdgePropertyInitializer) =>
-                       new PropertyHyperEdge<VertexId,    RevisionId, SemanticProperty, SemanticProperty, Object, IDictionary<SemanticProperty, Object>,
-                                             EdgeId,      RevisionId, SemanticProperty, SemanticProperty, Object, IDictionary<SemanticProperty, Object>,
-                                             MultiEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object, IDictionary<SemanticProperty, Object>,
-                                             HyperEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object, IDictionary<SemanticProperty, Object>,
-
-                                             ICollection<IPropertyEdge<VertexId,    RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                                       EdgeId,      RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                                       MultiEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                                       HyperEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object>>>
-
-                            (Graph, myEdges, myHyperEdgeId, myLabel, GraphDBOntology.Id(), GraphDBOntology.RevId(),
-                             () => new Dictionary<SemanticProperty, Object>(),
-                             () => new HashSet<IPropertyEdge<VertexId,    RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                             EdgeId,      RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                             MultiEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                             HyperEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object>>(),
-                             myHyperEdgePropertyInitializer
-                            ),
-
-#if SILVERLIGHT
-
-                   // The vertices collection
-                   new Dictionary<VertexId,    IPropertyVertex   <VertexId,    RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                                  EdgeId,      RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                                  MultiEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                                  HyperEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object>>(),
-
-                   // The edges collection
-                   new Dictionary<EdgeId,      IPropertyEdge     <VertexId,    RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                                  EdgeId,      RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                                  MultiEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                                  HyperEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object>>(),
-
-                   // The multiedges collection
-                   new Dictionary<MultiEdgeId, IPropertyMultiEdge<VertexId,    RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                                  EdgeId,      RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                                  MultiEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                                  HyperEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object>>(),
-
-                   // The hyperedges collection
-                   new Dictionary<HyperEdgeId, IPropertyHyperEdge<VertexId,    RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                                  EdgeId,      RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                                  MultiEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                                  HyperEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object>>(),
-
-#else
-
-                   // The vertices collection
-                   new ConcurrentDictionary<VertexId,    IPropertyVertex   <VertexId,    RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                                            EdgeId,      RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                                            MultiEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                                            HyperEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object>>(),
-
-                   // The edges collection
-                   new ConcurrentDictionary<EdgeId,      IPropertyEdge     <VertexId,    RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                                            EdgeId,      RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                                            MultiEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                                            HyperEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object>>(),
-
-                   // The multiedges collection
-                   new ConcurrentDictionary<MultiEdgeId, IPropertyMultiEdge<VertexId,    RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                                            EdgeId,      RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                                            MultiEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                                            HyperEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object>>(),
-
-                   // The hyperedges collection
-                   new ConcurrentDictionary<HyperEdgeId, IPropertyHyperEdge<VertexId,    RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                                            EdgeId,      RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                                            MultiEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object,
-                                                                            HyperEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object>>(),
-
-#endif
+                    // Create a new HyperEdge
+                    GraphDBOntology.Id(),
+                    GraphDBOntology.RevId(),
+                    (Graph) => HyperEdgeId.NewHyperEdgeId,
 
                    GraphInitializer)
-
 
         { }
 

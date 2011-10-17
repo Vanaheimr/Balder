@@ -30,12 +30,12 @@ namespace de.ahzf.Blueprints.PropertyGraphs
     /// </summary>
     public interface ILabeledPropertyGraph<TVertexLabel, TEdgeLabel, TMultiEdgeLabel, THyperEdgeLabel>
 
-                         : IGenericPropertyGraph<UInt64, Int64, TVertexLabel,    String, Object, IDictionary<String, Object>,
-                                                 UInt64, Int64, TEdgeLabel,      String, Object, IDictionary<String, Object>,
-                                                 UInt64, Int64, TMultiEdgeLabel, String, Object, IDictionary<String, Object>,
-                                                 UInt64, Int64, THyperEdgeLabel, String, Object, IDictionary<String, Object>>
+                         : IGenericPropertyGraph<UInt64, Int64, TVertexLabel,    String, Object,
+                                                 UInt64, Int64, TEdgeLabel,      String, Object,
+                                                 UInt64, Int64, TMultiEdgeLabel, String, Object,
+                                                 UInt64, Int64, THyperEdgeLabel, String, Object>
 
-        where TVertexLabel     : IEquatable<TVertexLabel>,     IComparable<TVertexLabel>,     IComparable
+        where TVertexLabel    : IEquatable<TVertexLabel>,    IComparable<TVertexLabel>,    IComparable
         where TEdgeLabel      : IEquatable<TEdgeLabel>,      IComparable<TEdgeLabel>,      IComparable
         where TMultiEdgeLabel : IEquatable<TMultiEdgeLabel>, IComparable<TMultiEdgeLabel>, IComparable
         where THyperEdgeLabel : IEquatable<THyperEdgeLabel>, IComparable<THyperEdgeLabel>, IComparable

@@ -28,10 +28,10 @@ namespace de.ahzf.Blueprints.PropertyGraphs
     /// <summary>
     /// A standardized property graph.
     /// </summary>
-    public interface IPropertyGraph : IGenericPropertyGraph<UInt64, Int64, String, String, Object, IDictionary<String, Object>,
-                                                            UInt64, Int64, String, String, Object, IDictionary<String, Object>,
-                                                            UInt64, Int64, String, String, Object, IDictionary<String, Object>,
-                                                            UInt64, Int64, String, String, Object, IDictionary<String, Object>>
+    public interface IPropertyGraph : IGenericPropertyGraph<UInt64, Int64, String, String, Object,
+                                                            UInt64, Int64, String, String, Object,
+                                                            UInt64, Int64, String, String, Object,
+                                                            UInt64, Int64, String, String, Object>
 
     { }
 

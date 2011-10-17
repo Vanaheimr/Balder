@@ -30,10 +30,10 @@ namespace de.ahzf.Blueprints.PropertyGraphs
     /// </summary>
     public interface ISemanticPropertyGraph
 
-                         : IGenericPropertyGraph<VertexId,    RevisionId, SemanticProperty, SemanticProperty, Object, IDictionary<SemanticProperty, Object>,
-                                                 EdgeId,      RevisionId, SemanticProperty, SemanticProperty, Object, IDictionary<SemanticProperty, Object>,
-                                                 MultiEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object, IDictionary<SemanticProperty, Object>,
-                                                 HyperEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object, IDictionary<SemanticProperty, Object>>
+                         : IGenericPropertyGraph<VertexId,    RevisionId, SemanticProperty, SemanticProperty, Object,
+                                                 EdgeId,      RevisionId, SemanticProperty, SemanticProperty, Object,
+                                                 MultiEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object,
+                                                 HyperEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object>
 
     { }
 

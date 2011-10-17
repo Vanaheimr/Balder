@@ -41,6 +41,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GraphDBOntology.cs" />
+    <Compile Include="Mutable\GenericPropertyGraph2.cs" />
+    <Compile Include="Mutable\GraphElements\PropertyHyperEdge.cs" />
     <Compile Include="Mutable\SimpleGenericPropertyGraph.cs" />
     <Compile Include="Mutable\LabeledPropertyGraph.cs" />
     <Compile Include="Mutable\GenericPropertyGraph.cs" />
@@ -58,7 +60,6 @@
     <Compile Include="Mutable\GraphElements\Properties.cs" />
     <Compile Include="Mutable\GraphElements\PropertyEdge.cs" />
     <Compile Include="Mutable\PropertyGraph.cs" />
-    <Compile Include="Mutable\GraphElements\PropertyHyperEdge.cs" />
     <Compile Include="Mutable\GraphElements\PropertyMultiEdge.cs" />
     <Compile Include="Mutable\GraphElements\PropertyVertex.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

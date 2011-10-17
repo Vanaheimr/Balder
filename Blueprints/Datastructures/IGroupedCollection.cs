@@ -18,21 +18,22 @@
 #region Usings
 
 using System;
+using System.Linq;
 using System.Collections.Generic;
 
 #endregion
 
-namespace de.ahzf.Blueprints.PropertyGraphs
+namespace de.ahzf.Blueprints
 {
 
-    /// <summary>
-    /// A distributed property graph.
-    /// </summary>
-    public interface IDistributedPropertyGraph : IGenericPropertyGraph<VertexId,    RevisionId, String, String, Object,
-                                                                       EdgeId,      RevisionId, String, String, Object,
-                                                                       MultiEdgeId, RevisionId, String, String, Object,
-                                                                       HyperEdgeId, RevisionId, String, String, Object>
-
-    { }
+    public interface IGroupedCollection<TGroup, TId, TValue> : IEnumerable<TValue>
+    {
+        Boolean TryAddValue    (TGroup Group, TId Id, TValue Value);
+        Boolean TryRemoveValue (TGroup Group, TId Id, TValue Value);
+        Boolean TryGetById     (TId    Id,    out TValue Value);
+        Boolean TryGetByGroup  (TGroup Group, out IEnumerable<TValue> Values);
+        Boolean ContainsId     (TId    Id);
+        void Clear();
+    }
 
 }

@@ -49,6 +49,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Datastructures\IGroupedCollection.cs" />
+    <Compile Include="Datastructures\GroupedCollection.cs" />
     <Compile Include="Datastructures\Geometry\2D\Polygon.cs" />
     <Compile Include="Datastructures\Geometry\2D\TriangleValuePair.cs" />
     <Compile Include="Datastructures\Geometry\2D\Vector2D.cs" />
@@ -119,13 +121,14 @@
     <Compile Include="Extensions\QuadStore\IQuadStoreExtensions.cs" />
     <Compile Include="Interfaces\GenericGraph\Delegates.cs" />
     <Compile Include="Interfaces\Indices\IIndex2D.cs" />
+    <Compile Include="Interfaces\PropertyGraph\GraphElements\IPropertyMultiEdge.cs" />
     <Compile Include="Interfaces\PropertyGraph\ISemanticPropertyGraph.cs" />
     <Compile Include="Interfaces\PropertyGraph\ISimpleGenericPropertyGraph.cs" />
     <Compile Include="Interfaces\PropertyGraph\ILabeledPropertyGraph.cs" />
     <Compile Include="Interfaces\PropertyGraph\IPropertyGraph.cs" />
     <Compile Include="Interfaces\PropertyGraph\IDistributedPropertyGraph.cs" />
     <Compile Include="Interfaces\PropertyGraph\GraphElements\Delegates.cs" />
-    <Compile Include="Interfaces\PropertyGraph\GraphElements\IPropertyMultiEdge.cs" />
+    <Compile Include="Interfaces\PropertyGraph\GraphElements\IPropertyHyperEdge.cs" />
     <Compile Include="Interfaces\PropertyGraph\IPropertyGraphNotificationsEventHandlers.cs" />
     <Compile Include="Interfaces\PropertyGraph\IPropertyGraphNotifications.cs" />
     <Compile Include="Interfaces\PropertyGraph\GraphElements\IPropertiesNotificationsEventHandlers.cs" />
@@ -154,7 +157,6 @@
     <Compile Include="Interfaces\PropertyGraph\GraphElements\IDynamicGraphElement.cs" />
     <Compile Include="Interfaces\PropertyGraph\GraphElements\IPropertiesNotifications.cs" />
     <Compile Include="Interfaces\PropertyGraph\GraphElements\IGraphElement.cs" />
-    <Compile Include="Interfaces\PropertyGraph\GraphElements\IPropertyHyperEdge.cs" />
     <Compile Include="Interfaces\GenericGraph\IGenericHyperEdge.cs" />
     <Compile Include="Interfaces\Datastructures\IIdentifier.cs" />
     <Compile Include="Interfaces\GenericGraph\IGenericEdge.cs" />

@@ -31,31 +31,12 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
     /// </summary>
     public class DistributedPropertyGraph
 
-                     : GenericPropertyGraph<// Vertex definition
-                                            VertexId,    RevisionId, String, String, Object, IDictionary<String, Object>,
+                     : GenericPropertyGraph2<VertexId,    RevisionId, String, String, Object,   // Vertex definition
+                                             EdgeId,      RevisionId, String, String, Object,   // Edge definition
+                                             MultiEdgeId, RevisionId, String, String, Object,   // MultiEdge definition
+                                             HyperEdgeId, RevisionId, String, String, Object>,  // Hyperedge definition
 
-                                            // Edge definition
-                                            EdgeId,      RevisionId, String, String, Object, IDictionary<String, Object>,
-                                                ICollection<        IPropertyEdge     <VertexId,    RevisionId, String, String, Object,
-                                                                                       EdgeId,      RevisionId, String, String, Object,
-                                                                                       MultiEdgeId, RevisionId, String, String, Object,
-                                                                                       HyperEdgeId, RevisionId, String, String, Object>>,
-
-                                            // MultiEdge definition
-                                            MultiEdgeId, RevisionId, String, String, Object, IDictionary<String, Object>,
-                                                IDictionary<String, IPropertyMultiEdge<VertexId,    RevisionId, String, String, Object,
-                                                                                       EdgeId,      RevisionId, String, String, Object,
-                                                                                       MultiEdgeId, RevisionId, String, String, Object,
-                                                                                       HyperEdgeId, RevisionId, String, String, Object>>,
-
-                                            // Hyperedge definition
-                                            HyperEdgeId, RevisionId, String, String, Object, IDictionary<String, Object>,
-                                                IDictionary<String, IPropertyHyperEdge<VertexId, RevisionId, String, String, Object,
-                                                                                       EdgeId,      RevisionId, String, String, Object,
-                                                                                       MultiEdgeId, RevisionId, String, String, Object,
-                                                                                       HyperEdgeId, RevisionId, String, String, Object>>>,
-
-                                            IDistributedPropertyGraph
+                       IDistributedPropertyGraph
 
     {
 
@@ -96,150 +77,36 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <param name="GraphId">A unique identification for this graph.</param>
         /// <param name="GraphInitializer">A delegate to initialize the graph.</param>
         public DistributedPropertyGraph(VertexId GraphId,
-                                     GraphInitializer<VertexId,    RevisionId, String, String, Object,
-                                                      EdgeId,      RevisionId, String, String, Object,
-                                                      MultiEdgeId, RevisionId, String, String, Object,
-                                                      HyperEdgeId, RevisionId, String, String, Object> GraphInitializer = null)
-            : base (GraphId,
+                                        GraphInitializer<VertexId,    RevisionId, String, String, Object,
+                                                         EdgeId,      RevisionId, String, String, Object,
+                                                         MultiEdgeId, RevisionId, String, String, Object,
+                                                         HyperEdgeId, RevisionId, String, String, Object> GraphInitializer = null)
+
+            : base (GraphDBOntology.Id().Suffix,
+                    GraphDBOntology.RevId().Suffix,
+                    GraphId,
+
+                    // Create a new vertex
                     GraphDBOntology.Id().Suffix,
                     GraphDBOntology.RevId().Suffix,
-                    () => new Dictionary<String, Object>(),
+                    (Graph) => VertexId.NewVertexId,
+           
+                    // Create a new edge
+                    GraphDBOntology.Id().Suffix,
+                    GraphDBOntology.RevId().Suffix,
+                    (Graph) => EdgeId.NewEdgeId,
 
-                    // Create a new Vertex
-                    (Graph) => VertexId.NewVertexId, // Automatic VertexId generation
-                    (Graph, _VertexId, VertexInitializer) =>
-                        new PropertyVertex<VertexId,    RevisionId, String, String, Object, IDictionary<String, Object>,
-                                           EdgeId,      RevisionId, String, String, Object, IDictionary<String, Object>, ICollection<IPropertyEdge<VertexId,    RevisionId, String, String, Object,
-                                                                                                                                                   EdgeId,      RevisionId, String, String, Object,
-                                                                                                                                                   MultiEdgeId, RevisionId, String, String, Object,
-                                                                                                                                                   HyperEdgeId, RevisionId, String, String, Object>>,
-                                           MultiEdgeId, RevisionId, String, String, Object, IDictionary<String, Object>, IDictionary<String, IPropertyMultiEdge<VertexId,    RevisionId, String, String, Object,
-                                                                                                                                                                EdgeId,      RevisionId, String, String, Object,
-                                                                                                                                                                MultiEdgeId, RevisionId, String, String, Object,
-                                                                                                                                                                HyperEdgeId, RevisionId, String, String, Object>>,
-                                           HyperEdgeId, RevisionId, String, String, Object, IDictionary<String, Object>, IDictionary<String, IPropertyHyperEdge<VertexId,    RevisionId, String, String, Object,
-                                                                                                                                                                EdgeId,      RevisionId, String, String, Object,
-                                                                                                                                                                MultiEdgeId, RevisionId, String, String, Object,
-                                                                                                                                                                HyperEdgeId, RevisionId, String, String, Object>>>
-                            (Graph, _VertexId, GraphDBOntology.Id().Suffix, GraphDBOntology.RevId().Suffix,
-                             () => new Dictionary<String, Object>(),
-                             () => new HashSet<IPropertyEdge<VertexId,    RevisionId, String, String, Object,
-                                                             EdgeId,      RevisionId, String, String, Object,
-                                                             MultiEdgeId, RevisionId, String, String, Object,
-                                                             HyperEdgeId, RevisionId, String, String, Object>>(),
-                             () => new Dictionary<String, IPropertyHyperEdge<VertexId,    RevisionId, String, String, Object,
-                                                                             EdgeId,      RevisionId, String, String, Object,
-                                                                             MultiEdgeId, RevisionId, String, String, Object,
-                                                                             HyperEdgeId, RevisionId, String, String, Object>>(),
-                             VertexInitializer
-                            ),
+                    // Create a new multiedge
+                    GraphDBOntology.Id().Suffix,
+                    GraphDBOntology.RevId().Suffix,
+                    (Graph) => MultiEdgeId.NewMultiEdgeId,
 
-                   
-                   // Create a new Edge
-                   (Graph) => EdgeId.NewEdgeId,  // Automatic EdgeId generation
-                   (Graph, OutVertex, InVertex, _EdgeId, EdgeLabel, EdgeInitializer) =>
-                        new PropertyEdge<VertexId,    RevisionId, String, String, Object, IDictionary<String, Object>,
-                                         EdgeId,      RevisionId, String, String, Object, IDictionary<String, Object>,
-                                         MultiEdgeId, RevisionId, String, String, Object, IDictionary<String, Object>,
-                                         HyperEdgeId, RevisionId, String, String, Object, IDictionary<String, Object>>
-                            (Graph, OutVertex, InVertex, _EdgeId, EdgeLabel, GraphDBOntology.Id().Suffix, GraphDBOntology.RevId().Suffix,
-                             () => new Dictionary<String, Object>(),
-                             EdgeInitializer
-                            ),
+                    // Create a new hyperedge
+                    GraphDBOntology.Id().Suffix,
+                    GraphDBOntology.RevId().Suffix,
+                    (Graph) => HyperEdgeId.NewHyperEdgeId,
 
-                   // Create a new MultiEdge
-                   (Graph) => MultiEdgeId.NewMultiEdgeId,  // Automatic MultiEdgeId generation
-                   (Graph, Edges, _MultiEdgeId, MultiEdgeLabel, MultiEdgeInitializer) =>
-                       new PropertyMultiEdge<VertexId,    RevisionId, String, String, Object, IDictionary<String, Object>,
-                                             EdgeId,      RevisionId, String, String, Object, IDictionary<String, Object>,
-                                             MultiEdgeId, RevisionId, String, String, Object, IDictionary<String, Object>,
-                                             HyperEdgeId, RevisionId, String, String, Object, IDictionary<String, Object>,
-                                             ICollection<IPropertyVertex<VertexId,    RevisionId, String, String, Object,
-                                                                         EdgeId,      RevisionId, String, String, Object,
-                                                                         MultiEdgeId, RevisionId, String, String, Object,
-                                                                         HyperEdgeId, RevisionId, String, String, Object>>>
-                            (Graph, Edges, _MultiEdgeId, MultiEdgeLabel, GraphDBOntology.Id().Suffix, GraphDBOntology.RevId().Suffix,
-                             () => new Dictionary<String, Object>(),
-                             () => new HashSet<IPropertyVertex<VertexId,    RevisionId, String, String, Object,
-                                                               EdgeId,      RevisionId, String, String, Object,
-                                                               MultiEdgeId, RevisionId, String, String, Object,
-                                                               HyperEdgeId, RevisionId, String, String, Object>>(),
-                             MultiEdgeInitializer
-                            ),
-
-                   // Create a new HyperEdge
-                   (Graph) => HyperEdgeId.NewHyperEdgeId,  // Automatic HyperEdgeId generation
-                   (Graph, Edges, _HyperEdgeId, HyperEdgeLabel, HyperEdgeInitializer) =>
-                       new PropertyHyperEdge<VertexId,    RevisionId, String, String, Object, IDictionary<String, Object>,
-                                             EdgeId,      RevisionId, String, String, Object, IDictionary<String, Object>,
-                                             MultiEdgeId, RevisionId, String, String, Object, IDictionary<String, Object>,
-                                             HyperEdgeId, RevisionId, String, String, Object, IDictionary<String, Object>,
-                                             ICollection<IPropertyEdge<VertexId,    RevisionId, String, String, Object,
-                                                                       EdgeId,      RevisionId, String, String, Object,
-                                                                       MultiEdgeId, RevisionId, String, String, Object,
-                                                                       HyperEdgeId, RevisionId, String, String, Object>>>
-                            (Graph, Edges, _HyperEdgeId, HyperEdgeLabel, GraphDBOntology.Id().Suffix, GraphDBOntology.RevId().Suffix,
-                             () => new Dictionary<String, Object>(),
-                             () => new HashSet<IPropertyEdge<VertexId,    RevisionId, String, String, Object,
-                                                             EdgeId,      RevisionId, String, String, Object,
-                                                             MultiEdgeId, RevisionId, String, String, Object,
-                                                             HyperEdgeId, RevisionId, String, String, Object>>(),
-                             HyperEdgeInitializer
-                            ),
-
-#if SILVERLIGHT
-                   // The vertices collection
-                   new Dictionary<VertexId,    IPropertyVertex   <VertexId,    RevisionId, String, String, Object,
-                                                                  EdgeId,      RevisionId, String, String, Object,
-                                                                  MultiEdgeId, RevisionId, String, String, Object,
-                                                                  HyperEdgeId, RevisionId, String, String, Object>>(),
-
-                   // The edges collection
-                   new Dictionary<EdgeId,      IPropertyEdge     <VertexId,    RevisionId, String, String, Object,
-                                                                  EdgeId,      RevisionId, String, String, Object,
-                                                                  MultiEdgeId, RevisionId, String, String, Object,
-                                                                  HyperEdgeId, RevisionId, String, String, Object>>(),
-
-                   // The multiedges collection
-                   new Dictionary<MultiEdgeId, IPropertyMultiEdge<VertexId,    RevisionId, String, String, Object,
-                                                                  EdgeId,      RevisionId, String, String, Object,
-                                                                  MultiEdgeId, RevisionId, String, String, Object,
-                                                                  HyperEdgeId, RevisionId, String, String, Object>>(),
-
-                   // The hyperedges collection
-                   new Dictionary<HyperEdgeId, IPropertyHyperEdge<VertexId,    RevisionId, String, String, Object,
-                                                                  EdgeId,      RevisionId, String, String, Object,
-                                                                  MultiEdgeId, RevisionId, String, String, Object,
-                                                                  HyperEdgeId, RevisionId, String, String, Object>>(),
-
-#else
-                // The vertices collection
-                   new ConcurrentDictionary<VertexId,    IPropertyVertex   <VertexId,    RevisionId, String, String, Object,
-                                                                            EdgeId,      RevisionId, String, String, Object,
-                                                                            MultiEdgeId, RevisionId, String, String, Object,
-                                                                            HyperEdgeId, RevisionId, String, String, Object>>(),
-
-                   // The edges collection
-                   new ConcurrentDictionary<EdgeId,      IPropertyEdge     <VertexId,    RevisionId, String, String, Object,
-                                                                            EdgeId,      RevisionId, String, String, Object,
-                                                                            MultiEdgeId, RevisionId, String, String, Object,
-                                                                            HyperEdgeId, RevisionId, String, String, Object>>(),
-
-                   // The multiedges collection
-                   new ConcurrentDictionary<MultiEdgeId, IPropertyMultiEdge<VertexId,    RevisionId, String, String, Object,
-                                                                            EdgeId,      RevisionId, String, String, Object,
-                                                                            MultiEdgeId, RevisionId, String, String, Object,
-                                                                            HyperEdgeId, RevisionId, String, String, Object>>(),
-
-                   // The hyperedges collection
-                   new ConcurrentDictionary<HyperEdgeId, IPropertyHyperEdge<VertexId,    RevisionId, String, String, Object,
-                                                                            EdgeId,      RevisionId, String, String, Object,
-                                                                            MultiEdgeId, RevisionId, String, String, Object,
-                                                                            HyperEdgeId, RevisionId, String, String, Object>>(),
-
-#endif
-
-                   GraphInitializer)
+                    GraphInitializer)
 
         { }
 

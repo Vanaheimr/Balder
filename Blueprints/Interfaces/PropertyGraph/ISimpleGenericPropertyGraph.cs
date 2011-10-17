@@ -30,10 +30,10 @@ namespace de.ahzf.Blueprints.PropertyGraphs
     /// </summary>
     public interface ISimpleGenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue>
 
-                         : IGenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,  // Vertex definition
-                                                 TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,  // Edge definition
-                                                 TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>,  // MultiEdge definition
-                                                 TId, TRevisionId, TLabel, TKey, TValue, IDictionary<TKey, TValue>>  // Hyperedge definition
+                         : IGenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue,  // Vertex definition
+                                                 TId, TRevisionId, TLabel, TKey, TValue,  // Edge definition
+                                                 TId, TRevisionId, TLabel, TKey, TValue,  // MultiEdge definition
+                                                 TId, TRevisionId, TLabel, TKey, TValue>  // Hyperedge definition
 
         where TId         : IEquatable<TId>,         IComparable<TId>,         IComparable, TValue
         where TRevisionId : IEquatable<TRevisionId>, IComparable<TRevisionId>, IComparable, TValue
