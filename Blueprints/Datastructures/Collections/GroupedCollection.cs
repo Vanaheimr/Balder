@@ -64,6 +64,12 @@ namespace de.ahzf.Blueprints
                         return false;
                     }
                 }
+                else
+                {
+                    _Group = new LinkedList<TValue>();
+                    _Group.AddLast(Value);
+                    Groups.Add(Group, _Group);
+                }
 
             }
 
