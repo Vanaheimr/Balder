@@ -246,7 +246,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                            TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                            TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
 
-                                           VerticesByType(params TVertexLabel[] VertexTypes)
+                                           VerticesByLabel(params TVertexLabel[] VertexTypes)
 
         {
             throw new NotImplementedException();

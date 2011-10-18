@@ -33,6 +33,20 @@ namespace de.ahzf.Blueprints.PropertyGraphs
                                                             UInt64, Int64, String, String, Object,
                                                             UInt64, Int64, String, String, Object>
 
-    { }
+    {
+    
+        #region VertexById(VertexId)
+
+        /// <summary>
+        /// Return the vertex referenced by the given vertex identifier.
+        /// If no vertex is referenced by the identifier return null.
+        /// </summary>
+        /// <param name="VertexId">A vertex identifier.</param>
+        new IPropertyVertex VertexById(UInt64 VertexId);
+
+        #endregion
+
+    
+    }
 
 }

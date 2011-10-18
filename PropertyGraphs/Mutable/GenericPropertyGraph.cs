@@ -3113,6 +3113,35 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         #endregion
 
+
+
+        public IDictionary<TKeyVertex, TValueVertex> Data
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+
+        #region Explict IGenericGraph2 implementation to avoid confusion ;)
+
+        GenericGraph.IGenericVertex2<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    IDictionary<TKeyVertex,    TValueVertex>,
+                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      IDictionary<TKeyEdge,      TValueEdge>,
+                                     TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, IDictionary<TKeyMultiEdge, TValueMultiEdge>,
+                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, IDictionary<TKeyHyperEdge, TValueHyperEdge>>
+
+
+              de.ahzf.Blueprints.GenericGraph.IGenericGraph2<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    IDictionary<TKeyVertex,    TValueVertex>,
+                                                             TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      IDictionary<TKeyEdge,      TValueEdge>,
+                                                             TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, IDictionary<TKeyMultiEdge, TValueMultiEdge>,
+                                                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, IDictionary<TKeyHyperEdge, TValueHyperEdge>>.
+
+              AddVertex()
+
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
     }
 
 }

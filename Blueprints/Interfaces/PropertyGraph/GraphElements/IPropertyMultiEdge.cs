@@ -25,14 +25,14 @@ using System.Collections.Generic;
 namespace de.ahzf.Blueprints.PropertyGraphs
 {
 
-    #region IPropertyHyperEdge
+    #region IPropertyMultiEdge
 
     /// <summary>
-    /// A hyperedge links multiple vertices. Along with its key/value properties,
-    /// a hyperedge has both a directionality and a label.
+    /// A multiedge links multiple vertices. Along with its key/value properties,
+    /// a multiedge has both a directionality and a label.
     /// The directionality determines which vertex is the tail vertex
     /// (out vertex) and which vertices are the head vertices (in vertices).
-    /// The hyperedge label determines the type of relationship that exists
+    /// The multiedge label determines the type of relationship that exists
     /// between these vertices.
     /// Diagrammatically, outVertex ---label---> inVertex1.
     ///                                      \--> inVertex2.
@@ -45,14 +45,14 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
     #endregion
 
-    #region IPropertyHyperEdge<...>
+    #region IPropertyMultiEdge<...>
 
     /// <summary>
-    /// A hyperedge links multiple vertices. Along with its key/value properties,
-    /// a hyperedge has both a directionality and a label.
+    /// A multiedge links multiple vertices. Along with its key/value properties,
+    /// a multiedge has both a directionality and a label.
     /// The directionality determines which vertex is the tail vertex
     /// (out vertex) and which vertices are the head vertices (in vertices).
-    /// The hyperedge label determines the type of relationship that exists
+    /// The multiedge label determines the type of relationship that exists
     /// between these vertices.
     /// Diagrammatically, outVertex ---label---> inVertex1.
     ///                                      \--> inVertex2.
@@ -75,11 +75,11 @@ namespace de.ahzf.Blueprints.PropertyGraphs
     /// <typeparam name="TKeyMultiEdge">The type of the multiedge property keys.</typeparam>
     /// <typeparam name="TValueMultiEdge">The type of the multiedge property values.</typeparam>
     /// 
-    /// <typeparam name="TIdHyperEdge">The type of the hyperedge identifiers.</typeparam>
-    /// <typeparam name="TRevisionIdHyperEdge">The type of the hyperedge revision identifiers.</typeparam>
-    /// <typeparam name="THyperEdgeLabel">The type of the hyperedge label.</typeparam>
-    /// <typeparam name="TKeyHyperEdge">The type of the hyperedge property keys.</typeparam>
-    /// <typeparam name="TValueHyperEdge">The type of the hyperedge property values.</typeparam>
+    /// <typeparam name="TIdHyperEdge">The type of the multiedge identifiers.</typeparam>
+    /// <typeparam name="TRevisionIdHyperEdge">The type of the multiedge revision identifiers.</typeparam>
+    /// <typeparam name="THyperEdgeLabel">The type of the multiedge label.</typeparam>
+    /// <typeparam name="TKeyHyperEdge">The type of the multiedge property keys.</typeparam>
+    /// <typeparam name="TValueHyperEdge">The type of the multiedge property values.</typeparam>
     public interface IPropertyMultiEdge<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                         TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                         TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -127,9 +127,9 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         /// The associated property graph.
         /// </summary>
         IGenericPropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                       TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                    TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Graph { get; }
+                              TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                              TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Graph { get; }
 
         #endregion
 
@@ -142,39 +142,53 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
         #endregion
 
-        #region OutVertex
-
-        /// <summary>
-        /// The vertex at the tail of this multiedge.
-        /// </summary>
-        IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                        TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                        TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                        TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OutVertex { get; }
-
-        #endregion
 
         #region Edges
 
+        #region EdgesByLabel(params EdgeLabels)
+
         /// <summary>
-        /// The edges wrapped by this multiedge.
+        /// The enumeration of all edges connected by this multiedge.
         /// </summary>
         IEnumerable<IPropertyEdge<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                   TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                   TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> Edges { get; }
+                                  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> EdgesByLabel(params TEdgeLabel[] EdgeLabels);
 
         #endregion
 
-        #region InVertices
+        #region Edges(EdgeFilter = null)
 
         /// <summary>
-        /// The vertices at the head of this multiedge.
+        /// The enumeration of all edges connected by this multiedge.
+        /// An optional edge filter may be applied for filtering.
         /// </summary>
-        IEnumerable<IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                    TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                    TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                    TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> InVertices { get; }
+        IEnumerable<IPropertyEdge<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                  TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                  TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
+
+                                  Edges(EdgeFilter<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                   TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                   TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                   TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeFilter = null);
+
+        #endregion
+
+        #region NumberOfEdges(EdgeFilter = null)
+
+        /// <summary>
+        /// Return the current number of edges which match the given optional filter.
+        /// When the filter is null, this method should implement an optimized
+        /// way to get the currenty number of edges.
+        /// </summary>
+        /// <param name="EdgeFilter">A delegate for edge filtering.</param>
+        UInt64 NumberOfEdges(EdgeFilter<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                        TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                        TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                        TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeFilter = null);
+
+        #endregion
 
         #endregion
 
@@ -193,14 +207,14 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
     #endregion
 
-    #region IPropertyHyperEdge<..., TDatastructureXXX>
+    #region IPropertyMultiEdge<..., TDatastructureXXX>
 
     /// <summary>
-    /// A hyperedge links multiple vertices. Along with its key/value properties,
-    /// a hyperedge has both a directionality and a label.
+    /// A multiedge links multiple vertices. Along with its key/value properties,
+    /// a multiedge has both a directionality and a label.
     /// The directionality determines which vertex is the tail vertex
     /// (out vertex) and which vertices are the head vertices (in vertices).
-    /// The hyperedge label determines the type of relationship that exists
+    /// The multiedge label determines the type of relationship that exists
     /// between these vertices.
     /// Diagrammatically, outVertex ---label---> inVertex1.
     ///                                      \--> inVertex2.
@@ -226,12 +240,12 @@ namespace de.ahzf.Blueprints.PropertyGraphs
     /// <typeparam name="TValueMultiEdge">The type of the multiedge property values.</typeparam>
     /// <typeparam name="TPropertiesCollectionMultiEdge">A data structure to store the properties of the multiedges.</typeparam>
     /// 
-    /// <typeparam name="TIdHyperEdge">The type of the hyperedge identifiers.</typeparam>
-    /// <typeparam name="TRevisionIdHyperEdge">The type of the hyperedge revision identifiers.</typeparam>
-    /// <typeparam name="THyperEdgeLabel">The type of the hyperedge label.</typeparam>
-    /// <typeparam name="TKeyHyperEdge">The type of the hyperedge property keys.</typeparam>
-    /// <typeparam name="TValueHyperEdge">The type of the hyperedge property values.</typeparam>
-    /// <typeparam name="TPropertiesCollectionHyperEdge">A data structure to store the properties of the hyperedges.</typeparam>
+    /// <typeparam name="TIdHyperEdge">The type of the multiedge identifiers.</typeparam>
+    /// <typeparam name="TRevisionIdHyperEdge">The type of the multiedge revision identifiers.</typeparam>
+    /// <typeparam name="THyperEdgeLabel">The type of the multiedge label.</typeparam>
+    /// <typeparam name="TKeyHyperEdge">The type of the multiedge property keys.</typeparam>
+    /// <typeparam name="TValueHyperEdge">The type of the multiedge property values.</typeparam>
+    /// <typeparam name="TPropertiesCollectionHyperEdge">A data structure to store the properties of the multiedges.</typeparam>
     public interface IPropertyMultiEdge<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,    TPropertiesCollectionVertex,
                                         TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TPropertiesCollectionEdge,
                                         TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TPropertiesCollectionMultiEdge,

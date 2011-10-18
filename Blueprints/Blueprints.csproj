@@ -49,8 +49,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Datastructures\IGroupedCollection.cs" />
-    <Compile Include="Datastructures\GroupedCollection.cs" />
+    <Compile Include="Datastructures\Collections\ImmutableMap.cs" />
+    <Compile Include="Interfaces\Datastructures\Collections\Imutable\IBinarySearchTree.cs" />
+    <Compile Include="Interfaces\Datastructures\Collections\Mutable\IMap.cs" />
+    <Compile Include="Interfaces\Datastructures\Collections\ItemFilter.cs" />
+    <Compile Include="Interfaces\Datastructures\Collections\Mutable\IGroupedCollection.cs" />
+    <Compile Include="Datastructures\Collections\GroupedCollection.cs" />
     <Compile Include="Datastructures\Geometry\2D\Polygon.cs" />
     <Compile Include="Datastructures\Geometry\2D\TriangleValuePair.cs" />
     <Compile Include="Datastructures\Geometry\2D\Vector2D.cs" />
@@ -65,7 +69,7 @@
     <Compile Include="Datastructures\Votes\VetoVote.cs" />
     <Compile Include="Datastructures\Votes\AVote.cs" />
     <Compile Include="Datastructures\Votes\MajorityVote.cs" />
-    <Compile Include="Datastructures\KeyValueFilter.cs" />
+    <Compile Include="Interfaces\Datastructures\Collections\KeyValueFilter.cs" />
     <Compile Include="Datastructures\Forest\Bintree.cs" />
     <Compile Include="Datastructures\Geometry\3D\VoxelValuePair.cs" />
     <Compile Include="Datastructures\Geometry\3D\VoxelSelector.cs" />
@@ -81,6 +85,7 @@
     <Compile Include="Extensions\Geometry\IPixelExtensions.cs" />
     <Compile Include="Extensions\Geometry\ILine2DExtensions.cs" />
     <Compile Include="Extensions\SilverlightExtensions.cs" />
+    <Compile Include="Interfaces\Datastructures\Collections\Imutable\IImmutableMap.cs" />
     <Compile Include="Interfaces\Datastructures\Forest\IBintree.cs" />
     <Compile Include="Interfaces\Datastructures\Forest\IOctree.cs" />
     <Compile Include="Interfaces\Datastructures\Forest\IQuadtree.cs" />
@@ -119,6 +124,8 @@
     <Compile Include="Exceptions\PropertyGraph\PropertyGraphExceptions.cs" />
     <Compile Include="Extensions\PropertyGraph\IPropertyVertexExtensions.cs" />
     <Compile Include="Extensions\QuadStore\IQuadStoreExtensions.cs" />
+    <Compile Include="Interfaces\GenericGraph\Copy of IGenericGraph.cs" />
+    <Compile Include="Interfaces\GenericGraph\Copy of IGenericVertex.cs" />
     <Compile Include="Interfaces\GenericGraph\Delegates.cs" />
     <Compile Include="Interfaces\Indices\IIndex2D.cs" />
     <Compile Include="Interfaces\PropertyGraph\GraphElements\IPropertyMultiEdge.cs" />

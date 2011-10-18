@@ -300,6 +300,12 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         #endregion
 
+
+        IPropertyVertex IPropertyGraph.VertexById(ulong VertexId)
+        {
+            return this.VertexById(VertexId) as IPropertyVertex;
+        }
+
     }
 
 }

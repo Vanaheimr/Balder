@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 
 using de.ahzf.Blueprints.PropertyGraphs.Indices;
+using de.ahzf.Blueprints.GenericGraph;
 
 #endregion
 
@@ -82,6 +83,11 @@ namespace de.ahzf.Blueprints.PropertyGraphs
                                                                                TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>,
 
+                                             IGenericGraph2<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    IDictionary<TKeyVertex,    TValueVertex>,
+                                                            TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      IDictionary<TKeyEdge,      TValueEdge>,
+                                                            TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, IDictionary<TKeyMultiEdge, TValueMultiEdge>,
+                                                            TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, IDictionary<TKeyHyperEdge, TValueHyperEdge>>,
+        
                                              IComparable
 
         where TIdVertex               : IEquatable<TIdVertex>,            IComparable<TIdVertex>,            IComparable, TValueVertex

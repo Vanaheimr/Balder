@@ -43,7 +43,7 @@ namespace de.ahzf.Blueprints.GenericGraph
         /// A shutdown function is required to properly close the graph.
         /// This is important for implementations that utilize disk-based serializations.
         /// </summary>
-        void Shutdown();
+        void Shutdown(String Message = "");
 
     }
 

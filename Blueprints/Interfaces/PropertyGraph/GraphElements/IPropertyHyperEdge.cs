@@ -135,9 +135,10 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
         #endregion
 
+
         #region Vertices
 
-        #region VerticesByType(params VertexTypes)
+        #region VerticesByLabel(params VertexLabels)
 
         /// <summary>
         /// The enumeration of all vertices connected by this hyperedge.
@@ -145,7 +146,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         IEnumerable<IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                     TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                    TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> VerticesByType(params TVertexLabel[] VertexTypes);
+                                    TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> VerticesByLabel(params TVertexLabel[] VertexLabels);
 
         #endregion
 

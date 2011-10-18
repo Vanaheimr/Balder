@@ -115,6 +115,15 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
     {
 
+        #region Data
+
+        /// <summary>
+        /// The edges wrapped by this hyperedge.
+        /// </summary>
+        protected readonly TEdgesCollection _Edges;
+
+        #endregion
+
         #region Properties
 
         #region Graph
@@ -135,67 +144,6 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// The label associated with this hyperedge.
         /// </summary>
         public TMultiEdgeLabel Label { get; private set; }
-
-        #endregion
-
-        #region OutVertex
-
-        /// <summary>
-        /// The vertex at the tail of this hyperedge.
-        /// </summary>
-        public IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                               TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                               TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                               TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
-                               OutVertex
-        {
-            get
-            {
-                return _Edges.First().OutVertex;
-            }
-        }
-
-        #endregion
-
-        #region Edges
-
-        /// <summary>
-        /// The edges wrapped by this hyperedge.
-        /// </summary>
-        protected readonly TEdgesCollection _Edges;
-
-        /// <summary>
-        /// The edges wrapped by this hyperedge.
-        /// </summary>
-        public IEnumerable<IPropertyEdge<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                         TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                         TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                         TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> Edges
-        {
-            get
-            {
-                return _Edges;
-            }
-        }
-
-        #endregion
-
-        #region InVertices
-
-        /// <summary>
-        /// The vertices at the head of this edge.
-        /// </summary>
-        public IEnumerable<IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                           TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                           TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                           TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> InVertices
-        {
-            get
-            {
-                foreach (var _Edge in _Edges)
-                    yield return _Edge.InVertex;
-            }
-        }
 
         #endregion
 
@@ -283,6 +231,73 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         #endregion
 
         #endregion
+
+
+        #region Edges
+
+        #region EdgesByLabel(params EdgeLabels)
+
+        /// <summary>
+        /// The enumeration of all edges connected by this multiedge.
+        /// </summary>
+        public IEnumerable<IPropertyEdge<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                         TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                         TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                         TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
+
+                   EdgesByLabel(params TEdgeLabel[] EdgeLabels)
+
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #region Edges(EdgeFilter = null)
+
+        /// <summary>
+        /// The enumeration of all edges connected by this multiedge.
+        /// An optional edge filter may be applied for filtering.
+        /// </summary>
+        public IEnumerable<IPropertyEdge<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                         TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                         TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                         TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
+            
+                   Edges(EdgeFilter<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                    TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                    TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                    TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeFilter = null)
+
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #region NumberOfEdges(EdgeFilter = null)
+
+        /// <summary>
+        /// Return the current number of edges which match the given optional filter.
+        /// When the filter is null, this method should implement an optimized
+        /// way to get the currenty number of edges.
+        /// </summary>
+        /// <param name="EdgeFilter">A delegate for edge filtering.</param>
+        public UInt64 NumberOfEdges(EdgeFilter<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                               TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                               TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                               TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
+
+                   EdgeFilter = null)
+
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #endregion
+
 
 
         public Boolean CheckIfMatches(IPropertyEdge<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
