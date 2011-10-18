@@ -76,10 +76,10 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                              TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TPropertiesCollectionMultiEdge, TMultiEdgeCollection,
                                              TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TPropertiesCollectionHyperEdge, THyperEdgeCollection>
 
-                       //IDynamicGraphElement<GenericPropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,    TPropertiesCollectionVertex,
-                       //                                          TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TPropertiesCollectionEdge,
-                       //                                          TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TPropertiesCollectionMultiEdge,
-                       //                                          TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TPropertiesCollectionHyperEdge>>
+                       //IDynamicGraphElement<GenericPropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,    TPropertiesCollectionVertex,    TVertexCollection,
+                       //                                          TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      TPropertiesCollectionEdge,      TEdgeCollection,
+                       //                                          TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TPropertiesCollectionMultiEdge, TMultiEdgeCollection,
+                       //                                          TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TPropertiesCollectionHyperEdge, THyperEdgeCollection>>
 
         where TIdVertex                      : IEquatable<TIdVertex>,            IComparable<TIdVertex>,            IComparable, TValueVertex
         where TIdEdge                        : IEquatable<TIdEdge>,              IComparable<TIdEdge>,              IComparable, TValueEdge
@@ -129,50 +129,6 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
     {
 
         #region Data
-
-        /// <summary>
-        /// The cached number of vertices.
-        /// </summary>
-        protected UInt64 _NumberOfVertices;
-
-        /// <summary>
-        /// The cached number of edges.
-        /// </summary>
-        protected UInt64 _NumberOfEdges;
-
-        /// <summary>
-        /// The cached number of multiedges.
-        /// </summary>
-        protected UInt64 _NumberOfMultiEdges;
-
-        /// <summary>
-        /// The cached number of hyperedges.
-        /// </summary>
-        protected UInt64 _NumberOfHyperEdges;
-
-
-        // Make IDictionaries more generic??!
-
-        /// <summary>
-        /// The collection of vertices.
-        /// </summary>
-        protected readonly TVertexCollection    _Vertices;
-
-        /// <summary>
-        /// The collection of edges.
-        /// </summary>
-        protected readonly TEdgeCollection      _Edges;
-
-        /// <summary>
-        /// The collection of multiedges.
-        /// </summary>
-        protected readonly TMultiEdgeCollection _MultiEdges;
-
-        /// <summary>
-        /// The collection of hyperedges.
-        /// </summary>
-        protected readonly THyperEdgeCollection _HyperEdges;
-
 
         private readonly VertexIdCreatorDelegate   <TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
@@ -378,7 +334,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         internal Boolean SendVertexAddingNotification(IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                       TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                    TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IPropertyVertex)
+                                                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IPropertyVertex)
         {
 
             var _VetoVote = new VetoVote();
@@ -594,7 +550,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                                                TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> VertexCreatorDelegate,
 
-                                    TVertexCollection VerticesCollectionInitializer,
+                                    Func<TVertexCollection> VerticesCollectionInitializer,
 
 
                                     // Create a new edge
@@ -608,7 +564,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                                                TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeCreatorDelegate,
 
-                                    TEdgeCollection EdgesCollectionInitializer,
+                                    Func<TEdgeCollection> EdgesCollectionInitializer,
 
 
                                     // Create a new multiedge
@@ -622,7 +578,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                                                TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> MultiEdgeCreatorDelegate,
 
-                                    TMultiEdgeCollection MultiEdgesCollectionInitializer,
+                                    Func<TMultiEdgeCollection> MultiEdgesCollectionInitializer,
 
 
                                     // Create a new hyperedge
@@ -636,7 +592,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                                                TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> HyperEdgeCreatorDelegate,
 
-                                    THyperEdgeCollection HyperEdgesCollectionInitializer,
+                                    Func<THyperEdgeCollection> HyperEdgesCollectionInitializer,
 
 
                                     // Graph initializer
@@ -646,25 +602,21 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> GraphInitializer = null)
 
 
-            : base(GraphId, IdKey, RevisonIdKey, DataInitializer)
+            : base(GraphId, IdKey, RevisonIdKey, DataInitializer, VerticesCollectionInitializer, EdgesCollectionInitializer, MultiEdgesCollectionInitializer, HyperEdgesCollectionInitializer)
 
         {
 
             _VertexIdCreatorDelegate    = VertexIdCreatorDelegate;
             _VertexCreatorDelegate      = VertexCreatorDelegate;
-            _Vertices                   = VerticesCollectionInitializer;
 
             _EdgeIdCreatorDelegate      = EdgeIdCreatorDelegate;
             _EdgeCreatorDelegate        = EdgeCreatorDelegate;
-            _Edges                      = EdgesCollectionInitializer;
 
             _MultiEdgeIdCreatorDelegate = MultiEdgeIdCreatorDelegate;
             _MultiEdgeCreatorDelegate   = MultiEdgeCreatorDelegate;
-            _MultiEdges                 = MultiEdgesCollectionInitializer;
 
             _HyperEdgeIdCreatorDelegate = HyperEdgeIdCreatorDelegate;
             _HyperEdgeCreatorDelegate   = HyperEdgeCreatorDelegate;
-            _HyperEdges                 = HyperEdgesCollectionInitializer;
 
 
             _ManualVerticesIndices      = new Dictionary<String, IPropertyElementIndex<IPropertyVertex   <TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
@@ -985,7 +937,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         {
 
             if (VertexFilter == null)
-                return _NumberOfVertices;
+                return (UInt64) _NumberOfVertices;
 
             else
             {
@@ -1307,14 +1259,14 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
             if (EdgeId == null)
                 EdgeId = _EdgeIdCreatorDelegate(this);
 
-            if (_Edges.ContainsId(EdgeId))
+            if (_ForeignEdges.ContainsId(EdgeId))
                 throw new ArgumentException("Another edge with id " + EdgeId + " already exists!");
 
             var _Edge = _EdgeCreatorDelegate(this, OutVertex, InVertex, EdgeId, Label, EdgeInitializer);
 
             if (SendEdgeAddingNotification(_Edge))
             {
-                _Edges.TryAddValue(_Edge.Label, EdgeId, _Edge);
+                _ForeignEdges.TryAddValue(_Edge.Label, EdgeId, _Edge);
                 _NumberOfEdges++;
                 OutVertex.AddOutEdge(_Edge);
                 InVertex.AddInEdge(_Edge);
@@ -1356,7 +1308,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                           TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                           TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> _Edge = null;
 
-            if (_Edges.TryGetById(EdgeId, out _Edge))
+            if (_ForeignEdges.TryGetById(EdgeId, out _Edge))
                 return _Edge;
             else
                 return null;
@@ -1397,7 +1349,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
             {
                 if (_EdgeId != null)
                 {
-                    _Edges.TryGetById(_EdgeId, out _Edge);
+                    _ForeignEdges.TryGetById(_EdgeId, out _Edge);
                     yield return _Edge;
                 }
             }
@@ -1461,12 +1413,12 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
             if (EdgeFilter == null)
                 return from   Edge
-                       in     _Edges
+                       in     _ForeignEdges
                        select Edge;
 
             else
                 return from   Edge
-                       in     _Edges
+                       in     _ForeignEdges
                        where  EdgeFilter(Edge)
                        select Edge;
 
@@ -1489,7 +1441,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         {
 
             if (EdgeFilter == null)
-                return _NumberOfEdges;
+                return (UInt64) _NumberOfEdges;
 
             else
             {
@@ -1498,7 +1450,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
                     var _Counter = 0UL;
 
-                    foreach (var _Edge in _Edges)
+                    foreach (var _Edge in _ForeignEdges)
                         if (EdgeFilter(_Edge))
                             _Counter++;
 
@@ -1537,7 +1489,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
             {
                 foreach (var _EdgeId in EdgeIds)
                 {
-                    if (_Edges.TryGetById(_EdgeId, out _Edge))
+                    if (_ForeignEdges.TryGetById(_EdgeId, out _Edge))
                         RemoveEdges(_Edge);
                     else
                         throw new ArgumentException("The given edge identifier '" + _EdgeId.ToString() + "' is unknowen!");
@@ -1572,7 +1524,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
                 foreach (var _Edge in Edges)
                 {
-                    if (_Edges.ContainsId(_Edge.Id))
+                    if (_ForeignEdges.ContainsId(_Edge.Id))
                     {
 
                         var _OutVertex = _Edge.OutVertex;
@@ -1589,7 +1541,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                         //    index.remove(edge);
                         //}
 
-                        _Edges.TryRemoveValue(_Edge.Label, _Edge.Id, _Edge);
+                        _ForeignEdges.TryRemoveValue(_Edge.Label, _Edge.Id, _Edge);
                         _NumberOfEdges--;
 
                     }
@@ -1622,11 +1574,11 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                                   TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>();
 
                 if (EdgeFilter == null)
-                    foreach (var _IEdge in _Edges)
+                    foreach (var _IEdge in _ForeignEdges)
                         _tmp.Add(_IEdge);
 
                 else
-                    foreach (var _IEdge in _Edges)
+                    foreach (var _IEdge in _ForeignEdges)
                         if (EdgeFilter(_IEdge))
                             _tmp.Add(_IEdge);
 
@@ -1949,7 +1901,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         {
 
             if (MultiEdgeFilter == null)
-                return _NumberOfMultiEdges;
+                return (UInt64) _NumberOfMultiEdges;
 
             else
             {
@@ -2635,7 +2587,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         public void Clear()
         {
             _Vertices.Clear();
-            _Edges.Clear();
+            _ForeignEdges.Clear();
             _HyperEdges.Clear();
         }
 
@@ -3108,39 +3060,39 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// </summary>
         public override String ToString()
         {
-            return "PropertyGraph [Id: " + Id.ToString() + ", " + _Vertices.Count() + " Vertices, " + _Edges.Count() + " Edges]";
+            return "PropertyGraph [Id: " + Id.ToString() + ", " + _Vertices.Count() + " Vertices, " + _ForeignEdges.Count() + " Edges]";
         }
 
         #endregion
 
 
 
-        public IDictionary<TKeyVertex, TValueVertex> Data
-        {
-            get { throw new NotImplementedException(); }
-        }
+        //public IDictionary<TKeyVertex, TValueVertex> Data
+        //{
+        //    get { throw new NotImplementedException(); }
+        //}
 
 
-        #region Explict IGenericGraph2 implementation to avoid confusion ;)
+        //#region Explict IGenericGraph2 implementation to avoid confusion ;)
 
-        GenericGraph.IGenericVertex2<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    IDictionary<TKeyVertex,    TValueVertex>,
-                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      IDictionary<TKeyEdge,      TValueEdge>,
-                                     TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, IDictionary<TKeyMultiEdge, TValueMultiEdge>,
-                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, IDictionary<TKeyHyperEdge, TValueHyperEdge>>
+        //GenericGraph.IGenericVertex2<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    IDictionary<TKeyVertex,    TValueVertex>,
+        //                             TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      IDictionary<TKeyEdge,      TValueEdge>,
+        //                             TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, IDictionary<TKeyMultiEdge, TValueMultiEdge>,
+        //                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, IDictionary<TKeyHyperEdge, TValueHyperEdge>>
 
 
-              de.ahzf.Blueprints.GenericGraph.IGenericGraph2<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    IDictionary<TKeyVertex,    TValueVertex>,
-                                                             TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      IDictionary<TKeyEdge,      TValueEdge>,
-                                                             TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, IDictionary<TKeyMultiEdge, TValueMultiEdge>,
-                                                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, IDictionary<TKeyHyperEdge, TValueHyperEdge>>.
+        //      de.ahzf.Blueprints.GenericGraph.IGenericGraph2<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    IDictionary<TKeyVertex,    TValueVertex>,
+        //                                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      IDictionary<TKeyEdge,      TValueEdge>,
+        //                                                     TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, IDictionary<TKeyMultiEdge, TValueMultiEdge>,
+        //                                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, IDictionary<TKeyHyperEdge, TValueHyperEdge>>.
 
-              AddVertex()
+        //      AddVertex()
 
-        {
-            throw new NotImplementedException();
-        }
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        #endregion
+        //#endregion
 
     }
 

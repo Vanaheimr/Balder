@@ -33,10 +33,10 @@ namespace de.ahzf.Blueprints.PropertyGraphs
     /// The hyperedge label determines the type of relationship that exists
     /// between all these vertices.
     /// </summary>
-    public interface IPropertyHyperEdge : IPropertyHyperEdge<UInt64, Int64, String, String, Object, IDictionary<String, Object>,
-                                                             UInt64, Int64, String, String, Object, IDictionary<String, Object>,
-                                                             UInt64, Int64, String, String, Object, IDictionary<String, Object>,
-                                                             UInt64, Int64, String, String, Object, IDictionary<String, Object>>
+    public interface IPropertyHyperEdge : IPropertyHyperEdge<UInt64, Int64, String, String, Object,
+                                                             UInt64, Int64, String, String, Object,
+                                                             UInt64, Int64, String, String, Object,
+                                                             UInt64, Int64, String, String, Object>
     { }
 
     #endregion

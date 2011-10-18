@@ -28,12 +28,14 @@ namespace de.ahzf.Blueprints
 
     public interface IGroupedCollection<TGroup, TId, TValue> : IEnumerable<TValue>
     {
+
         Boolean TryAddValue    (TGroup Group, TId Id, TValue Value);
         Boolean TryRemoveValue (TGroup Group, TId Id, TValue Value);
         Boolean TryGetById     (TId    Id,    out TValue Value);
         Boolean TryGetByGroup  (TGroup Group, out IEnumerable<TValue> Values);
         Boolean ContainsId     (TId    Id);
         void Clear();
+
     }
 
 }

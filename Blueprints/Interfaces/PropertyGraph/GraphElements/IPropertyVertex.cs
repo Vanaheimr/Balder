@@ -33,10 +33,10 @@ namespace de.ahzf.Blueprints.PropertyGraphs
     /// The incoming edges are those edges for which the vertex is the head.
     /// Diagrammatically, ---inEdges---> vertex ---outEdges--->.
     /// </summary>
-    public interface IPropertyVertex : IPropertyVertex<UInt64, Int64, String, String, Object, IDictionary<String, Object>,
-                                                       UInt64, Int64, String, String, Object, IDictionary<String, Object>,
-                                                       UInt64, Int64, String, String, Object, IDictionary<String, Object>,
-                                                       UInt64, Int64, String, String, Object, IDictionary<String, Object>>
+    public interface IPropertyVertex : IPropertyVertex<UInt64, Int64, String, String, Object,
+                                                       UInt64, Int64, String, String, Object,
+                                                       UInt64, Int64, String, String, Object,
+                                                       UInt64, Int64, String, String, Object>
     { }
 
     #endregion

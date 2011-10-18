@@ -19,7 +19,12 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.Concurrent;
+using System.Dynamic;
+using System.Linq;
+using System.Linq.Expressions;
+
+using de.ahzf.Blueprints.Indices;
+using de.ahzf.Blueprints.PropertyGraphs.Indices;
 
 #endregion
 
@@ -29,269 +34,279 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
     /// <summary>
     /// A class-based in-memory implementation of a simplified generic property graph.
     /// </summary>
-    /// <typeparam name="TId">The type of the graph element identifiers.</typeparam>
-    /// <typeparam name="TRevisionId">The type of the graph element revision identifiers.</typeparam>
-    /// <typeparam name="TLabel">The type of the labels.</typeparam>
-    /// <typeparam name="TKey">The type of the graph element property keys.</typeparam>
-    /// <typeparam name="TValue">The type of the graph element property values.</typeparam>
-    public class SimpleGenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue>
+    /// <typeparam name="TIdVertex">The type of the vertex identifiers.</typeparam>
+    /// <typeparam name="TRevisionIdVertex">The type of the vertex revision identifiers.</typeparam>
+    /// <typeparam name="TVertexLabel">The type of the vertex type.</typeparam>
+    /// <typeparam name="TKeyVertex">The type of the vertex property keys.</typeparam>
+    /// <typeparam name="TValueVertex">The type of the vertex property values.</typeparam>
+    /// <typeparam name="TPropertiesCollectionVertex">A data structure to store the properties of the vertices.</typeparam>
+    /// 
+    /// <typeparam name="TIdEdge">The type of the edge identifiers.</typeparam>
+    /// <typeparam name="TRevisionIdEdge">The type of the edge revision identifiers.</typeparam>
+    /// <typeparam name="TEdgeLabel">The type of the edge label.</typeparam>
+    /// <typeparam name="TKeyEdge">The type of the edge property keys.</typeparam>
+    /// <typeparam name="TValueEdge">The type of the edge property values.</typeparam>
+    /// <typeparam name="TPropertiesCollectionEdge">A data structure to store the properties of the edges.</typeparam>
+    /// 
+    /// <typeparam name="TIdMultiEdge">The type of the multiedge identifiers.</typeparam>
+    /// <typeparam name="TRevisionIdMultiEdge">The type of the multiedge revision identifiers.</typeparam>
+    /// <typeparam name="TMultiEdgeLabel">The type of the multiedge label.</typeparam>
+    /// <typeparam name="TKeyMultiEdge">The type of the multiedge property keys.</typeparam>
+    /// <typeparam name="TValueMultiEdge">The type of the multiedge property values.</typeparam>
+    /// <typeparam name="TPropertiesCollectionMultiEdge">A data structure to store the properties of the multiedges.</typeparam>
+    /// 
+    /// <typeparam name="TIdHyperEdge">The type of the hyperedge identifiers.</typeparam>
+    /// <typeparam name="TRevisionIdHyperEdge">The type of the hyperedge revision identifiers.</typeparam>
+    /// <typeparam name="THyperEdgeLabel">The type of the hyperedge label.</typeparam>
+    /// <typeparam name="TKeyHyperEdge">The type of the hyperedge property keys.</typeparam>
+    /// <typeparam name="TValueHyperEdge">The type of the hyperedge property values.</typeparam>
+    /// <typeparam name="TPropertiesCollectionHyperEdge">A data structure to store the properties of the hyperedges.</typeparam>
+    public class SimpleGenericPropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                            TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                            TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                            TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
 
-                     : GenericPropertyGraph2<TId, TRevisionId, TLabel, TKey, TValue,   // Vertex definition
-                                             TId, TRevisionId, TLabel, TKey, TValue,   // Edge definition
-                                             TId, TRevisionId, TLabel, TKey, TValue,   // MultiEdge definition
-                                             TId, TRevisionId, TLabel, TKey, TValue>,  // Hyperedge definition
+                     : GenericPropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,    IDictionary<TKeyVertex,    TValueVertex>,
+                                                IGroupedCollection<TVertexLabel,    TIdVertex,    IPropertyVertex   <TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                                                     TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>,
 
-                       ISimpleGenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue>
+                                            TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      IDictionary<TKeyEdge,      TValueEdge>,
+                                                IGroupedCollection<TEdgeLabel,      TIdEdge,      IPropertyEdge     <TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                                                     TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>,
 
-        where TId         : IEquatable<TId>,         IComparable<TId>,         IComparable, TValue
-        where TRevisionId : IEquatable<TRevisionId>, IComparable<TRevisionId>, IComparable, TValue
-        where TKey        : IEquatable<TKey>,        IComparable<TKey>,        IComparable
-        where TLabel      : IEquatable<TLabel>,      IComparable<TLabel>,      IComparable
+                                            TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, IDictionary<TKeyMultiEdge, TValueMultiEdge>,
+                                                IGroupedCollection<TMultiEdgeLabel, TIdMultiEdge, IPropertyMultiEdge<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                                                     TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>,
+
+                                            TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, IDictionary<TKeyHyperEdge, TValueHyperEdge>,
+                                                IGroupedCollection<THyperEdgeLabel, TIdHyperEdge, IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                                                     TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>>
+
+        where TIdVertex                      : IEquatable<TIdVertex>,            IComparable<TIdVertex>,            IComparable, TValueVertex
+        where TIdEdge                        : IEquatable<TIdEdge>,              IComparable<TIdEdge>,              IComparable, TValueEdge
+        where TIdMultiEdge                   : IEquatable<TIdMultiEdge>,         IComparable<TIdMultiEdge>,         IComparable, TValueMultiEdge
+        where TIdHyperEdge                   : IEquatable<TIdHyperEdge>,         IComparable<TIdHyperEdge>,         IComparable, TValueHyperEdge
+
+        where TRevisionIdVertex              : IEquatable<TRevisionIdVertex>,    IComparable<TRevisionIdVertex>,    IComparable, TValueVertex
+        where TRevisionIdEdge                : IEquatable<TRevisionIdEdge>,      IComparable<TRevisionIdEdge>,      IComparable, TValueEdge
+        where TRevisionIdMultiEdge           : IEquatable<TRevisionIdMultiEdge>, IComparable<TRevisionIdMultiEdge>, IComparable, TValueMultiEdge
+        where TRevisionIdHyperEdge           : IEquatable<TRevisionIdHyperEdge>, IComparable<TRevisionIdHyperEdge>, IComparable, TValueHyperEdge
+
+        where TVertexLabel                   : IEquatable<TVertexLabel>,         IComparable<TVertexLabel>,         IComparable
+        where TEdgeLabel                     : IEquatable<TEdgeLabel>,           IComparable<TEdgeLabel>,           IComparable
+        where TMultiEdgeLabel                : IEquatable<TMultiEdgeLabel>,      IComparable<TMultiEdgeLabel>,      IComparable
+        where THyperEdgeLabel                : IEquatable<THyperEdgeLabel>,      IComparable<THyperEdgeLabel>,      IComparable
+
+        where TKeyVertex                     : IEquatable<TKeyVertex>,           IComparable<TKeyVertex>,           IComparable
+        where TKeyEdge                       : IEquatable<TKeyEdge>,             IComparable<TKeyEdge>,             IComparable
+        where TKeyMultiEdge                  : IEquatable<TKeyMultiEdge>,        IComparable<TKeyMultiEdge>,        IComparable
+        where TKeyHyperEdge                  : IEquatable<TKeyHyperEdge>,        IComparable<TKeyHyperEdge>,        IComparable
 
     {
 
-        #region Delegates
+        public SimpleGenericPropertyGraph(TKeyVertex   IdKey,
+                                          TKeyVertex   RevisonIdKey,
+                                          TIdVertex    GraphId,
 
-        #region IdCreatorDelegate()
+                                          TKeyVertex VertexIdKey,
+                                          TKeyVertex VertexRevisonIdKey,
+                                          VertexIdCreatorDelegate   <TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                     TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> VertexIdCreatorDelegate,
 
-        /// <summary>
-        /// A delegate for creating a new TId
-        /// (if no one was provided by the user).
-        /// </summary>
-        /// <returns>A valid TId.</returns>
-        public delegate TId IdCreatorDelegate();
+                                          TKeyEdge EdgeIdKey,
+                                          TKeyEdge EdgeRevisionIdKey,
+                                          EdgeIdCreatorDelegate     <TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                     TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeIdCreatorDelegate,
 
-        #endregion
+                                          TKeyMultiEdge MultiEdgeIdKey,
+                                          TKeyMultiEdge MultiEdgeRevisionIdKey,
+                                          MultiEdgeIdCreatorDelegate<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                     TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> MultiEdgeIdCreatorDelegate,
 
-        #region RevisionIdCreatorDelegate()
 
-        /// <summary>
-        /// A delegate for creating a new TRevisionId
-        /// (if no one was provided by the user).
-        /// </summary>
-        /// <returns>A valid TRevisionId.</returns>
-        public delegate TRevisionId RevisionIdCreatorDelegate();
+                                          TKeyHyperEdge HyperEdgeIdKey,
+                                          TKeyHyperEdge HyperEdgeRevisionIdKey,
+                                          HyperEdgeIdCreatorDelegate<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                     TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> HyperEdgeIdCreatorDelegate,
 
-        #endregion
+                                          GraphInitializer<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                           TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                           TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                           TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> GraphInitializer = null)
 
-        #endregion
-
-        #region Constructor(s)
-
-        #region SimpleGenericPropertyGraph()
-
-        /// <summary>
-        /// Created a new class-based in-memory implementation of a simplified generic property graph.
-        /// </summary>
-        public SimpleGenericPropertyGraph(TId                       GraphId,
-                                          TKey                      IdKey,
-                                          IdCreatorDelegate         IdCreatorDelegate,
-                                          TKey                      RevisionIdKey,
-                                          RevisionIdCreatorDelegate RevisionIdCreatorDelegate,
-                                          GraphInitializer<TId, TRevisionId, TLabel, TKey, TValue,
-                                                           TId, TRevisionId, TLabel, TKey, TValue,
-                                                           TId, TRevisionId, TLabel, TKey, TValue,
-                                                           TId, TRevisionId, TLabel, TKey, TValue> GraphInitializer = null)
-
-            : base (IdKey,
-                    RevisionIdKey,
-                    GraphId,
-                    
-                    // Create a new vertex
+            : base (GraphId,
                     IdKey,
-                    RevisionIdKey,
-                    (a) => IdCreatorDelegate(),
+                    RevisonIdKey,
+                    () => new Dictionary<TKeyVertex, TValueVertex>(),
+
+                    
+                    // Create a new vertex identification
+                    VertexIdCreatorDelegate,
+
+                    // Create a new vertex
+                    (Graph, _VertexId, VertexInitializer) =>
+                        new PropertyVertex<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,    IDictionary<TKeyVertex, TValueVertex>,
+                                               IGroupedCollection<TVertexLabel,    TIdVertex,    IPropertyVertex   <TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                                                    TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                                                    TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                                                    TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>,
+
+                                           TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      IDictionary<TKeyEdge, TValueEdge>,
+                                               IGroupedCollection<TEdgeLabel,      TIdEdge,      IPropertyEdge     <TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                                                    TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                                                    TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                                                    TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>,
+
+                                           TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, IDictionary<TKeyMultiEdge, TValueMultiEdge>,
+                                               IGroupedCollection<TMultiEdgeLabel, TIdMultiEdge, IPropertyMultiEdge<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                                                    TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                                                    TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                                                    TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>,
+
+                                           TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, IDictionary<TKeyHyperEdge, TValueHyperEdge>,
+                                               IGroupedCollection<THyperEdgeLabel, TIdHyperEdge, IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                                                    TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                                                    TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                                                    TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>>
+
+                            (Graph,
+                             _VertexId,
+                             VertexIdKey,
+                             VertexRevisonIdKey,
+                             () => new Dictionary<TKeyVertex, TValueVertex>(),
+
+                             () => new GroupedCollection<TVertexLabel,    TIdVertex,    IPropertyVertex   <TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                                           TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                                           TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                                           TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>(),
+
+                             () => new GroupedCollection<TEdgeLabel,      TIdEdge,      IPropertyEdge     <TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                                           TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                                           TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                                           TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>(),
+
+                             () => new GroupedCollection<TMultiEdgeLabel, TIdMultiEdge, IPropertyMultiEdge<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                                           TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                                           TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                                           TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>(),
+
+                             () => new GroupedCollection<THyperEdgeLabel, TIdHyperEdge, IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                                           TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                                           TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                                           TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>(),
+                             VertexInitializer
+                            ),
+
+                    // The vertices collection
+                    () => new GroupedCollection<TVertexLabel, TIdVertex, IPropertyVertex   <TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                            TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                            TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                            TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>(),
+
+
+                    // Create a new edge identification
+                    EdgeIdCreatorDelegate,
 
                     // Create a new edge
-                    IdKey,
-                    RevisionIdKey,
-                    (Graph) => IdCreatorDelegate(),
+                    (Graph, OutVertex, InVertex, EdgeId, Label, EdgeInitializer) =>
+                        new PropertyEdge<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,    IDictionary<TKeyVertex,    TValueVertex>,
+                                         TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      IDictionary<TKeyEdge,      TValueEdge>,
+                                         TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, IDictionary<TKeyMultiEdge, TValueMultiEdge>,
+                                         TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, IDictionary<TKeyHyperEdge, TValueHyperEdge>>
+                            (Graph,
+                             OutVertex,
+                             InVertex,
+                             EdgeId,
+                             Label,
+                             EdgeIdKey,
+                             EdgeRevisionIdKey,
+                             () => new Dictionary<TKeyEdge, TValueEdge>(),
+                             EdgeInitializer
+                            ),
+
+                    // The edges collection
+                    () => new GroupedCollection<TEdgeLabel, TIdEdge, IPropertyEdge<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                   TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                   TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                   TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>(),
+
+
+                    // Create a new multiedge identification
+                    MultiEdgeIdCreatorDelegate,
 
                     // Create a new multiedge
-                    IdKey,
-                    RevisionIdKey,
-                    (Graph) => IdCreatorDelegate(),
+                    (Graph, EdgeSelector, MultiEdgeId, Label, MultiEdgeInitializer) =>
+                       new PropertyMultiEdge<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,    IDictionary<TKeyVertex,    TValueVertex>,
+                                             TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      IDictionary<TKeyEdge,      TValueEdge>,
+                                             TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, IDictionary<TKeyMultiEdge, TValueMultiEdge>,
+                                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, IDictionary<TKeyHyperEdge, TValueHyperEdge>,
+                                             ICollection<IPropertyEdge<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                       TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                       TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>>
+                            (Graph, EdgeSelector, MultiEdgeId, Label, MultiEdgeIdKey, MultiEdgeRevisionIdKey,
+                             () => new Dictionary<TKeyMultiEdge, TValueMultiEdge>(),
+                             () => new HashSet<IPropertyEdge<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                             TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                             TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>(),
+                             MultiEdgeInitializer
+                            ),
+
+                    // The multiedges collection
+                    () => new GroupedCollection<TMultiEdgeLabel, TIdMultiEdge, IPropertyMultiEdge<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                                  TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                                  TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                                  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>(),
+
+
+                    // Create a new hyperedge identification
+                    HyperEdgeIdCreatorDelegate,
 
                     // Create a new hyperedge
-                    IdKey,
-                    RevisionIdKey,
-                    (Graph) => IdCreatorDelegate(),
+                    (Graph, EdgeSelector, HyperEdgeId, Label, HyperEdgeInitializer) =>
+                       new PropertyHyperEdge<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,    IDictionary<TKeyVertex,    TValueVertex>,
+                                             TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,      IDictionary<TKeyEdge,      TValueEdge>,
+                                             TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, IDictionary<TKeyMultiEdge, TValueMultiEdge>,
+                                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, IDictionary<TKeyHyperEdge, TValueHyperEdge>,
+                                             ICollection<IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                         TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                         TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                         TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>>
+                            (Graph, EdgeSelector, HyperEdgeId, Label, HyperEdgeIdKey, HyperEdgeRevisionIdKey,
+                             () => new Dictionary<TKeyHyperEdge, TValueHyperEdge>(),
+                             () => new HashSet<IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                               TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                               TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                               TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>(),
+                             HyperEdgeInitializer
+                            ),
 
-                    GraphInitializer)
-
-        { }
-
-        #endregion
-
-        #endregion
-
-        
-        #region Operator overloading
-
-        #region Operator == (PropertyGraph1, PropertyGraph2)
-
-        /// <summary>
-        /// Compares two property graphs for equality.
-        /// </summary>
-        /// <param name="PropertyGraph1">A graph.</param>
-        /// <param name="PropertyGraph2">Another graph.</param>
-        /// <returns>True if both match; False otherwise.</returns>
-        public static Boolean operator == (SimpleGenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph1,
-                                           SimpleGenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph2)
+                    // The hyperedges collection
+                    () => new GroupedCollection<THyperEdgeLabel, TIdHyperEdge, IPropertyHyperEdge<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                                  TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                                  TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                                  TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>()
+            
+            )
         {
-
-            // If both are null, or both are same instance, return true.
-            if (Object.ReferenceEquals(PropertyGraph1, PropertyGraph2))
-                return true;
-
-            // If one is null, but not both, return false.
-            if (((Object) PropertyGraph1 == null) || ((Object) PropertyGraph2 == null))
-                return false;
-
-            return PropertyGraph1.Equals(PropertyGraph2);
-
         }
-
-        #endregion
-
-        #region Operator != (PropertyGraph1, PropertyGraph2)
-
-        /// <summary>
-        /// Compares two property graphs for inequality.
-        /// </summary>
-        /// <param name="PropertyGraph1">A graph.</param>
-        /// <param name="PropertyGraph2">Another graph.</param>
-        /// <returns>False if both match; True otherwise.</returns>
-        public static Boolean operator != (SimpleGenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph1,
-                                           SimpleGenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph2)
-        {
-            return !(PropertyGraph1 == PropertyGraph2);
-        }
-
-        #endregion
-
-        #region Operator <  (PropertyGraph1, PropertyGraph2)
-
-        /// <summary>
-        /// Compares two instances of this object.
-        /// </summary>
-        /// <param name="PropertyGraph1">A graph.</param>
-        /// <param name="PropertyGraph2">Another graph.</param>
-        /// <returns>true|false</returns>
-        public static Boolean operator < (SimpleGenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph1,
-                                          SimpleGenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph2)
-        {
-
-            if ((Object) PropertyGraph1 == null)
-                throw new ArgumentNullException("The given PropertyGraph1 must not be null!");
-
-            if ((Object) PropertyGraph2 == null)
-                throw new ArgumentNullException("The given PropertyGraph2 must not be null!");
-
-            return PropertyGraph1.CompareTo(PropertyGraph2) < 0;
-
-        }
-
-        #endregion
-
-        #region Operator <= (PropertyGraph1, PropertyGraph2)
-
-        /// <summary>
-        /// Compares two instances of this object.
-        /// </summary>
-        /// <param name="PropertyGraph1">A graph.</param>
-        /// <param name="PropertyGraph2">Another graph.</param>
-        /// <returns>true|false</returns>
-        public static Boolean operator <= (SimpleGenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph1,
-                                           SimpleGenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph2)
-        {
-            return !(PropertyGraph1 > PropertyGraph2);
-        }
-
-        #endregion
-
-        #region Operator >  (PropertyGraph1, PropertyGraph2)
-
-        /// <summary>
-        /// Compares two instances of this object.
-        /// </summary>
-        /// <param name="PropertyGraph1">A graph.</param>
-        /// <param name="PropertyGraph2">Another graph.</param>
-        /// <returns>true|false</returns>
-        public static Boolean operator > (SimpleGenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph1,
-                                          SimpleGenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph2)
-        {
-
-            if ((Object) PropertyGraph1 == null)
-                throw new ArgumentNullException("The given PropertyGraph1 must not be null!");
-
-            if ((Object) PropertyGraph2 == null)
-                throw new ArgumentNullException("The given  PropertyGraph2 must not be null!");
-
-            return PropertyGraph1.CompareTo(PropertyGraph2) > 0;
-
-        }
-
-        #endregion
-
-        #region Operator >= (PropertyGraph1, PropertyGraph2)
-
-        /// <summary>
-        /// Compares two instances of this object.
-        /// </summary>
-        /// <param name="PropertyGraph1">A graph.</param>
-        /// <param name="PropertyGraph2">Another graph.</param>
-        /// <returns>true|false</returns>
-        public static Boolean operator >= (SimpleGenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph1,
-                                           SimpleGenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph2)
-        {
-            return !(PropertyGraph1 < PropertyGraph2);
-        }
-
-        #endregion
-
-        #endregion
-
-        #region IEquatable Members
-
-        #region Equals(Object)
-
-        /// <summary>
-        /// Compares two instances of this object.
-        /// </summary>
-        /// <param name="Object">An object to compare with.</param>
-        /// <returns>True if both match; False otherwise.</returns>
-        public override Boolean Equals(Object Object)
-        {
-
-            if (Object == null)
-                return false;
-
-            // Check if the given object can be casted to a SimplePropertyGraph
-            var PropertyGraph = Object as SimpleGenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue>;
-            if ((Object) PropertyGraph == null)
-                return false;
-
-            return this.Equals(PropertyGraph);
-
-        }
-
-        #endregion
-
-        #endregion
-
-        #region GetHashCode()
-
-        /// <summary>
-        /// Return the HashCode of this object.
-        /// </summary>
-        /// <returns>The HashCode of this object.</returns>
-        public override Int32 GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-
-        #endregion
 
     }
 

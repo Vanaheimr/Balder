@@ -83,10 +83,10 @@ namespace de.ahzf.Blueprints.PropertyGraphs
                                                                                TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>,
 
-                                             IGenericGraph2<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    IDictionary<TKeyVertex,    TValueVertex>,
-                                                            TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      IDictionary<TKeyEdge,      TValueEdge>,
-                                                            TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, IDictionary<TKeyMultiEdge, TValueMultiEdge>,
-                                                            TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, IDictionary<TKeyHyperEdge, TValueHyperEdge>>,
+                                             //IGenericGraph2<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    IDictionary<TKeyVertex,    TValueVertex>,
+                                             //               TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      IDictionary<TKeyEdge,      TValueEdge>,
+                                             //               TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, IDictionary<TKeyMultiEdge, TValueMultiEdge>,
+                                             //               TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, IDictionary<TKeyHyperEdge, TValueHyperEdge>>,
         
                                              IComparable
 
@@ -213,19 +213,19 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
         #endregion
 
-        #region VerticesByType(params VertexTypes)
+        #region VerticesByLabel(params VertexLabels)
 
         /// <summary>
         /// Return an enumeration of all vertices having one of the
-        /// given vertex types.
+        /// given vertex labels.
         /// </summary>
-        /// <param name="VertexTypes">An array of vertex types.</param>
+        /// <param name="VertexLabels">An array of vertex labels.</param>
         IEnumerable<IPropertyVertex<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                     TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
 
-                                    VerticesByLabel(params TVertexLabel[] VertexTypes);
+                                    VerticesByLabel(params TVertexLabel[] VertexLabels);
 
         #endregion
 

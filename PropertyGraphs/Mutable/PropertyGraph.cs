@@ -18,7 +18,9 @@
 #region Usings
 
 using System;
+using System.Linq;
 using System.Threading;
+using System.Collections.Generic;
 
 #endregion
 
@@ -28,7 +30,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
     /// <summary>
     /// A class-based in-memory implementation of a property graph.
     /// </summary>
-    public class PropertyGraph : SimpleGenericPropertyGraph<UInt64, Int64, String, String, Object>,
+    public class PropertyGraph : CommonGenericPropertyGraph<UInt64, Int64, String, String, Object>,
                                  IPropertyGraph
 
     {
@@ -42,7 +44,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// (This constructor is needed for automatic activation!)
         /// </summary>
         public PropertyGraph()
-            : this(PropertyGraph.NewId)
+            : this(PropertyGraph.NewVertexId)
         { }
 
         #endregion
@@ -57,7 +59,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                               UInt64, Int64, String, String, Object,
                                               UInt64, Int64, String, String, Object,
                                               UInt64, Int64, String, String, Object> GraphInitializer)
-            : this(PropertyGraph.NewId, GraphInitializer)
+            : this(PropertyGraph.NewVertexId, GraphInitializer)
         { }
 
         #endregion
@@ -80,7 +82,10 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                     GraphDBOntology.Id().Suffix,
 
                     // TId creator delegate
-                    () => PropertyGraph.NewId,
+                    () => PropertyGraph.NewVertexId,
+                    () => PropertyGraph.NewEdgeId,
+                    () => PropertyGraph.NewMultiEdgeId,
+                    () => PropertyGraph.NewHyperEdgeId,
 
                     // RevisionId key
                     GraphDBOntology.RevId().Suffix,
@@ -91,7 +96,10 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                     GraphInitializer)
 
         {
-            _NewId = 0;
+            _NewVertexId    = 0;
+            _NewEdgeId      = 0;
+            _NewMultiEdgeId = 0;
+            _NewHyperEdgeId = 0;
         }
 
         #endregion
@@ -99,18 +107,57 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         #endregion
 
 
-        #region (private) NewId
+        #region (private) NewIds
 
-        private static Int64 _NewId;
+        private static Int64 _NewVertexId;
+        private static Int64 _NewEdgeId;
+        private static Int64 _NewMultiEdgeId;
+        private static Int64 _NewHyperEdgeId;
 
         /// <summary>
-        /// Return a new Id.
+        /// Return a new VertexId.
         /// </summary>
-        private static UInt64 NewId
+        private static UInt64 NewVertexId
         {
             get
             {
-                var _NewLocalId = Interlocked.Increment(ref _NewId);
+                var _NewLocalId = Interlocked.Increment(ref _NewVertexId);
+                return (UInt64) _NewLocalId;
+            }
+        }
+
+        /// <summary>
+        /// Return a new NewEdgeId.
+        /// </summary>
+        private static UInt64 NewEdgeId
+        {
+            get
+            {
+                var _NewLocalId = Interlocked.Increment(ref _NewEdgeId);
+                return (UInt64) _NewLocalId;
+            }
+        }
+
+        /// <summary>
+        /// Return a new NewMultiEdgeId.
+        /// </summary>
+        private static UInt64 NewMultiEdgeId
+        {
+            get
+            {
+                var _NewLocalId = Interlocked.Increment(ref _NewMultiEdgeId);
+                return (UInt64) _NewLocalId;
+            }
+        }
+
+        /// <summary>
+        /// Return a new NewHyperEdgeId.
+        /// </summary>
+        private static UInt64 NewHyperEdgeId
+        {
+            get
+            {
+                var _NewLocalId = Interlocked.Increment(ref _NewHyperEdgeId);
                 return (UInt64) _NewLocalId;
             }
         }
@@ -301,10 +348,137 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         #endregion
 
 
-        IPropertyVertex IPropertyGraph.VertexById(ulong VertexId)
+        // Currently not working!
+
+        #region Vertex methods
+
+        #region VertexById(VertexId)
+
+        /// <summary>
+        /// Return the vertex referenced by the given vertex identifier.
+        /// If no vertex is referenced by the identifier return null.
+        /// </summary>
+        /// <param name="VertexId">A vertex identifier.</param>
+        IPropertyVertex IPropertyGraph.VertexById(UInt64 VertexId)
         {
             return this.VertexById(VertexId) as IPropertyVertex;
         }
+
+        #endregion
+
+        #region VerticesById(params VertexIds)
+
+        /// <summary>
+        /// Return the vertices referenced by the given array of vertex identifiers.
+        /// If no vertex is referenced by a given identifier this value will be
+        /// skipped.
+        /// </summary>
+        /// <param name="VertexIds">An array of vertex identifiers.</param>
+        IEnumerable<IPropertyVertex> IPropertyGraph.VerticesById(params UInt64[] VertexIds)
+        {
+            return this.VerticesById(VertexIds) as IEnumerable<IPropertyVertex>;
+        }
+
+        #endregion
+
+        #region VerticesByLabel(params VertexLabels)
+
+        /// <summary>
+        /// Return an enumeration of all vertices having one of the
+        /// given vertex labels.
+        /// </summary>
+        /// <param name="VertexLabels">An array of vertex labels.</param>
+        IEnumerable<IPropertyVertex> IPropertyGraph.VerticesByLabel(params String[] VertexLabels)
+        {
+            return this.VerticesByLabel(VertexLabels) as IEnumerable<IPropertyVertex>;
+        }
+
+        #endregion
+
+        #region Vertices(VertexFilter = null)
+
+        /// <summary>
+        /// Get an enumeration of all vertices in the graph.
+        /// An optional vertex filter may be applied for filtering.
+        /// </summary>
+        /// <param name="VertexFilter">A delegate for vertex filtering.</param>
+        IEnumerable<IPropertyVertex> IPropertyGraph.Vertices(VertexFilter<UInt64, Int64, String, String, Object,
+                                                                          UInt64, Int64, String, String, Object,
+                                                                          UInt64, Int64, String, String, Object,
+                                                                          UInt64, Int64, String, String, Object> VertexFilter = null)
+        {
+            return from   Vertex
+                   in     this.Vertices(VertexFilter)
+                   select Vertex as IPropertyVertex;
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Edge methods
+
+        #region EdgeById(EdgeId)
+
+        /// <summary>
+        /// Return the edge referenced by the given edge identifier.
+        /// If no edge is referenced by a given identifier return null.
+        /// </summary>
+        /// <param name="EdgeId">An edge identifier.</param>
+        IPropertyEdge IPropertyGraph.EdgeById(UInt64 EdgeId)
+        {
+            return this.EdgeById(EdgeId) as IPropertyEdge;
+        }
+
+        #endregion
+
+        #region EdgesById(params EdgeIds)
+
+        /// <summary>
+        /// Return the edges referenced by the given array of edge identifiers.
+        /// If no edge is referenced by a given identifier this value will be
+        /// skipped.
+        /// </summary>
+        /// <param name="EdgeIds">An array of edge identifiers.</param>
+        IEnumerable<IPropertyEdge> IPropertyGraph.EdgesById(params UInt64[] EdgeIds)
+        {
+            return this.EdgesById(EdgeIds) as IEnumerable<IPropertyEdge>;
+        }
+
+        #endregion
+
+        #region EdgesByLabel(params EdgeLabels)
+
+        /// <summary>
+        /// Return an enumeration of all edges having one of the
+        /// given edge labels.
+        /// </summary>
+        /// <param name="EdgeLabels">An array of edge labels.</param>
+        IEnumerable<IPropertyEdge> IPropertyGraph.EdgesByLabel(params String[] EdgeLabels)
+        {
+            return this.EdgesByLabel(EdgeLabels) as IEnumerable<IPropertyEdge>;
+        }
+
+        #endregion
+
+        #region Edges(EdgeFilter = null)
+
+        /// <summary>
+        /// Get an enumeration of all edges in the graph.
+        /// An optional edge filter may be applied for filtering.
+        /// </summary>
+        /// <param name="EdgeFilter">A delegate for edge filtering.</param>
+        IEnumerable<IPropertyEdge> IPropertyGraph.Edges(EdgeFilter<UInt64, Int64, String, String, Object,
+                                                                   UInt64, Int64, String, String, Object,
+                                                                   UInt64, Int64, String, String, Object,
+                                                                   UInt64, Int64, String, String, Object> EdgeFilter = null)
+        {
+            return this.Edges(EdgeFilter) as IEnumerable<IPropertyEdge>;
+        }
+
+        #endregion
+
+        #endregion
 
     }
 

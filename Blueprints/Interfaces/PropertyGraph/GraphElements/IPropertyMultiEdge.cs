@@ -37,10 +37,10 @@ namespace de.ahzf.Blueprints.PropertyGraphs
     /// Diagrammatically, outVertex ---label---> inVertex1.
     ///                                      \--> inVertex2.
     /// </summary>
-    public interface IPropertyMultiEdge : IPropertyMultiEdge<UInt64, Int64, String, String, Object, IDictionary<String, Object>,
-                                                             UInt64, Int64, String, String, Object, IDictionary<String, Object>,
-                                                             UInt64, Int64, String, String, Object, IDictionary<String, Object>,
-                                                             UInt64, Int64, String, String, Object, IDictionary<String, Object>>
+    public interface IPropertyMultiEdge : IPropertyMultiEdge<UInt64, Int64, String, String, Object,
+                                                             UInt64, Int64, String, String, Object,
+                                                             UInt64, Int64, String, String, Object,
+                                                             UInt64, Int64, String, String, Object>
     { }
 
     #endregion

@@ -36,10 +36,10 @@ namespace de.ahzf.Blueprints.PropertyGraphs
     /// between the two vertices.
     /// Diagrammatically, outVertex ---label---> inVertex.
     /// </summary>
-    public interface IPropertyEdge : IPropertyEdge<UInt64, Int64, String, String, Object, IDictionary<String, Object>,
-                                                   UInt64, Int64, String, String, Object, IDictionary<String, Object>,
-                                                   UInt64, Int64, String, String, Object, IDictionary<String, Object>,
-                                                   UInt64, Int64, String, String, Object, IDictionary<String, Object>>
+    public interface IPropertyEdge : IPropertyEdge<UInt64, Int64, String, String, Object,
+                                                   UInt64, Int64, String, String, Object,
+                                                   UInt64, Int64, String, String, Object,
+                                                   UInt64, Int64, String, String, Object>
     { }
 
     #endregion

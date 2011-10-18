@@ -132,6 +132,11 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         #region Data
 
         /// <summary>
+        /// The collection of vertices.
+        /// </summary>
+        protected readonly TVertexCollection    _Vertices;
+
+        /// <summary>
         /// The edges emanating from, or leaving, this vertex.
         /// </summary>
         protected readonly TEdgeCollection      _OutEdges;
@@ -140,6 +145,13 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// The edges incoming to, or arriving at, this vertex.
         /// </summary>
         protected readonly TEdgeCollection      _InEdges;
+
+        
+        /// <summary>
+        /// The edges not conntected to this vertex but to other
+        /// vertices when this vertex acts as a graph.
+        /// </summary>
+        protected readonly TEdgeCollection      _ForeignEdges;
 
         /// <summary>
         /// The multiedges of this vertex.
@@ -153,6 +165,11 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
 
         /// <summary>
+        /// The cached number of vertices.
+        /// </summary>
+        protected Int64 _NumberOfVertices;
+
+        /// <summary>
         /// Cached number of OutEdges.
         /// </summary>
         protected Int64 _NumberOfOutEdges;
@@ -163,7 +180,17 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         protected Int64 _NumberOfInEdges;
 
         /// <summary>
-        /// Cached number of HyperEdges.
+        /// The cached number of edges.
+        /// </summary>
+        protected Int64 _NumberOfEdges;
+
+        /// <summary>
+        /// The cached number of multiedges.
+        /// </summary>
+        protected Int64 _NumberOfMultiEdges;
+
+        /// <summary>
+        /// The cached number of hyperedges.
         /// </summary>
         protected Int64 _NumberOfHyperEdges;
 
@@ -201,9 +228,19 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         internal PropertyVertex(TIdVertex                          VertexId,
                                 TKeyVertex                         IdKey,
                                 TKeyVertex                         RevisonIdKey,
-                                Func<TPropertiesCollectionVertex>  PropertiesCollectionInitializer)
+                                Func<TPropertiesCollectionVertex>  PropertiesCollectionInitializer,
+                                Func<TVertexCollection>            VerticesCollectionInitializer,
+                                Func<TEdgeCollection>              EdgesCollectionInitializer,
+                                Func<TMultiEdgeCollection>         MultiEdgesCollectionInitializer,
+                                Func<THyperEdgeCollection>         HyperEdgesCollectionInitializer)
             : base(VertexId, IdKey, RevisonIdKey, PropertiesCollectionInitializer)
         {
+            this._Vertices     = VerticesCollectionInitializer();
+            this._OutEdges     = EdgesCollectionInitializer();
+            this._InEdges      = EdgesCollectionInitializer();
+            this._ForeignEdges = EdgesCollectionInitializer();
+            this._MultiEdges   = MultiEdgesCollectionInitializer();
+            this._HyperEdges   = HyperEdgesCollectionInitializer();
         }
 
         #endregion
@@ -218,7 +255,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <param name="IdKey">The key to access the Id of this vertex.</param>
         /// <param name="RevisonIdKey">The key to access the RevisionId of this vertex.</param>
         /// <param name="PropertiesCollectionInitializer">A delegate to initialize the properties datastructure.</param>
-        /// <param name="EdgeCollectionInitializer">A delegate to initialize the datastructure for storing all edges.</param>
+        /// <param name="EdgesCollectionInitializer">A delegate to initialize the datastructure for storing all edges.</param>
         /// <param name="HyperEdgeCollectionInitializer">A delegate to initialize the datastructure for storing all hyperedges.</param>
         /// <param name="VertexInitializer">A delegate to initialize the newly created vertex.</param>
         public PropertyVertex(IGenericPropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,  
@@ -230,10 +267,10 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                               TKeyVertex                         IdKey,
                               TKeyVertex                         RevisonIdKey,
                               Func<TPropertiesCollectionVertex>  PropertiesCollectionInitializer,
-                              Func<TVertexCollection>            VertexCollectionInitializer,
-                              Func<TEdgeCollection>              EdgeCollectionInitializer,
-                              Func<TMultiEdgeCollection>         MultiEdgeCollectionInitializer,
-                              Func<THyperEdgeCollection>         HyperEdgeCollectionInitializer,
+                              Func<TVertexCollection>            VerticesCollectionInitializer,
+                              Func<TEdgeCollection>              EdgesCollectionInitializer,
+                              Func<TMultiEdgeCollection>         MultiEdgesCollectionInitializer,
+                              Func<THyperEdgeCollection>         HyperEdgesCollectionInitializer,
 
                               VertexInitializer<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                 TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
@@ -261,19 +298,27 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
             if (PropertiesCollectionInitializer == null)
                 throw new ArgumentNullException("The given DatastructureInitializer must not be null!");
 
-            if (EdgeCollectionInitializer == null)
-                throw new ArgumentNullException("The given EdgeCollectionInitializer must not be null!");
+            if (VerticesCollectionInitializer == null)
+                throw new ArgumentNullException("The given VerticesCollectionInitializer must not be null!");
 
-            if (HyperEdgeCollectionInitializer == null)
-                throw new ArgumentNullException("The given HyperEdgeCollectionInitializer must not be null!");
+            if (EdgesCollectionInitializer == null)
+                throw new ArgumentNullException("The given EdgesCollectionInitializer must not be null!");
+
+            if (MultiEdgesCollectionInitializer == null)
+                throw new ArgumentNullException("The given MultiEdgesCollectionInitializer must not be null!");
+
+            if (HyperEdgesCollectionInitializer == null)
+                throw new ArgumentNullException("The given HyperEdgesCollectionInitializer must not be null!");
 
             #endregion
 
-            this.Graph       = Graph;
-            this._OutEdges   = EdgeCollectionInitializer();
-            this._InEdges    = EdgeCollectionInitializer();
-            this._MultiEdges = MultiEdgeCollectionInitializer();
-            this._HyperEdges = HyperEdgeCollectionInitializer();
+            this.Graph         = Graph;
+            this._Vertices     = VerticesCollectionInitializer();
+            this._OutEdges     = EdgesCollectionInitializer();
+            this._InEdges      = EdgesCollectionInitializer();
+            this._ForeignEdges = EdgesCollectionInitializer();
+            this._MultiEdges   = MultiEdgesCollectionInitializer();
+            this._HyperEdges   = HyperEdgesCollectionInitializer();
 
             if (VertexInitializer != null)
                 VertexInitializer(this);
@@ -1372,9 +1417,6 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         }
 
         #endregion
-
-
-
 
     }
 

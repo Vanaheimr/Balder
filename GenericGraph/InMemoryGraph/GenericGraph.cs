@@ -304,7 +304,7 @@ namespace de.ahzf.Blueprints.GenericGraph.InMemory
         /// <summary>
         /// Shutdown and close the graph.
         /// </summary>
-        public void Shutdown()
+        public void Shutdown(String Reason = null)
         {
             Clear();
         }

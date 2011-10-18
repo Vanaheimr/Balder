@@ -27,84 +27,98 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 {
 
     /// <summary>
-    /// A class-based in-memory implementation of a distributed property graph.
+    /// A class-based in-memory implementation of a common generic property graph.
     /// </summary>
-    public class DistributedPropertyGraph
+    /// <typeparam name="TId">The type of the graph element identifiers.</typeparam>
+    /// <typeparam name="TRevisionId">The type of the graph element revision identifiers.</typeparam>
+    /// <typeparam name="TLabel">The type of the labels.</typeparam>
+    /// <typeparam name="TKey">The type of the graph element property keys.</typeparam>
+    /// <typeparam name="TValue">The type of the graph element property values.</typeparam>
+    public class CommonGenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue>
 
-                     : SimpleGenericPropertyGraph<VertexId,    RevisionId, String, String, Object,   // Vertex definition
-                                                  EdgeId,      RevisionId, String, String, Object,   // Edge definition
-                                                  MultiEdgeId, RevisionId, String, String, Object,   // MultiEdge definition
-                                                  HyperEdgeId, RevisionId, String, String, Object>,  // Hyperedge definition
+                     : SimpleGenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue,   // Vertex definition
+                                                  TId, TRevisionId, TLabel, TKey, TValue,   // Edge definition
+                                                  TId, TRevisionId, TLabel, TKey, TValue,   // MultiEdge definition
+                                                  TId, TRevisionId, TLabel, TKey, TValue>,  // Hyperedge definition
 
-                       IDistributedPropertyGraph
+                       ISimpleGenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue>
+
+        where TId         : IEquatable<TId>,         IComparable<TId>,         IComparable, TValue
+        where TRevisionId : IEquatable<TRevisionId>, IComparable<TRevisionId>, IComparable, TValue
+        where TKey        : IEquatable<TKey>,        IComparable<TKey>,        IComparable
+        where TLabel      : IEquatable<TLabel>,      IComparable<TLabel>,      IComparable
 
     {
 
+        #region Delegates
+
+        #region IdCreatorDelegate()
+
+        /// <summary>
+        /// A delegate for creating a new TId
+        /// (if no one was provided by the user).
+        /// </summary>
+        /// <returns>A valid TId.</returns>
+        public delegate TId IdCreatorDelegate();
+
+        #endregion
+
+        #region RevisionIdCreatorDelegate()
+
+        /// <summary>
+        /// A delegate for creating a new TRevisionId
+        /// (if no one was provided by the user).
+        /// </summary>
+        /// <returns>A valid TRevisionId.</returns>
+        public delegate TRevisionId RevisionIdCreatorDelegate();
+
+        #endregion
+
+        #endregion
+
         #region Constructor(s)
 
-        #region DistributedPropertyGraph()
+        #region CommonGenericPropertyGraph()
 
         /// <summary>
-        /// Created a new class-based in-memory implementation of a distributed property graph.
-        /// (This constructor is needed for automatic activation!)
+        /// Created a new class-based in-memory implementation of a common generic property graph.
         /// </summary>
-        public DistributedPropertyGraph()
-            : this(VertexId.NewVertexId)
-        { }
+        public CommonGenericPropertyGraph(TId                       GraphId,
+                                          TKey                      IdKey,
+                                          IdCreatorDelegate         VertexIdCreatorDelegate,
+                                          IdCreatorDelegate         EdgeIdCreatorDelegate,
+                                          IdCreatorDelegate         MultiEdgeIdCreatorDelegate,
+                                          IdCreatorDelegate         HyperEdgeIdCreatorDelegate,
+                                          TKey                      RevisionIdKey,
+                                          RevisionIdCreatorDelegate RevisionIdCreatorDelegate,
+                                          GraphInitializer<TId, TRevisionId, TLabel, TKey, TValue,
+                                                           TId, TRevisionId, TLabel, TKey, TValue,
+                                                           TId, TRevisionId, TLabel, TKey, TValue,
+                                                           TId, TRevisionId, TLabel, TKey, TValue> GraphInitializer = null)
 
-        #endregion
-
-        #region DistributedPropertyGraph(GraphInitializer)
-
-        /// <summary>
-        /// Created a new class-based in-memory implementation of a distributed property graph.
-        /// </summary>
-        /// <param name="GraphInitializer">A delegate to initialize the graph.</param>
-        public DistributedPropertyGraph(GraphInitializer<VertexId,    RevisionId, String, String, Object,
-                                                      EdgeId,      RevisionId, String, String, Object,
-                                                      MultiEdgeId, RevisionId, String, String, Object,
-                                                    HyperEdgeId, RevisionId, String, String, Object> GraphInitializer)
-            : this(VertexId.NewVertexId, GraphInitializer)
-        { }
-
-        #endregion
-
-        #region DistributedPropertyGraph(GraphId, GraphInitializer = null)
-
-        /// <summary>
-        /// Created a new class-based in-memory implementation of a distributed property graph.
-        /// </summary>
-        /// <param name="GraphId">A unique identification for this graph.</param>
-        /// <param name="GraphInitializer">A delegate to initialize the graph.</param>
-        public DistributedPropertyGraph(VertexId GraphId,
-                                        GraphInitializer<VertexId,    RevisionId, String, String, Object,
-                                                         EdgeId,      RevisionId, String, String, Object,
-                                                         MultiEdgeId, RevisionId, String, String, Object,
-                                                         HyperEdgeId, RevisionId, String, String, Object> GraphInitializer = null)
-
-            : base (GraphDBOntology.Id().Suffix,
-                    GraphDBOntology.RevId().Suffix,
+            : base (IdKey,
+                    RevisionIdKey,
                     GraphId,
-
+                    
                     // Create a new vertex
-                    GraphDBOntology.Id().Suffix,
-                    GraphDBOntology.RevId().Suffix,
-                    (Graph) => VertexId.NewVertexId,
-           
+                    IdKey,
+                    RevisionIdKey,
+                    (a) => VertexIdCreatorDelegate(),
+
                     // Create a new edge
-                    GraphDBOntology.Id().Suffix,
-                    GraphDBOntology.RevId().Suffix,
-                    (Graph) => EdgeId.NewEdgeId,
+                    IdKey,
+                    RevisionIdKey,
+                    (Graph) => EdgeIdCreatorDelegate(),
 
                     // Create a new multiedge
-                    GraphDBOntology.Id().Suffix,
-                    GraphDBOntology.RevId().Suffix,
-                    (Graph) => MultiEdgeId.NewMultiEdgeId,
+                    IdKey,
+                    RevisionIdKey,
+                    (Graph) => MultiEdgeIdCreatorDelegate(),
 
                     // Create a new hyperedge
-                    GraphDBOntology.Id().Suffix,
-                    GraphDBOntology.RevId().Suffix,
-                    (Graph) => HyperEdgeId.NewHyperEdgeId,
+                    IdKey,
+                    RevisionIdKey,
+                    (Graph) => HyperEdgeIdCreatorDelegate(),
 
                     GraphInitializer)
 
@@ -114,7 +128,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         #endregion
 
-
+        
         #region Operator overloading
 
         #region Operator == (PropertyGraph1, PropertyGraph2)
@@ -125,8 +139,8 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <param name="PropertyGraph1">A graph.</param>
         /// <param name="PropertyGraph2">Another graph.</param>
         /// <returns>True if both match; False otherwise.</returns>
-        public static Boolean operator == (DistributedPropertyGraph PropertyGraph1,
-                                           DistributedPropertyGraph PropertyGraph2)
+        public static Boolean operator == (CommonGenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph1,
+                                           CommonGenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph2)
         {
 
             // If both are null, or both are same instance, return true.
@@ -151,8 +165,8 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <param name="PropertyGraph1">A graph.</param>
         /// <param name="PropertyGraph2">Another graph.</param>
         /// <returns>False if both match; True otherwise.</returns>
-        public static Boolean operator != (DistributedPropertyGraph PropertyGraph1,
-                                           DistributedPropertyGraph PropertyGraph2)
+        public static Boolean operator != (CommonGenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph1,
+                                           CommonGenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph2)
         {
             return !(PropertyGraph1 == PropertyGraph2);
         }
@@ -167,8 +181,8 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <param name="PropertyGraph1">A graph.</param>
         /// <param name="PropertyGraph2">Another graph.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator < (DistributedPropertyGraph PropertyGraph1,
-                                          DistributedPropertyGraph PropertyGraph2)
+        public static Boolean operator < (CommonGenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph1,
+                                          CommonGenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph2)
         {
 
             if ((Object) PropertyGraph1 == null)
@@ -191,8 +205,8 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <param name="PropertyGraph1">A graph.</param>
         /// <param name="PropertyGraph2">Another graph.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator <= (DistributedPropertyGraph PropertyGraph1,
-                                           DistributedPropertyGraph PropertyGraph2)
+        public static Boolean operator <= (CommonGenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph1,
+                                           CommonGenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph2)
         {
             return !(PropertyGraph1 > PropertyGraph2);
         }
@@ -207,15 +221,15 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <param name="PropertyGraph1">A graph.</param>
         /// <param name="PropertyGraph2">Another graph.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator > (DistributedPropertyGraph PropertyGraph1,
-                                          DistributedPropertyGraph PropertyGraph2)
+        public static Boolean operator > (CommonGenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph1,
+                                          CommonGenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph2)
         {
 
             if ((Object) PropertyGraph1 == null)
                 throw new ArgumentNullException("The given PropertyGraph1 must not be null!");
 
             if ((Object) PropertyGraph2 == null)
-                throw new ArgumentNullException("The given PropertyGraph2 must not be null!");
+                throw new ArgumentNullException("The given  PropertyGraph2 must not be null!");
 
             return PropertyGraph1.CompareTo(PropertyGraph2) > 0;
 
@@ -231,8 +245,8 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <param name="PropertyGraph1">A graph.</param>
         /// <param name="PropertyGraph2">Another graph.</param>
         /// <returns>true|false</returns>
-        public static Boolean operator >= (DistributedPropertyGraph PropertyGraph1,
-                                           DistributedPropertyGraph PropertyGraph2)
+        public static Boolean operator >= (CommonGenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph1,
+                                           CommonGenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue> PropertyGraph2)
         {
             return !(PropertyGraph1 < PropertyGraph2);
         }
@@ -256,9 +270,9 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
             if (Object == null)
                 return false;
 
-            // Check if the given object can be casted to a InMemoryPropertyGraph
-            var PropertyGraph = Object as DistributedPropertyGraph;
-            if ((Object)PropertyGraph == null)
+            // Check if the given object can be casted to a SimplePropertyGraph
+            var PropertyGraph = Object as CommonGenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue>;
+            if ((Object) PropertyGraph == null)
                 return false;
 
             return this.Equals(PropertyGraph);
