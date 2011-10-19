@@ -34,14 +34,12 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
     /// <typeparam name="TRevisionId">The type of the revision identifiers.</typeparam>
     /// <typeparam name="TKey">The type of the property keys.</typeparam>
     /// <typeparam name="TValue">The type of the property values.</typeparam>
-    /// <typeparam name="TDatastructure">The type of the datastructure to maintain the key/value pairs.</typeparam>
-    public class Properties<TId, TRevisionId, TKey, TValue, TDatastructure>
-                    : IProperties<TKey, TValue, TDatastructure>
+    public class Properties<TId, TRevisionId, TKey, TValue>
+                    : IProperties<TKey, TValue>
 
         where TKey           : IEquatable<TKey>,        IComparable<TKey>,        IComparable
         where TId            : IEquatable<TId>,         IComparable<TId>,         IComparable, TValue
         where TRevisionId    : IEquatable<TRevisionId>, IComparable<TRevisionId>, IComparable, TValue
-        where TDatastructure : IDictionary<TKey, TValue>
 
     {
 
@@ -50,7 +48,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <summary>
         /// The datastructure holding all graph properties.
         /// </summary>
-        protected readonly TDatastructure PropertyData;
+        protected readonly IDictionary<TKey, TValue> PropertyData;
 
         #endregion
 
@@ -308,7 +306,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <param name="RevisionIdKey">The key to access the revision identification of the properties.</param>
         /// <param name="RevisionId">The revision identification of the properties.</param>
         /// <param name="DatastructureInitializer">A delegate to initialize the datastructure of the the properties.</param>
-        public Properties(TKey IdKey, TId Id, TKey RevisionIdKey, TRevisionId RevisionId, Func<TDatastructure> DatastructureInitializer)
+        public Properties(TKey IdKey, TId Id, TKey RevisionIdKey, TRevisionId RevisionId, Func<IDictionary<TKey, TValue>> DatastructureInitializer)
         {
 
             #region Initial checks
