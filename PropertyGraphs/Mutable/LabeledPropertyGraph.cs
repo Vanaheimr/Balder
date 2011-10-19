@@ -35,7 +35,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
     /// <typeparam name="THyperEdgeLabel">The type of the hyperedge label.</typeparam>
     public class LabeledPropertyGraph<TVertexLabel, TEdgeLabel, TMultiEdgeLabel, THyperEdgeLabel>
 
-                     : SimpleGenericPropertyGraph<UInt64, Int64, TVertexLabel,    String, Object,   // Vertex definition
+                     : GenericPropertyGraph<UInt64, Int64, TVertexLabel,    String, Object,   // Vertex definition
                                              UInt64, Int64, TEdgeLabel,      String, Object,   // Edge definition
                                              UInt64, Int64, TMultiEdgeLabel, String, Object,   // MultiEdge definition
                                              UInt64, Int64, THyperEdgeLabel, String, Object>,  // Hyperedge definition

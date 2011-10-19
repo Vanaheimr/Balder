@@ -36,7 +36,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
     /// <typeparam name="TValue">The type of the graph element property values.</typeparam>
     public class CommonGenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue>
 
-                     : SimpleGenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue,   // Vertex definition
+                     : GenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue,   // Vertex definition
                                                   TId, TRevisionId, TLabel, TKey, TValue,   // Edge definition
                                                   TId, TRevisionId, TLabel, TKey, TValue,   // MultiEdge definition
                                                   TId, TRevisionId, TLabel, TKey, TValue>,  // Hyperedge definition

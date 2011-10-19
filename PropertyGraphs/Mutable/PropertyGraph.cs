@@ -376,7 +376,14 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <param name="VertexIds">An array of vertex identifiers.</param>
         IEnumerable<IPropertyVertex> IPropertyGraph.VerticesById(params UInt64[] VertexIds)
         {
-            return this.VerticesById(VertexIds) as IEnumerable<IPropertyVertex>;
+
+            return from Vertex
+                   in (this as IGenericPropertyGraph<UInt64, Int64, String, String, Object,
+                                                     UInt64, Int64, String, String, Object,
+                                                     UInt64, Int64, String, String, Object,
+                                                     UInt64, Int64, String, String, Object>).VerticesById(VertexIds)
+                   select Vertex as IPropertyVertex;
+
         }
 
         #endregion
@@ -390,7 +397,14 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <param name="VertexLabels">An array of vertex labels.</param>
         IEnumerable<IPropertyVertex> IPropertyGraph.VerticesByLabel(params String[] VertexLabels)
         {
-            return this.VerticesByLabel(VertexLabels) as IEnumerable<IPropertyVertex>;
+
+            return from Vertex
+                   in (this as IGenericPropertyGraph<UInt64, Int64, String, String, Object,
+                                                     UInt64, Int64, String, String, Object,
+                                                     UInt64, Int64, String, String, Object,
+                                                     UInt64, Int64, String, String, Object>).VerticesByLabel(VertexLabels)
+                   select Vertex as IPropertyVertex;
+
         }
 
         #endregion
@@ -407,9 +421,14 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                                                           UInt64, Int64, String, String, Object,
                                                                           UInt64, Int64, String, String, Object> VertexFilter = null)
         {
+
             return from   Vertex
-                   in     this.Vertices(VertexFilter)
+                   in (this as IGenericPropertyGraph<UInt64, Int64, String, String, Object,
+                                                     UInt64, Int64, String, String, Object,
+                                                     UInt64, Int64, String, String, Object,
+                                                     UInt64, Int64, String, String, Object>).Vertices(VertexFilter)
                    select Vertex as IPropertyVertex;
+
         }
 
         #endregion
@@ -442,7 +461,14 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <param name="EdgeIds">An array of edge identifiers.</param>
         IEnumerable<IPropertyEdge> IPropertyGraph.EdgesById(params UInt64[] EdgeIds)
         {
-            return this.EdgesById(EdgeIds) as IEnumerable<IPropertyEdge>;
+
+            return from Edge
+                   in (this as IGenericPropertyGraph<UInt64, Int64, String, String, Object,
+                                                     UInt64, Int64, String, String, Object,
+                                                     UInt64, Int64, String, String, Object,
+                                                     UInt64, Int64, String, String, Object>).EdgesById(EdgeIds)
+                   select Edge as IPropertyEdge;
+
         }
 
         #endregion
@@ -456,7 +482,14 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <param name="EdgeLabels">An array of edge labels.</param>
         IEnumerable<IPropertyEdge> IPropertyGraph.EdgesByLabel(params String[] EdgeLabels)
         {
-            return this.EdgesByLabel(EdgeLabels) as IEnumerable<IPropertyEdge>;
+
+            return from Edge
+                   in (this as IGenericPropertyGraph<UInt64, Int64, String, String, Object,
+                                                     UInt64, Int64, String, String, Object,
+                                                     UInt64, Int64, String, String, Object,
+                                                     UInt64, Int64, String, String, Object>).EdgesByLabel(EdgeLabels)
+                   select Edge as IPropertyEdge;
+
         }
 
         #endregion
@@ -473,7 +506,14 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                                                    UInt64, Int64, String, String, Object,
                                                                    UInt64, Int64, String, String, Object> EdgeFilter = null)
         {
-            return this.Edges(EdgeFilter) as IEnumerable<IPropertyEdge>;
+
+            return from Edge
+                   in (this as IGenericPropertyGraph<UInt64, Int64, String, String, Object,
+                                                     UInt64, Int64, String, String, Object,
+                                                     UInt64, Int64, String, String, Object,
+                                                     UInt64, Int64, String, String, Object>).Edges(EdgeFilter)
+                   select Edge as IPropertyEdge;
+
         }
 
         #endregion

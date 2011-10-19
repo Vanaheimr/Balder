@@ -41,11 +41,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GraphDBOntology.cs" />
-    <Compile Include="Mutable\SimpleGenericPropertyGraph.cs" />
+    <Compile Include="Mutable\GenericPropertyGraph.cs" />
     <Compile Include="Mutable\GraphElements\PropertyHyperEdge.cs" />
     <Compile Include="Mutable\CommonGenericPropertyGraph.cs" />
     <Compile Include="Mutable\LabeledPropertyGraph.cs" />
-    <Compile Include="Mutable\GenericPropertyGraph.cs" />
+    <Compile Include="Mutable\AGenericPropertyGraph.cs" />
     <Compile Include="Mutable\DistributedPropertyGraph.cs" />
     <Compile Include="Mutable\SemanticPropertyGraph.cs" />
     <Compile Include="Mutable\GraphElements\AGraphElement.cs" />

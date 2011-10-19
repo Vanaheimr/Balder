@@ -31,7 +31,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
     /// </summary>
     public class DistributedPropertyGraph
 
-                     : SimpleGenericPropertyGraph<VertexId,    RevisionId, String, String, Object,   // Vertex definition
+                     : GenericPropertyGraph<VertexId,    RevisionId, String, String, Object,   // Vertex definition
                                                   EdgeId,      RevisionId, String, String, Object,   // Edge definition
                                                   MultiEdgeId, RevisionId, String, String, Object,   // MultiEdge definition
                                                   HyperEdgeId, RevisionId, String, String, Object>,  // Hyperedge definition

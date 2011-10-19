@@ -31,7 +31,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
     /// </summary>
     public class SemanticPropertyGraph
 
-                     : SimpleGenericPropertyGraph<VertexId,    RevisionId, SemanticProperty, SemanticProperty, Object,   // Vertex definition
+                     : GenericPropertyGraph<VertexId,    RevisionId, SemanticProperty, SemanticProperty, Object,   // Vertex definition
                                              EdgeId,      RevisionId, SemanticProperty, SemanticProperty, Object,   // Edge definition
                                              MultiEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object,   // MultiEdge definition
                                              HyperEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object>,  // Hyperedge definition
