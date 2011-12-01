@@ -37,11 +37,11 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
     public class CommonGenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue>
 
                      : GenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue,   // Vertex definition
-                                                  TId, TRevisionId, TLabel, TKey, TValue,   // Edge definition
-                                                  TId, TRevisionId, TLabel, TKey, TValue,   // MultiEdge definition
-                                                  TId, TRevisionId, TLabel, TKey, TValue>,  // Hyperedge definition
+                                            TId, TRevisionId, TLabel, TKey, TValue,   // Edge definition
+                                            TId, TRevisionId, TLabel, TKey, TValue,   // MultiEdge definition
+                                            TId, TRevisionId, TLabel, TKey, TValue>,  // Hyperedge definition
 
-                       ISimpleGenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue>
+                       ICommonGenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue>
 
         where TId         : IEquatable<TId>,         IComparable<TId>,         IComparable, TValue
         where TRevisionId : IEquatable<TRevisionId>, IComparable<TRevisionId>, IComparable, TValue

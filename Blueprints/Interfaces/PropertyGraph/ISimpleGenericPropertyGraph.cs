@@ -28,7 +28,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
     /// <summary>
     /// A simplified generic property graph.
     /// </summary>
-    public interface ISimpleGenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue>
+    public interface ICommonGenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue>
 
                          : IGenericPropertyGraph<TId, TRevisionId, TLabel, TKey, TValue,  // Vertex definition
                                                  TId, TRevisionId, TLabel, TKey, TValue,  // Edge definition
