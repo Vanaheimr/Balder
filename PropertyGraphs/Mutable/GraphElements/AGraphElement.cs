@@ -37,13 +37,12 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
     /// <typeparam name="TKey">The type of the graph element property keys.</typeparam>
     /// <typeparam name="TValue">The type of the graph element property values.</typeparam>
     /// <typeparam name="TDatastructure">A datastructure for storing all properties.</typeparam>
-    public abstract class AGraphElement<TId, TRevisionId, TKey, TValue, TDatastructure>
+    public abstract class AGraphElement<TId, TRevisionId, TKey, TValue>
                               : IProperties<TKey, TValue>
 
         where TKey           : IEquatable<TKey>,        IComparable<TKey>,        IComparable
         where TId            : IEquatable<TId>,         IComparable<TId>,         IComparable, TValue
         where TRevisionId    : IEquatable<TRevisionId>, IComparable<TRevisionId>, IComparable, TValue
-        where TDatastructure : IDictionary<TKey, TValue>
 
     {
 
@@ -271,11 +270,11 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         internal protected AGraphElement(TId                               Id,
                                          TKey                              IdKey,
                                          TKey                              RevisonIdKey,
-                                         Func<TDatastructure>              DatastructureInitializer,
+                                         Func<IDictionary<TKey, TValue>>   DatastructureInitializer,
                                          Action<IProperties<TKey, TValue>> GraphElementInitializer = null)
         {
 
-            this.PropertyData  = new Properties<TId, TRevisionId, TKey, TValue, TDatastructure>
+            this.PropertyData  = new Properties<TId, TRevisionId, TKey, TValue>
                                                (IdKey, Id, RevisonIdKey, default(TRevisionId), DatastructureInitializer);
 
             if (GraphElementInitializer != null)

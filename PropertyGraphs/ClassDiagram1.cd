@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable.AGenericPropertyGraph&lt;TIdVertex, TRevisionIdVertex, TVertexLabel, TKeyVertex, TValueVertex, TIdEdge, TRevisionIdEdge, TEdgeLabel, TKeyEdge, TValueEdge, TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge&gt;" Collapsed="true">
+    <Position X="0.5" Y="3.25" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAAAQUgAAAACAAAAAAAIQACACAAAAAAAA=</HashCode>
+      <FileName>Mutable\AGenericPropertyGraph.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable.CommonGenericPropertyGraph&lt;TId, TRevisionId, TLabel, TKey, TValue&gt;" Collapsed="true">
+    <Position X="5.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgACAAgAAAAAAAIAAAAAAAAAAByA=</HashCode>
+      <FileName>Mutable\CommonGenericPropertyGraph.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable.DistributedPropertyGraph" Collapsed="true">
+    <Position X="7.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgACAAgAAAAAAAIAAAAAAAAAAByA=</HashCode>
+      <FileName>Mutable\DistributedPropertyGraph.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable.GenericPropertyGraph&lt;TIdVertex, TRevisionIdVertex, TVertexLabel, TKeyVertex, TValueVertex, TIdEdge, TRevisionIdEdge, TEdgeLabel, TKeyEdge, TValueEdge, TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge&gt;" Collapsed="true">
+    <Position X="4.25" Y="3.25" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Mutable\GenericPropertyGraph.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable.AGraphElement&lt;TId, TRevisionId, TKey, TValue&gt;" Collapsed="true">
+    <Position X="8.75" Y="0.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>ECgSCAAAgAQEABAEKAAABAAAAAFAAKAAAAggAAQQAJA=</HashCode>
+      <FileName>Mutable\GraphElements\AGraphElement.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable.PropertyEdge&lt;TIdVertex, TRevisionIdVertex, TVertexLabel, TKeyVertex, TValueVertex, TIdEdge, TRevisionIdEdge, TEdgeLabel, TKeyEdge, TValueEdge, TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge&gt;" Collapsed="true">
+    <Position X="14" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAEAAAAAQEgACABgCBAAAAAIoAACAAAgAAByA=</HashCode>
+      <FileName>Mutable\GraphElements\PropertyEdge.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable.PropertyHyperEdge&lt;TIdVertex, TRevisionIdVertex, TVertexLabel, TKeyVertex, TValueVertex, TIdEdge, TRevisionIdEdge, TEdgeLabel, TKeyEdge, TValueEdge, TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge&gt;" Collapsed="true">
+    <Position X="16.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAIEAAAAAQEgACABgiAAAAAAIgAECAAAwAAByA=</HashCode>
+      <FileName>Mutable\GraphElements\PropertyHyperEdge.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable.PropertyMultiEdge&lt;TIdVertex, TRevisionIdVertex, TVertexLabel, TKeyVertex, TValueVertex, TIdEdge, TRevisionIdEdge, TEdgeLabel, TKeyEdge, TValueEdge, TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge&gt;" Collapsed="true">
+    <Position X="18.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IEAAgAAAEAAAAAQAgACABgCAAAAAAIgAACBgAgAAByg=</HashCode>
+      <FileName>Mutable\GraphElements\PropertyMultiEdge.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable.PropertyVertex&lt;TIdVertex, TRevisionIdVertex, TVertexLabel, TKeyVertex, TValueVertex, TIdEdge, TRevisionIdEdge, TEdgeLabel, TKeyEdge, TValueEdge, TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge&gt;" Collapsed="true">
+    <Position X="8.75" Y="2.25" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>7lRKeAGoEBySAgWEsgXwltaWAAAADJgA0qAIBmBAV2g=</HashCode>
+      <FileName>Mutable\GraphElements\PropertyVertex.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable.LabeledPropertyGraph&lt;TVertexLabel, TEdgeLabel, TMultiEdgeLabel, THyperEdgeLabel&gt;" Collapsed="true">
+    <Position X="10" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgACAAgAAAAAAAIAAAAAAAAAAByA=</HashCode>
+      <FileName>Mutable\LabeledPropertyGraph.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable.PropertyGraph" Collapsed="true">
+    <Position X="5.5" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEKAAIAAAAAgAkBCEAkAwAAQAEYAAEAAAACAAByA=</HashCode>
+      <FileName>Mutable\PropertyGraph.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable.SemanticPropertyGraph" Collapsed="true">
+    <Position X="3.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Mutable\SemanticPropertyGraph.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
