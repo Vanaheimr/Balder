@@ -21,6 +21,7 @@ using System;
 using System.Collections;
 
 using de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable;
+using de.ahzf.Blueprints.PropertyGraphs;
 
 #endregion
 
@@ -30,10 +31,10 @@ namespace de.ahzf.Blueprints.UnitTests
     public static class DemoGraphFactory
     {
 
-        public static PropertyGraph CreateDemoGraph()
+        public static IPropertyGraph CreateDemoGraph()
         {
 
-            var _Graph = new PropertyGraph();
+            var _Graph = new PropertyGraph() as IPropertyGraph;
             _Graph.OnVertexAdding += (graph, vertex, vote) => { Console.WriteLine("OnVertexAdding1() called!"); };
             _Graph.OnVertexAdding += (graph, vertex, vote) => { Console.WriteLine("OnVertexAdding2() called!"); if (vertex.Id < 3) vote.Veto(); };
             _Graph.OnVertexAdding += (graph, vertex, vote) => { Console.WriteLine("OnVertexAdding3() called!"); };

@@ -48,26 +48,26 @@ namespace de.ahzf.Blueprints.UnitTests
         public void CopyGraphTest()
         {
 
-            var _graph = DemoGraphFactory.CreateDemoGraph();
-            var _index1 = _graph.CreateVerticesIndex("IdxNames",
-                                                     "DictionaryIndex",
-                                                     e => e["name"].ToString().ToLower() +
-                                                          e["age"].ToString(),
-                                                     e => Indexing.HasKeys(e, "name", "age"));
+            //var _graph = DemoGraphFactory.CreateDemoGraph() as IPropertyGraph;
+            //var _index1 = _graph.CreateVerticesIndex("IdxNames",
+            //                                         "DictionaryIndex",
+            //                                         e => e["name"].ToString().ToLower() +
+            //                                              e["age"].ToString(),
+            //                                         e => Indexing.HasKeys(e, "name", "age"));
 
-            var _index2 = _graph.CreateVerticesIndex<Int32>("IdxAges",
-                                                            "DictionaryIndex",
-                                                            e => (Int32) e["age"],
-                                                            e => Indexing.HasKeys(e, "age"));
+            //var _index2 = _graph.CreateVerticesIndex<Int32>("IdxAges",
+            //                                                "DictionaryIndex",
+            //                                                e => (Int32) e["age"],
+            //                                                e => Indexing.HasKeys(e, "age"));
 
-            var _Idx = _graph.VerticesIndices().First();
-            _Idx.Insert(_graph.Vertices());
-            _index2.Insert(_graph.Vertices());
+            //var _Idx = _graph.VerticesIndices().First();
+            //_Idx.Insert(_graph.Vertices());
+            //_index2.Insert(_graph.Vertices());
 
-            //var x = _Idx.As();
-            var y = _Idx.Equals("alice18").ToList();
-            var z = _Idx.Equals(18).ToList();
-            var m = _index2.Equals(18);
+            ////var x = _Idx.As();
+            //var y = _Idx.Equals("alice18").ToList();
+            //var z = _Idx.Equals(18).ToList();
+            //var m = _index2.Equals(18);
 
         }
 

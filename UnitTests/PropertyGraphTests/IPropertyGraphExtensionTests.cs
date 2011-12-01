@@ -47,13 +47,13 @@ namespace de.ahzf.Blueprints.UnitTests
         [Test]
         public void CopyGraphTest()
         {
-            
-            var _SourceGraph = TinkerGraphFactory.CreateTinkerGraph();
+
+            var _SourceGraph = TinkerGraphFactory.CreateTinkerGraph() as IPropertyGraph;
 
             var _NumberOfVertices = _SourceGraph.NumberOfVertices();
             var _NumberOfEdges    = _SourceGraph.NumberOfEdges();
 
-            var _DestinationGraph = new PropertyGraph();
+            var _DestinationGraph = new PropertyGraph() as IPropertyGraph;
             _SourceGraph.CopyGraph(_DestinationGraph);
 
             Assert.AreEqual(_NumberOfVertices, _DestinationGraph.NumberOfVertices());

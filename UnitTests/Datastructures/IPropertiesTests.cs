@@ -44,23 +44,32 @@ namespace de.ahzf.Blueprints.UnitTests
         public void Test()
         {
 
-            var _Graph = DemoGraphFactory.CreateDemoGraph();
-
-            var Alice = _Graph.Vertices(v => v.GetProperty("name").ToString() == "Alice").First();
-            Assert.IsNotNull(Alice);
-            
-            Alice = _Graph.Vertices("name", "Alice").First();
-            Assert.IsNotNull(Alice);
-
             Object _Object;
 
-            Alice.GetProperty("key");
-            Alice.GetProperty("key", out _Object);
-            Alice.GetProperty("key", typeof(String));
-            Alice.GetProperty("key", (p) => { Console.WriteLine(p); }, (v) => { Console.WriteLine(v.Id); });
-            Console.WriteLine(Alice.GetProperty("l", (p) => { return p; }, (v) => { return v.Id; }));
-            Alice.GetProperty("key", typeof(String), (p) => { Console.WriteLine(p); }, (v) => { Console.WriteLine(v.Id); });
-            Alice.GetProperties(null);
+            var _Graph = DemoGraphFactory.CreateDemoGraph() as IPropertyGraph;
+
+            var Alice1 = _Graph.Vertices(v => v.GetProperty("name").ToString() == "Alice").First();
+            Assert.IsNotNull(Alice1);
+
+            Alice1.GetProperty("key");
+            Alice1.GetProperty("key", out _Object);
+            Alice1.GetProperty("key", typeof(String));
+            Alice1.GetProperty("key", (p) => { Console.WriteLine(p); }, (v) => { Console.WriteLine(v.Id); });
+            Console.WriteLine(Alice1.GetProperty("l", (p) => { return p; }, (v) => { return v.Id; }));
+            Alice1.GetProperty("key", typeof(String), (p) => { Console.WriteLine(p); }, (v) => { Console.WriteLine(v.Id); });
+            Alice1.GetProperties(null);
+            
+
+            var Alice2 = _Graph.Vertices("name", "Alice").First();
+            Assert.IsNotNull(Alice2);
+
+            Alice2.GetProperty("key");
+            Alice2.GetProperty("key", out _Object);
+            Alice2.GetProperty("key", typeof(String));
+            Alice2.GetProperty("key", (p) => { Console.WriteLine(p); }, (v) => { Console.WriteLine(v.Id); });
+            Console.WriteLine(Alice2.GetProperty("l", (p) => { return p; }, (v) => { return v.Id; }));
+            Alice2.GetProperty("key", typeof(String), (p) => { Console.WriteLine(p); }, (v) => { Console.WriteLine(v.Id); });
+            Alice2.GetProperties(null);
 
         }
 

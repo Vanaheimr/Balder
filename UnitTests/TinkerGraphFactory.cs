@@ -32,10 +32,10 @@ namespace de.ahzf.Blueprints.UnitTests
     public static class TinkerGraphFactory
     {
 
-        public static PropertyGraph CreateTinkerGraph()
+        public static IPropertyGraph CreateTinkerGraph()
         {
 
-            var _TinkerGraph = new PropertyGraph();
+            var _TinkerGraph = new PropertyGraph() as IPropertyGraph;
 
             _TinkerGraph.OnVertexAdding += (graph, vertex, vote) => {
                 Console.WriteLine("I like all vertices!");
