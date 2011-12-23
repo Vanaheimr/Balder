@@ -105,7 +105,58 @@ namespace de.ahzf.Blueprints.Tools
         #endregion
 
 
-        #region ParseFile(Filename, CSVAction, Seperators = null, MainTaskName = "CSVImporter-", LinesPerTask = 20000)
+        #region ParseFile(Filename, CSVAction, Seperators = null)
+
+        /// <summary>
+        /// Reads CSV data from the given file and processes them using multiple tasks.
+        /// </summary>
+        /// <param name="Filename">The path and name of the CSV file to read.</param>
+        /// <param name="CSVAction">Something to do with a CSVline seperated into an array of string values.</param>
+        /// <param name="Seperators">The seperators to use for splitting a CSVline into an array of string values.</param>
+        /// <returns>A task of tasks processing the CSV file concurrently.</returns>
+        public static Task ParseFile(String Filename, Action<String[]> CSVAction, Action FinishAction, String[] Seperators = null)
+        {
+
+            #region Data
+
+            if (Filename == null)
+                throw new ArgumentNullException("The given Filename must not be null!");
+
+            if (!File.Exists(Filename))
+                throw new ArgumentNullException("The given file could not be read!");
+
+            if (CSVAction == null)
+                throw new ArgumentNullException("The given CSVAction must not be null!");
+
+            var _TaskCancellation = new CancellationTokenSource();
+
+            if (Seperators == null)
+                Seperators = new String[] { ", ", ": " };
+
+            #endregion
+
+            return Task.Factory.StartNew(() =>
+            {
+
+                using (var _StreamReader = new StreamReader(Filename))
+                {
+
+                    foreach (var _Line in _StreamReader.GetLines())
+                        if (!_Line.StartsWith("#"))
+                            CSVAction(_Line.Split(Seperators, StringSplitOptions.None));
+
+                }
+
+                if (FinishAction != null)
+                    FinishAction();
+
+            });
+
+        }
+
+        #endregion
+
+        #region ParseFileParallel(Filename, CSVAction, Seperators = null, MainTaskName = "CSVImporter-", LinesPerTask = 20000)
 
         /// <summary>
         /// Reads CSV data from the given file and processes them using multiple tasks.
@@ -116,7 +167,7 @@ namespace de.ahzf.Blueprints.Tools
         /// <param name="MainTaskName">The name of the main processing task.</param>
         /// <param name="LinesPerTask">THe number of CSVlines per task.</param>
         /// <returns>A task of tasks processing the CSV file concurrently.</returns>
-        public static Task ParseFile(String Filename, Action<String[]> CSVAction, String[] Seperators = null, String MainTaskName = "CSVImporter-", Int32 LinesPerTask = 20000)
+        public static Task ParseFileParallel(String Filename, Action<String[]> CSVAction, String[] Seperators = null, String MainTaskName = "CSVImporter-", Int32 LinesPerTask = 20000)
         {
 
             #region Data
