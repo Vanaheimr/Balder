@@ -55,7 +55,6 @@
     <Reference Include="System.Windows.Browser" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GraphDBOntology.cs" />
     <Compile Include="Mutable\AGenericPropertyGraph.cs" />
     <Compile Include="Mutable\CommonGenericPropertyGraph.cs" />
     <Compile Include="Mutable\DistributedPropertyGraph.cs" />
@@ -73,13 +72,16 @@
     <Compile Include="Mutable\Indices\PropertyIndex\PropertyHyperEdgeIndex.cs" />
     <Compile Include="Mutable\Indices\PropertyIndex\PropertyIndex.cs" />
     <Compile Include="Mutable\Indices\PropertyIndex\PropertyVertexIndex.cs" />
-    <Compile Include="Mutable\Indices\QuadtreeIndex.cs" />
     <Compile Include="Mutable\LabeledPropertyGraph.cs" />
     <Compile Include="Mutable\PropertyGraph.cs" />
     <Compile Include="Mutable\SemanticPropertyGraph.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Illias\Commons\Commons.SL.csproj">
+      <Project>{468893C3-BC44-407A-B1CC-DD88428952E2}</Project>
+      <Name>Commons.SL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Blueprints\Blueprints.SL.csproj">
       <Project>{C907FBA5-7DE0-4244-9872-806FCFF97175}</Project>
       <Name>Blueprints.SL</Name>

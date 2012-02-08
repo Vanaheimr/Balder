@@ -56,99 +56,22 @@
     <Reference Include="System.Windows.Browser" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Datastructures\Collections\GroupedCollection.cs" />
-    <Compile Include="Datastructures\Collections\ImmutableMap.cs" />
-    <Compile Include="Datastructures\Forest\Bintree.cs" />
-    <Compile Include="Datastructures\Forest\Octree.cs" />
-    <Compile Include="Datastructures\Forest\QuadTree.cs" />
-    <Compile Include="Datastructures\Geometry\1D\Line1D.cs" />
-    <Compile Include="Datastructures\Geometry\2D\Circle.cs" />
-    <Compile Include="Datastructures\Geometry\2D\Line2D.cs" />
-    <Compile Include="Datastructures\Geometry\2D\Pixel.cs" />
-    <Compile Include="Datastructures\Geometry\2D\PixelSelector.cs" />
-    <Compile Include="Datastructures\Geometry\2D\PixelValuePair.cs" />
-    <Compile Include="Datastructures\Geometry\2D\Polygon.cs" />
-    <Compile Include="Datastructures\Geometry\2D\Rectangle.cs" />
-    <Compile Include="Datastructures\Geometry\2D\Triangle.cs" />
-    <Compile Include="Datastructures\Geometry\2D\TriangleValuePair.cs" />
-    <Compile Include="Datastructures\Geometry\2D\Vector2D.cs" />
-    <Compile Include="Datastructures\Geometry\3D\Cube.cs" />
-    <Compile Include="Datastructures\Geometry\3D\Sphere.cs" />
-    <Compile Include="Datastructures\Geometry\3D\Voxel.cs" />
-    <Compile Include="Datastructures\Geometry\3D\VoxelSelector.cs" />
-    <Compile Include="Datastructures\Geometry\3D\VoxelValuePair.cs" />
-    <Compile Include="Datastructures\Geometry\Delaunay.cs" />
-    <Compile Include="Datastructures\Geometry\Voronoi.cs" />
+    <Compile Include="Datastructures\GraphElementIds\AGraphElementId.cs" />
     <Compile Include="Datastructures\GraphElementIds\EdgeId.cs" />
-    <Compile Include="Datastructures\GraphElementIds\GraphElementId.cs" />
     <Compile Include="Datastructures\GraphElementIds\HyperEdgeId.cs" />
     <Compile Include="Datastructures\GraphElementIds\MultiEdgeId.cs" />
     <Compile Include="Datastructures\GraphElementIds\VertexId.cs" />
-    <Compile Include="Datastructures\Maths\MathsDouble.cs" />
-    <Compile Include="Datastructures\Maths\MathsFactory.cs" />
-    <Compile Include="Datastructures\Maths\MathsInt32.cs" />
-    <Compile Include="Datastructures\Maths\MathsSingle.cs" />
-    <Compile Include="Datastructures\Maths\MathsUInt32.cs" />
-    <Compile Include="Datastructures\Maths\NumericTypeExtensions.cs" />
-    <Compile Include="Datastructures\RevisionId.cs" />
     <Compile Include="Datastructures\SemanticProperty.cs" />
-    <Compile Include="Datastructures\SystemId.cs" />
-    <Compile Include="Datastructures\UniqueTimestamp.cs" />
-    <Compile Include="Datastructures\Votes\AVote.cs" />
-    <Compile Include="Datastructures\Votes\IVote.cs" />
-    <Compile Include="Datastructures\Votes\MajorityVote.cs" />
-    <Compile Include="Datastructures\Votes\VetoVote.cs" />
-    <Compile Include="Datastructures\Votes\VoteEvaluator.cs" />
-    <Compile Include="Exceptions\Forest\BintreeExceptions.cs" />
-    <Compile Include="Exceptions\Forest\OctreeExceptions.cs" />
-    <Compile Include="Exceptions\Forest\QuadtreeExceptions.cs" />
-    <Compile Include="Exceptions\PropertyGraph\PropertiesExceptions.cs" />
-    <Compile Include="Exceptions\PropertyGraph\PropertyGraphExceptions.cs" />
-    <Compile Include="Exceptions\PropertyGraph\VerticesExceptions.cs" />
-    <Compile Include="Extensions\GenericGraph\IGraphExtensions.cs" />
-    <Compile Include="Extensions\Geometry\ICubeExtensions.cs" />
-    <Compile Include="Extensions\Geometry\ILine2DExtensions.cs" />
-    <Compile Include="Extensions\Geometry\IPixelExtensions.cs" />
-    <Compile Include="Extensions\Geometry\IRectangleExtensions.cs" />
-    <Compile Include="Extensions\IComparableExtensions.cs" />
-    <Compile Include="Extensions\IEnumerableExtensions.cs" />
-    <Compile Include="Extensions\PropertyGraph\IGenericPropertyEdgeExtensions.cs" />
-    <Compile Include="Extensions\PropertyGraph\IGenericPropertyGraphExtensions.cs" />
-    <Compile Include="Extensions\PropertyGraph\IGenericPropertyVertexExtensions.cs" />
-    <Compile Include="Extensions\PropertyGraph\IGraphElementExtensions.cs" />
-    <Compile Include="Extensions\PropertyGraph\IPropertiesExtensions.cs" />
-    <Compile Include="Interfaces\Datastructures\Collections\Imutable\IBinarySearchTree.cs" />
-    <Compile Include="Interfaces\Datastructures\Collections\Imutable\IImmutableMap.cs" />
-    <Compile Include="Interfaces\Datastructures\Collections\ItemFilter.cs" />
-    <Compile Include="Interfaces\Datastructures\Collections\KeyValueFilter.cs" />
-    <Compile Include="Interfaces\Datastructures\Collections\Mutable\IGroupedCollection.cs" />
-    <Compile Include="Interfaces\Datastructures\Collections\Mutable\IMap.cs" />
-    <Compile Include="Interfaces\Datastructures\Forest\IBintree.cs" />
-    <Compile Include="Interfaces\Datastructures\Forest\IOctree.cs" />
-    <Compile Include="Interfaces\Datastructures\Forest\IQuadtree.cs" />
-    <Compile Include="Interfaces\Datastructures\Geometry\1D\ILine1D.cs" />
-    <Compile Include="Interfaces\Datastructures\Geometry\2D\ICircle.cs" />
-    <Compile Include="Interfaces\Datastructures\Geometry\2D\ILine2D.cs" />
-    <Compile Include="Interfaces\Datastructures\Geometry\2D\IPixel.cs" />
-    <Compile Include="Interfaces\Datastructures\Geometry\2D\IPixelValuePair.cs" />
-    <Compile Include="Interfaces\Datastructures\Geometry\2D\IPolygon.cs" />
-    <Compile Include="Interfaces\Datastructures\Geometry\2D\IRectangle.cs" />
-    <Compile Include="Interfaces\Datastructures\Geometry\2D\ITriangle.cs" />
-    <Compile Include="Interfaces\Datastructures\Geometry\2D\ITriangleValuePair.cs" />
-    <Compile Include="Interfaces\Datastructures\Geometry\2D\IVector2D.cs" />
-    <Compile Include="Interfaces\Datastructures\Geometry\3D\ICube.cs" />
-    <Compile Include="Interfaces\Datastructures\Geometry\3D\ISphere.cs" />
-    <Compile Include="Interfaces\Datastructures\Geometry\3D\IVoxel.cs" />
-    <Compile Include="Interfaces\Datastructures\Geometry\3D\IVoxelValuePair.cs" />
-    <Compile Include="Interfaces\Datastructures\IIdentifier.cs" />
-    <Compile Include="Interfaces\Datastructures\IRevisionId.cs" />
-    <Compile Include="Interfaces\Datastructures\Maths\IMaths.cs" />
-    <Compile Include="Interfaces\GenericGraph\Delegates.cs" />
-    <Compile Include="Interfaces\GenericGraph\IGenericEdge.cs" />
-    <Compile Include="Interfaces\GenericGraph\IGenericElement.cs" />
-    <Compile Include="Interfaces\GenericGraph\IGenericGraph.cs" />
-    <Compile Include="Interfaces\GenericGraph\IGenericHyperEdge.cs" />
-    <Compile Include="Interfaces\GenericGraph\IGenericVertex.cs" />
+    <Compile Include="DynamicGraphElement.cs" />
+    <Compile Include="Exceptions\PropertiesExceptions.cs" />
+    <Compile Include="Exceptions\PropertyGraphExceptions.cs" />
+    <Compile Include="Exceptions\VerticesExceptions.cs" />
+    <Compile Include="Extensions\GenericPropertyGraph\IGenericPropertyEdgeExtensions.cs" />
+    <Compile Include="Extensions\GenericPropertyGraph\IGenericPropertyGraphExtensions.cs" />
+    <Compile Include="Extensions\GenericPropertyGraph\IGenericPropertyVertexExtensions.cs" />
+    <Compile Include="Extensions\IGraphElementExtensions.cs" />
+    <Compile Include="Extensions\IPropertiesExtensions.cs" />
+    <Compile Include="GraphDBOntology.cs" />
     <Compile Include="Interfaces\GenericPropertyGraph\GraphElements\Delegates.cs" />
     <Compile Include="Interfaces\GenericPropertyGraph\GraphElements\IDynamicGraphElement.cs" />
     <Compile Include="Interfaces\GenericPropertyGraph\GraphElements\IGenericPropertyEdge.cs" />
@@ -162,7 +85,6 @@
     <Compile Include="Interfaces\GenericPropertyGraph\IGenericPropertyGraph.cs" />
     <Compile Include="Interfaces\GenericPropertyGraph\IGenericPropertyGraphDelegates.cs" />
     <Compile Include="Interfaces\Indices\IIndex.cs" />
-    <Compile Include="Interfaces\Indices\IIndex2D.cs" />
     <Compile Include="Interfaces\Indices\IndexDelegates.cs" />
     <Compile Include="Interfaces\PropertyGraph\GraphElements\IPropertyEdge.cs">
       <SubType>Code</SubType>
@@ -196,19 +118,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tools\DynamicGraphElement.cs" />
-    <Compile Include="Extensions\SilverlightExtensions.cs" />
-    <Compile Include="Tools\TypeHelpers.cs" />
-    <Compile Include="Transactions\IsolationLevel.cs" />
-    <Compile Include="Transactions\Transaction.cs" />
-    <Compile Include="Transactions\TransactionExceptions.cs" />
-    <Compile Include="Transactions\TransactionState.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Datastructures\SkipList\" />
-    <Folder Include="Exceptions\GenericGraph\" />
-    <Folder Include="Exceptions\Indices\" />
-    <Folder Include="Extensions\Indices\" />
+    <ProjectReference Include="..\..\Illias\Commons\Commons.SL.csproj">
+      <Project>{468893C3-BC44-407A-B1CC-DD88428952E2}</Project>
+      <Name>Commons.SL</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <ProjectExtensions>

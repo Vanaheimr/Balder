@@ -93,6 +93,7 @@
     <Compile Include="DynamicGraphElement.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Exceptions\PropertyGraph\" />
     <Folder Include="Extensions\PropertyGraph\" />
   </ItemGroup>
   <ItemGroup>
