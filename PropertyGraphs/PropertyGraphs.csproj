@@ -40,7 +40,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GraphDBOntology.cs" />
     <Compile Include="Mutable\GenericPropertyGraph.cs" />
     <Compile Include="Mutable\GraphElements\PropertyHyperEdge.cs" />
     <Compile Include="Mutable\CommonGenericPropertyGraph.cs" />
