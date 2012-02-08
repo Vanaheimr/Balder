@@ -56,7 +56,6 @@
     <Compile Include="Mutable\Indices\PropertyIndex\PropertyHyperEdgeIndex.cs" />
     <Compile Include="Mutable\Indices\PropertyIndex\PropertyIndex.cs" />
     <Compile Include="Mutable\Indices\PropertyIndex\PropertyVertexIndex.cs" />
-    <Compile Include="Mutable\Indices\QuadtreeIndex.cs" />
     <Compile Include="Mutable\GraphElements\Properties.cs" />
     <Compile Include="Mutable\GraphElements\PropertyEdge.cs" />
     <Compile Include="Mutable\PropertyGraph.cs" />
@@ -65,6 +64,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Illias\Commons\Commons.csproj">
+      <Project>{16C85DF8-5DE6-4A9F-9FC7-7CA5B0440DF3}</Project>
+      <Name>Commons</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Blueprints\Blueprints.csproj">
       <Project>{B9DE4181-416E-4DE4-A983-B90FC9412774}</Project>
       <Name>Blueprints</Name>

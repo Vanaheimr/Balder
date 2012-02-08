@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{A7459A23-F558-4B14-B6AB-4E44E3287758}</ProjectGuid>
+    <ProjectGuid>{C461823B-E5CA-4AB1-91A6-8DE8A4AEB157}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GenericGraph</RootNamespace>
-    <AssemblyName>GenericGraph</AssemblyName>
+    <RootNamespace>GeometryTests</RootNamespace>
+    <AssemblyName>GeometryTests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -21,7 +21,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\GenericGraph.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="nunit.framework">
+      <HintPath>..\libs\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,15 +43,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Forest\BintreeTests.cs" />
+    <Compile Include="Forest\QuadTreeTests.cs" />
+    <Compile Include="Geometry\PixelTests.cs" />
+    <Compile Include="Geometry\RectangleTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Blueprints\Blueprints.csproj">
-      <Project>{B9DE4181-416E-4DE4-A983-B90FC9412774}</Project>
-      <Name>Blueprints</Name>
+    <ProjectReference Include="..\Geometry\Geometry.csproj">
+      <Project>{9F38DCC9-CD80-4B71-8A9C-B3F37E471CAB}</Project>
+      <Name>Geometry</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

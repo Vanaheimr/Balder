@@ -50,13 +50,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Datastructures\Forest\BintreeTests.cs" />
-    <Compile Include="Datastructures\Forest\QuadtreeTests.cs" />
-    <Compile Include="Datastructures\Geometry\RectangleTests.cs" />
-    <Compile Include="Datastructures\Geometry\PixelTests.cs" />
-    <Compile Include="Datastructures\SystemIdTests.cs" />
-    <Compile Include="GenericGraphs\Distance.cs" />
-    <Compile Include="GenericGraphs\GeoFeature.cs" />
     <Compile Include="PropertyGraphTests\PropertyVertexTests.cs" />
     <Compile Include="Datastructures\IPropertiesTests.cs" />
     <Compile Include="PropertyGraphTests\Indices\IndicesTests.cs" />
@@ -70,10 +63,13 @@
     <Compile Include="DemoGraphFactory.cs" />
     <Compile Include="PropertyGraphTests\EdgeTests.cs" />
     <Compile Include="TinkerGraphFactory.cs" />
-    <Compile Include="Datastructures\UniqueTimestampTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Illias\Commons\Commons.csproj">
+      <Project>{16C85DF8-5DE6-4A9F-9FC7-7CA5B0440DF3}</Project>
+      <Name>Commons</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Blueprints\Blueprints.csproj">
       <Project>{B9DE4181-416E-4DE4-A983-B90FC9412774}</Project>
       <Name>Blueprints</Name>

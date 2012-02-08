@@ -20,6 +20,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
+using de.ahzf.Illias.Commons;
 
 #endregion
 
@@ -32,9 +33,9 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
     public class DistributedPropertyGraph
 
                      : GenericPropertyGraph<VertexId,    RevisionId, String, String, Object,   // Vertex definition
-                                                  EdgeId,      RevisionId, String, String, Object,   // Edge definition
-                                                  MultiEdgeId, RevisionId, String, String, Object,   // MultiEdge definition
-                                                  HyperEdgeId, RevisionId, String, String, Object>,  // Hyperedge definition
+                                            EdgeId,      RevisionId, String, String, Object,   // Edge definition
+                                            MultiEdgeId, RevisionId, String, String, Object,   // MultiEdge definition
+                                            HyperEdgeId, RevisionId, String, String, Object>,  // Hyperedge definition
 
                        IDistributedPropertyGraph
 
@@ -61,9 +62,9 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// </summary>
         /// <param name="GraphInitializer">A delegate to initialize the graph.</param>
         public DistributedPropertyGraph(GraphInitializer<VertexId,    RevisionId, String, String, Object,
-                                                      EdgeId,      RevisionId, String, String, Object,
-                                                      MultiEdgeId, RevisionId, String, String, Object,
-                                                    HyperEdgeId, RevisionId, String, String, Object> GraphInitializer)
+                                                         EdgeId,      RevisionId, String, String, Object,
+                                                         MultiEdgeId, RevisionId, String, String, Object,
+                                                         HyperEdgeId, RevisionId, String, String, Object> GraphInitializer)
             : this(VertexId.NewVertexId, GraphInitializer)
         { }
 
