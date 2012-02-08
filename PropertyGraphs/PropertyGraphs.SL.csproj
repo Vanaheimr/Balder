@@ -56,12 +56,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GraphDBOntology.cs" />
-    <Compile Include="Immutable\AReadOnlyGraphElement.cs" />
-    <Compile Include="Immutable\ReadOnlyProperties.cs" />
-    <Compile Include="Immutable\ReadOnlyPropertyEdge.cs" />
-    <Compile Include="Immutable\ReadOnlyPropertyGraph.cs" />
-    <Compile Include="Immutable\ReadOnlyPropertyVertex.cs" />
-    <Compile Include="Immutable\SimpleReadOnlyPropertyGraph.cs" />
+    <Compile Include="Mutable\AGenericPropertyGraph.cs" />
+    <Compile Include="Mutable\CommonGenericPropertyGraph.cs" />
     <Compile Include="Mutable\DistributedPropertyGraph.cs" />
     <Compile Include="Mutable\GenericPropertyGraph.cs" />
     <Compile Include="Mutable\GraphElements\AGraphElement.cs" />
@@ -78,10 +74,9 @@
     <Compile Include="Mutable\Indices\PropertyIndex\PropertyIndex.cs" />
     <Compile Include="Mutable\Indices\PropertyIndex\PropertyVertexIndex.cs" />
     <Compile Include="Mutable\Indices\QuadtreeIndex.cs" />
+    <Compile Include="Mutable\LabeledPropertyGraph.cs" />
     <Compile Include="Mutable\PropertyGraph.cs" />
     <Compile Include="Mutable\SemanticPropertyGraph.cs" />
-    <Compile Include="Mutable\SimpleGenericPropertyGraph.cs" />
-    <Compile Include="Mutable\TypedPropertyGraph.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -89,6 +84,9 @@
       <Project>{C907FBA5-7DE0-4244-9872-806FCFF97175}</Project>
       <Name>Blueprints.SL</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Immutable\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <ProjectExtensions>

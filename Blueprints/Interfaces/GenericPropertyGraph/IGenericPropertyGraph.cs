@@ -20,9 +20,6 @@
 using System;
 using System.Collections.Generic;
 
-using de.ahzf.Blueprints.PropertyGraphs.Indices;
-using de.ahzf.Blueprints.GenericGraph;
-
 #endregion
 
 namespace de.ahzf.Blueprints.PropertyGraphs
