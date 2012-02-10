@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2010-2011, Achim 'ahzf' Friedland <code@ahzf.de>
+ * Copyright (c) 2010-2012, Achim 'ahzf' Friedland <code@ahzf.de>
  * This file is part of Blueprints.NET <http://www.github.com/ahzf/Blueprints.NET>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -184,7 +184,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
             #endregion
 
             TValueVertex Value;
-            if (IGenericPropertyVertex.GetProperty(PropertyKey, out Value))
+            if (IGenericPropertyVertex.TryGet(PropertyKey, out Value))
                 OnSuccessAction(Value);
 
             OnErrorAction(IGenericPropertyVertex);
@@ -276,7 +276,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
             #endregion
 
             TValueVertex Value;
-            if (IGenericPropertyVertex.GetProperty(PropertyKey, out Value))
+            if (IGenericPropertyVertex.TryGet(PropertyKey, out Value))
                 OnSuccessAction(PropertyKey, Value);
 
             OnErrorAction(IGenericPropertyVertex);
@@ -369,7 +369,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
             #endregion
 
             TValueVertex Value;
-            if (IGenericPropertyVertex.GetProperty(PropertyKey, out Value))
+            if (IGenericPropertyVertex.TryGet(PropertyKey, out Value))
                 OnSuccessAction(new KeyValuePair<TKeyVertex, TValueVertex>(PropertyKey, Value));
 
             OnErrorAction(IGenericPropertyVertex);
@@ -465,7 +465,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
             #endregion
 
             TValueVertex Value;
-            if (IGenericPropertyVertex.GetProperty(PropertyKey, out Value))
+            if (IGenericPropertyVertex.TryGet(PropertyKey, out Value))
                 if (PropertyType.Equals(Value.GetType()))
                     OnSuccessAction(Value);
 
@@ -560,7 +560,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
             #endregion
 
             TValueVertex Value;
-            if (IGenericPropertyVertex.GetProperty(PropertyKey, out Value))
+            if (IGenericPropertyVertex.TryGet(PropertyKey, out Value))
                 if (PropertyType.Equals(Value.GetType()))
                     OnSuccessAction(PropertyKey, Value);
 
@@ -656,7 +656,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
             #endregion
 
             TValueVertex Value;
-            if (IGenericPropertyVertex.GetProperty(PropertyKey, out Value))
+            if (IGenericPropertyVertex.TryGet(PropertyKey, out Value))
                 if (PropertyType.Equals(Value.GetType()))
                     OnSuccessAction(new KeyValuePair<TKeyVertex, TValueVertex>(PropertyKey, Value));
 
@@ -751,7 +751,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
             #endregion
 
             TValueVertex Value;
-            if (IGenericPropertyVertex.GetProperty(PropertyKey, out Value))
+            if (IGenericPropertyVertex.TryGet(PropertyKey, out Value))
                 return OnSuccessFunc(Value);
 
             return OnErrorFunc(IGenericPropertyVertex);
@@ -827,6 +827,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
             where TRevisionIdEdge         : IEquatable<TRevisionIdEdge>,      IComparable<TRevisionIdEdge>,      IComparable, TValueEdge
             where TRevisionIdMultiEdge    : IEquatable<TRevisionIdMultiEdge>, IComparable<TRevisionIdMultiEdge>, IComparable, TValueMultiEdge
             where TRevisionIdHyperEdge    : IEquatable<TRevisionIdHyperEdge>, IComparable<TRevisionIdHyperEdge>, IComparable, TValueHyperEdge
+
         {
 
             #region Initial checks
@@ -843,7 +844,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
             #endregion
 
             TValueVertex Value;
-            if (IGenericPropertyVertex.GetProperty(PropertyKey, out Value))
+            if (IGenericPropertyVertex.TryGet(PropertyKey, out Value))
                 return OnSuccessFunc(PropertyKey, Value);
 
             return OnErrorFunc(IGenericPropertyVertex);
@@ -936,7 +937,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
             #endregion
 
             TValueVertex Value;
-            if (IGenericPropertyVertex.GetProperty(PropertyKey, out Value))
+            if (IGenericPropertyVertex.TryGet(PropertyKey, out Value))
                 return OnSuccessFunc(new KeyValuePair<TKeyVertex, TValueVertex>(PropertyKey, Value));
 
             return OnErrorFunc(IGenericPropertyVertex);
@@ -1032,7 +1033,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
             #endregion
 
             TValueVertex Value;
-            if (IGenericPropertyVertex.GetProperty(PropertyKey, out Value))
+            if (IGenericPropertyVertex.TryGet(PropertyKey, out Value))
                 if (PropertyType.Equals(Value.GetType()))
                     return OnSuccessFunc(Value);
 
@@ -1126,7 +1127,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
             #endregion
 
             TValueVertex Value;
-            if (IGenericPropertyVertex.GetProperty(PropertyKey, out Value))
+            if (IGenericPropertyVertex.TryGet(PropertyKey, out Value))
                 if (PropertyType.Equals(Value.GetType()))
                     return OnSuccessFunc(PropertyKey, Value);
 
@@ -1221,7 +1222,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
             #endregion
 
             TValueVertex Value;
-            if (IGenericPropertyVertex.GetProperty(PropertyKey, out Value))
+            if (IGenericPropertyVertex.TryGet(PropertyKey, out Value))
                 if (PropertyType.Equals(Value.GetType()))
                     return OnSuccessFunc(new KeyValuePair<TKeyVertex, TValueVertex>(PropertyKey, Value));
 

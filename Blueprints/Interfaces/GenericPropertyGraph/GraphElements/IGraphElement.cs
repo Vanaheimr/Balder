@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2010-2011, Achim 'ahzf' Friedland <code@ahzf.de>
+ * Copyright (c) 2010-2012, Achim 'ahzf' Friedland <code@ahzf.de>
  * This file is part of Blueprints.NET <http://www.github.com/ahzf/Blueprints.NET>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,7 +28,6 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
     /// <summary>
     /// The common interface for all property graph elements:
-    /// The vertices, edges, hyperedges and the property graph itself.
     /// </summary>
     /// <typeparam name="TId">The type of the identifiers.</typeparam>
     /// <typeparam name="TRevisionId">The type of the revision identifiers.</typeparam>
@@ -42,17 +41,10 @@ namespace de.ahzf.Blueprints.PropertyGraphs
                           IComparable<IGraphElement<TId, TRevisionId, TKey, TValue>>,
                           IComparable
 
-        where TId            : IEquatable<TId>,         IComparable<TId>,         IComparable, TValue
-        where TRevisionId    : IEquatable<TRevisionId>, IComparable<TRevisionId>, IComparable, TValue
-        where TKey           : IEquatable<TKey>,        IComparable<TKey>,        IComparable
+        where TId          : IEquatable<TId>,         IComparable<TId>,         IComparable, TValue
+        where TRevisionId  : IEquatable<TRevisionId>, IComparable<TRevisionId>, IComparable, TValue
+        where TKey         : IEquatable<TKey>,        IComparable<TKey>,        IComparable
 
-    {
-
-        /// <summary>
-        /// Return the graph element properties (its embedded data).
-        /// </summary>
-        IProperties<TKey, TValue> PropertyData { get; }
-
-    }
+    { }
 
 }

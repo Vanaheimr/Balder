@@ -55,7 +55,6 @@
     <Compile Include="Mutable\Indices\PropertyIndex\PropertyHyperEdgeIndex.cs" />
     <Compile Include="Mutable\Indices\PropertyIndex\PropertyIndex.cs" />
     <Compile Include="Mutable\Indices\PropertyIndex\PropertyVertexIndex.cs" />
-    <Compile Include="Mutable\GraphElements\Properties.cs" />
     <Compile Include="Mutable\GraphElements\PropertyEdge.cs" />
     <Compile Include="Mutable\PropertyGraph.cs" />
     <Compile Include="Mutable\GraphElements\PropertyMultiEdge.cs" />

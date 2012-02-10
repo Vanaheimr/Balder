@@ -49,13 +49,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Datastructures\GraphElementIds\MultiEdgeId.cs" />
     <Compile Include="Extensions\GenericPropertyGraph\IGenericPropertyEdgeExtensions.cs" />
     <Compile Include="Exceptions\PropertiesExceptions.cs" />
     <Compile Include="Exceptions\VerticesExceptions.cs" />
     <Compile Include="Exceptions\PropertyGraphExceptions.cs" />
     <Compile Include="Extensions\GenericPropertyGraph\IGenericPropertyVertexExtensions.cs" />
     <Compile Include="GraphDBOntology.cs" />
+    <Compile Include="GraphElementIds\AGraphElementId.cs" />
+    <Compile Include="GraphElementIds\EdgeId.cs" />
+    <Compile Include="GraphElementIds\HyperEdgeId.cs" />
+    <Compile Include="GraphElementIds\MultiEdgeId.cs" />
+    <Compile Include="GraphElementIds\VertexId.cs" />
     <Compile Include="Interfaces\GenericPropertyGraph\GraphElements\IGenericPropertyMultiEdge.cs" />
     <Compile Include="Interfaces\GenericPropertyGraph\GraphElements\IGenericPropertyHyperEdge.cs" />
     <Compile Include="Interfaces\GenericPropertyGraph\GraphElements\IGenericPropertyVertex.cs" />
@@ -69,22 +73,17 @@
     <Compile Include="Interfaces\GenericPropertyGraph\GraphElements\Delegates.cs" />
     <Compile Include="Interfaces\PropertyGraph\GraphElements\IPropertyHyperEdge.cs" />
     <Compile Include="Interfaces\GenericPropertyGraph\IGenericPropertyGraphDelegates.cs" />
-    <Compile Include="Interfaces\GenericPropertyGraph\GraphElements\IPropertiesDelegates.cs" />
     <Compile Include="Interfaces\Indices\IndexDelegates.cs" />
     <Compile Include="Interfaces\Indices\IIndex.cs" />
-    <Compile Include="Interfaces\PropertyGraph\Indices\IPropertyElementIndex.cs" />
-    <Compile Include="Interfaces\PropertyGraph\Indices\Delegates.cs" />
-    <Compile Include="Datastructures\GraphElementIds\HyperEdgeId.cs" />
+    <Compile Include="Interfaces\Indices\IPropertyElementIndex.cs" />
+    <Compile Include="Interfaces\Indices\Delegates.cs" />
     <Compile Include="Datastructures\SemanticProperty.cs" />
-    <Compile Include="Datastructures\GraphElementIds\AGraphElementId.cs" />
-    <Compile Include="Datastructures\GraphElementIds\VertexId.cs" />
-    <Compile Include="Datastructures\GraphElementIds\EdgeId.cs" />
     <Compile Include="Extensions\GenericPropertyGraph\IGenericPropertyGraphExtensions.cs" />
     <Compile Include="Extensions\IGraphElementExtensions.cs" />
     <Compile Include="Extensions\IPropertiesExtensions.cs" />
     <Compile Include="Interfaces\GenericPropertyGraph\GraphElements\IDynamicGraphElement.cs" />
     <Compile Include="Interfaces\GenericPropertyGraph\GraphElements\IGraphElement.cs" />
-    <Compile Include="Interfaces\PropertyGraph\Indices\IGraphIndexing.cs" />
+    <Compile Include="Interfaces\Indices\IGraphIndexing.cs" />
     <Compile Include="Interfaces\GenericPropertyGraph\IGenericPropertyGraph.cs" />
     <Compile Include="Interfaces\PropertyGraph\GraphElements\IPropertyEdge.cs" />
     <Compile Include="Interfaces\GenericPropertyGraph\GraphElements\IProperties.cs" />
@@ -93,7 +92,6 @@
     <Compile Include="DynamicGraphElement.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Exceptions\PropertyGraph\" />
     <Folder Include="Extensions\PropertyGraph\" />
   </ItemGroup>
   <ItemGroup>

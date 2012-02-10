@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2010-2011, Achim 'ahzf' Friedland <code@ahzf.de>
+ * Copyright (c) 2010-2012, Achim 'ahzf' Friedland <code@ahzf.de>
  * This file is part of Blueprints.NET <http://www.github.com/ahzf/Blueprints.NET>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -135,7 +135,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <param name="GraphId">The identification of this graph.</param>
         /// <param name="IdKey">The key to access the Id of this graph.</param>
         /// <param name="RevisonIdKey">The key to access the Id of this graph.</param>
-        /// <param name="DataInitializer"></param>
+        /// <param name="DatastructureInitializer"></param>
         /// <param name="VertexIdCreatorDelegate">A delegate for creating a new VertexId (if no one was provided by the user).</param>
         /// <param name="VertexCreatorDelegate">A delegate for creating a new vertex.</param>
         /// <param name="EdgeIdCreatorDelegate">A delegate for creating a new EdgeId (if no one was provided by the user).</param>
@@ -148,87 +148,87 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <param name="EdgesCollectionInitializer">A delegate for initializing a new edge with custom data.</param>
         /// <param name="HyperEdgesCollectionInitializer">A delegate for initializing a new hyperedge with custom data.</param>
         /// <param name="GraphInitializer">A delegate to initialize the newly created graph.</param>
-        public AGenericPropertyGraph(TIdVertex                          GraphId,
-                                     TKeyVertex                         IdKey,
-                                     TKeyVertex                         RevisonIdKey,
-                                     Func<IDictionary<TKeyVertex, TValueVertex>> DataInitializer,
+        public AGenericPropertyGraph(TIdVertex  GraphId,
+                                     TKeyVertex IdKey,
+                                     TKeyVertex RevisonIdKey,
+                                     IDictionaryInitializer<TKeyVertex, TValueVertex> DatastructureInitializer,
 
-                                    // Create a new vertex
-                                    VertexIdCreatorDelegate   <TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                               TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                               TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                               TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> VertexIdCreatorDelegate,
+                                     // Create a new vertex
+                                     VertexIdCreatorDelegate   <TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> VertexIdCreatorDelegate,
 
-                                    VertexCreatorDelegate     <TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                               TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                               TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                               TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> VertexCreatorDelegate,
+                                     VertexCreatorDelegate     <TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> VertexCreatorDelegate,
 
-                                    Func<IGroupedCollection<TVertexLabel, TIdVertex, IGenericPropertyVertex<TIdVertex, TRevisionIdVertex, TVertexLabel, TKeyVertex, TValueVertex,
-                                                                                                                    TIdEdge, TRevisionIdEdge, TEdgeLabel, TKeyEdge, TValueEdge,
-                                                                                                                    TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                                                                    TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>> VerticesCollectionInitializer,
-
-
-                                    // Create a new edge
-                                    EdgeIdCreatorDelegate     <TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                               TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                               TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                               TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeIdCreatorDelegate,
-
-                                    EdgeCreatorDelegate       <TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                               TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                               TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                               TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeCreatorDelegate,
-
-                                    Func<IGroupedCollection<TEdgeLabel, TIdEdge, IGenericPropertyEdge<TIdVertex, TRevisionIdVertex, TVertexLabel, TKeyVertex, TValueVertex,
-                                                                                                                    TIdEdge, TRevisionIdEdge, TEdgeLabel, TKeyEdge, TValueEdge,
-                                                                                                                    TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                                                                    TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>> EdgesCollectionInitializer,
+                                     Func<IGroupedCollection<TVertexLabel, TIdVertex, IGenericPropertyVertex<TIdVertex, TRevisionIdVertex, TVertexLabel, TKeyVertex, TValueVertex,
+                                                                                                                     TIdEdge, TRevisionIdEdge, TEdgeLabel, TKeyEdge, TValueEdge,
+                                                                                                                     TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>> VerticesCollectionInitializer,
 
 
-                                    // Create a new multiedge
-                                    MultiEdgeIdCreatorDelegate<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                               TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                               TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                               TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> MultiEdgeIdCreatorDelegate,
+                                     // Create a new edge
+                                     EdgeIdCreatorDelegate     <TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeIdCreatorDelegate,
 
-                                    MultiEdgeCreatorDelegate  <TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                               TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                               TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                               TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> MultiEdgeCreatorDelegate,
+                                     EdgeCreatorDelegate       <TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeCreatorDelegate,
 
-                                    Func<IGroupedCollection<TMultiEdgeLabel, TIdMultiEdge, IGenericPropertyMultiEdge<TIdVertex, TRevisionIdVertex, TVertexLabel, TKeyVertex, TValueVertex,
-                                                                                                                    TIdEdge, TRevisionIdEdge, TEdgeLabel, TKeyEdge, TValueEdge,
-                                                                                                                    TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                                                                    TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>> MultiEdgesCollectionInitializer,
+                                     Func<IGroupedCollection<TEdgeLabel, TIdEdge, IGenericPropertyEdge<TIdVertex, TRevisionIdVertex, TVertexLabel, TKeyVertex, TValueVertex,
+                                                                                                                     TIdEdge, TRevisionIdEdge, TEdgeLabel, TKeyEdge, TValueEdge,
+                                                                                                                     TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>> EdgesCollectionInitializer,
+                                     
 
+                                     // Create a new multiedge
+                                     MultiEdgeIdCreatorDelegate<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> MultiEdgeIdCreatorDelegate,
 
-                                    // Create a new hyperedge
-                                    HyperEdgeIdCreatorDelegate<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                               TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                               TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                               TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> HyperEdgeIdCreatorDelegate,
+                                     MultiEdgeCreatorDelegate  <TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> MultiEdgeCreatorDelegate,
 
-                                    HyperEdgeCreatorDelegate  <TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                               TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                               TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                               TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> HyperEdgeCreatorDelegate,
-
-                                    Func<IGroupedCollection<THyperEdgeLabel, TIdHyperEdge, IGenericPropertyHyperEdge<TIdVertex, TRevisionIdVertex, TVertexLabel, TKeyVertex, TValueVertex,
-                                                                                                                    TIdEdge, TRevisionIdEdge, TEdgeLabel, TKeyEdge, TValueEdge,
-                                                                                                                    TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                                                                    TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>> HyperEdgesCollectionInitializer,
-
-
-                                    // Graph initializer
-                                    GraphInitializer<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                     TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                     TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> GraphInitializer = null)
+                                     Func<IGroupedCollection<TMultiEdgeLabel, TIdMultiEdge, IGenericPropertyMultiEdge<TIdVertex, TRevisionIdVertex, TVertexLabel, TKeyVertex, TValueVertex,
+                                                                                                                     TIdEdge, TRevisionIdEdge, TEdgeLabel, TKeyEdge, TValueEdge,
+                                                                                                                     TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>> MultiEdgesCollectionInitializer,
 
 
-            : base(GraphId, IdKey, RevisonIdKey, DataInitializer,
+                                     // Create a new hyperedge
+                                     HyperEdgeIdCreatorDelegate<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> HyperEdgeIdCreatorDelegate,
+
+                                     HyperEdgeCreatorDelegate  <TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> HyperEdgeCreatorDelegate,
+
+                                     Func<IGroupedCollection<THyperEdgeLabel, TIdHyperEdge, IGenericPropertyHyperEdge<TIdVertex, TRevisionIdVertex, TVertexLabel, TKeyVertex, TValueVertex,
+                                                                                                                     TIdEdge, TRevisionIdEdge, TEdgeLabel, TKeyEdge, TValueEdge,
+                                                                                                                     TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                                                     TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>> HyperEdgesCollectionInitializer,
+
+
+                                     // Graph initializer
+                                     GraphInitializer<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                      TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                      TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                      TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> GraphInitializer = null)
+
+
+            : base(GraphId, IdKey, RevisonIdKey, DatastructureInitializer,
                    VertexIdCreatorDelegate,    VertexCreatorDelegate,    VerticesCollectionInitializer,
                    EdgeIdCreatorDelegate,      EdgeCreatorDelegate,      EdgesCollectionInitializer,
                    MultiEdgeIdCreatorDelegate, MultiEdgeCreatorDelegate, MultiEdgesCollectionInitializer,
@@ -1235,7 +1235,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
             if ((Object) IGraphElement == null)
                 throw new ArgumentNullException("The given IGraphElement must not be null!");
 
-            return Id.CompareTo(IGraphElement.PropertyData[IdKey]);
+            return Id.CompareTo(IGraphElement[IdKey]);
 
         }
 
@@ -1304,7 +1304,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
             if ((Object) IGraphElement == null)
                 return false;
 
-            return Id.Equals(IGraphElement.PropertyData[IdKey]);
+            return Id.Equals(IGraphElement[IdKey]);
 
         }
 

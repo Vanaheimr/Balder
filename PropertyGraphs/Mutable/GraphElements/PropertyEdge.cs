@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2010-2011, Achim 'ahzf' Friedland <code@ahzf.de>
+ * Copyright (c) 2010-2012, Achim 'ahzf' Friedland <code@ahzf.de>
  * This file is part of Blueprints.NET <http://www.github.com/ahzf/Blueprints.NET>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -153,7 +153,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         #region Constructor(s)
 
-        #region PropertyEdge(Graph, OutVertex, InVertex, EdgeId, Label, IdKey, RevisionIdKey, PropertiesCollectionInitializer, EdgeInitializer = null)
+        #region PropertyEdge(Graph, OutVertex, InVertex, EdgeId, Label, IdKey, RevisionIdKey, DatastructureInitializer, EdgeInitializer = null)
 
         /// <summary>
         /// Creates a new edge.
@@ -165,36 +165,36 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <param name="Label">A label stored within this edge.</param>
         /// <param name="IdKey">The key of the edge identifier.</param>
         /// <param name="RevisonIdKey">The key of the edge revision identifier.</param>
-        /// <param name="PropertiesCollectionInitializer">A delegate to initialize the properties datastructure.</param>
+        /// <param name="DatastructureInitializer">A delegate to initialize the properties datastructure.</param>
         /// <param name="EdgeInitializer">A delegate to initialize the newly created edge.</param>
         public PropertyEdge(IGenericPropertyGraph <TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                            TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                            TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                            TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Graph,
+                                                   TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                   TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                   TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Graph,
                             IGenericPropertyVertex<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                            TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                            TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                            TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
-                                            OutVertex,
+                                                   TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                   TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                   TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
+                                                   OutVertex,
 
                             IGenericPropertyVertex<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                            TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                            TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                            TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
-                                            InVertex,
+                                                   TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                   TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                   TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
+                                                   InVertex,
 
-                            TIdEdge                         EdgeId,
-                            TEdgeLabel                      Label,
-                            TKeyEdge                        IdKey,
-                            TKeyEdge                        RevisonIdKey,
-                            Func<IDictionary<TKeyEdge, TValueEdge>> PropertiesCollectionInitializer,
+                            TIdEdge    EdgeId,
+                            TEdgeLabel Label,
+                            TKeyEdge   IdKey,
+                            TKeyEdge   RevisonIdKey,
+                            IDictionaryInitializer<TKeyEdge, TValueEdge> DatastructureInitializer,
 
                             EdgeInitializer<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                             TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                             TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeInitializer = null)
 
-            : base(EdgeId, IdKey, RevisonIdKey, PropertiesCollectionInitializer)
+            : base(EdgeId, IdKey, RevisonIdKey, DatastructureInitializer)
 
         {
 
@@ -212,7 +212,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
             if (RevisonIdKey == null)
                 throw new ArgumentNullException("The given RevisonIdKey must not be null!");
 
-            if (PropertiesCollectionInitializer == null)
+            if (DatastructureInitializer == null)
                 throw new ArgumentNullException("The given PropertiesCollectionInitializer must not be null!");
 
             if (OutVertex == null)
@@ -454,7 +454,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <param name="myObject">The property value</param>
         public virtual Object SetMember(String myBinder, Object myObject)
         {
-            return PropertyData.SetProperty((TKeyEdge) (Object) myBinder, (TValueEdge) myObject);
+            return SetProperty((TKeyEdge) (Object) myBinder, (TValueEdge) myObject);
         }
 
         #endregion
@@ -468,7 +468,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         public virtual Object GetMember(String myBinder)
         {
             TValueEdge myObject;
-            PropertyData.GetProperty((TKeyEdge) (Object) myBinder, out myObject);
+            TryGet((TKeyEdge) (Object) myBinder, out myObject);
             return myObject as Object;
         }
 
@@ -558,7 +558,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
             if ((Object) IGraphElement == null)
                 throw new ArgumentNullException("The given IGraphElement must not be null!");
 
-            return Id.CompareTo(IGraphElement.PropertyData[IdKey]);
+            return Id.CompareTo(IGraphElement[IdKey]);
 
         }
 
@@ -579,7 +579,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
             if ((Object) IPropertyEdge == null)
                 throw new ArgumentNullException("The given IPropertyEdge must not be null!");
 
-            return Id.CompareTo(IPropertyEdge.PropertyData[IdKey]);
+            return Id.CompareTo(IPropertyEdge[IdKey]);
 
         }
 
@@ -650,7 +650,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                 return false;
 
             //TODO: Here it might be good to check all attributes of the UNIQUE constraint!
-            return Id.Equals(IGraphElement.PropertyData[IdKey]);
+            return Id.Equals(IGraphElement[IdKey]);
 
         }
 
@@ -673,7 +673,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                 return false;
 
             //TODO: Here it might be good to check all attributes of the UNIQUE constraint!
-            return Id.Equals(IPropertyEdge.PropertyData[IdKey]);
+            return Id.Equals(IPropertyEdge[IdKey]);
 
         }
 

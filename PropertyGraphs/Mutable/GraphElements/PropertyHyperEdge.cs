@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2010-2011, Achim 'ahzf' Friedland <code@ahzf.de>
+ * Copyright (c) 2010-2012, Achim 'ahzf' Friedland <code@ahzf.de>
  * This file is part of Blueprints.NET <http://www.github.com/ahzf/Blueprints.NET>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -156,7 +156,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         #region Constructor(s)
 
-        #region PropertyHyperEdge(Graph, OutVertex, InVertex, EdgeId, Label, IdKey, RevisionIdKey, PropertiesCollectionInitializer, EdgeInitializer = null)
+        #region PropertyHyperEdge(Graph, OutVertex, InVertex, EdgeId, Label, IdKey, RevisionIdKey, DatastructureInitializer, EdgeInitializer = null)
 
         /// <summary>
         /// Creates a new hyperedge.
@@ -167,7 +167,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <param name="Label">A label stored within this multiedge.</param>
         /// <param name="IdKey">The key of the multiedge identifier.</param>
         /// <param name="RevisonIdKey">The key of the multiedge revision identifier.</param>
-        /// <param name="PropertiesCollectionInitializer">A delegate to initialize the properties datastructure.</param>
+        /// <param name="DatastructureInitializer">A delegate to initialize the properties datastructure.</param>
         /// <param name="VerticesCollectionInitializer">A delegate to initialize the datastructure for storing the vertices.</param>
         /// <param name="MultiEdgeInitializer">A delegate to initialize the newly created multiedge.</param>
         public PropertyHyperEdge(IGenericPropertyGraph<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
@@ -176,16 +176,16 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                                        TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Graph,
 
                                  IEnumerable<IGenericPropertyVertex<TIdVertex,    TRevisionIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                             TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                             TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                             TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
-                                                             Vertices,
+                                                                    TIdEdge,      TRevisionIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                    TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                    TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
+                                                                    Vertices,
 
-                                 TIdHyperEdge                         HyperEdgeId,
-                                 THyperEdgeLabel                      Label,
-                                 TKeyHyperEdge                        IdKey,
-                                 TKeyHyperEdge                        RevisonIdKey,
-                                 Func<IDictionary<TKeyHyperEdge, TValueHyperEdge>> PropertiesCollectionInitializer,
+                                 TIdHyperEdge    HyperEdgeId,
+                                 THyperEdgeLabel Label,
+                                 TKeyHyperEdge   IdKey,
+                                 TKeyHyperEdge   RevisonIdKey,
+                                 IDictionaryInitializer<TKeyHyperEdge, TValueHyperEdge> DatastructureInitializer,
                                  Func<IGroupedCollection<TVertexLabel, TIdVertex, IGenericPropertyVertex<TIdVertex, TRevisionIdVertex, TVertexLabel, TKeyVertex, TValueVertex,
                                                                                                                     TIdEdge, TRevisionIdEdge, TEdgeLabel, TKeyEdge, TValueEdge,
                                                                                                                     TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -196,7 +196,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                                       TIdMultiEdge, TRevisionIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                       TIdHyperEdge, TRevisionIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> HyperEdgeInitializer = null)
 
-            : base(HyperEdgeId, IdKey, RevisonIdKey, PropertiesCollectionInitializer)
+            : base(HyperEdgeId, IdKey, RevisonIdKey, DatastructureInitializer)
 
         {
 
@@ -214,7 +214,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
             if (RevisonIdKey == null)
                 throw new ArgumentNullException("The given RevisonIdKey must not be null!");
 
-            if (PropertiesCollectionInitializer == null)
+            if (DatastructureInitializer == null)
                 throw new ArgumentNullException("The given PropertiesCollectionInitializer must not be null!");
 
             if (VerticesCollectionInitializer == null)
@@ -486,7 +486,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <param name="myObject">The property value</param>
         public virtual Object SetMember(String myBinder, Object myObject)
         {
-            return PropertyData.SetProperty((TKeyHyperEdge) (Object) myBinder, (TValueHyperEdge) myObject);
+            return SetProperty((TKeyHyperEdge) (Object) myBinder, (TValueHyperEdge) myObject);
         }
 
         #endregion
@@ -500,7 +500,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         public virtual Object GetMember(String myBinder)
         {
             TValueHyperEdge myObject;
-            PropertyData.GetProperty((TKeyHyperEdge) (Object) myBinder, out myObject);
+            TryGet((TKeyHyperEdge) (Object) myBinder, out myObject);
             return myObject as Object;
         }
 
@@ -590,7 +590,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
             if ((Object) IGraphElement == null)
                 throw new ArgumentNullException("The given IGraphElement must not be null!");
 
-            return Id.CompareTo(IGraphElement.PropertyData[IdKey]);
+            return Id.CompareTo(IGraphElement[IdKey]);
 
         }
 
@@ -611,7 +611,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
             if ((Object) IPropertyHyperEdge == null)
                 throw new ArgumentNullException("The given IPropertyHyperEdge must not be null!");
 
-            return Id.CompareTo(IPropertyHyperEdge.PropertyData[IdKey]);
+            return Id.CompareTo(IPropertyHyperEdge[IdKey]);
 
         }
 
@@ -682,7 +682,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                 return false;
 
             //TODO: Here it might be good to check all attributes of the UNIQUE constraint!
-            return Id.Equals(IGraphElement.PropertyData[IdKey]);
+            return Id.Equals(IGraphElement[IdKey]);
 
         }
 
@@ -705,7 +705,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                 return false;
 
             //TODO: Here it might be good to check all attributes of the UNIQUE constraint!
-            return Id.Equals(IPropertyHyperEdge.PropertyData[IdKey]);
+            return Id.Equals(IPropertyHyperEdge[IdKey]);
 
         }
 

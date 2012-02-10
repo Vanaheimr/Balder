@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2010-2011, Achim 'ahzf' Friedland <code@ahzf.de>
+ * Copyright (c) 2010-2012, Achim 'ahzf' Friedland <code@ahzf.de>
  * This file is part of Blueprints.NET <http://www.github.com/ahzf/Blueprints.NET>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -34,9 +34,9 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
     public class SemanticPropertyGraph
 
                      : GenericPropertyGraph<VertexId,    RevisionId, SemanticProperty, SemanticProperty, Object,   // Vertex definition
-                                             EdgeId,      RevisionId, SemanticProperty, SemanticProperty, Object,   // Edge definition
-                                             MultiEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object,   // MultiEdge definition
-                                             HyperEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object>,  // Hyperedge definition
+                                            EdgeId,      RevisionId, SemanticProperty, SemanticProperty, Object,   // Edge definition
+                                            MultiEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object,   // MultiEdge definition
+                                            HyperEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object>,  // Hyperedge definition
          
                                             ISemanticPropertyGraph
 

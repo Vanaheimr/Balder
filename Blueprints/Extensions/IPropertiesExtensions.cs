@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2010-2011, Achim 'ahzf' Friedland <code@ahzf.de>
+ * Copyright (c) 2010-2012, Achim 'ahzf' Friedland <code@ahzf.de>
  * This file is part of Blueprints.NET <http://www.github.com/ahzf/Blueprints.NET>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -146,7 +146,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
             TValue PropertyValue = default(TValue);
 
-            if (IProperties.GetProperty(PropertyKey, out PropertyValue))
+            if (IProperties.TryGet(PropertyKey, out PropertyValue))
                 return PropertyValue;
 
             else
@@ -180,7 +180,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
             TValue Value;
 
-            if (IProperties.GetProperty(PropertyKey, out Value))
+            if (IProperties.TryGet(PropertyKey, out Value))
                 if (Value.GetType().Equals(PropertyType))
                     return IProperties[PropertyKey];
 
@@ -191,7 +191,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         #endregion
 
 
-        #region GetProperty<TKey, TValue>(IProperties, PropertyKey, OnSuccessAction [Action<TValue>] )
+        #region GetProperty<TKey, TValue>(IProperties, PropertyKey, OnSuccess [Action<TValue>], OnError = null)
 
         /// <summary>
         /// Call the given delegate if the given property key is assigned.
@@ -200,10 +200,12 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         /// <typeparam name="TValue">The type of the property values.</typeparam>
         /// <param name="IProperties">An object implementing IProperties.</param>
         /// <param name="PropertyKey">The property key.</param>
-        /// <param name="OnSuccessAction">A delegate to call for the associated value of the given property key.</param>
+        /// <param name="OnSuccess">A delegate to call for the associated value of the given property key and its value.</param>
+        /// <param name="OnError">A delegate to call for the associated value of the given property key when an error occurs.</param>
         public static void GetProperty<TKey, TValue>(this IProperties<TKey, TValue> IProperties,
                                                      TKey                           PropertyKey,
-                                                     Action<TValue>                 OnSuccessAction)
+                                                     Action<TValue>                 OnSuccess,
+                                                     Action<TKey>                   OnError = null)
 
             where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
 
@@ -214,20 +216,23 @@ namespace de.ahzf.Blueprints.PropertyGraphs
             if (IProperties == null)
                 throw new ArgumentNullException("The given IProperties must not be null!");
 
-            if (OnSuccessAction == null)
+            if (OnSuccess == null)
                 throw new ArgumentNullException("The given delegate must not be null!");
 
             #endregion
 
             TValue Value;
-            if (IProperties.GetProperty(PropertyKey, out Value))
-                OnSuccessAction(Value);
+            if (IProperties.TryGet(PropertyKey, out Value))
+                OnSuccess(Value);
+
+            else if (OnError != null)
+                OnError(PropertyKey);
 
         }
 
         #endregion
 
-        #region GetProperty<TKey, TValue>(IProperties, PropertyKey, OnSuccessAction [Action<TKey, TValue>] )
+        #region GetProperty<TKey, TValue>(IProperties, PropertyKey, OnSuccess [Action<TKey, TValue>], OnError = null)
 
         /// <summary>
         /// Call the given delegate if the given property key is assigned.
@@ -236,10 +241,12 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         /// <typeparam name="TValue">The type of the property values.</typeparam>
         /// <param name="IProperties">An object implementing IProperties.</param>
         /// <param name="PropertyKey">The property key.</param>
-        /// <param name="OnSuccessAction">A delegate to call for the key and associated value of the given property key.</param>
+        /// <param name="OnSuccess">A delegate to call for the associated value of the given property key and its value.</param>
+        /// <param name="OnError">A delegate to call for the associated value of the given property key when an error occurs.</param>
         public static void GetProperty<TKey, TValue>(this IProperties<TKey, TValue> IProperties,
                                                      TKey                           PropertyKey,
-                                                     Action<TKey, TValue>           OnSuccessAction)
+                                                     Action<TKey, TValue>           OnSuccess,
+                                                     Action<TKey>                   OnError = null)
 
             where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
 
@@ -250,20 +257,23 @@ namespace de.ahzf.Blueprints.PropertyGraphs
             if (IProperties == null)
                 throw new ArgumentNullException("The given IProperties must not be null!");
 
-            if (OnSuccessAction == null)
+            if (OnSuccess == null)
                 throw new ArgumentNullException("The given delegate must not be null!");
 
             #endregion
 
             TValue Value;
-            if (IProperties.GetProperty(PropertyKey, out Value))
-                OnSuccessAction(PropertyKey, Value);
+            if (IProperties.TryGet(PropertyKey, out Value))
+                OnSuccess(PropertyKey, Value);
+
+            else if (OnError != null)
+                OnError(PropertyKey);
 
         }
 
         #endregion
 
-        #region GetKeyValuePair<TKey, TValue>(IProperties, PropertyKey, OnSuccessAction [Action<KeyValuePair<TKey, TValue>>] )
+        #region GetKeyValuePair<TKey, TValue>(IProperties, PropertyKey, OnSuccess [Action<KeyValuePair<TKey, TValue>>] )
         // Note: Renamed for disambiguity with GetProperty(..., Action<TValue>)
 
         /// <summary>
@@ -273,10 +283,10 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         /// <typeparam name="TValue">The type of the property values.</typeparam>
         /// <param name="IProperties">An object implementing IProperties.</param>
         /// <param name="PropertyKey">The property key.</param>
-        /// <param name="OnSuccessAction">A delegate to call for a matching KeyValuePair.</param>
+        /// <param name="OnSuccess">A delegate to call for a matching KeyValuePair.</param>
         public static void GetKeyValuePair<TKey, TValue>(this IProperties<TKey, TValue>     IProperties,
                                                          TKey                               PropertyKey,
-                                                         Action<KeyValuePair<TKey, TValue>> OnSuccessAction)
+                                                         Action<KeyValuePair<TKey, TValue>> OnSuccess)
 
             where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
 
@@ -287,21 +297,21 @@ namespace de.ahzf.Blueprints.PropertyGraphs
             if (IProperties == null)
                 throw new ArgumentNullException("The given IProperties must not be null!");
 
-            if (OnSuccessAction == null)
+            if (OnSuccess == null)
                 throw new ArgumentNullException("The given delegate must not be null!");
 
             #endregion
 
             TValue Value;
-            if (IProperties.GetProperty(PropertyKey, out Value))
-                OnSuccessAction(new KeyValuePair<TKey, TValue>(PropertyKey, Value));
+            if (IProperties.TryGet(PropertyKey, out Value))
+                OnSuccess(new KeyValuePair<TKey, TValue>(PropertyKey, Value));
 
         }
 
         #endregion
 
 
-        #region GetProperty<TKey, TValue>(IProperties, PropertyKey, PropertyType, OnSuccessAction [Action<TValue>] )
+        #region GetProperty<TKey, TValue>(IProperties, PropertyKey, PropertyType, OnSuccess [Action<TValue>] )
 
         /// <summary>
         /// Call the given delegate if the given property key is assigned
@@ -312,11 +322,11 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         /// <param name="IProperties">An object implementing IProperties.</param>
         /// <param name="PropertyKey">The property key.</param>
         /// <param name="PropertyType">The expected type of the property value.</param>
-        /// <param name="OnSuccessAction">A delegate to call for the associated value of the given property key.</param>
+        /// <param name="OnSuccess">A delegate to call for the associated value of the given property key.</param>
         public static void GetProperty<TKey, TValue>(this IProperties<TKey, TValue> IProperties,
                                                      TKey                           PropertyKey,
                                                      Type                           PropertyType,
-                                                     Action<TValue>                 OnSuccessAction)
+                                                     Action<TValue>                 OnSuccess)
 
             where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
 
@@ -327,21 +337,21 @@ namespace de.ahzf.Blueprints.PropertyGraphs
             if (IProperties == null)
                 throw new ArgumentNullException("The given IProperties must not be null!");
 
-            if (OnSuccessAction == null)
+            if (OnSuccess == null)
                 throw new ArgumentNullException("The given delegate must not be null!");
 
             #endregion
 
             TValue Value;
-            if (IProperties.GetProperty(PropertyKey, out Value))
+            if (IProperties.TryGet(PropertyKey, out Value))
                 if (Value.GetType().Equals(PropertyType))
-                    OnSuccessAction(Value);
+                    OnSuccess(Value);
 
         }
 
         #endregion
 
-        #region GetProperty<TKey, TValue>(IProperties, PropertyKey, PropertyType, OnSuccessAction [Action<TKey, TValue>] )
+        #region GetProperty<TKey, TValue>(IProperties, PropertyKey, PropertyType, OnSuccess [Action<TKey, TValue>] )
 
         /// <summary>
         /// Call the given delegate if the given property key is assigned
@@ -352,11 +362,11 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         /// <param name="IProperties">An object implementing IProperties.</param>
         /// <param name="PropertyKey">The property key.</param>
         /// <param name="PropertyType">The expected type of the property value.</param>
-        /// <param name="OnSuccessAction">A delegate to call for the key and associated value of the given property key.</param>
+        /// <param name="OnSuccess">A delegate to call for the key and associated value of the given property key.</param>
         public static void GetProperty<TKey, TValue>(this IProperties<TKey, TValue> IProperties,
                                                      TKey                           PropertyKey,
                                                      Type                           PropertyType,
-                                                     Action<TKey, TValue>           OnSuccessAction)
+                                                     Action<TKey, TValue>           OnSuccess)
 
             where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
 
@@ -367,21 +377,21 @@ namespace de.ahzf.Blueprints.PropertyGraphs
             if (IProperties == null)
                 throw new ArgumentNullException("The given IProperties must not be null!");
 
-            if (OnSuccessAction == null)
+            if (OnSuccess == null)
                 throw new ArgumentNullException("The given delegate must not be null!");
 
             #endregion
 
             TValue Value;
-            if (IProperties.GetProperty(PropertyKey, out Value))
+            if (IProperties.TryGet(PropertyKey, out Value))
                 if (Value.GetType().Equals(PropertyType))
-                    OnSuccessAction(PropertyKey, Value);
+                    OnSuccess(PropertyKey, Value);
 
         }
 
         #endregion
 
-        #region GetKeyValuePair<TKey, TValue>(IProperties, PropertyKey, PropertyType, OnSuccessAction [Action<KeyValuePair<TKey, TValue>>] )
+        #region GetKeyValuePair<TKey, TValue>(IProperties, PropertyKey, PropertyType, OnSuccess [Action<KeyValuePair<TKey, TValue>>] )
         // Note: Renamed for disambiguity with GetProperty(..., Action<TValue>)
 
         /// <summary>
@@ -393,11 +403,11 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         /// <param name="IProperties">An object implementing IProperties.</param>
         /// <param name="PropertyKey">The property key.</param>
         /// <param name="PropertyType">The expected type of the property value.</param>
-        /// <param name="OnSuccessAction">A delegate to call for a matching KeyValuePair.</param>
+        /// <param name="OnSuccess">A delegate to call for a matching KeyValuePair.</param>
         public static void GetKeyValuePair<TKey, TValue>(this IProperties<TKey, TValue>     IProperties,
                                                          TKey                               PropertyKey,
                                                          Type                               PropertyType,
-                                                         Action<KeyValuePair<TKey, TValue>> OnSuccessAction)
+                                                         Action<KeyValuePair<TKey, TValue>> OnSuccess)
 
             where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
 
@@ -408,15 +418,15 @@ namespace de.ahzf.Blueprints.PropertyGraphs
             if (IProperties == null)
                 throw new ArgumentNullException("The given IProperties must not be null!");
 
-            if (OnSuccessAction == null)
+            if (OnSuccess == null)
                 throw new ArgumentNullException("The given delegate must not be null!");
 
             #endregion
 
             TValue Value;
-            if (IProperties.GetProperty(PropertyKey, out Value))
+            if (IProperties.TryGet(PropertyKey, out Value))
                 if (Value.GetType().Equals(PropertyType))
-                    OnSuccessAction(new KeyValuePair<TKey, TValue>(PropertyKey, Value));
+                    OnSuccess(new KeyValuePair<TKey, TValue>(PropertyKey, Value));
 
         }
 
@@ -452,7 +462,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
             #endregion
 
             TValue Value;
-            if (IProperties.GetProperty(PropertyKey, out Value))
+            if (IProperties.TryGet(PropertyKey, out Value))
                 return OnSuccessFunc(Value);
 
             return default(TValue);
@@ -490,7 +500,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
             #endregion
 
             TValue Value;
-            if (IProperties.GetProperty(PropertyKey, out Value))
+            if (IProperties.TryGet(PropertyKey, out Value))
                 return OnSuccessFunc(PropertyKey, Value);
 
             return default(TValue);
@@ -529,7 +539,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
             #endregion
 
             TValue Value;
-            if (IProperties.GetProperty(PropertyKey, out Value))
+            if (IProperties.TryGet(PropertyKey, out Value))
                 return OnSuccessFunc(new KeyValuePair<TKey, TValue>(PropertyKey, Value));
 
             return default(TValue);
@@ -571,7 +581,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
             #endregion
 
             TValue Value;
-            if (IProperties.GetProperty(PropertyKey, out Value))
+            if (IProperties.TryGet(PropertyKey, out Value))
                 if (Value.GetType().Equals(PropertyType))
                     return OnSuccessFunc(Value);
 
@@ -613,7 +623,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
             #endregion
 
             TValue Value;
-            if (IProperties.GetProperty(PropertyKey, out Value))
+            if (IProperties.TryGet(PropertyKey, out Value))
                 if (Value.GetType().Equals(PropertyType))
                     return OnSuccessFunc(PropertyKey, Value);
 
@@ -656,7 +666,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
             #endregion
 
             TValue Value;
-            if (IProperties.GetProperty(PropertyKey, out Value))
+            if (IProperties.TryGet(PropertyKey, out Value))
                 if (Value.GetType().Equals(PropertyType))
                     return OnSuccessFunc(new KeyValuePair<TKey, TValue>(PropertyKey, Value));
 
@@ -698,7 +708,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
 
 
-        #region GetProperties<TKey, TValue>(IProperties, KeyValueFilter, OnSuccessAction [Action<TValue>] )
+        #region GetProperties<TKey, TValue>(IProperties, KeyValueFilter, OnSuccess [Action<TValue>] )
 
         /// <summary>
         /// Call the given delegate if the given property key is assigned.
@@ -707,11 +717,11 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         /// <typeparam name="TValue">The type of the property values.</typeparam>
         /// <param name="IProperties">An object implementing IProperties.</param>
         /// <param name="KeyValueFilter">A delegate to filter properties based on their keys and values.</param>
-        /// <param name="OnSuccessAction">A delegate called for the associated value of each matching KeyValuePair.</param>
+        /// <param name="OnSuccess">A delegate called for the associated value of each matching KeyValuePair.</param>
         public static void GetProperties<TKey, TValue>
                            (this IProperties<TKey, TValue> IProperties,
                             KeyValueFilter<TKey, TValue>   KeyValueFilter,
-                            Action<TValue>                 OnSuccessAction)
+                            Action<TValue>                 OnSuccess)
 
             where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
 
@@ -725,19 +735,19 @@ namespace de.ahzf.Blueprints.PropertyGraphs
             if (KeyValueFilter == null)
                 throw new ArgumentNullException("The given KeyValueFilter must not be null!");
 
-            if (OnSuccessAction == null)
+            if (OnSuccess == null)
                 throw new ArgumentNullException("The given delegate must not be null!");
 
             #endregion
 
             foreach (var Property in IProperties.GetProperties(KeyValueFilter))
-                OnSuccessAction(Property.Value);
+                OnSuccess(Property.Value);
 
         }
 
         #endregion
 
-        #region GetProperties<TKey, TValue>(IProperties, KeyValueFilter, OnSuccessAction [Action<TKey, TValue>] )
+        #region GetProperties<TKey, TValue>(IProperties, KeyValueFilter, OnSuccess [Action<TKey, TValue>] )
 
         /// <summary>
         /// Call the given delegate if the given property key is assigned.
@@ -746,11 +756,11 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         /// <typeparam name="TValue">The type of the property values.</typeparam>
         /// <param name="IProperties">An object implementing IProperties.</param>
         /// <param name="KeyValueFilter">A delegate to filter properties based on their keys and values.</param>
-        /// <param name="OnSuccessAction">A delegate to call for each matching KeyValuePair.</param>
+        /// <param name="OnSuccess">A delegate to call for each matching KeyValuePair.</param>
         public static void GetProperties<TKey, TValue>
                            (this IProperties<TKey, TValue> IProperties,
                             KeyValueFilter<TKey, TValue>   KeyValueFilter,
-                            Action<TKey, TValue>           OnSuccessAction)
+                            Action<TKey, TValue>           OnSuccess)
 
             where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
 
@@ -764,19 +774,19 @@ namespace de.ahzf.Blueprints.PropertyGraphs
             if (KeyValueFilter == null)
                 throw new ArgumentNullException("The given KeyValueFilter must not be null!");
 
-            if (OnSuccessAction == null)
+            if (OnSuccess == null)
                 throw new ArgumentNullException("The given delegate must not be null!");
 
             #endregion
 
             foreach (var Property in IProperties.GetProperties(KeyValueFilter))
-                OnSuccessAction(Property.Key, Property.Value);
+                OnSuccess(Property.Key, Property.Value);
 
         }
 
         #endregion
 
-        #region GetProperties<TKey, TValue>(IProperties, KeyValueFilter, OnSuccessAction [Action<KeyValuePair<TKey, TValue>>] )
+        #region GetProperties<TKey, TValue>(IProperties, KeyValueFilter, OnSuccess [Action<KeyValuePair<TKey, TValue>>] )
 
         /// <summary>
         /// Call the given delegate if the given property key is assigned.
@@ -785,11 +795,11 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         /// <typeparam name="TValue">The type of the property values.</typeparam>
         /// <param name="IProperties">An object implementing IProperties.</param>
         /// <param name="KeyValueFilter">A delegate to filter properties based on their keys and values.</param>
-        /// <param name="OnSuccessAction">A delegate to call for each matching KeyValuePair.</param>
+        /// <param name="OnSuccess">A delegate to call for each matching KeyValuePair.</param>
         public static void GetProperties<TKey, TValue>
                            (this IProperties<TKey, TValue>     IProperties,
                             KeyValueFilter<TKey, TValue>       KeyValueFilter,
-                            Action<KeyValuePair<TKey, TValue>> OnSuccessAction)
+                            Action<KeyValuePair<TKey, TValue>> OnSuccess)
 
             where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
 
@@ -803,12 +813,12 @@ namespace de.ahzf.Blueprints.PropertyGraphs
             if (KeyValueFilter == null)
                 throw new ArgumentNullException("The given KeyValueFilter must not be null!");
 
-            if (OnSuccessAction == null)
+            if (OnSuccess == null)
                 throw new ArgumentNullException("The given delegate must not be null!");
 
             #endregion
 
-            IProperties.GetProperties(KeyValueFilter).ForEach(OnSuccessAction);
+            IProperties.GetProperties(KeyValueFilter).ForEach(OnSuccess);
 
         }
 

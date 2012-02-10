@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2010-2011, Achim 'ahzf' Friedland <code@ahzf.de>
+ * Copyright (c) 2010-2012, Achim 'ahzf' Friedland <code@ahzf.de>
  * This file is part of Blueprints.NET <http://www.github.com/ahzf/Blueprints.NET>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,10 +18,9 @@
 #region Usings
 
 using System;
-using System.ComponentModel;
-using System.Linq.Expressions;
 using System.Collections.Generic;
-using System.Collections.Specialized;
+
+using de.ahzf.Illias.Commons.Votes;
 
 #endregion
 
@@ -40,11 +39,20 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
     public abstract class AGraphElement<TId, TRevisionId, TKey, TValue>
                               : IProperties<TKey, TValue>
 
-        where TKey           : IEquatable<TKey>,        IComparable<TKey>,        IComparable
-        where TId            : IEquatable<TId>,         IComparable<TId>,         IComparable, TValue
-        where TRevisionId    : IEquatable<TRevisionId>, IComparable<TRevisionId>, IComparable, TValue
+        where TKey        : IEquatable<TKey>,        IComparable<TKey>,        IComparable
+        where TId         : IEquatable<TId>,         IComparable<TId>,         IComparable, TValue
+        where TRevisionId : IEquatable<TRevisionId>, IComparable<TRevisionId>, IComparable, TValue
 
     {
+
+        #region Data
+
+        /// <summary>
+        /// The datastructure holding all graph properties.
+        /// </summary>
+        protected readonly IDictionary<TKey, TValue> PropertyData;
+
+        #endregion
 
         #region Properties
 
@@ -53,26 +61,28 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <summary>
         /// The property key of the identification.
         /// </summary>
-        public TKey IdKey
-        {
-            get
-            {
-                return PropertyData.IdKey;
-            }
-        }
+        public TKey IdKey { get; private set; }
 
         #endregion
 
         #region Id
 
         /// <summary>
-        /// The Identification of this property graph element.
+        /// An identifier that is unique to its inheriting class.
+        /// All vertices, edges, multiedges and hyperedges of a graph must have an unique identifier.
         /// </summary>
         public TId Id
         {
             get
             {
-                return (TId) PropertyData[IdKey];
+
+                TValue _TValue;
+
+                if (PropertyData.TryGetValue(IdKey, out _TValue))
+                    return (TId)_TValue;
+
+                return default(TId);
+
             }
         }
 
@@ -83,37 +93,31 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <summary>
         /// The property key of the revision identification.
         /// </summary>
-        public TKey RevIdKey
-        {
-            get
-            {
-                return PropertyData.RevIdKey;
-            }
-        }
+        public TKey RevIdKey { get; private set; }
 
         #endregion
 
         #region RevisionId
 
         /// <summary>
-        /// The revision identification of this property graph element.
+        /// The RevisionId extends the Id to identify multiple revisions of
+        /// an element during the lifetime of a graph. A RevisionId should
+        /// additionally be unique among all elements of a graph.
         /// </summary>
         public TRevisionId RevisionId
         {
             get
             {
-                return (TRevisionId) PropertyData[RevIdKey];
+
+                TValue _TValue;
+
+                if (PropertyData.TryGetValue(RevIdKey, out _TValue))
+                    return (TRevisionId)(Object)_TValue;
+
+                return default(TRevisionId);
+
             }
         }
-
-        #endregion
-
-        #region PropertyData
-
-        /// <summary>
-        /// The properties of this graph element.
-        /// </summary>
-        public IProperties<TKey, TValue> PropertyData { get; private set; }
 
         #endregion
 
@@ -126,20 +130,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <summary>
         /// Called when a property value will be added.
         /// </summary>
-        public event PropertyAdditionEventHandler<TKey, TValue> OnPropertyAddition
-        {
-
-            add
-            {
-                PropertyData.OnPropertyAddition += value;
-            }
-
-            remove
-            {
-                PropertyData.OnPropertyAddition -= value;
-            }
-
-        }
+        public event PropertyAdditionEventHandler<TKey, TValue> OnPropertyAddition;
 
         #endregion
 
@@ -148,20 +139,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <summary>
         /// Called whenever a property value was added.
         /// </summary>
-        public event PropertyAddedEventHandler<TKey, TValue> OnPropertyAdded
-        {
-
-            add
-            {
-                PropertyData.OnPropertyAdded += value;
-            }
-
-            remove
-            {
-                PropertyData.OnPropertyAdded -= value;
-            }
-
-        }
+        public event PropertyAddedEventHandler<TKey, TValue> OnPropertyAdded;
 
         #endregion
 
@@ -170,20 +148,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <summary>
         /// Called whenever a property value will be changed.
         /// </summary>
-        public event PropertyChangingEventHandler<TKey, TValue> OnPropertyChanging
-        {
-
-            add
-            {
-                PropertyData.OnPropertyChanging += value;
-            }
-
-            remove
-            {
-                PropertyData.OnPropertyChanging -= value;
-            }
-
-        }
+        public event PropertyChangingEventHandler<TKey, TValue> OnPropertyChanging;
 
         #endregion
 
@@ -192,20 +157,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <summary>
         /// Called whenever a property value was changed.
         /// </summary>
-        public event PropertyChangedEventHandler<TKey, TValue> OnPropertyChanged
-        {
-
-            add
-            {
-                PropertyData.OnPropertyChanged += value;
-            }
-
-            remove
-            {
-                PropertyData.OnPropertyChanged -= value;
-            }
-
-        }
+        public event PropertyChangedEventHandler<TKey, TValue> OnPropertyChanged;
 
         #endregion
 
@@ -214,20 +166,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <summary>
         /// Called whenever a property value will be removed.
         /// </summary>
-        public event PropertyRemovalEventHandler<TKey, TValue> OnPropertyRemoval
-        {
-
-            add
-            {
-                PropertyData.OnPropertyRemoval += value;
-            }
-
-            remove
-            {
-                PropertyData.OnPropertyRemoval -= value;
-            }
-
-        }
+        public event PropertyRemovalEventHandler<TKey, TValue> OnPropertyRemoval;
 
         #endregion
 
@@ -236,19 +175,120 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <summary>
         /// Called whenever a property value was removed.
         /// </summary>
-        public event PropertyRemovedEventHandler<TKey, TValue> OnPropertyRemoved
+        public event PropertyRemovedEventHandler<TKey, TValue> OnPropertyRemoved;
+
+        #endregion
+
+        #endregion
+
+        #region (internal) Send[...]Notifications(...)
+
+        #region (internal) SendPropertyAdditionNotification(Key, Value)
+
+        /// <summary>
+        /// Notify about a property to be added.
+        /// </summary>
+        /// <param name="Key">The key of the property to be added.</param>
+        /// <param name="Value">The value of the property to be added.</param>
+        internal Boolean SendPropertyAdditionNotification(TKey Key, TValue Value)
         {
 
-            add
-            {
-                PropertyData.OnPropertyRemoved += value;
-            }
+            var _VetoVote = new VetoVote();
 
-            remove
-            {
-                PropertyData.OnPropertyRemoved -= value;
-            }
+            if (OnPropertyAddition != null)
+                OnPropertyAddition(this, Key, Value, _VetoVote);
 
+            return _VetoVote.Result;
+
+        }
+
+        #endregion
+
+        #region (internal) SendPropertyAddedNotification(Key, Value)
+
+        /// <summary>
+        /// Notify about an added property.
+        /// </summary>
+        /// <param name="Key">The key of the added property.</param>
+        /// <param name="Value">The value of the added property.</param>
+        internal void SendPropertyAddedNotification(TKey Key, TValue Value)
+        {
+            if (OnPropertyAdded != null)
+                OnPropertyAdded(this, Key, Value);
+        }
+
+        #endregion
+
+        #region (internal) SendPropertyChangingNotification(Key, OldValue, NewValue)
+
+        /// <summary>
+        /// Notify about a property to be changed.
+        /// </summary>
+        /// <param name="Key">The key of the property to be changed.</param>
+        /// <param name="OldValue">The old value of the property to be changed.</param>
+        /// <param name="NewValue">The new value of the property to be changed.</param>
+        internal Boolean SendPropertyChangingNotification(TKey Key, TValue OldValue, TValue NewValue)
+        {
+
+            var _VetoVote = new VetoVote();
+
+            if (OnPropertyChanging != null)
+                OnPropertyChanging(this, Key, OldValue, NewValue, _VetoVote);
+
+            return _VetoVote.Result;
+
+        }
+
+        #endregion
+
+        #region (internal) SendPropertyChangedNotification(Key, OldValue, NewValue)
+
+        /// <summary>
+        /// Notify about a changed property.
+        /// </summary>
+        /// <param name="Key">The key of the changed property.</param>
+        /// <param name="OldValue">The old value of the changed property.</param>
+        /// <param name="NewValue">The new value of the changed property.</param>
+        internal void SendPropertyChangedNotification(TKey Key, TValue OldValue, TValue NewValue)
+        {
+            if (OnPropertyChanged != null)
+                OnPropertyChanged(this, Key, OldValue, NewValue);
+        }
+
+        #endregion
+
+        #region (internal) SendPropertyRemovalNotification(Key, Value)
+
+        /// <summary>
+        /// Notify about a property to be removed.
+        /// </summary>
+        /// <param name="Key">The key of the property to be removed.</param>
+        /// <param name="Value">The value of the property to be removed.</param>
+        internal Boolean SendPropertyRemovalNotification(TKey Key, TValue Value)
+        {
+
+            var _VetoVote = new VetoVote();
+
+            if (OnPropertyRemoval != null)
+                OnPropertyRemoval(this, Key, Value, _VetoVote);
+
+            return _VetoVote.Result;
+
+        }
+
+        #endregion
+
+        #region (internal) SendPropertyRemovedNotification(Key, Value)
+
+        /// <summary>
+        /// Notify about a removed property.
+        /// </summary>
+        /// <param name="Key">The key of the removed property.</param>
+        /// <param name="Value">The value of the removed property.</param>
+        internal void SendPropertyRemovedNotification(TKey Key, TValue Value)
+        {
+            if (OnPropertyRemoved != null)
+                OnPropertyRemoved(this, Key, Value);
         }
 
         #endregion
@@ -257,28 +297,47 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         #region (protected) Constructor(s)
 
-        #region (protected) AGraphElement(Id, IdKey, RevisonIdKey, DatastructureInitializer, GraphElementInitializer = null)
+        #region (protected) AGraphElement(Id, IdKey, RevIdKey, DatastructureInitializer, GraphElementInitializer = null)
 
         /// <summary>
         /// Creates a new abstract graph element.
         /// </summary>
         /// <param name="Id">The Id of this graph element.</param>
         /// <param name="IdKey">The key to access the Id of this graph element.</param>
-        /// <param name="RevisonIdKey">The key to access the RevisionId of this graph element.</param>
-        /// <param name="DatastructureInitializer">A delegate to initialize the datastructure of the this graph element.</param>
-        /// <param name="GraphElementInitializer">An delegate to do some initial operations like adding some properties.</param>
-        internal protected AGraphElement(TId                               Id,
-                                         TKey                              IdKey,
-                                         TKey                              RevisonIdKey,
-                                         Func<IDictionary<TKey, TValue>>   DatastructureInitializer,
-                                         Action<IProperties<TKey, TValue>> GraphElementInitializer = null)
+        /// <param name="RevIdKey">The key to access the RevisionId of this graph element.</param>
+        /// <param name="DatastructureInitializer">A delegate to initialize the properties datastructure of the this graph element.</param>
+        /// <param name="PropertiesInitializer">A delegate to do some initial operations like adding some properties.</param>
+        internal protected AGraphElement(TId                                  Id,
+                                         TKey                                 IdKey,
+                                         TKey                                 RevIdKey,
+                                         IDictionaryInitializer<TKey, TValue> DatastructureInitializer,
+                                         IPropertiesInitializer<TKey, TValue> PropertiesInitializer = null)
         {
 
-            this.PropertyData  = new Properties<TId, TRevisionId, TKey, TValue>
-                                               (IdKey, Id, RevisonIdKey, default(TRevisionId), DatastructureInitializer);
+            #region Initial checks
 
-            if (GraphElementInitializer != null)
-                GraphElementInitializer(PropertyData);
+            if (IdKey == null)
+                throw new ArgumentNullException("The given IdKey must not be null!");
+
+            if (Id == null)
+                throw new ArgumentNullException("The given Id must not be null!");
+
+            if (RevIdKey == null)
+                throw new ArgumentNullException("The given RevisionIdKey must not be null!");
+
+            if (DatastructureInitializer == null)
+                throw new ArgumentNullException("The given DatastructureInitializer must not be null!");
+
+            #endregion
+
+            this.IdKey        = IdKey;
+            this.RevIdKey     = RevIdKey;
+            this.PropertyData = DatastructureInitializer();
+            this.PropertyData.Add(IdKey,    Id);
+            this.PropertyData.Add(RevIdKey, RevisionId);
+
+            if (PropertiesInitializer != null)
+                PropertiesInitializer(this);
 
         }
 
@@ -328,9 +387,37 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// </summary>
         /// <param name="Key">A key.</param>
         /// <param name="Value">A value.</param>
-        public IProperties<TKey, TValue> SetProperty(TKey Key, TValue Value)
+        public virtual IProperties<TKey, TValue> SetProperty(TKey Key, TValue Value)
         {
-            return PropertyData.SetProperty(Key, Value);
+
+            #region Initial Checks
+
+            if (Key.Equals(IdKey))
+                throw new IdentificationChangeException();
+
+            if (Key.Equals(RevIdKey))
+                throw new RevisionIdentificationChangeException();
+
+            #endregion
+
+            TValue _OldValue;
+
+            if (PropertyData.TryGetValue(Key, out _OldValue))
+            {
+                SendPropertyChangingNotification(Key, _OldValue, Value);
+                PropertyData[Key] = Value;
+                SendPropertyChangedNotification (Key, _OldValue, Value);
+            }
+
+            else
+            {
+                SendPropertyAdditionNotification(Key, Value);
+                PropertyData.Add(Key, Value);
+                SendPropertyAddedNotification(Key, Value);
+            }
+
+            return this;
+
         }
 
         #endregion
@@ -357,7 +444,13 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <param name="Value">A value.</param>
         public Boolean ContainsValue(TValue Value)
         {
-            return PropertyData.ContainsValue(Value);
+
+            foreach (var _Value in PropertyData.Values)
+                if (_Value.Equals(Value))
+                    return true;
+
+            return false;
+
         }
 
         #endregion
@@ -365,13 +458,33 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         #region Contains(Key, Value)
 
         /// <summary>
-        /// Determines if an KeyValuePair with the specified key and value exists.
+        /// Determines if the given key and value exists.
         /// </summary>
         /// <param name="Key">A key.</param>
         /// <param name="Value">A value.</param>
         public Boolean Contains(TKey Key, TValue Value)
         {
-            return PropertyData.Contains(Key, Value);
+
+            TValue _Value;
+
+            if (PropertyData.TryGetValue(Key, out _Value))
+                return Value.Equals(_Value);
+
+            return false;
+
+        }
+
+        #endregion
+
+        #region Contains(KeyValuePair)
+
+        /// <summary>
+        /// Determines if the given KeyValuePair exists.
+        /// </summary>
+        /// <param name="KeyValuePair">A KeyValuePair.</param>
+        public Boolean Contains(KeyValuePair<TKey, TValue> KeyValuePair)
+        {
+            return PropertyData.Contains(KeyValuePair);
         }
 
         #endregion
@@ -383,17 +496,23 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// Return the value associated with the given key.
         /// </summary>
         /// <param name="Key">A key.</param>
-        public TValue this[TKey Key]
+        public virtual TValue this[TKey Key]
         {
             get
             {
-                return PropertyData[Key];
+
+                TValue _Object;
+
+                PropertyData.TryGetValue(Key, out _Object);
+
+                return _Object;
+
             }
         }
 
         #endregion
 
-        #region Get(Key, out Value)
+        #region TryGet(Key, out Value)
 
         /// <summary>
         /// Return the value associated with the given key.
@@ -401,9 +520,9 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <param name="Key">A key.</param>
         /// <param name="Value">The associated value.</param>
         /// <returns>True if the returned value is valid. False otherwise.</returns>
-        public Boolean GetProperty(TKey Key, out TValue Value)
+        public virtual Boolean TryGet(TKey Key, out TValue Value)
         {
-            return PropertyData.GetProperty(Key, out Value);
+            return PropertyData.TryGetValue(Key, out Value);
         }
 
         #endregion
@@ -415,9 +534,24 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// </summary>
         /// <param name="KeyValueFilter">A delegate to filter properties based on their keys and values.</param>
         /// <returns>A enumeration of all key/value pairs matching the given KeyValueFilter.</returns>
-        public IEnumerable<KeyValuePair<TKey, TValue>> GetProperties(KeyValueFilter<TKey, TValue> KeyValueFilter = null)
+        public virtual IEnumerable<KeyValuePair<TKey, TValue>> GetProperties(KeyValueFilter<TKey, TValue> KeyValueFilter = null)
         {
-            return PropertyData.GetProperties(KeyValueFilter);
+
+            if (KeyValueFilter == null)
+            {
+                foreach (var _KeyValuePair in PropertyData)
+                    if (_KeyValuePair.Value != null)
+                        yield return _KeyValuePair;
+            }
+
+            else
+            {
+                foreach (var _KeyValuePair in PropertyData)
+                    if (_KeyValuePair.Value != null)
+                        if (KeyValueFilter(_KeyValuePair.Key, _KeyValuePair.Value))
+                            yield return _KeyValuePair;
+            }
+
         }
 
         #endregion
@@ -430,9 +564,30 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// </summary>
         /// <param name="Key">A key.</param>
         /// <returns>The value associated with that key prior to the removal.</returns>
-        public TValue Remove(TKey Key)
+        public virtual TValue Remove(TKey Key)
         {
-            return PropertyData.Remove(Key);
+
+            #region Initial Checks
+
+            if (Key.Equals(IdKey))
+                throw new ArgumentException("Removing the Id property is not allowed!");
+
+            if (Key.Equals(RevIdKey))
+                throw new ArgumentException("Removing the RevisionId property is not allowed!");
+
+            #endregion
+
+            TValue _Value;
+
+            if (PropertyData.TryGetValue(Key, out _Value))
+            {
+                SendPropertyRemovalNotification(Key, _Value);
+                PropertyData.Remove(Key);
+                SendPropertyRemovedNotification(Key, _Value);
+            }
+
+            return _Value;
+
         }
 
         #endregion
@@ -446,7 +601,32 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <param name="Value">A value.</param>
         public Boolean Remove(TKey Key, TValue Value)
         {
-            return PropertyData.Remove(Key, Value);
+
+            #region Initial Checks
+
+            if (Key.Equals(IdKey))
+                throw new ArgumentException("Removing the Id property is not allowed!");
+
+            if (Key.Equals(RevIdKey))
+                throw new ArgumentException("Removing the RevisionId property is not allowed!");
+
+            #endregion
+
+            TValue _Value;
+
+            if (TryGet(Key, out _Value))
+            {
+                if (_Value.Equals(Value))
+                {
+                    SendPropertyRemovalNotification(Key, _Value);
+                    Remove(Key);
+                    SendPropertyRemovedNotification(Key, _Value);
+                    return true;
+                }
+            }
+
+            return false;
+            
         }
 
         #endregion
@@ -460,7 +640,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <returns>A enumeration of all key/value pairs removed by the given KeyValueFilter before their removal.</returns>
         public IEnumerable<KeyValuePair<TKey, TValue>> Remove(KeyValueFilter<TKey, TValue> KeyValueFilter = null)
         {
-            return PropertyData.Remove(KeyValueFilter);
+            throw new NotImplementedException();
         }
 
         #endregion

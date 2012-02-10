@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2010-2011, Achim 'ahzf' Friedland <code@ahzf.de>
+ * Copyright (c) 2010-2012, Achim 'ahzf' Friedland <code@ahzf.de>
  * This file is part of Blueprints.NET <http://www.github.com/ahzf/Blueprints.NET>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -71,7 +71,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <summary>
         /// Created a new class-based in-memory implementation of a property graph.
         /// </summary>
-        /// <param name="GraphId">A unique identification for this graph.</param>
+        /// <param name="GraphId">A unique identification for this graph (which is also a vertex!).</param>
         /// <param name="GraphInitializer">A delegate to initialize the graph.</param>
         public PropertyGraph(UInt64 GraphId,
                              GraphInitializer<UInt64, Int64, String, String, Object,
