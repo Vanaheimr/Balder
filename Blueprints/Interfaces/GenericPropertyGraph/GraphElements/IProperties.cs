@@ -141,8 +141,9 @@ namespace de.ahzf.Blueprints.PropertyGraphs
     public interface IProperties<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>>
 
         where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
-
     {
+
+        #region Events
 
         /// <summary>
         /// Called whenever a property value will be added.
@@ -153,6 +154,30 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         /// Called whenever a property value was added.
         /// </summary>
         event PropertyAddedEventHandler<TKey, TValue> OnPropertyAdded;
+
+
+        /// <summary>
+        /// Called whenever a property value will be changed.
+        /// </summary>
+        event PropertyChangingEventHandler<TKey, TValue> OnPropertyChanging;
+
+        /// <summary>
+        /// Called whenever a property value was changed.
+        /// </summary>
+        event PropertyChangedEventHandler<TKey, TValue> OnPropertyChanged;
+
+
+        /// <summary>
+        /// Called whenever a property value will be removed.
+        /// </summary>
+        event PropertyRemovalEventHandler<TKey, TValue> OnPropertyRemoval;
+
+        /// <summary>
+        /// Called whenever a property value was removed.
+        /// </summary>
+        event PropertyRemovedEventHandler<TKey, TValue> OnPropertyRemoved;
+
+        #endregion
 
         #region SetProperty(Key, Value)
 
@@ -165,17 +190,6 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         IProperties<TKey, TValue> SetProperty(TKey Key, TValue Value);
 
         #endregion
-
-        /// <summary>
-        /// Called whenever a property value will be changed.
-        /// </summary>
-        event PropertyChangingEventHandler<TKey, TValue> OnPropertyChanging;
-
-        /// <summary>
-        /// Called whenever a property value was changed.
-        /// </summary>
-        event PropertyChangedEventHandler<TKey, TValue> OnPropertyChanged;
-
 
 
         #region Properties
@@ -269,20 +283,6 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         #endregion
 
 
-
-
-
-
-        /// <summary>
-        /// Called whenever a property value will be removed.
-        /// </summary>
-        event PropertyRemovalEventHandler<TKey, TValue> OnPropertyRemoval;
-
-        /// <summary>
-        /// Called whenever a property value was removed.
-        /// </summary>
-        event PropertyRemovedEventHandler<TKey, TValue> OnPropertyRemoved;
-
         #region Remove...
 
         /// <summary>
@@ -293,11 +293,12 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         TValue Remove(TKey Key);
 
         /// <summary>
-        /// Remove the given KeyValuePair.
+        /// Remove the given key and value pair.
         /// </summary>
         /// <param name="Key">A key.</param>
         /// <param name="Value">A value.</param>
-        Boolean Remove(TKey Key, TValue Value);
+        /// <returns>The value associated with that key prior to the removal.</returns>
+        TValue Remove(TKey Key, TValue Value);
 
         /// <summary>
         /// Remove all KeyValuePairs specified by the given KeyValueFilter.

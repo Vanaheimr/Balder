@@ -183,14 +183,14 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         #region (internal) Send[...]Notifications(...)
 
-        #region (internal) SendPropertyAdditionNotification(Key, Value)
+        #region (internal) SendPropertyAdditionVote(Key, Value)
 
         /// <summary>
-        /// Notify about a property to be added.
+        /// Notify and send a vore about a property to be added.
         /// </summary>
         /// <param name="Key">The key of the property to be added.</param>
         /// <param name="Value">The value of the property to be added.</param>
-        internal Boolean SendPropertyAdditionNotification(TKey Key, TValue Value)
+        internal Boolean SendPropertyAdditionVote(TKey Key, TValue Value)
         {
 
             var _VetoVote = new VetoVote();
@@ -219,15 +219,15 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         #endregion
 
-        #region (internal) SendPropertyChangingNotification(Key, OldValue, NewValue)
+        #region (internal) SendPropertyChangingVote(Key, OldValue, NewValue)
 
         /// <summary>
-        /// Notify about a property to be changed.
+        /// Notify and send vote about a property to be changed.
         /// </summary>
         /// <param name="Key">The key of the property to be changed.</param>
         /// <param name="OldValue">The old value of the property to be changed.</param>
         /// <param name="NewValue">The new value of the property to be changed.</param>
-        internal Boolean SendPropertyChangingNotification(TKey Key, TValue OldValue, TValue NewValue)
+        internal Boolean SendPropertyChangingVote(TKey Key, TValue OldValue, TValue NewValue)
         {
 
             var _VetoVote = new VetoVote();
@@ -257,14 +257,14 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         #endregion
 
-        #region (internal) SendPropertyRemovalNotification(Key, Value)
+        #region (internal) SendPropertyRemovalVote(Key, Value)
 
         /// <summary>
-        /// Notify about a property to be removed.
+        /// Notify and send vote about a property to be removed.
         /// </summary>
         /// <param name="Key">The key of the property to be removed.</param>
         /// <param name="Value">The value of the property to be removed.</param>
-        internal Boolean SendPropertyRemovalNotification(TKey Key, TValue Value)
+        internal Boolean SendPropertyRemovalVote(TKey Key, TValue Value)
         {
 
             var _VetoVote = new VetoVote();
@@ -348,37 +348,6 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         #region IProperties Members
 
-        #region Keys
-
-        /// <summary>
-        /// An enumeration of all property keys.
-        /// </summary>
-        public IEnumerable<TKey> Keys
-        {
-            get
-            {
-                return PropertyData.Keys;
-            }
-        }
-
-        #endregion
-
-        #region Values
-
-        /// <summary>
-        /// An enumeration of all property values.
-        /// </summary>
-        public IEnumerable<TValue> Values
-        {
-            get
-            {
-                return PropertyData.Values;
-            }
-        }
-
-        #endregion
-
-
         #region SetProperty(Key, Value)
 
         /// <summary>
@@ -404,16 +373,20 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
             if (PropertyData.TryGetValue(Key, out _OldValue))
             {
-                SendPropertyChangingNotification(Key, _OldValue, Value);
-                PropertyData[Key] = Value;
-                SendPropertyChangedNotification (Key, _OldValue, Value);
+                if (SendPropertyChangingVote(Key, _OldValue, Value))
+                {
+                    PropertyData[Key] = Value;
+                    SendPropertyChangedNotification(Key, _OldValue, Value);
+                }
             }
 
             else
             {
-                SendPropertyAdditionNotification(Key, Value);
-                PropertyData.Add(Key, Value);
-                SendPropertyAddedNotification(Key, Value);
+                if (SendPropertyAdditionVote(Key, Value))
+                {
+                    PropertyData.Add(Key, Value);
+                    SendPropertyAddedNotification(Key, Value);
+                }
             }
 
             return this;
@@ -527,7 +500,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         #endregion
 
-        #region Get(KeyValueFilter = null)
+        #region GetProperties(KeyValueFilter = null)
 
         /// <summary>
         /// Return a filtered enumeration of all KeyValuePairs.
@@ -552,6 +525,36 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                             yield return _KeyValuePair;
             }
 
+        }
+
+        #endregion
+
+        #region Keys
+
+        /// <summary>
+        /// An enumeration of all property keys.
+        /// </summary>
+        public IEnumerable<TKey> Keys
+        {
+            get
+            {
+                return PropertyData.Keys;
+            }
+        }
+
+        #endregion
+
+        #region Values
+
+        /// <summary>
+        /// An enumeration of all property values.
+        /// </summary>
+        public IEnumerable<TValue> Values
+        {
+            get
+            {
+                return PropertyData.Values;
+            }
         }
 
         #endregion
@@ -581,9 +584,15 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
             if (PropertyData.TryGetValue(Key, out _Value))
             {
-                SendPropertyRemovalNotification(Key, _Value);
-                PropertyData.Remove(Key);
-                SendPropertyRemovedNotification(Key, _Value);
+                if (SendPropertyRemovalVote(Key, _Value))
+                {
+
+                    if (!PropertyData.Remove(Key))
+                        throw new Exception("Could not delete '" + Key + "'!");
+
+                    SendPropertyRemovedNotification(Key, _Value);
+
+                }
             }
 
             return _Value;
@@ -595,11 +604,12 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         #region Remove(Key, Value)
 
         /// <summary>
-        /// Remove the given KeyValuePair.
+        /// Remove the given key and value pair.
         /// </summary>
         /// <param name="Key">A key.</param>
         /// <param name="Value">A value.</param>
-        public Boolean Remove(TKey Key, TValue Value)
+        /// <returns>The value associated with that key prior to the removal.</returns>
+        public TValue Remove(TKey Key, TValue Value)
         {
 
             #region Initial Checks
@@ -608,7 +618,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                 throw new ArgumentException("Removing the Id property is not allowed!");
 
             if (Key.Equals(RevIdKey))
-                throw new ArgumentException("Removing the RevisionId property is not allowed!");
+                throw new ArgumentException("Removing the RevId property is not allowed!");
 
             #endregion
 
@@ -618,14 +628,16 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
             {
                 if (_Value.Equals(Value))
                 {
-                    SendPropertyRemovalNotification(Key, _Value);
-                    Remove(Key);
-                    SendPropertyRemovedNotification(Key, _Value);
-                    return true;
+                    if (SendPropertyRemovalVote(Key, _Value))
+                    {
+                        Remove(Key);
+                        SendPropertyRemovedNotification(Key, _Value);
+                        return _Value;
+                    }
                 }
             }
 
-            return false;
+            return default(TValue);
             
         }
 
@@ -635,12 +647,41 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         /// <summary>
         /// Remove all KeyValuePairs specified by the given KeyValueFilter.
+        /// Removing the Id or RevId property is not supported!
         /// </summary>
         /// <param name="KeyValueFilter">A delegate to remove properties based on their keys and values.</param>
         /// <returns>A enumeration of all key/value pairs removed by the given KeyValueFilter before their removal.</returns>
         public IEnumerable<KeyValuePair<TKey, TValue>> Remove(KeyValueFilter<TKey, TValue> KeyValueFilter = null)
         {
-            throw new NotImplementedException();
+
+            var ToDelete = new List<KeyValuePair<TKey, TValue>>();
+            var Deleted  = new List<KeyValuePair<TKey, TValue>>();
+
+            // Collect KeyValuePair to delete...
+            if (KeyValueFilter != null)
+                foreach (var KeyValuePair in PropertyData)
+                    if (KeyValueFilter(KeyValuePair.Key, KeyValuePair.Value))
+                        if (KeyValuePair.Key.Equals(IdKey))
+                            throw new ArgumentException("Removing the Id property is not allowed!");
+                        else if (KeyValuePair.Key.Equals(RevIdKey))
+                            throw new ArgumentException("Removing the RevId property is not allowed!");
+                        else
+                            ToDelete.Add(KeyValuePair);
+
+
+            // Delete them now...
+            foreach (var KeyValuePair in ToDelete)
+                if (SendPropertyRemovalVote(KeyValuePair.Key, KeyValuePair.Value))
+                {
+                    Remove(KeyValuePair.Key);
+                    Deleted.Add(KeyValuePair);
+                    SendPropertyRemovedNotification(KeyValuePair.Key, KeyValuePair.Value);
+                }
+
+
+            // Return deleted KeyValuePairs
+            return Deleted;
+
         }
 
         #endregion

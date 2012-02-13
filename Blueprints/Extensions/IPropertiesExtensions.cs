@@ -21,6 +21,8 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
+using de.ahzf.Illias.Commons;
+
 #endregion
 
 namespace de.ahzf.Blueprints.PropertyGraphs
@@ -71,7 +73,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         /// <typeparam name="TValue">The type of the property value.</typeparam>
         /// <param name="IProperties">An object implementing IProperties.</param>
         /// <param name="KeyValuePairs">A enumeration of KeyValuePairs of type string and object</param>
-        public static void SetProperties<TKey, TValue>(this IProperties<TKey, TValue> IProperties, IEnumerable<KeyValuePair<TKey, TValue>> KeyValuePairs)
+        public static IProperties<TKey, TValue> SetProperties<TKey, TValue>(this IProperties<TKey, TValue> IProperties, IEnumerable<KeyValuePair<TKey, TValue>> KeyValuePairs)
             where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
         {
 
@@ -88,6 +90,8 @@ namespace de.ahzf.Blueprints.PropertyGraphs
             foreach (var _KeyValuePair in KeyValuePairs)
                 IProperties.SetProperty(_KeyValuePair.Key, _KeyValuePair.Value);
 
+            return IProperties;
+
         }
 
         #endregion
@@ -102,7 +106,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         /// <typeparam name="TValue">The type of the property value.</typeparam>
         /// <param name="IProperties">An object implementing IProperties.</param>
         /// <param name="IDictionary">A IDictionary of type TKey and TValue</param>
-        public static void SetProperties<TKey, TValue>(this IProperties<TKey, TValue> IProperties, IDictionary<TKey, TValue> IDictionary)
+        public static IProperties<TKey, TValue> SetProperties<TKey, TValue>(this IProperties<TKey, TValue> IProperties, IDictionary<TKey, TValue> IDictionary)
             where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
         {
 
@@ -118,6 +122,8 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
             foreach (var _KeyValuePair in IDictionary)
                 IProperties.SetProperty(_KeyValuePair.Key, _KeyValuePair.Value);
+
+            return IProperties;
 
         }
 
@@ -160,7 +166,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
         #endregion
 
-        #region GetProperty<TKey, TValue>(this IProperties, PropertyKey, OnSuccess [Action<TValue>], OnError = null)
+        #region UseProperty<TKey, TValue>(this IProperties, PropertyKey, OnSuccess [Action<TValue>], OnError = null)
 
         /// <summary>
         /// Call the given delegate if the given property key is assigned.
@@ -171,7 +177,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         /// <param name="PropertyKey">The property key.</param>
         /// <param name="OnSuccess">A delegate to call for the associated value of the given property key and its value.</param>
         /// <param name="OnError">A delegate to call for the associated value of the given property key when an error occurs.</param>
-        public static void GetProperty<TKey, TValue>(this IProperties<TKey, TValue> IProperties,
+        public static void UseProperty<TKey, TValue>(this IProperties<TKey, TValue> IProperties,
                                                      TKey                           PropertyKey,
                                                      Action<TValue>                 OnSuccess,
                                                      Action<TKey>                   OnError = null)
@@ -201,7 +207,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
         #endregion
 
-        #region GetProperty<TKey, TValue>(this IProperties, PropertyKey, OnSuccess [Action<TKey, TValue>], OnError = null)
+        #region UseProperty<TKey, TValue>(this IProperties, PropertyKey, OnSuccess [Action<TKey, TValue>], OnError = null)
 
         /// <summary>
         /// Call the given delegate if the given property key is assigned.
@@ -212,7 +218,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         /// <param name="PropertyKey">The property key.</param>
         /// <param name="OnSuccess">A delegate to call for the associated value of the given property key and its value.</param>
         /// <param name="OnError">A delegate to call for the associated value of the given property key when an error occurs.</param>
-        public static void GetProperty<TKey, TValue>(this IProperties<TKey, TValue> IProperties,
+        public static void UseProperty<TKey, TValue>(this IProperties<TKey, TValue> IProperties,
                                                      TKey                           PropertyKey,
                                                      Action<TKey, TValue>           OnSuccess,
                                                      Action<TKey>                   OnError = null)
@@ -242,7 +248,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
         #endregion
 
-        #region GetProperty<TKey, TValue, TResult>(this IProperties, PropertyKey, OnSuccess [Func<TValue, TResult>] )
+        #region PropertyFunc<TKey, TValue, TResult>(this IProperties, PropertyKey, OnSuccessFunc [Func<TValue, TResult>] )
 
         /// <summary>
         /// Call the given delegate if the given property key is assigned.
@@ -252,10 +258,127 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         /// <typeparam name="TResult">The type of the return value.</typeparam>
         /// <param name="IProperties">An object implementing IProperties.</param>
         /// <param name="PropertyKey">The property key.</param>
+        /// <param name="OnSuccessFunc">A delegate to call for the associated value of the given property key.</param>
+        public static TResult PropertyFunc<TKey, TValue, TResult>(this IProperties<TKey, TValue> IProperties,
+                                                                  TKey                           PropertyKey,
+                                                                  Func<TValue, TResult>          OnSuccessFunc)
+
+            where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
+
+        {
+
+            #region Initial checks
+
+            if (IProperties == null)
+                throw new ArgumentNullException("The given IProperties must not be null!");
+
+            if (OnSuccessFunc == null)
+                throw new ArgumentNullException("The given delegate must not be null!");
+
+            #endregion
+
+            TValue Value;
+            if (IProperties.TryGet(PropertyKey, out Value))
+                return OnSuccessFunc(Value);
+
+            return default(TResult);
+
+        }
+
+        #endregion
+
+        #region PropertyFunc<TKey, TValue, TResult>(this IProperties, PropertyKey, OnSuccessFunc [Func<TKey, TValue, TResult>] )
+
+        /// <summary>
+        /// Call the given delegate if the given property key is assigned.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the property key.</typeparam>
+        /// <typeparam name="TValue">The type of the property value.</typeparam>
+        /// <typeparam name="TResult">The type of the return value.</typeparam>
+        /// <param name="IProperties">An object implementing IProperties.</param>
+        /// <param name="PropertyKey">The property key.</param>
+        /// <param name="OnSuccessFunc">A delegate to call for the key and associated value of the given property key.</param>
+        public static TResult PropertyFunc<TKey, TValue, TResult>(this IProperties<TKey, TValue> IProperties,
+                                                                  TKey                           PropertyKey,
+                                                                  Func<TKey, TValue, TResult>    OnSuccessFunc)
+
+            where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
+
+        {
+
+            #region Initial checks
+
+            if (IProperties == null)
+                throw new ArgumentNullException("The given IProperties must not be null!");
+
+            if (OnSuccessFunc == null)
+                throw new ArgumentNullException("The given delegate must not be null!");
+
+            #endregion
+
+            TValue Value;
+            if (IProperties.TryGet(PropertyKey, out Value))
+                return OnSuccessFunc(PropertyKey, Value);
+
+            return default(TResult);
+
+        }
+
+        #endregion
+
+
+        // GetProperty(PropertyKey, PropertyType...)
+
+        #region GetProperty<TKey, TValue>(this IProperties, PropertyKey, PropertyType)
+        // Just an alternative syntax!
+
+        /// <summary>
+        /// Return the object value of type TValue associated with the provided property key.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the property key.</typeparam>
+        /// <typeparam name="TValue">The type of the property value.</typeparam>
+        /// <param name="IProperties">An object implementing IProperties.</param>
+        /// <param name="PropertyKey">The property key.</param>
+        /// <param name="PropertyType">The expected type of the property.</param>
+        public static TValue GetProperty<TKey, TValue>(this IProperties<TKey, TValue> IProperties, TKey PropertyKey, Type PropertyType)
+            where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
+        {
+
+            #region Initial checks
+
+            if (IProperties == null)
+                throw new ArgumentNullException("The given IProperties must not be null!");
+
+            #endregion
+
+            TValue Value;
+
+            if (IProperties.TryGet(PropertyKey, out Value))
+                if (Value.GetType().Equals(PropertyType))
+                    return Value;
+
+            return default(TValue);
+
+        }
+
+        #endregion
+
+        #region UseProperty<TKey, TValue>(this IProperties, PropertyKey, PropertyType, OnSuccess [Action<TValue>] )
+
+        /// <summary>
+        /// Call the given delegate if the given property key is assigned
+        /// and the type of the value matches.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the property key.</typeparam>
+        /// <typeparam name="TValue">The type of the property value.</typeparam>
+        /// <param name="IProperties">An object implementing IProperties.</param>
+        /// <param name="PropertyKey">The property key.</param>
+        /// <param name="PropertyType">The expected type of the property value.</param>
         /// <param name="OnSuccess">A delegate to call for the associated value of the given property key.</param>
-        public static TResult GetProperty<TKey, TValue, TResult>(this IProperties<TKey, TValue> IProperties,
-                                                                 TKey                           PropertyKey,
-                                                                 Func<TValue, TResult>          OnSuccess)
+        public static void UseProperty<TKey, TValue>(this IProperties<TKey, TValue> IProperties,
+                                                     TKey                           PropertyKey,
+                                                     Type                           PropertyType,
+                                                     Action<TValue>                 OnSuccess)
 
             where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
 
@@ -272,29 +395,31 @@ namespace de.ahzf.Blueprints.PropertyGraphs
             #endregion
 
             TValue Value;
-            if (IProperties.TryGet(PropertyKey, out Value))
-                return OnSuccess(Value);
 
-            return default(TResult);
+            if (IProperties.TryGet(PropertyKey, out Value))
+                if (Value.GetType().Equals(PropertyType))
+                    OnSuccess(Value);
 
         }
 
         #endregion
 
-        #region GetProperty<TKey, TValue, TResult>(this IProperties, PropertyKey, OnSuccess [Func<TKey, TValue, TResult>] )
+        #region UseProperty<TKey, TValue>(this IProperties, PropertyKey, PropertyType, OnSuccess [Action<TKey, TValue>] )
 
         /// <summary>
-        /// Call the given delegate if the given property key is assigned.
+        /// Call the given delegate if the given property key is assigned
+        /// and the type of the value matches.
         /// </summary>
         /// <typeparam name="TKey">The type of the property key.</typeparam>
         /// <typeparam name="TValue">The type of the property value.</typeparam>
-        /// <typeparam name="TResult">The type of the return value.</typeparam>
         /// <param name="IProperties">An object implementing IProperties.</param>
         /// <param name="PropertyKey">The property key.</param>
+        /// <param name="PropertyType">The expected type of the property value.</param>
         /// <param name="OnSuccess">A delegate to call for the key and associated value of the given property key.</param>
-        public static TResult GetProperty<TKey, TValue, TResult>(this IProperties<TKey, TValue> IProperties,
-                                                                 TKey                           PropertyKey,
-                                                                 Func<TKey, TValue, TResult>    OnSuccess)
+        public static void UseProperty<TKey, TValue>(this IProperties<TKey, TValue> IProperties,
+                                                     TKey                           PropertyKey,
+                                                     Type                           PropertyType,
+                                                     Action<TKey, TValue>           OnSuccess)
 
             where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
 
@@ -311,18 +436,130 @@ namespace de.ahzf.Blueprints.PropertyGraphs
             #endregion
 
             TValue Value;
-            if (IProperties.TryGet(PropertyKey, out Value))
-                return OnSuccess(PropertyKey, Value);
 
-            return default(TResult);
+            if (IProperties.TryGet(PropertyKey, out Value))
+                if (Value.GetType().Equals(PropertyType))
+                    OnSuccess(PropertyKey, Value);
+
+        }
+
+        #endregion
+
+        #region PropertyFunc<TKey, TValue>(this IProperties, PropertyKey, PropertyType, OnSuccessFunc [Func<TValue, Object>] )
+
+        /// <summary>
+        /// Call the given delegate if the given property key is assigned
+        /// and the type of the value matches.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the property key.</typeparam>
+        /// <typeparam name="TValue">The type of the property value.</typeparam>
+        /// <param name="IProperties">An object implementing IProperties.</param>
+        /// <param name="PropertyKey">The property key.</param>
+        /// <param name="PropertyType">The expected type of the property value.</param>
+        /// <param name="OnSuccessFunc">A delegate to call for the associated value of the given property key.</param>
+        public static Object PropertyFunc<TKey, TValue>(this IProperties<TKey, TValue> IProperties,
+                                                        TKey                           PropertyKey,
+                                                        Type                           PropertyType,
+                                                        Func<TValue, Object>           OnSuccessFunc)
+
+            where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
+
+        {
+
+            #region Initial checks
+
+            if (IProperties == null)
+                throw new ArgumentNullException("The given IProperties must not be null!");
+
+            if (OnSuccessFunc == null)
+                throw new ArgumentNullException("The given delegate must not be null!");
+
+            #endregion
+
+            TValue Value;
+            if (IProperties.TryGet(PropertyKey, out Value))
+                if (Value.GetType().Equals(PropertyType))
+                    return OnSuccessFunc(Value);
+
+            return default(TValue);
+
+        }
+
+        #endregion
+
+        #region PropertyFunc<TKey, TValue>(this IProperties, PropertyKey, PropertyType, OnSuccessFunc [Func<TKey, TValue, Object>] )
+
+        /// <summary>
+        /// Call the given delegate if the given property key is assigned
+        /// and the type of the value matches.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the property key.</typeparam>
+        /// <typeparam name="TValue">The type of the property value.</typeparam>
+        /// <param name="IProperties">An object implementing IProperties.</param>
+        /// <param name="PropertyKey">The property key.</param>
+        /// <param name="PropertyType">The expected type of the property value.</param>
+        /// <param name="OnSuccessFunc">A delegate to call for the key and associated value of the given property key.</param>
+        public static Object PropertyFunc<TKey, TValue>(this IProperties<TKey, TValue> IProperties,
+                                                        TKey                             PropertyKey,
+                                                        Type                             PropertyType,
+                                                        Func<TKey, TValue, Object>       OnSuccessFunc)
+
+            where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
+
+        {
+
+            #region Initial checks
+
+            if (IProperties == null)
+                throw new ArgumentNullException("The given IProperties must not be null!");
+
+            if (OnSuccessFunc == null)
+                throw new ArgumentNullException("The given delegate must not be null!");
+
+            #endregion
+
+            TValue Value;
+
+            if (IProperties.TryGet(PropertyKey, out Value))
+                if (Value.GetType().Equals(PropertyType))
+                    return OnSuccessFunc(PropertyKey, Value);
+
+            return default(TValue);
 
         }
 
         #endregion
 
 
+        // Get(Casted/Dynamic)Property(PropertyKey, ...)
 
-        // GetDynamicProperty(PropertyKey, ...)
+        #region GetCastedProperty<TKey, TValue, TCast>(this IProperties, PropertyKey)
+        // Just an alternative syntax!
+
+        /// <summary>
+        /// Return the object value of type TValue associated with the provided property key.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the property key.</typeparam>
+        /// <typeparam name="TValue">The type of the property value.</typeparam>
+        /// <typeparam name="TCast">The casted type of the properety values.</typeparam>
+        /// <param name="IProperties">An object implementing IProperties.</param>
+        /// <param name="PropertyKey">The property key.</param>
+        public static TCast GetCastedProperty<TKey, TValue, TCast>(this IProperties<TKey, TValue> IProperties, TKey PropertyKey)
+            where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
+        {
+
+            #region Initial checks
+
+            if (IProperties == null)
+                throw new ArgumentNullException("The given IProperties must not be null!");
+
+            #endregion
+
+            return (TCast)(Object)IProperties[PropertyKey];
+
+        }
+
+        #endregion
 
         #region GetDynamicProperty<TKey, TValue>(this IProperties, PropertyKey)
         // Just an alternative syntax!
@@ -345,7 +582,12 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
             #endregion
 
-            return (dynamic) IProperties[PropertyKey];
+            TValue Value;
+
+            if (IProperties.TryGet(PropertyKey, out Value))
+                return (dynamic) Value;
+
+            return default(TValue);
 
         }
 
@@ -385,242 +627,14 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
         #endregion
 
+        // InvokeProperty???
 
 
-        // GetProperty(PropertyKey, PropertyType...)
 
-        #region GetProperty<TKey, TValue>(this IProperties, PropertyKey, PropertyType)
-        // Just an alternative syntax!
 
-        /// <summary>
-        /// Return the object value of type TValue associated with the provided property key.
-        /// </summary>
-        /// <typeparam name="TKey">The type of the property key.</typeparam>
-        /// <typeparam name="TValue">The type of the property value.</typeparam>
-        /// <param name="IProperties">An object implementing IProperties.</param>
-        /// <param name="PropertyKey">The property key.</param>
-        /// <param name="PropertyType">The expected type of the property.</param>
-        public static TValue GetProperty<TKey, TValue>(this IProperties<TKey, TValue> IProperties, TKey PropertyKey, Type PropertyType)
-            where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
-        {
 
-            #region Initial checks
 
-            if (IProperties == null)
-                throw new ArgumentNullException("The given IProperties must not be null!");
 
-            #endregion
-
-            TValue Value;
-
-            if (IProperties.TryGet(PropertyKey, out Value))
-                if (Value.GetType().Equals(PropertyType))
-                    return Value;
-
-            return default(TValue);
-
-        }
-
-        #endregion
-
-        #region GetProperty<TKey, TValue>(this IProperties, PropertyKey, PropertyType, OnSuccess [Action<TValue>] )
-
-        /// <summary>
-        /// Call the given delegate if the given property key is assigned
-        /// and the type of the value matches.
-        /// </summary>
-        /// <typeparam name="TKey">The type of the property key.</typeparam>
-        /// <typeparam name="TValue">The type of the property value.</typeparam>
-        /// <param name="IProperties">An object implementing IProperties.</param>
-        /// <param name="PropertyKey">The property key.</param>
-        /// <param name="PropertyType">The expected type of the property value.</param>
-        /// <param name="OnSuccess">A delegate to call for the associated value of the given property key.</param>
-        public static void GetProperty<TKey, TValue>(this IProperties<TKey, TValue> IProperties,
-                                                     TKey                           PropertyKey,
-                                                     Type                           PropertyType,
-                                                     Action<TValue>                 OnSuccess)
-
-            where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
-
-        {
-
-            #region Initial checks
-
-            if (IProperties == null)
-                throw new ArgumentNullException("The given IProperties must not be null!");
-
-            if (OnSuccess == null)
-                throw new ArgumentNullException("The given delegate must not be null!");
-
-            #endregion
-
-            TValue Value;
-
-            if (IProperties.TryGet(PropertyKey, out Value))
-                if (Value.GetType().Equals(PropertyType))
-                    OnSuccess(Value);
-
-        }
-
-        #endregion
-
-        #region GetProperty<TKey, TValue>(this IProperties, PropertyKey, PropertyType, OnSuccess [Action<TKey, TValue>] )
-
-        /// <summary>
-        /// Call the given delegate if the given property key is assigned
-        /// and the type of the value matches.
-        /// </summary>
-        /// <typeparam name="TKey">The type of the property key.</typeparam>
-        /// <typeparam name="TValue">The type of the property value.</typeparam>
-        /// <param name="IProperties">An object implementing IProperties.</param>
-        /// <param name="PropertyKey">The property key.</param>
-        /// <param name="PropertyType">The expected type of the property value.</param>
-        /// <param name="OnSuccess">A delegate to call for the key and associated value of the given property key.</param>
-        public static void GetProperty<TKey, TValue>(this IProperties<TKey, TValue> IProperties,
-                                                     TKey                           PropertyKey,
-                                                     Type                           PropertyType,
-                                                     Action<TKey, TValue>           OnSuccess)
-
-            where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
-
-        {
-
-            #region Initial checks
-
-            if (IProperties == null)
-                throw new ArgumentNullException("The given IProperties must not be null!");
-
-            if (OnSuccess == null)
-                throw new ArgumentNullException("The given delegate must not be null!");
-
-            #endregion
-
-            TValue Value;
-
-            if (IProperties.TryGet(PropertyKey, out Value))
-                if (Value.GetType().Equals(PropertyType))
-                    OnSuccess(PropertyKey, Value);
-
-        }
-
-        #endregion
-
-        #region GetProperty<TKey, TValue>(this IProperties, PropertyKey, PropertyType, OnSuccessFunc [Func<TValue, Object>] )
-
-        /// <summary>
-        /// Call the given delegate if the given property key is assigned
-        /// and the type of the value matches.
-        /// </summary>
-        /// <typeparam name="TKey">The type of the property key.</typeparam>
-        /// <typeparam name="TValue">The type of the property value.</typeparam>
-        /// <param name="IProperties">An object implementing IProperties.</param>
-        /// <param name="PropertyKey">The property key.</param>
-        /// <param name="PropertyType">The expected type of the property value.</param>
-        /// <param name="OnSuccessFunc">A delegate to call for the associated value of the given property key.</param>
-        public static Object GetProperty<TKey, TValue>(this IProperties<TKey, TValue> IProperties,
-                                                       TKey                           PropertyKey,
-                                                       Type                           PropertyType,
-                                                       Func<TValue, Object>           OnSuccessFunc)
-
-            where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
-
-        {
-
-            #region Initial checks
-
-            if (IProperties == null)
-                throw new ArgumentNullException("The given IProperties must not be null!");
-
-            if (OnSuccessFunc == null)
-                throw new ArgumentNullException("The given delegate must not be null!");
-
-            #endregion
-
-            TValue Value;
-            if (IProperties.TryGet(PropertyKey, out Value))
-                if (Value.GetType().Equals(PropertyType))
-                    return OnSuccessFunc(Value);
-
-            return default(TValue);
-
-        }
-
-        #endregion
-
-        #region GetProperty<TKey, TValue>(this IProperties, PropertyKey, PropertyType, OnSuccessFunc [Func<TKey, TValue, Object>] )
-
-        /// <summary>
-        /// Call the given delegate if the given property key is assigned
-        /// and the type of the value matches.
-        /// </summary>
-        /// <typeparam name="TKey">The type of the property key.</typeparam>
-        /// <typeparam name="TValue">The type of the property value.</typeparam>
-        /// <param name="IProperties">An object implementing IProperties.</param>
-        /// <param name="PropertyKey">The property key.</param>
-        /// <param name="PropertyType">The expected type of the property value.</param>
-        /// <param name="OnSuccessFunc">A delegate to call for the key and associated value of the given property key.</param>
-        public static Object GetProperty<TKey, TValue>(this IProperties<TKey, TValue> IProperties,
-                                                     TKey                             PropertyKey,
-                                                     Type                             PropertyType,
-                                                     Func<TKey, TValue, Object>       OnSuccessFunc)
-
-            where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
-
-        {
-
-            #region Initial checks
-
-            if (IProperties == null)
-                throw new ArgumentNullException("The given IProperties must not be null!");
-
-            if (OnSuccessFunc == null)
-                throw new ArgumentNullException("The given delegate must not be null!");
-
-            #endregion
-
-            TValue Value;
-
-            if (IProperties.TryGet(PropertyKey, out Value))
-                if (Value.GetType().Equals(PropertyType))
-                    return OnSuccessFunc(PropertyKey, Value);
-
-            return default(TValue);
-
-        }
-
-        #endregion
-
-        
-
-
-
-        #region GetPropertyCasted<TKey, TValue, TCast>(this IProperties, PropertyKey)
-        // Just an alternative syntax!
-
-        /// <summary>
-        /// Return the object value of type TValue associated with the provided property key.
-        /// </summary>
-        /// <typeparam name="TKey">The type of the property key.</typeparam>
-        /// <typeparam name="TValue">The type of the property value.</typeparam>
-        /// <typeparam name="TCast">The casted type of the properety values.</typeparam>
-        /// <param name="IProperties">An object implementing IProperties.</param>
-        /// <param name="PropertyKey">The property key.</param>
-        public static TCast GetPropertyCasted<TKey, TValue, TCast>(this IProperties<TKey, TValue> IProperties, TKey PropertyKey)
-            where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
-        {
-
-            #region Initial checks
-
-            if (IProperties == null)
-                throw new ArgumentNullException("The given IProperties must not be null!");
-
-            #endregion
-
-            return (TCast) (Object) IProperties[PropertyKey];
-
-        }
-
-        #endregion
 
 
 
@@ -704,7 +718,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
         #endregion
 
-        #region GetKeyValuePair<TKey, TValue, TResult>(this IProperties, PropertyKey, OnSuccess [Func<KeyValuePair<TKey, TValue>, TResult>] )
+        #region KeyValuePairFunc<TKey, TValue, TResult>(this IProperties, PropertyKey, OnSuccessFunc [Func<KeyValuePair<TKey, TValue>, TResult>] )
         // Note: Renamed for disambiguity with GetProperty(..., Func<TValue, Object>)
 
         /// <summary>
@@ -712,12 +726,13 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         /// </summary>
         /// <typeparam name="TKey">The type of the property key.</typeparam>
         /// <typeparam name="TValue">The type of the property value.</typeparam>
+        /// <typeparam name="TResult">The type of the return value.</typeparam>
         /// <param name="IProperties">An object implementing IProperties.</param>
         /// <param name="PropertyKey">The property key.</param>
-        /// <param name="OnSuccess">A delegate to call for a matching KeyValuePair.</param>
-        public static TResult GetKeyValuePair<TKey, TValue, TResult>(this IProperties<TKey, TValue>            IProperties,
-                                                                     TKey                                      PropertyKey,
-                                                                     Func<KeyValuePair<TKey, TValue>, TResult> OnSuccess)
+        /// <param name="OnSuccessFunc">A delegate to call for a matching KeyValuePair.</param>
+        public static TResult KeyValuePairFunc<TKey, TValue, TResult>(this IProperties<TKey, TValue>            IProperties,
+                                                                      TKey                                      PropertyKey,
+                                                                      Func<KeyValuePair<TKey, TValue>, TResult> OnSuccessFunc)
 
             where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
 
@@ -728,14 +743,14 @@ namespace de.ahzf.Blueprints.PropertyGraphs
             if (IProperties == null)
                 throw new ArgumentNullException("The given IProperties must not be null!");
 
-            if (OnSuccess == null)
+            if (OnSuccessFunc == null)
                 throw new ArgumentNullException("The given delegate must not be null!");
 
             #endregion
 
             TValue Value;
             if (IProperties.TryGet(PropertyKey, out Value))
-                return OnSuccess(new KeyValuePair<TKey, TValue>(PropertyKey, Value));
+                return OnSuccessFunc(new KeyValuePair<TKey, TValue>(PropertyKey, Value));
 
             return default(TResult);
 
@@ -743,7 +758,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
         #endregion
 
-        #region GetKeyValuePair<TKey, TValue, TResult>(this IProperties, PropertyKey, PropertyType, OnSuccess [Func<KeyValuePair<TKey, TValue>, TResult>] )
+        #region KeyValuePairFunc<TKey, TValue, TResult>(this IProperties, PropertyKey, PropertyType, OnSuccessFunc [Func<KeyValuePair<TKey, TValue>, TResult>] )
         // Note: Renamed for disambiguity with GetProperty(..., Func<TValue, Object>)
 
         /// <summary>
@@ -752,14 +767,15 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         /// </summary>
         /// <typeparam name="TKey">The type of the property key.</typeparam>
         /// <typeparam name="TValue">The type of the property value.</typeparam>
+        /// <typeparam name="TResult">The type of the return value.</typeparam>
         /// <param name="IProperties">An object implementing IProperties.</param>
         /// <param name="PropertyKey">The property key.</param>
         /// <param name="PropertyType">The expected type of the property value.</param>
-        /// <param name="OnSuccess">A delegate to call for a matching KeyValuePair.</param>
-        public static TResult GetKeyValuePair<TKey, TValue, TResult>(this IProperties<TKey, TValue>            IProperties,
-                                                                     TKey                                      PropertyKey,
-                                                                     Type                                      PropertyType,
-                                                                     Func<KeyValuePair<TKey, TValue>, TResult> OnSuccess)
+        /// <param name="OnSuccessFunc">A delegate to call for a matching KeyValuePair.</param>
+        public static TResult KeyValuePairFunc<TKey, TValue, TResult>(this IProperties<TKey, TValue>            IProperties,
+                                                                      TKey                                      PropertyKey,
+                                                                      Type                                      PropertyType,
+                                                                      Func<KeyValuePair<TKey, TValue>, TResult> OnSuccessFunc)
 
             where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
 
@@ -770,7 +786,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
             if (IProperties == null)
                 throw new ArgumentNullException("The given IProperties must not be null!");
 
-            if (OnSuccess == null)
+            if (OnSuccessFunc == null)
                 throw new ArgumentNullException("The given delegate must not be null!");
 
             #endregion
@@ -778,7 +794,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
             TValue Value;
             if (IProperties.TryGet(PropertyKey, out Value))
                 if (Value.GetType().Equals(PropertyType))
-                    return OnSuccess(new KeyValuePair<TKey, TValue>(PropertyKey, Value));
+                    return OnSuccessFunc(new KeyValuePair<TKey, TValue>(PropertyKey, Value));
 
             return default(TResult);
 
@@ -788,12 +804,9 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
 
 
+        // UseProperties
 
-
-
-        // GetProperties
-
-        #region GetProperties<TKey, TValue>(IProperties, KeyValueFilter, OnSuccess [Action<TValue>] )
+        #region UseProperties<TKey, TValue>(IProperties, KeyValueFilter, OnSuccess [Action<TValue>] )
 
         /// <summary>
         /// Call the given delegate if the given property key is assigned.
@@ -803,10 +816,9 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         /// <param name="IProperties">An object implementing IProperties.</param>
         /// <param name="KeyValueFilter">A delegate to filter properties based on their keys and values.</param>
         /// <param name="OnSuccess">A delegate called for the associated value of each matching KeyValuePair.</param>
-        public static void GetProperties<TKey, TValue>
-                           (this IProperties<TKey, TValue> IProperties,
-                            KeyValueFilter<TKey, TValue>   KeyValueFilter,
-                            Action<TValue>                 OnSuccess)
+        public static void UseProperties<TKey, TValue>(this IProperties<TKey, TValue> IProperties,
+                                                       KeyValueFilter<TKey, TValue>   KeyValueFilter,
+                                                       Action<TValue>                 OnSuccess)
 
             where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
 
@@ -832,7 +844,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
         #endregion
 
-        #region GetProperties<TKey, TValue>(IProperties, KeyValueFilter, OnSuccess [Action<TKey, TValue>] )
+        #region UseProperties<TKey, TValue>(IProperties, KeyValueFilter, OnSuccess [Action<TKey, TValue>] )
 
         /// <summary>
         /// Call the given delegate if the given property key is assigned.
@@ -842,10 +854,9 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         /// <param name="IProperties">An object implementing IProperties.</param>
         /// <param name="KeyValueFilter">A delegate to filter properties based on their keys and values.</param>
         /// <param name="OnSuccess">A delegate to call for each matching KeyValuePair.</param>
-        public static void GetProperties<TKey, TValue>
-                           (this IProperties<TKey, TValue> IProperties,
-                            KeyValueFilter<TKey, TValue>   KeyValueFilter,
-                            Action<TKey, TValue>           OnSuccess)
+        public static void UseProperties<TKey, TValue>(this IProperties<TKey, TValue> IProperties,
+                                                       KeyValueFilter<TKey, TValue>   KeyValueFilter,
+                                                       Action<TKey, TValue>           OnSuccess)
 
             where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
 
@@ -871,7 +882,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
         #endregion
 
-        #region GetProperties<TKey, TValue>(IProperties, KeyValueFilter, OnSuccess [Action<KeyValuePair<TKey, TValue>>] )
+        #region UseProperties<TKey, TValue>(IProperties, KeyValueFilter, OnSuccess [Action<KeyValuePair<TKey, TValue>>] )
 
         /// <summary>
         /// Call the given delegate if the given property key is assigned.
@@ -881,10 +892,9 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         /// <param name="IProperties">An object implementing IProperties.</param>
         /// <param name="KeyValueFilter">A delegate to filter properties based on their keys and values.</param>
         /// <param name="OnSuccess">A delegate to call for each matching KeyValuePair.</param>
-        public static void GetProperties<TKey, TValue>
-                           (this IProperties<TKey, TValue>     IProperties,
-                            KeyValueFilter<TKey, TValue>       KeyValueFilter,
-                            Action<KeyValuePair<TKey, TValue>> OnSuccess)
+        public static void UseProperties<TKey, TValue>(this IProperties<TKey, TValue>     IProperties,
+                                                       KeyValueFilter<TKey, TValue>       KeyValueFilter,
+                                                       Action<KeyValuePair<TKey, TValue>> OnSuccess)
 
             where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
 
@@ -909,20 +919,20 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
         #endregion
 
-        #region GetProperties<TKey, TValue>(IProperties, KeyValueFilter, OnSuccessFunc [Func<TValue, Object>] )
+        #region PropertiesFunc<TKey, TValue, TResult>(IProperties, KeyValueFilter, OnSuccessFunc [Func<TValue, TResult>] )
 
         /// <summary>
         /// Call the given func delegate if the given property key is assigned.
         /// </summary>
         /// <typeparam name="TKey">The type of the property key.</typeparam>
         /// <typeparam name="TValue">The type of the property value.</typeparam>
+        /// <typeparam name="TResult">The type of the return value.</typeparam>
         /// <param name="IProperties">An object implementing IProperties.</param>
         /// <param name="KeyValueFilter">A delegate to filter properties based on their keys and values.</param>
         /// <param name="OnSuccessFunc">A delegate returning an object for the associated value of each matching KeyValuePair.</param>
-        public static IEnumerable<Object> GetProperties<TKey, TValue>
-                                          (this IProperties<TKey, TValue> IProperties,
-                                           KeyValueFilter<TKey, TValue>   KeyValueFilter,
-                                           Func<TValue, Object>           OnSuccessFunc)
+        public static IEnumerable<TResult> PropertiesFunc<TKey, TValue, TResult>(this IProperties<TKey, TValue> IProperties,
+                                                                                 KeyValueFilter<TKey, TValue>   KeyValueFilter,
+                                                                                 Func<TValue, TResult>          OnSuccessFunc)
 
             where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
 
@@ -948,20 +958,20 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
         #endregion
 
-        #region GetProperties<TKey, TValue>(IProperties, KeyValueFilter, OnSuccessFunc [Func<TKey, TValue, Object>] )
+        #region PropertiesFunc<TKey, TValue, TResult>(IProperties, KeyValueFilter, OnSuccessFunc [Func<TKey, TValue, TResult>] )
 
         /// <summary>
         /// Call the given delegate if the given property key is assigned.
         /// </summary>
         /// <typeparam name="TKey">The type of the property key.</typeparam>
         /// <typeparam name="TValue">The type of the property value.</typeparam>
+        /// <typeparam name="TResult">The type of the return value.</typeparam>
         /// <param name="IProperties">An object implementing IProperties.</param>
         /// <param name="KeyValueFilter">A delegate to filter properties based on their keys and values.</param>
         /// <param name="OnSuccessFunc">A delegate returning an object for each matching KeyValuePair.</param>
-        public static IEnumerable<Object> GetProperties<TKey, TValue>
-                                          (this IProperties<TKey, TValue> IProperties,
-                                           KeyValueFilter<TKey, TValue>   KeyValueFilter,
-                                           Func<TKey, TValue, Object>     OnSuccessFunc)
+        public static IEnumerable<TResult> PropertiesFunc<TKey, TValue, TResult>(this IProperties<TKey, TValue> IProperties,
+                                                                                 KeyValueFilter<TKey, TValue>   KeyValueFilter,
+                                                                                 Func<TKey, TValue, TResult>    OnSuccessFunc)
 
             where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
 
@@ -989,20 +999,20 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
         #endregion
 
-        #region GetProperties<TKey, TValue>(IProperties, KeyValueFilter, OnSuccessFunc [Func<KeyValuePair<TKey, TValue>, Object>] )
+        #region PropertiesFunc<TKey, TValue, TResult>(IProperties, KeyValueFilter, OnSuccessFunc [Func<KeyValuePair<TKey, TValue>, TResult>] )
 
         /// <summary>
         /// Call the given delegate if the given property key is assigned.
         /// </summary>
         /// <typeparam name="TKey">The type of the property key.</typeparam>
         /// <typeparam name="TValue">The type of the property value.</typeparam>
+        /// <typeparam name="TResult">The type of the return value.</typeparam>
         /// <param name="IProperties">An object implementing IProperties.</param>
         /// <param name="KeyValueFilter">A delegate to filter properties based on their keys and values.</param>
         /// <param name="OnSuccessFunc">A delegate returning an object for each matching KeyValuePair.</param>
-        public static IEnumerable<Object> GetProperties<TKey, TValue>
-                                          (this IProperties<TKey, TValue>           IProperties,
-                                           KeyValueFilter<TKey, TValue>             KeyValueFilter,
-                                           Func<KeyValuePair<TKey, TValue>, Object> OnSuccessFunc)
+        public static IEnumerable<TResult> PropertiesFunc<TKey, TValue, TResult>(this IProperties<TKey, TValue>            IProperties,
+                                                                                 KeyValueFilter<TKey, TValue>              KeyValueFilter,
+                                                                                 Func<KeyValuePair<TKey, TValue>, TResult> OnSuccessFunc)
 
             where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
 
@@ -1029,12 +1039,9 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
 
 
+        // FilteredKeys/Values
 
-        // InvokeProperty???
-
-
-
-        #region GetFilteredKeys<TKey, TValue>(this IProperties, KeyValueFilter)
+        #region FilteredKeys<TKey, TValue>(this IProperties, KeyValueFilter)
 
         /// <summary>
         /// Get a filtered enumeration of all property keys.
@@ -1044,12 +1051,16 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         /// <param name="IProperties">An object implementing IProperties.</param>
         /// <param name="KeyValueFilter">A delegate to filter KeyValuePairs based on their keys and values.</param>
         /// <returns>An enumeration of all selected property values.</returns>
-        public static IEnumerable<TKey> GetFilteredKeys<TKey, TValue>(this IProperties<TKey, TValue> IProperties, KeyValueFilter<TKey, TValue> KeyValueFilter)
+        public static IEnumerable<TKey> FilteredKeys<TKey, TValue>(this IProperties<TKey, TValue> IProperties, KeyValueFilter<TKey, TValue> KeyValueFilter)
             where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
         {
 
+            #region Initial checks
+
             if (KeyValueFilter == null)
                 throw new ArgumentNullException("The given KeyValueFilter must not be null!");
+
+            #endregion
 
             return from _KeyValuePair in IProperties.GetProperties(KeyValueFilter) select _KeyValuePair.Key;
 
@@ -1057,7 +1068,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
         #endregion
 
-        #region GetFilteredValues<TKey, TValue>(this IProperties, KeyValueFilter)
+        #region FilteredValues<TKey, TValue>(this IProperties, KeyValueFilter)
 
         /// <summary>
         /// Get a filtered enumeration of all property values.
@@ -1067,65 +1078,22 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         /// <param name="IProperties">An object implementing IProperties.</param>
         /// <param name="KeyValueFilter">A delegate to filter KeyValuePairs based on their keys and values.</param>
         /// <returns>An enumeration of all selected property values.</returns>
-        public static IEnumerable<TValue> GetFilteredValues<TKey, TValue>(this IProperties<TKey, TValue> IProperties, KeyValueFilter<TKey, TValue> KeyValueFilter)
+        public static IEnumerable<TValue> FilteredValues<TKey, TValue>(this IProperties<TKey, TValue> IProperties, KeyValueFilter<TKey, TValue> KeyValueFilter)
             where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
         {
 
+            #region Initial checks
+
             if (KeyValueFilter == null)
                 throw new ArgumentNullException("The given KeyValueFilter must not be null!");
+
+            #endregion
 
             return from _KeyValuePair in IProperties.GetProperties(KeyValueFilter) select _KeyValuePair.Value;
 
         }
 
         #endregion
-
-        #region GetFilteredValues<TKey, TValue, TCast>(this IProperties, KeyValueFilter = null)
-
-        /// <summary>
-        /// Get an enumeration of all property values.
-        /// An additional property filter may be applied for filtering.
-        /// </summary>
-        /// <typeparam name="TKey">The type of the property key.</typeparam>
-        /// <typeparam name="TValue">The type of the property value.</typeparam>
-        /// <typeparam name="TCast">The type of the cast.</typeparam>
-        /// <param name="IProperties">An object implementing IProperties.</param>
-        /// <param name="KeyValueFilter">An optional delegate to filter KeyValuePairs based on their keys and values.</param>
-        /// <returns>An enumeration of all selected property values casted to TCast.</returns>
-        public static IEnumerable<TCast> GetFilteredValues<TKey, TValue, TCast>(this IProperties<TKey, TValue> IProperties, KeyValueFilter<TKey, TValue> KeyValueFilter = null)
-            where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
-            //where TCast          : TValue
-        {
-
-            Boolean _ExceptionOccured = false;
-            TCast   _TCastedValue     = default(TCast);
-
-            if (KeyValueFilter == null)
-                KeyValueFilter = new KeyValueFilter<TKey, TValue>((key, value) => { return true; });
-
-            foreach (var _Value in IProperties.GetFilteredValues(KeyValueFilter))
-            {
-
-                _ExceptionOccured = false;
-
-                try
-                {
-                    _TCastedValue = (TCast) (Object) _Value;
-                }
-                catch
-                {
-                    _ExceptionOccured = true;
-                }
-
-                if (_ExceptionOccured == false && _TCastedValue != null)
-                    yield return _TCastedValue;
-
-            }
-
-        }
-
-        #endregion
-
 
 
         #region CompareProperties(this myIProperties1, myIProperties2)
@@ -1169,6 +1137,24 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
             return true;
 
+        }
+
+        #endregion
+
+
+
+
+        #region Remove(KeyValuePair)
+
+        /// <summary>
+        /// Remove the given KeyValuePair.
+        /// </summary>
+        /// <param name="KeyValuePair">A KeyValuePair.</param>
+        /// <returns>The value associated with that key prior to the removal.</returns>
+        public static TValue Remove<TKey, TValue>(this IProperties<TKey, TValue> IProperties, KeyValuePair<TKey, TValue> KeyValuePair)
+            where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
+        {
+            return IProperties.Remove(KeyValuePair.Key, KeyValuePair.Value);
         }
 
         #endregion

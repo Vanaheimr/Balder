@@ -67,7 +67,7 @@
       <Name>Commons</Name>
     </ProjectReference>
     <ProjectReference Include="..\Blueprints\Blueprints.csproj">
-      <Project>{B9DE4181-416E-4DE4-A983-B90FC9412774}</Project>
+      <Project>{47FA1E7C-8C47-493D-A371-91A15D53BC95}</Project>
       <Name>Blueprints</Name>
     </ProjectReference>
   </ItemGroup>

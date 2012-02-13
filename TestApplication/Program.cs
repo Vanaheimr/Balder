@@ -47,11 +47,16 @@ namespace de.ahzf.Blueprints.TestApplication
             var c1 = graph.ContainsValue(123UL);
 
             var t = false;
-            graph.GetProperty("Id", success => t = true);
+            graph.UseProperty("Id", success => t = true);
             var ii = "i = " + t;
 
             var b1 = graph.Contains("Id", 123UL);
             var b2 = graph is IProperties<String, Object>;
+
+            var aa = graph.GetProperties(null);
+
+            var deleted3 = graph.Remove().ToList();
+            var deleted1 = graph.Remove("hello");
 
            // var a = graph.PropertyData.GetFilteredKeys.ContainsKey("hello");
 

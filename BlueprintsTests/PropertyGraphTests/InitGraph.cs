@@ -25,7 +25,7 @@ using NUnit.Framework;
 
 #endregion
 
-namespace de.ahzf.Blueprints.UnitTests.SimplePropertyGraphTests
+namespace de.ahzf.Blueprints.UnitTests.PropertyGraphTests
 {
 
     /// <summary>
