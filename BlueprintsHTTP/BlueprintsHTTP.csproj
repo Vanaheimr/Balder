@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\libs\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -40,8 +43,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RESTServer\IBlueprintsServer.cs" />
+    <Compile Include="RESTServer\BlueprintsServer.cs" />
+    <Compile Include="RESTService\ABlueprintsService.cs" />
+    <Compile Include="RESTService\IBlueprintsService.cs" />
+    <Compile Include="RESTService\BlueprintsService_ALL.cs" />
+    <Compile Include="RESTService\BlueprintsService_EVENTSTREAM.cs" />
+    <Compile Include="RESTService\BlueprintsService_HTML.cs" />
+    <Compile Include="RESTService\BlueprintsService_JSON.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Hermod\Hermod\Hermod.csproj">
