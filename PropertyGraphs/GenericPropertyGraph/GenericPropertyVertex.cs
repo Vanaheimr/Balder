@@ -24,6 +24,7 @@ using System.Threading;
 using System.Linq.Expressions;
 using System.Collections.Generic;
 
+using de.ahzf.Illias.Commons;
 using de.ahzf.Illias.Commons.Votes;
 
 #endregion
@@ -418,6 +419,31 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         #endregion
 
 
+        #region OnEdgeAdding
+
+        /// <summary>
+        /// Called whenever an edge will be added to the property graph.
+        /// </summary>
+        public event EdgeAddingEventHandler<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                            TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                            TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                            TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnEdgeAdding;
+
+        #endregion
+
+        #region OnEdgeAdded
+
+        /// <summary>
+        /// Called whenever an edge was added to the property graph.
+        /// </summary>
+        public event EdgeAddedEventHandler<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                           TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                           TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnEdgeAdded;
+
+        #endregion
+
+
         #region OnGraphShuttingdown
 
         /// <summary>
@@ -640,6 +666,45 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         {
             if (OnVertexAdded != null)
                 OnVertexAdded(this, IGenericPropertyVertex);
+        }
+
+        #endregion
+
+
+        #region (internal) SendEdgeAddingVote(IGenericPropertyEdge)
+
+        /// <summary>
+        /// Notify about an Edge to be added to the graph.
+        /// </summary>
+        internal Boolean SendEdgeAddingVote(IGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                 TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                 TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                 TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IGenericPropertyEdge)
+        {
+
+            var _VetoVote = new VetoVote();
+
+            if (OnInEdgeAdding != null)
+                OnInEdgeAdding(this, IGenericPropertyEdge, _VetoVote);
+
+            return _VetoVote.Result;
+
+        }
+
+        #endregion
+
+        #region (internal) SendEdgeAddedNotification(IGenericPropertyEdge)
+
+        /// <summary>
+        /// Notify about an Edge to be added to the graph.
+        /// </summary>
+        internal void SendEdgeAddedNotification(IGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                     TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                     TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                     TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IGenericPropertyEdge)
+        {
+            if (OnInEdgeAdded != null)
+                OnInEdgeAdded(this, IGenericPropertyEdge);
         }
 
         #endregion

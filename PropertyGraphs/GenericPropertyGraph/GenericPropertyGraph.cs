@@ -25,6 +25,7 @@ using System.Linq.Expressions;
 
 using de.ahzf.Blueprints.Indices;
 using de.ahzf.Blueprints.PropertyGraphs.Indices;
+using de.ahzf.Illias.Commons;
 
 #endregion
 

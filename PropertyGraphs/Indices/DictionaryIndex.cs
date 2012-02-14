@@ -21,6 +21,8 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
+using de.ahzf.Illias.Commons;
+
 using de.ahzf.Blueprints.Indices;
 using de.ahzf.Blueprints.PropertyGraphs.Indices;
 

@@ -23,6 +23,8 @@ using System.Dynamic;
 using System.Linq;
 using System.Linq.Expressions;
 
+using de.ahzf.Illias.Commons;
+
 #endregion
 
 namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
