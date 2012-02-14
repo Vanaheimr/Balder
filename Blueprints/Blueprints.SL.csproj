@@ -56,11 +56,6 @@
     <Reference Include="System.Windows.Browser" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Datastructures\GraphElementIds\AGraphElementId.cs" />
-    <Compile Include="Datastructures\GraphElementIds\EdgeId.cs" />
-    <Compile Include="Datastructures\GraphElementIds\HyperEdgeId.cs" />
-    <Compile Include="Datastructures\GraphElementIds\MultiEdgeId.cs" />
-    <Compile Include="Datastructures\GraphElementIds\VertexId.cs" />
     <Compile Include="Datastructures\SemanticProperty.cs" />
     <Compile Include="DynamicGraphElement.cs" />
     <Compile Include="Exceptions\PropertiesExceptions.cs" />
@@ -72,51 +67,36 @@
     <Compile Include="Extensions\IGraphElementExtensions.cs" />
     <Compile Include="Extensions\IPropertiesExtensions.cs" />
     <Compile Include="GraphDBOntology.cs" />
-    <Compile Include="Interfaces\GenericPropertyGraph\GraphElements\Delegates.cs" />
-    <Compile Include="Interfaces\GenericPropertyGraph\GraphElements\IDynamicGraphElement.cs" />
-    <Compile Include="Interfaces\GenericPropertyGraph\GraphElements\IGenericPropertyEdge.cs" />
-    <Compile Include="Interfaces\GenericPropertyGraph\GraphElements\IGenericPropertyHyperEdge.cs" />
-    <Compile Include="Interfaces\GenericPropertyGraph\GraphElements\IGenericPropertyMultiEdge.cs" />
-    <Compile Include="Interfaces\GenericPropertyGraph\GraphElements\IGenericPropertyVertex.cs" />
-    <Compile Include="Interfaces\GenericPropertyGraph\GraphElements\IGraphElement.cs" />
-    <Compile Include="Interfaces\GenericPropertyGraph\GraphElements\IProperties.cs" />
-    <Compile Include="Interfaces\GenericPropertyGraph\GraphElements\IPropertiesDelegates.cs" />
-    <Compile Include="Interfaces\GenericPropertyGraph\ICommonGenericPropertyGraph.cs" />
+    <Compile Include="GraphElementIds\AGraphElementId.cs" />
+    <Compile Include="GraphElementIds\EdgeId.cs" />
+    <Compile Include="GraphElementIds\HyperEdgeId.cs" />
+    <Compile Include="GraphElementIds\MultiEdgeId.cs" />
+    <Compile Include="GraphElementIds\VertexId.cs" />
+    <Compile Include="Interfaces\CommonGenericPropertyGraph\ICommonGenericPropertyGraph.cs" />
+    <Compile Include="Interfaces\DistributedPropertyGraph\IDistributedPropertyGraph.cs" />
+    <Compile Include="Interfaces\GenericPropertyGraph\IDynamicGraphElement.cs" />
+    <Compile Include="Interfaces\GenericPropertyGraph\IGenericPropertyEdge.cs" />
     <Compile Include="Interfaces\GenericPropertyGraph\IGenericPropertyGraph.cs" />
-    <Compile Include="Interfaces\GenericPropertyGraph\IGenericPropertyGraphDelegates.cs" />
+    <Compile Include="Interfaces\GenericPropertyGraph\IGenericPropertyHyperEdge.cs" />
+    <Compile Include="Interfaces\GenericPropertyGraph\IGenericPropertyMultiEdge.cs" />
+    <Compile Include="Interfaces\GenericPropertyGraph\IGenericPropertyVertex.cs" />
+    <Compile Include="Interfaces\GenericPropertyGraph\IGraphElement.cs" />
+    <Compile Include="Interfaces\IDictionaryInitializer.cs" />
+    <Compile Include="Interfaces\Indices\Delegates.cs" />
+    <Compile Include="Interfaces\Indices\IGraphIndexing.cs" />
     <Compile Include="Interfaces\Indices\IIndex.cs" />
     <Compile Include="Interfaces\Indices\IndexDelegates.cs" />
-    <Compile Include="Interfaces\PropertyGraph\GraphElements\IPropertyEdge.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Interfaces\PropertyGraph\GraphElements\IPropertyHyperEdge.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Interfaces\PropertyGraph\GraphElements\IPropertyMultiEdge.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Interfaces\PropertyGraph\GraphElements\IPropertyVertex.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Interfaces\PropertyGraph\IDistributedPropertyGraph.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Interfaces\PropertyGraph\ILabeledPropertyGraph.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Interfaces\PropertyGraph\Indices\Delegates.cs" />
-    <Compile Include="Interfaces\PropertyGraph\Indices\IGraphIndexing.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Interfaces\PropertyGraph\Indices\IPropertyElementIndex.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="Interfaces\Indices\IPropertyElementIndex.cs" />
+    <Compile Include="Interfaces\IProperties.cs" />
+    <Compile Include="Interfaces\LabeledPropertyGraph\ILabeledPropertyGraph.cs" />
+    <Compile Include="Interfaces\PropertyGraph\IPropertyEdge.cs" />
     <Compile Include="Interfaces\PropertyGraph\IPropertyGraph.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Interfaces\PropertyGraph\ISemanticPropertyGraph.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="Interfaces\PropertyGraph\IPropertyHyperEdge.cs" />
+    <Compile Include="Interfaces\PropertyGraph\IPropertyMultiEdge.cs" />
+    <Compile Include="Interfaces\PropertyGraph\IPropertyVertex.cs" />
+    <Compile Include="Interfaces\SemanticPropertyGraph\ISemanticPropertyGraph.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
