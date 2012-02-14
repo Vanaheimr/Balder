@@ -562,42 +562,6 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         #endregion
 
-        #region CompareTo(HyperEdgeId)
-
-        /// <summary>
-        /// Compares two instances of this object.
-        /// </summary>
-        /// <param name="HyperEdgeId">An object to compare with.</param>
-        public Int32 CompareTo(TIdHyperEdge HyperEdgeId)
-        {
-
-            if ((Object) HyperEdgeId == null)
-                throw new ArgumentNullException("The given HyperEdgeId must not be null!");
-
-            return Id.CompareTo(HyperEdgeId);
-
-        }
-
-        #endregion
-
-        #region CompareTo(IGraphElement)
-
-        /// <summary>
-        /// Compares two instances of this object.
-        /// </summary>
-        /// <param name="IGraphElement">An object to compare with.</param>
-        public Int32 CompareTo(IGraphElement<TIdHyperEdge, TRevIdHyperEdge, TKeyHyperEdge, TValueHyperEdge> IGraphElement)
-        {
-
-            if ((Object) IGraphElement == null)
-                throw new ArgumentNullException("The given IGraphElement must not be null!");
-
-            return Id.CompareTo(IGraphElement[IdKey]);
-
-        }
-
-        #endregion
-
         #region CompareTo(IGenericPropertyHyperEdge)
 
         /// <summary>
@@ -646,45 +610,6 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                 return false;
 
             return this.Equals(PropertyHyperEdge);
-
-        }
-
-        #endregion
-
-        #region Equals(HyperEdgeId)
-
-        /// <summary>
-        /// Compares this property edge to an hyperedge identification.
-        /// </summary>
-        /// <param name="HyperEdgeId">A hyperedge identification to compare with.</param>
-        /// <returns>True if both match; False otherwise.</returns>
-        public Boolean Equals(TIdHyperEdge HyperEdgeId)
-        {
-
-            if ((Object) HyperEdgeId == null)
-                return false;
-
-            return Id.Equals(HyperEdgeId);
-
-        }
-
-        #endregion
-
-        #region Equals(IGraphElement)
-
-        /// <summary>
-        /// Compares this property edge to another property element.
-        /// </summary>
-        /// <param name="IGraphElement">An object to compare with.</param>
-        /// <returns>True if both match; False otherwise.</returns>
-        public Boolean Equals(IGraphElement<TIdHyperEdge, TRevIdHyperEdge, TKeyHyperEdge, TValueHyperEdge> IGraphElement)
-        {
-
-            if ((Object) IGraphElement == null)
-                return false;
-
-            //TODO: Here it might be good to check all attributes of the UNIQUE constraint!
-            return Id.Equals(IGraphElement[IdKey]);
 
         }
 

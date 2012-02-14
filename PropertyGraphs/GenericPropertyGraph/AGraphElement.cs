@@ -37,7 +37,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
     /// <typeparam name="TValue">The type of the graph element property values.</typeparam>
     /// <typeparam name="TDatastructure">A datastructure for storing all properties.</typeparam>
     public abstract class AGraphElement<TId, TRevId, TKey, TValue>
-                              : IProperties<TKey, TValue>
+                              : IGraphElement<TId, TRevId, TKey, TValue>
 
         where TKey    : IEquatable<TKey>,   IComparable<TKey>,   IComparable
         where TId     : IEquatable<TId>,    IComparable<TId>,    IComparable, TValue
@@ -708,6 +708,136 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         #endregion
 
+        #region IComparable Members
+
+        #region CompareTo(Object)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="Object">An object to compare with.</param>
+        public virtual Int32 CompareTo(Object Object)
+        {
+
+            if (Object == null)
+                throw new ArgumentNullException("The given Object must not be null!");
+
+            // Check if the given object can be casted to a AGraphElement
+            var AGraphElement = Object as AGraphElement<TId, TRevId, TKey, TValue>;
+
+            if ((Object) AGraphElement == null)
+                throw new ArgumentException("The given object is not a AGraphElement!");
+
+            return CompareTo(AGraphElement);
+
+        }
+
+        #endregion
+
+        #region CompareTo(Id)
+
+        /// <summary>
+        /// Compares this object to an identification.
+        /// </summary>
+        /// <param name="Id">An Id to compare with.</param>
+        public Int32 CompareTo(TId Id)
+        {
+
+            if ((Object) Id == null)
+                throw new ArgumentNullException("The given Id must not be null!");
+
+            return Id.CompareTo(Id);
+
+        }
+
+        #endregion
+
+        #region CompareTo(IGraphElement)
+
+        /// <summary>
+        /// Compares this object to another GraphElement.
+        /// </summary>
+        /// <param name="IGraphElement">An IGraphElement to compare with.</param>
+        public Int32 CompareTo(IGraphElement<TId, TRevId, TKey, TValue> IGraphElement)
+        {
+
+            if ((Object) IGraphElement == null)
+                throw new ArgumentNullException("The given GraphElement must not be null!");
+
+            return Id.CompareTo(IGraphElement.Id);
+
+        }
+
+        #endregion
+
+        #endregion
+
+        #region IEquatable Members
+
+        #region Equals(Object)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="Object">An object to compare with.</param>
+        /// <returns>True if both match; False otherwise.</returns>
+        public override Boolean Equals(Object Object)
+        {
+
+            if (Object == null)
+                return false;
+
+            // Check if the given object can be casted to a AGraphElement
+            var AGraphElement = Object as AGraphElement<TId, TRevId, TKey, TValue>;
+
+            if ((Object) AGraphElement == null)
+                return false;
+
+            return this.Equals(AGraphElement);
+
+        }
+
+        #endregion
+
+        #region Equals(Id)
+
+        /// <summary>
+        /// Compares this object to an identification.
+        /// </summary>
+        /// <param name="Id">An Id to compare with.</param>
+        /// <returns>True if both match; False otherwise.</returns>
+        public Boolean Equals(TId Id)
+        {
+
+            if ((Object) Id == null)
+                return false;
+
+            return Id.Equals(Id);
+
+        }
+
+        #endregion
+
+        #region Equals(IGraphElement)
+
+        /// <summary>
+        /// Compares this object to an IGraphElement.
+        /// </summary>
+        /// <param name="IGraphElement">An IGraphElement to compare with.</param>
+        /// <returns>True if both match; False otherwise.</returns>
+        public Boolean Equals(IGraphElement<TId, TRevId, TKey, TValue> IGraphElement)
+        {
+
+            if ((Object) IGraphElement == null)
+                return false;
+
+            return Id.Equals(IGraphElement.Id);
+
+        }
+
+        #endregion
+
+        #endregion
 
         #region GetHashCode()
 

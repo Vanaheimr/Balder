@@ -602,42 +602,6 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         #endregion
 
-        #region CompareTo(MultiEdgeId)
-
-        /// <summary>
-        /// Compares two instances of this object.
-        /// </summary>
-        /// <param name="MultiEdgeId">An object to compare with.</param>
-        public Int32 CompareTo(TIdMultiEdge MultiEdgeId)
-        {
-
-            if ((Object) MultiEdgeId == null)
-                throw new ArgumentNullException("The given MultiEdgeId must not be null!");
-
-            return Id.CompareTo(MultiEdgeId);
-
-        }
-
-        #endregion
-
-        #region CompareTo(IGraphElement)
-
-        /// <summary>
-        /// Compares two instances of this object.
-        /// </summary>
-        /// <param name="IGraphElement">An object to compare with.</param>
-        public Int32 CompareTo(IGraphElement<TIdMultiEdge, TRevIdMultiEdge, TKeyMultiEdge, TValueMultiEdge> IGraphElement)
-        {
-
-            if ((Object) IGraphElement == null)
-                throw new ArgumentNullException("The given IGraphElement must not be null!");
-
-            return Id.CompareTo(IGraphElement[IdKey]);
-
-        }
-
-        #endregion
-
         #region CompareTo(IGenericPropertyMultiEdge)
 
         /// <summary>
@@ -685,45 +649,6 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                 return false;
 
             return this.Equals(PropertyHyperEdge);
-
-        }
-
-        #endregion
-
-        #region Equals(HyperEdgeId)
-
-        /// <summary>
-        /// Compares this property multiedge to a multiedge identification.
-        /// </summary>
-        /// <param name="MultiEdgeId">A multiedge identification to compare with.</param>
-        /// <returns>True if both match; False otherwise.</returns>
-        public Boolean Equals(TIdMultiEdge MultiEdgeId)
-        {
-
-            if ((Object) MultiEdgeId == null)
-                return false;
-
-            return Id.Equals(MultiEdgeId);
-
-        }
-
-        #endregion
-
-        #region Equals(IGraphElement)
-
-        /// <summary>
-        /// Compares this property multiedge to another property element.
-        /// </summary>
-        /// <param name="IGraphElement">An object to compare with.</param>
-        /// <returns>True if both match; False otherwise.</returns>
-        public Boolean Equals(IGraphElement<TIdMultiEdge, TRevIdMultiEdge, TKeyMultiEdge, TValueMultiEdge> IGraphElement)
-        {
-
-            if ((Object) IGraphElement == null)
-                return false;
-
-            //TODO: Here it might be good to check all attributes of the UNIQUE constraint!
-            return Id.Equals(IGraphElement[IdKey]);
 
         }
 

@@ -38,6 +38,35 @@ namespace de.ahzf.Blueprints.PropertyGraphs
                                                           UInt64, Int64, String, String, Object,
                                                           UInt64, Int64, String, String, Object,
                                                           UInt64, Int64, String, String, Object>
-    { }
+    {
+
+        #region Graph
+
+        /// <summary>
+        /// The associated property graph.
+        /// </summary>
+        new IPropertyGraph Graph { get; }
+
+        #endregion
+
+        #region OutVertex
+
+        /// <summary>
+        /// The vertex at the tail of this edge.
+        /// </summary>
+        new IPropertyVertex OutVertex { get; }
+
+        #endregion
+
+        #region InVertex
+
+        /// <summary>
+        /// The vertex at the head of this edge.
+        /// </summary>
+        new IPropertyVertex InVertex { get; }
+
+        #endregion
+
+    }
 
 }

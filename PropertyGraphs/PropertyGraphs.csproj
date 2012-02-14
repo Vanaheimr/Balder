@@ -45,6 +45,7 @@
     <Compile Include="CommonGenericPropertyGraph\CommonGenericPropertyGraph.cs" />
     <Compile Include="LabeledPropertyGraph\LabeledPropertyGraph.cs" />
     <Compile Include="DistributedPropertyGraph\DistributedPropertyGraph.cs" />
+    <Compile Include="PropertyGraph\PropertyEdge.cs" />
     <Compile Include="SemanticPropertyGraph\SemanticPropertyGraph.cs" />
     <Compile Include="GenericPropertyGraph\AGraphElement.cs" />
     <Compile Include="Indices\DictionaryIndex.cs" />
