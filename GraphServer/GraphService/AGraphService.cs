@@ -26,15 +26,15 @@ using de.ahzf.Blueprints.PropertyGraphs;
 
 #endregion
 
-namespace de.ahzf.Blueprints.REST
+namespace de.ahzf.Blueprints.HTTPREST
 {
 
-    public abstract class AProjectService : AHTTPService, IBlueprintsService
+    public abstract class AGraphService : AHTTPService, IGraphService
     {
 
         #region Properties
 
-        public BlueprintsServer GraphServer { get; set; }
+        public GraphServer GraphServer { get; set; }
 
         #endregion
 
@@ -45,7 +45,7 @@ namespace de.ahzf.Blueprints.REST
         /// <summary>
         /// Creates a new abstract OCPP CIMS service.
         /// </summary>
-        public AProjectService()
+        public AGraphService()
         { }
 
         #endregion
@@ -56,7 +56,7 @@ namespace de.ahzf.Blueprints.REST
         /// Creates a new abstract OCPP CIMS service.
         /// </summary>
         /// <param name="HTTPContentType">A content type.</param>
-        public AProjectService(HTTPContentType HTTPContentType)
+        public AGraphService(HTTPContentType HTTPContentType)
             : base(HTTPContentType)
         { }
 
@@ -68,7 +68,7 @@ namespace de.ahzf.Blueprints.REST
         /// Creates a new abstract OCPP CIMS service.
         /// </summary>
         /// <param name="HTTPContentTypes">A content type.</param>
-        public AProjectService(IEnumerable<HTTPContentType> HTTPContentTypes)
+        public AGraphService(IEnumerable<HTTPContentType> HTTPContentTypes)
             : base(HTTPContentTypes)
         { }
 
@@ -82,7 +82,7 @@ namespace de.ahzf.Blueprints.REST
         /// <param name="IHTTPConnection">The http connection for this request.</param>
         /// <param name="HTTPContentType">A content type.</param>
         /// <param name="ResourcePath">The path to internal resources.</param>
-        public AProjectService(IHTTPConnection IHTTPConnection, HTTPContentType HTTPContentType)
+        public AGraphService(IHTTPConnection IHTTPConnection, HTTPContentType HTTPContentType)
             : base(IHTTPConnection, HTTPContentType, "graph_database.org.resources.")
         { }
 
@@ -96,7 +96,7 @@ namespace de.ahzf.Blueprints.REST
         /// <param name="IHTTPConnection">The http connection for this request.</param>
         /// <param name="HTTPContentTypes">An enumeration of content types.</param>
         /// <param name="ResourcePath">The path to internal resources.</param>
-        public AProjectService(IHTTPConnection IHTTPConnection, IEnumerable<HTTPContentType> HTTPContentTypes)
+        public AGraphService(IHTTPConnection IHTTPConnection, IEnumerable<HTTPContentType> HTTPContentTypes)
             : base(IHTTPConnection, HTTPContentTypes, "graph_database.org.resources.")
         { }
 
@@ -124,9 +124,9 @@ namespace de.ahzf.Blueprints.REST
 
         #endregion
 
-        #region AllGraphDBs()
+        #region AllGraphs()
 
-        public virtual HTTPResponse AllGraphDBs()
+        public virtual HTTPResponse AllGraphs()
         {
             return Error406_NotAcceptable();
         }
@@ -194,7 +194,7 @@ namespace de.ahzf.Blueprints.REST
 
             #endregion
 
-            var Vertex = GraphServer.PropertyGraph.VertexById(_VertexId);
+            var Vertex = GraphServer.GetPropertyGraph(UInt64.Parse(GraphId)).VertexById(_VertexId);
 
             #region Process response
 
@@ -248,7 +248,7 @@ namespace de.ahzf.Blueprints.REST
 
             #endregion
 
-            var Vertices = GraphServer.PropertyGraph.VerticesById(Ids.ToArray());
+            var Vertices = GraphServer.GetPropertyGraph(UInt64.Parse(GraphId)).VerticesById(Ids.ToArray());
 
             #region Process response
 

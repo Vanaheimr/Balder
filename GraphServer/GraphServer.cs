@@ -27,16 +27,18 @@ using de.ahzf.Hermod.Datastructures;
 
 #endregion
 
-namespace de.ahzf.Blueprints.REST
+namespace de.ahzf.Blueprints.HTTPREST
 {
 
     /// <summary>
-    /// A tcp/http based Blueprints graph server.
+    /// PropertyGraph HTTP/REST access.
     /// </summary>
-    public class BlueprintsServer : HTTPServer<IBlueprintsService>, IBlueprintsServer
+    public class GraphServer : HTTPServer<IGraphService>, IGraphServer
     {
 
         #region Data
+
+        private readonly IDictionary<UInt64, IPropertyGraph> _PropertyGraphs;
 
         private readonly IDictionary<String, IGenericPropertyVertex<UInt64, Int64, String, String, Object,
                                                                     UInt64, Int64, String, String, Object,
@@ -46,12 +48,6 @@ namespace de.ahzf.Blueprints.REST
         #endregion
         
         #region Properties
-
-        #region PropertyGraph
-
-        public IPropertyGraph PropertyGraph { get; private set; }
-
-        #endregion
 
         #region DefaultServerName
 
@@ -72,12 +68,12 @@ namespace de.ahzf.Blueprints.REST
 
         #region Constructor(s)
 
-        #region BlueprintsServer(PropertyGraph)
+        #region GraphServer(PropertyGraph)
 
         /// <summary>
         /// Initialize the GraphServer using IPAddress.Any, http port 8182 and start the server.
         /// </summary>
-        public BlueprintsServer(IPropertyGraph PropertyGraph)
+        public GraphServer(IPropertyGraph PropertyGraph)
             : base(IPv4Address.Any, new IPPort(80), Autostart: true)
         {
 
@@ -88,7 +84,9 @@ namespace de.ahzf.Blueprints.REST
 
             #endregion
 
-            this.PropertyGraph = PropertyGraph;
+            _PropertyGraphs = new Dictionary<UInt64, IPropertyGraph>();
+            _PropertyGraphs.Add(PropertyGraph.Id, PropertyGraph);
+
             this.ServerName    = DefaultServerName;
             this.VertexLookup  = new Dictionary<String, IGenericPropertyVertex<UInt64, Int64, String, String, Object,
                                                                         UInt64, Int64, String, String, Object,
@@ -101,14 +99,14 @@ namespace de.ahzf.Blueprints.REST
 
         #endregion
 
-        #region BlueprintsServer(PropertyGraph, Port, AutoStart = false)
+        #region GraphServer(PropertyGraph, Port, AutoStart = false)
 
         /// <summary>
         /// Initialize the GraphServer using IPAddress.Any and the given parameters.
         /// </summary>
         /// <param name="Port">The listening port</param>
         /// <param name="Autostart"></param>
-        public BlueprintsServer(IPropertyGraph PropertyGraph, IPPort Port, Boolean Autostart = false)
+        public GraphServer(IPropertyGraph PropertyGraph, IPPort Port, Boolean Autostart = false)
             : base(IPv4Address.Any, Port, Autostart: true)
         {
 
@@ -119,12 +117,14 @@ namespace de.ahzf.Blueprints.REST
 
             #endregion
 
-            this.PropertyGraph = PropertyGraph;
-            this.ServerName    = DefaultServerName;
+            _PropertyGraphs = new Dictionary<UInt64, IPropertyGraph>();
+            _PropertyGraphs.Add(PropertyGraph.Id, PropertyGraph);
+
+            this.ServerName   = DefaultServerName;
             this.VertexLookup = new Dictionary<String, IGenericPropertyVertex<UInt64, Int64, String, String, Object,
-                                                                        UInt64, Int64, String, String, Object,
-                                                                        UInt64, Int64, String, String, Object,
-                                                                        UInt64, Int64, String, String, Object>>();
+                                                                              UInt64, Int64, String, String, Object,
+                                                                              UInt64, Int64, String, String, Object,
+                                                                              UInt64, Int64, String, String, Object>>();
 
             base.OnNewHTTPService += CentralService => { CentralService.GraphServer = this; };
 
@@ -132,7 +132,7 @@ namespace de.ahzf.Blueprints.REST
 
         #endregion
 
-        #region BlueprintsServer(PropertyGraph, IIPAddress, Port, AutoStart = false)
+        #region GraphServer(PropertyGraph, IIPAddress, Port, AutoStart = false)
 
         /// <summary>
         /// Initialize the GraphServer using the given parameters.
@@ -140,7 +140,7 @@ namespace de.ahzf.Blueprints.REST
         /// <param name="IIPAddress">The listening IP address(es)</param>
         /// <param name="Port">The listening port</param>
         /// <param name="Autostart"></param>
-        public BlueprintsServer(IPropertyGraph PropertyGraph, IIPAddress IIPAddress, IPPort Port, Boolean Autostart = false)
+        public GraphServer(IPropertyGraph PropertyGraph, IIPAddress IIPAddress, IPPort Port, Boolean Autostart = false)
             : base(IIPAddress, Port, Autostart: true)
         {
 
@@ -151,12 +151,14 @@ namespace de.ahzf.Blueprints.REST
 
             #endregion
 
-            this.PropertyGraph = PropertyGraph;
-            this.ServerName    = DefaultServerName;
+            _PropertyGraphs = new Dictionary<UInt64, IPropertyGraph>();
+            _PropertyGraphs.Add(PropertyGraph.Id, PropertyGraph);
+
+            this.ServerName   = DefaultServerName;
             this.VertexLookup = new Dictionary<String, IGenericPropertyVertex<UInt64, Int64, String, String, Object,
-                                                                        UInt64, Int64, String, String, Object,
-                                                                        UInt64, Int64, String, String, Object,
-                                                                        UInt64, Int64, String, String, Object>>();
+                                                                              UInt64, Int64, String, String, Object,
+                                                                              UInt64, Int64, String, String, Object,
+                                                                              UInt64, Int64, String, String, Object>>();
 
             base.OnNewHTTPService += CentralService => { CentralService.GraphServer = this; };
 
@@ -164,14 +166,14 @@ namespace de.ahzf.Blueprints.REST
 
         #endregion
 
-        #region BlueprintsServer(PropertyGraph, IPSocket, Autostart = false)
+        #region GraphServer(PropertyGraph, IPSocket, Autostart = false)
 
         /// <summary>
         /// Initialize the GraphServer using the given parameters.
         /// </summary>
         /// <param name="IPSocket">The listening IPSocket.</param>
         /// <param name="Autostart"></param>
-        public BlueprintsServer(IPropertyGraph PropertyGraph, IPSocket IPSocket, Boolean Autostart = false)
+        public GraphServer(IPropertyGraph PropertyGraph, IPSocket IPSocket, Boolean Autostart = false)
             : base(IPSocket.IPAddress, IPSocket.Port, Autostart: true)
         {
 
@@ -182,12 +184,14 @@ namespace de.ahzf.Blueprints.REST
 
             #endregion
 
-            this.PropertyGraph = PropertyGraph;
-            this.ServerName    = DefaultServerName;
+            _PropertyGraphs = new Dictionary<UInt64, IPropertyGraph>();
+            _PropertyGraphs.Add(PropertyGraph.Id, PropertyGraph);
+
+            this.ServerName   = DefaultServerName;
             this.VertexLookup = new Dictionary<String, IGenericPropertyVertex<UInt64, Int64, String, String, Object,
-                                                                        UInt64, Int64, String, String, Object,
-                                                                        UInt64, Int64, String, String, Object,
-                                                                        UInt64, Int64, String, String, Object>>();
+                                                                              UInt64, Int64, String, String, Object,
+                                                                              UInt64, Int64, String, String, Object,
+                                                                              UInt64, Int64, String, String, Object>>();
 
             base.OnNewHTTPService += CentralService => { CentralService.GraphServer = this; };
 
@@ -198,17 +202,16 @@ namespace de.ahzf.Blueprints.REST
         #endregion
 
 
-
-
-        public void AddToIndex(IGenericPropertyVertex<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> Vertex)
+        public IEnumerable<IPropertyGraph> AllGraphs()
         {
-            throw new NotImplementedException();
+            return _PropertyGraphs.Values;
         }
 
-        public IEnumerable<IGenericPropertyVertex<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>> Vertices()
+        public IPropertyGraph GetPropertyGraph(UInt64 Id)
         {
-            throw new NotImplementedException();
+            return _PropertyGraphs[Id];
         }
+
 
     }
 

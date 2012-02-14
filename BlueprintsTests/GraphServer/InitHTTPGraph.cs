@@ -23,27 +23,28 @@ using de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable;
 
 using NUnit.Framework;
 using de.ahzf.Blueprints.PropertyGraphs;
+using de.ahzf.Blueprints.HTTPREST;
 
 #endregion
 
-namespace de.ahzf.Blueprints.UnitTests.PropertyGraphTests
+namespace de.ahzf.Blueprints.UnitTests.GraphServerTests
 {
 
     /// <summary>
-    /// SimplePropertyGraph unit tests.
+    /// GraphServer unit tests.
     /// </summary>
     [TestFixture]
-    public class InitGraph
+    public class InitGraphServer
     {
 
-        protected IPropertyGraph CreateGraph()
+        protected IGraphServer CreateGraph()
         {
-            return new PropertyGraph();
+            return new GraphServer(new PropertyGraph());
         }
 
-        protected IPropertyGraph CreateGraph(UInt64 GraphId)
+        protected IGraphServer CreateGraph(UInt64 GraphId)
         {
-            return new PropertyGraph(GraphId);
+            return new GraphServer(new PropertyGraph(GraphId));
         }
 
     }

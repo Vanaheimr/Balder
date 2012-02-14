@@ -11,7 +11,8 @@
     <RootNamespace>TestApplication</RootNamespace>
     <AssemblyName>TestApplication</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -55,10 +56,6 @@
       <Project>{16C85DF8-5DE6-4A9F-9FC7-7CA5B0440DF3}</Project>
       <Name>Commons</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BlueprintsHTTP\BlueprintsHTTP.csproj">
-      <Project>{B3200BC9-A629-44A3-BF01-C82C63A0C904}</Project>
-      <Name>BlueprintsHTTP</Name>
-    </ProjectReference>
     <ProjectReference Include="..\BlueprintsTests\BlueprintsTests.csproj">
       <Project>{7F4CE297-4A42-47A8-9A0A-74BA46B09891}</Project>
       <Name>BlueprintsTests</Name>
@@ -75,10 +72,17 @@
       <Project>{9F38DCC9-CD80-4B71-8A9C-B3F37E471CAB}</Project>
       <Name>Geometry</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GraphServer\GraphServer.csproj">
+      <Project>{DC46B5EF-ECC5-465E-B1C4-85596343A03F}</Project>
+      <Name>GraphServer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PropertyGraphs\PropertyGraphs.csproj">
       <Project>{562AC94F-60EA-4911-8C62-684F02867783}</Project>
       <Name>PropertyGraphs</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

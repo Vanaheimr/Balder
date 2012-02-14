@@ -21,18 +21,19 @@ using System;
 using System.Linq;
 using System.Reflection;
 
+using de.ahzf.Illias.Commons;
 using de.ahzf.Hermod;
 using de.ahzf.Hermod.HTTP;
 
 #endregion
 
-namespace de.ahzf.Blueprints.REST
+namespace de.ahzf.Blueprints.HTTPREST
 {
 
     /// <summary>
     /// EVENTSTREAM.
     /// </summary>
-    public class GraphService_EVENTSTREAM : AProjectService
+    public class GraphService_EVENTSTREAM : AGraphService
     {
 
         #region Constructor(s)

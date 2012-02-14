@@ -20,23 +20,24 @@
 using System;
 using System.Linq;
 using System.Reflection;
+using System.Collections.Generic;
 
+using de.ahzf.Illias.Commons;
 using de.ahzf.Hermod;
 using de.ahzf.Hermod.HTTP;
+using de.ahzf.Blueprints.PropertyGraphs;
 
 using Newtonsoft.Json.Linq;
-using de.ahzf.Blueprints.PropertyGraphs;
-using System.Collections.Generic;
 
 #endregion
 
-namespace de.ahzf.Blueprints.REST
+namespace de.ahzf.Blueprints.HTTPREST
 {
 
     /// <summary>
     /// JSON content representation.
     /// </summary>
-    public class GraphService_JSON : AProjectService
+    public class GraphService_JSON : AGraphService
     {
 
         #region Constructor(s)
@@ -69,29 +70,34 @@ namespace de.ahzf.Blueprints.REST
         #endregion
 
 
-        //#region AllGraphDBs()
+        public override HTTPResponse GetRoot()
+        {
+            return AllGraphs();
+        }
 
-        //public override HTTPResponse AllGraphDBs()
-        //{
+        #region AllGraphs()
 
-        //    var _Content = new JObject(
-        //                           new JProperty("AllGraphDBs",
-        //                               new JObject(
-        //                                   from t in GraphServer.AllGraphDBs() select new JProperty(t.Name, t.Uri)
-        //                               )
-        //                           )
-        //                       ).ToString();
+        public override HTTPResponse AllGraphs()
+        {
 
-        //    return new HTTPResponseBuilder()
-        //    {
-        //        HTTPStatusCode = HTTPStatusCode.OK,
-        //        ContentType    = HTTPContentType.JSON_UTF8,
-        //        Content        = _Content.ToUTF8Bytes()
-        //    };
+            var _Content = new JObject(
+                                   new JProperty("AllGraphs",
+                                       new JObject(
+                                           from graph in GraphServer.AllGraphs() select new JProperty(graph.Id.ToString(), graph.Id.ToString())
+                                       )
+                                   )
+                               ).ToString();
 
-        //}
+            return new HTTPResponseBuilder()
+            {
+                HTTPStatusCode = HTTPStatusCode.OK,
+                ContentType    = HTTPContentType.JSON_UTF8,
+                Content        = _Content.ToUTF8Bytes()
+            };
 
-        //#endregion
+        }
+
+        #endregion
 
 
         #region (protected) VertexSerialization(...)

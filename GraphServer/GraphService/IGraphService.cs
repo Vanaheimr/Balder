@@ -23,17 +23,17 @@ using de.ahzf.Hermod.HTTP;
 
 #endregion
 
-namespace de.ahzf.Blueprints.REST
+namespace de.ahzf.Blueprints.HTTPREST
 {
 
     //[HTTPService(Host: "localhost:8080", ForceAuthentication: true)]
     [HTTPService(HostAuthentication: true)]
-    public interface IBlueprintsService : IHTTPBaseService
+    public interface IGraphService : IHTTPBaseService
     {
 
         #region Properties
 
-        BlueprintsServer GraphServer { get; set; }
+        GraphServer GraphServer { get; set; }
 
         #endregion
 
@@ -58,7 +58,7 @@ namespace de.ahzf.Blueprints.REST
         /// </summary>
         /// <returns>Some HTML and JavaScript</returns>
         [HTTPMapping(HTTPMethods.GET, "/AllGraphDBs"), NoAuthentication]
-        HTTPResponse AllGraphDBs();
+        HTTPResponse AllGraphs();
 
         #endregion
 

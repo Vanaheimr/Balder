@@ -23,13 +23,13 @@ using de.ahzf.Hermod.HTTP;
 
 #endregion
 
-namespace de.ahzf.Blueprints.REST
+namespace de.ahzf.Blueprints.HTTPREST
 {
 
     /// <summary>
     /// Any content representation.
     /// </summary>
-    public class GraphService_ALL : AProjectService
+    public class GraphService_ALL : AGraphService
     {
 
         #region Constructor(s)

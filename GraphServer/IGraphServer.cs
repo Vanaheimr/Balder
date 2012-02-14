@@ -24,23 +24,17 @@ using de.ahzf.Blueprints.PropertyGraphs;
 
 #endregion
 
-namespace de.ahzf.Blueprints.REST
+namespace de.ahzf.Blueprints.HTTPREST
 {
 
-    public interface IBlueprintsServer
+    public interface IGraphServer
     {
-        
-        void AddToIndex(IGenericPropertyVertex<UInt64, Int64, String, String, Object,
-                                               UInt64, Int64, String, String, Object,
-                                               UInt64, Int64, String, String, Object,
-                                               UInt64, Int64, String, String, Object> Vertex);
 
         String DefaultServerName { get; }
 
-        IEnumerable<IGenericPropertyVertex<UInt64, Int64, String, String, Object,
-                                           UInt64, Int64, String, String, Object,
-                                           UInt64, Int64, String, String, Object,
-                                           UInt64, Int64, String, String, Object>> Vertices();
+        IEnumerable<IPropertyGraph> AllGraphs();
+        IPropertyGraph GetPropertyGraph(UInt64 Id);
+
 
     }
 

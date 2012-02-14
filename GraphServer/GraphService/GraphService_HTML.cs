@@ -22,6 +22,7 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 
+using de.ahzf.Illias.Commons;
 using de.ahzf.Hermod;
 using de.ahzf.Hermod.HTTP;
 using de.ahzf.Blueprints.PropertyGraphs;
@@ -29,13 +30,13 @@ using System.Collections.Generic;
 
 #endregion
 
-namespace de.ahzf.Blueprints.REST
+namespace de.ahzf.Blueprints.HTTPREST
 {
 
     /// <summary>
     /// HTML content representation.
     /// </summary>
-    public class GraphService_HTML : AProjectService
+    public class GraphService_HTML : AGraphService
     {
 
         #region Constructor(s)
@@ -102,24 +103,24 @@ namespace de.ahzf.Blueprints.REST
         #endregion
 
 
-        //#region GetRoot()
+        #region GetRoot()
 
-        //public override HTTPResponse GetRoot()
-        //{
+        public override HTTPResponse GetRoot()
+        {
 
-        //    var GraphDBs = GraphServer.AllGraphDBs().
-        //                               Select(t => "<a href=\"" + t.Uri + "\">" + t.Name + "</a>").
-        //                               Aggregate((a, b) =>  a + "<br>" + b);
+            var Graphs = GraphServer.AllGraphs().
+                                     Select(graph => "<a href=\"" + graph.Id + "\">" + graph.Id + "</a>").
+                                     Aggregate((a, b) =>  a + "<br>" + b);
 
-        //    return new HTTPResponseBuilder() {
-        //        HTTPStatusCode = HTTPStatusCode.OK,
-        //        ContentType    = HTTPContentType.HTML_UTF8,
-        //        Content        = HTMLBuilder("www.graph-database.org v0.1", b => b.AppendLine("Hello world!<br>").AppendLine(GraphDBs)).ToUTF8Bytes()
-        //    };
+            return new HTTPResponseBuilder() {
+                HTTPStatusCode = HTTPStatusCode.OK,
+                ContentType    = HTTPContentType.HTML_UTF8,
+                Content        = HTMLBuilder("www.graph-database.org v0.1", b => b.AppendLine("Hello world!<br>").AppendLine(Graphs)).ToUTF8Bytes()
+            };
 
-        //}
+        }
 
-        //#endregion
+        #endregion
 
         //#region AllGraphDBs()
 
