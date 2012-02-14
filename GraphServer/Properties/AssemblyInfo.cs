@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("GraphServer")]
-[assembly: AssemblyDescription("PropertyGraph HTTP/REST access")]
+[assembly: AssemblyDescription("Property graph HTTP/REST access")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("ahzf.de")]
 [assembly: AssemblyProduct("GraphServer")]

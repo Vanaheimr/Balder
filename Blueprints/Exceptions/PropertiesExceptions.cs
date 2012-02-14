@@ -68,12 +68,12 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
     #endregion
 
-    #region RevisionIdentificationChangeException
+    #region RevIdentificationChangeException
 
     /// <summary>
-    /// Changing the RevisionId property is not allowed.
+    /// Changing the RevId property is not allowed.
     /// </summary>
-    public class RevisionIdentificationChangeException : VerticesException
+    public class RevIdentificationChangeException : VerticesException
     {
 
         /// <summary>
@@ -82,8 +82,8 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         /// </summary>
         /// <param name="Message">The message that describes the error.</param>
         /// <param name="InnerException">The exception that is the cause of the current exception.</param>
-        public RevisionIdentificationChangeException(String Message = null, Exception InnerException = null)
-            : base("Changing the RevisionId property is not allowed!" + Message, InnerException)
+        public RevIdentificationChangeException(String Message = null, Exception InnerException = null)
+            : base("Changing the RevId property is not allowed!" + Message, InnerException)
         { }
 
     }

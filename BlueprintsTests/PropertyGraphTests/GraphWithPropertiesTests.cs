@@ -249,7 +249,7 @@ namespace de.ahzf.Blueprints.UnitTests.PropertyGraphTests
         #region ChangeRevIdTest1
 
         [Test]
-        [ExpectedException(typeof(RevisionIdentificationChangeException))]
+        [ExpectedException(typeof(RevIdentificationChangeException))]
         public void ChangeRevIdTest1()
         {
             var graph = new PropertyGraph(123UL);

@@ -60,7 +60,7 @@ namespace de.ahzf.Blueprints.UnitTests.PropertyGraphs.InMemory
             Assert.NotNull(_Vertex.IdKey);
             Assert.NotNull(_Vertex.Id);
             Assert.NotNull(_Vertex.RevIdKey);
-            Assert.NotNull(_Vertex.RevisionId);
+            Assert.NotNull(_Vertex.RevId);
 
             Assert.IsTrue(_Vertex.ContainsKey(_Graph.IdKey));
             Assert.IsTrue(_Vertex.ContainsKey(_Graph.RevIdKey));
@@ -97,7 +97,7 @@ namespace de.ahzf.Blueprints.UnitTests.PropertyGraphs.InMemory
             Assert.NotNull(_Vertex.IdKey);
             Assert.AreEqual(5, _Vertex.Id);
             Assert.NotNull(_Vertex.RevIdKey);
-            Assert.NotNull(_Vertex.RevisionId);
+            Assert.NotNull(_Vertex.RevId);
 
             Assert.IsTrue(_Vertex.ContainsKey(_Graph.IdKey));
             Assert.IsTrue(_Vertex.ContainsKey(_Graph.RevIdKey));
@@ -136,7 +136,7 @@ namespace de.ahzf.Blueprints.UnitTests.PropertyGraphs.InMemory
             Assert.NotNull(_Vertex.IdKey);
             Assert.NotNull(_Vertex.Id);
             Assert.NotNull(_Vertex.RevIdKey);
-            Assert.NotNull(_Vertex.RevisionId);
+            Assert.NotNull(_Vertex.RevId);
 
             Assert.IsTrue(_Vertex.ContainsKey(_Graph.IdKey));
             Assert.IsTrue(_Vertex.ContainsKey(_Graph.RevIdKey));
@@ -196,7 +196,7 @@ namespace de.ahzf.Blueprints.UnitTests.PropertyGraphs.InMemory
             Assert.NotNull(_Vertex.IdKey);
             Assert.AreEqual(23, _Vertex.Id);
             Assert.NotNull(_Vertex.RevIdKey);
-            Assert.NotNull(_Vertex.RevisionId);
+            Assert.NotNull(_Vertex.RevId);
 
             Assert.IsTrue(_Vertex.ContainsKey(_Graph.IdKey));
             Assert.IsTrue(_Vertex.ContainsKey(_Graph.RevIdKey));
@@ -255,14 +255,14 @@ namespace de.ahzf.Blueprints.UnitTests.PropertyGraphs.InMemory
 
         #endregion
 
-        #region TryToChangeTheVertexRevisionIdentification()
+        #region TryToChangeTheVertexRevIdentification()
 
         /// <summary>
         /// A test for trying to change the vertex revision identification.
         /// </summary>
         [Test]
-        [ExpectedException(typeof(RevisionIdentificationChangeException))]
-        public void TryToChangeTheVertexRevisionIdentification()
+        [ExpectedException(typeof(RevIdentificationChangeException))]
+        public void TryToChangeTheVertexRevIdentification()
         {
 
             var _Graph = new PropertyGraph() as IPropertyGraph;

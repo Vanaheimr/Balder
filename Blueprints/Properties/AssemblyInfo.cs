@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Blueprints")]
-[assembly: AssemblyDescription("A Property Graph Model Interface for .NET and Mono")]
+[assembly: AssemblyDescription("Generic property graph interface for .NET, Silverlight and Mono")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("ahzf.de")]
 [assembly: AssemblyProduct("Blueprints")]
-[assembly: AssemblyCopyright("Copyright © Achim Friedland 2010-2011")]
+[assembly: AssemblyCopyright("Copyright © Achim Friedland 2010-2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
