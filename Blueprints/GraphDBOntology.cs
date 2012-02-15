@@ -66,6 +66,19 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
         #endregion
 
+        #region Description()
+
+        /// <summary>
+        /// The description of something.
+        /// </summary>
+        /// <returns>A semantic property key to be used within property graphs.</returns>
+        public static SemanticProperty Description()
+        {
+            return new SemanticProperty(Prefix, "Description", "Description");
+        }
+
+        #endregion
+
     }
 
 }

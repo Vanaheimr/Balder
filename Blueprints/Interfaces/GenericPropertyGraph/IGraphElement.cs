@@ -36,6 +36,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
     public interface IGraphElement<TId, TRevId, TKey, TValue>
                         : IIdentifier<TId>,
                           IRevisionId<TRevId>,
+                          IDescription<TValue>,
                           IProperties<TKey, TValue>,
                           IEquatable <IGraphElement<TId, TRevId, TKey, TValue>>,
                           IComparable<IGraphElement<TId, TRevId, TKey, TValue>>,

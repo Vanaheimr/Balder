@@ -43,7 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GraphServer\GraphWithPropertiesTests.cs" />
+    <Compile Include="GraphServer\GraphServerInitializationTests.cs" />
     <Compile Include="GraphServer\InitHTTPGraph.cs" />
     <Compile Include="GraphElementIds\MultiEdgeIdTests.cs" />
     <Compile Include="GraphElementIds\EdgeIdTests.cs" />

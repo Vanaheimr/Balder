@@ -60,6 +60,8 @@ namespace de.ahzf.Blueprints.UnitTests.PropertyGraphTests
             Assert.IsNotNull(graph);
             Assert.IsNotNull(graph.IdKey);
             Assert.IsNotNull(graph.RevIdKey);
+            Assert.IsNotNull(graph.DescriptionKey);
+            Assert.IsNull   (graph.Description);
 
         }
 
@@ -77,6 +79,8 @@ namespace de.ahzf.Blueprints.UnitTests.PropertyGraphTests
             Assert.IsNotNull(graph.IdKey);
             Assert.AreEqual(123UL, graph.Id);
             Assert.IsNotNull(graph.RevIdKey);
+            Assert.IsNotNull(graph.DescriptionKey);
+            Assert.IsNull   (graph.Description);
 
         }
 
@@ -88,13 +92,17 @@ namespace de.ahzf.Blueprints.UnitTests.PropertyGraphTests
         public void GraphIdAndHashCodeTest()
         {
 
-            var graph1 = new PropertyGraph(123, null);
-            var graph2 = new PropertyGraph(256, null);
-            var graph3 = new PropertyGraph(123, null);
+            var graph1 = new PropertyGraph(123, null) { Description = "The first graph." };
+            var graph2 = new PropertyGraph(256, null) { Description = "The second graph." };
+            var graph3 = new PropertyGraph(123, null) { Description = "The third graph." };
 
             Assert.IsNotNull(graph1.Id);
             Assert.IsNotNull(graph2.Id);
             Assert.IsNotNull(graph3.Id);
+
+            Assert.IsNotNull(graph1.Description);
+            Assert.IsNotNull(graph2.Description);
+            Assert.IsNotNull(graph3.Description);
 
             Assert.IsNotNull(graph1.GetHashCode());
             Assert.IsNotNull(graph2.GetHashCode());
@@ -106,6 +114,32 @@ namespace de.ahzf.Blueprints.UnitTests.PropertyGraphTests
 
             Assert.AreEqual(graph1.Id, graph3.Id);
             Assert.AreEqual(graph1.GetHashCode(), graph3.GetHashCode());
+
+            Assert.AreNotEqual(graph1.Description, graph2.Description);
+            Assert.AreNotEqual(graph2.Description, graph3.Description);
+            Assert.AreNotEqual(graph3.Description, graph1.Description);
+
+        }
+
+        #endregion
+
+        #region GraphDescriptionTest()
+
+        [Test]
+        public void GraphDescriptionTest()
+        {
+
+            var graph = new PropertyGraph(g => g.SetProperty("hello", "world!"));
+
+            Assert.IsNotNull(graph);
+            Assert.IsNotNull(graph.IdKey);
+            Assert.IsNotNull(graph.RevIdKey);
+            Assert.IsNotNull(graph.DescriptionKey);
+            Assert.IsNull(graph.Description);
+
+            graph.Description = "This is a property graph!";
+            Assert.IsNotNull(graph.Description);
+            Assert.AreEqual("This is a property graph!", graph.Description);
 
         }
 

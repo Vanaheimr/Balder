@@ -144,7 +144,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         #region Constructor(s)
 
-        #region GenericPropertyMultiEdge(Graph, Edges, MultiEdgeId, Label, IdKey, RevIdKey, DatastructureInitializer, EdgesCollectionInitializer, MultiEdgeInitializer = null)
+        #region GenericPropertyMultiEdge(Graph, Edges, MultiEdgeId, Label, IdKey, RevIdKey, DescriptionKey, DatastructureInitializer, EdgesCollectionInitializer, MultiEdgeInitializer = null)
 
         /// <summary>
         /// Creates a new edge.
@@ -171,6 +171,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                         TIdMultiEdge    MultiEdgeId,
                                         TMultiEdgeLabel Label,
                                         TKeyMultiEdge   IdKey,
+                                        TKeyMultiEdge   DescriptionKey,
                                         TKeyMultiEdge   RevIdKey,
 
                                         IDictionaryInitializer<TKeyMultiEdge, TValueMultiEdge> DatastructureInitializer,
@@ -185,7 +186,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                                                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> MultiEdgeInitializer = null)
 
-            : base(MultiEdgeId, IdKey, RevIdKey, DatastructureInitializer)
+            : base(MultiEdgeId, IdKey, RevIdKey, DescriptionKey, DatastructureInitializer)
 
         {
 

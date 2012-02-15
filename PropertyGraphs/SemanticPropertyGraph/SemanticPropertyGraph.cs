@@ -53,30 +53,31 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                                       MultiEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object,
                                                       HyperEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object> GraphInitializer = null)
 
-            : base (GraphDBOntology.Id(),
-                    GraphDBOntology.RevId(),
-                    GraphId,
+            : base(GraphId,
 
+                   // Create a new vertex identification
+                   GraphDBOntology.Id(),
+                   GraphDBOntology.RevId(),
+                   GraphDBOntology.Description(),
+                   (Graph) => VertexId.NewVertexId,
 
-                    // Create a new vertex identification
-                    GraphDBOntology.Id(),
-                    GraphDBOntology.RevId(),
-                    (Graph) => VertexId.NewVertexId,
+                   // Create a new Edge
+                   GraphDBOntology.Id(),
+                   GraphDBOntology.RevId(),
+                   GraphDBOntology.Description(),
+                   (Graph) => EdgeId.NewEdgeId,
+                   
+                   // Create a new MultiEdge
+                   GraphDBOntology.Id(),
+                   GraphDBOntology.RevId(),
+                   GraphDBOntology.Description(),
+                   (Graph) => MultiEdgeId.NewMultiEdgeId,
 
-                    // Create a new Edge
-                    GraphDBOntology.Id(),
-                    GraphDBOntology.RevId(),
-                    (Graph) => EdgeId.NewEdgeId,
-                    
-                    // Create a new MultiEdge
-                    GraphDBOntology.Id(),
-                    GraphDBOntology.RevId(),
-                    (Graph) => MultiEdgeId.NewMultiEdgeId,
-
-                    // Create a new HyperEdge
-                    GraphDBOntology.Id(),
-                    GraphDBOntology.RevId(),
-                    (Graph) => HyperEdgeId.NewHyperEdgeId,
+                   // Create a new HyperEdge
+                   GraphDBOntology.Id(),
+                   GraphDBOntology.RevId(),
+                   GraphDBOntology.Description(),
+                   (Graph) => HyperEdgeId.NewHyperEdgeId,
 
                    GraphInitializer)
 

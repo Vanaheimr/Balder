@@ -83,7 +83,7 @@ namespace de.ahzf.Blueprints.HTTPREST
             var _Content = new JObject(
                                    new JProperty("AllGraphs",
                                        new JObject(
-                                           from graph in GraphServer.AllGraphs() select new JProperty(graph.Id.ToString(), graph.Id.ToString())
+                                           from graph in GraphServer.AllGraphs() select new JProperty(graph.Id.ToString(), graph.Description)
                                        )
                                    )
                                ).ToString();

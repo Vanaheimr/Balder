@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using de.ahzf.Blueprints.PropertyGraphs;
 using de.ahzf.Hermod.HTTP;
 using de.ahzf.Hermod.Datastructures;
+using de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable;
 
 #endregion
 
@@ -31,9 +32,10 @@ namespace de.ahzf.Blueprints.HTTPREST
 {
 
     /// <summary>
-    /// PropertyGraph HTTP/REST access.
+    /// Simple PropertyGraph HTTP/REST access.
     /// </summary>
-    public class GraphServer : HTTPServer<IGraphService>, IGraphServer
+    public class GraphServer : HTTPServer<IGraphService>,
+                               IGraphServer
     {
 
         #region Data
@@ -49,17 +51,24 @@ namespace de.ahzf.Blueprints.HTTPREST
         
         #region Properties
 
-        #region DefaultServerName
+        #region ServerName
 
         /// <summary>
-        /// The default server name.
+        /// The HTTP server name.
         /// </summary>
-        public override String DefaultServerName
+        public String ServerName
         {
+
             get
             {
-                return "www.graph-database.org v0.1";
+                return base.ServerName;
             }
+
+            set
+            {
+                base.ServerName = value;
+            }
+
         }
 
         #endregion
@@ -202,15 +211,101 @@ namespace de.ahzf.Blueprints.HTTPREST
         #endregion
 
 
+        #region IGraphServer Members
+
+        #region AddPropertyGraph(PropertyGraph)
+
+        /// <summary>
+        /// Adds the given property graph to the server.
+        /// </summary>
+        /// <param name="PropertyGraph">An object implementing the IPropertyGraph interface.</param>
+        public IPropertyGraph AddPropertyGraph(IPropertyGraph PropertyGraph)
+        {
+            _PropertyGraphs.Add(PropertyGraph.Id, PropertyGraph);
+            return PropertyGraph;
+        }
+
+        #endregion
+
+        #region NewPropertyGraph(GraphId, GraphInitializer = null)
+
+        /// <summary>
+        /// Creates a new class-based in-memory implementation of a property graph
+        /// and adds it to the server.
+        /// </summary>
+        /// <param name="GraphId">A unique identification for this graph (which is also a vertex!).</param>
+        /// <param name="GraphInitializer">A delegate to initialize the new property graph.</param>
+        public IPropertyGraph NewPropertyGraph(UInt64 GraphId, GraphInitializer<UInt64, Int64, String, String, Object,
+                                                                                UInt64, Int64, String, String, Object,
+                                                                                UInt64, Int64, String, String, Object,
+                                                                                UInt64, Int64, String, String, Object> GraphInitializer = null)
+        {
+            return AddPropertyGraph(new PropertyGraph(GraphId, GraphInitializer));
+        }
+
+        #endregion
+
+
+        #region GetPropertyGraph(GraphId)
+
+        /// <summary>
+        /// Return the property graph identified by the given GraphId.
+        /// </summary>
+        /// <param name="GraphId">A property graph identifier.</param>
+        public IPropertyGraph GetPropertyGraph(UInt64 GraphId)
+        {
+            return _PropertyGraphs[GraphId];
+        }
+
+        #endregion
+
+        #region TryGetPropertyGraph(GraphId, out PropertyGraph)
+
+        /// <summary>
+        /// Return the property graph identified by the given GraphId.
+        /// </summary>
+        /// <param name="GraphId">A property graph identifier.</param>
+        public Boolean TryGetPropertyGraph(UInt64 GraphId, out IPropertyGraph PropertyGraph)
+        {
+            return _PropertyGraphs.TryGetValue(GraphId, out PropertyGraph);
+        }
+
+        #endregion
+
+        #region AllGraphs()
+
         public IEnumerable<IPropertyGraph> AllGraphs()
         {
             return _PropertyGraphs.Values;
         }
 
-        public IPropertyGraph GetPropertyGraph(UInt64 Id)
+        #endregion
+
+
+        #region RemovePropertyGraph(GraphId)
+
+        public Boolean RemovePropertyGraph(UInt64 GraphId)
         {
-            return _PropertyGraphs[Id];
+            return _PropertyGraphs.Remove(GraphId);
         }
+
+        #endregion
+
+        #endregion
+
+        #region IEnumerable<PropertyGraph> Members
+
+        public IEnumerator<IPropertyGraph> GetEnumerator()
+        {
+            return _PropertyGraphs.Values.GetEnumerator();
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return _PropertyGraphs.Values.GetEnumerator();
+        }
+
+        #endregion
 
 
     }

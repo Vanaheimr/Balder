@@ -82,28 +82,30 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                                          MultiEdgeId, RevisionId, String, String, Object,
                                                          HyperEdgeId, RevisionId, String, String, Object> GraphInitializer = null)
 
-            : base (GraphDBOntology.Id().Suffix,
-                    GraphDBOntology.RevId().Suffix,
-                    GraphId,
+            : base (GraphId,
 
                     // Create a new vertex
                     GraphDBOntology.Id().Suffix,
                     GraphDBOntology.RevId().Suffix,
+                    GraphDBOntology.Description().Suffix,
                     (Graph) => VertexId.NewVertexId,
            
                     // Create a new edge
                     GraphDBOntology.Id().Suffix,
                     GraphDBOntology.RevId().Suffix,
+                    GraphDBOntology.Description().Suffix,
                     (Graph) => EdgeId.NewEdgeId,
 
                     // Create a new multiedge
                     GraphDBOntology.Id().Suffix,
                     GraphDBOntology.RevId().Suffix,
+                    GraphDBOntology.Description().Suffix,
                     (Graph) => MultiEdgeId.NewMultiEdgeId,
 
                     // Create a new hyperedge
                     GraphDBOntology.Id().Suffix,
                     GraphDBOntology.RevId().Suffix,
+                    GraphDBOntology.Description().Suffix,
                     (Graph) => HyperEdgeId.NewHyperEdgeId,
 
                     GraphInitializer)

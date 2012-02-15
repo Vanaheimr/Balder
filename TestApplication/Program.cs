@@ -42,42 +42,49 @@ namespace de.ahzf.Blueprints.TestApplication
         public static void Main(String[] args)
         {
 
-            var graph  = new PropertyGraph(123, g => g.SetProperty("hello", "world!").SetProperty("graphs", "are cool!"));
-            var server = new GraphServer(graph, new IPPort(8080));
+            using (var GraphServer = new GraphServer(new PropertyGraph(123UL), new IPPort(8080)) {
+                                         ServerName = "GraphServer v0.1"
+                                     } as IGraphServer)
+            {
 
-            var a1 = graph.ContainsKey("hello");
-            var a2 = graph.ContainsKey("world!");
-            var a3 = graph.ContainsKey("graphs");
-            var a4 = graph.ContainsKey("are cool!");
+                var graph = GraphServer.NewPropertyGraph(512UL, g => g.SetProperty(GraphDBOntology.Description().Suffix, "a test graph").SetProperty("hello", "world!"));
+                var a1 = graph.ContainsKey("hello");
+                var a2 = graph.ContainsKey("world!");
+                var a3 = graph.ContainsKey("graphs");
+                var a4 = graph.ContainsKey("are cool!");
+                var a5 = graph.ContainsKey(GraphDBOntology.Description().Suffix);
 
-            var c1 = graph.ContainsValue(123UL);
+                var c1 = graph.ContainsValue(123UL);
 
-            var t = false;
-            graph.UseProperty("Id", success => t = true);
-            var ii = "i = " + t;
+                var t = false;
+                graph.UseProperty("Id", success => t = true);
+                var ii = "i = " + t;
 
-            var b1 = graph.Contains("Id", 123UL);
-            var b2 = graph is IProperties<String, Object>;
+                var b1 = graph.Contains("Id", 123UL);
+                var b2 = graph is IProperties<String, Object>;
 
-            var aa = graph.GetProperties(null);
+                var aa = graph.GetProperties(null);
 
-            var deleted3 = graph.Remove().ToList();
-            var deleted1 = graph.Remove("hello");
-
-           // var a = graph.PropertyData.GetFilteredKeys.ContainsKey("hello");
+                var deleted3 = graph.Remove().ToList();
+                var deleted1 = graph.Remove("hello");
 
 
-            var _clientB  = new HTTPClient(IPv4Address.Parse("127.0.0.1"), new IPPort(8080));
-            var _requestB = _clientB.GET("/").//AccountId/RepositoryId/TransactionId/GraphId/VerticesById?Id=2&Id=3").
-                                     SetProtocolVersion(HTTPVersion.HTTP_1_1).
-                                     SetUserAgent("Hermod HTTP Client v0.1").
-                                     SetConnection("keep-alive").
-                                     AddAccept(HTTPContentType.JSON_UTF8, 1);
+                // ---------------------------------------------------------------
 
-            _clientB.Execute(_requestB, response => Console.WriteLine(response.Content.ToUTF8String()));
 
-            while (true)
-                Thread.Sleep(100);
+                var _clientB = new HTTPClient(IPv4Address.Parse("127.0.0.1"), new IPPort(8080));
+                var _requestB = _clientB.GET("/").//AccountId/RepositoryId/TransactionId/GraphId/VerticesById?Id=2&Id=3").
+                                         SetProtocolVersion(HTTPVersion.HTTP_1_1).
+                                         SetUserAgent("Hermod HTTP Client v0.1").
+                                         SetConnection("keep-alive").
+                                         AddAccept(HTTPContentType.JSON_UTF8, 1);
+
+                _clientB.Execute(_requestB, response => Console.WriteLine(response.Content.ToUTF8String()));
+
+                while (true)
+                    Thread.Sleep(100);
+
+            }
 
         }
 

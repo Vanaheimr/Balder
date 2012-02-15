@@ -122,6 +122,37 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         #endregion
 
+        #region DescriptionKey
+
+        /// <summary>
+        /// The property key of the description.
+        /// </summary>
+        public TKey DescriptionKey { get; private set; }
+
+        #endregion
+
+        #region Description
+
+        /// <summary>
+        /// Provides a description of this graph element.
+        /// </summary>
+        public TValue Description
+        {
+
+            get
+            {
+                return this[DescriptionKey];
+            }
+
+            set
+            {
+                this.SetProperty(DescriptionKey, value);
+            }
+
+        }
+
+        #endregion
+
         #endregion
 
         #region Events
@@ -298,7 +329,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         #region (protected) Constructor(s)
 
-        #region (protected) AGraphElement(Id, IdKey, RevIdKey, DatastructureInitializer, GraphElementInitializer = null)
+        #region (protected) AGraphElement(Id, IdKey, RevIdKey, DescriptionKey, DatastructureInitializer, GraphElementInitializer = null)
 
         /// <summary>
         /// Creates a new abstract graph element.
@@ -306,11 +337,13 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <param name="Id">The Id of this graph element.</param>
         /// <param name="IdKey">The key to access the Id of this graph element.</param>
         /// <param name="RevIdKey">The key to access the RevId of this graph element.</param>
+        /// <param name="DescriptionKey">The key to access the description of this graph element.</param>
         /// <param name="DatastructureInitializer">A delegate to initialize the properties datastructure of the this graph element.</param>
         /// <param name="PropertiesInitializer">A delegate to do some initial operations like adding some properties.</param>
         internal protected AGraphElement(TId                                  Id,
                                          TKey                                 IdKey,
                                          TKey                                 RevIdKey,
+                                         TKey                                 DescriptionKey,
                                          IDictionaryInitializer<TKey, TValue> DatastructureInitializer,
                                          IPropertiesInitializer<TKey, TValue> PropertiesInitializer = null)
         {
@@ -326,14 +359,18 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
             if (RevIdKey == null)
                 throw new ArgumentNullException("The given RevIdKey must not be null!");
 
+            if (DescriptionKey == null)
+                throw new ArgumentNullException("The given DescriptionKey must not be null!");
+
             if (DatastructureInitializer == null)
                 throw new ArgumentNullException("The given DatastructureInitializer must not be null!");
 
             #endregion
 
-            this.IdKey        = IdKey;
-            this.RevIdKey     = RevIdKey;
-            this.PropertyData = DatastructureInitializer();
+            this.IdKey          = IdKey;
+            this.RevIdKey       = RevIdKey;
+            this.DescriptionKey = DescriptionKey;
+            this.PropertyData   = DatastructureInitializer();
             this.PropertyData.Add(IdKey,    Id);
             this.PropertyData.Add(RevIdKey, RevId);
 

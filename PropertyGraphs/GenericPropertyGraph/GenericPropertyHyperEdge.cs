@@ -187,6 +187,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                         THyperEdgeLabel Label,
                                         TKeyHyperEdge   IdKey,
                                         TKeyHyperEdge   RevIdKey,
+                                        TKeyHyperEdge   DescriptionKey,
 
                                         IDictionaryInitializer<TKeyHyperEdge, TValueHyperEdge> DatastructureInitializer,
 
@@ -200,7 +201,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> HyperEdgeInitializer = null)
 
-            : base(HyperEdgeId, IdKey, RevIdKey, DatastructureInitializer)
+            : base(HyperEdgeId, IdKey, RevIdKey, DescriptionKey, DatastructureInitializer)
 
         {
 

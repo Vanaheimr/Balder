@@ -92,7 +92,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         #region Constructor(s)
 
-        #region PropertyEdge(Graph, OutVertex, InVertex, EdgeId, Label, IdKey, RevIdKey, DatastructureInitializer, EdgeInitializer = null)
+        #region PropertyEdge(Graph, OutVertex, InVertex, EdgeId, Label, IdKey, RevIdKey, DescriptionKey, DatastructureInitializer, EdgeInitializer = null)
 
         /// <summary>
         /// Creates a new generic property edge.
@@ -123,6 +123,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                             String Label,
                             String IdKey,
                             String RevIdKey,
+                            String DescriptionKey,
 
                             IDictionaryInitializer<String, Object> DatastructureInitializer,
 
@@ -131,7 +132,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                             UInt64, Int64, String, String, Object,
                                             UInt64, Int64, String, String, Object> EdgeInitializer = null)
 
-            : base(Graph, OutVertex, InVertex, EdgeId, Label, IdKey, RevIdKey, DatastructureInitializer, EdgeInitializer)
+            : base(Graph, OutVertex, InVertex, EdgeId, Label, IdKey, RevIdKey, DescriptionKey, DatastructureInitializer, EdgeInitializer)
 
         { }
 

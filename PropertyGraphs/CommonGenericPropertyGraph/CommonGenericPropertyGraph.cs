@@ -83,39 +83,42 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// </summary>
         public CommonGenericPropertyGraph(TId                  GraphId,
                                           TKey                 IdKey,
+                                          TKey                 RevIdKey,
+                                          TKey                 DescriptionKey,
+                                          RevIdCreatorDelegate RevIdCreatorDelegate,
                                           IdCreatorDelegate    VertexIdCreatorDelegate,
                                           IdCreatorDelegate    EdgeIdCreatorDelegate,
                                           IdCreatorDelegate    MultiEdgeIdCreatorDelegate,
-                                          IdCreatorDelegate    HyperEdgeIdCreatorDelegate,
-                                          TKey                 RevIdKey,
-                                          RevIdCreatorDelegate RevIdCreatorDelegate,
+                                          IdCreatorDelegate    HyperEdgeIdCreatorDelegate,                                          
                                           GraphInitializer<TId, TRevId, TLabel, TKey, TValue,
                                                            TId, TRevId, TLabel, TKey, TValue,
                                                            TId, TRevId, TLabel, TKey, TValue,
                                                            TId, TRevId, TLabel, TKey, TValue> GraphInitializer = null)
 
-            : base (IdKey,
-                    RevIdKey,
-                    GraphId,
+            : base (GraphId,
                     
                     // Create a new vertex
                     IdKey,
                     RevIdKey,
+                    DescriptionKey,
                     (a) => VertexIdCreatorDelegate(),
 
                     // Create a new edge
                     IdKey,
                     RevIdKey,
+                    DescriptionKey,
                     (Graph) => EdgeIdCreatorDelegate(),
 
                     // Create a new multiedge
                     IdKey,
                     RevIdKey,
+                    DescriptionKey,
                     (Graph) => MultiEdgeIdCreatorDelegate(),
 
                     // Create a new hyperedge
                     IdKey,
                     RevIdKey,
+                    DescriptionKey,
                     (Graph) => HyperEdgeIdCreatorDelegate(),
 
                     GraphInitializer)

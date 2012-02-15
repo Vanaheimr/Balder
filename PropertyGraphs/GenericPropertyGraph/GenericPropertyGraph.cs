@@ -94,12 +94,11 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
     {
 
-        public GenericPropertyGraph(TKeyVertex IdKey,
-                                    TKeyVertex RevIdKey,
-                                    TIdVertex  GraphId,
+        public GenericPropertyGraph(TIdVertex  GraphId,
 
                                     TKeyVertex VertexIdKey,
                                     TKeyVertex VertexRevIdKey,
+                                    TKeyVertex VertexDescriptionKey,
                                     VertexIdCreatorDelegate   <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                                TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -107,6 +106,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
                                     TKeyEdge EdgeIdKey,
                                     TKeyEdge EdgeRevIdKey,
+                                    TKeyEdge EdgeDescriptionKey,
                                     EdgeIdCreatorDelegate     <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                                TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -114,6 +114,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
                                     TKeyMultiEdge MultiEdgeIdKey,
                                     TKeyMultiEdge MultiEdgeRevIdKey,
+                                    TKeyMultiEdge MultiEdgeDescriptionKey,
                                     MultiEdgeIdCreatorDelegate<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                                TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -122,7 +123,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
                                     TKeyHyperEdge HyperEdgeIdKey,
                                     TKeyHyperEdge HyperEdgeRevIdKey,
-
+                                    TKeyHyperEdge HyperEdgeDescriptionKey,
                                     HyperEdgeIdCreatorDelegate<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                                TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -133,12 +134,14 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                                      TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                      TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> GraphInitializer = null)
 
-            : base (GraphId,
-                    IdKey,
-                    RevIdKey,
-                    () => new Dictionary<TKeyVertex, TValueVertex>(),
-
+            : base (
                     #region Vertices
+            
+                    GraphId,
+                    VertexIdKey,
+                    VertexRevIdKey,
+                    VertexDescriptionKey,
+                    () => new Dictionary<TKeyVertex, TValueVertex>(),
                     
                     // Create a new vertex identification
                     VertexIdCreatorDelegate,
@@ -154,6 +157,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                              _VertexId,
                              VertexIdKey,
                              VertexRevIdKey,
+                             VertexDescriptionKey,
                              () => new Dictionary<TKeyVertex, TValueVertex>(),
 
                              () => new GroupedCollection<TVertexLabel,    TIdVertex,    IGenericPropertyVertex   <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
@@ -204,6 +208,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                              Label,
                              EdgeIdKey,
                              EdgeRevIdKey,
+                             EdgeDescriptionKey,
                              () => new Dictionary<TKeyEdge, TValueEdge>(),
                              EdgeInitializer
                             ),
@@ -229,7 +234,13 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                                     TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                     TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
 
-                            (Graph, EdgeSelector, MultiEdgeId, Label, MultiEdgeIdKey, MultiEdgeRevIdKey,
+                            (Graph,
+                             EdgeSelector,
+                             MultiEdgeId,
+                             Label,
+                             MultiEdgeIdKey,
+                             MultiEdgeRevIdKey,
+                             MultiEdgeDescriptionKey,
 
                              () => new Dictionary<TKeyMultiEdge, TValueMultiEdge>(),
                              () => new GroupedCollection<TEdgeLabel, TIdEdge, IGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
@@ -261,7 +272,13 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                                     TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                     TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
 
-                            (Graph, EdgeSelector, HyperEdgeId, Label, HyperEdgeIdKey, HyperEdgeRevIdKey,
+                            (Graph,
+                             EdgeSelector,
+                             HyperEdgeId,
+                             Label,
+                             HyperEdgeIdKey,
+                             HyperEdgeRevIdKey,
+                             HyperEdgeDescriptionKey,
 
                              () => new Dictionary<TKeyHyperEdge, TValueHyperEdge>(),
                              () => new GroupedCollection<TVertexLabel, TIdVertex, IGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,

@@ -214,7 +214,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         #region Constructor(s)
 
-        #region GenericPropertyEdge(Graph, OutVertex, InVertex, EdgeId, Label, IdKey, RevIdKey, DatastructureInitializer, EdgeInitializer = null)
+        #region GenericPropertyEdge(Graph, OutVertex, InVertex, EdgeId, Label, IdKey, RevIdKey, DescriptionKey, DatastructureInitializer, EdgeInitializer = null)
 
         /// <summary>
         /// Creates a new generic property edge.
@@ -245,6 +245,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                    TEdgeLabel Label,
                                    TKeyEdge   IdKey,
                                    TKeyEdge   RevIdKey,
+                                   TKeyEdge   DescriptionKey,
                                    IDictionaryInitializer<TKeyEdge, TValueEdge> DatastructureInitializer,
 
                                    EdgeInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
@@ -252,7 +253,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                    TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeInitializer = null)
 
-            : base(EdgeId, IdKey, RevIdKey, DatastructureInitializer)
+            : base(EdgeId, IdKey, RevIdKey, DescriptionKey, DatastructureInitializer)
 
         {
 

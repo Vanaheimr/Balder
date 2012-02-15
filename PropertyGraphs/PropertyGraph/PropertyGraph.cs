@@ -43,7 +43,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         #region PropertyGraph()
 
         /// <summary>
-        /// Created a new class-based in-memory implementation of a property graph.
+        /// Creates a new class-based in-memory implementation of a property graph.
         /// (This constructor is needed for automatic activation!)
         /// </summary>
         public PropertyGraph()
@@ -55,9 +55,9 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         #region PropertyGraph(GraphInitializer)
 
         /// <summary>
-        /// Created a new class-based in-memory implementation of a property graph.
+        /// Creates a new class-based in-memory implementation of a property graph.
         /// </summary>
-        /// <param name="GraphInitializer">A delegate to initialize the graph.</param>
+        /// <param name="GraphInitializer">A delegate to initialize the new property graph.</param>
         public PropertyGraph(GraphInitializer<UInt64, Int64, String, String, Object,
                                               UInt64, Int64, String, String, Object,
                                               UInt64, Int64, String, String, Object,
@@ -70,10 +70,10 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         #region PropertyGraph(GraphId, GraphInitializer = null)
 
         /// <summary>
-        /// Created a new class-based in-memory implementation of a property graph.
+        /// Creates a new class-based in-memory implementation of a property graph.
         /// </summary>
         /// <param name="GraphId">A unique identification for this graph (which is also a vertex!).</param>
-        /// <param name="GraphInitializer">A delegate to initialize the graph.</param>
+        /// <param name="GraphInitializer">A delegate to initialize the new property graph.</param>
         public PropertyGraph(UInt64 GraphId,
                              GraphInitializer<UInt64, Int64, String, String, Object,
                                               UInt64, Int64, String, String, Object,
@@ -81,20 +81,19 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                               UInt64, Int64, String, String, Object> GraphInitializer = null)
             : base (GraphId,
 
-                    // TId key
+                    // Property keys
                     GraphDBOntology.Id().Suffix,
+                    GraphDBOntology.RevId().Suffix,
+                    GraphDBOntology.Description().Suffix,
+
+                    // RevId creator delegate
+                    () => PropertyGraph.NewRevId,
 
                     // TId creator delegate
                     () => PropertyGraph.NewVertexId,
                     () => PropertyGraph.NewEdgeId,
                     () => PropertyGraph.NewMultiEdgeId,
                     () => PropertyGraph.NewHyperEdgeId,
-
-                    // RevId key
-                    GraphDBOntology.RevId().Suffix,
-
-                    // RevId creator delegate
-                    () => PropertyGraph.NewRevId,
 
                     GraphInitializer)
 
