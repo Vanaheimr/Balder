@@ -31,7 +31,7 @@ using Newtonsoft.Json.Linq;
 
 #endregion
 
-namespace de.ahzf.Blueprints.HTTPREST
+namespace de.ahzf.Blueprints.HTTP.Server
 {
 
     /// <summary>
@@ -99,6 +99,32 @@ namespace de.ahzf.Blueprints.HTTPREST
 
         #endregion
 
+        public override HTTPResponse Description(String GraphId)
+        {
+
+            UInt64 _GraphId;
+
+            if (!UInt64.TryParse(GraphId, out _GraphId))
+                throw new ArgumentException();
+
+            IPropertyGraph PropertyGraph;
+
+            String _Content;
+
+            if (GraphServer.TryGetPropertyGraph(_GraphId, out PropertyGraph))
+                _Content = new JObject(new JProperty("description", PropertyGraph.Description)).ToString();
+
+            else
+                _Content = "error!";
+
+            return new HTTPResponseBuilder()
+            {
+                HTTPStatusCode = HTTPStatusCode.OK,
+                ContentType    = HTTPContentType.JSON_UTF8,
+                Content        = _Content.ToUTF8Bytes()
+            };
+            
+        }
 
         #region (protected) VertexSerialization(...)
 

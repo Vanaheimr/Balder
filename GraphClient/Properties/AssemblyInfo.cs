@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("GraphServer")]
-[assembly: AssemblyDescription("Access a remote property graph via HTTP/REST (server)")]
+[assembly: AssemblyTitle("GraphClient")]
+[assembly: AssemblyDescription("Access a remote property graph via HTTP/REST (client)")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("ahzf.de")]
-[assembly: AssemblyProduct("GraphServer")]
+[assembly: AssemblyProduct("GraphClient")]
 [assembly: AssemblyCopyright("Copyright © Achim 'ahzf' Friedland 2010-2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("d6a41ffe-c2e9-4aec-a7c5-0ef8c6b17158")]
+[assembly: Guid("c56e26ec-4920-4384-af9a-2bf556bbe12f")]
 
 // Version information for an assembly consists of the following four values:
 //

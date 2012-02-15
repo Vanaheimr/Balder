@@ -27,7 +27,7 @@ using de.ahzf.Blueprints.PropertyGraphs;
 
 #endregion
 
-namespace de.ahzf.Blueprints.HTTPREST
+namespace de.ahzf.Blueprints.HTTP.Server
 {
 
     /// <summary>

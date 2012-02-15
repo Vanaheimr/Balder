@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApplication", "TestAppl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphServer", "GraphServer\GraphServer.csproj", "{DC46B5EF-ECC5-465E-B1C4-85596343A03F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphClient", "GraphClient\GraphClient.csproj", "{EB31E37B-FA75-44FD-9528-171C9E7C3C37}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -125,6 +127,16 @@ Global
 		{DC46B5EF-ECC5-465E-B1C4-85596343A03F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{DC46B5EF-ECC5-465E-B1C4-85596343A03F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{DC46B5EF-ECC5-465E-B1C4-85596343A03F}.Release|x86.ActiveCfg = Release|Any CPU
+		{EB31E37B-FA75-44FD-9528-171C9E7C3C37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB31E37B-FA75-44FD-9528-171C9E7C3C37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB31E37B-FA75-44FD-9528-171C9E7C3C37}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{EB31E37B-FA75-44FD-9528-171C9E7C3C37}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{EB31E37B-FA75-44FD-9528-171C9E7C3C37}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EB31E37B-FA75-44FD-9528-171C9E7C3C37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB31E37B-FA75-44FD-9528-171C9E7C3C37}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB31E37B-FA75-44FD-9528-171C9E7C3C37}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{EB31E37B-FA75-44FD-9528-171C9E7C3C37}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{EB31E37B-FA75-44FD-9528-171C9E7C3C37}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

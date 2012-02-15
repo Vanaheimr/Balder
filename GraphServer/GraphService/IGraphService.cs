@@ -23,7 +23,7 @@ using de.ahzf.Hermod.HTTP;
 
 #endregion
 
-namespace de.ahzf.Blueprints.HTTPREST
+namespace de.ahzf.Blueprints.HTTP.Server
 {
 
     //[HTTPService(Host: "localhost:8080", ForceAuthentication: true)]
@@ -63,14 +63,14 @@ namespace de.ahzf.Blueprints.HTTPREST
         #endregion
 
 
-        #region ProjectList(AccountId)
+        #region Description(GraphId)
 
         /// <summary>
-        /// Return a list of all projects within this account.
+        /// Return the description of a property graph.
         /// </summary>
-        /// <param name="AccountId">The account identification.</param>
-        [HTTPMapping(HTTPMethods.GET, "/{AccountId}/ProjectList"), NoAuthentication]
-        HTTPResponse ProjectList(String AccountId);
+        /// <param name="GraphId">The identification of the property graph.</param>
+        [HTTPMapping(HTTPMethods.GET, "/{GraphId}/description"), NoAuthentication]
+        HTTPResponse Description(String GraphId);
 
         #endregion
 

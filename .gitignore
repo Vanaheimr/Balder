@@ -18,3 +18,5 @@
 /TestApplication/bin
 /GraphServer/bin
 /GraphServer/obj
+/GraphClient/obj
+/GraphClient/bin

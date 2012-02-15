@@ -72,6 +72,10 @@
       <Project>{9F38DCC9-CD80-4B71-8A9C-B3F37E471CAB}</Project>
       <Name>Geometry</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GraphClient\GraphClient.csproj">
+      <Project>{EB31E37B-FA75-44FD-9528-171C9E7C3C37}</Project>
+      <Name>GraphClient</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GraphServer\GraphServer.csproj">
       <Project>{DC46B5EF-ECC5-465E-B1C4-85596343A03F}</Project>
       <Name>GraphServer</Name>

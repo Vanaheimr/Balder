@@ -23,13 +23,14 @@ using System.Threading;
 using System.Diagnostics;
 using System.Collections.Generic;
 
-using de.ahzf.Blueprints.HTTPREST;
+using de.ahzf.Blueprints.HTTP.Server;
 using de.ahzf.Blueprints.PropertyGraphs;
 using de.ahzf.Blueprints.PropertyGraphs.InMemory;
 using de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable;
 using de.ahzf.Hermod.Datastructures;
 using de.ahzf.Hermod.HTTP;
 using de.ahzf.Illias.Commons;
+using de.ahzf.Blueprints.HTTP.Client;
 
 #endregion
 
@@ -42,12 +43,12 @@ namespace de.ahzf.Blueprints.TestApplication
         public static void Main(String[] args)
         {
 
-            using (var GraphServer = new GraphServer(new PropertyGraph(123UL), new IPPort(8080)) {
+            using (var GraphServer = new GraphServer(new PropertyGraph(123UL) { Description = "the first graph" }, new IPPort(8080)) {
                                          ServerName = "GraphServer v0.1"
                                      } as IGraphServer)
             {
 
-                var graph = GraphServer.NewPropertyGraph(512UL, g => g.SetProperty(GraphDBOntology.Description().Suffix, "a test graph").SetProperty("hello", "world!"));
+                var graph = GraphServer.NewPropertyGraph(512UL, g => g.SetProperty(GraphDBOntology.Description().Suffix, "the second graph").SetProperty("hello", "world!"));
                 var a1 = graph.ContainsKey("hello");
                 var a2 = graph.ContainsKey("world!");
                 var a3 = graph.ContainsKey("graphs");
@@ -72,14 +73,30 @@ namespace de.ahzf.Blueprints.TestApplication
                 // ---------------------------------------------------------------
 
 
-                var _clientB = new HTTPClient(IPv4Address.Parse("127.0.0.1"), new IPPort(8080));
-                var _requestB = _clientB.GET("/").//AccountId/RepositoryId/TransactionId/GraphId/VerticesById?Id=2&Id=3").
-                                         SetProtocolVersion(HTTPVersion.HTTP_1_1).
-                                         SetUserAgent("Hermod HTTP Client v0.1").
-                                         SetConnection("keep-alive").
-                                         AddAccept(HTTPContentType.JSON_UTF8, 1);
+                var HTTPClient1 = new HTTPClient(IPv4Address.Parse("127.0.0.1"), new IPPort(8080));
+                var _request1 = HTTPClient1.GET("/").//AccountId/RepositoryId/TransactionId/GraphId/VerticesById?Id=2&Id=3").
+                                              SetProtocolVersion(HTTPVersion.HTTP_1_1).
+                                              SetUserAgent("Hermod HTTP Client v0.1").
+                                              SetConnection("keep-alive").
+                                              AddAccept(HTTPContentType.JSON_UTF8, 1);
 
-                _clientB.Execute(_requestB, response => Console.WriteLine(response.Content.ToUTF8String()));
+                HTTPClient1.Execute(_request1, response => Console.WriteLine(response.Content.ToUTF8String()));
+
+                // ---------------------------------------------------------------
+
+                var HTTPClient2 = new HTTPClient(IPv4Address.Parse("127.0.0.1"), new IPPort(8080));
+                var _request2 = HTTPClient2.GET("/123/description").//AccountId/RepositoryId/TransactionId/GraphId/VerticesById?Id=2&Id=3").
+                                              SetProtocolVersion(HTTPVersion.HTTP_1_1).
+                                              SetUserAgent("Hermod HTTP Client v0.1").
+                                              SetConnection("keep-alive").
+                                              AddAccept(HTTPContentType.JSON_UTF8, 1);
+
+                HTTPClient2.Execute(_request2, response => Console.WriteLine(response.Content.ToUTF8String()));
+
+                // ---------------------------------------------------------------
+
+                var GraphClient = new RemotePropertyGraph(IPv4Address.Parse("127.0.0.1"), new IPPort(8080)) { Id = 512 };
+                Console.WriteLine(GraphClient.Description);
 
                 while (true)
                     Thread.Sleep(100);

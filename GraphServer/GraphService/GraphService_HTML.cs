@@ -30,7 +30,7 @@ using System.Collections.Generic;
 
 #endregion
 
-namespace de.ahzf.Blueprints.HTTPREST
+namespace de.ahzf.Blueprints.HTTP.Server
 {
 
     /// <summary>
@@ -80,7 +80,7 @@ namespace de.ahzf.Blueprints.HTTPREST
             _StringBuilder.AppendLine("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">");
             _StringBuilder.AppendLine("<html xmlns=\"http://www.w3.org/1999/xhtml\">");
             _StringBuilder.AppendLine("<head>");
-            _StringBuilder.AppendLine("<title>Hermod HTTP Server</title>");
+            _StringBuilder.AppendLine("<title>GraphServer v0.1</title>");
             _StringBuilder.AppendLine("</head>");
             _StringBuilder.AppendLine("<body>");
             _StringBuilder.Append("<h2>").Append(Headline).AppendLine("</h2>");
@@ -109,13 +109,13 @@ namespace de.ahzf.Blueprints.HTTPREST
         {
 
             var Graphs = GraphServer.AllGraphs().
-                                     Select(graph => "<a href=\"" + graph.Id + "\">" + graph.Id + "</a>").
+                                     Select(graph => "<a href=\"" + graph.Id + "\">" + graph.Id + " - " + graph.Description + "</a>").
                                      Aggregate((a, b) =>  a + "<br>" + b);
 
             return new HTTPResponseBuilder() {
                 HTTPStatusCode = HTTPStatusCode.OK,
                 ContentType    = HTTPContentType.HTML_UTF8,
-                Content        = HTMLBuilder("www.graph-database.org v0.1", b => b.AppendLine("Hello world!<br>").AppendLine(Graphs)).ToUTF8Bytes()
+                Content        = HTMLBuilder("GraphServer v0.1", b => b.AppendLine("Hello world!<br>").AppendLine(Graphs)).ToUTF8Bytes()
             };
 
         }

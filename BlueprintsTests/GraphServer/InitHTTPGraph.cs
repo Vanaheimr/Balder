@@ -23,7 +23,7 @@ using de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable;
 
 using NUnit.Framework;
 using de.ahzf.Blueprints.PropertyGraphs;
-using de.ahzf.Blueprints.HTTPREST;
+using de.ahzf.Blueprints.HTTP.Server;
 
 #endregion
 

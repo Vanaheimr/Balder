@@ -24,7 +24,7 @@ using System.Collections.Generic;
 using NUnit.Framework;
 
 using de.ahzf.Illias.Commons;
-using de.ahzf.Blueprints.HTTPREST;
+using de.ahzf.Blueprints.HTTP.Server;
 using de.ahzf.Blueprints.PropertyGraphs;
 using de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable;
 using de.ahzf.Hermod.Datastructures;

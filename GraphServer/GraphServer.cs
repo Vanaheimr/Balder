@@ -28,11 +28,11 @@ using de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable;
 
 #endregion
 
-namespace de.ahzf.Blueprints.HTTPREST
+namespace de.ahzf.Blueprints.HTTP.Server
 {
 
     /// <summary>
-    /// Simple PropertyGraph HTTP/REST access.
+    /// Simple PropertyGraph HTTP/REST access (server).
     /// </summary>
     public class GraphServer : HTTPServer<IGraphService>,
                                IGraphServer

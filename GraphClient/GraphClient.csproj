@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{7F4CE297-4A42-47A8-9A0A-74BA46B09891}</ProjectGuid>
+    <ProjectGuid>{EB31E37B-FA75-44FD-9528-171C9E7C3C37}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BlueprintsTests</RootNamespace>
-    <AssemblyName>BlueprintsTests</AssemblyName>
+    <RootNamespace>GraphClient</RootNamespace>
+    <AssemblyName>GraphClient</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\GraphClient.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,8 +32,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework">
-      <HintPath>..\libs\nunit.framework.dll</HintPath>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\libs\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -43,23 +44,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GraphServer\GraphServerInitializationTests.cs" />
-    <Compile Include="GraphServer\InitHTTPGraph.cs" />
-    <Compile Include="GraphElementIds\MultiEdgeIdTests.cs" />
-    <Compile Include="GraphElementIds\EdgeIdTests.cs" />
-    <Compile Include="GraphElementIds\HyperEdgeIdTests.cs" />
-    <Compile Include="GraphElementIds\IPropertiesTests.cs" />
-    <Compile Include="GraphElementIds\VertexIdTests.cs" />
-    <Compile Include="DemoGraphFactory.cs" />
+    <Compile Include="RemotePropertyGraph.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PropertyGraphTests\GraphWithPropertiesTests.cs" />
-    <Compile Include="PropertyGraphTests\CreateVerticesTests.cs" />
-    <Compile Include="PropertyGraphTests\EdgeTests.cs" />
-    <Compile Include="PropertyGraphTests\Indices\IndicesTests.cs" />
-    <Compile Include="PropertyGraphTests\InitGraph.cs" />
-    <Compile Include="PropertyGraphTests\IPropertyGraphExtensionTests.cs" />
-    <Compile Include="PropertyGraphTests\PropertyVertexTests.cs" />
-    <Compile Include="TinkerGraphFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Hermod\Hermod\Hermod.csproj">
@@ -73,14 +59,6 @@
     <ProjectReference Include="..\Blueprints\Blueprints.csproj">
       <Project>{47FA1E7C-8C47-493D-A371-91A15D53BC95}</Project>
       <Name>Blueprints</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GraphClient\GraphClient.csproj">
-      <Project>{EB31E37B-FA75-44FD-9528-171C9E7C3C37}</Project>
-      <Name>GraphClient</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GraphServer\GraphServer.csproj">
-      <Project>{DC46B5EF-ECC5-465E-B1C4-85596343A03F}</Project>
-      <Name>GraphServer</Name>
     </ProjectReference>
     <ProjectReference Include="..\PropertyGraphs\PropertyGraphs.csproj">
       <Project>{562AC94F-60EA-4911-8C62-684F02867783}</Project>

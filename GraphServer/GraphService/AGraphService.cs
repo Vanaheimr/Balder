@@ -26,7 +26,7 @@ using de.ahzf.Blueprints.PropertyGraphs;
 
 #endregion
 
-namespace de.ahzf.Blueprints.HTTPREST
+namespace de.ahzf.Blueprints.HTTP.Server
 {
 
     public abstract class AGraphService : AHTTPService, IGraphService
@@ -333,6 +333,13 @@ namespace de.ahzf.Blueprints.HTTPREST
         }
 
         #endregion
+
+
+
+        public virtual HTTPResponse Description(String GraphId)
+        {
+            return Error406_NotAcceptable();
+        }
 
     }
 
