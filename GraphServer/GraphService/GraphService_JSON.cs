@@ -112,7 +112,11 @@ namespace de.ahzf.Blueprints.HTTP.Server
             String _Content;
 
             if (GraphServer.TryGetPropertyGraph(_GraphId, out PropertyGraph))
-                _Content = new JObject(new JProperty("description", PropertyGraph.Description)).ToString();
+            {
+                var JSON = new JSONResponseBuilder();
+                JSON.SetResult(new JObject(new JProperty("description", PropertyGraph.Description)));
+                _Content = JSON.ToString();
+            }
 
             else
                 _Content = "error!";

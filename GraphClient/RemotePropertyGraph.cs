@@ -131,13 +131,39 @@ namespace de.ahzf.Blueprints.HTTP.Client
 
         #region Description
 
-        public object Description
+        // {
+        //   "AllGraphs": {
+        //     "123": "the first graph",
+        //     "512": "the second graph"
+        //   }
+        // }
+
+        /// <summary>
+        /// Provides a description of this graph element.
+        /// </summary>
+        public Object Description
         {
 
             get
             {
-                var j = JObject.Parse(WaitGET("/" + Id + "/description"));
-                return j["description"];
+                var JSON = JSONResponse.ParseJSON(WaitGET("/" + Id + "/description"));
+                return (String) JSON.Result["description"];
+
+                //var a = (j as JToken).SelectToken("description", errorWhenNoMatch: false);
+
+                //JObject googleSearch = JObject.Parse(googleSearchText);
+
+                //// get JSON result objects into a list
+                //IList<JToken> results = googleSearch["responseData"]["results"].Children().ToList();
+
+                //// serialize JSON results into .NET objects
+                //IList<SearchResult> searchResults = new List<SearchResult>();
+                //foreach (JToken result in results)
+                //{
+                //    SearchResult searchResult = JsonConvert.DeserializeObject<SearchResult>(result.ToString());
+                //    searchResults.Add(searchResult);
+                //}
+
             }
 
             set

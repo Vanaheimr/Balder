@@ -20,3 +20,5 @@
 /GraphServer/obj
 /GraphClient/obj
 /GraphClient/bin
+/Networking/bin
+/Networking/obj

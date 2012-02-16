@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphServer", "GraphServer\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphClient", "GraphClient\GraphClient.csproj", "{EB31E37B-FA75-44FD-9528-171C9E7C3C37}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Networking", "Networking\Networking.csproj", "{F3D3EF32-2759-49A0-AA78-1DF200CC8034}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -137,6 +139,16 @@ Global
 		{EB31E37B-FA75-44FD-9528-171C9E7C3C37}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{EB31E37B-FA75-44FD-9528-171C9E7C3C37}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{EB31E37B-FA75-44FD-9528-171C9E7C3C37}.Release|x86.ActiveCfg = Release|Any CPU
+		{F3D3EF32-2759-49A0-AA78-1DF200CC8034}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3D3EF32-2759-49A0-AA78-1DF200CC8034}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3D3EF32-2759-49A0-AA78-1DF200CC8034}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F3D3EF32-2759-49A0-AA78-1DF200CC8034}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F3D3EF32-2759-49A0-AA78-1DF200CC8034}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F3D3EF32-2759-49A0-AA78-1DF200CC8034}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3D3EF32-2759-49A0-AA78-1DF200CC8034}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3D3EF32-2759-49A0-AA78-1DF200CC8034}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F3D3EF32-2759-49A0-AA78-1DF200CC8034}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{F3D3EF32-2759-49A0-AA78-1DF200CC8034}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
