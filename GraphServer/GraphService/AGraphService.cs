@@ -34,6 +34,9 @@ namespace de.ahzf.Blueprints.HTTP.Server
 
         #region Properties
 
+        /// <summary>
+        /// The internal GraphServer object.
+        /// </summary>
         public GraphServer GraphServer { get; set; }
 
         #endregion
@@ -83,7 +86,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
         /// <param name="HTTPContentType">A content type.</param>
         /// <param name="ResourcePath">The path to internal resources.</param>
         public AGraphService(IHTTPConnection IHTTPConnection, HTTPContentType HTTPContentType)
-            : base(IHTTPConnection, HTTPContentType, "graph_database.org.resources.")
+            : base(IHTTPConnection, HTTPContentType, "GraphServer.resources.")
         { }
 
         #endregion
@@ -97,27 +100,70 @@ namespace de.ahzf.Blueprints.HTTP.Server
         /// <param name="HTTPContentTypes">An enumeration of content types.</param>
         /// <param name="ResourcePath">The path to internal resources.</param>
         public AGraphService(IHTTPConnection IHTTPConnection, IEnumerable<HTTPContentType> HTTPContentTypes)
-            : base(IHTTPConnection, HTTPContentTypes, "graph_database.org.resources.")
+            : base(IHTTPConnection, HTTPContentTypes, "GraphServer.resources.")
         { }
 
         #endregion
 
         #endregion
 
-        
-        #region GetRoot()
 
-        public virtual HTTPResponse GetRoot()
+        #region (protected) GetStartOffset()
+
+        protected UInt32 GetStartOffset()
         {
-            //return GetResources("landingpage.html");
-            return Error406_NotAcceptable();
+
+            List<String> _StringValues = null;
+
+            if (IHTTPConnection.InHTTPRequest.QueryString != null)
+                if (IHTTPConnection.InHTTPRequest.QueryString.TryGetValue(Tokens.OFFSET + "." + Tokens.START, out _StringValues))
+                {
+
+                    UInt32 _Value;
+
+                    if (UInt32.TryParse(_StringValues[0], out _Value))
+                        return _Value;
+
+                }
+
+            return 0;
+
         }
 
         #endregion
 
-        #region GetEvents()
+        #region (protected) GetEndOffset()
 
-        public virtual HTTPResponse GetEvents()
+        protected UInt32 GetEndOffset()
+        {
+
+            List<String> _StringValues = null;
+
+            if (IHTTPConnection.InHTTPRequest.QueryString != null)
+                if (IHTTPConnection.InHTTPRequest.QueryString.TryGetValue(Tokens.OFFSET + "." + Tokens.END, out _StringValues))
+                {
+
+                    UInt32 _Value;
+
+                    if (UInt32.TryParse(_StringValues[0], out _Value))
+                        return _Value;
+
+                }
+
+            return 0;
+
+        }
+
+        #endregion
+
+
+
+        #region GetRoot()
+
+        /// <summary>
+        /// Get the landing page.
+        /// </summary>
+        public virtual HTTPResponse GetRoot()
         {
             return Error406_NotAcceptable();
         }
@@ -126,6 +172,9 @@ namespace de.ahzf.Blueprints.HTTP.Server
 
         #region AllGraphs()
 
+        /// <summary>
+        /// Get a list of all graphs.
+        /// </summary>
         public virtual HTTPResponse AllGraphs()
         {
             return Error406_NotAcceptable();
@@ -134,55 +183,42 @@ namespace de.ahzf.Blueprints.HTTP.Server
         #endregion
 
 
-
-        #region (protected) VertexSerialization(...)
-
-        /// <summary>
-        /// Serialize a single vertex.
-        /// </summary>
-        /// <param name="Vertex">A single vertex.</param>
-        /// <returns>The serialized vertex.</returns>
-        protected virtual Byte[] VertexSerialization(IGenericPropertyVertex<UInt64, Int64, String, String, Object,
-                                                                     UInt64, Int64, String, String, Object,
-                                                                     UInt64, Int64, String, String, Object,
-                                                                     UInt64, Int64, String, String, Object> Vertex)
-        {
-            return null;
-        }
-
-        #endregion
-
-        #region (protected) VerticesSerialization(...)
+        #region InfosOnGraph(GraphId)
 
         /// <summary>
-        /// Serialize an enumeration of vertices.
+        /// Return the general information of a graph.
         /// </summary>
-        /// <param name="Vertex">A single vertex.</param>
-        /// <returns>The serialized vertex.</returns>
-        protected virtual Byte[] VerticesSerialization(IEnumerable<IGenericPropertyVertex<UInt64, Int64, String, String, Object,
-                                                                                   UInt64, Int64, String, String, Object,
-                                                                                   UInt64, Int64, String, String, Object,
-                                                                                   UInt64, Int64, String, String, Object>> Vertices)
+        /// <param name="GraphId">The identification of the graph.</param>
+        public HTTPResponse InfosOnGraph(String GraphId)
         {
-            return null;
+            return Error406_NotAcceptable();
         }
 
         #endregion
 
 
+        #region Description(GraphId)
 
-        #region VertexById(AccountId, RepositoryId, TransactionId, GraphId, VertexId)
+        /// <summary>
+        /// Return the description of a graph.
+        /// </summary>
+        /// <param name="GraphId">The identification of the graph.</param>
+        public virtual HTTPResponse Description(String GraphId)
+        {
+            return Error406_NotAcceptable();
+        }
+
+        #endregion
+
+        #region VertexById(GraphId, VertexId)
 
         /// <summary>
         /// Return the vertex referenced by the given vertex identifier.
         /// If no vertex is referenced by the identifier return null.
         /// </summary>
-        /// <param name="AccountId">The account identification.</param>
-        /// <param name="RepositoryId">The repository identification.</param>
-        /// <param name="TransactionId">The transaction identification.</param>
-        /// <param name="GraphId">The graph identification.</param>
+        /// <param name="GraphId">The identification of the graph.</param>
         /// <param name="VertexId">The vertex identification.</param>
-        public virtual HTTPResponse VertexById(String AccountId, String RepositoryId, String TransactionId, String GraphId, String VertexId)
+        public virtual HTTPResponse VertexById(String GraphId, String VertexId)
         {
 
             #region Process request
@@ -205,7 +241,8 @@ namespace de.ahzf.Blueprints.HTTP.Server
             if (Content == null)
                 return Error400_BadRequest();
 
-            return new HTTPResponseBuilder() {
+            return new HTTPResponseBuilder()
+            {
                 HTTPStatusCode = HTTPStatusCode.OK,
                 ContentType    = this.HTTPContentTypes.First(),
                 Content        = Content
@@ -217,19 +254,16 @@ namespace de.ahzf.Blueprints.HTTP.Server
 
         #endregion
 
-        #region VerticesById(AccountId, RepositoryId, TransactionId, GraphId)
+        #region VerticesById(GraphId)
 
         /// <summary>
         /// Return the vertices referenced by the given array of vertex identifiers.
         /// If no vertex is referenced by a given identifier this value will be
         /// skipped.
         /// </summary>
-        /// <param name="AccountId">The account identification.</param>
-        /// <param name="RepositoryId">The repository identification.</param>
-        /// <param name="TransactionId">The transaction identification.</param>
-        /// <param name="GraphId">The graph identification.</param>
+        /// <param name="GraphId">The identification of the graph.</param>
         /// <remarks>Include a JSON array having vertex identifiers.</remarks>
-        public virtual HTTPResponse VerticesById(String AccountId, String RepositoryId, String TransactionId, String GraphId)
+        public virtual HTTPResponse VerticesById(String GraphId)
         {
 
             #region Process request
@@ -272,74 +306,80 @@ namespace de.ahzf.Blueprints.HTTP.Server
 
         #endregion
 
-        public virtual HTTPResponse VerticesByType(String AccountId, String RepositoryId, String TransactionId, String GraphId)
-        {
-            return Error406_NotAcceptable();
-        }
-
-        public virtual HTTPResponse VerticesByType(String AccountId, String RepositoryId, String TransactionId, String GraphId, String VertexType)
-        {
-            return Error406_NotAcceptable();
-        }
-
-        public virtual HTTPResponse Vertices(String AccountId, String RepositoryId, String TransactionId, String GraphId)
-        {
-            return Error406_NotAcceptable();
-        }
-
-        public virtual HTTPResponse NumberOfVertices(String AccountId, String RepositoryId, String TransactionId, String GraphId)
-        {
-            return Error406_NotAcceptable();
-        }
-
-
-        #region ProjectList(AccountId)
+        #region NumberOfVertices(GraphId)
 
         /// <summary>
-        /// Return a list of all projects within this account.
+        /// Return the current number of vertices which match the given optional filter.
+        /// When the filter is null, this method should implement an optimized
+        /// way to get the currenty number of vertices.
         /// </summary>
-        /// <param name="AccountId">The account identification.</param>
-        public virtual HTTPResponse ProjectList(String AccountId)
+        /// <param name="GraphId">The identification of the graph.</param>
+        public HTTPResponse NumberOfVertices(String GraphId)
         {
-            throw new NotImplementedException();
+            return Error406_NotAcceptable();
         }
 
         #endregion
 
-        #region WorkPackageList(AccountId, ProjectName)
+        #region Vertices(GraphId)
 
         /// <summary>
-        /// Return a list of all work packages within the given project.
+        /// Return all vertices.
         /// </summary>
-        /// <param name="AccountId">The account identification.</param>
-        /// <param name="ProjectName">The name of the project.</param>
-        public virtual HTTPResponse WorkPackageList(String AccountId, String ProjectName)
+        /// <param name="GraphId">The identification of the graph.</param>
+        public virtual HTTPResponse Vertices(String GraphId)
         {
-            throw new NotImplementedException();
-        }
-
-        #endregion
-
-        #region MilestoneList(AccountId, ProjectName)
-
-        /// <summary>
-        /// Return a list of all milestones within the given project.
-        /// </summary>
-        /// <param name="AccountId">The account identification.</param>
-        /// <param name="ProjectName">The name of the project.</param>
-        public virtual HTTPResponse MilestoneList(String AccountId, String ProjectName)
-        {
-            throw new NotImplementedException();
+            return Error406_NotAcceptable();
         }
 
         #endregion
 
 
 
-        public virtual HTTPResponse Description(String GraphId)
+        #region GetEvents()
+
+        public virtual HTTPResponse GetEvents()
         {
             return Error406_NotAcceptable();
         }
+
+        #endregion
+
+
+        #region (protected) VertexSerialization(...)
+
+        /// <summary>
+        /// Serialize a single vertex.
+        /// </summary>
+        /// <param name="Vertex">A single vertex.</param>
+        /// <returns>The serialized vertex.</returns>
+        protected virtual Byte[] VertexSerialization(IGenericPropertyVertex<UInt64, Int64, String, String, Object,
+                                                                            UInt64, Int64, String, String, Object,
+                                                                            UInt64, Int64, String, String, Object,
+                                                                            UInt64, Int64, String, String, Object> Vertex)
+        {
+            return null;
+        }
+
+        #endregion
+
+        #region (protected) VerticesSerialization(...)
+
+        /// <summary>
+        /// Serialize an enumeration of vertices.
+        /// </summary>
+        /// <param name="Vertex">A single vertex.</param>
+        /// <returns>The serialized vertex.</returns>
+        protected virtual Byte[] VerticesSerialization(IEnumerable<IGenericPropertyVertex<UInt64, Int64, String, String, Object,
+                                                                                          UInt64, Int64, String, String, Object,
+                                                                                          UInt64, Int64, String, String, Object,
+                                                                                          UInt64, Int64, String, String, Object>> Vertices)
+        {
+            return null;
+        }
+
+        #endregion
+
 
     }
 

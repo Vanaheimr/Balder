@@ -51,133 +51,69 @@ namespace de.ahzf.Blueprints.HTTP.Server
         #endregion
 
 
-        #region AllGraphDBs()
+
+        #region AllGraphs()
 
         /// <summary>
-        /// Get Landingpage
+        /// Get a list of all graphs.
         /// </summary>
-        /// <returns>Some HTML and JavaScript</returns>
-        [HTTPMapping(HTTPMethods.GET, "/AllGraphDBs"), NoAuthentication]
+        [HTTPMapping(HTTPMethods.GET, "/AllGraphs"), NoAuthentication]
         HTTPResponse AllGraphs();
 
         #endregion
 
 
+        #region InfosOnGraph(GraphId)
+
+        /// <summary>
+        /// Return the general information of a graph.
+        /// </summary>
+        /// <param name="GraphId">The identification of the graph.</param>
+        [HTTPMapping(HTTPMethods.GET, "/graph/{GraphId}"), NoAuthentication]
+        HTTPResponse InfosOnGraph(String GraphId);
+
+        #endregion
+
         #region Description(GraphId)
 
         /// <summary>
-        /// Return the description of a property graph.
+        /// Return the description of a graph.
         /// </summary>
-        /// <param name="GraphId">The identification of the property graph.</param>
-        [HTTPMapping(HTTPMethods.GET, "/{GraphId}/description"), NoAuthentication]
+        /// <param name="GraphId">The identification of the graph.</param>
+        [HTTPMapping(HTTPMethods.GET, "/graph/{GraphId}/description"), NoAuthentication]
         HTTPResponse Description(String GraphId);
 
         #endregion
 
-        #region WorkPackageList(AccountId, ProjectName)
 
-        /// <summary>
-        /// Return a list of all work packages within the given project.
-        /// </summary>
-        /// <param name="AccountId">The account identification.</param>
-        /// <param name="ProjectName">The name of the project.</param>
-        [HTTPMapping(HTTPMethods.GET, "/{AccountId}/{ProjectName}/WorkPackages"), NoAuthentication]
-        HTTPResponse WorkPackageList(String AccountId, String ProjectName);
-
-        #endregion
-
-        #region MilestoneList(AccountId, ProjectName)
-
-        /// <summary>
-        /// Return a list of all milestones within the given project.
-        /// </summary>
-        /// <param name="AccountId">The account identification.</param>
-        /// <param name="ProjectName">The name of the project.</param>
-        [HTTPMapping(HTTPMethods.GET, "/{AccountId}/{ProjectName}/Milestones"), NoAuthentication]
-        HTTPResponse MilestoneList(String AccountId, String ProjectName);
-
-        #endregion
-
-
-
-        #region VertexById(AccountId, RepositoryId, TransactionId, GraphId, VertexId)
+        #region VertexById(GraphId, VertexId)
 
         /// <summary>
         /// Return the vertex referenced by the given vertex identifier.
         /// If no vertex is referenced by the identifier return null.
         /// </summary>
-        /// <param name="AccountId">The account identification.</param>
-        /// <param name="RepositoryId">The repository identification.</param>
-        /// <param name="TransactionId">The transaction identification.</param>
         /// <param name="GraphId">The graph identification.</param>
         /// <param name="VertexId">The vertex identification.</param>
-        [HTTPMapping(HTTPMethods.GET, "/{AccountId}/{RepositoryId}/{TransactionId}/{GraphId}/VertexById/{VertexId}"), NoAuthentication]
-        HTTPResponse VertexById(String AccountId, String RepositoryId, String TransactionId, String GraphId, String VertexId);
+        [HTTPMapping(HTTPMethods.GET, "/graph/{GraphId}/VertexById/{VertexId}"), NoAuthentication]
+        HTTPResponse VertexById(String GraphId, String VertexId);
 
         #endregion
 
-        #region VerticesById(AccountId, RepositoryId, TransactionId, GraphId)
+        #region VerticesById(GraphId)
 
         /// <summary>
         /// Return the vertices referenced by the given array of vertex identifiers.
         /// If no vertex is referenced by a given identifier this value will be
         /// skipped.
         /// </summary>
-        /// <param name="AccountId">The account identification.</param>
-        /// <param name="RepositoryId">The repository identification.</param>
-        /// <param name="TransactionId">The transaction identification.</param>
         /// <param name="GraphId">The graph identification.</param>
         /// <remarks>Include a JSON array having vertex identifiers.</remarks>
-        [HTTPMapping(HTTPMethods.GET, "/{AccountId}/{RepositoryId}/{TransactionId}/{GraphId}/VerticesById"), NoAuthentication]
-        HTTPResponse VerticesById(String AccountId, String RepositoryId, String TransactionId, String GraphId);
+        [HTTPMapping(HTTPMethods.GET, "/graph/{GraphId}/VerticesById"), NoAuthentication]
+        HTTPResponse VerticesById(String GraphId);
 
         #endregion
 
-        #region VerticesByType(AccountId, RepositoryId, TransactionId, GraphId)
-
-        /// <summary>
-        /// Return an enumeration of all vertices having one of the
-        /// given vertex types.
-        /// </summary>
-        /// <param name="AccountId"></param>
-        /// <param name="RepositoryId"></param>
-        /// <param name="TransactionId"></param>
-        /// <param name="GraphId"></param>
-        /// <remarks>Include a JSON array having vertex types.</remarks>
-        [HTTPMapping(HTTPMethods.GET, "/{AccountId}/{RepositoryId}/{TransactionId}/{GraphId}/VerticesByType"), NoAuthentication]
-        HTTPResponse VerticesByType(String AccountId, String RepositoryId, String TransactionId, String GraphId);
-
-        #endregion
-
-        #region VerticesByType(AccountId, RepositoryId, TransactionId, GraphId, VertexType)
-
-        /// <summary>
-        /// Return an enumeration of all vertices having one of the
-        /// given vertex types.
-        /// </summary>
-        /// <param name="AccountId"></param>
-        /// <param name="RepositoryId"></param>
-        /// <param name="TransactionId"></param>
-        /// <param name="GraphId"></param>
-        /// <param name="VertexType"></param>        
-        [HTTPMapping(HTTPMethods.GET, "/{AccountId}/{RepositoryId}/{TransactionId}/{GraphId}/VerticesByType/{VertexType}"), NoAuthentication]
-        HTTPResponse VerticesByType(String AccountId, String RepositoryId, String TransactionId, String GraphId, String VertexType);
-
-        #endregion
-
-        #region Vertices(AccountId, RepositoryId, TransactionId, GraphId)
-
-        /// <summary>
-        /// Get an enumeration of all vertices in the graph.
-        /// An optional vertex filter may be applied for filtering.
-        /// </summary>
-        /// <remarks>Include $somescript for vertex filtering.</remarks>
-        [HTTPMapping(HTTPMethods.GET, "/{AccountId}/{RepositoryId}/{TransactionId}/{GraphId}/Vertices"), NoAuthentication]
-        HTTPResponse Vertices(String AccountId, String RepositoryId, String TransactionId, String GraphId);
-
-        #endregion
-
-        #region NumberOfVertices(AccountId, RepositoryId, TransactionId, GraphId, VertexIdList)
+        #region NumberOfVertices(GraphId)
 
         /// <summary>
         /// Return the current number of vertices which match the given optional filter.
@@ -185,11 +121,22 @@ namespace de.ahzf.Blueprints.HTTP.Server
         /// way to get the currenty number of vertices.
         /// </summary>
         /// <remarks>Include $somescript for vertex filtering.</remarks>
-        [HTTPMapping(HTTPMethods.GET, "/{AccountId}/{RepositoryId}/{TransactionId}/{GraphId}/NumberOfVertices"), NoAuthentication]
-        HTTPResponse NumberOfVertices(String AccountId, String RepositoryId, String TransactionId, String GraphId);
+        [HTTPMapping(HTTPMethods.GET, "/graph/{GraphId}/NumberOfVertices"), NoAuthentication]
+        HTTPResponse NumberOfVertices(String GraphId);
 
         #endregion
 
+        #region Vertices(GraphId)
+
+        /// <summary>
+        /// Get an enumeration of all vertices in the graph.
+        /// An optional vertex filter may be applied for filtering.
+        /// </summary>
+        /// <remarks>Include $somescript for vertex filtering.</remarks>
+        [HTTPMapping(HTTPMethods.GET, "/graph/{GraphId}/vertices"), NoAuthentication]
+        HTTPResponse Vertices(String GraphId);
+
+        #endregion
 
      }
 

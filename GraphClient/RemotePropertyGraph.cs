@@ -146,7 +146,7 @@ namespace de.ahzf.Blueprints.HTTP.Client
 
             get
             {
-                var JSON = JSONResponse.ParseJSON(WaitGET("/" + Id + "/description"));
+                var JSON = JSONResponse.ParseJSON(WaitGET("/graph/" + Id + "/description"));
                 return (String) JSON.Result["description"];
 
                 //var a = (j as JToken).SelectToken("description", errorWhenNoMatch: false);

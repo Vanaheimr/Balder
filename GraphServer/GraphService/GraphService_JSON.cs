@@ -70,10 +70,14 @@ namespace de.ahzf.Blueprints.HTTP.Server
         #endregion
 
 
+        #region GetRoot()
+
         public override HTTPResponse GetRoot()
         {
             return AllGraphs();
         }
+
+        #endregion
 
         #region AllGraphs()
 
@@ -98,6 +102,8 @@ namespace de.ahzf.Blueprints.HTTP.Server
         }
 
         #endregion
+
+        #region Description(GraphId)
 
         public override HTTPResponse Description(String GraphId)
         {
@@ -129,6 +135,10 @@ namespace de.ahzf.Blueprints.HTTP.Server
             };
             
         }
+
+        #endregion
+
+
 
         #region (protected) VertexSerialization(...)
 

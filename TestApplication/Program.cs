@@ -73,25 +73,25 @@ namespace de.ahzf.Blueprints.TestApplication
                 // ---------------------------------------------------------------
 
 
-                var HTTPClient1 = new HTTPClient(IPv4Address.Parse("127.0.0.1"), new IPPort(8080));
-                var _request1 = HTTPClient1.GET("/").//AccountId/RepositoryId/TransactionId/GraphId/VerticesById?Id=2&Id=3").
-                                              SetProtocolVersion(HTTPVersion.HTTP_1_1).
-                                              SetUserAgent("Hermod HTTP Client v0.1").
-                                              SetConnection("keep-alive").
-                                              AddAccept(HTTPContentType.JSON_UTF8, 1);
+                //var HTTPClient1 = new HTTPClient(IPv4Address.Parse("127.0.0.1"), new IPPort(8080));
+                //var _request1 = HTTPClient1.GET("/").//AccountId/RepositoryId/TransactionId/GraphId/VerticesById?Id=2&Id=3").
+                //                              SetProtocolVersion(HTTPVersion.HTTP_1_1).
+                //                              SetUserAgent("Hermod HTTP Client v0.1").
+                //                              SetConnection("keep-alive").
+                //                              AddAccept(HTTPContentType.JSON_UTF8, 1);
 
-                HTTPClient1.Execute(_request1, response => Console.WriteLine(response.Content.ToUTF8String()));
+                //HTTPClient1.Execute(_request1, response => Console.WriteLine(response.Content.ToUTF8String()));
 
-                // ---------------------------------------------------------------
+                //// ---------------------------------------------------------------
 
-                var HTTPClient2 = new HTTPClient(IPv4Address.Parse("127.0.0.1"), new IPPort(8080));
-                var _request2 = HTTPClient2.GET("/123/description").//AccountId/RepositoryId/TransactionId/GraphId/VerticesById?Id=2&Id=3").
-                                              SetProtocolVersion(HTTPVersion.HTTP_1_1).
-                                              SetUserAgent("Hermod HTTP Client v0.1").
-                                              SetConnection("keep-alive").
-                                              AddAccept(HTTPContentType.JSON_UTF8, 1);
+                //var HTTPClient2 = new HTTPClient(IPv4Address.Parse("127.0.0.1"), new IPPort(8080));
+                //var _request2 = HTTPClient2.GET("/123/description").//AccountId/RepositoryId/TransactionId/GraphId/VerticesById?Id=2&Id=3").
+                //                              SetProtocolVersion(HTTPVersion.HTTP_1_1).
+                //                              SetUserAgent("Hermod HTTP Client v0.1").
+                //                              SetConnection("keep-alive").
+                //                              AddAccept(HTTPContentType.JSON_UTF8, 1);
 
-                HTTPClient2.Execute(_request2, response => Console.WriteLine(response.Content.ToUTF8String()));
+                //HTTPClient2.Execute(_request2, response => Console.WriteLine(response.Content.ToUTF8String()));
 
                 // ---------------------------------------------------------------
 

@@ -92,20 +92,28 @@ namespace de.ahzf.Blueprints.HTTP
 
         #region Constructor(s)
 
-        #region JSONResponse(JSON)
+        #region (private) JSONResponse(JSON)
 
         /// <summary>
         /// Create a new GraphServer response object.
         /// </summary>
-        public JSONResponse(String JSON)
+        private JSONResponse(String JSON)
         {
-            JSONData   = JObject.Parse(JSON);
-            RequestId  = (UInt64) JSONData["requestId"];
-            ResponseId = (UInt64) JSONData["responseId"];
-            Duration   = (UInt64) JSONData["duration"];
-            Warnings   = from p in JSONData["warnings"].Children() select (String) p;
-            Errors     = from p in JSONData["errors"]  .Children() select (String) p;
-            Result     = JSONData["result"] as JObject;
+            try
+            {
+                JSONData   = JObject.Parse(JSON);
+                RequestId  = (UInt64) JSONData["requestId"];
+                ResponseId = (UInt64) JSONData["responseId"];
+                Duration   = (UInt64) JSONData["duration"];
+                Warnings   = from p in JSONData["warnings"].Children() select (String) p;
+                Errors     = from p in JSONData["errors"]  .Children() select (String) p;
+                Result     = JSONData["result"] as JObject;
+            }
+            catch (Exception e)
+            {
+                Errors     = new List<String>() { "The received JSON string could not be parsed! [\"" + Environment.NewLine + JSON + "\"]" };
+                Result     = new JObject();
+            }
         }
 
         #endregion

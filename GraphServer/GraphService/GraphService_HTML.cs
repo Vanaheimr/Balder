@@ -109,7 +109,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
         {
 
             var Graphs = GraphServer.AllGraphs().
-                                     Select(graph => "<a href=\"" + graph.Id + "\">" + graph.Id + " - " + graph.Description + "</a>").
+                                     Select(graph => "<a href=\"/graph/" + graph.Id + "\">" + graph.Id + " - " + graph.Description + "</a>").
                                      Aggregate((a, b) =>  a + "<br>" + b);
 
             return new HTTPResponseBuilder() {
@@ -122,25 +122,26 @@ namespace de.ahzf.Blueprints.HTTP.Server
 
         #endregion
 
-        //#region AllGraphDBs()
 
-        //public override HTTPResponse AllGraphDBs()
-        //{
+        #region AllGraphs()
 
-        //    var GraphDBs = GraphServer.AllGraphDBs().
-        //                               Select(t => "<a href=\"" + t.Uri + "\">" + t.Name + "</a>").
-        //                               Aggregate((a, b) => a + "<br>" + b);
+        public override HTTPResponse AllGraphs()
+        {
 
-        //    return new HTTPResponseBuilder()
-        //    {
-        //        HTTPStatusCode = HTTPStatusCode.OK,
-        //        ContentType    = HTTPContentType.HTML_UTF8,
-        //        Content        = HTMLBuilder("www.graph-database.org v0.1", b => b.AppendLine("Hello world!<br>").AppendLine(GraphDBs)).ToUTF8Bytes()
-        //    };
+            var AllGraphs = GraphServer.AllGraphs().
+                                        Select(graph => "<a href=\"/graph/" + graph.Id + "\">" + graph.Id + " - " + graph.Description + "</a>").
+                                        Aggregate((a, b) => a + "<br>" + b);
 
-        //}
+            return new HTTPResponseBuilder()
+            {
+                HTTPStatusCode = HTTPStatusCode.OK,
+                ContentType    = HTTPContentType.HTML_UTF8,
+                Content        = HTMLBuilder("", b => b.AppendLine(AllGraphs)).ToUTF8Bytes()
+            };
 
-        //#endregion
+        }
+
+        #endregion
 
 
         #region (protected) VerticesSerialization(...)
