@@ -100,6 +100,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Eunomia\Eunomia\Eunomia.SL.csproj">
+      <Project>{7304FE50-480B-48CB-9D06-094F9D2E60BD}</Project>
+      <Name>Eunomia.SL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Illias\Commons\Commons.SL.csproj">
       <Project>{468893C3-BC44-407A-B1CC-DD88428952E2}</Project>
       <Name>Commons.SL</Name>
