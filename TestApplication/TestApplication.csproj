@@ -64,14 +64,6 @@
       <Project>{47FA1E7C-8C47-493D-A371-91A15D53BC95}</Project>
       <Name>Blueprints</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GeometryTests\GeometryTests.csproj">
-      <Project>{C461823B-E5CA-4AB1-91A6-8DE8A4AEB157}</Project>
-      <Name>GeometryTests</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Geometry\Geometry.csproj">
-      <Project>{9F38DCC9-CD80-4B71-8A9C-B3F37E471CAB}</Project>
-      <Name>Geometry</Name>
-    </ProjectReference>
     <ProjectReference Include="..\GraphClient\GraphClient.csproj">
       <Project>{EB31E37B-FA75-44FD-9528-171C9E7C3C37}</Project>
       <Name>GraphClient</Name>
