@@ -21,7 +21,7 @@ using System;
 
 #endregion
 
-namespace de.ahzf.Blueprints.PropertyGraphs
+namespace de.ahzf.Blueprints
 {
 
     /// <summary>
@@ -35,7 +35,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         /// <summary>
         /// The base Uri of the graph-database ontology.
         /// </summary>
-        public static readonly Uri Prefix = new Uri("http://graph-database.org/gdb/0.1");
+        public static readonly Uri Prefix = new Uri(Eunomia.Semantics.GraphDBPrefix);
 
         #endregion
 
@@ -48,7 +48,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         /// <returns>A semantic property key to be used within property graphs.</returns>
         public static SemanticProperty Id()
         {
-            return new SemanticProperty(Prefix, "Id", "Id");
+            return new SemanticProperty(Prefix, Eunomia.Semantics.Id, Eunomia.Semantics.Id);
         }
 
         #endregion
@@ -61,7 +61,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         /// <returns>A semantic property key to be used within property graphs.</returns>
         public static SemanticProperty RevId()
         {
-            return new SemanticProperty(Prefix, "RevId", "RevId");
+            return new SemanticProperty(Prefix, Eunomia.Semantics.RevId, Eunomia.Semantics.RevId);
         }
 
         #endregion
@@ -74,7 +74,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         /// <returns>A semantic property key to be used within property graphs.</returns>
         public static SemanticProperty Description()
         {
-            return new SemanticProperty(Prefix, "Description", "Description");
+            return new SemanticProperty(Prefix, Eunomia.Semantics.Description, Eunomia.Semantics.Description);
         }
 
         #endregion
