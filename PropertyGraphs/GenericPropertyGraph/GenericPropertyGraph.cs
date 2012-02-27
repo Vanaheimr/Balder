@@ -135,6 +135,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                                      TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> GraphInitializer = null)
 
             : base (
+
                     #region Vertices
             
                     GraphId,

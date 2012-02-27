@@ -18,11 +18,15 @@
 #region Usings
 
 using System;
-using System.Linq;
-using System.Threading;
 using System.Collections.Generic;
+using System.Dynamic;
+using System.Linq;
+using System.Linq.Expressions;
 
+using de.ahzf.Blueprints.Indices;
+using de.ahzf.Blueprints.PropertyGraphs.Indices;
 using de.ahzf.Illias.Commons;
+using System.Threading;
 
 #endregion
 
@@ -30,13 +34,38 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 {
 
     /// <summary>
-    /// A class-based in-memory implementation of a property graph.
+    /// A class-based in-memory implementation of a simplified generic property graph.
     /// </summary>
-    public class PropertyGraph
-                     : CommonGenericPropertyGraph<UInt64, Int64, String, String, Object>,
-                       IPropertyGraph
-
+    /// <typeparam name="TIdVertex">The type of the vertex identifiers.</typeparam>
+    /// <typeparam name="TRevIdVertex">The type of the vertex revision identifiers.</typeparam>
+    /// <typeparam name="TVertexLabel">The type of the vertex type.</typeparam>
+    /// <typeparam name="TKeyVertex">The type of the vertex property keys.</typeparam>
+    /// <typeparam name="TValueVertex">The type of the vertex property values.</typeparam>
+    /// <typeparam name="TPropertiesCollectionVertex">A data structure to store the properties of the vertices.</typeparam>
+    /// 
+    /// <typeparam name="TIdEdge">The type of the edge identifiers.</typeparam>
+    /// <typeparam name="TRevIdEdge">The type of the edge revision identifiers.</typeparam>
+    /// <typeparam name="TEdgeLabel">The type of the edge label.</typeparam>
+    /// <typeparam name="TKeyEdge">The type of the edge property keys.</typeparam>
+    /// <typeparam name="TValueEdge">The type of the edge property values.</typeparam>
+    /// <typeparam name="TPropertiesCollectionEdge">A data structure to store the properties of the edges.</typeparam>
+    /// 
+    /// <typeparam name="TIdMultiEdge">The type of the multiedge identifiers.</typeparam>
+    /// <typeparam name="TRevIdMultiEdge">The type of the multiedge revision identifiers.</typeparam>
+    /// <typeparam name="TMultiEdgeLabel">The type of the multiedge label.</typeparam>
+    /// <typeparam name="TKeyMultiEdge">The type of the multiedge property keys.</typeparam>
+    /// <typeparam name="TValueMultiEdge">The type of the multiedge property values.</typeparam>
+    /// <typeparam name="TPropertiesCollectionMultiEdge">A data structure to store the properties of the multiedges.</typeparam>
+    /// 
+    /// <typeparam name="TIdHyperEdge">The type of the hyperedge identifiers.</typeparam>
+    /// <typeparam name="TRevIdHyperEdge">The type of the hyperedge revision identifiers.</typeparam>
+    /// <typeparam name="THyperEdgeLabel">The type of the hyperedge label.</typeparam>
+    /// <typeparam name="TKeyHyperEdge">The type of the hyperedge property keys.</typeparam>
+    /// <typeparam name="TValueHyperEdge">The type of the hyperedge property values.</typeparam>
+    /// <typeparam name="TPropertiesCollectionHyperEdge">A data structure to store the properties of the hyperedges.</typeparam>
+    public class PropertyGraph : PropertyVertex
     {
+
 
         #region Constructor(s)
 
@@ -79,29 +108,169 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                               UInt64, Int64, String, String, Object,
                                               UInt64, Int64, String, String, Object,
                                               UInt64, Int64, String, String, Object> GraphInitializer = null)
+
             : base (GraphId,
+
+                    #region Vertices
 
                     // Property keys
                     GraphDBOntology.Id().Suffix,
                     GraphDBOntology.RevId().Suffix,
                     GraphDBOntology.Description().Suffix,
+                    () => new Dictionary<String, Object>(),
+                    
+                    // Create a new vertex identification
+                    (graph) => PropertyGraph.NewVertexId,
 
-                    // RevId creator delegate
-                    () => PropertyGraph.NewRevId,
+                    // Create a new vertex
+                    (Graph, _VertexId, VertexInitializer) =>
+                        new PropertyVertex
+                            (Graph as IPropertyGraph,
+                             _VertexId,
+                             GraphDBOntology.Id().Suffix,
+                             GraphDBOntology.RevId().Suffix,
+                             GraphDBOntology.Description().Suffix,
+                             () => new Dictionary<String, Object>(),
 
-                    // TId creator delegate
-                    () => PropertyGraph.NewVertexId,
-                    () => PropertyGraph.NewEdgeId,
-                    () => PropertyGraph.NewMultiEdgeId,
-                    () => PropertyGraph.NewHyperEdgeId,
+                             () => new GroupedCollection<String,    UInt64,    IGenericPropertyVertex   <UInt64, Int64, String, String, Object,
+                                              UInt64, Int64, String, String, Object,
+                                              UInt64, Int64, String, String, Object,
+                                              UInt64, Int64, String, String, Object>>(),
 
-                    GraphInitializer)
+                             () => new GroupedCollection<String,      UInt64,      IGenericPropertyEdge     <UInt64, Int64, String, String, Object,
+                                              UInt64, Int64, String, String, Object,
+                                              UInt64, Int64, String, String, Object,
+                                              UInt64, Int64, String, String, Object>>(),
+
+                             () => new GroupedCollection<String, UInt64, IGenericPropertyMultiEdge<UInt64, Int64, String, String, Object,
+                                              UInt64, Int64, String, String, Object,
+                                              UInt64, Int64, String, String, Object,
+                                              UInt64, Int64, String, String, Object>>(),
+
+                             () => new GroupedCollection<String, UInt64, IGenericPropertyHyperEdge<UInt64, Int64, String, String, Object,
+                                              UInt64, Int64, String, String, Object,
+                                              UInt64, Int64, String, String, Object,
+                                              UInt64, Int64, String, String, Object>>(),
+                             VertexInitializer
+                            ),
+
+                    // The vertices collection
+                    () => new GroupedCollection<String, UInt64, IGenericPropertyVertex<UInt64, Int64, String, String, Object,
+                                              UInt64, Int64, String, String, Object,
+                                              UInt64, Int64, String, String, Object,
+                                              UInt64, Int64, String, String, Object>>(),
+
+                                #endregion
+
+                    #region Edges
+
+                    // Create a new edge identification
+                    (graph) => PropertyGraph.NewEdgeId,
+
+                    // Create a new edge
+                    (Graph, OutVertex, InVertex, EdgeId, Label, EdgeInitializer) =>
+                        new PropertyEdge
+                            (Graph as IPropertyGraph,
+                             OutVertex as IPropertyVertex,
+                             InVertex as IPropertyVertex,
+                             EdgeId,
+                             Label,
+                             GraphDBOntology.Id().Suffix,
+                             GraphDBOntology.RevId().Suffix,
+                             GraphDBOntology.Description().Suffix,
+                             () => new Dictionary<String, Object>(),
+                             EdgeInitializer
+                            ),
+
+                    // The edges collection
+                    () => new GroupedCollection<String, UInt64, IGenericPropertyEdge<UInt64, Int64, String, String, Object,
+                                              UInt64, Int64, String, String, Object,
+                                              UInt64, Int64, String, String, Object,
+                                              UInt64, Int64, String, String, Object>>(),
+
+                    #endregion
+
+                    #region MultiEdges
+
+                    // Create a new multiedge identification
+                    (graph) => PropertyGraph.NewMultiEdgeId,
+
+                    // Create a new multiedge
+                    (Graph, EdgeSelector, MultiEdgeId, Label, MultiEdgeInitializer) =>
+
+                       new PropertyMultiEdge
+                            (Graph as IPropertyGraph,
+                             EdgeSelector,
+                             MultiEdgeId,
+                             Label,
+                             GraphDBOntology.Id().Suffix,
+                             GraphDBOntology.RevId().Suffix,
+                             GraphDBOntology.Description().Suffix,
+
+                             () => new Dictionary<String, Object>(),
+                             () => new GroupedCollection<String, UInt64, IGenericPropertyEdge<UInt64, Int64, String, String, Object,
+                                              UInt64, Int64, String, String, Object,
+                                              UInt64, Int64, String, String, Object,
+                                              UInt64, Int64, String, String, Object>>(),
+
+                             MultiEdgeInitializer
+
+                            ),
+
+                    // The multiedges collection
+                    () => new GroupedCollection<String, UInt64, IGenericPropertyMultiEdge<UInt64, Int64, String, String, Object,
+                                              UInt64, Int64, String, String, Object,
+                                              UInt64, Int64, String, String, Object,
+                                              UInt64, Int64, String, String, Object>>(),
+                    #endregion
+
+                    #region HyperEdges
+
+                    // Create a new hyperedge identification
+                    (graph) => PropertyGraph.NewHyperEdgeId,
+
+                    // Create a new hyperedge
+                    (Graph, EdgeSelector, HyperEdgeId, Label, HyperEdgeInitializer) =>
+
+                       new PropertyHyperEdge
+                            (Graph as IPropertyGraph,
+                             EdgeSelector,
+                             HyperEdgeId,
+                             Label,
+                             GraphDBOntology.Id().Suffix,
+                             GraphDBOntology.RevId().Suffix,
+                             GraphDBOntology.Description().Suffix,
+
+                             () => new Dictionary<String, Object>(),
+                             () => new GroupedCollection<String, UInt64, IGenericPropertyVertex<UInt64, Int64, String, String, Object,
+                                              UInt64, Int64, String, String, Object,
+                                              UInt64, Int64, String, String, Object,
+                                              UInt64, Int64, String, String, Object>>(),
+
+                             HyperEdgeInitializer
+
+                            ),
+
+                    // The hyperedges collection
+                    () => new GroupedCollection<String, UInt64, IGenericPropertyHyperEdge<UInt64, Int64, String, String, Object,
+                                              UInt64, Int64, String, String, Object,
+                                              UInt64, Int64, String, String, Object,
+                                              UInt64, Int64, String, String, Object>>()
+
+                    #endregion
+
+                   )
 
         {
+
             _NewVertexId    = 0;
             _NewEdgeId      = 0;
             _NewMultiEdgeId = 0;
             _NewHyperEdgeId = 0;
+
+            if (GraphInitializer != null)
+                GraphInitializer(this);
+
         }
 
         #endregion
@@ -124,7 +293,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
             get
             {
                 var _NewLocalId = Interlocked.Increment(ref _NewVertexId);
-                return (UInt64) _NewLocalId;
+                return (UInt64)_NewLocalId;
             }
         }
 
@@ -136,7 +305,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
             get
             {
                 var _NewLocalId = Interlocked.Increment(ref _NewEdgeId);
-                return (UInt64) _NewLocalId;
+                return (UInt64)_NewLocalId;
             }
         }
 
@@ -148,7 +317,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
             get
             {
                 var _NewLocalId = Interlocked.Increment(ref _NewMultiEdgeId);
-                return (UInt64) _NewLocalId;
+                return (UInt64)_NewLocalId;
             }
         }
 
@@ -160,7 +329,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
             get
             {
                 var _NewLocalId = Interlocked.Increment(ref _NewHyperEdgeId);
-                return (UInt64) _NewLocalId;
+                return (UInt64)_NewLocalId;
             }
         }
 
@@ -175,352 +344,13 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         {
             get
             {
-                return (Int64) UniqueTimestamp.Ticks;
+                return (Int64)UniqueTimestamp.Ticks;
             }
         }
 
         #endregion
 
 
-        #region Operator overloading
-
-        #region Operator == (PropertyGraph1, PropertyGraph2)
-
-        /// <summary>
-        /// Compares two property graphs for equality.
-        /// </summary>
-        /// <param name="PropertyGraph1">A graph.</param>
-        /// <param name="PropertyGraph2">Another graph.</param>
-        /// <returns>True if both match; False otherwise.</returns>
-        public static Boolean operator == (PropertyGraph PropertyGraph1,
-                                           PropertyGraph PropertyGraph2)
-        {
-
-            // If both are null, or both are same instance, return true.
-            if (Object.ReferenceEquals(PropertyGraph1, PropertyGraph2))
-                return true;
-
-            // If one is null, but not both, return false.
-            if (((Object) PropertyGraph1 == null) || ((Object) PropertyGraph2 == null))
-                return false;
-
-            return PropertyGraph1.Equals(PropertyGraph2);
-
-        }
-
-        #endregion
-
-        #region Operator != (PropertyGraph1, PropertyGraph2)
-
-        /// <summary>
-        /// Compares two property graphs for inequality.
-        /// </summary>
-        /// <param name="PropertyGraph1">A graph.</param>
-        /// <param name="PropertyGraph2">Another graph.</param>
-        /// <returns>False if both match; True otherwise.</returns>
-        public static Boolean operator != (PropertyGraph PropertyGraph1,
-                                           PropertyGraph PropertyGraph2)
-        {
-            return !(PropertyGraph1 == PropertyGraph2);
-        }
-
-        #endregion
-
-        #region Operator <  (PropertyGraph1, PropertyGraph2)
-
-        /// <summary>
-        /// Compares two instances of this object.
-        /// </summary>
-        /// <param name="PropertyGraph1">A graph.</param>
-        /// <param name="PropertyGraph2">Another graph.</param>
-        /// <returns>true|false</returns>
-        public static Boolean operator < (PropertyGraph PropertyGraph1,
-                                          PropertyGraph PropertyGraph2)
-        {
-
-            if ((Object) PropertyGraph1 == null)
-                throw new ArgumentNullException("The given PropertyGraph1 must not be null!");
-
-            if ((Object) PropertyGraph2 == null)
-                throw new ArgumentNullException("The given PropertyGraph2 must not be null!");
-
-            return PropertyGraph1.CompareTo(PropertyGraph2) < 0;
-
-        }
-
-        #endregion
-
-        #region Operator <= (PropertyGraph1, PropertyGraph2)
-
-        /// <summary>
-        /// Compares two instances of this object.
-        /// </summary>
-        /// <param name="PropertyGraph1">A graph.</param>
-        /// <param name="PropertyGraph2">Another graph.</param>
-        /// <returns>true|false</returns>
-        public static Boolean operator <= (PropertyGraph PropertyGraph1,
-                                           PropertyGraph PropertyGraph2)
-        {
-            return !(PropertyGraph1 > PropertyGraph2);
-        }
-
-        #endregion
-
-        #region Operator >  (PropertyGraph1, PropertyGraph2)
-
-        /// <summary>
-        /// Compares two instances of this object.
-        /// </summary>
-        /// <param name="PropertyGraph1">A graph.</param>
-        /// <param name="PropertyGraph2">Another graph.</param>
-        /// <returns>true|false</returns>
-        public static Boolean operator > (PropertyGraph PropertyGraph1,
-                                          PropertyGraph PropertyGraph2)
-        {
-
-            if ((Object) PropertyGraph1 == null)
-                throw new ArgumentNullException("The given PropertyGraph1 must not be null!");
-
-            if ((Object) PropertyGraph2 == null)
-                throw new ArgumentNullException("The given  PropertyGraph2 must not be null!");
-
-            return PropertyGraph1.CompareTo(PropertyGraph2) > 0;
-
-        }
-
-        #endregion
-
-        #region Operator >= (PropertyGraph1, PropertyGraph2)
-
-        /// <summary>
-        /// Compares two instances of this object.
-        /// </summary>
-        /// <param name="PropertyGraph1">A graph.</param>
-        /// <param name="PropertyGraph2">Another graph.</param>
-        /// <returns>true|false</returns>
-        public static Boolean operator >= (PropertyGraph PropertyGraph1,
-                                           PropertyGraph PropertyGraph2)
-        {
-            return !(PropertyGraph1 < PropertyGraph2);
-        }
-
-        #endregion
-
-        #endregion
-
-        #region IEquatable Members
-
-        #region Equals(Object)
-
-        /// <summary>
-        /// Compares two instances of this object.
-        /// </summary>
-        /// <param name="Object">An object to compare with.</param>
-        /// <returns>True if both match; False otherwise.</returns>
-        public override Boolean Equals(Object Object)
-        {
-
-            if (Object == null)
-                return false;
-
-            // Check if the given object can be casted to a SimplePropertyGraph
-            var PropertyGraph = Object as PropertyGraph;
-            if ((Object) PropertyGraph == null)
-                return false;
-
-            return this.Equals(PropertyGraph);
-
-        }
-
-        #endregion
-
-        #endregion
-
-        #region GetHashCode()
-
-        /// <summary>
-        /// Return the HashCode of this object.
-        /// </summary>
-        /// <returns>The HashCode of this object.</returns>
-        public override Int32 GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-
-        #endregion
-
-
-        // Currently not working as expected!
-
-        #region Vertex methods
-
-        #region VertexById(VertexId)
-
-        /// <summary>
-        /// Return the vertex referenced by the given vertex identifier.
-        /// If no vertex is referenced by the identifier return null.
-        /// </summary>
-        /// <param name="VertexId">A vertex identifier.</param>
-        IPropertyVertex IPropertyGraph.VertexById(UInt64 VertexId)
-        {
-            return this.VertexById(VertexId) as IPropertyVertex;
-        }
-
-        #endregion
-
-        #region VerticesById(params VertexIds)
-
-        /// <summary>
-        /// Return the vertices referenced by the given array of vertex identifiers.
-        /// If no vertex is referenced by a given identifier this value will be
-        /// skipped.
-        /// </summary>
-        /// <param name="VertexIds">An array of vertex identifiers.</param>
-        IEnumerable<IPropertyVertex> IPropertyGraph.VerticesById(params UInt64[] VertexIds)
-        {
-
-            return from Vertex
-                   in (this as IGenericPropertyGraph<UInt64, Int64, String, String, Object,
-                                                     UInt64, Int64, String, String, Object,
-                                                     UInt64, Int64, String, String, Object,
-                                                     UInt64, Int64, String, String, Object>).VerticesById(VertexIds)
-                   select Vertex as IPropertyVertex;
-
-        }
-
-        #endregion
-
-        #region VerticesByLabel(params VertexLabels)
-
-        /// <summary>
-        /// Return an enumeration of all vertices having one of the
-        /// given vertex labels.
-        /// </summary>
-        /// <param name="VertexLabels">An array of vertex labels.</param>
-        IEnumerable<IPropertyVertex> IPropertyGraph.VerticesByLabel(params String[] VertexLabels)
-        {
-
-            return from Vertex
-                   in (this as IGenericPropertyGraph<UInt64, Int64, String, String, Object,
-                                                     UInt64, Int64, String, String, Object,
-                                                     UInt64, Int64, String, String, Object,
-                                                     UInt64, Int64, String, String, Object>).VerticesByLabel(VertexLabels)
-                   select Vertex as IPropertyVertex;
-
-        }
-
-        #endregion
-
-        #region Vertices(VertexFilter = null)
-
-        /// <summary>
-        /// Get an enumeration of all vertices in the graph.
-        /// An optional vertex filter may be applied for filtering.
-        /// </summary>
-        /// <param name="VertexFilter">A delegate for vertex filtering.</param>
-        IEnumerable<IPropertyVertex> IPropertyGraph.Vertices(VertexFilter<UInt64, Int64, String, String, Object,
-                                                                          UInt64, Int64, String, String, Object,
-                                                                          UInt64, Int64, String, String, Object,
-                                                                          UInt64, Int64, String, String, Object> VertexFilter = null)
-        {
-
-            return from   Vertex
-                   in (this as IGenericPropertyGraph<UInt64, Int64, String, String, Object,
-                                                     UInt64, Int64, String, String, Object,
-                                                     UInt64, Int64, String, String, Object,
-                                                     UInt64, Int64, String, String, Object>).Vertices(VertexFilter)
-                   select Vertex as IPropertyVertex;
-
-        }
-
-        #endregion
-
-        #endregion
-
-        #region Edge methods
-
-        #region EdgeById(EdgeId)
-
-        /// <summary>
-        /// Return the edge referenced by the given edge identifier.
-        /// If no edge is referenced by a given identifier return null.
-        /// </summary>
-        /// <param name="EdgeId">An edge identifier.</param>
-        IPropertyEdge IPropertyGraph.EdgeById(UInt64 EdgeId)
-        {
-            return this.EdgeById(EdgeId) as IPropertyEdge;
-        }
-
-        #endregion
-
-        #region EdgesById(params EdgeIds)
-
-        /// <summary>
-        /// Return the edges referenced by the given array of edge identifiers.
-        /// If no edge is referenced by a given identifier this value will be
-        /// skipped.
-        /// </summary>
-        /// <param name="EdgeIds">An array of edge identifiers.</param>
-        IEnumerable<IPropertyEdge> IPropertyGraph.EdgesById(params UInt64[] EdgeIds)
-        {
-
-            return from Edge
-                   in (this as IGenericPropertyGraph<UInt64, Int64, String, String, Object,
-                                                     UInt64, Int64, String, String, Object,
-                                                     UInt64, Int64, String, String, Object,
-                                                     UInt64, Int64, String, String, Object>).EdgesById(EdgeIds)
-                   select Edge as IPropertyEdge;
-
-        }
-
-        #endregion
-
-        #region EdgesByLabel(params EdgeLabels)
-
-        /// <summary>
-        /// Return an enumeration of all edges having one of the
-        /// given edge labels.
-        /// </summary>
-        /// <param name="EdgeLabels">An array of edge labels.</param>
-        IEnumerable<IPropertyEdge> IPropertyGraph.EdgesByLabel(params String[] EdgeLabels)
-        {
-
-            return from Edge
-                   in (this as IGenericPropertyGraph<UInt64, Int64, String, String, Object,
-                                                     UInt64, Int64, String, String, Object,
-                                                     UInt64, Int64, String, String, Object,
-                                                     UInt64, Int64, String, String, Object>).EdgesByLabel(EdgeLabels)
-                   select Edge as IPropertyEdge;
-
-        }
-
-        #endregion
-
-        #region Edges(EdgeFilter = null)
-
-        /// <summary>
-        /// Get an enumeration of all edges in the graph.
-        /// An optional edge filter may be applied for filtering.
-        /// </summary>
-        /// <param name="EdgeFilter">A delegate for edge filtering.</param>
-        IEnumerable<IPropertyEdge> IPropertyGraph.Edges(EdgeFilter<UInt64, Int64, String, String, Object,
-                                                                   UInt64, Int64, String, String, Object,
-                                                                   UInt64, Int64, String, String, Object,
-                                                                   UInt64, Int64, String, String, Object> EdgeFilter = null)
-        {
-
-            return from Edge
-                   in (this as IGenericPropertyGraph<UInt64, Int64, String, String, Object,
-                                                     UInt64, Int64, String, String, Object,
-                                                     UInt64, Int64, String, String, Object,
-                                                     UInt64, Int64, String, String, Object>).Edges(EdgeFilter)
-                   select Edge as IPropertyEdge;
-
-        }
-
-        #endregion
-
-        #endregion
 
     }
 

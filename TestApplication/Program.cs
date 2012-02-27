@@ -69,6 +69,15 @@ namespace de.ahzf.Blueprints.TestApplication
                 var deleted3 = graph.Remove().ToList();
                 var deleted1 = graph.Remove("hello");
 
+                // ---------------------------------------------------------------
+
+                var v1 = graph.AddVertex(v => v.SetProperty("Name", "Vertex1"));
+                var v2 = graph.AddVertex(v => v.SetProperty("Name", "Vertex2"));
+                var e1 = graph.AddEdge(v1, v2, "knows", e => e.SetProperty("Name", "Edge1"));
+
+                var allV = graph.Vertices().ToList();
+                var allE = graph.Edges().ToList();
+
 
                 // ---------------------------------------------------------------
 

@@ -741,8 +741,29 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         #region Constructor(s)
 
-        #region (internal) PropertyVertex(VertexId, IdKey, RevIdKey, DescriptionKey, DatastructureInitializer)
+        #region (internal) GenericPropertyVertex(VertexId, IdKey, RevIdKey, DescriptionKey, DatastructureInitializer)
 
+        /// <summary>
+        /// The GenericPropertyVertex constructor for creating a new GenericPropertyGraph.
+        /// </summary>
+        /// <param name="VertexId">The identification of this vertex.</param>
+        /// <param name="IdKey">The key to access the Id of this vertex.</param>
+        /// <param name="RevIdKey">The key to access the RevId of this vertex.</param>
+        /// <param name="DescriptionKey"></param>
+        /// <param name="DatastructureInitializer">A delegate to initialize the properties datastructure.</param>
+        /// <param name="VertexIdCreatorDelegate"></param>
+        /// <param name="VertexCreatorDelegate"></param>
+        /// <param name="VerticesCollectionInitializer"></param>
+        /// <param name="EdgeIdCreatorDelegate"></param>
+        /// <param name="EdgeCreatorDelegate"></param>
+        /// <param name="EdgesCollectionInitializer">A delegate to initialize the datastructure for storing all edges.</param>
+        /// <param name="MultiEdgeIdCreatorDelegate"></param>
+        /// <param name="MultiEdgeCreatorDelegate"></param>
+        /// <param name="MultiEdgesCollectionInitializer"></param>
+        /// <param name="HyperEdgeIdCreatorDelegate"></param>
+        /// <param name="HyperEdgeCreatorDelegate"></param>
+        /// <param name="HyperEdgesCollectionInitializer">A delegate to initialize the datastructure for storing all hyperedges.</param>
+//        /// <param name="VertexInitializer">A delegate to initialize the newly created vertex.</param>
         internal GenericPropertyVertex(TIdVertex   VertexId,
                                        TKeyVertex  IdKey,
                                        TKeyVertex  RevIdKey,
@@ -855,7 +876,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         #endregion
 
-        #region PropertyVertex(Graph, VertexId, IdKey, RevIdKey, DescriptionKey, DatastructureInitializer, EdgeCollectionInitializer, HyperEdgeCollectionInitializer, VertexInitializer = null)
+        #region GenericPropertyVertex(Graph, VertexId, IdKey, RevIdKey, DescriptionKey, DatastructureInitializer, EdgeCollectionInitializer, HyperEdgeCollectionInitializer, VertexInitializer = null)
 
         /// <summary>
         /// Creates a new vertex.

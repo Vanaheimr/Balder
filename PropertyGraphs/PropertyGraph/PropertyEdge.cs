@@ -35,9 +35,8 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                                     UInt64, Int64, String, String, Object,
                                                     UInt64, Int64, String, String, Object>,
 
-                                IDynamicGraphElement<PropertyEdge>,
-
-                                IPropertyEdge
+                                IPropertyEdge,
+                                IDynamicGraphElement<PropertyEdge>
 
     {
 
@@ -106,24 +105,15 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <param name="RevIdKey">The key of the edge revision identifier.</param>
         /// <param name="DatastructureInitializer">A delegate to initialize the properties datastructure.</param>
         /// <param name="EdgeInitializer">A delegate to initialize the newly created edge.</param>
-        public PropertyEdge(IGenericPropertyGraph <UInt64, Int64, String, String, Object,
-                                                   UInt64, Int64, String, String, Object,
-                                                   UInt64, Int64, String, String, Object,
-                                                   UInt64, Int64, String, String, Object> Graph,
-                            IGenericPropertyVertex<UInt64, Int64, String, String, Object,
-                                                   UInt64, Int64, String, String, Object,
-                                                   UInt64, Int64, String, String, Object,
-                                                   UInt64, Int64, String, String, Object> OutVertex,
-                            IGenericPropertyVertex<UInt64, Int64, String, String, Object,
-                                                   UInt64, Int64, String, String, Object,
-                                                   UInt64, Int64, String, String, Object,
-                                                   UInt64, Int64, String, String, Object> InVertex,
+        public PropertyEdge(IPropertyGraph  Graph,
+                            IPropertyVertex OutVertex,
+                            IPropertyVertex InVertex,
 
-                            UInt64 EdgeId,
-                            String Label,
-                            String IdKey,
-                            String RevIdKey,
-                            String DescriptionKey,
+                            UInt64          EdgeId,
+                            String          Label,
+                            String          IdKey,
+                            String          RevIdKey,
+                            String          DescriptionKey,
 
                             IDictionaryInitializer<String, Object> DatastructureInitializer,
 
