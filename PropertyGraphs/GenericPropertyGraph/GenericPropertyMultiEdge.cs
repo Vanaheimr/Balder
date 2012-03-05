@@ -546,7 +546,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         public virtual Object GetMember(String myBinder)
         {
             TValueMultiEdge myObject;
-            TryGet((TKeyMultiEdge) (Object) myBinder, out myObject);
+            TryGetProperty((TKeyMultiEdge) (Object) myBinder, out myObject);
             return myObject as Object;
         }
 

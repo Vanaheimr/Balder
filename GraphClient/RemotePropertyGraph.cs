@@ -602,7 +602,7 @@ namespace de.ahzf.Blueprints.HTTP.Client
             get { throw new NotImplementedException(); }
         }
 
-        public bool TryGet(string Key, out object Value)
+        public bool TryGetProperty(string Key, out object Value)
         {
             throw new NotImplementedException();
         }

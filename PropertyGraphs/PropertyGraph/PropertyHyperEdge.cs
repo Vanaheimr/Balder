@@ -320,7 +320,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         public virtual Object GetMember(String myBinder)
         {
             Object myObject;
-            TryGet((String) (Object) myBinder, out myObject);
+            TryGetProperty((String) (Object) myBinder, out myObject);
             return myObject as Object;
         }
 

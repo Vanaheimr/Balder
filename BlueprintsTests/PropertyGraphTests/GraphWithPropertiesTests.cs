@@ -194,16 +194,16 @@ namespace de.ahzf.Blueprints.UnitTests.PropertyGraphTests
             Assert.AreEqual("it simple!", graph["Keep"]);
 
             Object _Value;
-            Assert.IsTrue(graph.TryGet("Id", out _Value));
+            Assert.IsTrue(graph.TryGetProperty("Id", out _Value));
             Assert.AreEqual(123UL, _Value);
 
-            Assert.IsTrue(graph.TryGet("hello", out _Value));
+            Assert.IsTrue(graph.TryGetProperty("hello", out _Value));
             Assert.AreEqual("world!", _Value);
 
-            Assert.IsTrue(graph.TryGet("graphs", out _Value));
+            Assert.IsTrue(graph.TryGetProperty("graphs", out _Value));
             Assert.AreEqual("are cool!", _Value);
 
-            Assert.IsTrue(graph.TryGet("Keep", out _Value));
+            Assert.IsTrue(graph.TryGetProperty("Keep", out _Value));
             Assert.AreEqual("it simple!", _Value);
 
 

@@ -531,7 +531,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <param name="Key">A key.</param>
         /// <param name="Value">The associated value.</param>
         /// <returns>True if the returned value is valid. False otherwise.</returns>
-        public virtual Boolean TryGet(TKey Key, out TValue Value)
+        public virtual Boolean TryGetProperty(TKey Key, out TValue Value)
         {
             return PropertyData.TryGetValue(Key, out Value);
         }
@@ -662,7 +662,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
             TValue _Value;
 
-            if (TryGet(Key, out _Value))
+            if (TryGetProperty(Key, out _Value))
             {
                 if (_Value.Equals(Value))
                 {

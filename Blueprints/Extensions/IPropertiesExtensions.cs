@@ -156,7 +156,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
             TValue PropertyValue = default(TValue);
 
-            if (IProperties.TryGet(PropertyKey, out PropertyValue))
+            if (IProperties.TryGetProperty(PropertyKey, out PropertyValue))
                 return PropertyValue;
 
             else
@@ -197,7 +197,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
             #endregion
 
             TValue Value;
-            if (IProperties.TryGet(PropertyKey, out Value))
+            if (IProperties.TryGetProperty(PropertyKey, out Value))
                 OnSuccess(Value);
 
             else if (OnError != null)
@@ -238,7 +238,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
             #endregion
 
             TValue Value;
-            if (IProperties.TryGet(PropertyKey, out Value))
+            if (IProperties.TryGetProperty(PropertyKey, out Value))
                 OnSuccess(PropertyKey, Value);
 
             else if (OnError != null)
@@ -278,7 +278,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
             #endregion
 
             TValue Value;
-            if (IProperties.TryGet(PropertyKey, out Value))
+            if (IProperties.TryGetProperty(PropertyKey, out Value))
                 return OnSuccessFunc(Value);
 
             return default(TResult);
@@ -317,7 +317,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
             #endregion
 
             TValue Value;
-            if (IProperties.TryGet(PropertyKey, out Value))
+            if (IProperties.TryGetProperty(PropertyKey, out Value))
                 return OnSuccessFunc(PropertyKey, Value);
 
             return default(TResult);
@@ -353,7 +353,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
             TValue Value;
 
-            if (IProperties.TryGet(PropertyKey, out Value))
+            if (IProperties.TryGetProperty(PropertyKey, out Value))
                 if (Value.GetType().Equals(PropertyType))
                     return Value;
 
@@ -396,7 +396,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
             TValue Value;
 
-            if (IProperties.TryGet(PropertyKey, out Value))
+            if (IProperties.TryGetProperty(PropertyKey, out Value))
                 if (Value.GetType().Equals(PropertyType))
                     OnSuccess(Value);
 
@@ -437,7 +437,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
             TValue Value;
 
-            if (IProperties.TryGet(PropertyKey, out Value))
+            if (IProperties.TryGetProperty(PropertyKey, out Value))
                 if (Value.GetType().Equals(PropertyType))
                     OnSuccess(PropertyKey, Value);
 
@@ -477,7 +477,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
             #endregion
 
             TValue Value;
-            if (IProperties.TryGet(PropertyKey, out Value))
+            if (IProperties.TryGetProperty(PropertyKey, out Value))
                 if (Value.GetType().Equals(PropertyType))
                     return OnSuccessFunc(Value);
 
@@ -520,7 +520,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
             TValue Value;
 
-            if (IProperties.TryGet(PropertyKey, out Value))
+            if (IProperties.TryGetProperty(PropertyKey, out Value))
                 if (Value.GetType().Equals(PropertyType))
                     return OnSuccessFunc(PropertyKey, Value);
 
@@ -584,7 +584,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
             TValue Value;
 
-            if (IProperties.TryGet(PropertyKey, out Value))
+            if (IProperties.TryGetProperty(PropertyKey, out Value))
                 return (dynamic) Value;
 
             return default(TValue);
@@ -617,7 +617,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
             TValue Value;
 
-            if (IProperties.TryGet(PropertyKey, out Value))
+            if (IProperties.TryGetProperty(PropertyKey, out Value))
                 if (Value.GetType().Equals(PropertyType))
                     return (dynamic) Value;
 
@@ -670,7 +670,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
             #endregion
 
             TValue Value;
-            if (IProperties.TryGet(PropertyKey, out Value))
+            if (IProperties.TryGetProperty(PropertyKey, out Value))
                 OnSuccess(new KeyValuePair<TKey, TValue>(PropertyKey, Value));
 
         }
@@ -710,7 +710,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
             #endregion
 
             TValue Value;
-            if (IProperties.TryGet(PropertyKey, out Value))
+            if (IProperties.TryGetProperty(PropertyKey, out Value))
                 if (Value.GetType().Equals(PropertyType))
                     OnSuccess(new KeyValuePair<TKey, TValue>(PropertyKey, Value));
 
@@ -749,7 +749,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
             #endregion
 
             TValue Value;
-            if (IProperties.TryGet(PropertyKey, out Value))
+            if (IProperties.TryGetProperty(PropertyKey, out Value))
                 return OnSuccessFunc(new KeyValuePair<TKey, TValue>(PropertyKey, Value));
 
             return default(TResult);
@@ -792,7 +792,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
             #endregion
 
             TValue Value;
-            if (IProperties.TryGet(PropertyKey, out Value))
+            if (IProperties.TryGetProperty(PropertyKey, out Value))
                 if (Value.GetType().Equals(PropertyType))
                     return OnSuccessFunc(new KeyValuePair<TKey, TValue>(PropertyKey, Value));
 

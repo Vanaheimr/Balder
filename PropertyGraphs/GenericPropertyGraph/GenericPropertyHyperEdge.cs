@@ -505,7 +505,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         public virtual Object GetMember(String myBinder)
         {
             TValueHyperEdge myObject;
-            TryGet((TKeyHyperEdge) (Object) myBinder, out myObject);
+            TryGetProperty((TKeyHyperEdge) (Object) myBinder, out myObject);
             return myObject as Object;
         }
 

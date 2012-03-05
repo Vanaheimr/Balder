@@ -194,7 +194,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         #endregion
 
 
-        #region Properties
+        #region Well-known properties
 
         #region IdKey
 
@@ -273,7 +273,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         /// <param name="Key">A key.</param>
         /// <param name="Value">The associated value.</param>
         /// <returns>True if the returned value is valid. False otherwise.</returns>
-        Boolean TryGet(TKey Key, out TValue Value);
+        Boolean TryGetProperty(TKey Key, out TValue Value);
 
         /// <summary>
         /// Return a filtered enumeration of all KeyValuePairs.

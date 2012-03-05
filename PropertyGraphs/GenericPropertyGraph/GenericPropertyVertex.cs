@@ -3436,7 +3436,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         public virtual Object GetMember(String myBinder)
         {
             TValueVertex myObject;
-            TryGet((TKeyVertex) (Object) myBinder, out myObject);
+            TryGetProperty((TKeyVertex) (Object) myBinder, out myObject);
             return myObject as Object;
         }
 

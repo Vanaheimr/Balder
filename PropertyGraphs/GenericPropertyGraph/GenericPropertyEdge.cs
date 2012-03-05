@@ -526,7 +526,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         public virtual Object GetMember(String Binder)
         {
             TValueEdge _Object;
-            TryGet((TKeyEdge) (Object) Binder, out _Object);
+            TryGetProperty((TKeyEdge) (Object) Binder, out _Object);
             return _Object as Object;
         }
 

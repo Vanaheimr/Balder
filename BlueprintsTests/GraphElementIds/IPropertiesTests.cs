@@ -52,7 +52,7 @@ namespace de.ahzf.Blueprints.UnitTests
             Assert.IsNotNull(Alice1);
 
             Alice1.GetProperty("key");
-            Alice1.TryGet("key", out _Object);
+            Alice1.TryGetProperty("key", out _Object);
             Alice1.GetProperty("key", typeof(String));
             Alice1.GetProperty("key", (p) => { Console.WriteLine(p); }, (v) => { Console.WriteLine(v.Id); });
             Console.WriteLine(Alice1.GetProperty("l", (p) => { return p; }, (v) => { return v.Id; }));
@@ -64,7 +64,7 @@ namespace de.ahzf.Blueprints.UnitTests
             Assert.IsNotNull(Alice2);
 
             Alice2.GetProperty("key");
-            Alice2.TryGet("key", out _Object);
+            Alice2.TryGetProperty("key", out _Object);
             Alice2.GetProperty("key", typeof(String));
             Alice2.GetProperty("key", (p) => { Console.WriteLine(p); }, (v) => { Console.WriteLine(v.Id); });
             Console.WriteLine(Alice2.GetProperty("l", (p) => { return p; }, (v) => { return v.Id; }));
