@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Networking", "Networking\Ne
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eunomia", "..\Eunomia\Eunomia\Eunomia.csproj", "{1DF1A588-33B1-4168-9487-604FE5680681}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jurassic", "libs\Jurassic\Jurassic.csproj", "{2CE5502D-8710-4BE3-9D90-201D526904B3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -135,6 +137,16 @@ Global
 		{1DF1A588-33B1-4168-9487-604FE5680681}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{1DF1A588-33B1-4168-9487-604FE5680681}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{1DF1A588-33B1-4168-9487-604FE5680681}.Release|x86.ActiveCfg = Release|Any CPU
+		{2CE5502D-8710-4BE3-9D90-201D526904B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CE5502D-8710-4BE3-9D90-201D526904B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CE5502D-8710-4BE3-9D90-201D526904B3}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{2CE5502D-8710-4BE3-9D90-201D526904B3}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{2CE5502D-8710-4BE3-9D90-201D526904B3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2CE5502D-8710-4BE3-9D90-201D526904B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CE5502D-8710-4BE3-9D90-201D526904B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CE5502D-8710-4BE3-9D90-201D526904B3}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{2CE5502D-8710-4BE3-9D90-201D526904B3}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{2CE5502D-8710-4BE3-9D90-201D526904B3}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -143,5 +155,6 @@ Global
 		{16C85DF8-5DE6-4A9F-9FC7-7CA5B0440DF3} = {19805CEC-7C7D-48D6-A8E3-458B65314AE5}
 		{477EFD16-3627-4473-957D-44CA9A9DFB79} = {19805CEC-7C7D-48D6-A8E3-458B65314AE5}
 		{1DF1A588-33B1-4168-9487-604FE5680681} = {19805CEC-7C7D-48D6-A8E3-458B65314AE5}
+		{2CE5502D-8710-4BE3-9D90-201D526904B3} = {19805CEC-7C7D-48D6-A8E3-458B65314AE5}
 	EndGlobalSection
 EndGlobal

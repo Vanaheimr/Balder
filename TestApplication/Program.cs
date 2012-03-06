@@ -104,6 +104,39 @@ namespace de.ahzf.Blueprints.TestApplication
 
                 // ---------------------------------------------------------------
 
+                var JavaScriptEngine = new Jurassic.ScriptEngine();
+                //Console.WriteLine(engine.Evaluate("5 * 10 + 2"));
+                //engine.SetGlobalValue("interop", 15);
+                //engine.ExecuteFile(@"c:\test.js");
+                //engine.Evaluate("interop = interop + 5");
+                //Console.WriteLine(engine.GetGlobalValue<int>("interop"));
+
+                JavaScriptEngine.Evaluate("function VertexFilter(vertex) { return vertex.Name == 'Vertex1' }");
+                
+                foreach (var Vertex in graph.Vertices())
+                {
+                    //engine.SetGlobalValue("vertex", new JSPropertyVertex(_vv, engine));
+                    
+                    //engine.SetGlobalFunction("test", new Func<int, int, int>((a, b) => a + b));
+                    //Console.WriteLine(engine.Evaluate<int>("test(5, 6)"));
+
+                    //engine.Evaluate("var yesorno = vertex.Id > 1");
+                    //var Id      = engine.GetGlobalValue  ("vertex.Id");
+                    //var yesorno = engine.GetGlobalValue<Boolean>("yesorno");
+
+                    if (JavaScriptEngine.CallGlobalFunction<Boolean>("VertexFilter", new JSPropertyVertex(Vertex, JavaScriptEngine)))
+                        Console.WriteLine(Vertex.Id);
+
+                }
+
+                var aaa = from   V2
+                          in     graph.Vertices()
+                          where  JavaScriptEngine.CallGlobalFunction<Boolean>("VertexFilter", new JSPropertyVertex(V2, JavaScriptEngine))
+                          select V2;
+
+                var aaaa = aaa.ToList();
+
+
                 var GraphClient = new RemotePropertyGraph(IPv4Address.Parse("127.0.0.1"), new IPPort(8080)) { Id = 512 };
                 Console.WriteLine(GraphClient.Description);
 

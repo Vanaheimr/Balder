@@ -46,6 +46,9 @@
   <ItemGroup>
     <Compile Include="GraphServer.cs" />
     <Compile Include="IGraphServer.cs" />
+    <Compile Include="JavaScript\JSPropertyEdge.cs" />
+    <Compile Include="JavaScript\JSGraphElement.cs" />
+    <Compile Include="JavaScript\JSPropertyVertex.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GraphService\AGraphService.cs" />
     <Compile Include="GraphService\GraphService_ALL.cs" />
@@ -67,6 +70,10 @@
     <ProjectReference Include="..\Blueprints\Blueprints.csproj">
       <Project>{47FA1E7C-8C47-493D-A371-91A15D53BC95}</Project>
       <Name>Blueprints</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\libs\Jurassic\Jurassic.csproj">
+      <Project>{2CE5502D-8710-4BE3-9D90-201D526904B3}</Project>
+      <Name>Jurassic</Name>
     </ProjectReference>
     <ProjectReference Include="..\Networking\Networking.csproj">
       <Project>{F3D3EF32-2759-49A0-AA78-1DF200CC8034}</Project>
