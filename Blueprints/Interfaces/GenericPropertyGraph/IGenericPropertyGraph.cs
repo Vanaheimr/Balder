@@ -1016,7 +1016,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
         #endregion
 
-        #region RemoveVertices(Vertices)
+        #region RemoveVertices(params Vertices)    // RemoveVertices()!
 
         /// <summary>
         /// Remove the given array of vertices from the graph.
@@ -1316,7 +1316,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
         #endregion
 
-        #region RemoveEdges(params Edges)
+        #region RemoveEdges(params Edges)    // RemoveEdges()!
 
         /// <summary>
         /// Remove the given array of edges from the graph.
@@ -1355,6 +1355,109 @@ namespace de.ahzf.Blueprints.PropertyGraphs
                                           TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                           TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnMultiEdgeAdding;
+
+        #endregion
+
+        #region AddMultiEdge(params Vertices)
+
+        /// <summary>
+        /// Add a multiedge based on the given enumeration
+        /// of vertices to the graph.
+        /// </summary>
+        /// <param name="Vertices">An enumeration of vertices.</param>
+        /// <returns>The new multiedge</returns>
+        IGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                  TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                  TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                  TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
+        
+                                  AddMultiEdge(params IGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                             TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                             TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                             TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>[] Vertices);
+
+        #endregion
+
+        #region AddMultiEdge(Label, params Vertices)
+
+        /// <summary>
+        /// Add a multiedge based on the given multiedge label and
+        /// an enumeration of vertices to the graph.
+        /// </summary>
+        /// <param name="Label">The multiedge label.</param>
+        /// <param name="Vertices">An enumeration of vertices.</param>
+        /// <returns>The new multiedge</returns>
+        IGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                  TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                  TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                  TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
+        
+                                  AddMultiEdge(TMultiEdgeLabel Label,            
+                                               params IGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                             TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                             TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                             TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>[] Vertices);
+
+        #endregion
+
+        #region AddMultiEdge(Label, MultiEdgeInitializer, params Vertices)
+
+        /// <summary>
+        /// Add a multiedge based on the given multiedge label and
+        /// an enumeration of vertices to the graph and initialize
+        /// it by invoking the given MultiEdgeInitializer.
+        /// </summary>
+        /// <param name="Label">The multiedge label.</param>
+        /// <param name="MultiEdgeInitializer">A delegate to initialize the newly generated multiedge.</param>
+        /// <param name="Vertices">An enumeration of vertices.</param>
+        /// <returns>The new multiedge</returns>
+        IGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                  TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                  TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                  TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
+        
+                                  AddMultiEdge(TMultiEdgeLabel Label,
+                                               MultiEdgeInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                    TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                    TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> MultiEdgeInitializer,
+        
+                                               params IGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                             TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                             TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                             TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>[] Vertices);
+
+        #endregion
+
+        #region AddMultiEdge(MultiEdgeId, Label, MultiEdgeInitializer, params Vertices)
+
+        /// <summary>
+        /// Add a multiedge based on the given multiedge label and
+        /// an enumeration of vertices to the graph and initialize
+        /// it by invoking the given MultiEdgeInitializer.
+        /// </summary>
+        /// <param name="MultiEdgeId">A MultiEdgeId. If none was given a new one will be generated.</param>
+        /// <param name="Label">The multiedge label.</param>
+        /// <param name="MultiEdgeInitializer">A delegate to initialize the newly generated multiedge.</param>
+        /// <param name="Vertices">An enumeration of vertices.</param>
+        /// <returns>The new multiedge</returns>
+        IGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                  TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                  TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                  TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
+        
+            AddMultiEdge(TIdMultiEdge    MultiEdgeId,
+                         TMultiEdgeLabel Label,
+
+                         MultiEdgeInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                             TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                             TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                             TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> MultiEdgeInitializer,
+        
+                         params IGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                         TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                         TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>[] Vertices);
 
         #endregion
 
@@ -1447,6 +1550,43 @@ namespace de.ahzf.Blueprints.PropertyGraphs
                                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                   TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> MultiEdgeFilter = null);
+
+        #endregion
+
+
+        #region RemoveMultiEdgesById(params MultiEdgeIds)
+
+        /// <summary>
+        /// Remove the given array of multiedges identified by their MultiEdgeIds.
+        /// </summary>
+        /// <param name="MultiEdgeIds">An array of MultiEdgeIds of the multiedges to remove.</param>
+        void RemoveMultiEdgesById(params TIdMultiEdge[] MultiEdgeIds);
+
+        #endregion
+
+        #region RemoveMultiEdges(params MultiEdges)    // RemoveMultiEdges()!
+
+        /// <summary>
+        /// Remove the given array of multiedges from the graph.
+        /// </summary>
+        /// <param name="MultiEdges">An array of multiedges to be removed from the graph.</param>
+        void RemoveMultiEdges(params IGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>[] MultiEdges);
+
+        #endregion
+
+        #region RemoveMultiEdges(MultiEdgeFilter = null)
+
+        /// <summary>
+        /// Remove any multiedge matching the given multiedge filter.
+        /// </summary>
+        /// <param name="MultiEdgeFilter">A delegate for multiedge filtering.</param>
+        void RemoveMultiEdges(MultiEdgeFilter<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> MultiEdgeFilter = null);
 
         #endregion
 
@@ -1663,9 +1803,47 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
         #endregion
 
+
+        #region RemoveHyperEdgesById(params HyperEdgeIds)
+
+        /// <summary>
+        /// Remove the given array of hyperedges identified by their HyperEdgeIds.
+        /// </summary>
+        /// <param name="HyperEdgeIds">An array of HyperEdgeIds of the hyperedges to remove.</param>
+        void RemoveHyperEdgesById(params TIdHyperEdge[] HyperEdgeIds);
+
         #endregion
 
-        #region Graph Maintenance
+        #region RemoveHyperEdges(params HyperEdges)    // RemoveHyperEdges()!
+
+        /// <summary>
+        /// Remove the given array of hyperedges from the graph.
+        /// </summary>
+        /// <param name="HyperEdges">An array of hyperedges to be removed from the graph.</param>
+        void RemoveHyperEdges(params IGenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>[] HyperEdges);
+
+        #endregion
+
+        #region RemoveHyperEdges(HyperEdgeFilter = null)
+
+        /// <summary>
+        /// Remove any hyperedge matching the given hyperedge filter.
+        /// </summary>
+        /// <param name="HyperEdgeFilter">A delegate for hyperedge filtering.</param>
+        void RemoveHyperEdges(HyperEdgeFilter<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> HyperEdgeFilter = null);
+
+        #endregion
+
+        #endregion
+
+
+        #region General Graph Maintenance
 
         #region Clear()
 
@@ -1675,7 +1853,6 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         void Clear();
 
         #endregion
-
 
         #region OnGraphShuttingdown
 

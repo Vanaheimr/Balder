@@ -276,6 +276,15 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         Boolean TryGetProperty(TKey Key, out TValue Value);
 
         /// <summary>
+        /// Return the value associated with the given key.
+        /// </summary>
+        /// <param name="Key">A key.</param>
+        /// <param name="Value">The associated value.</param>
+        /// <typeparam name="T">Check if the value is of the given type.</typeparam>
+        /// <returns>True if the returned value is valid. False otherwise.</returns>
+        Boolean TryGetProperty<T>(TKey Key, out T Value);
+
+        /// <summary>
         /// Return a filtered enumeration of all KeyValuePairs.
         /// </summary>
         /// <param name="KeyValueFilter">A delegate to filter properties based on their keys and values.</param>

@@ -523,7 +523,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         #endregion
 
-        #region TryGet(Key, out Value)
+        #region TryGetProperty(Key, out Value)
 
         /// <summary>
         /// Return the value associated with the given key.
@@ -534,6 +534,43 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         public virtual Boolean TryGetProperty(TKey Key, out TValue Value)
         {
             return PropertyData.TryGetValue(Key, out Value);
+        }
+
+        #endregion
+
+        #region TryGetProperty<T>(Key, out Value)
+
+        /// <summary>
+        /// Return the value associated with the given key.
+        /// </summary>
+        /// <param name="Key">A key.</param>
+        /// <param name="Value">The associated value.</param>
+        /// <returns>True if the returned value is valid. False otherwise.</returns>
+        public virtual Boolean TryGetProperty<T>(TKey Key, out T Value)
+        {
+
+            TValue _Value;
+
+            if (PropertyData.TryGetValue(Key, out _Value))
+            {
+
+                try
+                {
+                    Value = (T) (Object) _Value;
+                }
+                catch (Exception)
+                {
+                    Value = default(T);
+                    return false;
+                }
+
+                return true;
+
+            }
+
+            Value = default(T);
+            return false;
+
         }
 
         #endregion

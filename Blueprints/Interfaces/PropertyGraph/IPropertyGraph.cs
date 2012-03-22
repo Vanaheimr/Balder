@@ -33,6 +33,53 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
         #region Vertex methods
 
+        #region AddVertex(VertexInitializer = null)
+
+        /// <summary>
+        /// Create a new vertex, add it to the graph, and return the newly created vertex.
+        /// If the object identifier is already being used by the graph to reference a vertex,
+        /// then an exception will be thrown.
+        /// </summary>
+        /// <param name="VertexInitializer">A delegate to initialize the new vertex.</param>
+        /// <returns>The newly created vertex as IPropertyVertex&lt;...&gt;.</returns>
+        new IPropertyVertex AddVertex(VertexInitializer<UInt64, Int64, String, String, Object,
+                                                        UInt64, Int64, String, String, Object,
+                                                        UInt64, Int64, String, String, Object,
+                                                        UInt64, Int64, String, String, Object> VertexInitializer = null);
+
+        #endregion
+
+        #region AddVertex(VertexId, VertexInitializer = null)
+
+        /// <summary>
+        /// Create a new vertex, add it to the graph, and return the newly created vertex.
+        /// If the object identifier is already being used by the graph to reference a vertex,
+        /// then an exception will be thrown.
+        /// </summary>
+        /// <param name="VertexId">The vertex identifier.</param>
+        /// <param name="VertexInitializer">A delegate to initialize the new vertex.</param>
+        /// <returns>The newly created vertex as IPropertyVertex&lt;...&gt;.</returns>
+        new IPropertyVertex AddVertex(UInt64 VertexId, VertexInitializer<UInt64, Int64, String, String, Object,
+                                                                         UInt64, Int64, String, String, Object,
+                                                                         UInt64, Int64, String, String, Object,
+                                                                         UInt64, Int64, String, String, Object> VertexInitializer = null);
+
+        #endregion
+
+        #region AddVertex(Vertex)
+
+        /// <summary>
+        /// Add the given vertex to the graph, and return the newly created vertex.
+        /// If the object identifier is already being used by the graph to reference a vertex,
+        /// then an exception will be thrown.
+        /// </summary>
+        /// <param name="Vertex">An IPropertyVertex.</param>
+        /// <returns>The given IPropertyVertex.</returns>
+        new IPropertyVertex AddVertex(IPropertyVertex Vertex);
+
+        #endregion
+
+
         #region VertexById(VertexId)
 
         /// <summary>
@@ -81,9 +128,155 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
         #endregion
 
+        #region NumberOfVertices(VertexFilter = null)
+
+        /// <summary>
+        /// Return the current number of vertices which match the given optional filter.
+        /// When the filter is null, this method should implement an optimized
+        /// way to get the currenty number of vertices.
+        /// </summary>
+        /// <param name="VertexFilter">A delegate for vertex filtering.</param>
+        new UInt64 NumberOfVertices(VertexFilter<UInt64, Int64, String, String, Object,
+                                                 UInt64, Int64, String, String, Object,
+                                                 UInt64, Int64, String, String, Object,
+                                                 UInt64, Int64, String, String, Object> VertexFilter = null);
+
+        #endregion
+
+
+        #region RemoveVerticesById(params VertexIds)
+
+        /// <summary>
+        /// Remove the vertices identified by their VertexIds.
+        /// </summary>
+        /// <param name="VertexIds">An array of VertexIds of the vertices to remove.</param>
+        new void RemoveVerticesById(params UInt64[] VertexIds);
+
+        #endregion
+
+        #region RemoveVertices(Vertices)
+
+        /// <summary>
+        /// Remove the given array of vertices from the graph.
+        /// Upon removing a vertex, all the edges by which the vertex
+        /// is connected will be removed as well.
+        /// </summary>
+        /// <param name="Vertices">An array of vertices to be removed from the graph.</param>
+        new void RemoveVertices(params IPropertyVertex[] Vertices);
+
+        #endregion
+
+        #region RemoveVertices(VertexFilter = null)
+
+        /// <summary>
+        /// Remove any vertex matching the given vertex filter.
+        /// </summary>
+        /// <param name="VertexFilter">A delegate for vertex filtering.</param>
+        new void RemoveVertices(VertexFilter<UInt64, Int64, String, String, Object,
+                                             UInt64, Int64, String, String, Object,
+                                             UInt64, Int64, String, String, Object,
+                                             UInt64, Int64, String, String, Object> VertexFilter = null);
+        
+        #endregion
+
         #endregion
 
         #region Edge methods
+
+        #region AddEdge(OutVertex, Label, InVertex, EdgeInitializer = null)
+
+        /// <summary>
+        /// Add an edge to the graph. The added edge requires a tail vertex,
+        /// a head vertex, a label and initializes the edge
+        /// by invoking the given EdgeInitializer.
+        /// OutVertex --Label-> InVertex is the "Semantic Web Notation" ;)
+        /// </summary>
+        /// <param name="OutVertex">The vertex on the tail of the edge.</param>
+        /// <param name="Label">The label associated with the edge.</param>
+        /// <param name="InVertex">The vertex on the head of the edge.</param>
+        /// <param name="EdgeInitializer">A delegate to initialize the new edge.</param>
+        /// <returns>The new edge.</returns>
+        new IPropertyEdge AddEdge(IPropertyVertex OutVertex,
+                                  String          Label,
+                                  IPropertyVertex InVertex,
+                                  EdgeInitializer<UInt64, Int64, String, String, Object,
+                                                  UInt64, Int64, String, String, Object,
+                                                  UInt64, Int64, String, String, Object,
+                                                  UInt64, Int64, String, String, Object> EdgeInitializer = null);
+
+        #endregion
+
+        #region AddEdge(EdgeId, OutVertex, Label, InVertex, EdgeInitializer = null)
+
+        /// <summary>
+        /// Add an edge to the graph. The added edge requires a tail vertex,
+        /// a head vertex, an identifier, a label and initializes the edge
+        /// by invoking the given EdgeInitializer.
+        /// OutVertex --Label-> InVertex is the "Semantic Web Notation" ;)
+        /// </summary>
+        /// <param name="EdgeId">A EdgeId. If none was given a new one will be generated.</param>
+        /// <param name="OutVertex">The vertex on the tail of the edge.</param>
+        /// <param name="Label">The label associated with the edge.</param>
+        /// <param name="InVertex">The vertex on the head of the edge.</param>
+        /// <param name="EdgeInitializer">A delegate to initialize the new edge.</param>
+        /// <returns>The new edge.</returns>
+        new IPropertyEdge AddEdge(UInt64          EdgeId,
+                                  IPropertyVertex OutVertex,
+                                  String          Label,
+                                  IPropertyVertex InVertex,
+                                  EdgeInitializer<UInt64, Int64, String, String, Object,
+                                                  UInt64, Int64, String, String, Object,
+                                                  UInt64, Int64, String, String, Object,
+                                                  UInt64, Int64, String, String, Object> EdgeInitializer = null);
+
+        #endregion
+
+        #region AddEdge(OutVertex, InVertex, Label = default(TEdgeLabel), EdgeInitializer = null)
+
+        /// <summary>
+        /// Add an edge to the graph. The added edge requires a tail vertex,
+        /// a head vertex, an identifier, a label and initializes the edge
+        /// by invoking the given EdgeInitializer.
+        /// </summary>
+        /// <param name="OutVertex">The vertex on the tail of the edge.</param>
+        /// <param name="InVertex">The vertex on the head of the edge.</param>
+        /// <param name="Label">The label associated with the edge.</param>
+        /// <param name="EdgeInitializer">A delegate to initialize the new edge.</param>
+        /// <returns>The new edge.</returns>
+        new IPropertyEdge AddEdge(IPropertyVertex OutVertex,
+                                  IPropertyVertex InVertex,
+                                  String          Label  = default(String),
+                                  EdgeInitializer<UInt64, Int64, String, String, Object,
+                                                  UInt64, Int64, String, String, Object,
+                                                  UInt64, Int64, String, String, Object,
+                                                  UInt64, Int64, String, String, Object> EdgeInitializer = null);
+
+        #endregion
+
+        #region AddEdge(OutVertex, InVertex, EdgeId, Label  = default(TEdgeLabel), EdgeInitializer = null)
+
+        /// <summary>
+        /// Add an edge to the graph. The added edge requires a tail vertex,
+        /// a head vertex, an identifier, a label and initializes the edge
+        /// by invoking the given EdgeInitializer.
+        /// </summary>
+        /// <param name="OutVertex">The vertex on the tail of the edge.</param>
+        /// <param name="InVertex">The vertex on the head of the edge.</param>
+        /// <param name="EdgeId">A EdgeId. If none was given a new one will be generated.</param>
+        /// <param name="Label">The label associated with the edge.</param>
+        /// <param name="EdgeInitializer">A delegate to initialize the new edge.</param>
+        /// <returns>The new edge.</returns>
+        new IPropertyEdge AddEdge(IPropertyVertex OutVertex,
+                                  IPropertyVertex InVertex,
+                                  UInt64          EdgeId,
+                                  String          Label = default(String),
+                                  EdgeInitializer<UInt64, Int64, String, String, Object,
+                                                  UInt64, Int64, String, String, Object,
+                                                  UInt64, Int64, String, String, Object,
+                                                  UInt64, Int64, String, String, Object> EdgeInitializer = null);
+
+        #endregion
+
 
         #region EdgeById(EdgeId)
 
@@ -92,7 +285,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         /// If no edge is referenced by a given identifier return null.
         /// </summary>
         /// <param name="EdgeId">An edge identifier.</param>
-        IPropertyEdge EdgeById(UInt64 EdgeId);
+        new IPropertyEdge EdgeById(UInt64 EdgeId);
 
         #endregion
 
@@ -104,7 +297,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         /// skipped.
         /// </summary>
         /// <param name="EdgeIds">An array of edge identifiers.</param>
-        IEnumerable<IPropertyEdge> EdgesById(params UInt64[] EdgeIds);
+        new IEnumerable<IPropertyEdge> EdgesById(params UInt64[] EdgeIds);
 
         #endregion
 
@@ -115,7 +308,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         /// given edge labels.
         /// </summary>
         /// <param name="EdgeLabels">An array of edge labels.</param>
-        IEnumerable<IPropertyEdge> EdgesByLabel(params String[] EdgeLabels);
+        new IEnumerable<IPropertyEdge> EdgesByLabel(params String[] EdgeLabels);
 
         #endregion
 
@@ -126,10 +319,59 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         /// An optional edge filter may be applied for filtering.
         /// </summary>
         /// <param name="EdgeFilter">A delegate for edge filtering.</param>
-        IEnumerable<IPropertyEdge> Edges(EdgeFilter<UInt64, Int64, String, String, Object,
-                                                    UInt64, Int64, String, String, Object,
-                                                    UInt64, Int64, String, String, Object,
-                                                    UInt64, Int64, String, String, Object> EdgeFilter = null);
+        new IEnumerable<IPropertyEdge> Edges(EdgeFilter<UInt64, Int64, String, String, Object,
+                                                        UInt64, Int64, String, String, Object,
+                                                        UInt64, Int64, String, String, Object,
+                                                        UInt64, Int64, String, String, Object> EdgeFilter = null);
+
+        #endregion
+
+        #region NumberOfEdges(EdgeFilter = null)
+
+        /// <summary>
+        /// Return the current number of edges matching the given optional edge filter.
+        /// When the filter is null, this method should implement an optimized
+        /// way to get the currenty number of edges.
+        /// </summary>
+        /// <param name="EdgeFilter">A delegate for edge filtering.</param>
+        new UInt64 NumberOfEdges(EdgeFilter<UInt64, Int64, String, String, Object,
+                                            UInt64, Int64, String, String, Object,
+                                            UInt64, Int64, String, String, Object,
+                                            UInt64, Int64, String, String, Object> EdgeFilter = null);
+
+        #endregion
+
+
+        #region RemoveEdgesById(params EdgeIds)
+
+        /// <summary>
+        /// Remove the given array of edges identified by their EdgeIds.
+        /// </summary>
+        /// <param name="EdgeIds">An array of EdgeIds of the edges to remove.</param>
+        new void RemoveEdgesById(params UInt64[] EdgeIds);
+
+        #endregion
+
+        #region RemoveEdges(params Edges)
+
+        /// <summary>
+        /// Remove the given array of edges from the graph.
+        /// </summary>
+        /// <param name="Edges">An array of edges to be removed from the graph.</param>
+        new void RemoveEdges(params IPropertyEdge[] Edges);
+
+        #endregion
+
+        #region RemoveEdges(EdgeFilter = null)
+
+        /// <summary>
+        /// Remove any edge matching the given edge filter.
+        /// </summary>
+        /// <param name="EdgeFilter">A delegate for edge filtering.</param>
+        new void RemoveEdges(EdgeFilter<UInt64, Int64, String, String, Object,
+                                        UInt64, Int64, String, String, Object,
+                                        UInt64, Int64, String, String, Object,
+                                        UInt64, Int64, String, String, Object> EdgeFilter = null);
 
         #endregion
 
