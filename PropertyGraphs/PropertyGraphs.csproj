@@ -42,9 +42,7 @@
   <ItemGroup>
     <Compile Include="GenericPropertyGraph\GenericPropertyGraph.cs" />
     <Compile Include="GenericPropertyGraph\GenericPropertyHyperEdge.cs" />
-    <Compile Include="CommonGenericPropertyGraph\CommonGenericPropertyGraph.cs" />
-    <Compile Include="LabeledPropertyGraph\LabeledPropertyGraph.cs" />
-    <Compile Include="DistributedPropertyGraph\DistributedPropertyGraph.cs" />
+    <Compile Include="GraphFactory.cs" />
     <Compile Include="PropertyGraph\PropertyMultiEdge.cs" />
     <Compile Include="PropertyGraph\PropertyHyperEdge.cs" />
     <Compile Include="PropertyGraph\PropertyGraph.cs" />

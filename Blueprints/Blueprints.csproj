@@ -65,11 +65,7 @@
     <Compile Include="Interfaces\GenericPropertyGraph\IGenericPropertyVertex.cs" />
     <Compile Include="Interfaces\GenericPropertyGraph\IGenericPropertyEdge.cs" />
     <Compile Include="Interfaces\PropertyGraph\IPropertyMultiEdge.cs" />
-    <Compile Include="Interfaces\SemanticPropertyGraph\ISemanticPropertyGraph.cs" />
-    <Compile Include="Interfaces\CommonGenericPropertyGraph\ICommonGenericPropertyGraph.cs" />
-    <Compile Include="Interfaces\LabeledPropertyGraph\ILabeledPropertyGraph.cs" />
     <Compile Include="Interfaces\PropertyGraph\IPropertyGraph.cs" />
-    <Compile Include="Interfaces\DistributedPropertyGraph\IDistributedPropertyGraph.cs" />
     <Compile Include="Interfaces\IDictionaryInitializer.cs" />
     <Compile Include="Interfaces\PropertyGraph\IPropertyHyperEdge.cs" />
     <Compile Include="Interfaces\Indices\IndexDelegates.cs" />

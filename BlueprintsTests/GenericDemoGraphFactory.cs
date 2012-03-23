@@ -113,38 +113,8 @@ namespace de.ahzf.Blueprints.UnitTests
                                             UInt64, Int64, String, String, Object> CreateGenericDemoGraph()
         {
 
-            #region Create a new generic property graph
-
-            var _graph = new GenericPropertyGraph<UInt64, Int64, String, String, Object,
-                                                  UInt64, Int64, String, String, Object,
-                                                  UInt64, Int64, String, String, Object,
-                                                  UInt64, Int64, String, String, Object>(1,
-                                                                                         GraphDBOntology.Id().Suffix,
-                                                                                         GraphDBOntology.RevId().Suffix,
-                                                                                         GraphDBOntology.Description().Suffix,
-                                                                                         (graph) => GenericDemoGraphFactory.NewVertexId,
-
-                                                                                         GraphDBOntology.Id().Suffix,
-                                                                                         GraphDBOntology.RevId().Suffix,
-                                                                                         GraphDBOntology.Description().Suffix,
-                                                                                         (graph) => GenericDemoGraphFactory.NewEdgeId,
-
-                                                                                         GraphDBOntology.Id().Suffix,
-                                                                                         GraphDBOntology.RevId().Suffix,
-                                                                                         GraphDBOntology.Description().Suffix,
-                                                                                         (graph) => GenericDemoGraphFactory.NewMultiEdgeId,
-
-                                                                                         GraphDBOntology.Id().Suffix,
-                                                                                         GraphDBOntology.RevId().Suffix,
-                                                                                         GraphDBOntology.Description().Suffix,
-                                                                                         (graph) => GenericDemoGraphFactory.NewHyperEdgeId)
-                                                  
-                                                  as IGenericPropertyGraph<UInt64, Int64, String, String, Object,
-                                                                           UInt64, Int64, String, String, Object,
-                                                                           UInt64, Int64, String, String, Object,
-                                                                           UInt64, Int64, String, String, Object>;
-
-            #endregion
+            var _graph = GraphFactory.CreateGenericPropertyGraph(1);
+            //var _graph2 = GraphFactory.CreateCommonGenericGraph<UInt32, Int32, String, String, Object>(
 
             // Before adding a vertex/edge call the following delegates
             // which might deny the addition of the given vertex!
