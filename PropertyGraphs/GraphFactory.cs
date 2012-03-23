@@ -143,16 +143,17 @@ namespace de.ahzf.Blueprints.UnitTests
         #endregion
 
 
-        #region CreatePropertyGraph(GraphId, GraphInitializer = null)
+        #region CreatePropertyGraph(GraphId, Description = null, GraphInitializer = null)
 
         public static IPropertyGraph CreatePropertyGraph(UInt64 GraphId,
+                                                         String Description = null,
                                                          GraphInitializer<UInt64, Int64, String, String, Object,
                                                                           UInt64, Int64, String, String, Object,
                                                                           UInt64, Int64, String, String, Object,
                                                                           UInt64, Int64, String, String, Object> GraphInitializer = null)
         {
 
-            return new PropertyGraph(GraphId, GraphInitializer) as IPropertyGraph;
+            return new PropertyGraph(GraphId, GraphInitializer) { Description = Description } as IPropertyGraph;
 
         }
 

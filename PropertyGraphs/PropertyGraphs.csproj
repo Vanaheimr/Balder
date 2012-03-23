@@ -50,7 +50,6 @@
     <Compile Include="PropertyGraph\PropertyVertex.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SemanticPropertyGraph\SemanticPropertyGraph.cs" />
     <Compile Include="GenericPropertyGraph\AGraphElement.cs" />
     <Compile Include="Indices\DictionaryIndex.cs" />
     <Compile Include="Indices\IndexingMethods.cs" />
