@@ -31,6 +31,7 @@ using de.ahzf.Hermod.Datastructures;
 using de.ahzf.Hermod.HTTP;
 using de.ahzf.Illias.Commons;
 using de.ahzf.Blueprints.HTTP.Client;
+using de.ahzf.Blueprints.UnitTests;
 
 #endregion
 
@@ -42,6 +43,9 @@ namespace de.ahzf.Blueprints.TestApplication
 
         public static void Main(String[] args)
         {
+
+            var g1 = GenericDemoGraphFactory.CreateGenericDemoGraph();
+
 
             using (var GraphServer = new GraphServer(new PropertyGraph(123UL) { Description = "the first graph" }, new IPPort(8080)) {
                                          ServerName = "GraphServer v0.1"

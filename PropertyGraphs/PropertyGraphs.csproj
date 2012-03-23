@@ -76,9 +76,7 @@
       <Name>Blueprints</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Immutable\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
   </ItemGroup>

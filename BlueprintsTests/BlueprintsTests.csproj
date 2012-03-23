@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GenericDemoGraphFactory.cs" />
     <Compile Include="GraphServer\GraphServerInitializationTests.cs" />
     <Compile Include="GraphServer\InitHTTPGraph.cs" />
     <Compile Include="GraphElementIds\MultiEdgeIdTests.cs" />

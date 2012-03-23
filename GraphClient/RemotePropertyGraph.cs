@@ -268,6 +268,21 @@ namespace de.ahzf.Blueprints.HTTP.Client
 
         #region District of chaos!
 
+        public IPropertyVertex AddVertex(VertexInitializer<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> VertexInitializer = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IPropertyVertex AddVertex(ulong VertexId, VertexInitializer<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> VertexInitializer = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IPropertyVertex AddVertex(IPropertyVertex Vertex)
+        {
+            throw new NotImplementedException();
+        }
+
         public IPropertyVertex VertexById(ulong VertexId)
         {
             throw new NotImplementedException();
@@ -284,6 +299,41 @@ namespace de.ahzf.Blueprints.HTTP.Client
         }
 
         public IEnumerable<IPropertyVertex> Vertices(VertexFilter<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> VertexFilter = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveVerticesById(params ulong[] VertexIds)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveVertices(params IPropertyVertex[] Vertices)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveVertices(VertexFilter<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> VertexFilter = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IPropertyEdge AddEdge(IPropertyVertex OutVertex, string Label, IPropertyVertex InVertex, EdgeInitializer<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> EdgeInitializer = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IPropertyEdge AddEdge(ulong EdgeId, IPropertyVertex OutVertex, string Label, IPropertyVertex InVertex, EdgeInitializer<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> EdgeInitializer = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IPropertyEdge AddEdge(IPropertyVertex OutVertex, IPropertyVertex InVertex, string Label = default(String), EdgeInitializer<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> EdgeInitializer = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IPropertyEdge AddEdge(IPropertyVertex OutVertex, IPropertyVertex InVertex, ulong EdgeId, string Label = default(String), EdgeInitializer<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> EdgeInitializer = null)
         {
             throw new NotImplementedException();
         }
@@ -308,14 +358,34 @@ namespace de.ahzf.Blueprints.HTTP.Client
             throw new NotImplementedException();
         }
 
-        public event VertexAddingEventHandler<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> OnVertexAdding;
-
-        public IGenericPropertyVertex<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> AddVertex(VertexInitializer<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> VertexInitializer = null)
+        public ulong NumberOfEdges(EdgeFilter<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> EdgeFilter = null)
         {
             throw new NotImplementedException();
         }
 
-        public IGenericPropertyVertex<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> AddVertex(ulong VertexId, VertexInitializer<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> VertexInitializer = null)
+        public void RemoveEdgesById(params ulong[] EdgeIds)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveEdges(params IPropertyEdge[] Edges)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveEdges(EdgeFilter<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> EdgeFilter = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public event VertexAddingEventHandler<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> OnVertexAdding;
+
+        IGenericPropertyVertex<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> IGenericPropertyGraph<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>.AddVertex(VertexInitializer<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> VertexInitializer = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        IGenericPropertyVertex<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> IGenericPropertyGraph<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>.AddVertex(ulong VertexId, VertexInitializer<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> VertexInitializer = null)
         {
             throw new NotImplementedException();
         }
@@ -347,17 +417,7 @@ namespace de.ahzf.Blueprints.HTTP.Client
             throw new NotImplementedException();
         }
 
-        public void RemoveVerticesById(params ulong[] VertexIds)
-        {
-            throw new NotImplementedException();
-        }
-
         public void RemoveVertices(params IGenericPropertyVertex<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>[] Vertices)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RemoveVertices(VertexFilter<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> VertexFilter = null)
         {
             throw new NotImplementedException();
         }
@@ -406,27 +466,32 @@ namespace de.ahzf.Blueprints.HTTP.Client
             throw new NotImplementedException();
         }
 
-        public ulong NumberOfEdges(EdgeFilter<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> EdgeFilter = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RemoveEdgesById(params ulong[] EdgeIds)
-        {
-            throw new NotImplementedException();
-        }
-
         public void RemoveEdges(params IGenericPropertyEdge<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>[] Edges)
         {
             throw new NotImplementedException();
         }
 
-        public void RemoveEdges(EdgeFilter<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> EdgeFilter = null)
+        public event MultiEdgeAddingEventHandler<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> OnMultiEdgeAdding;
+
+        public IGenericPropertyMultiEdge<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> AddMultiEdge(params IGenericPropertyVertex<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>[] Vertices)
         {
             throw new NotImplementedException();
         }
 
-        public event MultiEdgeAddingEventHandler<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> OnMultiEdgeAdding;
+        public IGenericPropertyMultiEdge<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> AddMultiEdge(string Label, params IGenericPropertyVertex<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>[] Vertices)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IGenericPropertyMultiEdge<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> AddMultiEdge(string Label, MultiEdgeInitializer<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> MultiEdgeInitializer, params IGenericPropertyVertex<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>[] Vertices)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IGenericPropertyMultiEdge<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> AddMultiEdge(ulong MultiEdgeId, string Label, MultiEdgeInitializer<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> MultiEdgeInitializer, params IGenericPropertyVertex<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>[] Vertices)
+        {
+            throw new NotImplementedException();
+        }
 
         public event MultiEdgeAddedEventHandler<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> OnMultiEdgeAdded;
 
@@ -451,6 +516,21 @@ namespace de.ahzf.Blueprints.HTTP.Client
         }
 
         public ulong NumberOfMultiEdges(MultiEdgeFilter<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> MultiEdgeFilter = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveMultiEdgesById(params ulong[] MultiEdgeIds)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveMultiEdges(params IGenericPropertyMultiEdge<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>[] MultiEdges)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveMultiEdges(MultiEdgeFilter<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> MultiEdgeFilter = null)
         {
             throw new NotImplementedException();
         }
@@ -504,6 +584,21 @@ namespace de.ahzf.Blueprints.HTTP.Client
             throw new NotImplementedException();
         }
 
+        public void RemoveHyperEdgesById(params ulong[] HyperEdgeIds)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveHyperEdges(params IGenericPropertyHyperEdge<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>[] HyperEdges)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveHyperEdges(HyperEdgeFilter<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> HyperEdgeFilter = null)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Clear()
         {
             throw new NotImplementedException();
@@ -537,8 +632,6 @@ namespace de.ahzf.Blueprints.HTTP.Client
         {
             get { throw new NotImplementedException(); }
         }
-
-
 
         public event PropertyAdditionEventHandler<string, object> OnPropertyAddition;
 
@@ -607,7 +700,12 @@ namespace de.ahzf.Blueprints.HTTP.Client
             throw new NotImplementedException();
         }
 
-        public IEnumerable<KeyValuePair<string, object>> GetProperties(Illias.Commons.KeyValueFilter<string, object> KeyValueFilter = null)
+        public bool TryGetProperty<T>(string Key, out T Value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<KeyValuePair<string, object>> GetProperties(KeyValueFilter<string, object> KeyValueFilter = null)
         {
             throw new NotImplementedException();
         }
@@ -622,7 +720,7 @@ namespace de.ahzf.Blueprints.HTTP.Client
             throw new NotImplementedException();
         }
 
-        public IEnumerable<KeyValuePair<string, object>> Remove(Illias.Commons.KeyValueFilter<string, object> KeyValueFilter = null)
+        public IEnumerable<KeyValuePair<string, object>> Remove(KeyValueFilter<string, object> KeyValueFilter = null)
         {
             throw new NotImplementedException();
         }

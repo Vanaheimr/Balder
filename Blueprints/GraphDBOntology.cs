@@ -66,6 +66,19 @@ namespace de.ahzf.Blueprints
 
         #endregion
 
+        #region Label()
+
+        /// <summary>
+        /// The Label of something.
+        /// </summary>
+        /// <returns>A semantic property key to be used within property graphs.</returns>
+        public static SemanticProperty Label()
+        {
+            return new SemanticProperty(Prefix, Eunomia.Semantics.Label, Eunomia.Semantics.Label);
+        }
+
+        #endregion
+
         #region Description()
 
         /// <summary>

@@ -130,10 +130,10 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                                                                               UInt64, Int64, String, String, Object,
                                                                                               UInt64, Int64, String, String, Object>>> EdgesCollectionInitializer,
                                 
-                                 Action<IGenericPropertyMultiEdge<UInt64, Int64, String, String, Object,
-                                                                  UInt64, Int64, String, String, Object,
-                                                                  UInt64, Int64, String, String, Object,
-                                                                  UInt64, Int64, String, String, Object>> MultiEdgeInitializer = null)
+                                 MultiEdgeInitializer<UInt64, Int64, String, String, Object,
+                                                      UInt64, Int64, String, String, Object,
+                                                      UInt64, Int64, String, String, Object,
+                                                      UInt64, Int64, String, String, Object> MultiEdgeInitializer = null)
 
             : base(Graph, EdgeSelector, MultiEdgeId, Label, IdKey, DescriptionKey, RevIdKey, DatastructureInitializer, EdgesCollectionInitializer, MultiEdgeInitializer)
 

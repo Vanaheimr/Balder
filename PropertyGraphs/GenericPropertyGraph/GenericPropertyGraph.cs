@@ -19,13 +19,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using System.Linq.Expressions;
 
-using de.ahzf.Blueprints.Indices;
-using de.ahzf.Blueprints.PropertyGraphs.Indices;
 using de.ahzf.Illias.Commons;
+using System.Threading;
 
 #endregion
 
@@ -94,6 +90,36 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
     {
 
+        #region Constructor(s)
+
+        #region GenericPropertyGraph(...)
+
+        /// <summary>
+        /// Creates a new class-based in-memory implementation of a generic property graph.
+        /// </summary>
+        /// <param name="GraphId">The identification of this generic property graph.</param>
+        /// 
+        /// <param name="VertexIdKey">The property key to access the Ids of the vertices.</param>
+        /// <param name="VertexRevIdKey">The property key to access the RevisionIds of the vertices.</param>
+        /// <param name="VertexDescriptionKey">The property key to access the descriptions of the vertices.</param>
+        /// <param name="VertexIdCreatorDelegate">A delegate to create a new vertex identification.</param>
+        /// 
+        /// <param name="EdgeIdKey">The property key to access the Ids of the edges.</param>
+        /// <param name="EdgeRevIdKey">The property key to access the RevisionIds of the edges.</param>
+        /// <param name="EdgeDescriptionKey">The property key to access the descriptions of the edges.</param>
+        /// <param name="EdgeIdCreatorDelegate">A delegate to create a new edge identification.</param>
+        /// 
+        /// <param name="MultiEdgeIdKey">The property key to access the Ids of the multiedges.</param>
+        /// <param name="MultiEdgeRevIdKey">The property key to access the RevisionIds of the multiedges.</param>
+        /// <param name="MultiEdgeDescriptionKey">The property key to access the descriptions of the multiedges.</param>
+        /// <param name="MultiEdgeIdCreatorDelegate">A delegate to create a new multiedge identification.</param>
+        /// 
+        /// <param name="HyperEdgeIdKey">The property key to access the Ids of the hyperedges.</param>
+        /// <param name="HyperEdgeRevIdKey">The property key to access the RevisionIds of the hyperedges.</param>
+        /// <param name="HyperEdgeDescriptionKey">The property key to access the descriptions of the hyperedges.</param>
+        /// <param name="HyperEdgeIdCreatorDelegate">A delegate to create a new hyperedge identification.</param>
+        /// 
+        /// <param name="GraphInitializer">A delegate to initialize the new property graph.</param>
         public GenericPropertyGraph(TIdVertex  GraphId,
 
                                     TKeyVertex VertexIdKey,
@@ -307,6 +333,22 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                 GraphInitializer(this);
 
         }
+
+        #endregion
+
+        #endregion
+
+        #region ToString()
+
+        /// <summary>
+        /// Returns a string representation of this object.
+        /// </summary>
+        public override String ToString()
+        {
+            return "GenericPropertyGraph [Id: " + Id.ToString() + ", " + _IGenericPropertyGraph.NumberOfVertices() + " vertices, " + _IGenericPropertyGraph.NumberOfEdges() + " edges, " + _IGenericPropertyGraph.NumberOfMultiEdges() + " multiedges, " + _IGenericPropertyGraph.NumberOfHyperEdges() + " hyperedges]";
+        }
+
+        #endregion
 
     }
 

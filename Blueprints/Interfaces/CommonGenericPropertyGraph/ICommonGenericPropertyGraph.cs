@@ -34,10 +34,10 @@ namespace de.ahzf.Blueprints.PropertyGraphs
                                                  TId, TRevId, TLabel, TKey, TValue,  // MultiEdge definition
                                                  TId, TRevId, TLabel, TKey, TValue>  // Hyperedge definition
 
-        where TId         : IEquatable<TId>,         IComparable<TId>,         IComparable, TValue
-        where TRevId : IEquatable<TRevId>, IComparable<TRevId>, IComparable, TValue
-        where TKey        : IEquatable<TKey>,        IComparable<TKey>,        IComparable
-        where TLabel      : IEquatable<TLabel>,      IComparable<TLabel>,      IComparable
+        where TId     : IEquatable<TId>,    IComparable<TId>,    IComparable, TValue
+        where TRevId  : IEquatable<TRevId>, IComparable<TRevId>, IComparable, TValue
+        where TKey    : IEquatable<TKey>,   IComparable<TKey>,   IComparable
+        where TLabel  : IEquatable<TLabel>, IComparable<TLabel>, IComparable
 
     { }
 

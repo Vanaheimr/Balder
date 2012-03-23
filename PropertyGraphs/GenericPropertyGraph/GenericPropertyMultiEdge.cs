@@ -181,10 +181,10 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                                                                                           TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>> EdgesCollectionInitializer,
                                        
-                                        Action<IGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                         TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                         TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> MultiEdgeInitializer = null)
+                                        MultiEdgeInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                             TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                             TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                             TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> MultiEdgeInitializer = null)
 
             : base(MultiEdgeId, IdKey, RevIdKey, DescriptionKey, DatastructureInitializer)
 
@@ -220,6 +220,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
             _Edges = EdgesCollectionInitializer();
 
             // Add the label
+            this.Label = Label;
             //_Properties.Add(__Label, myLabel);
 
             if (MultiEdgeInitializer != null)
