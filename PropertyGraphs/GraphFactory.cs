@@ -33,6 +33,7 @@ namespace de.ahzf.Blueprints.UnitTests
     public static class GraphFactory
     {
 
+        #region Helpers
 
         #region (private) NewIds
 
@@ -142,9 +143,17 @@ namespace de.ahzf.Blueprints.UnitTests
 
         #endregion
 
+        #endregion
+
 
         #region CreatePropertyGraph(GraphId, Description = null, GraphInitializer = null)
 
+        /// <summary>
+        /// Create a new property graph.
+        /// </summary>
+        /// <param name="GraphId">The graph identification.</param>
+        /// <param name="Description">The optional description of the graph.</param>
+        /// <param name="GraphInitializer">The optional graph initializer.</param>
         public static IPropertyGraph CreatePropertyGraph(UInt64 GraphId,
                                                          String Description = null,
                                                          GraphInitializer<UInt64, Int64, String, String, Object,
@@ -159,12 +168,19 @@ namespace de.ahzf.Blueprints.UnitTests
 
         #endregion
 
-        #region CreateGenericPropertyGraph(GraphId, GraphInitializer = null)
+        #region CreateGenericPropertyGraph(GraphId, Description = null, GraphInitializer = null)
 
+        /// <summary>
+        /// Create a new generic property graph.
+        /// </summary>
+        /// <param name="GraphId">The graph identification.</param>
+        /// <param name="Description">The optional description of the graph.</param>
+        /// <param name="GraphInitializer">The optional graph initializer.</param>
         public static IGenericPropertyGraph<UInt64, Int64, String, String, Object,
                                             UInt64, Int64, String, String, Object,
                                             UInt64, Int64, String, String, Object,
                                             UInt64, Int64, String, String, Object> CreateGenericPropertyGraph(UInt64 GraphId,
+                                                                                                              String Description = null,
                                                                                                               GraphInitializer<UInt64, Int64, String, String, Object,
                                                                                                                                UInt64, Int64, String, String, Object,
                                                                                                                                UInt64, Int64, String, String, Object,
@@ -196,6 +212,8 @@ namespace de.ahzf.Blueprints.UnitTests
                                                                                    (graph) => GraphFactory.NewHyperEdgeId,
 
                                                                                    GraphInitializer)
+                                                                                   
+                                                                                   { Description = Description }
                                             
                                             as IGenericPropertyGraph<UInt64, Int64, String, String, Object,
                                                                      UInt64, Int64, String, String, Object,
@@ -207,8 +225,26 @@ namespace de.ahzf.Blueprints.UnitTests
         #endregion
 
 
-        #region CreateCommonGenericGraph<TId, TRevId, TLabel, TKey, TValue>(...)
+        #region CreateCommonGenericGraph<TId, TRevId, TLabel, TKey, TValue>(GraphId, IdKey, RevIdKey, DescriptionKey, VertexIdCreatorDelegate, EdgeIdCreatorDelegate, MultiEdgeIdCreatorDelegate, HyperEdgeIdCreatorDelegate, RevIdCreatorDelegate, GraphInitializer = null)
 
+        /// <summary>
+        /// Create a new generic property graph with common datatypes for all graph elements (vertices, edges, multiedges and hyperedges).
+        /// </summary>
+        /// <typeparam name="TId">The type of all identificators.</typeparam>
+        /// <typeparam name="TRevId">The type of all revision identificators.</typeparam>
+        /// <typeparam name="TLabel">The type of all labels.</typeparam>
+        /// <typeparam name="TKey">The type of all property keys.</typeparam>
+        /// <typeparam name="TValue">The type of all property values.</typeparam>
+        /// <param name="GraphId">The graph identification.</param></param>
+        /// <param name="IdKey">The property key to access the Ids.</param>
+        /// <param name="RevIdKey">The property key to access the RevisionIds.</param>
+        /// <param name="DescriptionKey">The property key to access the descriptions.</param>
+        /// <param name="VertexIdCreatorDelegate">A delegate to create a new vertex identification.</param>
+        /// <param name="EdgeIdCreatorDelegate">A delegate to create a new edge identification.</param>
+        /// <param name="MultiEdgeIdCreatorDelegate">A delegate to create a new multiedge identification.</param>
+        /// <param name="HyperEdgeIdCreatorDelegate">A delegate to create a new hyperedge identification.</param>
+        /// <param name="RevIdCreatorDelegate">A delegate to create a new revision identifications.</param>
+        /// <param name="GraphInitializer">A delegate to initialize the new property graph.</param>
         public static IGenericPropertyGraph<TId, TRevId, TLabel, TKey, TValue,
                                             TId, TRevId, TLabel, TKey, TValue,
                                             TId, TRevId, TLabel, TKey, TValue,
@@ -283,8 +319,24 @@ namespace de.ahzf.Blueprints.UnitTests
 
         #endregion
 
-        #region CreateCommonGenericGraph<TId, TRevId, TLabel, TKey, TValue>(...)
+        #region CreateCommonGenericGraph<TId, TRevId, TLabel, TKey, TValue>(GraphId, IdKey, RevIdKey, DescriptionKey, IdCreatorDelegate, RevIdCreatorDelegate, GraphInitializer = null)
 
+        /// <summary>
+        /// Create a new generic property graph with common datatypes for all graph elements (vertices, edges, multiedges and hyperedges).
+        /// </summary>
+        /// <typeparam name="TId">The type of all identificators.</typeparam>
+        /// <typeparam name="TRevId">The type of all revision identificators.</typeparam>
+        /// <typeparam name="TLabel">The type of all labels.</typeparam>
+        /// <typeparam name="TKey">The type of all property keys.</typeparam>
+        /// <typeparam name="TValue">The type of all property values.</typeparam>
+        /// <param name="GraphId">The graph identification.</param></param>
+        /// <param name="IdKey">The property key to access the Ids.</param>
+        /// <param name="RevIdKey">The property key to access the RevisionIds.</param>
+        /// <param name="DescriptionKey">The property key to access the descriptions.</param>
+        /// <param name="IdCreatorDelegate">A delegate to create new graph element identifications.</param>
+        /// <param name="RevIdCreatorDelegate">A delegate to create a new revision identifications.</param>
+        /// <param name="GraphInitializer">A delegate to initialize the new property graph.</param>
+        /// <returns></returns>
         public static IGenericPropertyGraph<TId, TRevId, TLabel, TKey, TValue,
                                             TId, TRevId, TLabel, TKey, TValue,
                                             TId, TRevId, TLabel, TKey, TValue,
@@ -323,7 +375,6 @@ namespace de.ahzf.Blueprints.UnitTests
         }
 
         #endregion
-
 
 
         #region CreateLabeledPropertyGraph<TVertexLabel, TEdgeLabel, TMultiEdgeLabel, THyperEdgeLabel>(...)
@@ -399,7 +450,6 @@ namespace de.ahzf.Blueprints.UnitTests
 
         #endregion
 
-
         #region CreateDistributedPropertyGraph(...)
 
         public static IGenericPropertyGraph<VertexId,    RevisionId, String, String, Object,
@@ -467,7 +517,6 @@ namespace de.ahzf.Blueprints.UnitTests
         }
 
         #endregion
-
 
         #region CreateSemanticPropertyGraph(...)
 

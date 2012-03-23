@@ -21,7 +21,9 @@ using System;
 using System.Linq;
 using System.Dynamic;
 using System.Linq.Expressions;
+
 using de.ahzf.Blueprints.PropertyGraphs;
+using System.Collections.Generic;
 
 #endregion
 
@@ -47,18 +49,42 @@ namespace de.ahzf.Blueprints
 
         #region Constructor(s)
 
-        #region DynamicGraphObject(myParameter, myValue)
+        #region DynamicGraphObject(Expression, RuntimeValue)
 
-        public DynamicGraphElement(Expression myParameter, CompileTimeType myValue)
-            : this(myParameter, BindingRestrictions.Empty, myValue)
+        /// <summary>
+        /// Creates a new DynamicGraphElement helper.
+        /// </summary>
+        /// <param name="Expression">The expression representing this System.Dynamic.DynamicMetaObject during the dynamic binding process.</param>
+        /// <param name="RuntimeValue">The runtime value represented by the System.Dynamic.DynamicMetaObject.</param>
+        public DynamicGraphElement(Expression Expression, CompileTimeType RuntimeValue)
+            : this(Expression, BindingRestrictions.Empty, RuntimeValue)
         { }
 
         #endregion
 
-        #region DynamicGraphObject(myParameter, myBindingRestrictions, myValue)
+        #region DynamicGraphObject(Expression, BindingRestrictions)
 
-        public DynamicGraphElement(Expression myParameter, BindingRestrictions myBindingRestrictions, CompileTimeType myValue)
-            : base(myParameter, myBindingRestrictions, myValue)
+        /// <summary>
+        /// Creates a new DynamicGraphElement helper.
+        /// </summary>
+        /// <param name="Expression">The expression representing this System.Dynamic.DynamicMetaObject during the dynamic binding process.</param>
+        /// <param name="BindingRestrictions">The set of binding restrictions under which the binding is valid.</param>
+        public DynamicGraphElement(Expression Expression, BindingRestrictions BindingRestrictions)
+            : base(Expression, BindingRestrictions)
+        { }
+
+        #endregion
+
+        #region DynamicGraphObject(Expression, BindingRestrictions, CompileTimeType)
+
+        /// <summary>
+        /// Creates a new DynamicGraphElement helper.
+        /// </summary>
+        /// <param name="Expression">The expression representing this System.Dynamic.DynamicMetaObject during the dynamic binding process.</param>
+        /// <param name="BindingRestrictions">The set of binding restrictions under which the binding is valid.</param>
+        /// <param name="RuntimeValue">The runtime value represented by the System.Dynamic.DynamicMetaObject.</param>
+        public DynamicGraphElement(Expression Expression, BindingRestrictions BindingRestrictions, CompileTimeType RuntimeValue)
+            : base(Expression, BindingRestrictions, RuntimeValue)
         {
             _RuntimeValue = Value as CompileTimeType;
         }
@@ -67,10 +93,18 @@ namespace de.ahzf.Blueprints
 
         #endregion
 
-        //public override System.Collections.Generic.IEnumerable<string> GetDynamicMemberNames()
-        //{
-        //    return ((T)Value).GetDynamicMemberNames();
-        //}
+
+        #region GetDynamicMemberNames()
+
+        /// <summary>
+        /// Return all binder names.
+        /// </summary>
+        public override IEnumerable<String> GetDynamicMemberNames()
+        {
+            return _RuntimeValue.GetDynamicMemberNames();
+        }
+
+        #endregion
 
         #region BindSetMember(SetMemberBinder, DynamicMetaObject)
 

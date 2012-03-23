@@ -79,7 +79,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         #region Properties
 
-        #region Graph
+        #region Graph [IPropertyVertex]
 
         /// <summary>
         /// The associated property graph.
@@ -88,7 +88,22 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         {
             get
             {
-                return _IGenericPropertyGraph as IPropertyGraph;
+                return Subgraph as IPropertyGraph;
+            }
+        }
+
+        #endregion
+
+        #region AsSubgraph [IPropertyVertex]
+
+        /// <summary>
+        /// Access this property vertex as a subgraph of the hosting property graph.
+        /// </summary>
+        IPropertyGraph IPropertyVertex.AsSubgraph
+        {
+            get
+            {
+                return this as IPropertyGraph;
             }
         }
 
@@ -695,7 +710,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                                                    UInt64, Int64, String, String, Object,
                                                                    UInt64, Int64, String, String, Object> VertexInitializer = null)
         {
-            return _IGenericPropertyGraph.AddVertex(VertexInitializer) as IPropertyVertex;
+            return Subgraph.AddVertex(VertexInitializer) as IPropertyVertex;
         }
 
         #endregion
@@ -714,7 +729,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                                                                     UInt64, Int64, String, String, Object,
                                                                                     UInt64, Int64, String, String, Object> VertexInitializer = null)
         {
-            return _IGenericPropertyGraph.AddVertex(VertexId, VertexInitializer) as IPropertyVertex;
+            return Subgraph.AddVertex(VertexId, VertexInitializer) as IPropertyVertex;
         }
 
         #endregion
@@ -729,7 +744,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <returns>The given vertex.</returns>
         IPropertyVertex IPropertyGraph.AddVertex(IPropertyVertex Vertex)
         {
-            return _IGenericPropertyGraph.AddVertex(Vertex) as IPropertyVertex;
+            return Subgraph.AddVertex(Vertex) as IPropertyVertex;
         }
 
         #endregion
@@ -744,7 +759,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <param name="VertexId">A vertex identifier.</param>
         IPropertyVertex IPropertyGraph.VertexById(UInt64 VertexId)
         {
-            return _IGenericPropertyGraph.VertexById(VertexId) as IPropertyVertex;
+            return Subgraph.VertexById(VertexId) as IPropertyVertex;
         }
 
         #endregion
@@ -761,7 +776,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         {
 
             return from   Vertex
-                   in     _IGenericPropertyGraph.VerticesById(VertexIds)
+                   in     Subgraph.VerticesById(VertexIds)
                    select Vertex as IPropertyVertex;
 
         }
@@ -779,7 +794,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         {
 
             return from   Vertex
-                   in     _IGenericPropertyGraph.VerticesByLabel(VertexLabels)
+                   in     Subgraph.VerticesByLabel(VertexLabels)
                    select Vertex as IPropertyVertex;
 
         }
@@ -800,7 +815,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         {
 
             return from   Vertex
-                   in     _IGenericPropertyGraph.Vertices(VertexFilter)
+                   in     Subgraph.Vertices(VertexFilter)
                    select Vertex as IPropertyVertex;
 
         }
@@ -820,7 +835,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                                             UInt64, Int64, String, String, Object,
                                                             UInt64, Int64, String, String, Object> VertexFilter = null)
         {
-            return _IGenericPropertyGraph.NumberOfVertices(VertexFilter);
+            return Subgraph.NumberOfVertices(VertexFilter);
         }
 
         #endregion
@@ -834,7 +849,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <param name="VertexIds">An array of VertexIds of the vertices to remove.</param>
         void IPropertyGraph.RemoveVerticesById(params UInt64[] VertexIds)
         {
-            _IGenericPropertyGraph.RemoveVerticesById(VertexIds);
+            Subgraph.RemoveVerticesById(VertexIds);
         }
 
         #endregion
@@ -849,7 +864,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <param name="Vertices">An array of vertices to be removed from the graph.</param>
         void IPropertyGraph.RemoveVertices(params IPropertyVertex[] Vertices)
         {
-            _IGenericPropertyGraph.RemoveVertices(Vertices);
+            Subgraph.RemoveVertices(Vertices);
         }
 
         #endregion
@@ -865,7 +880,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                                         UInt64, Int64, String, String, Object,
                                                         UInt64, Int64, String, String, Object> VertexFilter = null)
         {
-            _IGenericPropertyGraph.RemoveVertices(VertexFilter);
+            Subgraph.RemoveVertices(VertexFilter);
         }
 
         #endregion
@@ -896,7 +911,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                                              UInt64, Int64, String, String, Object> EdgeInitializer = null)
 
         {
-            return _IGenericPropertyGraph.AddEdge(OutVertex, Label, InVertex, EdgeInitializer) as IPropertyEdge;
+            return Subgraph.AddEdge(OutVertex, Label, InVertex, EdgeInitializer) as IPropertyEdge;
         }
 
         #endregion
@@ -924,7 +939,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                                              UInt64, Int64, String, String, Object,
                                                              UInt64, Int64, String, String, Object> EdgeInitializer = null)
         {
-            return _IGenericPropertyGraph.AddEdge(EdgeId, OutVertex, Label, InVertex, EdgeInitializer) as IPropertyEdge;
+            return Subgraph.AddEdge(EdgeId, OutVertex, Label, InVertex, EdgeInitializer) as IPropertyEdge;
         }
 
         #endregion
@@ -949,7 +964,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                                              UInt64, Int64, String, String, Object,
                                                              UInt64, Int64, String, String, Object> EdgeInitializer = null)
         {
-            return _IGenericPropertyGraph.AddEdge(OutVertex, InVertex, Label, EdgeInitializer) as IPropertyEdge;
+            return Subgraph.AddEdge(OutVertex, InVertex, Label, EdgeInitializer) as IPropertyEdge;
         }
 
         #endregion
@@ -976,7 +991,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                                              UInt64, Int64, String, String, Object,
                                                              UInt64, Int64, String, String, Object> EdgeInitializer = null)
         {
-            return _IGenericPropertyGraph.AddEdge(OutVertex, InVertex, EdgeId, Label, EdgeInitializer) as IPropertyEdge;
+            return Subgraph.AddEdge(OutVertex, InVertex, EdgeId, Label, EdgeInitializer) as IPropertyEdge;
         }
 
         #endregion
@@ -991,7 +1006,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <param name="EdgeId">An edge identifier.</param>
         IPropertyEdge IPropertyGraph.EdgeById(UInt64 EdgeId)
         {
-            return _IGenericPropertyGraph.EdgeById(EdgeId) as IPropertyEdge;
+            return Subgraph.EdgeById(EdgeId) as IPropertyEdge;
         }
 
         #endregion
@@ -1008,7 +1023,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         {
 
             return from   Edge
-                   in     _IGenericPropertyGraph.EdgesById(EdgeIds)
+                   in     Subgraph.EdgesById(EdgeIds)
                    select Edge as IPropertyEdge;
 
         }
@@ -1026,7 +1041,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         {
 
             return from   Edge
-                   in     _IGenericPropertyGraph.EdgesByLabel(EdgeLabels)
+                   in     Subgraph.EdgesByLabel(EdgeLabels)
                    select Edge as IPropertyEdge;
 
         }
@@ -1047,7 +1062,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         {
 
             return from Edge
-                   in _IGenericPropertyGraph.Edges(EdgeFilter)
+                   in Subgraph.Edges(EdgeFilter)
                    select Edge as IPropertyEdge;
 
         }
@@ -1067,7 +1082,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                                        UInt64, Int64, String, String, Object,
                                                        UInt64, Int64, String, String, Object> EdgeFilter = null)
         {
-            return _IGenericPropertyGraph.NumberOfEdges(EdgeFilter);
+            return Subgraph.NumberOfEdges(EdgeFilter);
         }
 
         #endregion
@@ -1081,7 +1096,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <param name="EdgeIds">An array of EdgeIds of the edges to remove</param>
         void IPropertyGraph.RemoveEdgesById(params UInt64[] EdgeIds)
         {
-            _IGenericPropertyGraph.RemoveEdgesById(EdgeIds);
+            Subgraph.RemoveEdgesById(EdgeIds);
         }
 
         #endregion
@@ -1094,7 +1109,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <param name="Edges">An array of edges to be removed from the graph.</param>
         void IPropertyGraph.RemoveEdges(params IPropertyEdge[] Edges)
         {
-            _IGenericPropertyGraph.RemoveEdges(Edges);
+            Subgraph.RemoveEdges(Edges);
         }
 
         #endregion
@@ -1110,7 +1125,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                                    UInt64, Int64, String, String, Object,
                                                    UInt64, Int64, String, String, Object> EdgeFilter)
         {
-            _IGenericPropertyGraph.RemoveEdges(EdgeFilter);
+            Subgraph.RemoveEdges(EdgeFilter);
         }
 
         #endregion

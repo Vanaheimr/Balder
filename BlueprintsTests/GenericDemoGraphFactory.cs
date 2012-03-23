@@ -18,12 +18,8 @@
 #region Usings
 
 using System;
-using System.Collections;
 
-using de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable;
 using de.ahzf.Blueprints.PropertyGraphs;
-using System.Threading;
-using de.ahzf.Illias.Commons;
 
 #endregion
 
@@ -32,80 +28,6 @@ namespace de.ahzf.Blueprints.UnitTests
 
     public static class GenericDemoGraphFactory
     {
-
-
-        #region (private) NewIds
-
-        private static Int64 _NewVertexId;
-        private static Int64 _NewEdgeId;
-        private static Int64 _NewMultiEdgeId;
-        private static Int64 _NewHyperEdgeId;
-
-        /// <summary>
-        /// Return a new VertexId.
-        /// </summary>
-        private static UInt64 NewVertexId
-        {
-            get
-            {
-                var _NewLocalId = Interlocked.Increment(ref _NewVertexId);
-                return (UInt64)_NewLocalId;
-            }
-        }
-
-        /// <summary>
-        /// Return a new NewEdgeId.
-        /// </summary>
-        private static UInt64 NewEdgeId
-        {
-            get
-            {
-                var _NewLocalId = Interlocked.Increment(ref _NewEdgeId);
-                return (UInt64)_NewLocalId;
-            }
-        }
-
-        /// <summary>
-        /// Return a new NewMultiEdgeId.
-        /// </summary>
-        private static UInt64 NewMultiEdgeId
-        {
-            get
-            {
-                var _NewLocalId = Interlocked.Increment(ref _NewMultiEdgeId);
-                return (UInt64)_NewLocalId;
-            }
-        }
-
-        /// <summary>
-        /// Return a new NewHyperEdgeId.
-        /// </summary>
-        private static UInt64 NewHyperEdgeId
-        {
-            get
-            {
-                var _NewLocalId = Interlocked.Increment(ref _NewHyperEdgeId);
-                return (UInt64)_NewLocalId;
-            }
-        }
-
-        #endregion
-
-        #region (private) NewRevId
-
-        /// <summary>
-        /// Return a new random RevId.
-        /// </summary>
-        private static Int64 NewRevId
-        {
-            get
-            {
-                return (Int64) UniqueTimestamp.Ticks;
-            }
-        }
-
-        #endregion
-
 
         public static IGenericPropertyGraph<UInt64, Int64, String, String, Object,
                                             UInt64, Int64, String, String, Object,
@@ -116,21 +38,25 @@ namespace de.ahzf.Blueprints.UnitTests
             var _graph = GraphFactory.CreateGenericPropertyGraph(1);
             //var _graph2 = GraphFactory.CreateCommonGenericGraph<UInt32, Int32, String, String, Object>(
 
-            // Before adding a vertex/edge call the following delegates
-            // which might deny the addition of the given vertex!
-            _graph.OnVertexAdding    += (graph, vertex,    vote) => { Console.WriteLine("vertex " + vertex.Id + " is announced to be added to graph " + graph.Id + "!"); };
+            // Before adding a vertex/edge/multiedge/hyperedge call the following delegates
+            // which might deny the addition of the given graph element!
+            _graph.OnVertexAdding    += (graph, vertex,    vote) => { Console.WriteLine("Vertex " + vertex.Id + " is announced to be added to graph " + graph.Id + "!"); };
             _graph.OnVertexAdding    += (graph, vertex,    vote) => { if (vertex.Id < 3) { Console.WriteLine("Addition of vertex " + vertex.Id + " denied!"); vote.Veto(); } };
 
-            _graph.OnEdgeAdding      += (graph, edge,      vote) => { Console.WriteLine("edge " + edge.Id + " is announced to be added to graph " + graph.Id + "!"); };
+            _graph.OnEdgeAdding      += (graph, edge,      vote) => { Console.WriteLine("Edge " + edge.Id + " is announced to be added to graph " + graph.Id + "!"); };
             _graph.OnEdgeAdding      += (graph, edge,      vote) => { if (edge.Id < 2) { Console.WriteLine("Addition of edge " + edge.Id + " denied!"); vote.Veto(); } };
 
-            _graph.OnMultiEdgeAdding += (graph, multiedge, vote) => { Console.WriteLine("multiedge " + multiedge.Id + " is announced to be added to graph " + graph.Id + "!"); };
-            _graph.OnMultiEdgeAdding += (graph, multiedge, vote) => { if (multiedge.Id < 2) { Console.WriteLine("Addition of edge " + multiedge.Id + " denied!"); vote.Veto(); } };
+            _graph.OnMultiEdgeAdding += (graph, multiedge, vote) => { Console.WriteLine("MultiEdge " + multiedge.Id + " is announced to be added to graph " + graph.Id + "!"); };
+            _graph.OnMultiEdgeAdding += (graph, multiedge, vote) => { if (multiedge.Id < 2) { Console.WriteLine("Addition of multiedge " + multiedge.Id + " denied!"); vote.Veto(); } };
 
-            // Call the following delegate for every vertex/edge added
-            _graph.OnVertexAdded  += (graph, vertex)       => { Console.WriteLine("vertex " + vertex.Id + " was added to graph " + graph.Id + "!"); };
+            _graph.OnHyperEdgeAdding += (graph, hyperedge, vote) => { Console.WriteLine("HyperEdge " + hyperedge.Id + " is announced to be added to graph " + graph.Id + "!"); };
+            _graph.OnHyperEdgeAdding += (graph, hyperedge, vote) => { if (hyperedge.Id < 2) { Console.WriteLine("Addition of hyperedge " + hyperedge.Id + " denied!"); vote.Veto(); } };
 
-            _graph.OnEdgeAdded    += (graph, edge)         => { Console.WriteLine("edge "   + edge.Id   + " was added to graph " + graph.Id + "!"); };
+            // Call the following delegate for every vertex/edge/multiedge/hyperedge added
+            _graph.OnVertexAdded    += (graph, vertex)       => { Console.WriteLine("Vertex "    + vertex.Id    + " was added to graph " + graph.Id + "!"); };
+            _graph.OnEdgeAdded      += (graph, edge)         => { Console.WriteLine("Edge "      + edge.Id      + " was added to graph " + graph.Id + "!"); };
+            _graph.OnMultiEdgeAdded += (graph, multiedge)    => { Console.WriteLine("MultiEdge " + multiedge.Id + " was added to graph " + graph.Id + "!"); };
+            _graph.OnHyperEdgeAdded += (graph, hyperedge)    => { Console.WriteLine("HyperEdge " + hyperedge.Id + " was added to graph " + graph.Id + "!"); };
 
 
             // The following two vertices will not be added because of the veto vote above!
@@ -150,16 +76,13 @@ namespace de.ahzf.Blueprints.UnitTests
 
 
             // A multiedge connectes multiple vertices
-            //var me1     = _graph.AddMultiEdge(1, "all", me => me.SetProperty("a", "b"),  _Alice, _Bob, _Carol, _Dave);
+            var he1     = _graph.AddHyperEdge(1, "all", he => he.SetProperty("a", "b"),  _Alice, _Bob, _Carol, _Dave);
+            var he2     = _graph.AddHyperEdge(2, "all", he => he.SetProperty("c", "d"),  _Alice, _Bob, _Carol, _Dave);
 
 
-            //var _AliceSubgraph = _Alice as IGenericPropertyGraph<UInt64, Int64, String, String, Object,
-            //                                                     UInt64, Int64, String, String, Object,
-            //                                                     UInt64, Int64, String, String, Object,
-            //                                                     UInt64, Int64, String, String, Object>;
-
-            //_AliceSubgraph.AddVertex(1, v => v.SetProperty("name", "SubAlice1"));
-            //_AliceSubgraph.AddVertex(2, v => v.SetProperty("name", "SubAlice2"));
+            var _AliceSubgraph = _Alice.AsSubgraph;
+            _AliceSubgraph.AddVertex(1, v => v.SetProperty("name", "SubAlice1"));
+            _AliceSubgraph.AddVertex(2, v => v.SetProperty("name", "SubAlice2"));
 
 
             return _graph;

@@ -359,7 +359,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// </summary>
         public override String ToString()
         {
-            return "PropertyGraph [Id: " + Id.ToString() + ", " + _IGenericPropertyGraph.NumberOfVertices() + " vertices, " + _IGenericPropertyGraph.NumberOfEdges() + " edges, " + _IGenericPropertyGraph.NumberOfMultiEdges() + " multiedges, " + _IGenericPropertyGraph.NumberOfHyperEdges() + " hyperedges]";
+            return "PropertyGraph [Id: " + Id.ToString() + ", " + Subgraph.NumberOfVertices() + " vertices, " + Subgraph.NumberOfEdges() + " edges, " + Subgraph.NumberOfMultiEdges() + " multiedges, " + Subgraph.NumberOfHyperEdges() + " hyperedges]";
         }
 
         #endregion

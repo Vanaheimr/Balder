@@ -18,8 +18,6 @@
 #region Usings
 
 using System;
-using System.Linq;
-using System.Collections.Generic;
 
 #endregion
 
@@ -43,12 +41,12 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         /// <typeparam name="TValue">The type of the property values.</typeparam>
         /// <param name="IGraphElement">An object implementing IGraphElement&lt;...&gt;.</param>
         /// <returns>A dynamic graph element.</returns>
-        public static dynamic AsDynamic<TId, TRevId, TKey, TValue>(
-                                        this IGraphElement<TId, TRevId, TKey, TValue> IGraphElement)
+        public static dynamic AsDynamic<TId, TRevId, TKey, TValue>(this IGraphElement<TId, TRevId, TKey, TValue> IGraphElement)
 
-            where TKey        : IEquatable<TKey>,        IComparable<TKey>,        IComparable
-            where TId         : IEquatable<TId>,         IComparable<TId>,         IComparable, TValue
+            where TKey   : IEquatable<TKey>,   IComparable<TKey>,   IComparable
+            where TId    : IEquatable<TId>,    IComparable<TId>,    IComparable, TValue
             where TRevId : IEquatable<TRevId>, IComparable<TRevId>, IComparable, TValue
+
         {
             return IGraphElement as dynamic;
         }

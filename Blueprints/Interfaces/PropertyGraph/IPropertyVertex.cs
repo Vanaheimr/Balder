@@ -46,6 +46,15 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
         #endregion
 
+        #region Subgraph
+
+        /// <summary>
+        /// Access this property vertex as a subgraph of the hosting property graph.
+        /// </summary>
+        IPropertyGraph AsSubgraph { get; }
+
+        #endregion
+
         #region OutEdge methods...
 
         #region AddOutEdge(Edge)

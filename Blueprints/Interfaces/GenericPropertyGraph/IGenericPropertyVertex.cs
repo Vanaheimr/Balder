@@ -448,6 +448,8 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
         #endregion
 
+        #region Properties
+
         #region Graph
 
         /// <summary>
@@ -460,12 +462,26 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
         #endregion
 
+        #region AsSubgraph
+
+        /// <summary>
+        /// Access this property vertex as a subgraph of the hosting property graph.
+        /// </summary>
+        IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> AsSubgraph { get; }
+
+        #endregion
+
         #region Label
 
         /// <summary>
         /// The label associated with this vertex.
         /// </summary>
         TVertexLabel Label { get; }
+
+        #endregion
 
         #endregion
 

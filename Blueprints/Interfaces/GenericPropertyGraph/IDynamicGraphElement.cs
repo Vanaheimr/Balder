@@ -19,7 +19,7 @@
 
 using System;
 using System.Dynamic;
-using System.ComponentModel;
+using System.Collections.Generic;
 
 #endregion
 
@@ -32,6 +32,11 @@ namespace de.ahzf.Blueprints.PropertyGraphs
     /// <typeparam name="CompileTimeType">The compile time type of the DynamicMetaObject.</typeparam>
     public interface IDynamicGraphElement<CompileTimeType> : IDynamicMetaObjectProvider
     {
+
+        /// <summary>
+        /// Return all binder names.
+        /// </summary>
+        IEnumerable<String> GetDynamicMemberNames();
 
         /// <summary>
         /// Assign the given value to the given binder name.
