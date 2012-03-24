@@ -267,6 +267,9 @@ namespace de.ahzf.Blueprints.HTTP.Client
 
 
         #region District of chaos!
+        #endregion
+
+
 
         public IPropertyVertex AddVertex(VertexInitializer<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> VertexInitializer = null)
         {
@@ -397,26 +400,6 @@ namespace de.ahzf.Blueprints.HTTP.Client
 
         public event VertexAddedEventHandler<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> OnVertexAdded;
 
-        IGenericPropertyVertex<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> IGenericPropertyGraph<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>.VertexById(ulong VertexId)
-        {
-            throw new NotImplementedException();
-        }
-
-        IEnumerable<IGenericPropertyVertex<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>> IGenericPropertyGraph<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>.VerticesById(params ulong[] VertexIds)
-        {
-            throw new NotImplementedException();
-        }
-
-        IEnumerable<IGenericPropertyVertex<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>> IGenericPropertyGraph<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>.VerticesByLabel(params string[] VertexLabels)
-        {
-            throw new NotImplementedException();
-        }
-
-        IEnumerable<IGenericPropertyVertex<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>> IGenericPropertyGraph<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>.Vertices(VertexFilter<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> VertexFilter = null)
-        {
-            throw new NotImplementedException();
-        }
-
         public void RemoveVertices(params IGenericPropertyVertex<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>[] Vertices)
         {
             throw new NotImplementedException();
@@ -446,26 +429,6 @@ namespace de.ahzf.Blueprints.HTTP.Client
 
         public event EdgeAddedEventHandler<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> OnEdgeAdded;
 
-        IGenericPropertyEdge<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> IGenericPropertyGraph<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>.EdgeById(ulong EdgeId)
-        {
-            throw new NotImplementedException();
-        }
-
-        IEnumerable<IGenericPropertyEdge<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>> IGenericPropertyGraph<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>.EdgesById(params ulong[] EdgeIds)
-        {
-            throw new NotImplementedException();
-        }
-
-        IEnumerable<IGenericPropertyEdge<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>> IGenericPropertyGraph<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>.EdgesByLabel(params string[] EdgeLabels)
-        {
-            throw new NotImplementedException();
-        }
-
-        IEnumerable<IGenericPropertyEdge<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>> IGenericPropertyGraph<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>.Edges(EdgeFilter<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> EdgeFilter = null)
-        {
-            throw new NotImplementedException();
-        }
-
         public void RemoveEdges(params IGenericPropertyEdge<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>[] Edges)
         {
             throw new NotImplementedException();
@@ -494,31 +457,6 @@ namespace de.ahzf.Blueprints.HTTP.Client
         }
 
         public event MultiEdgeAddedEventHandler<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> OnMultiEdgeAdded;
-
-        public IGenericPropertyMultiEdge<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> MultiEdgeById(ulong MultiEdgeId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<IGenericPropertyMultiEdge<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>> MultiEdgesById(params ulong[] MultiEdgeIds)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<IGenericPropertyMultiEdge<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>> MultiEdgesByLabel(params string[] MultiEdgeLabels)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<IGenericPropertyMultiEdge<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>> MultiEdges(MultiEdgeFilter<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> MultiEdgeFilter = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ulong NumberOfMultiEdges(MultiEdgeFilter<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> MultiEdgeFilter = null)
-        {
-            throw new NotImplementedException();
-        }
 
         public void RemoveMultiEdgesById(params ulong[] MultiEdgeIds)
         {
@@ -559,6 +497,91 @@ namespace de.ahzf.Blueprints.HTTP.Client
 
         public event HyperEdgeAddedEventHandler<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> OnHyperEdgeAdded;
 
+        public void RemoveHyperEdgesById(params ulong[] HyperEdgeIds)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveHyperEdges(params IGenericPropertyHyperEdge<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>[] HyperEdges)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveHyperEdges(HyperEdgeFilter<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> HyperEdgeFilter = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Clear()
+        {
+            throw new NotImplementedException();
+        }
+
+        IGenericPropertyVertex<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> IGenericReadOnlyPropertyGraph<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>.VertexById(ulong VertexId)
+        {
+            throw new NotImplementedException();
+        }
+
+        IEnumerable<IGenericPropertyVertex<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>> IGenericReadOnlyPropertyGraph<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>.VerticesById(params ulong[] VertexIds)
+        {
+            throw new NotImplementedException();
+        }
+
+        IEnumerable<IGenericPropertyVertex<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>> IGenericReadOnlyPropertyGraph<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>.VerticesByLabel(params string[] VertexLabels)
+        {
+            throw new NotImplementedException();
+        }
+
+        IEnumerable<IGenericPropertyVertex<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>> IGenericReadOnlyPropertyGraph<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>.Vertices(VertexFilter<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> VertexFilter = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        IGenericPropertyEdge<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> IGenericReadOnlyPropertyGraph<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>.EdgeById(ulong EdgeId)
+        {
+            throw new NotImplementedException();
+        }
+
+        IEnumerable<IGenericPropertyEdge<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>> IGenericReadOnlyPropertyGraph<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>.EdgesById(params ulong[] EdgeIds)
+        {
+            throw new NotImplementedException();
+        }
+
+        IEnumerable<IGenericPropertyEdge<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>> IGenericReadOnlyPropertyGraph<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>.EdgesByLabel(params string[] EdgeLabels)
+        {
+            throw new NotImplementedException();
+        }
+
+        IEnumerable<IGenericPropertyEdge<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>> IGenericReadOnlyPropertyGraph<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>.Edges(EdgeFilter<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> EdgeFilter = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IGenericPropertyMultiEdge<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> MultiEdgeById(ulong MultiEdgeId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<IGenericPropertyMultiEdge<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>> MultiEdgesById(params ulong[] MultiEdgeIds)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<IGenericPropertyMultiEdge<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>> MultiEdgesByLabel(params string[] MultiEdgeLabels)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<IGenericPropertyMultiEdge<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>> MultiEdges(MultiEdgeFilter<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> MultiEdgeFilter = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ulong NumberOfMultiEdges(MultiEdgeFilter<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> MultiEdgeFilter = null)
+        {
+            throw new NotImplementedException();
+        }
+
         public IGenericPropertyHyperEdge<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> HyperEdgeById(ulong HyperEdgeId)
         {
             throw new NotImplementedException();
@@ -580,26 +603,6 @@ namespace de.ahzf.Blueprints.HTTP.Client
         }
 
         public ulong NumberOfHyperEdges(HyperEdgeFilter<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> HyperEdgeFilter = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RemoveHyperEdgesById(params ulong[] HyperEdgeIds)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RemoveHyperEdges(params IGenericPropertyHyperEdge<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>[] HyperEdges)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RemoveHyperEdges(HyperEdgeFilter<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> HyperEdgeFilter = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Clear()
         {
             throw new NotImplementedException();
         }
@@ -631,23 +634,6 @@ namespace de.ahzf.Blueprints.HTTP.Client
         public long RevId
         {
             get { throw new NotImplementedException(); }
-        }
-
-        public event PropertyAdditionEventHandler<string, object> OnPropertyAddition;
-
-        public event PropertyAddedEventHandler<string, object> OnPropertyAdded;
-
-        public event PropertyChangingEventHandler<string, object> OnPropertyChanging;
-
-        public event PropertyChangedEventHandler<string, object> OnPropertyChanged;
-
-        public event PropertyRemovalEventHandler<string, object> OnPropertyRemoval;
-
-        public event PropertyRemovedEventHandler<string, object> OnPropertyRemoved;
-
-        public IProperties<string, object> SetProperty(string Key, object Value)
-        {
-            throw new NotImplementedException();
         }
 
         public string IdKey
@@ -710,6 +696,43 @@ namespace de.ahzf.Blueprints.HTTP.Client
             throw new NotImplementedException();
         }
 
+        public IEnumerator<KeyValuePair<string, object>> GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Equals(IReadOnlyGraphElement<ulong, long, string, object> other)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int CompareTo(IReadOnlyGraphElement<ulong, long, string, object> other)
+        {
+            throw new NotImplementedException();
+        }
+
+        public event PropertyAdditionEventHandler<string, object> OnPropertyAddition;
+
+        public event PropertyAddedEventHandler<string, object> OnPropertyAdded;
+
+        public event PropertyChangingEventHandler<string, object> OnPropertyChanging;
+
+        public event PropertyChangedEventHandler<string, object> OnPropertyChanged;
+
+        public event PropertyRemovalEventHandler<string, object> OnPropertyRemoval;
+
+        public event PropertyRemovedEventHandler<string, object> OnPropertyRemoved;
+
+        public IProperties<string, object> SetProperty(string Key, object Value)
+        {
+            throw new NotImplementedException();
+        }
+
         public object Remove(string Key)
         {
             throw new NotImplementedException();
@@ -725,16 +748,6 @@ namespace de.ahzf.Blueprints.HTTP.Client
             throw new NotImplementedException();
         }
 
-        public IEnumerator<KeyValuePair<string, object>> GetEnumerator()
-        {
-            throw new NotImplementedException();
-        }
-
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-        {
-            throw new NotImplementedException();
-        }
-
         public bool Equals(IGraphElement<ulong, long, string, object> other)
         {
             throw new NotImplementedException();
@@ -744,9 +757,6 @@ namespace de.ahzf.Blueprints.HTTP.Client
         {
             throw new NotImplementedException();
         }
-
-        #endregion
-
     }
 
 }

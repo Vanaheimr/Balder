@@ -33,19 +33,6 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
     // Delegates
 
-    #region PropertiesInitializer
-
-    /// <summary>
-    /// A delegate for IProperties initializing.
-    /// </summary>
-    /// <typeparam name="TKey">The type of the keys.</typeparam>
-    /// <typeparam name="TValue">The type of the values.</typeparam>
-    public delegate void IPropertiesInitializer<TKey, TValue>(IProperties<TKey, TValue> PropertyVertex)
-
-        where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable;
-
-    #endregion
-
     #region PropertyAdditionEventHandler<TKey, TValue>
 
     /// <summary>
@@ -140,9 +127,10 @@ namespace de.ahzf.Blueprints.PropertyGraphs
     /// </summary>
     /// <typeparam name="TKey">The type of the keys.</typeparam>
     /// <typeparam name="TValue">The type of the values.</typeparam>
-    public interface IProperties<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>>
+    public interface IProperties<TKey, TValue> : IReadOnlyProperties<TKey, TValue>
 
         where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
+
     {
 
         #region Events
@@ -192,107 +180,6 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         IProperties<TKey, TValue> SetProperty(TKey Key, TValue Value);
 
         #endregion
-
-
-        #region Well-known properties
-
-        #region IdKey
-
-        /// <summary>
-        /// The property key of the identification.
-        /// </summary>
-        TKey IdKey { get; }
-
-        #endregion
-
-        #region RevIdKey
-
-        /// <summary>
-        /// The property key of the revision identification.
-        /// </summary>
-        TKey RevIdKey { get; }
-
-        #endregion
-
-        #endregion
-
-        #region Keys/Values
-
-        /// <summary>
-        /// An enumeration of all property keys.
-        /// </summary>
-        IEnumerable<TKey> Keys { get; }
-
-        /// <summary>
-        /// An enumeration of all property values.
-        /// </summary>
-        IEnumerable<TValue> Values { get; }
-
-        #endregion
-
-        #region Contains...
-
-        /// <summary>
-        /// Determines if the given key exists.
-        /// </summary>
-        /// <param name="Key">A key.</param>
-        Boolean ContainsKey(TKey Key);
-
-        /// <summary>
-        /// Determines if the given value exists.
-        /// </summary>
-        /// <param name="Value">A value.</param>
-        Boolean ContainsValue(TValue Value);
-
-        /// <summary>
-        /// Determines if the given key and value exists.
-        /// </summary>
-        /// <param name="Key">A key.</param>
-        /// <param name="Value">A value.</param>
-        Boolean Contains(TKey Key, TValue Value);
-
-        /// <summary>
-        /// Determines if the given KeyValuePair exists.
-        /// </summary>
-        /// <param name="KeyValuePair">A KeyValuePair.</param>
-        Boolean Contains(KeyValuePair<TKey, TValue> KeyValuePair);
-
-        #endregion
-
-        #region Get...
-
-        /// <summary>
-        /// Return the value associated with the given key.
-        /// </summary>
-        /// <param name="Key">A key.</param>
-        TValue this[TKey Key] { get; }
-
-        /// <summary>
-        /// Return the value associated with the given key.
-        /// </summary>
-        /// <param name="Key">A key.</param>
-        /// <param name="Value">The associated value.</param>
-        /// <returns>True if the returned value is valid. False otherwise.</returns>
-        Boolean TryGetProperty(TKey Key, out TValue Value);
-
-        /// <summary>
-        /// Return the value associated with the given key.
-        /// </summary>
-        /// <param name="Key">A key.</param>
-        /// <param name="Value">The associated value.</param>
-        /// <typeparam name="T">Check if the value is of the given type.</typeparam>
-        /// <returns>True if the returned value is valid. False otherwise.</returns>
-        Boolean TryGetProperty<T>(TKey Key, out T Value);
-
-        /// <summary>
-        /// Return a filtered enumeration of all KeyValuePairs.
-        /// </summary>
-        /// <param name="KeyValueFilter">A delegate to filter properties based on their keys and values.</param>
-        /// <returns>A enumeration of all key/value pairs matching the given KeyValueFilter.</returns>
-        IEnumerable<KeyValuePair<TKey, TValue>> GetProperties(KeyValueFilter<TKey, TValue> KeyValueFilter = null);
-
-        #endregion
-
 
         #region Remove...
 

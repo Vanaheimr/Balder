@@ -45,6 +45,7 @@ namespace de.ahzf.Blueprints.TestApplication
         {
 
             var g1 = GenericDemoGraphFactory.CreateGenericDemoGraph();
+            var g2 = g1.AsReadOnlyGraph();
 
 
             using (var GraphServer = new GraphServer(new PropertyGraph(123UL) { Description = "the first graph" }, new IPPort(8080)) {

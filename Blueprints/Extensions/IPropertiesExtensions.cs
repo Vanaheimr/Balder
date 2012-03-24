@@ -248,7 +248,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
         #endregion
 
-        #region PropertyFunc<TKey, TValue, TResult>(this IProperties, PropertyKey, OnSuccessFunc [Func<TValue, TResult>] )
+        #region PropertyFunc<TKey, TValue, TResult>(this IProperties, PropertyKey, OnSuccessFunc [Func<TValue, TResult>], OnErrorFunc = null)
 
         /// <summary>
         /// Call the given delegate if the given property key is assigned.
@@ -258,10 +258,12 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         /// <typeparam name="TResult">The type of the return value.</typeparam>
         /// <param name="IProperties">An object implementing IProperties.</param>
         /// <param name="PropertyKey">The property key.</param>
-        /// <param name="OnSuccessFunc">A delegate to call for the associated value of the given property key.</param>
+        /// <param name="OnSuccessFunc">A delegate to call for the associated property value of the given property key.</param>
+        /// <param name="OnErrorFunc">A delegate to call for the associated property key when the key was not found.</param>
         public static TResult PropertyFunc<TKey, TValue, TResult>(this IProperties<TKey, TValue> IProperties,
                                                                   TKey                           PropertyKey,
-                                                                  Func<TValue, TResult>          OnSuccessFunc)
+                                                                  Func<TValue, TResult>          OnSuccessFunc,
+                                                                  Func<TKey, TResult>            OnErrorFunc = null)
 
             where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
 
@@ -281,13 +283,16 @@ namespace de.ahzf.Blueprints.PropertyGraphs
             if (IProperties.TryGetProperty(PropertyKey, out Value))
                 return OnSuccessFunc(Value);
 
+            if (OnErrorFunc != null)
+                return OnErrorFunc(PropertyKey);
+
             return default(TResult);
 
         }
 
         #endregion
 
-        #region PropertyFunc<TKey, TValue, TResult>(this IProperties, PropertyKey, OnSuccessFunc [Func<TKey, TValue, TResult>] )
+        #region PropertyFunc<TKey, TValue, TResult>(this IProperties, PropertyKey, OnSuccessFunc [Func<TKey, TValue, TResult>], OnErrorFunc = null)
 
         /// <summary>
         /// Call the given delegate if the given property key is assigned.
@@ -300,7 +305,8 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         /// <param name="OnSuccessFunc">A delegate to call for the key and associated value of the given property key.</param>
         public static TResult PropertyFunc<TKey, TValue, TResult>(this IProperties<TKey, TValue> IProperties,
                                                                   TKey                           PropertyKey,
-                                                                  Func<TKey, TValue, TResult>    OnSuccessFunc)
+                                                                  Func<TKey, TValue, TResult>    OnSuccessFunc,
+                                                                  Func<TKey, TResult>            OnErrorFunc = null)
 
             where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
 
@@ -319,6 +325,9 @@ namespace de.ahzf.Blueprints.PropertyGraphs
             TValue Value;
             if (IProperties.TryGetProperty(PropertyKey, out Value))
                 return OnSuccessFunc(PropertyKey, Value);
+
+            if (OnErrorFunc != null)
+                return OnErrorFunc(PropertyKey);
 
             return default(TResult);
 
@@ -363,7 +372,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
         #endregion
 
-        #region UseProperty<TKey, TValue>(this IProperties, PropertyKey, PropertyType, OnSuccess [Action<TValue>] )
+        #region UseProperty<TKey, TValue>(this IProperties, PropertyKey, PropertyType, OnSuccess [Action<TValue>], OnError = null)
 
         /// <summary>
         /// Call the given delegate if the given property key is assigned
@@ -378,7 +387,8 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         public static void UseProperty<TKey, TValue>(this IProperties<TKey, TValue> IProperties,
                                                      TKey                           PropertyKey,
                                                      Type                           PropertyType,
-                                                     Action<TValue>                 OnSuccess)
+                                                     Action<TValue>                 OnSuccess,
+                                                     Action<TKey>                   OnError = null)
 
             where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
 
@@ -397,14 +407,18 @@ namespace de.ahzf.Blueprints.PropertyGraphs
             TValue Value;
 
             if (IProperties.TryGetProperty(PropertyKey, out Value))
+            {
                 if (Value.GetType().Equals(PropertyType))
                     OnSuccess(Value);
+            }
+            else if (OnError != null)
+                OnError(PropertyKey);
 
         }
 
         #endregion
 
-        #region UseProperty<TKey, TValue>(this IProperties, PropertyKey, PropertyType, OnSuccess [Action<TKey, TValue>] )
+        #region UseProperty<TKey, TValue>(this IProperties, PropertyKey, PropertyType, OnSuccess [Action<TKey, TValue>], OnError = null)
 
         /// <summary>
         /// Call the given delegate if the given property key is assigned
@@ -419,7 +433,8 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         public static void UseProperty<TKey, TValue>(this IProperties<TKey, TValue> IProperties,
                                                      TKey                           PropertyKey,
                                                      Type                           PropertyType,
-                                                     Action<TKey, TValue>           OnSuccess)
+                                                     Action<TKey, TValue>           OnSuccess,
+                                                     Action<TKey>                   OnError = null)
 
             where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
 
@@ -438,8 +453,12 @@ namespace de.ahzf.Blueprints.PropertyGraphs
             TValue Value;
 
             if (IProperties.TryGetProperty(PropertyKey, out Value))
+            {
                 if (Value.GetType().Equals(PropertyType))
                     OnSuccess(PropertyKey, Value);
+            }
+            else if (OnError != null)
+                OnError(PropertyKey);
 
         }
 

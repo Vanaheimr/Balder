@@ -54,9 +54,11 @@ namespace de.ahzf.Blueprints.UnitTests
             Alice1.GetProperty("key");
             Alice1.TryGetProperty("key", out _Object);
             Alice1.GetProperty("key", typeof(String));
-            Alice1.GetProperty("key", (p) => { Console.WriteLine(p); }, (v) => { Console.WriteLine(v.Id); });
-            Console.WriteLine(Alice1.GetProperty("l", (p) => { return p; }, (v) => { return v.Id; }));
-            Alice1.GetProperty("key", typeof(String), (p) => { Console.WriteLine(p); }, (v) => { Console.WriteLine(v.Id); });
+            Alice1.UseProperty("key", (obj)      => { Console.WriteLine(obj); }, (key) => { Console.WriteLine(key); });
+            Alice1.UseProperty("key", (key, obj) => { Console.WriteLine(obj); }, (key) => { Console.WriteLine(key); });
+            Console.WriteLine(Alice1.PropertyFunc("l", (obj) => { return obj; }));
+            Alice1.UseProperty("key", typeof(String), (obj)      => { Console.WriteLine(obj); }, (key) => { Console.WriteLine(key); });
+            Alice1.UseProperty("key", typeof(String), (key, obj) => { Console.WriteLine(obj); }, (key) => { Console.WriteLine(key); });
             Alice1.GetProperties(null);
             
 
@@ -66,9 +68,11 @@ namespace de.ahzf.Blueprints.UnitTests
             Alice2.GetProperty("key");
             Alice2.TryGetProperty("key", out _Object);
             Alice2.GetProperty("key", typeof(String));
-            Alice2.GetProperty("key", (p) => { Console.WriteLine(p); }, (v) => { Console.WriteLine(v.Id); });
-            Console.WriteLine(Alice2.GetProperty("l", (p) => { return p; }, (v) => { return v.Id; }));
-            Alice2.GetProperty("key", typeof(String), (p) => { Console.WriteLine(p); }, (v) => { Console.WriteLine(v.Id); });
+            Alice2.UseProperty("key", (obj)      => { Console.WriteLine(obj); }, (key) => { Console.WriteLine(key); });
+            Alice2.UseProperty("key", (key, obj) => { Console.WriteLine(obj); }, (key) => { Console.WriteLine(key); });
+            Console.WriteLine(Alice2.PropertyFunc("l", (obj) => { return obj; }));
+            Alice2.UseProperty("key", typeof(String), (obj)      => { Console.WriteLine(obj); }, (key) => { Console.WriteLine(key); });
+            Alice2.UseProperty("key", typeof(String), (key, obj) => { Console.WriteLine(obj); }, (key) => { Console.WriteLine(key); });
             Alice2.GetProperties(null);
 
         }

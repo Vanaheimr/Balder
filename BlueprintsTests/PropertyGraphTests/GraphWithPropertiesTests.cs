@@ -508,37 +508,37 @@ namespace de.ahzf.Blueprints.UnitTests.PropertyGraphTests
             // --[Action<TValue>]--[Error]-----------------------------------------------------
 
             check = null;
-            graph.GetProperty("false",  OnSuccess_PropertyValue => check = true, OnError => check = false);
+            graph.UseProperty("false",  OnSuccess_PropertyValue => check = true, OnError => check = false);
             Assert.IsFalse(check.Value);
 
             check = null;
-            graph.GetProperty("Id",     OnSuccess_PropertyValue => check = true, OnError => check = false);
+            graph.UseProperty("Id",     OnSuccess_PropertyValue => check = true, OnError => check = false);
             Assert.IsTrue(check.Value);
 
             check = null;
-            graph.GetProperty("hello",  OnSuccess_PropertyValue => check = true, OnError => check = false);
+            graph.UseProperty("hello",  OnSuccess_PropertyValue => check = true, OnError => check = false);
             Assert.IsTrue(check.Value);
 
             check = null;
-            graph.GetProperty("graphs", OnSuccess_PropertyValue => check = true, OnError => check = false);
+            graph.UseProperty("graphs", OnSuccess_PropertyValue => check = true, OnError => check = false);
             Assert.IsTrue(check.Value);
 
             // --[Action<TKey, TValue>]--[Error]-----------------------------------------------
 
             check = null;
-            graph.GetProperty("false",  (OnSuccess_PropertyKey, PropertyValue) => check = true, OnError => check = false);
+            graph.UseProperty("false",  (OnSuccess_PropertyKey, PropertyValue) => check = true, OnError => check = false);
             Assert.IsFalse(check.Value);
 
             check = null;
-            graph.GetProperty("Id",     (OnSuccess_PropertyKey, PropertyValue) => check = true, OnError => check = false);
+            graph.UseProperty("Id",     (OnSuccess_PropertyKey, PropertyValue) => check = true, OnError => check = false);
             Assert.IsTrue(check.Value);
 
             check = null;
-            graph.GetProperty("hello",  (OnSuccess_PropertyKey, PropertyValue) => check = true, OnError => check = false);
+            graph.UseProperty("hello",  (OnSuccess_PropertyKey, PropertyValue) => check = true, OnError => check = false);
             Assert.IsTrue(check.Value);
 
             check = null;
-            graph.GetProperty("graphs", (OnSuccess_PropertyKey, PropertyValue) => check = true, OnError => check = false);
+            graph.UseProperty("graphs", (OnSuccess_PropertyKey, PropertyValue) => check = true, OnError => check = false);
             Assert.IsTrue(check.Value);
 
 

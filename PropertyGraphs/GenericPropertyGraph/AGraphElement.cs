@@ -38,6 +38,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
     /// <typeparam name="TValue">The type of the graph element property values.</typeparam>
     /// <typeparam name="TDatastructure">A datastructure for storing all properties.</typeparam>
     public abstract class AGraphElement<TId, TRevId, TKey, TValue>
+
                               : IGraphElement<TId, TRevId, TKey, TValue>
 
         where TKey    : IEquatable<TKey>,   IComparable<TKey>,   IComparable
@@ -827,6 +828,24 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         #endregion
 
+        #region CompareTo(IReadOnlyGraphElement)
+
+        /// <summary>
+        /// Compares this object to another readonly GraphElement.
+        /// </summary>
+        /// <param name="IReadOnlyGraphElement">An IReadOnlyGraphElement to compare with.</param>
+        public Int32 CompareTo(IReadOnlyGraphElement<TId, TRevId, TKey, TValue> IReadOnlyGraphElement)
+        {
+
+            if ((Object) IReadOnlyGraphElement == null)
+                throw new ArgumentNullException("The given GraphElement must not be null!");
+
+            return Id.CompareTo(IReadOnlyGraphElement.Id);
+
+        }
+
+        #endregion
+
         #region CompareTo(IGraphElement)
 
         /// <summary>
@@ -893,6 +912,25 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         #endregion
 
+        #region Equals(IReadOnlyGraphElement)
+
+        /// <summary>
+        /// Compares this object to an IReadOnlyGraphElement.
+        /// </summary>
+        /// <param name="IReadOnlyGraphElement">An IReadOnlyGraphElement to compare with.</param>
+        /// <returns>True if both match; False otherwise.</returns>
+        public Boolean Equals(IReadOnlyGraphElement<TId, TRevId, TKey, TValue> IReadOnlyGraphElement)
+        {
+
+            if ((Object) IReadOnlyGraphElement == null)
+                return false;
+
+            return Id.Equals(IReadOnlyGraphElement.Id);
+
+        }
+
+        #endregion
+
         #region Equals(IGraphElement)
 
         /// <summary>
@@ -903,7 +941,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         public Boolean Equals(IGraphElement<TId, TRevId, TKey, TValue> IGraphElement)
         {
 
-            if ((Object) IGraphElement == null)
+            if ((Object)IGraphElement == null)
                 return false;
 
             return Id.Equals(IGraphElement.Id);

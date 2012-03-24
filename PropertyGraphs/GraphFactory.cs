@@ -30,6 +30,9 @@ using de.ahzf.Blueprints.PropertyGraphs;
 namespace de.ahzf.Blueprints.UnitTests
 {
 
+    /// <summary>
+    /// Simplified creation of property graphs.
+    /// </summary>
     public static class GraphFactory
     {
 
