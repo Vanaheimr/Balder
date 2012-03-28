@@ -40,7 +40,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
         /// <summary>
         /// The internal graph element.
         /// </summary>
-        private readonly IGraphElement<UInt64, Int64, String, Object> GraphElement;
+        private readonly IGraphElement<UInt64, Int64, String, String, Object> GraphElement;
 
         /// <summary>
         /// The internal JavaScript engine;
@@ -58,7 +58,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
         /// </summary>
         /// <param name="GraphElement">A graph element.</param>
         /// <param name="JavaScriptEngine">An instance of a JavaScript engine.</param>
-        public JSGraphElement(IGraphElement<UInt64, Int64, String, Object> GraphElement, ScriptEngine JavaScriptEngine)
+        public JSGraphElement(IGraphElement<UInt64, Int64, String, String, Object> GraphElement, ScriptEngine JavaScriptEngine)
             : base(JavaScriptEngine)
         {
 

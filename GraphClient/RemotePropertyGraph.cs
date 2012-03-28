@@ -266,10 +266,7 @@ namespace de.ahzf.Blueprints.HTTP.Client
         #endregion
 
 
-        #region District of chaos!
-        #endregion
-
-
+        #region District of chaos, discord and confusion!
 
         public IPropertyVertex AddVertex(VertexInitializer<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> VertexInitializer = null)
         {
@@ -495,6 +492,11 @@ namespace de.ahzf.Blueprints.HTTP.Client
             throw new NotImplementedException();
         }
 
+        public IGenericPropertyHyperEdge<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> AddHyperEdge(IGenericPropertyVertex<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> OutVertex, string Label, HyperEdgeInitializer<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> HyperEdgeInitializer, params IGenericPropertyVertex<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>[] InVertices)
+        {
+            throw new NotImplementedException();
+        }
+
         public event HyperEdgeAddedEventHandler<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> OnHyperEdgeAdded;
 
         public void RemoveHyperEdgesById(params ulong[] HyperEdgeIds)
@@ -706,12 +708,12 @@ namespace de.ahzf.Blueprints.HTTP.Client
             throw new NotImplementedException();
         }
 
-        public bool Equals(IReadOnlyGraphElement<ulong, long, string, object> other)
+        public bool Equals(IReadOnlyGraphElement<ulong, long, string, string, object> other)
         {
             throw new NotImplementedException();
         }
 
-        public int CompareTo(IReadOnlyGraphElement<ulong, long, string, object> other)
+        public int CompareTo(IReadOnlyGraphElement<ulong, long, string, string, object> other)
         {
             throw new NotImplementedException();
         }
@@ -748,15 +750,18 @@ namespace de.ahzf.Blueprints.HTTP.Client
             throw new NotImplementedException();
         }
 
-        public bool Equals(IGraphElement<ulong, long, string, object> other)
+        public bool Equals(IGraphElement<ulong, long, string, string, object> other)
         {
             throw new NotImplementedException();
         }
 
-        public int CompareTo(IGraphElement<ulong, long, string, object> other)
+        public int CompareTo(IGraphElement<ulong, long, string, string, object> other)
         {
             throw new NotImplementedException();
         }
+
+        #endregion
+
     }
 
 }
