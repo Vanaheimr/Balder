@@ -351,7 +351,6 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         #endregion
 
-
         #region ToString()
 
         /// <summary>
@@ -359,7 +358,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// </summary>
         public override String ToString()
         {
-            return "PropertyGraph [Id: " + Id.ToString() + ", " + Subgraph.NumberOfVertices() + " vertices, " + Subgraph.NumberOfEdges() + " edges, " + Subgraph.NumberOfMultiEdges() + " multiedges, " + Subgraph.NumberOfHyperEdges() + " hyperedges]";
+            return "PropertyGraph [Id: " + Id.ToString() + ", vertices: " + _NumberOfVerticesWhenGraph + ", edges: " + _NumberOfEdgesWhenGraph + " , multiedges: " + _NumberOfMultiEdgesWhenGraph + ", hyperedges: " + _NumberOfHyperEdgesWhenGraph + "]";
         }
 
         #endregion

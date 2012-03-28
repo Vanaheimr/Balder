@@ -1178,9 +1178,11 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
             if (SendOutEdgeAddingVote(Edge))
             {
-                _OutEdges.TryAddValue(Edge.Label, Edge.Id, Edge);    // Is supposed to be thread-safe!
-                Interlocked.Increment(ref _NumberOfOutEdges);
-                SendOutEdgeAddedNotification(Edge);
+                if (_OutEdges.TryAddValue(Edge.Label, Edge.Id, Edge))    // Is supposed to be thread-safe!
+                {
+                    Interlocked.Increment(ref _NumberOfOutEdges);
+                    SendOutEdgeAddedNotification(Edge);
+                }
             }
             
         }
@@ -1247,10 +1249,16 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         
         {
 
-            return from   Edge
-                   in     _OutEdges
-                   where  EdgeFilter(Edge)
-                   select Edge;
+            if (EdgeFilter == null)
+                return from   Edge
+                       in     _OutEdges
+                       select Edge;
+
+            else
+                return from   Edge
+                       in     _OutEdges
+                       where  EdgeFilter(Edge)
+                       select Edge;
 
         }
 
@@ -1832,6 +1840,37 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         #endregion
 
 
+        #region HyperEdges(params HyperEdgeLabels)      // HyperEdges()!
+
+        IEnumerable<IGenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
+
+            IGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                   TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+                HyperEdges(params THyperEdgeLabel[] HyperEdgeLabels)
+
+        {
+
+            if (HyperEdgeLabels != null && HyperEdgeLabels.Any())
+            {
+                foreach (var _HyperEdge in _HyperEdgesWhenVertex)
+                    foreach (var _Label in HyperEdgeLabels)
+                        if (_HyperEdge.Label.Equals(_Label))
+                            yield return _HyperEdge;
+            }
+
+            else
+                foreach (var _HyperEdge in _HyperEdgesWhenVertex)
+                    yield return _HyperEdge;
+
+        }
+
+        #endregion RemoveHyperEdges(params HyperEdges)
+
         #region HyperEdges(HyperEdgeFilter = null)
 
         /// <summary>
@@ -1869,24 +1908,6 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         #endregion
 
-        #region HyperEdges(params HyperEdgeLabels)
-
-        IEnumerable<IGenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
-
-            IGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                   TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
-                HyperEdges(params THyperEdgeLabel[] HyperEdgeLabels)
-
-        {
-            throw new NotImplementedException();
-        }
-
-        #endregion RemoveHyperEdges(params HyperEdges)
 
 
         #region RemoveHyperEdges(params HyperEdges)
@@ -3456,9 +3477,9 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// it by invoking the given HyperEdgeInitializer.
         /// </summary>
         /// <param name="Label">The multiedge label.</param>
-        /// <param name="HyperEdgeInitializer">A delegate to initialize the newly generated multiedge.</param>
+        /// <param name="HyperEdgeInitializer">A delegate to initialize the newly generated hyperedge.</param>
         /// <param name="Vertices">An enumeration of vertices.</param>
-        /// <returns>The new multiedge</returns>
+        /// <returns>The new hyperedge</returns>
         IGenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -3551,6 +3572,54 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         }
 
         #endregion
+
+        #region AddHyperEdge(Label, HyperEdgeInitializer, params Vertices)
+
+        /// <summary>
+        /// Add a multiedge based on the given multiedge label and
+        /// an enumeration of vertices to the graph and initialize
+        /// it by invoking the given HyperEdgeInitializer.
+        /// </summary>
+        /// <param name="OutVertex">The outgoing vertex.</param>
+        /// <param name="Label">The multiedge label.</param>
+        /// <param name="HyperEdgeInitializer">A delegate to initialize the newly generated hyperedge.</param>
+        /// <param name="InVertices">An enumeration of vertices.</param>
+        /// <returns>The new hyperedge</returns>
+        IGenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                  TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                  TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                  TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
+            
+            IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                  TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                  TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                  TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+            AddHyperEdge(IGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OutVertex,
+
+                         THyperEdgeLabel Label,
+
+                         HyperEdgeInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> HyperEdgeInitializer,
+            
+                         params IGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>[] InVertices)
+
+
+        {
+            var _HyperEdge = Subgraph.AddHyperEdge(_HyperEdgeIdCreatorDelegate(this), Label, HyperEdgeInitializer, InVertices);
+            OutVertex.AddHyperEdge(_HyperEdge);
+            return _HyperEdge;
+        }
+
+        #endregion
+
 
 
         #region HyperEdgeById(HyperEdgeId)

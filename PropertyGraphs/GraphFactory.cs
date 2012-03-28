@@ -27,7 +27,7 @@ using de.ahzf.Blueprints.PropertyGraphs;
 
 #endregion
 
-namespace de.ahzf.Blueprints.UnitTests
+namespace de.ahzf.Blueprints
 {
 
     /// <summary>
