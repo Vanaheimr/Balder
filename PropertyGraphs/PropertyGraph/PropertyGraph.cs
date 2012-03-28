@@ -66,7 +66,6 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
     public class PropertyGraph : PropertyVertex
     {
 
-
         #region Constructor(s)
 
         #region PropertyGraph()
@@ -123,7 +122,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                     (graph) => PropertyGraph.NewVertexId,
 
                     // Create a new vertex
-                    (Graph, _VertexId, VertexInitializer) =>
+                    (Graph, _VertexId, _VertexLabel, VertexInitializer) =>
                         new PropertyVertex
                             (Graph as IPropertyGraph,
                              _VertexId,
@@ -132,33 +131,32 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                              GraphDBOntology.Description().Suffix,
                              () => new Dictionary<String, Object>(),
 
-                             () => new GroupedCollection<String, UInt64, IGenericPropertyVertex   <UInt64, Int64, String, String, Object,
-                                                                                                   UInt64, Int64, String, String, Object,
-                                                                                                   UInt64, Int64, String, String, Object,
-                                                                                                   UInt64, Int64, String, String, Object>>(),
+                             () => new GroupedCollection<UInt64, IGenericPropertyVertex   <UInt64, Int64, String, String, Object,
+                                                                                           UInt64, Int64, String, String, Object,
+                                                                                           UInt64, Int64, String, String, Object,
+                                                                                           UInt64, Int64, String, String, Object>, String>(),
 
-                             () => new GroupedCollection<String, UInt64, IGenericPropertyEdge     <UInt64, Int64, String, String, Object,
-                                                                                                   UInt64, Int64, String, String, Object,
-                                                                                                   UInt64, Int64, String, String, Object,
-                                                                                                   UInt64, Int64, String, String, Object>>(),
+                             () => new GroupedCollection<UInt64, IGenericPropertyEdge     <UInt64, Int64, String, String, Object,
+                                                                                           UInt64, Int64, String, String, Object,
+                                                                                           UInt64, Int64, String, String, Object,
+                                                                                           UInt64, Int64, String, String, Object>, String>(),
 
-                             () => new GroupedCollection<String, UInt64, IGenericPropertyMultiEdge<UInt64, Int64, String, String, Object,
-                                                                                                   UInt64, Int64, String, String, Object,
-                                                                                                   UInt64, Int64, String, String, Object,
-                                                                                                   UInt64, Int64, String, String, Object>>(),
+                             () => new GroupedCollection<UInt64, IGenericPropertyMultiEdge<UInt64, Int64, String, String, Object,
+                                                                                           UInt64, Int64, String, String, Object,
+                                                                                           UInt64, Int64, String, String, Object,
+                                                                                           UInt64, Int64, String, String, Object>, String>(),
 
-                             () => new GroupedCollection<String, UInt64, IGenericPropertyHyperEdge<UInt64, Int64, String, String, Object,
-                                                                                                   UInt64, Int64, String, String, Object,
-                                                                                                   UInt64, Int64, String, String, Object,
-                                                                                                   UInt64, Int64, String, String, Object>>(),
-                             VertexInitializer
-                            ),
+                             () => new GroupedCollection<UInt64, IGenericPropertyHyperEdge<UInt64, Int64, String, String, Object,
+                                                                                           UInt64, Int64, String, String, Object,
+                                                                                           UInt64, Int64, String, String, Object,
+                                                                                           UInt64, Int64, String, String, Object>, String>(),
+                             VertexInitializer),
 
                     // The vertices collection
-                    () => new GroupedCollection<String, UInt64, IGenericPropertyVertex<UInt64, Int64, String, String, Object,
-                                                                                       UInt64, Int64, String, String, Object,
-                                                                                       UInt64, Int64, String, String, Object,
-                                                                                       UInt64, Int64, String, String, Object>>(),
+                    () => new GroupedCollection< UInt64, IGenericPropertyVertex<UInt64, Int64, String, String, Object,
+                                                                                UInt64, Int64, String, String, Object,
+                                                                                UInt64, Int64, String, String, Object,
+                                                                                UInt64, Int64, String, String, Object>, String>(),
 
                                 #endregion
 
@@ -179,14 +177,13 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                              GraphDBOntology.RevId().Suffix,
                              GraphDBOntology.Description().Suffix,
                              () => new Dictionary<String, Object>(),
-                             EdgeInitializer
-                            ),
+                             EdgeInitializer),
 
                     // The edges collection
-                    () => new GroupedCollection<String, UInt64, IGenericPropertyEdge<UInt64, Int64, String, String, Object,
-                                              UInt64, Int64, String, String, Object,
-                                              UInt64, Int64, String, String, Object,
-                                              UInt64, Int64, String, String, Object>>(),
+                    () => new GroupedCollection<UInt64, IGenericPropertyEdge<UInt64, Int64, String, String, Object,
+                                                                             UInt64, Int64, String, String, Object,
+                                                                             UInt64, Int64, String, String, Object,
+                                                                             UInt64, Int64, String, String, Object>, String>(),
 
                     #endregion
 
@@ -213,15 +210,13 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                                                                               UInt64, Int64, String, String, Object,
                                                                                               UInt64, Int64, String, String, Object>>(),
 
-                             MultiEdgeInitializer
-
-                            ),
+                             MultiEdgeInitializer),
 
                     // The multiedges collection
-                    () => new GroupedCollection<String, UInt64, IGenericPropertyMultiEdge<UInt64, Int64, String, String, Object,
-                                                                                          UInt64, Int64, String, String, Object,
-                                                                                          UInt64, Int64, String, String, Object,
-                                                                                          UInt64, Int64, String, String, Object>>(),
+                    () => new GroupedCollection< UInt64, IGenericPropertyMultiEdge<UInt64, Int64, String, String, Object,
+                                                                                   UInt64, Int64, String, String, Object,
+                                                                                   UInt64, Int64, String, String, Object,
+                                                                                   UInt64, Int64, String, String, Object>, String>(),
 
                     #endregion
 
@@ -243,20 +238,18 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                              GraphDBOntology.Description().Suffix,
 
                              () => new Dictionary<String, Object>(),
-                             () => new GroupedCollection<String, UInt64, IGenericPropertyVertex<UInt64, Int64, String, String, Object,
-                                              UInt64, Int64, String, String, Object,
-                                              UInt64, Int64, String, String, Object,
-                                              UInt64, Int64, String, String, Object>>(),
+                             () => new GroupedCollection<UInt64, IGenericPropertyVertex<UInt64, Int64, String, String, Object,
+                                                                                        UInt64, Int64, String, String, Object,
+                                                                                        UInt64, Int64, String, String, Object,
+                                                                                        UInt64, Int64, String, String, Object>, String>(),
 
-                             HyperEdgeInitializer
-
-                            ),
+                             HyperEdgeInitializer),
 
                     // The hyperedges collection
-                    () => new GroupedCollection<String, UInt64, IGenericPropertyHyperEdge<UInt64, Int64, String, String, Object,
-                                              UInt64, Int64, String, String, Object,
-                                              UInt64, Int64, String, String, Object,
-                                              UInt64, Int64, String, String, Object>>()
+                    () => new GroupedCollection<UInt64, IGenericPropertyHyperEdge<UInt64, Int64, String, String, Object,
+                                                                                  UInt64, Int64, String, String, Object,
+                                                                                  UInt64, Int64, String, String, Object,
+                                                                                  UInt64, Int64, String, String, Object>, String>()
 
                     #endregion
 
@@ -358,7 +351,11 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// </summary>
         public override String ToString()
         {
-            return "PropertyGraph [Id: " + Id.ToString() + ", vertices: " + _NumberOfVerticesWhenGraph + ", edges: " + _NumberOfEdgesWhenGraph + " , multiedges: " + _NumberOfMultiEdgesWhenGraph + ", hyperedges: " + _NumberOfHyperEdgesWhenGraph + "]";
+            return String.Concat("PropertyGraph [Id: ", Id.ToString(),
+                                 ", vertices: ",   _VerticesWhenGraph.Count(),
+                                 ", edges: ",      _EdgesWhenGraph.Count(),
+                                 ", multiedges: ", _MultiEdgesWhenGraph.Count(),
+                                 ", hyperedges: ", _HyperEdgesWhenGraph.Count(), "]");
         }
 
         #endregion

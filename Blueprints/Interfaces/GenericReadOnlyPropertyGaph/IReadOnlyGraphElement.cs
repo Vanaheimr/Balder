@@ -31,19 +31,21 @@ namespace de.ahzf.Blueprints.PropertyGraphs
     /// </summary>
     /// <typeparam name="TId">The type of the identifiers.</typeparam>
     /// <typeparam name="TRevId">The type of the revision identifiers.</typeparam>
+    /// <typeparam name="TLabel">The taype of the labels.</typeparam>
     /// <typeparam name="TKey">The type of the property keys.</typeparam>
     /// <typeparam name="TValue">The type of the property values.</typeparam>
-    public interface IReadOnlyGraphElement<TId, TRevId, TKey, TValue>
+    public interface IReadOnlyGraphElement<TId, TRevId, TLabel, TKey, TValue>
                         : IIdentifier<TId>,
                           IRevisionId<TRevId>,
                           IDescription<TValue>,
                           IReadOnlyProperties<TKey, TValue>,
-                          IEquatable <IReadOnlyGraphElement<TId, TRevId, TKey, TValue>>,
-                          IComparable<IReadOnlyGraphElement<TId, TRevId, TKey, TValue>>,
+                          IEquatable <IReadOnlyGraphElement<TId, TRevId, TLabel, TKey, TValue>>,
+                          IComparable<IReadOnlyGraphElement<TId, TRevId, TLabel, TKey, TValue>>,
                           IComparable
 
         where TId     : IEquatable<TId>,    IComparable<TId>,    IComparable, TValue
         where TRevId  : IEquatable<TRevId>, IComparable<TRevId>, IComparable, TValue
+        where TLabel  : IEquatable<TLabel>, IComparable<TLabel>, IComparable
         where TKey    : IEquatable<TKey>,   IComparable<TKey>,   IComparable
 
     { }

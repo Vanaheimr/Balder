@@ -198,21 +198,25 @@ namespace de.ahzf.Blueprints
                                                                                    GraphDBOntology.RevId().Suffix,
                                                                                    GraphDBOntology.Description().Suffix,
                                                                                    (graph) => GraphFactory.NewVertexId,
+                                                                                   GraphDBOntology.DefaultVertexLabel().Suffix,
 
                                                                                    GraphDBOntology.Id().Suffix,
                                                                                    GraphDBOntology.RevId().Suffix,
                                                                                    GraphDBOntology.Description().Suffix,
                                                                                    (graph) => GraphFactory.NewEdgeId,
+                                                                                   GraphDBOntology.DefaultEdgeLabel().Suffix,
 
                                                                                    GraphDBOntology.Id().Suffix,
                                                                                    GraphDBOntology.RevId().Suffix,
                                                                                    GraphDBOntology.Description().Suffix,
                                                                                    (graph) => GraphFactory.NewMultiEdgeId,
+                                                                                   GraphDBOntology.DefaultMultiEdgeLabel().Suffix,
 
                                                                                    GraphDBOntology.Id().Suffix,
                                                                                    GraphDBOntology.RevId().Suffix,
                                                                                    GraphDBOntology.Description().Suffix,
                                                                                    (graph) => GraphFactory.NewHyperEdgeId,
+                                                                                   GraphDBOntology.DefaultHyperEdgeLabel().Suffix,
 
                                                                                    GraphInitializer)
                                                                                    
@@ -258,23 +262,31 @@ namespace de.ahzf.Blueprints
                                      TKey IdKey,
                                      TKey RevIdKey,
                                      TKey DescriptionKey,
+
                                      VertexIdCreatorDelegate   <TId, TRevId, TLabel, TKey, TValue,
                                                                 TId, TRevId, TLabel, TKey, TValue,
                                                                 TId, TRevId, TLabel, TKey, TValue,
                                                                 TId, TRevId, TLabel, TKey, TValue> VertexIdCreatorDelegate,
+
                                      EdgeIdCreatorDelegate     <TId, TRevId, TLabel, TKey, TValue,
                                                                 TId, TRevId, TLabel, TKey, TValue,
                                                                 TId, TRevId, TLabel, TKey, TValue,
                                                                 TId, TRevId, TLabel, TKey, TValue> EdgeIdCreatorDelegate,
+
                                      MultiEdgeIdCreatorDelegate<TId, TRevId, TLabel, TKey, TValue,
                                                                 TId, TRevId, TLabel, TKey, TValue,
                                                                 TId, TRevId, TLabel, TKey, TValue,
                                                                 TId, TRevId, TLabel, TKey, TValue> MultiEdgeIdCreatorDelegate,
+
                                      HyperEdgeIdCreatorDelegate<TId, TRevId, TLabel, TKey, TValue,
                                                                 TId, TRevId, TLabel, TKey, TValue,
                                                                 TId, TRevId, TLabel, TKey, TValue,
                                                                 TId, TRevId, TLabel, TKey, TValue> HyperEdgeIdCreatorDelegate,
+
                                      RevIdCreatorDelegate<TRevId>                                  RevIdCreatorDelegate,
+
+                                     TLabel DefaultLabel,
+
                                      GraphInitializer          <TId, TRevId, TLabel, TKey, TValue,
                                                                 TId, TRevId, TLabel, TKey, TValue,
                                                                 TId, TRevId, TLabel, TKey, TValue,
@@ -295,21 +307,25 @@ namespace de.ahzf.Blueprints
                                                                                RevIdKey,
                                                                                DescriptionKey,
                                                                                VertexIdCreatorDelegate,
+                                                                               DefaultLabel,
 
                                                                                IdKey,
                                                                                RevIdKey,
                                                                                DescriptionKey,
                                                                                EdgeIdCreatorDelegate,
+                                                                               DefaultLabel,
 
                                                                                IdKey,
                                                                                RevIdKey,
                                                                                DescriptionKey,
                                                                                MultiEdgeIdCreatorDelegate,
+                                                                               DefaultLabel,
 
                                                                                IdKey,
                                                                                RevIdKey,
                                                                                DescriptionKey,
                                                                                HyperEdgeIdCreatorDelegate,
+                                                                               DefaultLabel,
                                                                                
                                                                                GraphInitializer)
 
@@ -352,6 +368,7 @@ namespace de.ahzf.Blueprints
                                      TKey                         DescriptionKey,                                     
                                      IdCreatorDelegate<TId>       IdCreatorDelegate,
                                      RevIdCreatorDelegate<TRevId> RevIdCreatorDelegate,
+                                     TLabel                       DefaultLabel,
                                      GraphInitializer<TId, TRevId, TLabel, TKey, TValue,
                                                       TId, TRevId, TLabel, TKey, TValue,
                                                       TId, TRevId, TLabel, TKey, TValue,
@@ -373,6 +390,7 @@ namespace de.ahzf.Blueprints
                                                                                (graph) => IdCreatorDelegate(),
                                                                                (graph) => IdCreatorDelegate(),
                                                                                RevIdCreatorDelegate,
+                                                                               DefaultLabel,
                                                                                GraphInitializer = null);
 
         }
@@ -389,23 +407,37 @@ namespace de.ahzf.Blueprints
 
             CreateLabeledPropertyGraph<TVertexLabel, TEdgeLabel, TMultiEdgeLabel, THyperEdgeLabel>(
                                      UInt64 GraphId,
+
                                      VertexIdCreatorDelegate   <UInt64, Int64, TVertexLabel,    String, Object,
                                                                 UInt64, Int64, TEdgeLabel,      String, Object,
                                                                 UInt64, Int64, TMultiEdgeLabel, String, Object,
                                                                 UInt64, Int64, THyperEdgeLabel, String, Object> VertexIdCreatorDelegate,
+                                     TVertexLabel DefaultVertexLabel,
+
+
                                      EdgeIdCreatorDelegate     <UInt64, Int64, TVertexLabel,    String, Object,
                                                                 UInt64, Int64, TEdgeLabel,      String, Object,
                                                                 UInt64, Int64, TMultiEdgeLabel, String, Object,
                                                                 UInt64, Int64, THyperEdgeLabel, String, Object> EdgeIdCreatorDelegate,
+                                     TEdgeLabel DefaultEdgeLabel,
+
+
                                      MultiEdgeIdCreatorDelegate<UInt64, Int64, TVertexLabel,    String, Object,
                                                                 UInt64, Int64, TEdgeLabel,      String, Object,
                                                                 UInt64, Int64, TMultiEdgeLabel, String, Object,
                                                                 UInt64, Int64, THyperEdgeLabel, String, Object> MultiEdgeIdCreatorDelegate,
+                                     TMultiEdgeLabel DefaultMultiEdgeLabel,
+
+
                                      HyperEdgeIdCreatorDelegate<UInt64, Int64, TVertexLabel,    String, Object,
                                                                 UInt64, Int64, TEdgeLabel,      String, Object,
                                                                 UInt64, Int64, TMultiEdgeLabel, String, Object,
                                                                 UInt64, Int64, THyperEdgeLabel, String, Object> HyperEdgeIdCreatorDelegate,
+                                     THyperEdgeLabel DefaultHyperEdgeLabel,
+
+
                                      RevIdCreatorDelegate<Int64>                                                RevIdCreatorDelegate,
+
                                      GraphInitializer          <UInt64, Int64, TVertexLabel,    String, Object,
                                                                 UInt64, Int64, TEdgeLabel,      String, Object,
                                                                 UInt64, Int64, TMultiEdgeLabel, String, Object,
@@ -426,21 +458,25 @@ namespace de.ahzf.Blueprints
                                                                                             GraphDBOntology.RevId().Suffix,
                                                                                             GraphDBOntology.Description().Suffix,
                                                                                             VertexIdCreatorDelegate,
+                                                                                            DefaultVertexLabel,
 
                                                                                             GraphDBOntology.Id().Suffix,
                                                                                             GraphDBOntology.RevId().Suffix,
                                                                                             GraphDBOntology.Description().Suffix,
                                                                                             EdgeIdCreatorDelegate,
+                                                                                            DefaultEdgeLabel,
 
                                                                                             GraphDBOntology.Id().Suffix,
                                                                                             GraphDBOntology.RevId().Suffix,
                                                                                             GraphDBOntology.Description().Suffix,
                                                                                             MultiEdgeIdCreatorDelegate,
+                                                                                            DefaultMultiEdgeLabel,
 
                                                                                             GraphDBOntology.Id().Suffix,
                                                                                             GraphDBOntology.RevId().Suffix,
                                                                                             GraphDBOntology.Description().Suffix,
                                                                                             HyperEdgeIdCreatorDelegate,
+                                                                                            DefaultHyperEdgeLabel,
                                                                             
                                                                                             GraphInitializer)
 
@@ -466,19 +502,24 @@ namespace de.ahzf.Blueprints
                                                                 EdgeId,      RevisionId, String, String, Object,
                                                                 MultiEdgeId, RevisionId, String, String, Object,
                                                                 HyperEdgeId, RevisionId, String, String, Object> VertexIdCreatorDelegate,
+
                                      EdgeIdCreatorDelegate     <VertexId,    RevisionId, String, String, Object,
                                                                 EdgeId,      RevisionId, String, String, Object,
                                                                 MultiEdgeId, RevisionId, String, String, Object,
                                                                 HyperEdgeId, RevisionId, String, String, Object> EdgeIdCreatorDelegate,
+
                                      MultiEdgeIdCreatorDelegate<VertexId,    RevisionId, String, String, Object,
                                                                 EdgeId,      RevisionId, String, String, Object,
                                                                 MultiEdgeId, RevisionId, String, String, Object,
                                                                 HyperEdgeId, RevisionId, String, String, Object> MultiEdgeIdCreatorDelegate,
+
                                      HyperEdgeIdCreatorDelegate<VertexId,    RevisionId, String, String, Object,
                                                                 EdgeId,      RevisionId, String, String, Object,
                                                                 MultiEdgeId, RevisionId, String, String, Object,
                                                                 HyperEdgeId, RevisionId, String, String, Object> HyperEdgeIdCreatorDelegate,
+
                                      RevIdCreatorDelegate<Int64>                                                 RevIdCreatorDelegate,
+
                                      GraphInitializer          <VertexId,    RevisionId, String, String, Object,
                                                                 EdgeId,      RevisionId, String, String, Object,
                                                                 MultiEdgeId, RevisionId, String, String, Object,
@@ -494,21 +535,25 @@ namespace de.ahzf.Blueprints
                                                                                             GraphDBOntology.RevId().Suffix,
                                                                                             GraphDBOntology.Description().Suffix,
                                                                                             VertexIdCreatorDelegate,
+                                                                                            GraphDBOntology.DefaultVertexLabel().Suffix,
 
                                                                                             GraphDBOntology.Id().Suffix,
                                                                                             GraphDBOntology.RevId().Suffix,
                                                                                             GraphDBOntology.Description().Suffix,
                                                                                             EdgeIdCreatorDelegate,
+                                                                                            GraphDBOntology.DefaultEdgeLabel().Suffix,
 
                                                                                             GraphDBOntology.Id().Suffix,
                                                                                             GraphDBOntology.RevId().Suffix,
                                                                                             GraphDBOntology.Description().Suffix,
                                                                                             MultiEdgeIdCreatorDelegate,
+                                                                                            GraphDBOntology.DefaultMultiEdgeLabel().Suffix,
 
                                                                                             GraphDBOntology.Id().Suffix,
                                                                                             GraphDBOntology.RevId().Suffix,
                                                                                             GraphDBOntology.Description().Suffix,
                                                                                             HyperEdgeIdCreatorDelegate,
+                                                                                            GraphDBOntology.DefaultHyperEdgeLabel().Suffix,
                                                                             
                                                                                             GraphInitializer)
 
@@ -562,21 +607,25 @@ namespace de.ahzf.Blueprints
                                                                                             GraphDBOntology.RevId(),
                                                                                             GraphDBOntology.Description(),
                                                                                             VertexIdCreatorDelegate,
+                                                                                            GraphDBOntology.DefaultVertexLabel(),
 
                                                                                             GraphDBOntology.Id(),
                                                                                             GraphDBOntology.RevId(),
                                                                                             GraphDBOntology.Description(),
                                                                                             EdgeIdCreatorDelegate,
+                                                                                            GraphDBOntology.DefaultEdgeLabel(),
 
                                                                                             GraphDBOntology.Id(),
                                                                                             GraphDBOntology.RevId(),
                                                                                             GraphDBOntology.Description(),
                                                                                             MultiEdgeIdCreatorDelegate,
+                                                                                            GraphDBOntology.DefaultMultiEdgeLabel(),
 
                                                                                             GraphDBOntology.Id(),
                                                                                             GraphDBOntology.RevId(),
                                                                                             GraphDBOntology.Description(),
                                                                                             HyperEdgeIdCreatorDelegate,
+                                                                                            GraphDBOntology.DefaultHyperEdgeLabel(),
                                                                             
                                                                                             GraphInitializer)
 

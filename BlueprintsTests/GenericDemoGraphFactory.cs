@@ -83,9 +83,9 @@ namespace de.ahzf.Blueprints.UnitTests
             _Alice.UseProperty("name", (key, obj) => { Console.WriteLine(key + " => " + obj); }, (key) => { Console.WriteLine("Key " + key + " not found!"); });
             //_Alice.UseProperty(
 
-            var _AliceSubgraph = _Alice.AsSubgraph;
-            _AliceSubgraph.AddVertex(1, v => v.SetProperty("name", "SubAlice1"));
-            _AliceSubgraph.AddVertex(2, v => v.SetProperty("name", "SubAlice2"));
+            //var _AliceSubgraph = _Alice.AsSubgraph;
+            //_AliceSubgraph.AddVertex(1, v => v.SetProperty("name", "SubAlice1"));
+            //_AliceSubgraph.AddVertex(2, v => v.SetProperty("name", "SubAlice2"));
 
 
             return _graph;

@@ -92,6 +92,59 @@ namespace de.ahzf.Blueprints
 
         #endregion
 
+
+        #region DefaultVertexLabel()
+
+        /// <summary>
+        /// The default vertex label.
+        /// </summary>
+        /// <returns>A semantic property key to be used within property graphs.</returns>
+        public static SemanticProperty DefaultVertexLabel()
+        {
+            return new SemanticProperty(Prefix, Eunomia.Semantics.DefaultVertexLabel, Eunomia.Semantics.DefaultVertexLabel);
+        }
+
+        #endregion
+
+        #region DefaultEdgeLabel()
+
+        /// <summary>
+        /// The default edge label.
+        /// </summary>
+        /// <returns>A semantic property key to be used within property graphs.</returns>
+        public static SemanticProperty DefaultEdgeLabel()
+        {
+            return new SemanticProperty(Prefix, Eunomia.Semantics.DefaultEdgeLabel, Eunomia.Semantics.DefaultEdgeLabel);
+        }
+
+        #endregion
+
+        #region DefaultMultiEdgeLabel()
+
+        /// <summary>
+        /// The default multiedge label.
+        /// </summary>
+        /// <returns>A semantic property key to be used within property graphs.</returns>
+        public static SemanticProperty DefaultMultiEdgeLabel()
+        {
+            return new SemanticProperty(Prefix, Eunomia.Semantics.DefaultMultiEdgeLabel, Eunomia.Semantics.DefaultMultiEdgeLabel);
+        }
+
+        #endregion
+
+        #region DefaultHyperEdgeLabel()
+
+        /// <summary>
+        /// The default hyperedge label.
+        /// </summary>
+        /// <returns>A semantic property key to be used within property graphs.</returns>
+        public static SemanticProperty DefaultHyperEdgeLabel()
+        {
+            return new SemanticProperty(Prefix, Eunomia.Semantics.DefaultHyperEdgeLabel, Eunomia.Semantics.DefaultHyperEdgeLabel);
+        }
+
+        #endregion
+
     }
 
 }

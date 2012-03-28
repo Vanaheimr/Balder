@@ -344,7 +344,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
                                           TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
 
-                                          : IGraphElement<TIdEdge, TRevIdEdge, TKeyEdge, TValueEdge>,
+                                          : IGraphElement<TIdEdge, TRevIdEdge, TEdgeLabel, TKeyEdge, TValueEdge>,
 
                                             IEquatable <IGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,

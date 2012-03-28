@@ -111,9 +111,9 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <param name="MultiEdgeInitializer">A delegate to initialize the newly created hyperedge.</param>
         public PropertyHyperEdge(IPropertyGraph               Graph,
                                  IEnumerable<IGenericPropertyVertex<UInt64, Int64, String, String, Object,
-                                                      UInt64, Int64, String, String, Object,
-                                                      UInt64, Int64, String, String, Object,
-                                                      UInt64, Int64, String, String, Object>> Vertices,
+                                                                    UInt64, Int64, String, String, Object,
+                                                                    UInt64, Int64, String, String, Object,
+                                                                    UInt64, Int64, String, String, Object>> Vertices,
                                  UInt64                       HyperEdgeId,
                                  String                       Label,
                                  String                       IdKey,
@@ -122,10 +122,10 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
                                  IDictionaryInitializer<String, Object> DatastructureInitializer,
 
-                                 Func<IGroupedCollection<String, UInt64, IGenericPropertyVertex<UInt64, Int64, String, String, Object,
-                                                      UInt64, Int64, String, String, Object,
-                                                      UInt64, Int64, String, String, Object,
-                                                      UInt64, Int64, String, String, Object>>> VerticesCollectionInitializer,
+                                 Func<IGroupedCollection<UInt64, IGenericPropertyVertex<UInt64, Int64, String, String, Object,
+                                                                                        UInt64, Int64, String, String, Object,
+                                                                                        UInt64, Int64, String, String, Object,
+                                                                                        UInt64, Int64, String, String, Object>, String>> VerticesCollectionInitializer,
 
                                  HyperEdgeInitializer<UInt64, Int64, String, String, Object,
                                                       UInt64, Int64, String, String, Object,

@@ -144,19 +144,19 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                 #region Create a new vertex
 
                                        VertexIdCreatorDelegate   <UInt64, Int64, String, String, Object,
-                                                        UInt64, Int64, String, String, Object,
-                                                        UInt64, Int64, String, String, Object,
-                                                        UInt64, Int64, String, String, Object> VertexIdCreatorDelegate,
+                                                                  UInt64, Int64, String, String, Object,
+                                                                  UInt64, Int64, String, String, Object,
+                                                                  UInt64, Int64, String, String, Object> VertexIdCreatorDelegate,
 
                                        VertexCreatorDelegate     <UInt64, Int64, String, String, Object,
-                                                        UInt64, Int64, String, String, Object,
-                                                        UInt64, Int64, String, String, Object,
-                                                        UInt64, Int64, String, String, Object> VertexCreatorDelegate,
+                                                                  UInt64, Int64, String, String, Object,
+                                                                  UInt64, Int64, String, String, Object,
+                                                                  UInt64, Int64, String, String, Object> VertexCreatorDelegate,
 
-                                       Func<IGroupedCollection<String, UInt64, IGenericPropertyVertex<UInt64, Int64, String, String, Object,
-                                                        UInt64, Int64, String, String, Object,
-                                                        UInt64, Int64, String, String, Object,
-                                                        UInt64, Int64, String, String, Object>>>
+                                       Func<IGroupedCollection<UInt64, IGenericPropertyVertex<UInt64, Int64, String, String, Object,
+                                                                                              UInt64, Int64, String, String, Object,
+                                                                                              UInt64, Int64, String, String, Object,
+                                                                                              UInt64, Int64, String, String, Object>, String>>
                                        VerticesCollectionInitializer,
 
                                        #endregion
@@ -164,19 +164,19 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                 #region Create a new edge
 
                                 EdgeIdCreatorDelegate     <UInt64, Int64, String, String, Object,
-                                                        UInt64, Int64, String, String, Object,
-                                                        UInt64, Int64, String, String, Object,
-                                                        UInt64, Int64, String, String, Object> EdgeIdCreatorDelegate,
+                                                           UInt64, Int64, String, String, Object,
+                                                           UInt64, Int64, String, String, Object,
+                                                           UInt64, Int64, String, String, Object> EdgeIdCreatorDelegate,
 
                                 EdgeCreatorDelegate       <UInt64, Int64, String, String, Object,
-                                                        UInt64, Int64, String, String, Object,
-                                                        UInt64, Int64, String, String, Object,
-                                                        UInt64, Int64, String, String, Object> EdgeCreatorDelegate,
+                                                           UInt64, Int64, String, String, Object,
+                                                           UInt64, Int64, String, String, Object,
+                                                           UInt64, Int64, String, String, Object> EdgeCreatorDelegate,
 
-                                Func<IGroupedCollection<String, UInt64, IGenericPropertyEdge<UInt64, Int64, String, String, Object,
-                                                        UInt64, Int64, String, String, Object,
-                                                        UInt64, Int64, String, String, Object,
-                                                        UInt64, Int64, String, String, Object>>>
+                                Func<IGroupedCollection<UInt64, IGenericPropertyEdge<UInt64, Int64, String, String, Object,
+                                                                                     UInt64, Int64, String, String, Object,
+                                                                                     UInt64, Int64, String, String, Object,
+                                                                                     UInt64, Int64, String, String, Object>, String>>
                                 EdgesCollectionInitializer,
 
                                 #endregion
@@ -184,19 +184,19 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                 #region Create a new multiedge
 
                                 MultiEdgeIdCreatorDelegate<UInt64, Int64, String, String, Object,
-                                                        UInt64, Int64, String, String, Object,
-                                                        UInt64, Int64, String, String, Object,
-                                                        UInt64, Int64, String, String, Object> MultiEdgeIdCreatorDelegate,
+                                                           UInt64, Int64, String, String, Object,
+                                                           UInt64, Int64, String, String, Object,
+                                                           UInt64, Int64, String, String, Object> MultiEdgeIdCreatorDelegate,
 
                                 MultiEdgeCreatorDelegate  <UInt64, Int64, String, String, Object,
-                                                        UInt64, Int64, String, String, Object,
-                                                        UInt64, Int64, String, String, Object,
-                                                        UInt64, Int64, String, String, Object> MultiEdgeCreatorDelegate,
+                                                           UInt64, Int64, String, String, Object,
+                                                           UInt64, Int64, String, String, Object,
+                                                           UInt64, Int64, String, String, Object> MultiEdgeCreatorDelegate,
 
-                                Func<IGroupedCollection<String, UInt64, IGenericPropertyMultiEdge<UInt64, Int64, String, String, Object,
-                                                        UInt64, Int64, String, String, Object,
-                                                        UInt64, Int64, String, String, Object,
-                                                        UInt64, Int64, String, String, Object>>>
+                                Func<IGroupedCollection<UInt64, IGenericPropertyMultiEdge<UInt64, Int64, String, String, Object,
+                                                                                          UInt64, Int64, String, String, Object,
+                                                                                          UInt64, Int64, String, String, Object,
+                                                                                          UInt64, Int64, String, String, Object>, String>>
                                 MultiEdgesCollectionInitializer,
 
                                 #endregion
@@ -204,28 +204,28 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                 #region Create a new hyperedge
 
                                 HyperEdgeIdCreatorDelegate<UInt64, Int64, String, String, Object,
-                                                        UInt64, Int64, String, String, Object,
-                                                        UInt64, Int64, String, String, Object,
-                                                        UInt64, Int64, String, String, Object> HyperEdgeIdCreatorDelegate,
+                                                           UInt64, Int64, String, String, Object,
+                                                           UInt64, Int64, String, String, Object,
+                                                           UInt64, Int64, String, String, Object> HyperEdgeIdCreatorDelegate,
 
                                 HyperEdgeCreatorDelegate  <UInt64, Int64, String, String, Object,
-                                                        UInt64, Int64, String, String, Object,
-                                                        UInt64, Int64, String, String, Object,
-                                                        UInt64, Int64, String, String, Object> HyperEdgeCreatorDelegate,
+                                                           UInt64, Int64, String, String, Object,
+                                                           UInt64, Int64, String, String, Object,
+                                                           UInt64, Int64, String, String, Object> HyperEdgeCreatorDelegate,
 
-                                Func<IGroupedCollection<String, UInt64, IGenericPropertyHyperEdge<UInt64, Int64, String, String, Object,
-                                                        UInt64, Int64, String, String, Object,
-                                                        UInt64, Int64, String, String, Object,
-                                                        UInt64, Int64, String, String, Object>>>
+                                Func<IGroupedCollection<UInt64, IGenericPropertyHyperEdge<UInt64, Int64, String, String, Object,
+                                                                                          UInt64, Int64, String, String, Object,
+                                                                                          UInt64, Int64, String, String, Object,
+                                                                                          UInt64, Int64, String, String, Object>, String>>
                                 HyperEdgesCollectionInitializer)
 
                                 #endregion
 
-            : base(VertexId, IdKey, RevIdKey, DescriptionKey, DatastructureInitializer,
-                   VertexIdCreatorDelegate,    VertexCreatorDelegate,    VerticesCollectionInitializer,
-                   EdgeIdCreatorDelegate,      EdgeCreatorDelegate,      EdgesCollectionInitializer,
-                   MultiEdgeIdCreatorDelegate, MultiEdgeCreatorDelegate, MultiEdgesCollectionInitializer,
-                   HyperEdgeIdCreatorDelegate, HyperEdgeCreatorDelegate, HyperEdgesCollectionInitializer)
+            : base(VertexId, IdKey, RevIdKey, DescriptionKey, GraphDBOntology.DefaultVertexLabel().Suffix, DatastructureInitializer,
+                   VertexIdCreatorDelegate,    GraphDBOntology.DefaultVertexLabel().Suffix,    VertexCreatorDelegate,    VerticesCollectionInitializer,
+                   EdgeIdCreatorDelegate,      GraphDBOntology.DefaultEdgeLabel().Suffix,      EdgeCreatorDelegate,      EdgesCollectionInitializer,
+                   MultiEdgeIdCreatorDelegate, GraphDBOntology.DefaultMultiEdgeLabel().Suffix, MultiEdgeCreatorDelegate, MultiEdgesCollectionInitializer,
+                   HyperEdgeIdCreatorDelegate, GraphDBOntology.DefaultHyperEdgeLabel().Suffix, HyperEdgeCreatorDelegate, HyperEdgesCollectionInitializer)
 
         { }
 
@@ -252,32 +252,32 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
                               IDictionaryInitializer<String, Object> DatastructureInitializer,
 
-                              Func<IGroupedCollection<String, UInt64, IGenericPropertyVertex   <UInt64, Int64, String, String, Object,
-                                                                                                UInt64, Int64, String, String, Object,
-                                                                                                UInt64, Int64, String, String, Object,
-                                                                                                UInt64, Int64, String, String, Object>>> VerticesCollectionInitializer,
+                              Func<IGroupedCollection<UInt64, IGenericPropertyVertex   <UInt64, Int64, String, String, Object,
+                                                                                        UInt64, Int64, String, String, Object,
+                                                                                        UInt64, Int64, String, String, Object,
+                                                                                        UInt64, Int64, String, String, Object>, String>> VerticesCollectionInitializer,
 
-                              Func<IGroupedCollection<String, UInt64, IGenericPropertyEdge     <UInt64, Int64, String, String, Object,
-                                                                                                UInt64, Int64, String, String, Object,
-                                                                                                UInt64, Int64, String, String, Object,
-                                                                                                UInt64, Int64, String, String, Object>>> EdgesCollectionInitializer,
+                              Func<IGroupedCollection<UInt64, IGenericPropertyEdge     <UInt64, Int64, String, String, Object,
+                                                                                        UInt64, Int64, String, String, Object,
+                                                                                        UInt64, Int64, String, String, Object,
+                                                                                        UInt64, Int64, String, String, Object>, String>> EdgesCollectionInitializer,
 
-                              Func<IGroupedCollection<String, UInt64, IGenericPropertyMultiEdge<UInt64, Int64, String, String, Object,
-                                                                                                UInt64, Int64, String, String, Object,
-                                                                                                UInt64, Int64, String, String, Object,
-                                                                                                UInt64, Int64, String, String, Object>>> MultiEdgesCollectionInitializer,
+                              Func<IGroupedCollection<UInt64, IGenericPropertyMultiEdge<UInt64, Int64, String, String, Object,
+                                                                                        UInt64, Int64, String, String, Object,
+                                                                                        UInt64, Int64, String, String, Object,
+                                                                                        UInt64, Int64, String, String, Object>, String>> MultiEdgesCollectionInitializer,
 
-                              Func<IGroupedCollection<String, UInt64, IGenericPropertyHyperEdge<UInt64, Int64, String, String, Object,
-                                                                                                UInt64, Int64, String, String, Object,
-                                                                                                UInt64, Int64, String, String, Object,
-                                                                                                UInt64, Int64, String, String, Object>>> HyperEdgesCollectionInitializer,
+                              Func<IGroupedCollection<UInt64, IGenericPropertyHyperEdge<UInt64, Int64, String, String, Object,
+                                                                                        UInt64, Int64, String, String, Object,
+                                                                                        UInt64, Int64, String, String, Object,
+                                                                                        UInt64, Int64, String, String, Object>, String>> HyperEdgesCollectionInitializer,
 
                               VertexInitializer<UInt64, Int64, String, String, Object,
                                                 UInt64, Int64, String, String, Object,
                                                 UInt64, Int64, String, String, Object,
                                                 UInt64, Int64, String, String, Object> VertexInitializer = null)
 
-            : base(Graph, VertexId, IdKey, RevIdKey, DescriptionKey, DatastructureInitializer,
+            : base(Graph, VertexId, IdKey, RevIdKey, DescriptionKey, GraphDBOntology.DefaultVertexLabel().Suffix, DatastructureInitializer,
                    VerticesCollectionInitializer, EdgesCollectionInitializer, MultiEdgesCollectionInitializer, HyperEdgesCollectionInitializer,
                    VertexInitializer)
 
@@ -300,7 +300,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <param name="Edge">The edge to add.</param>
         void IPropertyVertex.AddOutEdge(IPropertyEdge Edge)
         {
-            _IGenericPropertyVertex.AddOutEdge(Edge);
+            SuperVertex.AddOutEdge(Edge);
         }
 
         #endregion
@@ -317,7 +317,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         {
 
             return from   Edge
-                   in     _IGenericPropertyVertex.OutEdges(EdgeLabels)
+                   in     SuperVertex.OutEdges(EdgeLabels)
                    select Edge as IPropertyEdge;
 
         }
@@ -355,7 +355,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// </summary>
         UInt64 IPropertyVertex.OutDegree(params String[] EdgeLabels)
         {
-            return _IGenericPropertyVertex.OutDegree(EdgeLabels);
+            return SuperVertex.OutDegree(EdgeLabels);
         }
 
         #endregion
@@ -371,7 +371,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                                     UInt64, Int64, String, String, Object,
                                                     UInt64, Int64, String, String, Object> EdgeFilter)
         {
-            return _IGenericPropertyVertex.OutDegree(EdgeFilter);
+            return SuperVertex.OutDegree(EdgeFilter);
         }
 
         #endregion
@@ -385,7 +385,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <param name="Edges">An array of outgoing edges to be removed.</param>
         void IPropertyVertex.RemoveOutEdges(params IPropertyEdge[] Edges)
         {
-            _IGenericPropertyVertex.RemoveOutEdges(Edges);
+            SuperVertex.RemoveOutEdges(Edges);
         }
 
         #endregion
@@ -403,7 +403,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                                        UInt64, Int64, String, String, Object> EdgeFilter)
 
         {
-            _IGenericPropertyVertex.RemoveOutEdges(EdgeFilter);
+            SuperVertex.RemoveOutEdges(EdgeFilter);
         }
 
         #endregion
@@ -420,7 +420,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <param name="Edge">The edge to add.</param>
         void IPropertyVertex.AddInEdge(IPropertyEdge Edge)
         {
-            _IGenericPropertyVertex.AddInEdge(Edge);
+            SuperVertex.AddInEdge(Edge);
         }
 
         #endregion
@@ -437,7 +437,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         {
 
             return from   Edge
-                   in     _IGenericPropertyVertex.InEdges(EdgeLabels)
+                   in     SuperVertex.InEdges(EdgeLabels)
                    select Edge as IPropertyEdge;
 
         }
@@ -475,7 +475,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// </summary>
         UInt64 IPropertyVertex.InDegree(params String[] EdgeLabels)
         {
-            return _IGenericPropertyVertex.InDegree(EdgeLabels);
+            return SuperVertex.InDegree(EdgeLabels);
         }
 
         #endregion
@@ -492,7 +492,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                                    UInt64, Int64, String, String, Object> EdgeFilter)
 
         {
-            return _IGenericPropertyVertex.InDegree(EdgeFilter);
+            return SuperVertex.InDegree(EdgeFilter);
         }
 
         #endregion
@@ -506,7 +506,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <param name="Edges">An array of incoming edges to be removed.</param>
         void IPropertyVertex.RemoveInEdges(params IPropertyEdge[] Edges)
         {
-            _IGenericPropertyVertex.RemoveInEdges(Edges);
+            SuperVertex.RemoveInEdges(Edges);
         }
 
         #endregion
@@ -524,7 +524,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                                       UInt64, Int64, String, String, Object> EdgeFilter)
 
         {
-            _IGenericPropertyVertex.RemoveInEdges(EdgeFilter);
+            SuperVertex.RemoveInEdges(EdgeFilter);
         }
 
         #endregion
@@ -668,7 +668,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <param name="HyperEdges">An array of outgoing edges to be removed.</param>
         void IPropertyVertex.RemoveHyperEdges(params IPropertyHyperEdge[] HyperEdges)
         {
-            _IGenericPropertyVertex.RemoveHyperEdges(HyperEdges);
+            SuperVertex.RemoveHyperEdges(HyperEdges);
         }
 
         #endregion
@@ -685,7 +685,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                                               UInt64, Int64, String, String, Object,
                                                               UInt64, Int64, String, String, Object> HyperEdgeFilter)
         {
-            _IGenericPropertyVertex.RemoveHyperEdges(HyperEdgeFilter);
+            SuperVertex.RemoveHyperEdges(HyperEdgeFilter);
         }
 
         #endregion

@@ -70,7 +70,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                           TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
 
-                                          : AGraphElement<TIdMultiEdge, TRevIdMultiEdge, TKeyMultiEdge, TValueMultiEdge>,
+                                          : AGraphElement<TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge>,
 
                                             IGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
@@ -131,15 +131,6 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         #endregion
 
-        #region Label
-
-        /// <summary>
-        /// The label associated with this multiedge.
-        /// </summary>
-        public TMultiEdgeLabel Label { get; private set; }
-
-        #endregion
-
         #endregion
 
         #region Constructor(s)
@@ -152,7 +143,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <param name="Graph">The associated property graph.</param>
         /// <param name="EdgeSelector">An enumeration of edges.</param>
         /// <param name="MultiEdgeId">The identification of this multiedge.</param>
-        /// <param name="Label">A label stored within this multiedge.</param>
+        /// <param name="MultiEdgeLabel">A label stored within this multiedge.</param>
         /// <param name="IdKey">The key to access the Id of this multiedge.</param>
         /// <param name="RevIdKey">The key to access the RevId of this multiedge.</param>
         /// <param name="DatastructureInitializer">A delegate to initialize the properties datastructure.</param>
@@ -169,7 +160,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeSelector,
                                        
                                         TIdMultiEdge    MultiEdgeId,
-                                        TMultiEdgeLabel Label,
+                                        TMultiEdgeLabel MultiEdgeLabel,
                                         TKeyMultiEdge   IdKey,
                                         TKeyMultiEdge   DescriptionKey,
                                         TKeyMultiEdge   RevIdKey,
@@ -186,7 +177,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> MultiEdgeInitializer = null)
 
-            : base(MultiEdgeId, IdKey, RevIdKey, DescriptionKey, DatastructureInitializer)
+            : base(MultiEdgeId, MultiEdgeLabel, IdKey, RevIdKey, DescriptionKey, DatastructureInitializer)
 
         {
 
@@ -218,10 +209,6 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
             this.Graph = Graph;
 
             _Edges = EdgesCollectionInitializer();
-
-            // Add the label
-            this.Label = Label;
-            //_Properties.Add(__Label, myLabel);
 
             if (MultiEdgeInitializer != null)
                 MultiEdgeInitializer(this);

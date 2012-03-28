@@ -65,7 +65,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                      TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                      TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
 
-                                     : AGraphElement<TIdEdge, TRevIdEdge, TKeyEdge, TValueEdge>,
+                                     : AGraphElement<TIdEdge, TRevIdEdge, TEdgeLabel, TKeyEdge, TValueEdge>,
 
                                        IGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                             TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
@@ -132,15 +132,6 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                     return Graph;
                 }
             }
-
-        #endregion
-
-        #region Label
-
-        /// <summary>
-        /// The label associated with this edge.
-        /// </summary>
-        public TEdgeLabel Label { get; private set; }
 
         #endregion
 
@@ -214,7 +205,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         #region Constructor(s)
 
-        #region GenericPropertyEdge(Graph, OutVertex, InVertex, EdgeId, Label, IdKey, RevIdKey, DescriptionKey, DatastructureInitializer, EdgeInitializer = null)
+        #region GenericPropertyEdge(Graph, OutVertex, InVertex, EdgeId, EdgeLabel, IdKey, RevIdKey, DescriptionKey, DatastructureInitializer, EdgeInitializer = null)
 
         /// <summary>
         /// Creates a new generic property edge.
@@ -223,7 +214,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <param name="OutVertex">The vertex at the tail of the edge.</param>
         /// <param name="InVertex">The vertex at the head of the edge.</param>
         /// <param name="EdgeId">The identification of this edge.</param>
-        /// <param name="Label">A label stored within this edge.</param>
+        /// <param name="EdgeLabel">A label stored within this edge.</param>
         /// <param name="IdKey">The key of the edge identifier.</param>
         /// <param name="RevIdKey">The key of the edge revision identifier.</param>
         /// <param name="DatastructureInitializer">A delegate to initialize the properties datastructure.</param>
@@ -232,20 +223,23 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                                           TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                           TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Graph,
+
                                    IGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                           TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                           TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OutVertex,
+
                                    IGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                           TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                           TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> InVertex,
 
                                    TIdEdge    EdgeId,
-                                   TEdgeLabel Label,
+                                   TEdgeLabel EdgeLabel,
                                    TKeyEdge   IdKey,
                                    TKeyEdge   RevIdKey,
                                    TKeyEdge   DescriptionKey,
+
                                    IDictionaryInitializer<TKeyEdge, TValueEdge> DatastructureInitializer,
 
                                    EdgeInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
@@ -253,7 +247,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                    TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeInitializer = null)
 
-            : base(EdgeId, IdKey, RevIdKey, DescriptionKey, DatastructureInitializer)
+            : base(EdgeId, EdgeLabel, IdKey, RevIdKey, DescriptionKey, DatastructureInitializer)
 
         {
 
@@ -285,7 +279,6 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
             this.Graph     = Graph;
             this.OutVertex = OutVertex;
             this.InVertex  = InVertex;
-            this.Label     = Label;
 
             if (EdgeInitializer != null)
                 EdgeInitializer(this);

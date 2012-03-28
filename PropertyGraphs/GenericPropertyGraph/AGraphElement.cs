@@ -37,13 +37,13 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
     /// <typeparam name="TKey">The type of the graph element property keys.</typeparam>
     /// <typeparam name="TValue">The type of the graph element property values.</typeparam>
     /// <typeparam name="TDatastructure">A datastructure for storing all properties.</typeparam>
-    public abstract class AGraphElement<TId, TRevId, TKey, TValue>
+    public abstract class AGraphElement<TId, TRevId, TLabel, TKey, TValue>
+                              : IGraphElement<TId, TRevId, TLabel, TKey, TValue>
 
-                              : IGraphElement<TId, TRevId, TKey, TValue>
-
-        where TKey    : IEquatable<TKey>,   IComparable<TKey>,   IComparable
         where TId     : IEquatable<TId>,    IComparable<TId>,    IComparable, TValue
         where TRevId  : IEquatable<TRevId>, IComparable<TRevId>, IComparable, TValue
+        where TLabel  : IEquatable<TLabel>, IComparable<TLabel>, IComparable
+        where TKey    : IEquatable<TKey>,   IComparable<TKey>,   IComparable
 
     {
 
@@ -120,6 +120,12 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
             }
         }
+
+        #endregion
+
+        #region Label
+
+        public TLabel Label { get; private set; }
 
         #endregion
 
@@ -330,21 +336,23 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         #region (protected) Constructor(s)
 
-        #region (protected) AGraphElement(Id, IdKey, RevIdKey, DescriptionKey, DatastructureInitializer, GraphElementInitializer = null)
+        #region (protected) AGraphElement(Id, IdKey, RevIdKey, Label, DescriptionKey, DatastructureInitializer, GraphElementInitializer = null)
 
         /// <summary>
         /// Creates a new abstract graph element.
         /// </summary>
         /// <param name="Id">The Id of this graph element.</param>
+        /// <param name="Label">The label of the graph element.</param>
         /// <param name="IdKey">The key to access the Id of this graph element.</param>
         /// <param name="RevIdKey">The key to access the RevId of this graph element.</param>
         /// <param name="DescriptionKey">The key to access the description of this graph element.</param>
         /// <param name="DatastructureInitializer">A delegate to initialize the properties datastructure of the this graph element.</param>
         /// <param name="PropertiesInitializer">A delegate to do some initial operations like adding some properties.</param>
         internal protected AGraphElement(TId                                  Id,
+                                         TLabel                               Label,
                                          TKey                                 IdKey,
                                          TKey                                 RevIdKey,
-                                         TKey                                 DescriptionKey,
+                                         TKey                                 DescriptionKey,                                         
                                          IDictionaryInitializer<TKey, TValue> DatastructureInitializer,
                                          IPropertiesInitializer<TKey, TValue> PropertiesInitializer = null)
         {
@@ -371,6 +379,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
             this.IdKey          = IdKey;
             this.RevIdKey       = RevIdKey;
             this.DescriptionKey = DescriptionKey;
+            this.Label          = Label;
             this.PropertyData   = DatastructureInitializer();
             this.PropertyData.Add(IdKey,    Id);
             this.PropertyData.Add(RevIdKey, RevId);
@@ -799,7 +808,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                 throw new ArgumentNullException("The given Object must not be null!");
 
             // Check if the given object can be casted to a AGraphElement
-            var AGraphElement = Object as AGraphElement<TId, TRevId, TKey, TValue>;
+            var AGraphElement = Object as AGraphElement<TId, TRevId, TLabel, TKey, TValue>;
 
             if ((Object) AGraphElement == null)
                 throw new ArgumentException("The given object is not a AGraphElement!");
@@ -834,7 +843,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// Compares this object to another readonly GraphElement.
         /// </summary>
         /// <param name="IReadOnlyGraphElement">An IReadOnlyGraphElement to compare with.</param>
-        public Int32 CompareTo(IReadOnlyGraphElement<TId, TRevId, TKey, TValue> IReadOnlyGraphElement)
+        public Int32 CompareTo(IReadOnlyGraphElement<TId, TRevId, TLabel, TKey, TValue> IReadOnlyGraphElement)
         {
 
             if ((Object) IReadOnlyGraphElement == null)
@@ -852,7 +861,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// Compares this object to another GraphElement.
         /// </summary>
         /// <param name="IGraphElement">An IGraphElement to compare with.</param>
-        public Int32 CompareTo(IGraphElement<TId, TRevId, TKey, TValue> IGraphElement)
+        public Int32 CompareTo(IGraphElement<TId, TRevId, TLabel, TKey, TValue> IGraphElement)
         {
 
             if ((Object) IGraphElement == null)
@@ -882,7 +891,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                 return false;
 
             // Check if the given object can be casted to a AGraphElement
-            var AGraphElement = Object as AGraphElement<TId, TRevId, TKey, TValue>;
+            var AGraphElement = Object as AGraphElement<TId, TRevId, TLabel, TKey, TValue>;
 
             if ((Object) AGraphElement == null)
                 return false;
@@ -919,7 +928,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// </summary>
         /// <param name="IReadOnlyGraphElement">An IReadOnlyGraphElement to compare with.</param>
         /// <returns>True if both match; False otherwise.</returns>
-        public Boolean Equals(IReadOnlyGraphElement<TId, TRevId, TKey, TValue> IReadOnlyGraphElement)
+        public Boolean Equals(IReadOnlyGraphElement<TId, TRevId, TLabel, TKey, TValue> IReadOnlyGraphElement)
         {
 
             if ((Object) IReadOnlyGraphElement == null)
@@ -938,7 +947,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// </summary>
         /// <param name="IGraphElement">An IGraphElement to compare with.</param>
         /// <returns>True if both match; False otherwise.</returns>
-        public Boolean Equals(IGraphElement<TId, TRevId, TKey, TValue> IGraphElement)
+        public Boolean Equals(IGraphElement<TId, TRevId, TLabel, TKey, TValue> IGraphElement)
         {
 
             if ((Object)IGraphElement == null)
