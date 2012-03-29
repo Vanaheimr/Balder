@@ -63,7 +63,7 @@
     </ProjectReference>
     <ProjectReference Include="..\Networking\Networking.csproj">
       <Project>{F3D3EF32-2759-49A0-AA78-1DF200CC8034}</Project>
-      <Name>Networking</Name>
+      <Name>Networking %28Dependencies\Networking\Networking%29</Name>
     </ProjectReference>
     <ProjectReference Include="..\PropertyGraphs\PropertyGraphs.csproj">
       <Project>{562AC94F-60EA-4911-8C62-684F02867783}</Project>
