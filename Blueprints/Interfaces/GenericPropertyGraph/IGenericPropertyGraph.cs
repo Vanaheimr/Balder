@@ -681,14 +681,14 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
         #endregion
 
-        #region AddVertex(VertexId, VertexInitializer = null)
+        #region AddVertex(Label, VertexInitializer = null)
 
         /// <summary>
         /// Create a new vertex, add it to the graph, and return the newly created vertex.
         /// If the object identifier is already being used by the graph to reference a vertex,
         /// then an exception will be thrown.
         /// </summary>
-        /// <param name="VertexId">The vertex identifier.</param>
+        /// <param name="Label">The label (or type) of the vertex.</param>
         /// <param name="VertexInitializer">A delegate to initialize the new vertex.</param>
         /// <returns>The newly created vertex as IPropertyVertex&lt;...&gt;.</returns>
         IGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
@@ -696,7 +696,32 @@ namespace de.ahzf.Blueprints.PropertyGraphs
                                TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
 
-                               AddVertex(TIdVertex VertexId,
+                               AddVertex(TVertexLabel Label,
+                                         VertexInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                           TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                           TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> VertexInitializer = null);
+
+        #endregion
+
+        #region AddVertex(Id, Label, VertexInitializer = null)
+
+        /// <summary>
+        /// Create a new vertex, add it to the graph, and return the newly created vertex.
+        /// If the object identifier is already being used by the graph to reference a vertex,
+        /// then an exception will be thrown.
+        /// </summary>
+        /// <param name="Id">The vertex identifier.</param>
+        /// <param name="Label">The label (or type) of the vertex.</param>
+        /// <param name="VertexInitializer">A delegate to initialize the new vertex.</param>
+        /// <returns>The newly created vertex as IPropertyVertex&lt;...&gt;.</returns>
+        IGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
+
+                               AddVertex(TIdVertex    Id,
+                                         TVertexLabel Label,
                                          VertexInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                            TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                            TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,

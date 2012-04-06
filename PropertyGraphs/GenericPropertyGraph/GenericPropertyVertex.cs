@@ -1912,18 +1912,18 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                            TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> VertexInitializer = null)
 
         {
-            return Subgraph.AddVertex(_VertexIdCreatorDelegate(this), VertexInitializer);
+            return Subgraph.AddVertex(_VertexIdCreatorDelegate(this), _DefaultVertexLabel, VertexInitializer);
         }
 
         #endregion
 
-        #region AddVertex(VertexId, VertexInitializer = null)
+        #region AddVertex(Label, VertexInitializer = null)
 
         /// <summary>
         /// Adds a vertex to the graph using the given VertexId and initializes
         /// the vertex by invoking the given vertex initializer.
         /// </summary>
-        /// <param name="VertexId">A VertexId. If none was given a new one will be generated.</param>
+        /// <param name="Label">The label (or type) of the vertex.</param>
         /// <param name="VertexInitializer">A delegate to initialize the new vertex.</param>
         /// <returns>The new vertex</returns>
         IGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
@@ -1935,7 +1935,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                   TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
-               AddVertex(TIdVertex VertexId,
+               AddVertex(TVertexLabel Label,
                          VertexInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                            TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                            TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -1945,8 +1945,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
             #region Initial checks
 
-            if (VertexId == null)
-                VertexId = _VertexIdCreatorDelegate(this);
+            var VertexId = _VertexIdCreatorDelegate(this);
 
             if (_VerticesWhenGraph.ContainsKey(VertexId))
                 throw new DuplicateVertexIdException("Another vertex with id " + VertexId + " already exists!");
@@ -1970,7 +1969,62 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         #endregion
 
-        #region AddVertex(IPropertyVertex)
+        #region AddVertex(Id, Label, VertexInitializer = null)
+
+        /// <summary>
+        /// Adds a vertex to the graph using the given VertexId and initializes
+        /// the vertex by invoking the given vertex initializer.
+        /// </summary>
+        /// <param name="Id">A VertexId. If none was given a new one will be generated.</param>
+        /// <param name="Label">The label (or type) of the vertex.</param>
+        /// <param name="VertexInitializer">A delegate to initialize the new vertex.</param>
+        /// <returns>The new vertex</returns>
+        IGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
+
+            IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                  TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                  TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                  TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+               AddVertex(TIdVertex    Id,
+                         TVertexLabel Label,
+                         VertexInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                           TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                           TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> VertexInitializer = null)
+
+        {
+
+            #region Initial checks
+
+            if (Id == null)
+                Id = _VertexIdCreatorDelegate(this);
+
+            if (_VerticesWhenGraph.ContainsKey(Id))
+                throw new DuplicateVertexIdException("Another vertex with id " + Id + " already exists!");
+
+            #endregion
+
+            var _Vertex = _VertexCreatorDelegate(this, Id, Label, VertexInitializer);
+
+            if (SendVertexAddingVote(_Vertex))
+            {
+                if (_VerticesWhenGraph.TryAddValue(Id, _Vertex, _Vertex.Label))
+                {
+                    SendVertexAddedNotification(_Vertex);
+                    return _Vertex;
+                }
+            }
+
+            return null;
+
+        }
+
+        #endregion
+
+        #region AddVertex(IGenericPropertyVertex)
 
         /// <summary>
         /// Adds the given vertex to the graph.
@@ -1988,30 +2042,30 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                   TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.    
                        AddVertex(IGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                 TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                 TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                 TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IPropertyVertex)
+                                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IGenericPropertyVertex)
         {
 
             #region Initial checks
 
-            if (IPropertyVertex == null)
+            if (IGenericPropertyVertex == null)
                 throw new ArgumentNullException("The given vertex must not be null!");
 
-            if (IPropertyVertex.Id == null || IPropertyVertex.Id.Equals(default(TIdVertex)))
+            if (IGenericPropertyVertex.Id == null || IGenericPropertyVertex.Id.Equals(default(TIdVertex)))
                 throw new ArgumentNullException("The Id of vertex must not be null!");
 
-            if (_VerticesWhenGraph.ContainsKey(IPropertyVertex.Id))
-                throw new DuplicateVertexIdException("Another vertex with id " + IPropertyVertex.Id + " already exists!");
+            if (_VerticesWhenGraph.ContainsKey(IGenericPropertyVertex.Id))
+                throw new DuplicateVertexIdException("Another vertex with id " + IGenericPropertyVertex.Id + " already exists!");
 
             #endregion
 
-            if (SendVertexAddingVote(IPropertyVertex))
+            if (SendVertexAddingVote(IGenericPropertyVertex))
             {
-                if (_VerticesWhenGraph.TryAddValue(IPropertyVertex.Id, IPropertyVertex, IPropertyVertex.Label))
+                if (_VerticesWhenGraph.TryAddValue(IGenericPropertyVertex.Id, IGenericPropertyVertex, IGenericPropertyVertex.Label))
                 {
-                    SendVertexAddedNotification(IPropertyVertex);
-                    return IPropertyVertex;
+                    SendVertexAddedNotification(IGenericPropertyVertex);
+                    return IGenericPropertyVertex;
                 }
             }
 

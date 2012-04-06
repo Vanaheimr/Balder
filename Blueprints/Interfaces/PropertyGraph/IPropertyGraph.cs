@@ -52,7 +52,25 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
         #endregion
 
-        #region AddVertex(VertexId, VertexInitializer = null)
+        #region AddVertex(VertexLabel, VertexInitializer = null)
+
+        /// <summary>
+        /// Create a new vertex, add it to the graph, and return the newly created vertex.
+        /// If the object identifier is already being used by the graph to reference a vertex,
+        /// then an exception will be thrown.
+        /// </summary>
+        /// <param name="VertexLabel">The label (or type) of a vertex.</param>
+        /// <param name="VertexInitializer">A delegate to initialize the new vertex.</param>
+        /// <returns>The newly created vertex as IPropertyVertex&lt;...&gt;.</returns>
+        new IPropertyVertex AddVertex(String VertexLabel,
+                                      VertexInitializer<UInt64, Int64, String, String, Object,
+                                                        UInt64, Int64, String, String, Object,
+                                                        UInt64, Int64, String, String, Object,
+                                                        UInt64, Int64, String, String, Object> VertexInitializer = null);
+
+        #endregion
+
+        #region AddVertex(VertexId, VertexLabel, VertexInitializer = null)
 
         /// <summary>
         /// Create a new vertex, add it to the graph, and return the newly created vertex.
@@ -60,12 +78,15 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         /// then an exception will be thrown.
         /// </summary>
         /// <param name="VertexId">The vertex identifier.</param>
+        /// <param name="VertexLabel">The label (or type) of the vertex.</param>
         /// <param name="VertexInitializer">A delegate to initialize the new vertex.</param>
         /// <returns>The newly created vertex as IPropertyVertex&lt;...&gt;.</returns>
-        new IPropertyVertex AddVertex(UInt64 VertexId, VertexInitializer<UInt64, Int64, String, String, Object,
-                                                                         UInt64, Int64, String, String, Object,
-                                                                         UInt64, Int64, String, String, Object,
-                                                                         UInt64, Int64, String, String, Object> VertexInitializer = null);
+        new IPropertyVertex AddVertex(UInt64 VertexId,
+                                      String VertexLabel,
+                                      VertexInitializer<UInt64, Int64, String, String, Object,
+                                                        UInt64, Int64, String, String, Object,
+                                                        UInt64, Int64, String, String, Object,
+                                                        UInt64, Int64, String, String, Object> VertexInitializer = null);
 
         #endregion
 

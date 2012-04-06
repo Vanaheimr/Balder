@@ -715,21 +715,44 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         #endregion
 
-        #region AddVertex(VertexId, VertexInitializer = null)
+        #region AddVertex(Label, VertexInitializer = null)
 
         /// <summary>
         /// Adds a vertex to the graph using the given VertexId and initializes
         /// the vertex by invoking the given vertex initializer.
         /// </summary>
-        /// <param name="VertexId">A VertexId. If none was given a new one will be generated.</param>
+        /// <param name="Label">The label (or type) of the vertex.</param>
         /// <param name="VertexInitializer">A delegate to initialize the new vertex.</param>
         /// <returns>The new vertex</returns>
-        IPropertyVertex IPropertyGraph.AddVertex(UInt64 VertexId, VertexInitializer<UInt64, Int64, String, String, Object,
-                                                                                    UInt64, Int64, String, String, Object,
-                                                                                    UInt64, Int64, String, String, Object,
-                                                                                    UInt64, Int64, String, String, Object> VertexInitializer = null)
+        IPropertyVertex IPropertyGraph.AddVertex(String Label,
+                                                 VertexInitializer<UInt64, Int64, String, String, Object,
+                                                                   UInt64, Int64, String, String, Object,
+                                                                   UInt64, Int64, String, String, Object,
+                                                                   UInt64, Int64, String, String, Object> VertexInitializer = null)
         {
-            return Subgraph.AddVertex(VertexId, VertexInitializer) as IPropertyVertex;
+            return Subgraph.AddVertex(Label, VertexInitializer) as IPropertyVertex;
+        }
+
+        #endregion
+
+        #region AddVertex(Id, Label, VertexInitializer = null)
+
+        /// <summary>
+        /// Adds a vertex to the graph using the given VertexId and initializes
+        /// the vertex by invoking the given vertex initializer.
+        /// </summary>
+        /// <param name="Id">A VertexId. If none was given a new one will be generated.</param>
+        /// <param name="Label">The label (or type) of a vertex.</param>
+        /// <param name="VertexInitializer">A delegate to initialize the new vertex.</param>
+        /// <returns>The new vertex</returns>
+        IPropertyVertex IPropertyGraph.AddVertex(UInt64 Id,
+                                                 String Label,
+                                                 VertexInitializer<UInt64, Int64, String, String, Object,
+                                                                   UInt64, Int64, String, String, Object,
+                                                                   UInt64, Int64, String, String, Object,
+                                                                   UInt64, Int64, String, String, Object> VertexInitializer = null)
+        {
+            return Subgraph.AddVertex(Id, Label, VertexInitializer) as IPropertyVertex;
         }
 
         #endregion

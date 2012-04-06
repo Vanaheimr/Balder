@@ -231,6 +231,64 @@ namespace de.ahzf.Blueprints
 
         #endregion
 
+        #region CreateGenericPropertyGraph(GraphId, Description = null, GraphInitializer = null)
+
+        /// <summary>
+        /// Create a new generic property graph.
+        /// </summary>
+        /// <param name="GraphId">The graph identification.</param>
+        /// <param name="Description">The optional description of the graph.</param>
+        /// <param name="GraphInitializer">The optional graph initializer.</param>
+        public static IGenericPropertyGraph<String, Int64, String, String, Object,
+                                            String, Int64, String, String, Object,
+                                            String, Int64, String, String, Object,
+                                            String, Int64, String, String, Object> CreateGenericPropertyGraph2(String GraphId,
+                                                                                                               String Description = null,
+                                                                                                               GraphInitializer<String, Int64, String, String, Object,
+                                                                                                                                String, Int64, String, String, Object,
+                                                                                                                                String, Int64, String, String, Object,
+                                                                                                                                String, Int64, String, String, Object> GraphInitializer = null)
+        {
+
+            return new GenericPropertyGraph<String, Int64, String, String, Object,
+                                            String, Int64, String, String, Object,
+                                            String, Int64, String, String, Object,
+                                            String, Int64, String, String, Object>(GraphId,
+                                                                                   GraphDBOntology.Id().Suffix,
+                                                                                   GraphDBOntology.RevId().Suffix,
+                                                                                   GraphDBOntology.Description().Suffix,
+                                                                                   (graph) => GraphFactory.NewVertexId.ToString(),
+                                                                                   GraphDBOntology.DefaultVertexLabel().Suffix,
+
+                                                                                   GraphDBOntology.Id().Suffix,
+                                                                                   GraphDBOntology.RevId().Suffix,
+                                                                                   GraphDBOntology.Description().Suffix,
+                                                                                   (graph) => GraphFactory.NewEdgeId.ToString(),
+                                                                                   GraphDBOntology.DefaultEdgeLabel().Suffix,
+
+                                                                                   GraphDBOntology.Id().Suffix,
+                                                                                   GraphDBOntology.RevId().Suffix,
+                                                                                   GraphDBOntology.Description().Suffix,
+                                                                                   (graph) => GraphFactory.NewMultiEdgeId.ToString(),
+                                                                                   GraphDBOntology.DefaultMultiEdgeLabel().Suffix,
+
+                                                                                   GraphDBOntology.Id().Suffix,
+                                                                                   GraphDBOntology.RevId().Suffix,
+                                                                                   GraphDBOntology.Description().Suffix,
+                                                                                   (graph) => GraphFactory.NewHyperEdgeId.ToString(),
+                                                                                   GraphDBOntology.DefaultHyperEdgeLabel().Suffix,
+
+                                                                                   GraphInitializer) { Description = Description }
+
+                                            as IGenericPropertyGraph<String, Int64, String, String, Object,
+                                                                     String, Int64, String, String, Object,
+                                                                     String, Int64, String, String, Object,
+                                                                     String, Int64, String, String, Object>;
+
+        }
+
+        #endregion
+
 
         #region CreateCommonGenericGraph<TId, TRevId, TLabel, TKey, TValue>(GraphId, IdKey, RevIdKey, DescriptionKey, VertexIdCreatorDelegate, EdgeIdCreatorDelegate, MultiEdgeIdCreatorDelegate, HyperEdgeIdCreatorDelegate, RevIdCreatorDelegate, GraphInitializer = null)
 
