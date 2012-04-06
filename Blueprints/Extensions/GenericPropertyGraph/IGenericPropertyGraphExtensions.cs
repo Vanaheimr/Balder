@@ -727,6 +727,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
             {
                 DestinationPropertyGraph.AddVertex(
                     _Vertex.Id,
+                    _Vertex.Label,
                     NewVertex => {
                         foreach (var _Property in _Vertex.GetProperties((key, value) => !key.Equals(_Vertex.IdKey)))
                             NewVertex.SetProperty(_Property);
