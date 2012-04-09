@@ -3,6 +3,9 @@
 *.suo
 *.csproj.user
 *.vsp
+*.app.ctl
+*.krn.ctl
+*.psess
 /PropertyGraphs/bin
 /PropertyGraphs/obj
 /Blueprints/obj
