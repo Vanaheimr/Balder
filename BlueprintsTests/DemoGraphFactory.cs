@@ -43,10 +43,10 @@ namespace de.ahzf.Blueprints.UnitTests
             var _Alice1 = _Graph.AddVertex();
             var _Alice2 = _Graph.AddVertex(v => v.SetProperty("name", "Alice"));
 
-            var _Alice = _Graph.AddVertex(10, v => v.SetProperty("name", "Alice").SetProperty("age", 18));
-            var _Bob   = _Graph.AddVertex(20, v => v.SetProperty("name", "Bob").  SetProperty("age", 20));
-            var _Carol = _Graph.AddVertex(30, v => v.SetProperty("name", "Carol").SetProperty("age", 22));
-            var _Dave  = _Graph.AddVertex(40, v => v.SetProperty("name", "Dave"). SetProperty("age", 23));
+            var _Alice = _Graph.AddVertex(v => v.SetProperty("name", "Alice").SetProperty("age", 18));
+            var _Bob   = _Graph.AddVertex(v => v.SetProperty("name", "Bob").  SetProperty("age", 20));
+            var _Carol = _Graph.AddVertex(v => v.SetProperty("name", "Carol").SetProperty("age", 22));
+            var _Dave  = _Graph.AddVertex(v => v.SetProperty("name", "Dave"). SetProperty("age", 23));
 
             //var e7 = _Graph.AddEdge(marko, vadas, new EdgeId("7"), "knows", e => e.SetProperty("weight", 0.5));
             //var e8 = _Graph.AddEdge(marko, josh, new EdgeId("8"), "knows", e => e.SetProperty("weight", 1.0));

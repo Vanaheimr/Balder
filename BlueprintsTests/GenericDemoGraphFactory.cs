@@ -64,10 +64,10 @@ namespace de.ahzf.Blueprints.UnitTests
             var _Alice1 = _graph.AddVertex();
             var _Alice2 = _graph.AddVertex(v => v.SetProperty("name", "Alice"));
 
-            var _Alice  = _graph.AddVertex(10, v => v.SetProperty("name", "Alice").SetProperty("age", 18));
-            var _Bob    = _graph.AddVertex(20, v => v.SetProperty("name", "Bob").  SetProperty("age", 20));
-            var _Carol  = _graph.AddVertex(30, v => v.SetProperty("name", "Carol").SetProperty("age", 22));
-            var _Dave   = _graph.AddVertex(40, v => v.SetProperty("name", "Dave"). SetProperty("age", 23));
+            var _Alice  = _graph.AddVertex(v => v.SetProperty("name", "Alice").SetProperty("age", 18));
+            var _Bob    = _graph.AddVertex(v => v.SetProperty("name", "Bob").  SetProperty("age", 20));
+            var _Carol  = _graph.AddVertex(v => v.SetProperty("name", "Carol").SetProperty("age", 22));
+            var _Dave   = _graph.AddVertex(v => v.SetProperty("name", "Dave"). SetProperty("age", 23));
 
             // The following edge will not be added because of the veto vote above!
             // (the method call will return null!)

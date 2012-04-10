@@ -87,7 +87,7 @@ namespace de.ahzf.Blueprints.UnitTests.PropertyGraphs.InMemory
             var _Graph = new PropertyGraph() as IPropertyGraph;
             Assert.AreEqual(0, _Graph.NumberOfVertices());
 
-            var _Vertex = _Graph.AddVertex(5);
+            var _Vertex = _Graph.AddVertex(5, "default");
             Assert.AreEqual(1, _Graph.NumberOfVertices());
             Assert.AreEqual(0, _Vertex.OutEdges().Count());
             Assert.AreEqual(0, _Vertex.InEdges().Count());
@@ -185,8 +185,8 @@ namespace de.ahzf.Blueprints.UnitTests.PropertyGraphs.InMemory
             var _Graph = new PropertyGraph() as IPropertyGraph;
             Assert.AreEqual(0, _Graph.NumberOfVertices());
 
-            var _Vertex = _Graph.AddVertex(23, v => v.SetProperty("key1", "value1").
-                                                      SetProperty(new KeyValuePair<String, Object>("key2", 42)));
+            var _Vertex = _Graph.AddVertex(v => v.SetProperty("key1", "value1").
+                                                  SetProperty(new KeyValuePair<String, Object>("key2", 42)));
             Assert.AreEqual(1, _Graph.NumberOfVertices());
             Assert.AreEqual(0, _Vertex.OutEdges().Count());
             Assert.AreEqual(0, _Vertex.InEdges().Count());
@@ -248,7 +248,7 @@ namespace de.ahzf.Blueprints.UnitTests.PropertyGraphs.InMemory
             var _Graph = new PropertyGraph() as IPropertyGraph;
             Assert.AreEqual(0, _Graph.NumberOfVertices());
 
-            var _Vertex1 = _Graph.AddVertex(5);
+            var _Vertex1 = _Graph.AddVertex(5, "default");
             _Vertex1.SetProperty(_Graph.IdKey, 23);
 
         }
@@ -268,7 +268,7 @@ namespace de.ahzf.Blueprints.UnitTests.PropertyGraphs.InMemory
             var _Graph = new PropertyGraph() as IPropertyGraph;
             Assert.AreEqual(0, _Graph.NumberOfVertices());
 
-            var _Vertex1 = _Graph.AddVertex(5);
+            var _Vertex1 = _Graph.AddVertex(5, "default");
             _Vertex1.SetProperty(_Graph.RevIdKey, 23);
 
         }
@@ -289,10 +289,10 @@ namespace de.ahzf.Blueprints.UnitTests.PropertyGraphs.InMemory
             var _Graph = new PropertyGraph() as IPropertyGraph;
             Assert.AreEqual(0, _Graph.NumberOfVertices());
 
-            var _Vertex1 = _Graph.AddVertex(5);
+            var _Vertex1 = _Graph.AddVertex(5, "default");
             Assert.AreEqual(1, _Graph.NumberOfVertices());
 
-            var _Vertex2 = _Graph.AddVertex(5);
+            var _Vertex2 = _Graph.AddVertex(5, "default");
 
         }
 
@@ -314,7 +314,7 @@ namespace de.ahzf.Blueprints.UnitTests.PropertyGraphs.InMemory
 
             for (var i = 1; i <= _Random; i++)
             {
-                _Graph.AddVertex((UInt64)i);
+                _Graph.AddVertex((UInt64) i, "default");
                 Assert.AreEqual(i, _Graph.NumberOfVertices());
             }
 

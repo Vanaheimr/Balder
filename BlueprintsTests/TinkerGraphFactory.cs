@@ -49,13 +49,13 @@ namespace de.ahzf.Blueprints.UnitTests
                 }
             };
 
-            var marko  = _TinkerGraph.AddVertex(1, v => v.SetProperty("name", "marko"). SetProperty("age",   29));
-            var vadas  = _TinkerGraph.AddVertex(2, v => v.SetProperty("name", "vadas"). SetProperty("age",   27));
-            var lop    = _TinkerGraph.AddVertex(3, v => v.SetProperty("name", "lop").   SetProperty("lang", "java"));
-            var josh   = _TinkerGraph.AddVertex(4, v => v.SetProperty("name", "josh").  SetProperty("age",   32));
-            var vader  = _TinkerGraph.AddVertex(5, v => v.SetProperty("name", "darth vader"));
-            var ripple = _TinkerGraph.AddVertex(6, v => v.SetProperty("name", "ripple").SetProperty("lang", "java"));
-            var peter  = _TinkerGraph.AddVertex(7, v => v.SetProperty("name", "peter"). SetProperty("age",   35));
+            var marko  = _TinkerGraph.AddVertex(v => v.SetProperty("name", "marko"). SetProperty("age",   29));
+            var vadas  = _TinkerGraph.AddVertex(v => v.SetProperty("name", "vadas"). SetProperty("age",   27));
+            var lop    = _TinkerGraph.AddVertex(v => v.SetProperty("name", "lop").   SetProperty("lang", "java"));
+            var josh   = _TinkerGraph.AddVertex(v => v.SetProperty("name", "josh").  SetProperty("age",   32));
+            var vader  = _TinkerGraph.AddVertex(v => v.SetProperty("name", "darth vader"));
+            var ripple = _TinkerGraph.AddVertex(v => v.SetProperty("name", "ripple").SetProperty("lang", "java"));
+            var peter  = _TinkerGraph.AddVertex(v => v.SetProperty("name", "peter"). SetProperty("age",   35));
 
             Console.WriteLine("Number of vertices added: " + _TinkerGraph.Vertices().Count());
 
