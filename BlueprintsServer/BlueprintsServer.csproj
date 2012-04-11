@@ -43,9 +43,9 @@
   <ItemGroup>
     <Compile Include="GraphServer.cs" />
     <Compile Include="IGraphServer.cs" />
-    <Compile Include="JavaScript\JSPropertyEdge.cs" />
-    <Compile Include="JavaScript\JSGraphElement.cs" />
-    <Compile Include="JavaScript\JSPropertyVertex.cs" />
+    <Compile Include="JurassicGraph\JSPropertyEdge.cs" />
+    <Compile Include="JurassicGraph\JSGraphElement.cs" />
+    <Compile Include="JurassicGraph\JSPropertyVertex.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GraphService\AGraphService.cs" />
     <Compile Include="GraphService\GraphService_ALL.cs" />

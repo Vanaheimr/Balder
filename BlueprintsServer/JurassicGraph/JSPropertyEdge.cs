@@ -23,26 +23,26 @@ using Jurassic;
 
 #endregion
 
-namespace de.ahzf.Blueprints.HTTP.Server
+namespace de.ahzf.Blueprints.JurassicGraph
 {
 
     /// <summary>
-    /// A wrapper to access a property vertex from JavaScript.
+    /// A wrapper to access a property edge from JavaScript.
     /// </summary>
-    public class JSPropertyVertex : JSGraphElement
+    public class JSPropertyEdge : JSGraphElement
     {
 
         #region Constructor(s)
 
-        #region JSPropertyVertex(PropertyVertex, JavaScriptEngine)
+        #region JSPropertyEdge(PropertyEdge, JavaScriptEngine)
 
         /// <summary>
-        /// Create a new property vertex wrapper for JavaScript.
+        /// Create a new property edge wrapper for JavaScript.
         /// </summary>
-        /// <param name="PropertyVertex">The internal property vertex.</param>
+        /// <param name="PropertyEdge">The internal property edge.</param>
         /// <param name="JavaScriptEngine">An instance of a JavaScript engine.</param>
-        public JSPropertyVertex(IPropertyVertex PropertyVertex, ScriptEngine JavaScriptEngine)
-            : base(PropertyVertex, JavaScriptEngine)
+        public JSPropertyEdge(IPropertyEdge PropertyEdge, ScriptEngine JavaScriptEngine)
+            : base(PropertyEdge, JavaScriptEngine)
         { }
 
         #endregion

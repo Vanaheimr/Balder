@@ -26,7 +26,7 @@ using Jurassic.Library;
 
 #endregion
 
-namespace de.ahzf.Blueprints.HTTP.Server
+namespace de.ahzf.Blueprints.JurassicGraph
 {
 
     /// <summary>
