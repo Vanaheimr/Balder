@@ -1,6 +1,6 @@
 ﻿/*
  * Copyright (c) 2010-2012, Achim 'ahzf' Friedland <code@ahzf.de>
- * This file is part of Blueprints.NET <http://www.github.com/ahzf/Blueprints.NET>
+ * This file is part of Blueprints.NET <http://www.github.com/Vanaheimr/Blueprints.NET>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -90,14 +90,14 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
         #endregion
 
-        #region AddVertex(Vertex)
+        #region AddVertex(IPropertyVertex)
 
         /// <summary>
-        /// Add the given vertex to the graph, and return the newly created vertex.
-        /// If the object identifier is already being used by the graph to reference a vertex,
-        /// then an exception will be thrown.
+        /// Adds the given vertex to the graph, and returns it again.
+        /// An exception will be thrown if the vertex identifier is already being
+        /// used by the graph to reference another vertex.
         /// </summary>
-        /// <param name="Vertex">An IPropertyVertex.</param>
+        /// <param name="IPropertyVertex">An IPropertyVertex.</param>
         /// <returns>The given IPropertyVertex.</returns>
         new IPropertyVertex AddVertex(IPropertyVertex Vertex);
 
@@ -298,6 +298,19 @@ namespace de.ahzf.Blueprints.PropertyGraphs
                                                   UInt64, Int64, String, String, Object,
                                                   UInt64, Int64, String, String, Object,
                                                   UInt64, Int64, String, String, Object> EdgeInitializer = null);
+
+        #endregion
+
+        #region AddEdge(IPropertyEdge)
+
+        /// <summary>
+        /// Add the given edge to the graph, and returns it again.
+        /// An exception will be thrown if the edge identifier is already being
+        /// used by the graph to reference another edge.
+        /// </summary>
+        /// <param name="IPropertyEdge">An IPropertyEdge.</param>
+        /// <returns>The given IPropertyEdge.</returns>
+        new IPropertyEdge AddEdge(IPropertyEdge IPropertyEdge);
 
         #endregion
 

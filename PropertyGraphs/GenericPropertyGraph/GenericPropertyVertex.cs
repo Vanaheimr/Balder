@@ -1,6 +1,6 @@
 ﻿/*
  * Copyright (c) 2010-2012, Achim 'ahzf' Friedland <code@ahzf.de>
- * This file is part of Blueprints.NET <http://www.github.com/ahzf/Blueprints.NET>
+ * This file is part of Blueprints.NET <http://www.github.com/Vanaheimr/Blueprints.NET>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -2027,11 +2027,12 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         #region AddVertex(IGenericPropertyVertex)
 
         /// <summary>
-        /// Adds the given vertex to the graph.
-        /// Will fail if the Id of the vertex is already present in the graph.
+        /// Adds the given vertex to the graph, and returns it again.
+        /// An exception will be thrown if the vertex identifier is already being
+        /// used by the graph to reference another vertex.
         /// </summary>
-        /// <param name="IPropertyVertex">An IPropertyVertex.</param>
-        /// <returns>The given vertex.</returns>
+        /// <param name="IGenericPropertyVertex">An IGenericPropertyVertex.</param>
+        /// <returns>The given IGenericPropertyVertex.</returns>
         IGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -2053,10 +2054,10 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                 throw new ArgumentNullException("The given vertex must not be null!");
 
             if (IGenericPropertyVertex.Id == null || IGenericPropertyVertex.Id.Equals(default(TIdVertex)))
-                throw new ArgumentNullException("The Id of vertex must not be null!");
+                throw new ArgumentNullException("The unique identification of vertex must not be null!");
 
             if (_VerticesWhenGraph.ContainsKey(IGenericPropertyVertex.Id))
-                throw new DuplicateVertexIdException("Another vertex with id " + IGenericPropertyVertex.Id + " already exists!");
+                throw new DuplicateVertexIdException("Another vertex with identification " + IGenericPropertyVertex.Id + " already exists!");
 
             #endregion
 
@@ -2639,6 +2640,58 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         #endregion
 
+        #region AddEdge(IGenericPropertyEdge)
+
+        /// <summary>
+        /// Adds the given edge to the graph, and returns it again.
+        /// An exception will be thrown if the edge identifier is already being
+        /// used by the graph to reference another edge.
+        /// </summary>
+        /// <param name="IGenericPropertyEdge">An IGenericPropertyEdge.</param>
+        /// <returns>The given IGenericPropertyEdge.</returns>
+        IGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                             TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                             TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                             TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
+        
+            IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                  TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                  TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                  TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.    
+                       AddEdge(IGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                    TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                    TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IGenericPropertyEdge)
+        {
+
+            #region Initial checks
+
+            if (IGenericPropertyEdge == null)
+                throw new ArgumentNullException("The given edge must not be null!");
+
+            if (IGenericPropertyEdge.Id == null || IGenericPropertyEdge.Id.Equals(default(TIdEdge)))
+                throw new ArgumentNullException("The unique identification of edge must not be null!");
+
+            if (_EdgesWhenGraph.ContainsKey(IGenericPropertyEdge.Id))
+                throw new DuplicateVertexIdException("Another edge with identification " + IGenericPropertyEdge.Id + " already exists!");
+
+            #endregion
+
+            if (SendEdgeAddingVote(IGenericPropertyEdge))
+            {
+                if (_EdgesWhenGraph.TryAddValue(IGenericPropertyEdge.Id, IGenericPropertyEdge, IGenericPropertyEdge.Label))
+                {
+                    SendEdgeAddedNotification(IGenericPropertyEdge);
+                    return IGenericPropertyEdge;
+                }
+            }
+
+            return null;
+
+        }
+
+        #endregion
+
 
         #region EdgeById(EdgeId)
 
@@ -3140,6 +3193,58 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         #endregion
 
+        #region AddMultiEdge(IGenericPropertyMultiEdge)
+
+        /// <summary>
+        /// Adds the given multiedge to the graph, and returns it again.
+        /// An exception will be thrown if the multiedge identifier is already being
+        /// used by the graph to reference another multiedge.
+        /// </summary>
+        /// <param name="IGenericPropertyMultiEdge">An IGenericPropertyMultiEdge.</param>
+        /// <returns>The given IGenericPropertyMultiEdge.</returns>
+        IGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                  TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                  TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                  TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
+        
+            IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                  TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                  TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                  TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+                       AddMultiEdge(IGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IGenericPropertyMultiEdge)
+        {
+
+            #region Initial checks
+
+            if (IGenericPropertyMultiEdge == null)
+                throw new ArgumentNullException("The given multiedge must not be null!");
+
+            if (IGenericPropertyMultiEdge.Id == null || IGenericPropertyMultiEdge.Id.Equals(default(TIdMultiEdge)))
+                throw new ArgumentNullException("The unique identification of multiedge must not be null!");
+
+            if (_MultiEdgesWhenGraph.ContainsKey(IGenericPropertyMultiEdge.Id))
+                throw new DuplicateVertexIdException("Another multiedge with identification " + IGenericPropertyMultiEdge.Id + " already exists!");
+
+            #endregion
+
+            if (SendMultiEdgeAddingVote(IGenericPropertyMultiEdge))
+            {
+                if (_MultiEdgesWhenGraph.TryAddValue(IGenericPropertyMultiEdge.Id, IGenericPropertyMultiEdge, IGenericPropertyMultiEdge.Label))
+                {
+                    SendMultiEdgeAddedNotification(IGenericPropertyMultiEdge);
+                    return IGenericPropertyMultiEdge;
+                }
+            }
+
+            return null;
+
+        }
+
+        #endregion
+
 
         #region MultiEdgeById(MultiEdgeId)
 
@@ -3617,6 +3722,57 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         #endregion
 
+        #region AddHyperEdge(IGenericPropertyHyperEdge)
+
+        /// <summary>
+        /// Adds the given hyperedge to the graph, and returns it again.
+        /// An exception will be thrown if the hyperedge identifier is already being
+        /// used by the graph to reference another hyperedge.
+        /// </summary>
+        /// <param name="IGenericPropertyHyperEdge">An IGenericPropertyHyperEdge.</param>
+        /// <returns>The given IGenericPropertyHyperEdge.</returns>
+        IGenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                  TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                  TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                  TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
+        
+            IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                  TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                  TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                  TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.    
+                       AddHyperEdge(IGenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IGenericPropertyHyperEdge)
+        {
+
+            #region Initial checks
+
+            if (IGenericPropertyHyperEdge == null)
+                throw new ArgumentNullException("The given hyperedge must not be null!");
+
+            if (IGenericPropertyHyperEdge.Id == null || IGenericPropertyHyperEdge.Id.Equals(default(TIdHyperEdge)))
+                throw new ArgumentNullException("The unique identification of hyperedge must not be null!");
+
+            if (_HyperEdgesWhenGraph.ContainsKey(IGenericPropertyHyperEdge.Id))
+                throw new DuplicateVertexIdException("Another hyperedge with identification " + IGenericPropertyHyperEdge.Id + " already exists!");
+
+            #endregion
+
+            if (SendHyperEdgeAddingVote(IGenericPropertyHyperEdge))
+            {
+                if (_HyperEdgesWhenGraph.TryAddValue(IGenericPropertyHyperEdge.Id, IGenericPropertyHyperEdge, IGenericPropertyHyperEdge.Label))
+                {
+                    SendHyperEdgeAddedNotification(IGenericPropertyHyperEdge);
+                    return IGenericPropertyHyperEdge;
+                }
+            }
+
+            return null;
+
+        }
+
+        #endregion
 
 
         #region HyperEdgeById(HyperEdgeId)
@@ -4309,6 +4465,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         }
 
         #endregion
+
 
     }
 

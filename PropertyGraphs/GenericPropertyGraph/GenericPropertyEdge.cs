@@ -1,6 +1,6 @@
 ﻿/*
  * Copyright (c) 2010-2012, Achim 'ahzf' Friedland <code@ahzf.de>
- * This file is part of Blueprints.NET <http://www.github.com/ahzf/Blueprints.NET>
+ * This file is part of Blueprints.NET <http://www.github.com/Vanaheimr/Blueprints.NET>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -132,6 +132,15 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                     return Graph;
                 }
             }
+
+        #endregion
+
+        #region Weight
+
+        /// <summary>
+        /// The edge weight associated with this edge.
+        /// </summary>
+        public Double Weight { get; private set; }
 
         #endregion
 

@@ -1,6 +1,6 @@
 ﻿/*
  * Copyright (c) 2010-2012, Achim 'ahzf' Friedland <code@ahzf.de>
- * This file is part of Blueprints.NET <http://www.github.com/ahzf/Blueprints.NET>
+ * This file is part of Blueprints.NET <http://www.github.com/Vanaheimr/Blueprints.NET>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,12 +20,10 @@
 using System;
 using System.Linq;
 using System.Dynamic;
-using System.Threading;
 using System.Linq.Expressions;
 using System.Collections.Generic;
 
 using de.ahzf.Illias.Commons;
-using de.ahzf.Illias.Commons.Votes;
 
 #endregion
 
@@ -760,11 +758,12 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         #region AddVertex(IPropertyVertex)
 
         /// <summary>
-        /// Adds the given vertex to the graph.
-        /// Will fail if the Id of the vertex is already present in the graph.
+        /// Adds the given vertex to the graph, and returns it again.
+        /// An exception will be thrown if the vertex identifier is already being
+        /// used by the graph to reference another vertex.
         /// </summary>
         /// <param name="IPropertyVertex">An IPropertyVertex.</param>
-        /// <returns>The given vertex.</returns>
+        /// <returns>The given IPropertyVertex.</returns>
         IPropertyVertex IPropertyGraph.AddVertex(IPropertyVertex Vertex)
         {
             return Subgraph.AddVertex(Vertex) as IPropertyVertex;
@@ -1015,6 +1014,22 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                                              UInt64, Int64, String, String, Object> EdgeInitializer = null)
         {
             return Subgraph.AddEdge(OutVertex, InVertex, EdgeId, Label, EdgeInitializer) as IPropertyEdge;
+        }
+
+        #endregion
+
+        #region AddEdge(IPropertyEdge)
+
+        /// <summary>
+        /// Adds the given edge to the graph, and returns it again.
+        /// An exception will be thrown if the edge identifier is already being
+        /// used by the graph to reference another edge.
+        /// </summary>
+        /// <param name="IPropertyEdge">An IPropertyEdge.</param>
+        /// <returns>The given IPropertyEdge.</returns>
+        IPropertyEdge IPropertyGraph.AddEdge(IPropertyEdge IPropertyEdge)
+        {
+            return Subgraph.AddEdge(IPropertyEdge) as IPropertyEdge;
         }
 
         #endregion

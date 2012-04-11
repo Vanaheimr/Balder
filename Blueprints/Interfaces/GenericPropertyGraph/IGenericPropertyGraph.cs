@@ -1,6 +1,6 @@
 ﻿/*
  * Copyright (c) 2010-2012, Achim 'ahzf' Friedland <code@ahzf.de>
- * This file is part of Blueprints.NET <http://www.github.com/ahzf/Blueprints.NET>
+ * This file is part of Blueprints.NET <http://www.github.com/Vanaheimr/Blueprints.NET>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -729,24 +729,24 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
         #endregion
 
-        #region AddVertex(Vertex)
+        #region AddVertex(IGenericPropertyVertex)
 
         /// <summary>
-        /// Add the given vertex to the graph, and return the newly created vertex.
-        /// If the object identifier is already being used by the graph to reference a vertex,
-        /// then an exception will be thrown.
+        /// Adds the given vertex to the graph, and returns it again.
+        /// An exception will be thrown if the vertex identifier is already being
+        /// used by the graph to reference another vertex.
         /// </summary>
-        /// <param name="Vertex">An IPropertyVertex.</param>
-        /// <returns>The given IPropertyVertex.</returns>
+        /// <param name="IGenericPropertyVertex">An IGenericPropertyVertex.</param>
+        /// <returns>The given IGenericPropertyVertex.</returns>
         IGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
 
                                AddVertex(IGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                         TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                         TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Vertex);
+                                                                TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IGenericPropertyVertex);
 
         #endregion
 
@@ -930,7 +930,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
         #endregion
 
-        #region AddEdge(OutVertex, InVertex, EdgeId, Label  = default(TEdgeLabel), EdgeInitializer = null)
+        #region AddEdge(OutVertex, InVertex, EdgeId, Label = default(TEdgeLabel), EdgeInitializer = null)
 
         /// <summary>
         /// Add an edge to the graph. The added edge requires a tail vertex,
@@ -965,6 +965,27 @@ namespace de.ahzf.Blueprints.PropertyGraphs
                                                             TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                             TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                             TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeInitializer = null);
+
+        #endregion
+
+        #region AddEdge(IGenericPropertyEdge)
+
+        /// <summary>
+        /// Add the given edge to the graph, and returns it again.
+        /// An exception will be thrown if the edge identifier is already being
+        /// used by the graph to reference another edge.
+        /// </summary>
+        /// <param name="IGenericPropertyEdge">An IGenericPropertyEdge.</param>
+        /// <returns>The given IGenericPropertyEdge.</returns>
+        IGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                             TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                             TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                             TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
+
+                             AddEdge(IGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IGenericPropertyEdge);
 
         #endregion
 
@@ -1136,6 +1157,27 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
         #endregion
 
+        #region AddMultiEdge(IGenericPropertyMultiEdge)
+
+        /// <summary>
+        /// Add the given multiedge to the graph, and returns it again.
+        /// An exception will be thrown if the multiedge identifier is already being
+        /// used by the graph to reference another multiedge.
+        /// </summary>
+        /// <param name="IGenericPropertyMultiEdge">An IGenericPropertyMultiEdge.</param>
+        /// <returns>The given IGenericPropertyMultiEdge.</returns>
+        IGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                  TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                  TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                  TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
+
+                                  AddMultiEdge(IGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                         TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                         TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IGenericPropertyMultiEdge);
+
+        #endregion
+
         #region OnMultiEdgeAdded
 
         /// <summary>
@@ -1304,6 +1346,8 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
         #endregion
 
+        #region AddHyperEdge(OutVertex, Label, HyperEdgeInitializer, params InVertices)
+
         /// <summary>
         /// Add a multiedge based on the given multiedge label and
         /// an enumeration of vertices to the graph and initialize
@@ -1336,6 +1380,28 @@ namespace de.ahzf.Blueprints.PropertyGraphs
                                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>[] InVertices);
 
+        #endregion
+
+        #region AddHyperEdge(IGenericPropertyHyperEdge)
+
+        /// <summary>
+        /// Add the given hyperedge to the graph, and returns it again.
+        /// An exception will be thrown if the hyperedge identifier is already being
+        /// used by the graph to reference another hyperedge.
+        /// </summary>
+        /// <param name="IGenericPropertyHyperEdge">An IGenericPropertyHyperEdge.</param>
+        /// <returns>The given IGenericPropertyHyperEdge.</returns>
+        IGenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                  TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                  TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                  TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
+
+                                  AddHyperEdge(IGenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                         TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                         TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IGenericPropertyHyperEdge);
+
+        #endregion
 
         #region OnHyperEdgeAdded
 

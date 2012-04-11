@@ -1,6 +1,6 @@
 ﻿/*
  * Copyright (c) 2010-2012, Achim 'ahzf' Friedland <code@ahzf.de>
- * This file is part of Blueprints.NET <http://www.github.com/ahzf/Blueprints.NET>
+ * This file is part of Blueprints.NET <http://www.github.com/Vanaheimr/Blueprints.NET>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -776,6 +776,28 @@ namespace de.ahzf.Blueprints.HTTP.Client
         }
 
         IGenericPropertyVertex<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> IGenericPropertyGraph<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>.AddVertex(ulong Id, string Label, VertexInitializer<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> VertexInitializer = null)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public IPropertyEdge AddEdge(IPropertyEdge IPropertyEdge)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public IGenericPropertyEdge<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> AddEdge(IGenericPropertyEdge<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> IGenericPropertyEdge)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IGenericPropertyMultiEdge<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> AddMultiEdge(IGenericPropertyMultiEdge<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> IGenericPropertyMultiEdge)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IGenericPropertyHyperEdge<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> AddHyperEdge(IGenericPropertyHyperEdge<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> IGenericPropertyHyperEdge)
         {
             throw new NotImplementedException();
         }
