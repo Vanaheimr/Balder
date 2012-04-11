@@ -219,7 +219,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
                                 #endregion
 
-            : base(VertexId, IdKey, RevIdKey, DescriptionKey, GraphDBOntology.DefaultVertexLabel().Suffix, DatastructureInitializer,
+            : base(VertexId, GraphDBOntology.DefaultVertexLabel().Suffix, IdKey, RevIdKey, DescriptionKey, DatastructureInitializer,
                    VertexIdCreatorDelegate,    GraphDBOntology.DefaultVertexLabel().Suffix,    VertexCreatorDelegate,    VerticesCollectionInitializer,
                    EdgeIdCreatorDelegate,      GraphDBOntology.DefaultEdgeLabel().Suffix,      EdgeCreatorDelegate,      EdgesCollectionInitializer,
                    MultiEdgeIdCreatorDelegate, GraphDBOntology.DefaultMultiEdgeLabel().Suffix, MultiEdgeCreatorDelegate, MultiEdgesCollectionInitializer,
