@@ -61,10 +61,6 @@
       <Project>{47FA1E7C-8C47-493D-A371-91A15D53BC95}</Project>
       <Name>Blueprints</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Networking\Networking.csproj">
-      <Project>{F3D3EF32-2759-49A0-AA78-1DF200CC8034}</Project>
-      <Name>Networking %28Dependencies\Networking\Networking%29</Name>
-    </ProjectReference>
     <ProjectReference Include="..\PropertyGraphs\PropertyGraphs.csproj">
       <Project>{562AC94F-60EA-4911-8C62-684F02867783}</Project>
       <Name>PropertyGraphs</Name>

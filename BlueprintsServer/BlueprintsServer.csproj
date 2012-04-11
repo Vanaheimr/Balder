@@ -67,17 +67,13 @@
       <Project>{16C85DF8-5DE6-4A9F-9FC7-7CA5B0440DF3}</Project>
       <Name>Commons</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\libs\Jurassic\Jurassic\Jurassic.csproj">
+      <Project>{9B109B9C-4B72-4BDB-B531-627D7E93011E}</Project>
+      <Name>Jurassic</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Blueprints\Blueprints.csproj">
       <Project>{47FA1E7C-8C47-493D-A371-91A15D53BC95}</Project>
       <Name>Blueprints</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\libs\Jurassic\Jurassic.csproj">
-      <Project>{2CE5502D-8710-4BE3-9D90-201D526904B3}</Project>
-      <Name>Jurassic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Networking\Networking.csproj">
-      <Project>{F3D3EF32-2759-49A0-AA78-1DF200CC8034}</Project>
-      <Name>Networking %28Dependencies\Networking\Networking%29</Name>
     </ProjectReference>
     <ProjectReference Include="..\PropertyGraphs\PropertyGraphs.csproj">
       <Project>{562AC94F-60EA-4911-8C62-684F02867783}</Project>
