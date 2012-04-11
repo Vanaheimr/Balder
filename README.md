@@ -83,6 +83,28 @@ Just check out or download its sources and all its dependencies:
 - [Newtonsoft.JSON](http://github.com/JamesNK/Newtonsoft.Json) for JSON processing
 - [Jurassic](http://github.com/Alxandr/Jurassic) for JavaScript processing and networking
 
+if you want to clone the entire Vanaheimr graph processing stack just run the following commands:
+
+    git clone git://github.com/Vanaheimr/Aegir
+    git clone git://github.com/Vanaheimr/Balder
+    git clone git://github.com/Vanaheimr/Blueprints.NET
+    git clone git://github.com/Vanaheimr/Bragi
+    git clone git://github.com/Vanaheimr/Eunomia
+    git clone git://github.com/Vanaheimr/GEXFSharp
+    git clone git://github.com/Vanaheimr/Gera
+    git clone git://github.com/Vanaheimr/Glyphe
+    git clone git://github.com/Vanaheimr/Hermod
+    git clone git://github.com/Vanaheimr/Illias
+    git clone git://github.com/Vanaheimr/Loki
+    git clone git://github.com/Vanaheimr/Styx
+    git clone git://github.com/Vanaheimr/Vanir
+        
+    mkdir libs
+    cd libs
+    git clone git://github.com/JamesNK/Newtonsoft.Json.git
+    git clone git://github.com/ahzf/MonoCompilerAsAService.git
+    git clone git://github.com/Alxandr/Jurassic.git
+
 #### License and your contribution
 
 [Blueprints.NET](http://github.com/ahzf/blueprints.NET) is released under the [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0). For details see the [LICENSE](/Vanaheimr/Blueprints.NET/blob/master/LICENSE) file.    
