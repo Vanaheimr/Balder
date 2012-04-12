@@ -9,8 +9,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("Generic property graph interface for .NET, Silverlight and Mono")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("ahzf.de")]
-[assembly: AssemblyProduct("Blueprints")]
-[assembly: AssemblyCopyright("Copyright © Achim Friedland 2010-2012")]
+[assembly: AssemblyProduct("Blueprints.NET")]
+[assembly: AssemblyCopyright("Copyright © Achim 'ahzf' Friedland 2010-2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

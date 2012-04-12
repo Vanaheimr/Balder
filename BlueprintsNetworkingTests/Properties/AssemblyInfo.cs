@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("BlueprintsTests")]
+[assembly: AssemblyTitle("BlueprintsNetworkingTests")]
 [assembly: AssemblyDescription("Generic property graph interface for .NET, Silverlight and Mono")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("ahzf.de")]
-[assembly: AssemblyProduct("BlueprintsTests")]
+[assembly: AssemblyProduct("BlueprintsNetworkingTests")]
 [assembly: AssemblyCopyright("Copyright © Achim 'ahzf' Friedland 2010-2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("4c5d4944-feb7-4c19-97aa-066adbfc292a")]
+[assembly: Guid("61bf17e0-6cb6-42fa-be2b-465f55404edf")]
 
 // Version information for an assembly consists of the following four values:
 //

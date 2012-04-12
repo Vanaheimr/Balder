@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{7F4CE297-4A42-47A8-9A0A-74BA46B09891}</ProjectGuid>
+    <ProjectGuid>{DFB85528-1B0F-4E1F-B814-EB49BCDAB147}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BlueprintsTests</RootNamespace>
-    <AssemblyName>BlueprintsTests</AssemblyName>
+    <RootNamespace>BlueprintsNetworkingTests</RootNamespace>
+    <AssemblyName>BlueprintsNetworkingTests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -43,31 +43,38 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GenericDemoGraphFactory.cs" />
-    <Compile Include="GraphElementIds\MultiEdgeIdTests.cs" />
-    <Compile Include="GraphElementIds\EdgeIdTests.cs" />
-    <Compile Include="GraphElementIds\HyperEdgeIdTests.cs" />
-    <Compile Include="GraphElementIds\IPropertiesTests.cs" />
-    <Compile Include="GraphElementIds\VertexIdTests.cs" />
-    <Compile Include="DemoGraphFactory.cs" />
+    <Compile Include="GraphServer\GraphServerInitializationTests.cs" />
+    <Compile Include="GraphServer\InitHTTPGraph.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PropertyGraphTests\GraphWithPropertiesTests.cs" />
-    <Compile Include="PropertyGraphTests\CreateVerticesTests.cs" />
-    <Compile Include="PropertyGraphTests\EdgeTests.cs" />
-    <Compile Include="PropertyGraphTests\Indices\IndicesTests.cs" />
-    <Compile Include="PropertyGraphTests\InitGraph.cs" />
-    <Compile Include="PropertyGraphTests\IPropertyGraphExtensionTests.cs" />
-    <Compile Include="PropertyGraphTests\PropertyVertexTests.cs" />
-    <Compile Include="TinkerGraphFactory.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Eunomia\Eunomia\Eunomia.csproj">
+      <Project>{1DF1A588-33B1-4168-9487-604FE5680681}</Project>
+      <Name>Eunomia</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Hermod\Hermod\Hermod.csproj">
+      <Project>{477EFD16-3627-4473-957D-44CA9A9DFB79}</Project>
+      <Name>Hermod</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Illias\Commons\Commons.csproj">
       <Project>{16C85DF8-5DE6-4A9F-9FC7-7CA5B0440DF3}</Project>
       <Name>Commons</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\libs\Jurassic\Jurassic\Jurassic.csproj">
+      <Project>{9B109B9C-4B72-4BDB-B531-627D7E93011E}</Project>
+      <Name>Jurassic</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\libs\Newtonsoft.Json\Src\Newtonsoft.Json\Newtonsoft.Json.csproj">
       <Project>{A9AE40FF-1A21-414A-9FE7-3BE13644CC6D}</Project>
       <Name>Newtonsoft.Json</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueprintsClient\BlueprintsClient.csproj">
+      <Project>{EB31E37B-FA75-44FD-9528-171C9E7C3C37}</Project>
+      <Name>BlueprintsClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueprintsServer\BlueprintsServer.csproj">
+      <Project>{DC46B5EF-ECC5-465E-B1C4-85596343A03F}</Project>
+      <Name>BlueprintsServer</Name>
     </ProjectReference>
     <ProjectReference Include="..\Blueprints\Blueprints.csproj">
       <Project>{47FA1E7C-8C47-493D-A371-91A15D53BC95}</Project>
