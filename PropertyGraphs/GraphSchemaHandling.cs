@@ -29,13 +29,15 @@ namespace de.ahzf.Blueprints.Schema
 {
 
     /// <summary>
-    /// Graph Schema
+    /// Graph schema handling
     /// </summary>
-    public static class GraphSchema
+    public static class GraphSchemaHandling
     {
 
+        #region GetSchemaGraph(this PropertyGraph, GraphId, Description = null, ContinuousLearning = true)
+
         /// <summary>
-        /// 
+        /// Analyses the given property graph and returns a schema graph for the property graph.
         /// </summary>
         /// <typeparam name="TIdVertex">The type of the vertex identifiers.</typeparam>
         /// <typeparam name="TRevIdVertex">The type of the vertex revision identifiers.</typeparam>
@@ -60,20 +62,27 @@ namespace de.ahzf.Blueprints.Schema
         /// <typeparam name="THyperEdgeLabel">The type of the multiedge label.</typeparam>
         /// <typeparam name="TKeyHyperEdge">The type of the multiedge property keys.</typeparam>
         /// <typeparam name="TValueHyperEdge">The type of the multiedge property values.</typeparam>
+        /// <param name="PropertyGraph">The property graph to extract the schema from.</param>
+        /// <param name="GraphId">The schema graph identification.</param>
+        /// <param name="Description">The optional description of the schema graph.</param>
+        /// <param name="ContinuousLearning">If set to true, the schema graph will subsribe vertex/edge additions in order to continuously learn the graph schema.</param>
         public static IGenericPropertyGraph<String, Int64, String, String, Object,
                                             String, Int64, String, String, Object,
                                             String, Int64, String, String, Object,
                                             String, Int64, String, String, Object>
 
-                          ExtractSchema<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>(
+                          GetSchemaGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                         TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                         TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>(
 
-                            this IGenericPropertyGraph <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                             this IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                         TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                         TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> PropertyGraph)
+                                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> PropertyGraph,
+                             String  GraphId,
+                             String  Description        = null,
+                             Boolean ContinuousLearning = true)
 
             where TIdVertex        : IEquatable<TIdVertex>,       IComparable<TIdVertex>,       IComparable, TValueVertex
             where TIdEdge          : IEquatable<TIdEdge>,         IComparable<TIdEdge>,         IComparable, TValueEdge
@@ -97,32 +106,44 @@ namespace de.ahzf.Blueprints.Schema
 
         {
 
-            var SchemaGraph = GraphFactory.CreateSchemaGraph("1");
+            var SchemaGraph = GraphFactory.CreateSchemaGraph(GraphId, Description);
 
-            PropertyGraph.Vertices().ForEach(v => {
+            if (ContinuousLearning)
+            {
 
-                if (SchemaGraph.VertexById(v.Label.ToString()) == null)
-                    SchemaGraph.AddVertex(v.Label.ToString(), "Vertex");
+                #region Register [Vertex|Edge]Added events: PropertyGraph -> SchemaGraph
 
-            });
+                PropertyGraph.OnVertexAdded += (g, v) => SchemaGraph.AddVertexIfNotExists(v.Label.ToString(), "Vertex");
 
-            PropertyGraph.Edges().ForEach(e => {
+                PropertyGraph.OnEdgeAdded   += (g, e) => SchemaGraph.AddEdgeIfNotExists(e.Label.ToString(),
+                                                                                        SchemaGraph.VertexById(e.OutVertex.Label.ToString()),
+                                                                                        "Edge",
+                                                                                        SchemaGraph.VertexById(e.InVertex.Label.ToString()));
 
-                if (SchemaGraph.EdgeById(e.Label.ToString()) == null)
-                {
+                #endregion
 
-                    var OutV = SchemaGraph.VertexById(e.OutVertex.Label.ToString());
-                    var InV  = SchemaGraph.VertexById(e.InVertex. Label.ToString());
+            }
 
-                    SchemaGraph.AddEdge(OutV, InV, e.Label.ToString(), "Edge");
+            #region Add all current vertices and edges: PropertyGraph -> SchemaGraph
 
-                }
+            PropertyGraph.Vertices().ForEach(v => SchemaGraph.AddVertexIfNotExists(v.Label.ToString(), "Vertex"));
 
-            });
+            PropertyGraph.Edges().   ForEach(e => SchemaGraph.AddEdgeIfNotExists(e.Label.ToString(),
+                                                                                 SchemaGraph.VertexById(e.OutVertex.Label.ToString()),
+                                                                                 "Edge", 
+                                                                                 SchemaGraph.VertexById(e.InVertex. Label.ToString())));
+
+            #endregion
+
+            // It would also be a good idea to analyse the usage of the vertex/edge properties!
 
             return SchemaGraph;
 
         }
+
+        #endregion
+
+        //ToDo: Attach a SchemaGraph to a PropertyGraph to enforce a schema...
 
     }
 
