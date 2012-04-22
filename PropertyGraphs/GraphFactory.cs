@@ -547,6 +547,71 @@ namespace de.ahzf.Blueprints
 
         #endregion
 
+        #region CreateLabeledPropertyGraph<TVertexLabel, TEdgeLabel, TMultiEdgeLabel, THyperEdgeLabel>(...)
+
+        public static IGenericPropertyGraph<String, Int64, TVertexLabel,    String, Object,
+                                            String, Int64, TEdgeLabel,      String, Object,
+                                            String, Int64, TMultiEdgeLabel, String, Object,
+                                            String, Int64, THyperEdgeLabel, String, Object>
+
+            CreateLabeledPropertyGraph2<TVertexLabel, TEdgeLabel, TMultiEdgeLabel, THyperEdgeLabel>(
+                                        String GraphId,
+                                        TVertexLabel DefaultVertexLabel,
+                                        TEdgeLabel DefaultEdgeLabel,
+                                        TMultiEdgeLabel DefaultMultiEdgeLabel,
+                                        THyperEdgeLabel DefaultHyperEdgeLabel,
+                                        GraphInitializer          <String, Int64, TVertexLabel,    String, Object,
+                                                                   String, Int64, TEdgeLabel,      String, Object,
+                                                                   String, Int64, TMultiEdgeLabel, String, Object,
+                                                                   String, Int64, THyperEdgeLabel, String, Object> GraphInitializer = null)
+
+            where TVertexLabel     : IEquatable<TVertexLabel>,    IComparable<TVertexLabel>,    IComparable
+            where TEdgeLabel       : IEquatable<TEdgeLabel>,      IComparable<TEdgeLabel>,      IComparable
+            where TMultiEdgeLabel  : IEquatable<TMultiEdgeLabel>, IComparable<TMultiEdgeLabel>, IComparable
+            where THyperEdgeLabel  : IEquatable<THyperEdgeLabel>, IComparable<THyperEdgeLabel>, IComparable
+
+        {
+
+            return new GenericPropertyGraph<String, Int64, TVertexLabel,    String, Object,
+                                            String, Int64, TEdgeLabel,      String, Object,
+                                            String, Int64, TMultiEdgeLabel, String, Object,
+                                            String, Int64, THyperEdgeLabel, String, Object>(GraphId,
+                                                                                            GraphDBOntology.Id().Suffix,
+                                                                                            GraphDBOntology.RevId().Suffix,
+                                                                                            GraphDBOntology.Description().Suffix,
+                                                                                            (graph) => GraphFactory.NewVertexId.ToString(),
+                                                                                            DefaultVertexLabel,
+
+                                                                                            GraphDBOntology.Id().Suffix,
+                                                                                            GraphDBOntology.RevId().Suffix,
+                                                                                            GraphDBOntology.Description().Suffix,
+                                                                                            (graph) => GraphFactory.NewEdgeId.ToString(),
+                                                                                            DefaultEdgeLabel,
+
+                                                                                            GraphDBOntology.Id().Suffix,
+                                                                                            GraphDBOntology.RevId().Suffix,
+                                                                                            GraphDBOntology.Description().Suffix,
+                                                                                            (graph) => GraphFactory.NewMultiEdgeId.ToString(),
+                                                                                            DefaultMultiEdgeLabel,
+
+                                                                                            GraphDBOntology.Id().Suffix,
+                                                                                            GraphDBOntology.RevId().Suffix,
+                                                                                            GraphDBOntology.Description().Suffix,
+                                                                                            (graph) => GraphFactory.NewHyperEdgeId.ToString(),
+                                                                                            DefaultHyperEdgeLabel,
+                                                                            
+                                                                                            GraphInitializer)
+
+                                            as IGenericPropertyGraph<String, Int64, TVertexLabel,    String, Object,
+                                                                     String, Int64, TEdgeLabel,      String, Object,
+                                                                     String, Int64, TMultiEdgeLabel, String, Object,
+                                                                     String, Int64, THyperEdgeLabel, String, Object>;
+
+        }
+
+        #endregion
+
+
         #region CreateDistributedPropertyGraph(...)
 
         public static IGenericPropertyGraph<VertexId,    RevisionId, String, String, Object,
@@ -691,6 +756,67 @@ namespace de.ahzf.Blueprints
                                                                      EdgeId,      RevisionId, SemanticProperty, SemanticProperty, Object,
                                                                      MultiEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object,
                                                                      HyperEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object>;
+
+        }
+
+        #endregion
+
+
+        #region CreateSchemaGraph(GraphId, Description = null, GraphInitializer = null)
+
+        /// <summary>
+        /// Create a new schema graph.
+        /// </summary>
+        /// <param name="GraphId">The graph identification.</param>
+        /// <param name="Description">The optional description of the graph.</param>
+        /// <param name="GraphInitializer">The optional graph initializer.</param>
+        public static IGenericPropertyGraph<String, Int64, String, String, Object,
+                                            String, Int64, String, String, Object,
+                                            String, Int64, String, String, Object,
+                                            String, Int64, String, String, Object> CreateSchemaGraph(String GraphId,
+                                                                                                     String Description = null,
+                                                                                                     GraphInitializer<String, Int64, String, String, Object,
+                                                                                                                      String, Int64, String, String, Object,
+                                                                                                                      String, Int64, String, String, Object,
+                                                                                                                      String, Int64, String, String, Object> GraphInitializer = null)
+        {
+
+            return new GenericPropertyGraph<String, Int64, String, String, Object,
+                                            String, Int64, String, String, Object,
+                                            String, Int64, String, String, Object,
+                                            String, Int64, String, String, Object>(GraphId.ToString(),
+                                                                                   GraphDBOntology.Id().Suffix,
+                                                                                   GraphDBOntology.RevId().Suffix,
+                                                                                   GraphDBOntology.Description().Suffix,
+                                                                                   (graph) => GraphFactory.NewVertexId.ToString(),
+                                                                                   GraphDBOntology.DefaultVertexLabel().Suffix,
+
+                                                                                   GraphDBOntology.Id().Suffix,
+                                                                                   GraphDBOntology.RevId().Suffix,
+                                                                                   GraphDBOntology.Description().Suffix,
+                                                                                   (graph) => GraphFactory.NewEdgeId.ToString(),
+                                                                                   GraphDBOntology.DefaultEdgeLabel().Suffix,
+
+                                                                                   GraphDBOntology.Id().Suffix,
+                                                                                   GraphDBOntology.RevId().Suffix,
+                                                                                   GraphDBOntology.Description().Suffix,
+                                                                                   (graph) => GraphFactory.NewMultiEdgeId.ToString(),
+                                                                                   GraphDBOntology.DefaultMultiEdgeLabel().Suffix,
+
+                                                                                   GraphDBOntology.Id().Suffix,
+                                                                                   GraphDBOntology.RevId().Suffix,
+                                                                                   GraphDBOntology.Description().Suffix,
+                                                                                   (graph) => GraphFactory.NewHyperEdgeId.ToString(),
+                                                                                   GraphDBOntology.DefaultHyperEdgeLabel().Suffix,
+
+                                                                                   GraphInitializer)
+                                                                                   
+                                                                                   { Description = Description }
+
+                                            as IGenericPropertyGraph<String, Int64, String, String, Object,
+                                                                     String, Int64, String, String, Object,
+                                                                     String, Int64, String, String, Object,
+                                                                     String, Int64, String, String, Object>;
 
         }
 
