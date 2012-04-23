@@ -44,6 +44,7 @@
     <Compile Include="GenericPropertyGraph\GenericPropertyHyperEdge.cs" />
     <Compile Include="GraphSchemaHandling.cs" />
     <Compile Include="GraphFactory.cs" />
+    <Compile Include="PropertyExtensions.cs" />
     <Compile Include="PropertyGraph\PropertyMultiEdge.cs" />
     <Compile Include="PropertyGraph\PropertyHyperEdge.cs" />
     <Compile Include="PropertyGraph\PropertyGraph.cs" />

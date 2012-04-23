@@ -20,7 +20,6 @@
 using System;
 
 using de.ahzf.Illias.Commons;
-
 using de.ahzf.Blueprints.PropertyGraphs;
 
 #endregion
@@ -33,6 +32,8 @@ namespace de.ahzf.Blueprints.Schema
     /// </summary>
     public static class GraphSchemaHandling
     {
+
+        public const String AlternativeUsage = "AlternativeUsage";
 
         #region GetSchemaGraph(this PropertyGraph, GraphId, Description = null, ContinuousLearning = true)
 
@@ -71,7 +72,7 @@ namespace de.ahzf.Blueprints.Schema
                                             String, Int64, String, String, Object,
                                             String, Int64, String, String, Object>
 
-                          GetSchemaGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                          GetGraphSchema<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>(
@@ -118,7 +119,9 @@ namespace de.ahzf.Blueprints.Schema
                 PropertyGraph.OnEdgeAdded   += (g, e) => SchemaGraph.AddEdgeIfNotExists(e.Label.ToString(),
                                                                                         SchemaGraph.VertexById(e.OutVertex.Label.ToString()),
                                                                                         "Edge",
-                                                                                        SchemaGraph.VertexById(e.InVertex.Label.ToString()));
+                                                                                        SchemaGraph.VertexById(e.InVertex.Label.ToString()),
+                                                                                        Edge => Edge.SetAdd(GraphSchemaHandling.AlternativeUsage, e.OutVertex.Label.ToString() + " -> " + e.InVertex.Label.ToString()),
+                                                                                        Edge => Edge.SetAdd(GraphSchemaHandling.AlternativeUsage, e.OutVertex.Label.ToString() + " -> " + e.InVertex.Label.ToString()));
 
                 #endregion
 

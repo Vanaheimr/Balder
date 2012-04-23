@@ -2069,7 +2069,13 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                      VertexInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> VertexInitializer = null)
+                                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> VertexInitializer = null,
+
+                                     VertexInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> AnywayDo = null)
+
         {
             
             #region Initial checks
@@ -2086,7 +2092,14 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
             {
 
                 if (Label.Equals(_Vertex.Label))
+                {
+
+                    if (AnywayDo != null)
+                        AnywayDo(_Vertex);
+
                     return _Vertex;
+
+                }
 
                 throw new DuplicateVertexIdException("Another vertex with id " + Id + " but different vertex label already exists!");
 
@@ -2723,7 +2736,12 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                                 EdgeInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                                 TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                 TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeInitializer = null)
+                                                                TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeInitializer = null,
+
+                                                EdgeInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> AnywayDo = null)
 
 
         {
@@ -2742,7 +2760,14 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
             {
 
                 if (Label.Equals(_Edge.Label))
+                {
+
+                    if (AnywayDo != null)
+                        AnywayDo(_Edge);
+                    
                     return _Edge;
+
+                }
 
                 throw new DuplicateVertexIdException("Another edge with id " + Id + " but different edge label already exists!");
 
