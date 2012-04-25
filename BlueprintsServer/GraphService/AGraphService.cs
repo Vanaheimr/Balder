@@ -165,7 +165,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
         /// </summary>
         public virtual HTTPResponse GetRoot()
         {
-            return Error406_NotAcceptable();
+            return HTTPErrors.HTTPErrorResponse(IHTTPConnection.InHTTPRequest, HTTPStatusCode.NotAcceptable);
         }
 
         #endregion
@@ -177,7 +177,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
         /// </summary>
         public virtual HTTPResponse AllGraphs()
         {
-            return Error406_NotAcceptable();
+            return HTTPErrors.HTTPErrorResponse(IHTTPConnection.InHTTPRequest, HTTPStatusCode.NotAcceptable);
         }
 
         #endregion
@@ -191,7 +191,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
         /// <param name="GraphId">The identification of the graph.</param>
         public HTTPResponse InfosOnGraph(String GraphId)
         {
-            return Error406_NotAcceptable();
+            return HTTPErrors.HTTPErrorResponse(IHTTPConnection.InHTTPRequest, HTTPStatusCode.NotAcceptable);
         }
 
         #endregion
@@ -205,7 +205,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
         /// <param name="GraphId">The identification of the graph.</param>
         public virtual HTTPResponse Description(String GraphId)
         {
-            return Error406_NotAcceptable();
+            return HTTPErrors.HTTPErrorResponse(IHTTPConnection.InHTTPRequest, HTTPStatusCode.NotAcceptable);
         }
 
         #endregion
@@ -226,7 +226,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
             UInt64 _VertexId = 0;
 
             if (!UInt64.TryParse(VertexId, out _VertexId))
-                return Error400_BadRequest();
+                return HTTPErrors.HTTPErrorResponse(IHTTPConnection.InHTTPRequest, HTTPStatusCode.BadRequest);
 
             #endregion
 
@@ -235,11 +235,11 @@ namespace de.ahzf.Blueprints.HTTP.Server
             #region Process response
 
             if (Vertex == null)
-                return Error404_NotFound();
+                return HTTPErrors.HTTPErrorResponse(IHTTPConnection.InHTTPRequest, HTTPStatusCode.BadRequest);
 
             var Content = VertexSerialization(Vertex);
             if (Content == null)
-                return Error400_BadRequest();
+                return HTTPErrors.HTTPErrorResponse(IHTTPConnection.InHTTPRequest, HTTPStatusCode.BadRequest);
 
             return new HTTPResponseBuilder()
             {
@@ -287,11 +287,11 @@ namespace de.ahzf.Blueprints.HTTP.Server
             #region Process response
 
             if (Vertices == null || !Vertices.Any())
-                return Error404_NotFound();
+                return HTTPErrors.HTTPErrorResponse(IHTTPConnection.InHTTPRequest, HTTPStatusCode.NotFound);
 
             var Content = VerticesSerialization(Vertices);
             if (Content == null)
-                return Error400_BadRequest();
+                return HTTPErrors.HTTPErrorResponse(IHTTPConnection.InHTTPRequest, HTTPStatusCode.BadRequest);
 
             return new HTTPResponseBuilder()
             {
@@ -316,7 +316,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
         /// <param name="GraphId">The identification of the graph.</param>
         public HTTPResponse NumberOfVertices(String GraphId)
         {
-            return Error406_NotAcceptable();
+            return HTTPErrors.HTTPErrorResponse(IHTTPConnection.InHTTPRequest, HTTPStatusCode.NotAcceptable);
         }
 
         #endregion
@@ -329,7 +329,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
         /// <param name="GraphId">The identification of the graph.</param>
         public virtual HTTPResponse Vertices(String GraphId)
         {
-            return Error406_NotAcceptable();
+            return HTTPErrors.HTTPErrorResponse(IHTTPConnection.InHTTPRequest, HTTPStatusCode.NotAcceptable);
         }
 
         #endregion
@@ -340,7 +340,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
 
         public virtual HTTPResponse GetEvents()
         {
-            return Error406_NotAcceptable();
+            return HTTPErrors.HTTPErrorResponse(IHTTPConnection.InHTTPRequest, HTTPStatusCode.NotAcceptable);
         }
 
         #endregion

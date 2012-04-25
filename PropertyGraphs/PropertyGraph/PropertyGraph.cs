@@ -126,6 +126,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                         new PropertyVertex
                             (Graph as IPropertyGraph,
                              _VertexId,
+                             _VertexLabel,
                              GraphDBOntology.Id().Suffix,
                              GraphDBOntology.RevId().Suffix,
                              GraphDBOntology.Description().Suffix,

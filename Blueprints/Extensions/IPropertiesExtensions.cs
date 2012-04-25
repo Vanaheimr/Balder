@@ -372,6 +372,68 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
         #endregion
 
+        #region GetString<TKey, TValue>(this IProperties, PropertyKey)
+
+        /// <summary>
+        /// Return the object value of type TValue associated with the provided property key.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the property key.</typeparam>
+        /// <typeparam name="TValue">The type of the property value.</typeparam>
+        /// <param name="IProperties">An object implementing IProperties.</param>
+        /// <param name="PropertyKey">The property key.</param>
+        public static String GetString<TKey, TValue>(this IProperties<TKey, TValue> IProperties, TKey PropertyKey)
+            where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
+        {
+
+            #region Initial checks
+
+            if (IProperties == null)
+                throw new ArgumentNullException("The given IProperties must not be null!");
+
+            #endregion
+
+            TValue Value;
+
+            if (IProperties.TryGetProperty(PropertyKey, out Value))
+                return (String) (Object) Value;
+
+            throw new Exception("404!");
+
+        }
+
+        #endregion
+
+        #region GetDouble<TKey, TValue>(this IProperties, PropertyKey)
+
+        /// <summary>
+        /// Return the object value of type TValue associated with the provided property key.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the property key.</typeparam>
+        /// <typeparam name="TValue">The type of the property value.</typeparam>
+        /// <param name="IProperties">An object implementing IProperties.</param>
+        /// <param name="PropertyKey">The property key.</param>
+        public static Double GetDouble<TKey, TValue>(this IProperties<TKey, TValue> IProperties, TKey PropertyKey)
+            where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable
+        {
+
+            #region Initial checks
+
+            if (IProperties == null)
+                throw new ArgumentNullException("The given IProperties must not be null!");
+
+            #endregion
+
+            TValue Value;
+
+            if (IProperties.TryGetProperty(PropertyKey, out Value))
+                return (Double) (Object) Value;
+
+            throw new Exception("404!");
+
+        }
+
+        #endregion
+
         #region UseProperty<TKey, TValue>(this IProperties, PropertyKey, PropertyType, OnSuccess [Action<TValue>], OnError = null)
 
         /// <summary>

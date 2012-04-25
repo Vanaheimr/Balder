@@ -244,6 +244,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <param name="VertexInitializer">A delegate to initialize the newly created vertex.</param>
         public PropertyVertex(IPropertyGraph Graph,
                               UInt64         VertexId,
+                              String         VertexLabel,
                               String         IdKey,
                               String         RevIdKey,
                               String         DescriptionKey,
@@ -275,7 +276,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                                 UInt64, Int64, String, String, Object,
                                                 UInt64, Int64, String, String, Object> VertexInitializer = null)
 
-            : base(Graph, VertexId, IdKey, RevIdKey, DescriptionKey, GraphDBOntology.DefaultVertexLabel().Suffix, DatastructureInitializer,
+            : base(Graph, VertexId, VertexLabel, IdKey, RevIdKey, DescriptionKey, DatastructureInitializer,
                    VerticesCollectionInitializer, EdgesCollectionInitializer, MultiEdgesCollectionInitializer, HyperEdgesCollectionInitializer,
                    VertexInitializer)
 
