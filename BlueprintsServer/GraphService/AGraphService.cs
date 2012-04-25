@@ -21,15 +21,17 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-using de.ahzf.Hermod.HTTP;
+using de.ahzf.Illias.Commons;
 using de.ahzf.Blueprints.PropertyGraphs;
+using de.ahzf.Hermod.HTTP;
 
 #endregion
 
 namespace de.ahzf.Blueprints.HTTP.Server
 {
 
-    public abstract class AGraphService : AHTTPService, IGraphService
+    public abstract class AGraphService : AHTTPService,
+                                          IGraphService
     {
 
         #region Properties
@@ -106,56 +108,6 @@ namespace de.ahzf.Blueprints.HTTP.Server
         #endregion
 
         #endregion
-
-
-        #region (protected) GetStartOffset()
-
-        protected UInt32 GetStartOffset()
-        {
-
-            List<String> _StringValues = null;
-
-            if (IHTTPConnection.InHTTPRequest.QueryString != null)
-                if (IHTTPConnection.InHTTPRequest.QueryString.TryGetValue(Tokens.OFFSET + "." + Tokens.START, out _StringValues))
-                {
-
-                    UInt32 _Value;
-
-                    if (UInt32.TryParse(_StringValues[0], out _Value))
-                        return _Value;
-
-                }
-
-            return 0;
-
-        }
-
-        #endregion
-
-        #region (protected) GetEndOffset()
-
-        protected UInt32 GetEndOffset()
-        {
-
-            List<String> _StringValues = null;
-
-            if (IHTTPConnection.InHTTPRequest.QueryString != null)
-                if (IHTTPConnection.InHTTPRequest.QueryString.TryGetValue(Tokens.OFFSET + "." + Tokens.END, out _StringValues))
-                {
-
-                    UInt32 _Value;
-
-                    if (UInt32.TryParse(_StringValues[0], out _Value))
-                        return _Value;
-
-                }
-
-            return 0;
-
-        }
-
-        #endregion
-
 
 
         #region GetRoot()
@@ -321,10 +273,11 @@ namespace de.ahzf.Blueprints.HTTP.Server
 
         #endregion
 
+
         #region Vertices(GraphId)
 
         /// <summary>
-        /// Return all vertices.
+        /// Get all vertices of the given graph.
         /// </summary>
         /// <param name="GraphId">The identification of the graph.</param>
         public virtual HTTPResponse Vertices(String GraphId)
@@ -332,8 +285,218 @@ namespace de.ahzf.Blueprints.HTTP.Server
             return HTTPErrors.HTTPErrorResponse(IHTTPConnection.InHTTPRequest, HTTPStatusCode.NotAcceptable);
         }
 
+        /// <summary>
+        /// Return all vertices of the given graph.
+        /// </summary>
+        /// <param name="GraphId">The identification of the graph.</param>
+        protected HTTPResult<IEnumerable<IGenericPropertyVertex<UInt64, Int64, String, String, Object,
+                                                                UInt64, Int64, String, String, Object,
+                                                                UInt64, Int64, String, String, Object,
+                                                                UInt64, Int64, String, String, Object>>>
+
+            GET_Vertices_protected(String GraphId)
+
+        {
+
+            #region Parse and check the parameter GraphId
+
+            UInt64 _GraphId;
+
+            if (!UInt64.TryParse(GraphId, out _GraphId))
+                return new HTTPResult<IEnumerable<IGenericPropertyVertex<UInt64, Int64, String, String, Object,
+                                                                         UInt64, Int64, String, String, Object,
+                                                                         UInt64, Int64, String, String, Object,
+                                                                         UInt64, Int64, String, String, Object>>>
+                       (IHTTPConnection.InHTTPRequest, HTTPStatusCode.BadRequest, "The given 'GraphId' is invalid!");
+
+
+            IGenericPropertyGraph<UInt64, Int64, String, String, Object,
+                                  UInt64, Int64, String, String, Object,
+                                  UInt64, Int64, String, String, Object,
+                                  UInt64, Int64, String, String, Object> Graph = null;
+
+            if (!GraphServer.TryGetPropertyGraph(_GraphId, out Graph))
+                return new HTTPResult<IEnumerable<IGenericPropertyVertex<UInt64, Int64, String, String, Object,
+                                                                         UInt64, Int64, String, String, Object,
+                                                                         UInt64, Int64, String, String, Object,
+                                                                         UInt64, Int64, String, String, Object>>>
+                       (IHTTPConnection.InHTTPRequest, HTTPStatusCode.NotFound, "The given 'GraphId' is unknown!");
+
+            #endregion
+
+            #region Parse and check optional parameters SKIP and TAKE
+
+            HTTPResult<UInt64> Skip, Take;
+
+            if (TryGetParameter_UInt64(Tokens.SKIP, out Skip) && Skip.HasErrors)
+                return new HTTPResult<IEnumerable<IGenericPropertyVertex<UInt64, Int64, String, String, Object,
+                                                                         UInt64, Int64, String, String, Object,
+                                                                         UInt64, Int64, String, String, Object,
+                                                                         UInt64, Int64, String, String, Object>>>(Skip.Error);
+
+            if (TryGetParameter_UInt64(Tokens.TAKE, out Take) && Take.HasErrors)
+                return new HTTPResult<IEnumerable<IGenericPropertyVertex<UInt64, Int64, String, String, Object,
+                                                                         UInt64, Int64, String, String, Object,
+                                                                         UInt64, Int64, String, String, Object,
+                                                                         UInt64, Int64, String, String, Object>>>(Take.Error);
+
+            #endregion
+
+            #region Return the appropriate enumeration
+
+            if (Skip.Data == 0 && Take.Data == 0)
+                return new HTTPResult<IEnumerable<IGenericPropertyVertex<UInt64, Int64, String, String, Object,
+                                                                         UInt64, Int64, String, String, Object,
+                                                                         UInt64, Int64, String, String, Object,
+                                                                         UInt64, Int64, String, String, Object>>>
+                           (
+                               Graph.Vertices()
+                           );
+
+            else if (Skip.Data > 0 && Take.Data == 0)
+                return new HTTPResult<IEnumerable<IGenericPropertyVertex<UInt64, Int64, String, String, Object,
+                                                                         UInt64, Int64, String, String, Object,
+                                                                         UInt64, Int64, String, String, Object,
+                                                                         UInt64, Int64, String, String, Object>>>
+                           (
+                               Graph.Vertices().Skip(Skip.Data)
+                           );
+
+            else if (Skip.Data == 0 && Take.Data > 0)
+                return new HTTPResult<IEnumerable<IGenericPropertyVertex<UInt64, Int64, String, String, Object,
+                                                                         UInt64, Int64, String, String, Object,
+                                                                         UInt64, Int64, String, String, Object,
+                                                                         UInt64, Int64, String, String, Object>>>
+                           (
+                               Graph.Vertices().Take(Take.Data)
+                           );
+
+            else
+                return new HTTPResult<IEnumerable<IGenericPropertyVertex<UInt64, Int64, String, String, Object,
+                                                                         UInt64, Int64, String, String, Object,
+                                                                         UInt64, Int64, String, String, Object,
+                                                                         UInt64, Int64, String, String, Object>>>
+                           (
+                               Graph.Vertices().Skip(Skip.Data).Take(Take.Data)
+                           );
+
+            #endregion
+
+        }
+
         #endregion
 
+        #region Edges(GraphId)
+
+        /// <summary>
+        /// Get all edges of the given graph.
+        /// </summary>
+        /// <param name="GraphId">The identification of the graph.</param>
+        public virtual HTTPResponse Edges(String GraphId)
+        {
+            return HTTPErrors.HTTPErrorResponse(IHTTPConnection.InHTTPRequest, HTTPStatusCode.NotAcceptable);
+        }
+
+        /// <summary>
+        /// Return all edges of the given graph.
+        /// </summary>
+        /// <param name="GraphId">The identification of the graph.</param>
+        protected HTTPResult<IEnumerable<IGenericPropertyEdge<UInt64, Int64, String, String, Object,
+                                                              UInt64, Int64, String, String, Object,
+                                                              UInt64, Int64, String, String, Object,
+                                                              UInt64, Int64, String, String, Object>>>
+
+            GET_Edges_protected(String GraphId)
+
+        {
+
+            #region Parse and check the parameter GraphId
+
+            UInt64 _GraphId;
+
+            if (!UInt64.TryParse(GraphId, out _GraphId))
+                return new HTTPResult<IEnumerable<IGenericPropertyEdge<UInt64, Int64, String, String, Object,
+                                                                       UInt64, Int64, String, String, Object,
+                                                                       UInt64, Int64, String, String, Object,
+                                                                       UInt64, Int64, String, String, Object>>>
+                       (IHTTPConnection.InHTTPRequest, HTTPStatusCode.BadRequest, "The given 'GraphId' is invalid!");
+
+
+            IGenericPropertyGraph<UInt64, Int64, String, String, Object,
+                                  UInt64, Int64, String, String, Object,
+                                  UInt64, Int64, String, String, Object,
+                                  UInt64, Int64, String, String, Object> Graph = null;
+
+            if (!GraphServer.TryGetPropertyGraph(_GraphId, out Graph))
+                return new HTTPResult<IEnumerable<IGenericPropertyEdge<UInt64, Int64, String, String, Object,
+                                                                       UInt64, Int64, String, String, Object,
+                                                                       UInt64, Int64, String, String, Object,
+                                                                       UInt64, Int64, String, String, Object>>>
+                       (IHTTPConnection.InHTTPRequest, HTTPStatusCode.NotFound, "The given 'GraphId' is unknown!");
+
+            #endregion
+
+            #region Parse and check optional parameters SKIP and TAKE
+
+            HTTPResult<UInt64> Skip, Take;
+
+            if (TryGetParameter_UInt64(Tokens.SKIP, out Skip) && Skip.HasErrors)
+                return new HTTPResult<IEnumerable<IGenericPropertyEdge<UInt64, Int64, String, String, Object,
+                                                                       UInt64, Int64, String, String, Object,
+                                                                       UInt64, Int64, String, String, Object,
+                                                                       UInt64, Int64, String, String, Object>>>(Skip.Error);
+
+            if (TryGetParameter_UInt64(Tokens.TAKE, out Take) && Take.HasErrors)
+                return new HTTPResult<IEnumerable<IGenericPropertyEdge<UInt64, Int64, String, String, Object,
+                                                                       UInt64, Int64, String, String, Object,
+                                                                       UInt64, Int64, String, String, Object,
+                                                                       UInt64, Int64, String, String, Object>>>(Take.Error);
+
+            #endregion
+
+            #region Return the appropriate enumeration
+
+            if (Skip.Data == 0 && Take.Data == 0)
+                return new HTTPResult<IEnumerable<IGenericPropertyEdge<UInt64, Int64, String, String, Object,
+                                                                       UInt64, Int64, String, String, Object,
+                                                                       UInt64, Int64, String, String, Object,
+                                                                       UInt64, Int64, String, String, Object>>>
+                           (
+                               Graph.Edges()
+                           );
+
+            else if (Skip.Data > 0 && Take.Data == 0)
+                return new HTTPResult<IEnumerable<IGenericPropertyEdge<UInt64, Int64, String, String, Object,
+                                                                       UInt64, Int64, String, String, Object,
+                                                                       UInt64, Int64, String, String, Object,
+                                                                       UInt64, Int64, String, String, Object>>>
+                           (
+                               Graph.Edges().Skip(Skip.Data)
+                           );
+
+            else if (Skip.Data == 0 && Take.Data > 0)
+                return new HTTPResult<IEnumerable<IGenericPropertyEdge<UInt64, Int64, String, String, Object,
+                                                                       UInt64, Int64, String, String, Object,
+                                                                       UInt64, Int64, String, String, Object,
+                                                                       UInt64, Int64, String, String, Object>>>
+                           (
+                               Graph.Edges().Take(Take.Data)
+                           );
+
+            else
+                return new HTTPResult<IEnumerable<IGenericPropertyEdge<UInt64, Int64, String, String, Object,
+                                                                       UInt64, Int64, String, String, Object,
+                                                                       UInt64, Int64, String, String, Object,
+                                                                       UInt64, Int64, String, String, Object>>>
+                           (
+                               Graph.Edges().Skip(Skip.Data).Take(Take.Data)
+                           );
+
+            #endregion
+
+        }
+
+        #endregion
 
 
         #region GetEvents()

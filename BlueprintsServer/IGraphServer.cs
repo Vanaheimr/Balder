@@ -34,14 +34,25 @@ namespace de.ahzf.Blueprints.HTTP.Server
     /// Simple PropertyGraph HTTP/REST access.
     /// </summary>
     public interface IGraphServer : IHTTPServer,
-                                    IEnumerable<IPropertyGraph>
+                                    IEnumerable<IGenericPropertyGraph<UInt64, Int64, String, String, Object,
+                                                                      UInt64, Int64, String, String, Object,
+                                                                      UInt64, Int64, String, String, Object,
+                                                                      UInt64, Int64, String, String, Object>>
     {
 
         /// <summary>
         /// Adds the given property graph to the server.
         /// </summary>
         /// <param name="PropertyGraph">An object implementing the IPropertyGraph interface.</param>
-        IPropertyGraph AddPropertyGraph(IPropertyGraph PropertyGraph);
+        IGenericPropertyGraph<UInt64, Int64, String, String, Object,
+                              UInt64, Int64, String, String, Object,
+                              UInt64, Int64, String, String, Object,
+                              UInt64, Int64, String, String, Object>
+
+            AddPropertyGraph(IGenericPropertyGraph<UInt64, Int64, String, String, Object,
+                                                   UInt64, Int64, String, String, Object,
+                                                   UInt64, Int64, String, String, Object,
+                                                   UInt64, Int64, String, String, Object> PropertyGraph);
 
         /// <summary>
         /// Creates a new class-based in-memory implementation of a property graph
@@ -49,25 +60,43 @@ namespace de.ahzf.Blueprints.HTTP.Server
         /// </summary>
         /// <param name="GraphId">A unique identification for this graph (which is also a vertex!).</param>
         /// <param name="GraphInitializer">A delegate to initialize the new property graph.</param>
-        IPropertyGraph NewPropertyGraph(UInt64 GraphId, GraphInitializer<UInt64, Int64, String, String, Object,
-                                                                         UInt64, Int64, String, String, Object,
-                                                                         UInt64, Int64, String, String, Object,
-                                                                         UInt64, Int64, String, String, Object> GraphInitializer = null);
+        IGenericPropertyGraph<UInt64, Int64, String, String, Object,
+                              UInt64, Int64, String, String, Object,
+                              UInt64, Int64, String, String, Object,
+                              UInt64, Int64, String, String, Object>
+
+            NewPropertyGraph(UInt64 GraphId,
+                             String Description = null,
+                             GraphInitializer<UInt64, Int64, String, String, Object,
+                                              UInt64, Int64, String, String, Object,
+                                              UInt64, Int64, String, String, Object,
+                                              UInt64, Int64, String, String, Object> GraphInitializer = null);
 
 
         /// <summary>
         /// Return the property graph identified by the given GraphId.
         /// </summary>
         /// <param name="GraphId">A property graph identifier.</param>
-        IPropertyGraph GetPropertyGraph(UInt64 GraphId);
+        IGenericPropertyGraph<UInt64, Int64, String, String, Object,
+                              UInt64, Int64, String, String, Object,
+                              UInt64, Int64, String, String, Object,
+                              UInt64, Int64, String, String, Object> GetPropertyGraph(UInt64 GraphId);
 
         /// <summary>
         /// Return the property graph identified by the given GraphId.
         /// </summary>
         /// <param name="GraphId">A property graph identifier.</param>
-        Boolean TryGetPropertyGraph(UInt64 GraphId, out IPropertyGraph PropertyGraph);
+        Boolean TryGetPropertyGraph(UInt64 GraphId,
+                                    out IGenericPropertyGraph<UInt64, Int64, String, String, Object,
+                                                              UInt64, Int64, String, String, Object,
+                                                              UInt64, Int64, String, String, Object,
+                                                              UInt64, Int64, String, String, Object> PropertyGraph);
 
-        IEnumerable<IPropertyGraph> AllGraphs();
+
+        IEnumerable<IGenericPropertyGraph<UInt64, Int64, String, String, Object,
+                                          UInt64, Int64, String, String, Object,
+                                          UInt64, Int64, String, String, Object,
+                                          UInt64, Int64, String, String, Object>> AllGraphs();
 
 
         /// <summary>
@@ -76,9 +105,6 @@ namespace de.ahzf.Blueprints.HTTP.Server
         /// <param name="GraphId">The Id of the property graph to remove.</param>
         /// <returns>true on success, false </returns>
         Boolean RemovePropertyGraph(UInt64 GraphId);
-
-
-        
 
     }
 

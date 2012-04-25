@@ -58,8 +58,11 @@ namespace de.ahzf.Blueprints.JurassicGraph
         /// </summary>
         /// <param name="GraphElement">A graph element.</param>
         /// <param name="JavaScriptEngine">An instance of a JavaScript engine.</param>
-        public JSGraphElement(IGraphElement<UInt64, Int64, String, String, Object> GraphElement, ScriptEngine JavaScriptEngine)
+        public JSGraphElement(IGraphElement<UInt64, Int64, String, String, Object> GraphElement,
+                              ScriptEngine JavaScriptEngine)
+
             : base(JavaScriptEngine)
+
         {
 
             this.GraphElement     = GraphElement;

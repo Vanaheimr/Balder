@@ -17,6 +17,8 @@
 
 #region Usings
 
+using System;
+
 using de.ahzf.Blueprints.PropertyGraphs;
 
 using Jurassic;
@@ -34,15 +36,21 @@ namespace de.ahzf.Blueprints.JurassicGraph
 
         #region Constructor(s)
 
-        #region JSPropertyVertex(PropertyVertex, JavaScriptEngine)
+        #region JSPropertyVertex(Vertex, JavaScriptEngine)
 
         /// <summary>
         /// Create a new property vertex wrapper for JavaScript.
         /// </summary>
         /// <param name="PropertyVertex">The internal property vertex.</param>
         /// <param name="JavaScriptEngine">An instance of a JavaScript engine.</param>
-        public JSPropertyVertex(IPropertyVertex PropertyVertex, ScriptEngine JavaScriptEngine)
-            : base(PropertyVertex, JavaScriptEngine)
+        public JSPropertyVertex(IGenericPropertyVertex<UInt64, Int64, String, String, Object,
+                                                       UInt64, Int64, String, String, Object,
+                                                       UInt64, Int64, String, String, Object,
+                                                       UInt64, Int64, String, String, Object> Vertex,
+                                ScriptEngine JavaScriptEngine)
+
+            : base(Vertex, JavaScriptEngine)
+
         { }
 
         #endregion

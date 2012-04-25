@@ -29,6 +29,9 @@ namespace de.ahzf.Blueprints.HTTP
 
         public static String REXSTER_VERSION            = "0.1";
 
+        public static String SKIP                       = "skip";
+        public static String TAKE                       = "take";
+
         public static String _ID                        = "_id";
         public static String ID                         = "id";
         public static String DIRECTION                  = "direction";

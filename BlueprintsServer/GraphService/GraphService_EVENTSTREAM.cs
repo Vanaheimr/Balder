@@ -31,7 +31,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
 {
 
     /// <summary>
-    /// EVENTSTREAM.
+    /// EVENTSTREAM content representation.
     /// </summary>
     public class GraphService_EVENTSTREAM : AGraphService
     {
@@ -41,7 +41,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
         #region GraphService_EVENTSTREAM()
 
         /// <summary>
-        /// Creates a new CIMS service.
+        /// EVENTSTREAM content representation.
         /// </summary>
         public GraphService_EVENTSTREAM()
             : base(HTTPContentType.EVENTSTREAM)
@@ -52,7 +52,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
         #region GraphService_EVENTSTREAM(IHTTPConnection)
 
         /// <summary>
-        /// Creates a new CIMS service.
+        /// EVENTSTREAM content representation.
         /// </summary>
         /// <param name="IHTTPConnection">The http connection for this request.</param>
         public GraphService_EVENTSTREAM(IHTTPConnection IHTTPConnection)

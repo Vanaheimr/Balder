@@ -17,6 +17,8 @@
 
 #region Usings
 
+using System;
+
 using de.ahzf.Blueprints.PropertyGraphs;
 
 using Jurassic;
@@ -41,8 +43,14 @@ namespace de.ahzf.Blueprints.JurassicGraph
         /// </summary>
         /// <param name="PropertyEdge">The internal property edge.</param>
         /// <param name="JavaScriptEngine">An instance of a JavaScript engine.</param>
-        public JSPropertyEdge(IPropertyEdge PropertyEdge, ScriptEngine JavaScriptEngine)
+        public JSPropertyEdge(IGenericPropertyEdge<UInt64, Int64, String, String, Object,
+                                                   UInt64, Int64, String, String, Object,
+                                                   UInt64, Int64, String, String, Object,
+                                                   UInt64, Int64, String, String, Object> PropertyEdge,
+                              ScriptEngine JavaScriptEngine)
+
             : base(PropertyEdge, JavaScriptEngine)
+
         { }
 
         #endregion

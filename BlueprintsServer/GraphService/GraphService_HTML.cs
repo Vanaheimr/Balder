@@ -44,7 +44,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
         #region GraphService_HTML()
 
         /// <summary>
-        /// Creates a new central system.
+        /// HTML content representation.
         /// </summary>
         public GraphService_HTML()
             : base(HTTPContentType.HTML_UTF8)
@@ -55,7 +55,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
         #region GraphService_HTML(IHTTPConnection)
 
         /// <summary>
-        /// Creates a new central system.
+        /// HTML content representation.
         /// </summary>
         /// <param name="IHTTPConnection">The http connection for this request.</param>
         public GraphService_HTML(IHTTPConnection IHTTPConnection)
@@ -109,7 +109,9 @@ namespace de.ahzf.Blueprints.HTTP.Server
         {
 
             var Graphs = GraphServer.AllGraphs().
-                                     Select(graph => "<a href=\"/graph/" + graph.Id + "\">" + graph.Id + " - " + graph.Description + "</a>").
+                                     Select(graph => "<a href=\"/graph/" + graph.Id + "\">" + graph.Id + " - " + graph.Description + "</a> " +
+                                                     "<a href=\"/graph/" + graph.Id + "/vertices\">[All Vertices]</a> " +
+                                                     "<a href=\"/graph/" + graph.Id + "/edges\">[All Edge]</a>").
                                      Aggregate((a, b) =>  a + "<br>" + b);
 
             return new HTTPResponseBuilder() {
@@ -129,7 +131,9 @@ namespace de.ahzf.Blueprints.HTTP.Server
         {
 
             var AllGraphs = GraphServer.AllGraphs().
-                                        Select(graph => "<a href=\"/graph/" + graph.Id + "\">" + graph.Id + " - " + graph.Description + "</a>").
+                                        Select(graph => "<a href=\"/graph/" + graph.Id + "\">" + graph.Id + " - " + graph.Description + "</a> " +
+                                                        "<a href=\"/graph/" + graph.Id + "/vertices\">[All Vertices]</a> " +
+                                                        "<a href=\"/graph/" + graph.Id + "/edges\">[All Edge]</a>").
                                         Aggregate((a, b) => a + "<br>" + b);
 
             return new HTTPResponseBuilder()
@@ -152,9 +156,9 @@ namespace de.ahzf.Blueprints.HTTP.Server
         /// <param name="Vertex">A single vertex.</param>
         /// <returns>The serialized vertex.</returns>
         protected override Byte[] VerticesSerialization(IEnumerable<IGenericPropertyVertex<UInt64, Int64, String, String, Object,
-                                                                                    UInt64, Int64, String, String, Object,
-                                                                                    UInt64, Int64, String, String, Object,
-                                                                                    UInt64, Int64, String, String, Object>> Vertices)
+                                                                                           UInt64, Int64, String, String, Object,
+                                                                                           UInt64, Int64, String, String, Object,
+                                                                                           UInt64, Int64, String, String, Object>> Vertices)
         {
 
             return HTMLBuilder("www.graph-database.org v0.1", b =>
@@ -176,6 +180,109 @@ namespace de.ahzf.Blueprints.HTTP.Server
                 }
 
             }).ToUTF8Bytes();
+
+        }
+
+        #endregion
+
+
+
+        #region Vertices(GraphId)
+
+        /// <summary>
+        /// Return all vertices of the given graph.
+        /// </summary>
+        /// <param name="GraphId">The identification of the graph.</param>
+        public override HTTPResponse Vertices(String GraphId)
+        {
+            
+            var StringBuilder  = new StringBuilder();
+            var Result         = base.GET_Vertices_protected(GraphId);
+
+            if (Result.HasErrors)
+                return Result.Error;
+
+            if (Result.Data.Any())
+            {
+
+                StringBuilder.Append("<table>");
+
+                Result.Data.ForEach(Vertex =>
+                    {
+
+                        StringBuilder.Append("<tr><td><table>");
+
+                        Vertex.ForEach(KeyValuePair =>
+                            StringBuilder.Append("<tr><td>").
+                                          Append(KeyValuePair.Key.ToString()).
+                                          Append("</td><td>").
+                                          Append(KeyValuePair.Value.ToString()).
+                                          Append("</td></tr>"));
+
+                        StringBuilder.Append("</table></td></tr>");
+
+                    });
+
+                StringBuilder.Append("</table>");
+
+            }
+
+            return new HTTPResponseBuilder() {
+                HTTPStatusCode = HTTPStatusCode.OK,
+                ContentType    = this.HTTPContentTypes.First(),
+                Content        = HTMLBuilder("All vertices", sb => sb.Append(StringBuilder.ToString())).ToUTF8Bytes()
+            };
+
+        }
+
+        #endregion
+
+        #region Edges(GraphId)
+
+        /// <summary>
+        /// Return all edges of the given graph.
+        /// </summary>
+        /// <param name="GraphId">The identification of the graph.</param>
+        public override HTTPResponse Edges(String GraphId)
+        {
+
+            var StringBuilder = new StringBuilder();
+            var Result = base.GET_Edges_protected(GraphId);
+
+            if (Result.HasErrors)
+                return Result.Error;
+
+            if (Result.Data.Any())
+            {
+
+                StringBuilder.Append("<table>");
+
+                Result.Data.ForEach(Edge =>
+                {
+
+                    StringBuilder.Append("<tr><td><table>");
+
+                    Edge.ForEach(KeyValuePair =>
+                        StringBuilder.Append("<tr><td>").
+                                      Append(KeyValuePair.Key.ToString()).
+                                      Append("</td><td>").
+                                      Append(KeyValuePair.Value.ToString()).
+                                      Append("</td></tr>"));
+
+                    StringBuilder.Append("</table></td></tr>");
+
+                });
+
+                StringBuilder.Append("</table>");
+
+            }
+
+            return new HTTPResponseBuilder()
+            {
+                HTTPStatusCode = HTTPStatusCode.OK,
+                ContentType = this.HTTPContentTypes.First(),
+                Content = HTMLBuilder("All edges", sb => sb.Append(StringBuilder.ToString())).ToUTF8Bytes()
+            };
 
         }
 

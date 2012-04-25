@@ -138,6 +138,18 @@ namespace de.ahzf.Blueprints.HTTP.Server
 
         #endregion
 
+        #region Edges(GraphId)
+
+        /// <summary>
+        /// Get an enumeration of all edges in the graph.
+        /// An optional edge filter may be applied for filtering.
+        /// </summary>
+        /// <remarks>Include $somescript for edge filtering.</remarks>
+        [HTTPMapping(HTTPMethods.GET, "/graph/{GraphId}/edges"), NoAuthentication]
+        HTTPResponse Edges(String GraphId);
+
+        #endregion
+
      }
 
 }

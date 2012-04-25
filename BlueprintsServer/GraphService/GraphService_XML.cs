@@ -35,9 +35,9 @@ namespace de.ahzf.Blueprints.HTTP.Server
 {
 
     /// <summary>
-    /// JSON content representation.
+    /// XML content representation.
     /// </summary>
-    public class GraphService_JSON : AGraphService
+    public class GraphService_XML : AGraphService
     {
 
         #region Constructor(s)
@@ -45,22 +45,22 @@ namespace de.ahzf.Blueprints.HTTP.Server
         #region GraphService_JSON()
 
         /// <summary>
-        /// JSON content representation.
+        /// XML content representation.
         /// </summary>
-        public GraphService_JSON()
-            : base(HTTPContentType.JSON_UTF8)
+        public GraphService_XML()
+            : base(HTTPContentType.XML_UTF8)
         { }
 
         #endregion
 
-        #region GraphService_JSON(IHTTPConnection)
+        #region GraphService_XML(IHTTPConnection)
 
         /// <summary>
-        /// JSON content representation.
+        /// XML content representation.
         /// </summary>
         /// <param name="IHTTPConnection">The http connection for this request.</param>
-        public GraphService_JSON(IHTTPConnection IHTTPConnection)
-            : base(IHTTPConnection, HTTPContentType.JSON_UTF8)
+        public GraphService_XML(IHTTPConnection IHTTPConnection)
+            : base(IHTTPConnection, HTTPContentType.XML_UTF8)
         {
             this.CallingAssembly = Assembly.GetExecutingAssembly();
         }

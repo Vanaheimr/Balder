@@ -114,7 +114,7 @@ namespace de.ahzf.Blueprints.UnitTests.GraphServerTests
                                      } as IGraphServer)
             {
 
-                var graph = GraphServer.NewPropertyGraph(512UL, g => g.SetProperty("hello", "world!"));
+                var graph = GraphServer.NewPropertyGraph(512UL, "demo graph", g => g.SetProperty("hello", "world!"));
                 Assert.IsNotNull(graph);
                 Assert.IsNotNull(graph.IdKey);
                 Assert.IsNotNull(graph.RevIdKey);
