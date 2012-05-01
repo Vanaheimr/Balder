@@ -140,7 +140,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
             return new HTTPResponseBuilder()
             {
                 HTTPStatusCode = HTTPStatusCode.OK,
-                ContentType    = HTTPContentType.HTML_UTF8,
+                ContentType    = this.HTTPContentTypes.First(),
                 Content        = HTMLBuilder("Number of graphs", StringBuilder => StringBuilder.AppendLine(Result.Data.ToString())).ToUTF8Bytes()
             };
 
@@ -159,7 +159,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
             if (GraphResult.HasErrors)
                 return GraphResult.Error;
 
-            if (GraphResult.Data.Any())
+            if (GraphResult.Data != null)
             {
 
                 StringBuilder.Append("<table>");
@@ -194,7 +194,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
             return new HTTPResponseBuilder()
             {
                 HTTPStatusCode = HTTPStatusCode.OK,
-                ContentType    = HTTPContentType.HTML_UTF8,
+                ContentType    = this.HTTPContentTypes.First(),
                 Content        = HTMLBuilder("Graph " + GraphResult.Data.Id, _StringBuilder => _StringBuilder.AppendLine(StringBuilder.ToString())).ToUTF8Bytes()
             };
 

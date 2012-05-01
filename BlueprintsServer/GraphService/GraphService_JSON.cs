@@ -70,15 +70,6 @@ namespace de.ahzf.Blueprints.HTTP.Server
         #endregion
 
 
-        #region GetRoot()
-
-        public override HTTPResponse GET_Root()
-        {
-            return GET_Graphs();
-        }
-
-        #endregion
-
         #region GET_Graphs()
 
         public override HTTPResponse GET_Graphs()
@@ -95,7 +86,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
             return new HTTPResponseBuilder()
             {
                 HTTPStatusCode = HTTPStatusCode.OK,
-                ContentType    = HTTPContentType.JSON_UTF8,
+                ContentType    = this.HTTPContentTypes.First(),
                 Content        = _Content.ToUTF8Bytes()
             };
 
@@ -122,7 +113,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
             return new HTTPResponseBuilder()
             {
                 HTTPStatusCode = HTTPStatusCode.OK,
-                ContentType    = HTTPContentType.JSON_UTF8,
+                ContentType    = this.HTTPContentTypes.First(),
                 Content        = ((Callback.IsValueCreated) ? Callback.Value + "([ " + Result.Data + " ])" : "[ " + Result.Data + " ]").ToUTF8Bytes()
             };
 
@@ -191,7 +182,6 @@ namespace de.ahzf.Blueprints.HTTP.Server
         }
 
         #endregion
-
 
     }
 

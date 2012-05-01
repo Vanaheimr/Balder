@@ -42,6 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GraphServer.cs" />
+    <Compile Include="GraphService\GraphService_GRAPHML.cs" />
+    <Compile Include="GraphService\GraphService_GEXF.cs" />
     <Compile Include="GraphService\GraphService_XML.cs" />
     <Compile Include="IGraphServer.cs" />
     <Compile Include="JurassicGraph\JSPropertyEdge.cs" />
