@@ -72,16 +72,16 @@ namespace de.ahzf.Blueprints.HTTP.Server
 
         #region GetRoot()
 
-        public override HTTPResponse GetRoot()
+        public override HTTPResponse GET_Root()
         {
-            return AllGraphs();
+            return GET_Graphs();
         }
 
         #endregion
 
-        #region AllGraphs()
+        #region GET_Graphs()
 
-        public override HTTPResponse AllGraphs()
+        public override HTTPResponse GET_Graphs()
         {
 
             var _Content = new JObject(
@@ -101,43 +101,34 @@ namespace de.ahzf.Blueprints.HTTP.Server
 
         }
 
-        #endregion
-
-        #region Description(GraphId)
-
-        public override HTTPResponse Description(String GraphId)
+        /// <summary>
+        /// Get a list of all graphs.
+        /// </summary>
+        //  COUNT /graphs
+        //  "HTTPBody: {",
+        //     "\"GraphFilter\" : \"...\"",
+        //     "\"SELECT\"      : [ \"Name\", \"Age\" ],",
+        //  "}",
+        public override HTTPResponse COUNT_Graphs()
         {
 
-            UInt64 _GraphId;
+            var Result = base.COUNT_Graphs_protected();
 
-            if (!UInt64.TryParse(GraphId, out _GraphId))
-                throw new ArgumentException();
+            if (Result.HasErrors)
+                return Result.Error;
 
-            IPropertyGraph PropertyGraph;
-
-            String _Content;
-
-            //if (GraphServer.TryGetPropertyGraph(_GraphId, out PropertyGraph))
-            //{
-            //    var JSON = new JSONResponseBuilder();
-            //    JSON.SetResult(new JObject(new JProperty("description", PropertyGraph.Description)));
-            //    _Content = JSON.ToString();
-            //}
-
-            //else
-                _Content = "error!";
+            ParseCallbackParameter();
 
             return new HTTPResponseBuilder()
             {
                 HTTPStatusCode = HTTPStatusCode.OK,
                 ContentType    = HTTPContentType.JSON_UTF8,
-                Content        = _Content.ToUTF8Bytes()
+                Content        = ((Callback.IsValueCreated) ? Callback.Value + "([ " + Result.Data + " ])" : "[ " + Result.Data + " ]").ToUTF8Bytes()
             };
-            
+
         }
 
         #endregion
-
 
 
         #region (protected) VertexSerialization(...)

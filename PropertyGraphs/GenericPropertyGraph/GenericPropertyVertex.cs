@@ -2254,6 +2254,40 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         #endregion
 
+        #region TryGetVertexById(VertexId)
+
+        /// <summary>
+        /// Try to return the vertex referenced by the given vertex identifier.
+        /// </summary>
+        /// <param name="VertexId">A vertex identifier.</param>
+        /// <param name="Vertex">A vertex.</param>
+        /// <returns>True when success; false otherwise.</returns>
+        Boolean 
+            
+            IGenericReadOnlyPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+
+                TryGetVertexById(TIdVertex VertexId, out IGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Vertex)
+        {
+
+            #region Initial checks
+
+            if (VertexId == null)
+                throw new ArgumentNullException("VertexId", "The given vertex identifier must not be null!");
+
+            #endregion
+
+            return (_VerticesWhenGraph.TryGetByKey(VertexId, out Vertex));
+
+        }
+
+        #endregion
+
         #region VerticesById(params VertexIds)
 
         /// <summary>
@@ -2997,6 +3031,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         #endregion
 
+
         #region EdgeById(EdgeId)
 
         /// <summary>
@@ -3033,6 +3068,40 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                 return _Edge;
 
             return null;
+
+        }
+
+        #endregion
+
+        #region TryGetEdgeById(EdgeId)
+
+        /// <summary>
+        /// Try to return the edge referenced by the given edge identifier.
+        /// </summary>
+        /// <param name="EdgeId">A edge identifier.</param>
+        /// <param name="Edge">A edge.</param>
+        /// <returns>True when success; false otherwise.</returns>
+        Boolean 
+            
+            IGenericReadOnlyPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+
+                TryGetEdgeById(TIdEdge EdgeId, out IGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Edge)
+        {
+
+            #region Initial checks
+
+            if (EdgeId == null)
+                throw new ArgumentNullException("EdgeId", "The given edge identifier must not be null!");
+
+            #endregion
+
+            return (_EdgesWhenGraph.TryGetByKey(EdgeId, out Edge));
 
         }
 

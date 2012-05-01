@@ -43,10 +43,10 @@ namespace de.ahzf.Blueprints.JurassicGraph
         /// </summary>
         /// <param name="PropertyEdge">The internal property edge.</param>
         /// <param name="JavaScriptEngine">An instance of a JavaScript engine.</param>
-        public JSPropertyEdge(IGenericPropertyEdge<UInt64, Int64, String, String, Object,
-                                                   UInt64, Int64, String, String, Object,
-                                                   UInt64, Int64, String, String, Object,
-                                                   UInt64, Int64, String, String, Object> PropertyEdge,
+        public JSPropertyEdge(IGenericPropertyEdge<String, Int64, String, String, Object,
+                                                   String, Int64, String, String, Object,
+                                                   String, Int64, String, String, Object,
+                                                   String, Int64, String, String, Object> PropertyEdge,
                               ScriptEngine JavaScriptEngine)
 
             : base(PropertyEdge, JavaScriptEngine)

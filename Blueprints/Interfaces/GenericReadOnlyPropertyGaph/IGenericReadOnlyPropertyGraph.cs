@@ -294,6 +294,21 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
         #endregion
 
+        #region TryGetVertexById(VertexId)
+
+        /// <summary>
+        /// Try to return the vertex referenced by the given vertex identifier.
+        /// </summary>
+        /// <param name="VertexId">A vertex identifier.</param>
+        /// <param name="Vertex">A vertex.</param>
+        /// <returns>True when success; false otherwise.</returns>
+        Boolean TryGetVertexById(TIdVertex VertexId, out IGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Vertex);
+
+        #endregion
+
         #region VerticesById(params VertexIds)
 
         /// <summary>
@@ -378,6 +393,21 @@ namespace de.ahzf.Blueprints.PropertyGraphs
                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
 
                              EdgeById(TIdEdge EdgeId);
+
+        #endregion
+
+        #region TryGetEdgeById(EdgeId)
+
+        /// <summary>
+        /// Try to return the edge referenced by the given edge identifier.
+        /// </summary>
+        /// <param name="EdgeId">An edge identifier.</param>
+        /// <param name="Edge">An edge.</param>
+        /// <returns>True when success; false otherwise.</returns>
+        Boolean TryGetEdgeById(TIdEdge EdgeId, out IGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Edge);
 
         #endregion
 

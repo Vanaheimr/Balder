@@ -825,6 +825,24 @@ namespace de.ahzf.Blueprints.HTTP.Client
             throw new NotImplementedException();
         }
 
+
+
+        public bool TryGetVertexById(ulong VertexId, out IGenericPropertyVertex<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> Vertex)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public bool TryGetEdgeById(ulong EdgeId, out IGenericPropertyEdge<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> Edge)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public string DescriptionKey
+        {
+            get { throw new NotImplementedException(); }
+        }
     }
 
 }

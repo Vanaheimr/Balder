@@ -43,10 +43,10 @@ namespace de.ahzf.Blueprints.JurassicGraph
         /// </summary>
         /// <param name="PropertyVertex">The internal property vertex.</param>
         /// <param name="JavaScriptEngine">An instance of a JavaScript engine.</param>
-        public JSPropertyVertex(IGenericPropertyVertex<UInt64, Int64, String, String, Object,
-                                                       UInt64, Int64, String, String, Object,
-                                                       UInt64, Int64, String, String, Object,
-                                                       UInt64, Int64, String, String, Object> Vertex,
+        public JSPropertyVertex(IGenericPropertyVertex<String, Int64, String, String, Object,
+                                                       String, Int64, String, String, Object,
+                                                       String, Int64, String, String, Object,
+                                                       String, Int64, String, String, Object> Vertex,
                                 ScriptEngine JavaScriptEngine)
 
             : base(Vertex, JavaScriptEngine)

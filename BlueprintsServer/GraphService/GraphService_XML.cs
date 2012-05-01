@@ -72,16 +72,16 @@ namespace de.ahzf.Blueprints.HTTP.Server
 
         #region GetRoot()
 
-        public override HTTPResponse GetRoot()
+        public override HTTPResponse GET_Root()
         {
-            return AllGraphs();
+            return GET_Graphs();
         }
 
         #endregion
 
         #region AllGraphs()
 
-        public override HTTPResponse AllGraphs()
+        public override HTTPResponse GET_Graphs()
         {
 
             var _Content = new JObject(
@@ -99,41 +99,6 @@ namespace de.ahzf.Blueprints.HTTP.Server
                 Content        = _Content.ToUTF8Bytes()
             };
 
-        }
-
-        #endregion
-
-        #region Description(GraphId)
-
-        public override HTTPResponse Description(String GraphId)
-        {
-
-            UInt64 _GraphId;
-
-            if (!UInt64.TryParse(GraphId, out _GraphId))
-                throw new ArgumentException();
-
-            IPropertyGraph PropertyGraph;
-
-            String _Content;
-
-            //if (GraphServer.TryGetPropertyGraph(_GraphId, out PropertyGraph))
-            //{
-            //    var JSON = new JSONResponseBuilder();
-            //    JSON.SetResult(new JObject(new JProperty("description", PropertyGraph.Description)));
-            //    _Content = JSON.ToString();
-            //}
-
-            //else
-                _Content = "error!";
-
-            return new HTTPResponseBuilder()
-            {
-                HTTPStatusCode = HTTPStatusCode.OK,
-                ContentType    = HTTPContentType.JSON_UTF8,
-                Content        = _Content.ToUTF8Bytes()
-            };
-            
         }
 
         #endregion

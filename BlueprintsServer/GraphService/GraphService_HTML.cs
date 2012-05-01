@@ -76,10 +76,8 @@ namespace de.ahzf.Blueprints.HTTP.Server
 
             var _StringBuilder = new StringBuilder();
 
-            _StringBuilder.AppendLine("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
-            _StringBuilder.AppendLine("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">");
-            _StringBuilder.AppendLine("<html xmlns=\"http://www.w3.org/1999/xhtml\">");
-            _StringBuilder.AppendLine("<head>");
+            _StringBuilder.AppendLine("<!doctype html>");
+            _StringBuilder.AppendLine("<html><head><meta charset=\"UTF-8\">");
             _StringBuilder.AppendLine("<title>GraphServer v0.1</title>");
             _StringBuilder.AppendLine("</head>");
             _StringBuilder.AppendLine("<body>");
@@ -103,31 +101,9 @@ namespace de.ahzf.Blueprints.HTTP.Server
         #endregion
 
 
-        #region GetRoot()
+        #region /graphs
 
-        public override HTTPResponse GetRoot()
-        {
-
-            var Graphs = GraphServer.AllGraphs().
-                                     Select(graph => "<a href=\"/graph/" + graph.Id + "\">" + graph.Id + " - " + graph.Description + "</a> " +
-                                                     "<a href=\"/graph/" + graph.Id + "/vertices\">[All Vertices]</a> " +
-                                                     "<a href=\"/graph/" + graph.Id + "/edges\">[All Edge]</a>").
-                                     Aggregate((a, b) =>  a + "<br>" + b);
-
-            return new HTTPResponseBuilder() {
-                HTTPStatusCode = HTTPStatusCode.OK,
-                ContentType    = HTTPContentType.HTML_UTF8,
-                Content        = HTMLBuilder("GraphServer v0.1", b => b.AppendLine("Hello world!<br>").AppendLine(Graphs)).ToUTF8Bytes()
-            };
-
-        }
-
-        #endregion
-
-
-        #region AllGraphs()
-
-        public override HTTPResponse AllGraphs()
+        public override HTTPResponse GET_Graphs()
         {
 
             var AllGraphs = GraphServer.AllGraphs().
@@ -140,7 +116,283 @@ namespace de.ahzf.Blueprints.HTTP.Server
             {
                 HTTPStatusCode = HTTPStatusCode.OK,
                 ContentType    = HTTPContentType.HTML_UTF8,
-                Content        = HTMLBuilder("", b => b.AppendLine(AllGraphs)).ToUTF8Bytes()
+                Content        = HTMLBuilder("", StringBuilder => StringBuilder.AppendLine(AllGraphs)).ToUTF8Bytes()
+            };
+
+        }
+
+        /// <summary>
+        /// Get a list of all graphs.
+        /// </summary>
+        //  COUNT /graphs
+        //  "HTTPBody: {",
+        //     "\"GraphFilter\" : \"...\"",
+        //     "\"SELECT\"      : [ \"Name\", \"Age\" ],",
+        //  "}",
+        public override HTTPResponse COUNT_Graphs()
+        {
+
+            var Result = base.COUNT_Graphs_protected();
+
+            if (Result.HasErrors)
+                return Result.Error;
+
+            return new HTTPResponseBuilder()
+            {
+                HTTPStatusCode = HTTPStatusCode.OK,
+                ContentType    = HTTPContentType.HTML_UTF8,
+                Content        = HTMLBuilder("Number of graphs", StringBuilder => StringBuilder.AppendLine(Result.Data.ToString())).ToUTF8Bytes()
+            };
+
+        }
+
+        #endregion
+
+        #region /graph/{GraphId}
+
+        public override HTTPResponse GET_GraphById(String GraphId)
+        {
+
+            var StringBuilder = new StringBuilder();
+            var GraphResult   = base.GET_GraphById_protected(GraphId);
+
+            if (GraphResult.HasErrors)
+                return GraphResult.Error;
+
+            if (GraphResult.Data.Any())
+            {
+
+                StringBuilder.Append("<table>");
+
+                StringBuilder.Append("<tr><td>Id</td><td>").                  Append(GraphResult.Data.Id).                  AppendLine("</td></tr>").
+                              Append("<tr><td>RevisionId</td><td>").          Append(GraphResult.Data.RevId).               AppendLine("</td></tr>").
+                              Append("<tr><td>Description</td><td>").         Append(GraphResult.Data.Description).         AppendLine("</td></tr>").
+                              AppendLine("<tr><td>&nbsp;</td></tr>").
+                              Append("<tr><td>Number of vertices</td><td>").  Append(GraphResult.Data.NumberOfVertices()).  AppendLine("</td></tr>").
+                              Append("<tr><td>Number of edges</td><td>").     Append(GraphResult.Data.NumberOfEdges()).     AppendLine("</td></tr>").
+                              Append("<tr><td>Number of multiedges</td><td>").Append(GraphResult.Data.NumberOfMultiEdges()).AppendLine("</td></tr>").
+                              Append("<tr><td>Number of hyperedges</td><td>").Append(GraphResult.Data.NumberOfHyperEdges()).AppendLine("</td></tr>").
+                              AppendLine("<tr><td>&nbsp;</td></tr>");
+
+                GraphResult.Data.ForEach(KeyValuePair =>
+                    {
+                        if (KeyValuePair.Key != GraphResult.Data.IdKey &&
+                            KeyValuePair.Key != GraphResult.Data.RevIdKey &&
+                            KeyValuePair.Key != GraphResult.Data.DescriptionKey)
+                            StringBuilder.Append("<tr><td>").
+                                          Append(KeyValuePair.Key.ToString()).
+                                          Append("</td><td>").
+                                          Append(KeyValuePair.Value.ToString()).
+                                          Append("</td></tr>");
+                    });
+
+
+                StringBuilder.Append("</table>");
+
+            }
+
+            return new HTTPResponseBuilder()
+            {
+                HTTPStatusCode = HTTPStatusCode.OK,
+                ContentType    = HTTPContentType.HTML_UTF8,
+                Content        = HTMLBuilder("Graph " + GraphResult.Data.Id, _StringBuilder => _StringBuilder.AppendLine(StringBuilder.ToString())).ToUTF8Bytes()
+            };
+
+        }
+
+        #endregion
+
+
+
+
+        #region GET_VertexById(GraphId, VertexId)
+
+        /// <summary>
+        /// Return the vertex referenced by the given vertex identifier.
+        /// If no vertex is referenced by the identifier return null.
+        /// </summary>
+        /// <param name="GraphId">The identification of the graph.</param>
+        /// <param name="VertexId">The vertex identification.</param>
+        public override HTTPResponse GET_VertexById(String GraphId, String VertexId)
+        {
+
+            var StringBuilder = new StringBuilder();
+            var VertexResult  = base.GET_VertexById_protected(GraphId, VertexId);
+
+            if (VertexResult.HasErrors)
+                return VertexResult.Error;
+
+            if (VertexResult.Data.Any())
+            {
+
+                StringBuilder.Append("<table>");
+
+                VertexResult.Data.ForEach(KeyValuePair =>
+                    StringBuilder.Append("<tr><td>").
+                                  Append(KeyValuePair.Key.ToString()).
+                                  Append("</td><td>").
+                                  Append(KeyValuePair.Value.ToString()).
+                                  Append("</td></tr>"));
+
+                StringBuilder.Append("</table>");
+
+            }
+
+            return new HTTPResponseBuilder()
+            {
+                HTTPStatusCode = HTTPStatusCode.OK,
+                ContentType    = this.HTTPContentTypes.First(),
+                Content        = HTMLBuilder("Vertex", _StringBuilder => _StringBuilder.Append(StringBuilder.ToString())).ToUTF8Bytes()
+            };
+
+        }
+
+        #endregion
+
+        #region Vertices(GraphId)
+
+        /// <summary>
+        /// Return all vertices of the given graph.
+        /// </summary>
+        /// <param name="GraphId">The identification of the graph.</param>
+        public override HTTPResponse GET_Vertices(String GraphId)
+        {
+            
+            var StringBuilder  = new StringBuilder();
+            var VerticesResult = base.GET_Vertices_protected(GraphId);
+
+            if (VerticesResult.HasErrors)
+                return VerticesResult.Error;
+
+            if (VerticesResult.Data.Any())
+            {
+
+                StringBuilder.Append("<table>");
+
+                VerticesResult.Data.ForEach(Vertex =>
+                    {
+
+                        StringBuilder.Append("<tr><td>");
+                        StringBuilder.Append("<table>");
+
+                        Vertex.ForEach(KeyValuePair =>
+                            StringBuilder.Append("<tr><td>").
+                                          Append(KeyValuePair.Key.ToString()).
+                                          Append("</td><td>").
+                                          Append(KeyValuePair.Value.ToString()).
+                                          Append("</td></tr>"));
+
+                        StringBuilder.Append("</table>");
+                        StringBuilder.AppendLine("</td></tr>");
+
+                    });
+
+                StringBuilder.Append("</table>");
+
+            }
+
+            return new HTTPResponseBuilder() {
+                HTTPStatusCode = HTTPStatusCode.OK,
+                ContentType    = this.HTTPContentTypes.First(),
+                Content        = HTMLBuilder("All vertices", sb => sb.Append(StringBuilder.ToString())).ToUTF8Bytes()
+            };
+
+        }
+
+        #endregion
+
+
+        #region GET_EdgeById(GraphId, VertexId)
+
+        /// <summary>
+        /// Return the edge referenced by the given edge identifier.
+        /// If no edge is referenced by the identifier return null.
+        /// </summary>
+        /// <param name="GraphId">The identification of the graph.</param>
+        /// <param name="EdgeId">The edge identification.</param>
+        public override HTTPResponse GET_EdgeById(String GraphId, String EdgeId)
+        {
+
+            var StringBuilder = new StringBuilder();
+            var EdgeResult    = base.GET_EdgeById_protected(GraphId, EdgeId);
+
+            if (EdgeResult.HasErrors)
+                return EdgeResult.Error;
+
+            if (EdgeResult.Data.Any())
+            {
+
+                StringBuilder.Append("<table>");
+
+                EdgeResult.Data.ForEach(KeyValuePair =>
+                    StringBuilder.Append("<tr><td>").
+                                  Append(KeyValuePair.Key.ToString()).
+                                  Append("</td><td>").
+                                  Append(KeyValuePair.Value.ToString()).
+                                  Append("</td></tr>"));
+
+                StringBuilder.Append("</table>");
+
+            }
+
+            return new HTTPResponseBuilder()
+            {
+                HTTPStatusCode = HTTPStatusCode.OK,
+                ContentType    = this.HTTPContentTypes.First(),
+                Content        = HTMLBuilder("Edge", sb => sb.Append(StringBuilder.ToString())).ToUTF8Bytes()
+            };
+
+        }
+
+        #endregion
+
+        #region Edges(GraphId)
+
+        /// <summary>
+        /// Return all edges of the given graph.
+        /// </summary>
+        /// <param name="GraphId">The identification of the graph.</param>
+        public override HTTPResponse GET_Edges(String GraphId)
+        {
+
+            var StringBuilder = new StringBuilder();
+            var EdgesResult   = base.GET_Edges_protected(GraphId);
+
+            if (EdgesResult.HasErrors)
+                return EdgesResult.Error;
+
+            if (EdgesResult.Data.Any())
+            {
+
+                StringBuilder.AppendLine("<table>");
+
+                EdgesResult.Data.ForEach(Edge =>
+                {
+
+                    StringBuilder.Append("<tr><td>");
+                    StringBuilder.Append("<table>");
+
+                    Edge.ForEach(KeyValuePair =>
+                        StringBuilder.Append("<tr><td>").
+                                      Append(KeyValuePair.Key.ToString()).
+                                      Append("</td><td>").
+                                      Append(KeyValuePair.Value.ToString()).
+                                      Append("</td></tr>"));
+
+                    StringBuilder.Append("</table>");
+                    StringBuilder.AppendLine("</td></tr>");
+
+                });
+
+                StringBuilder.Append("</table>");
+
+            }
+
+            return new HTTPResponseBuilder()
+            {
+                HTTPStatusCode = HTTPStatusCode.OK,
+                ContentType    = this.HTTPContentTypes.First(),
+                Content        = HTMLBuilder("All edges", sb => sb.Append(StringBuilder.ToString())).ToUTF8Bytes()
             };
 
         }
@@ -180,109 +432,6 @@ namespace de.ahzf.Blueprints.HTTP.Server
                 }
 
             }).ToUTF8Bytes();
-
-        }
-
-        #endregion
-
-
-
-        #region Vertices(GraphId)
-
-        /// <summary>
-        /// Return all vertices of the given graph.
-        /// </summary>
-        /// <param name="GraphId">The identification of the graph.</param>
-        public override HTTPResponse Vertices(String GraphId)
-        {
-            
-            var StringBuilder  = new StringBuilder();
-            var Result         = base.GET_Vertices_protected(GraphId);
-
-            if (Result.HasErrors)
-                return Result.Error;
-
-            if (Result.Data.Any())
-            {
-
-                StringBuilder.Append("<table>");
-
-                Result.Data.ForEach(Vertex =>
-                    {
-
-                        StringBuilder.Append("<tr><td><table>");
-
-                        Vertex.ForEach(KeyValuePair =>
-                            StringBuilder.Append("<tr><td>").
-                                          Append(KeyValuePair.Key.ToString()).
-                                          Append("</td><td>").
-                                          Append(KeyValuePair.Value.ToString()).
-                                          Append("</td></tr>"));
-
-                        StringBuilder.Append("</table></td></tr>");
-
-                    });
-
-                StringBuilder.Append("</table>");
-
-            }
-
-            return new HTTPResponseBuilder() {
-                HTTPStatusCode = HTTPStatusCode.OK,
-                ContentType    = this.HTTPContentTypes.First(),
-                Content        = HTMLBuilder("All vertices", sb => sb.Append(StringBuilder.ToString())).ToUTF8Bytes()
-            };
-
-        }
-
-        #endregion
-
-        #region Edges(GraphId)
-
-        /// <summary>
-        /// Return all edges of the given graph.
-        /// </summary>
-        /// <param name="GraphId">The identification of the graph.</param>
-        public override HTTPResponse Edges(String GraphId)
-        {
-
-            var StringBuilder = new StringBuilder();
-            var Result = base.GET_Edges_protected(GraphId);
-
-            if (Result.HasErrors)
-                return Result.Error;
-
-            if (Result.Data.Any())
-            {
-
-                StringBuilder.Append("<table>");
-
-                Result.Data.ForEach(Edge =>
-                {
-
-                    StringBuilder.Append("<tr><td><table>");
-
-                    Edge.ForEach(KeyValuePair =>
-                        StringBuilder.Append("<tr><td>").
-                                      Append(KeyValuePair.Key.ToString()).
-                                      Append("</td><td>").
-                                      Append(KeyValuePair.Value.ToString()).
-                                      Append("</td></tr>"));
-
-                    StringBuilder.Append("</table></td></tr>");
-
-                });
-
-                StringBuilder.Append("</table>");
-
-            }
-
-            return new HTTPResponseBuilder()
-            {
-                HTTPStatusCode = HTTPStatusCode.OK,
-                ContentType = this.HTTPContentTypes.First(),
-                Content = HTMLBuilder("All edges", sb => sb.Append(StringBuilder.ToString())).ToUTF8Bytes()
-            };
 
         }
 

@@ -83,6 +83,15 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
         #endregion
 
+        #region DescriptionKey
+
+        /// <summary>
+        /// The property key of the description.
+        /// </summary>
+        TKey DescriptionKey { get; }
+
+        #endregion
+
         #endregion
 
         #region Keys/Values

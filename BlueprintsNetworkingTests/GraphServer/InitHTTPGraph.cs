@@ -37,14 +37,9 @@ namespace de.ahzf.Blueprints.UnitTests.GraphServerTests
     public class InitGraphServer
     {
 
-        protected IGraphServer CreateGraph()
+        protected IGraphServer CreateGraph(String GraphId)
         {
-            return new GraphServer(new PropertyGraph());
-        }
-
-        protected IGraphServer CreateGraph(UInt64 GraphId)
-        {
-            return new GraphServer(new PropertyGraph(GraphId));
+            return new GraphServer(GraphFactory.CreateGenericPropertyGraph2(GraphId));
         }
 
     }

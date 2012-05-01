@@ -40,7 +40,7 @@ namespace de.ahzf.Blueprints.JurassicGraph
         /// <summary>
         /// The internal graph element.
         /// </summary>
-        private readonly IGraphElement<UInt64, Int64, String, String, Object> GraphElement;
+        private readonly IGraphElement<String, Int64, String, String, Object> GraphElement;
 
         /// <summary>
         /// The internal JavaScript engine;
@@ -58,7 +58,7 @@ namespace de.ahzf.Blueprints.JurassicGraph
         /// </summary>
         /// <param name="GraphElement">A graph element.</param>
         /// <param name="JavaScriptEngine">An instance of a JavaScript engine.</param>
-        public JSGraphElement(IGraphElement<UInt64, Int64, String, String, Object> GraphElement,
+        public JSGraphElement(IGraphElement<String, Int64, String, String, Object> GraphElement,
                               ScriptEngine JavaScriptEngine)
 
             : base(JavaScriptEngine)
@@ -70,8 +70,8 @@ namespace de.ahzf.Blueprints.JurassicGraph
 
             // Int32 is a Jurassic limitation as JavaScript only supports "number"
             // http://jurassic.codeplex.com/wikipage?title=Supported%20types&referringTitle=Exposing%20a%20.NET%20class%20to%20JavaScript
-            this.DefineProperty("Id",      new PropertyDescriptor((Int32) GraphElement.Id,  PropertyAttributes.Sealed), true);
-            this.DefineProperty("RevId",   new PropertyDescriptor(GraphElement.RevId,       PropertyAttributes.Sealed), true);
+            this.DefineProperty("Id",      new PropertyDescriptor(GraphElement.Id,    PropertyAttributes.Sealed), true);
+            this.DefineProperty("RevId",   new PropertyDescriptor(GraphElement.RevId, PropertyAttributes.Sealed), true);
 
         }
 

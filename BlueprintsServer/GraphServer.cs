@@ -32,7 +32,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
 {
 
     /// <summary>
-    /// Simple PropertyGraph HTTP/REST access (server).
+    /// A simple property graph HTTP/REST access (server).
     /// </summary>
     public class GraphServer : HTTPServer<IGraphService>,
                                IGraphServer
@@ -40,15 +40,15 @@ namespace de.ahzf.Blueprints.HTTP.Server
 
         #region Data
 
-        private readonly IDictionary<UInt64, IGenericPropertyGraph<UInt64, Int64, String, String, Object,
-                                                                   UInt64, Int64, String, String, Object,
-                                                                   UInt64, Int64, String, String, Object,
-                                                                   UInt64, Int64, String, String, Object>> _PropertyGraphs;
+        private readonly IDictionary<String, IGenericPropertyGraph <String, Int64, String, String, Object,
+                                                                    String, Int64, String, String, Object,
+                                                                    String, Int64, String, String, Object,
+                                                                    String, Int64, String, String, Object>> _PropertyGraphs;
 
-        private readonly IDictionary<String, IGenericPropertyVertex<UInt64, Int64, String, String, Object,
-                                                                    UInt64, Int64, String, String, Object,
-                                                                    UInt64, Int64, String, String, Object,
-                                                                    UInt64, Int64, String, String, Object>> VertexLookup;
+        private readonly IDictionary<String, IGenericPropertyVertex<String, Int64, String, String, Object,
+                                                                    String, Int64, String, String, Object,
+                                                                    String, Int64, String, String, Object,
+                                                                    String, Int64, String, String, Object>> VertexLookup;
 
         #endregion
         
@@ -85,10 +85,10 @@ namespace de.ahzf.Blueprints.HTTP.Server
         /// <summary>
         /// Initialize the GraphServer using IPAddress.Any, http port 8182 and start the server.
         /// </summary>
-        public GraphServer(IGenericPropertyGraph<UInt64, Int64, String, String, Object,
-                                                 UInt64, Int64, String, String, Object,
-                                                 UInt64, Int64, String, String, Object,
-                                                 UInt64, Int64, String, String, Object> PropertyGraph)
+        public GraphServer(IGenericPropertyGraph<String, Int64, String, String, Object,
+                                                 String, Int64, String, String, Object,
+                                                 String, Int64, String, String, Object,
+                                                 String, Int64, String, String, Object> PropertyGraph)
             : base(IPv4Address.Any, new IPPort(80), Autostart: true)
         {
 
@@ -99,17 +99,17 @@ namespace de.ahzf.Blueprints.HTTP.Server
 
             #endregion
 
-            _PropertyGraphs = new Dictionary<UInt64, IGenericPropertyGraph<UInt64, Int64, String, String, Object,
-                                                                           UInt64, Int64, String, String, Object,
-                                                                           UInt64, Int64, String, String, Object,
-                                                                           UInt64, Int64, String, String, Object>>();
+            _PropertyGraphs = new Dictionary<String, IGenericPropertyGraph<String, Int64, String, String, Object,
+                                                                           String, Int64, String, String, Object,
+                                                                           String, Int64, String, String, Object,
+                                                                           String, Int64, String, String, Object>>();
             _PropertyGraphs.Add(PropertyGraph.Id, PropertyGraph);
 
             this.ServerName    = DefaultServerName;
-            this.VertexLookup  = new Dictionary<String, IGenericPropertyVertex<UInt64, Int64, String, String, Object,
-                                                                               UInt64, Int64, String, String, Object,
-                                                                               UInt64, Int64, String, String, Object,
-                                                                               UInt64, Int64, String, String, Object>>();
+            this.VertexLookup  = new Dictionary<String, IGenericPropertyVertex<String, Int64, String, String, Object,
+                                                                               String, Int64, String, String, Object,
+                                                                               String, Int64, String, String, Object,
+                                                                               String, Int64, String, String, Object>>();
 
             base.OnNewHTTPService += CentralService => { CentralService.GraphServer = this; };
 
@@ -124,10 +124,10 @@ namespace de.ahzf.Blueprints.HTTP.Server
         /// </summary>
         /// <param name="Port">The listening port</param>
         /// <param name="Autostart"></param>
-        public GraphServer(IGenericPropertyGraph<UInt64, Int64, String, String, Object,
-                                                 UInt64, Int64, String, String, Object,
-                                                 UInt64, Int64, String, String, Object,
-                                                 UInt64, Int64, String, String, Object> PropertyGraph, IPPort Port, Boolean Autostart = false)
+        public GraphServer(IGenericPropertyGraph<String, Int64, String, String, Object,
+                                                 String, Int64, String, String, Object,
+                                                 String, Int64, String, String, Object,
+                                                 String, Int64, String, String, Object> PropertyGraph, IPPort Port, Boolean Autostart = false)
             : base(IPv4Address.Any, Port, Autostart: true)
         {
 
@@ -138,17 +138,17 @@ namespace de.ahzf.Blueprints.HTTP.Server
 
             #endregion
 
-            _PropertyGraphs = new Dictionary<UInt64, IGenericPropertyGraph<UInt64, Int64, String, String, Object,
-                                                                           UInt64, Int64, String, String, Object,
-                                                                           UInt64, Int64, String, String, Object,
-                                                                           UInt64, Int64, String, String, Object>>();
+            _PropertyGraphs = new Dictionary<String, IGenericPropertyGraph<String, Int64, String, String, Object,
+                                                                           String, Int64, String, String, Object,
+                                                                           String, Int64, String, String, Object,
+                                                                           String, Int64, String, String, Object>>();
             _PropertyGraphs.Add(PropertyGraph.Id, PropertyGraph);
 
             this.ServerName   = DefaultServerName;
-            this.VertexLookup = new Dictionary<String, IGenericPropertyVertex<UInt64, Int64, String, String, Object,
-                                                                              UInt64, Int64, String, String, Object,
-                                                                              UInt64, Int64, String, String, Object,
-                                                                              UInt64, Int64, String, String, Object>>();
+            this.VertexLookup = new Dictionary<String, IGenericPropertyVertex<String, Int64, String, String, Object,
+                                                                              String, Int64, String, String, Object,
+                                                                              String, Int64, String, String, Object,
+                                                                              String, Int64, String, String, Object>>();
 
             base.OnNewHTTPService += CentralService => { CentralService.GraphServer = this; };
 
@@ -164,10 +164,10 @@ namespace de.ahzf.Blueprints.HTTP.Server
         /// <param name="IIPAddress">The listening IP address(es)</param>
         /// <param name="Port">The listening port</param>
         /// <param name="Autostart"></param>
-        public GraphServer(IGenericPropertyGraph<UInt64, Int64, String, String, Object,
-                                                 UInt64, Int64, String, String, Object,
-                                                 UInt64, Int64, String, String, Object,
-                                                 UInt64, Int64, String, String, Object> PropertyGraph, IIPAddress IIPAddress, IPPort Port, Boolean Autostart = false)
+        public GraphServer(IGenericPropertyGraph<String, Int64, String, String, Object,
+                                                 String, Int64, String, String, Object,
+                                                 String, Int64, String, String, Object,
+                                                 String, Int64, String, String, Object> PropertyGraph, IIPAddress IIPAddress, IPPort Port, Boolean Autostart = false)
             : base(IIPAddress, Port, Autostart: true)
         {
 
@@ -178,17 +178,17 @@ namespace de.ahzf.Blueprints.HTTP.Server
 
             #endregion
 
-            _PropertyGraphs = new Dictionary<UInt64, IGenericPropertyGraph<UInt64, Int64, String, String, Object,
-                                                                           UInt64, Int64, String, String, Object,
-                                                                           UInt64, Int64, String, String, Object,
-                                                                           UInt64, Int64, String, String, Object>>();
+            _PropertyGraphs = new Dictionary<String, IGenericPropertyGraph<String, Int64, String, String, Object,
+                                                                           String, Int64, String, String, Object,
+                                                                           String, Int64, String, String, Object,
+                                                                           String, Int64, String, String, Object>>();
             _PropertyGraphs.Add(PropertyGraph.Id, PropertyGraph);
 
             this.ServerName   = DefaultServerName;
-            this.VertexLookup = new Dictionary<String, IGenericPropertyVertex<UInt64, Int64, String, String, Object,
-                                                                              UInt64, Int64, String, String, Object,
-                                                                              UInt64, Int64, String, String, Object,
-                                                                              UInt64, Int64, String, String, Object>>();
+            this.VertexLookup = new Dictionary<String, IGenericPropertyVertex<String, Int64, String, String, Object,
+                                                                              String, Int64, String, String, Object,
+                                                                              String, Int64, String, String, Object,
+                                                                              String, Int64, String, String, Object>>();
 
             base.OnNewHTTPService += CentralService => { CentralService.GraphServer = this; };
 
@@ -203,10 +203,10 @@ namespace de.ahzf.Blueprints.HTTP.Server
         /// </summary>
         /// <param name="IPSocket">The listening IPSocket.</param>
         /// <param name="Autostart"></param>
-        public GraphServer(IGenericPropertyGraph<UInt64, Int64, String, String, Object,
-                                                 UInt64, Int64, String, String, Object,
-                                                 UInt64, Int64, String, String, Object,
-                                                 UInt64, Int64, String, String, Object> PropertyGraph, IPSocket IPSocket, Boolean Autostart = false)
+        public GraphServer(IGenericPropertyGraph<String, Int64, String, String, Object,
+                                                 String, Int64, String, String, Object,
+                                                 String, Int64, String, String, Object,
+                                                 String, Int64, String, String, Object> PropertyGraph, IPSocket IPSocket, Boolean Autostart = false)
             : base(IPSocket.IPAddress, IPSocket.Port, Autostart: true)
         {
 
@@ -217,17 +217,17 @@ namespace de.ahzf.Blueprints.HTTP.Server
 
             #endregion
 
-            _PropertyGraphs = new Dictionary<UInt64, IGenericPropertyGraph<UInt64, Int64, String, String, Object,
-                                                                           UInt64, Int64, String, String, Object,
-                                                                           UInt64, Int64, String, String, Object,
-                                                                           UInt64, Int64, String, String, Object>>();
+            _PropertyGraphs = new Dictionary<String, IGenericPropertyGraph<String, Int64, String, String, Object,
+                                                                           String, Int64, String, String, Object,
+                                                                           String, Int64, String, String, Object,
+                                                                           String, Int64, String, String, Object>>();
             _PropertyGraphs.Add(PropertyGraph.Id, PropertyGraph);
 
             this.ServerName   = DefaultServerName;
-            this.VertexLookup = new Dictionary<String, IGenericPropertyVertex<UInt64, Int64, String, String, Object,
-                                                                              UInt64, Int64, String, String, Object,
-                                                                              UInt64, Int64, String, String, Object,
-                                                                              UInt64, Int64, String, String, Object>>();
+            this.VertexLookup = new Dictionary<String, IGenericPropertyVertex<String, Int64, String, String, Object,
+                                                                              String, Int64, String, String, Object,
+                                                                              String, Int64, String, String, Object,
+                                                                              String, Int64, String, String, Object>>();
 
             base.OnNewHTTPService += CentralService => { CentralService.GraphServer = this; };
 
@@ -246,15 +246,15 @@ namespace de.ahzf.Blueprints.HTTP.Server
         /// Adds the given property graph to the server.
         /// </summary>
         /// <param name="PropertyGraph">An object implementing the IPropertyGraph interface.</param>
-        public IGenericPropertyGraph<UInt64, Int64, String, String, Object,
-                                     UInt64, Int64, String, String, Object,
-                                     UInt64, Int64, String, String, Object,
-                                     UInt64, Int64, String, String, Object>
+        public IGenericPropertyGraph<String, Int64, String, String, Object,
+                                     String, Int64, String, String, Object,
+                                     String, Int64, String, String, Object,
+                                     String, Int64, String, String, Object>
 
-            AddPropertyGraph(IGenericPropertyGraph<UInt64, Int64, String, String, Object,
-                                                   UInt64, Int64, String, String, Object,
-                                                   UInt64, Int64, String, String, Object,
-                                                   UInt64, Int64, String, String, Object> PropertyGraph)
+            AddPropertyGraph(IGenericPropertyGraph<String, Int64, String, String, Object,
+                                                   String, Int64, String, String, Object,
+                                                   String, Int64, String, String, Object,
+                                                   String, Int64, String, String, Object> PropertyGraph)
 
         {
 
@@ -274,21 +274,21 @@ namespace de.ahzf.Blueprints.HTTP.Server
         /// </summary>
         /// <param name="GraphId">A unique identification for this graph (which is also a vertex!).</param>
         /// <param name="GraphInitializer">A delegate to initialize the new property graph.</param>
-        public IGenericPropertyGraph<UInt64, Int64, String, String, Object,
-                                     UInt64, Int64, String, String, Object,
-                                     UInt64, Int64, String, String, Object,
-                                     UInt64, Int64, String, String, Object>
+        public IGenericPropertyGraph<String, Int64, String, String, Object,
+                                     String, Int64, String, String, Object,
+                                     String, Int64, String, String, Object,
+                                     String, Int64, String, String, Object>
 
-            NewPropertyGraph(UInt64 GraphId,
+            NewPropertyGraph(String GraphId,
                              String Description = null,
-                             GraphInitializer<UInt64, Int64, String, String, Object,
-                                              UInt64, Int64, String, String, Object,
-                                              UInt64, Int64, String, String, Object,
-                                              UInt64, Int64, String, String, Object> GraphInitializer = null)
+                             GraphInitializer<String, Int64, String, String, Object,
+                                              String, Int64, String, String, Object,
+                                              String, Int64, String, String, Object,
+                                              String, Int64, String, String, Object> GraphInitializer = null)
 
         {
 
-            return AddPropertyGraph(GraphFactory.CreateGenericPropertyGraph(GraphId, Description, GraphInitializer));
+            return AddPropertyGraph(GraphFactory.CreateGenericPropertyGraph2(GraphId, Description, GraphInitializer));
 
         }
 
@@ -301,10 +301,10 @@ namespace de.ahzf.Blueprints.HTTP.Server
         /// Return the property graph identified by the given GraphId.
         /// </summary>
         /// <param name="GraphId">A property graph identifier.</param>
-        public IGenericPropertyGraph<UInt64, Int64, String, String, Object,
-                                     UInt64, Int64, String, String, Object,
-                                     UInt64, Int64, String, String, Object,
-                                     UInt64, Int64, String, String, Object> GetPropertyGraph(UInt64 GraphId)
+        public IGenericPropertyGraph<String, Int64, String, String, Object,
+                                     String, Int64, String, String, Object,
+                                     String, Int64, String, String, Object,
+                                     String, Int64, String, String, Object> GetPropertyGraph(String GraphId)
         {
             return _PropertyGraphs[GraphId];
         }
@@ -317,10 +317,10 @@ namespace de.ahzf.Blueprints.HTTP.Server
         /// Return the property graph identified by the given GraphId.
         /// </summary>
         /// <param name="GraphId">A property graph identifier.</param>
-        public Boolean TryGetPropertyGraph(UInt64 GraphId, out IGenericPropertyGraph<UInt64, Int64, String, String, Object,
-                                                                                     UInt64, Int64, String, String, Object,
-                                                                                     UInt64, Int64, String, String, Object,
-                                                                                     UInt64, Int64, String, String, Object> PropertyGraph)
+        public Boolean TryGetPropertyGraph(String GraphId, out IGenericPropertyGraph<String, Int64, String, String, Object,
+                                                                                     String, Int64, String, String, Object,
+                                                                                     String, Int64, String, String, Object,
+                                                                                     String, Int64, String, String, Object> PropertyGraph)
         {
             return _PropertyGraphs.TryGetValue(GraphId, out PropertyGraph);
         }
@@ -329,12 +329,38 @@ namespace de.ahzf.Blueprints.HTTP.Server
 
         #region AllGraphs()
 
-        public IEnumerable<IGenericPropertyGraph<UInt64, Int64, String, String, Object,
-                                                 UInt64, Int64, String, String, Object,
-                                                 UInt64, Int64, String, String, Object,
-                                                 UInt64, Int64, String, String, Object>> AllGraphs()
+        public IEnumerable<IGenericPropertyGraph<String, Int64, String, String, Object,
+                                                 String, Int64, String, String, Object,
+                                                 String, Int64, String, String, Object,
+                                                 String, Int64, String, String, Object>> AllGraphs()
         {
             return _PropertyGraphs.Values;
+        }
+
+        #endregion
+
+        #region NumberOfGraphs()
+
+        public UInt64 NumberOfGraphs()
+        {
+            return (UInt64) _PropertyGraphs.Count;
+        }
+
+        #endregion
+
+        #region NumberOfGraphs(GraphFilter)
+
+        public UInt64 NumberOfGraphs(GraphFilter<String, Int64, String, String, Object,
+                                                 String, Int64, String, String, Object,
+                                                 String, Int64, String, String, Object,
+                                                 String, Int64, String, String, Object> GraphFilter)
+        {
+
+            return (UInt64) (from   Graph
+                             in     _PropertyGraphs.Values
+                             where  GraphFilter(Graph)
+                             select Graph).Count();
+
         }
 
         #endregion
@@ -342,7 +368,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
 
         #region RemovePropertyGraph(GraphId)
 
-        public Boolean RemovePropertyGraph(UInt64 GraphId)
+        public Boolean RemovePropertyGraph(String GraphId)
         {
             return _PropertyGraphs.Remove(GraphId);
         }
@@ -353,10 +379,10 @@ namespace de.ahzf.Blueprints.HTTP.Server
 
         #region IEnumerable<PropertyGraph> Members
 
-        public IEnumerator<IGenericPropertyGraph<UInt64, Int64, String, String, Object,
-                                                 UInt64, Int64, String, String, Object,
-                                                 UInt64, Int64, String, String, Object,
-                                                 UInt64, Int64, String, String, Object>> GetEnumerator()
+        public IEnumerator<IGenericPropertyGraph<String, Int64, String, String, Object,
+                                                 String, Int64, String, String, Object,
+                                                 String, Int64, String, String, Object,
+                                                 String, Int64, String, String, Object>> GetEnumerator()
         {
             return _PropertyGraphs.Values.GetEnumerator();
         }
