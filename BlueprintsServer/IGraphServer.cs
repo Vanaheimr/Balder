@@ -31,7 +31,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
 {
 
     /// <summary>
-    /// Simple PropertyGraph HTTP/REST access.
+    /// Simple PropertyGraph TCP/HTTP/REST access.
     /// </summary>
     public interface IGraphServer : IHTTPServer,
                                     IEnumerable<IGenericPropertyGraph<String, Int64, String, String, Object,
@@ -40,19 +40,25 @@ namespace de.ahzf.Blueprints.HTTP.Server
                                                                       String, Int64, String, String, Object>>
     {
 
+        #region AddGraph(Graph)
+
         /// <summary>
         /// Adds the given property graph to the server.
         /// </summary>
-        /// <param name="PropertyGraph">An object implementing the IPropertyGraph interface.</param>
+        /// <param name="Graph">A property graph.</param>
         IGenericPropertyGraph<String, Int64, String, String, Object,
                               String, Int64, String, String, Object,
                               String, Int64, String, String, Object,
                               String, Int64, String, String, Object>
 
-            AddPropertyGraph(IGenericPropertyGraph<String, Int64, String, String, Object,
-                                                   String, Int64, String, String, Object,
-                                                   String, Int64, String, String, Object,
-                                                   String, Int64, String, String, Object> PropertyGraph);
+            AddGraph(IGenericPropertyGraph<String, Int64, String, String, Object,
+                                           String, Int64, String, String, Object,
+                                           String, Int64, String, String, Object,
+                                           String, Int64, String, String, Object> Graph);
+
+        #endregion
+
+        #region CreateNewGraph(GraphId, Description = null, GraphInitializer = null)
 
         /// <summary>
         /// Creates a new class-based in-memory implementation of a property graph
@@ -65,46 +71,69 @@ namespace de.ahzf.Blueprints.HTTP.Server
                               String, Int64, String, String, Object,
                               String, Int64, String, String, Object>
 
-            NewPropertyGraph(String GraphId,
-                             String Description = null,
-                             GraphInitializer<String, Int64, String, String, Object,
-                                              String, Int64, String, String, Object,
-                                              String, Int64, String, String, Object,
-                                              String, Int64, String, String, Object> GraphInitializer = null);
+            CreateNewGraph(String GraphId,
+                           String Description = null,
+                           GraphInitializer<String, Int64, String, String, Object,
+                                            String, Int64, String, String, Object,
+                                            String, Int64, String, String, Object,
+                                            String, Int64, String, String, Object> GraphInitializer = null);
 
+        #endregion
+
+
+        #region GetGraph(GraphId)
 
         /// <summary>
-        /// Return the property graph identified by the given GraphId.
+        /// Return the graph identified by the given GraphId.
+        /// If the graph does not exist rturn null.
         /// </summary>
-        /// <param name="GraphId">A property graph identifier.</param>
+        /// <param name="GraphId">The unique identifier of the graph to return.</param>
         IGenericPropertyGraph<String, Int64, String, String, Object,
                               String, Int64, String, String, Object,
                               String, Int64, String, String, Object,
-                              String, Int64, String, String, Object> GetPropertyGraph(String GraphId);
+                              String, Int64, String, String, Object> GetGraph(String GraphId);
+
+        #endregion
+
+        #region TryGetGraph(GraphId, out Graph)
 
         /// <summary>
-        /// Return the property graph identified by the given GraphId.
+        /// Try to return the graph identified by the given GraphId.
         /// </summary>
-        /// <param name="GraphId">A property graph identifier.</param>
-        Boolean TryGetPropertyGraph(String GraphId,
-                                    out IGenericPropertyGraph<String, Int64, String, String, Object,
-                                                              String, Int64, String, String, Object,
-                                                              String, Int64, String, String, Object,
-                                                              String, Int64, String, String, Object> PropertyGraph);
+        /// <param name="GraphId">The unique identifier of the graph to return.</param>
+        Boolean TryGetGraph(String GraphId,
+                            out IGenericPropertyGraph<String, Int64, String, String, Object,
+                                                      String, Int64, String, String, Object,
+                                                      String, Int64, String, String, Object,
+                                                      String, Int64, String, String, Object> Graph);
 
+        #endregion
 
-        IEnumerable<IGenericPropertyGraph<String, Int64, String, String, Object,
-                                          String, Int64, String, String, Object,
-                                          String, Int64, String, String, Object,
-                                          String, Int64, String, String, Object>> AllGraphs();
-
+        #region NumberOfGraphs(GraphFilter = null)
 
         /// <summary>
-        /// Removes the property graph identified by the given Id.
+        /// Return the number of graphs matching the
+        /// optional graph filter delegate.
         /// </summary>
-        /// <param name="GraphId">The Id of the property graph to remove.</param>
-        /// <returns>true on success, false </returns>
+        /// <param name="GraphFilter">An optional graph filter.</param>
+        UInt64 NumberOfGraphs(GraphFilter<String, Int64, String, String, Object,
+                                          String, Int64, String, String, Object,
+                                          String, Int64, String, String, Object,
+                                          String, Int64, String, String, Object> GraphFilter = null);
+
+        #endregion
+
+
+        #region RemovePropertyGraph(GraphId)
+
+        /// <summary>
+        /// Removes the graph identified by the given GraphId.
+        /// </summary>
+        /// <param name="GraphId">The unique identifier of the graph to remove.</param>
+        /// <returns>True on success, false otherwise.</returns>
         Boolean RemovePropertyGraph(String GraphId);
+
+        #endregion
 
     }
 

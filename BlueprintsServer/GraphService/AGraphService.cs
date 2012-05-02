@@ -32,6 +32,10 @@ using System.Text.RegularExpressions;
 namespace de.ahzf.Blueprints.HTTP.Server
 {
 
+    /// <summary>
+    /// This class provides the generic IGraphService functionality
+    /// without being bound to any specific content representation.
+    /// </summary>
     public abstract class AGraphService : AHTTPService,
                                           IGraphService
     {
@@ -66,7 +70,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
         /// <summary>
         /// The internal GraphServer object.
         /// </summary>
-        public GraphServer GraphServer { get; set; }
+        public IGraphServer GraphServer { get; set; }
 
         #endregion
 
@@ -112,7 +116,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
         /// Creates a new abstract graph service.
         /// </summary>
         /// <param name="IHTTPConnection">The http connection for this request.</param>
-        /// <param name="HTTPContentType">A content type.</param>
+        /// <param name="HTTPContentType">A http content type.</param>
         public AGraphService(IHTTPConnection IHTTPConnection, HTTPContentType HTTPContentType)
             : base(IHTTPConnection, HTTPContentType, "GraphServer.resources.")
         {
@@ -173,6 +177,74 @@ namespace de.ahzf.Blueprints.HTTP.Server
 
         #endregion
 
+        #region (protected) AGraphService(IHTTPConnection, HTTPContentType, ResourcePath)
+
+        /// <summary>
+        /// Creates a new abstract graph service.
+        /// </summary>
+        /// <param name="IHTTPConnection">The http connection for this request.</param>
+        /// <param name="HTTPContentType">A http content type.</param>
+        /// <param name="ResourcePath">The path to internal resources.</param>
+        protected AGraphService(IHTTPConnection IHTTPConnection, HTTPContentType HTTPContentType, String ResourcePath)
+            : base(IHTTPConnection, HTTPContentType, ResourcePath)
+        {
+
+            this.Graph  = new ThreadLocal<IGenericPropertyGraph <String, Int64, String, String, Object,
+                                                                 String, Int64, String, String, Object,
+                                                                 String, Int64, String, String, Object,
+                                                                 String, Int64, String, String, Object>>();
+
+            this.Vertex = new ThreadLocal<IGenericPropertyVertex<String, Int64, String, String, Object,
+                                                                 String, Int64, String, String, Object,
+                                                                 String, Int64, String, String, Object,
+                                                                 String, Int64, String, String, Object>>();
+
+            this.Edge   = new ThreadLocal<IGenericPropertyEdge  <String, Int64, String, String, Object,
+                                                                 String, Int64, String, String, Object,
+                                                                 String, Int64, String, String, Object,
+                                                                 String, Int64, String, String, Object>>();
+
+            this.Skip   = new ThreadLocal<UInt64>();
+            this.Take   = new ThreadLocal<UInt64>();
+
+        }
+
+        #endregion
+
+        #region (protected) AGraphService(IHTTPConnection, HTTPContentTypes, ResourcePath)
+
+        /// <summary>
+        /// Creates a new abstract graph service.
+        /// </summary>
+        /// <param name="IHTTPConnection">The http connection for this request.</param>
+        /// <param name="HTTPContentTypes">An enumeration of http content types.</param>
+        /// <param name="ResourcePath">The path to internal resources.</param>
+        protected AGraphService(IHTTPConnection IHTTPConnection, IEnumerable<HTTPContentType> HTTPContentTypes, String ResourcePath)
+            : base(IHTTPConnection, HTTPContentTypes, ResourcePath)
+        {
+
+            this.Graph  = new ThreadLocal<IGenericPropertyGraph <String, Int64, String, String, Object,
+                                                                 String, Int64, String, String, Object,
+                                                                 String, Int64, String, String, Object,
+                                                                 String, Int64, String, String, Object>>();
+
+            this.Vertex = new ThreadLocal<IGenericPropertyVertex<String, Int64, String, String, Object,
+                                                                 String, Int64, String, String, Object,
+                                                                 String, Int64, String, String, Object,
+                                                                 String, Int64, String, String, Object>>();
+
+            this.Edge   = new ThreadLocal<IGenericPropertyEdge  <String, Int64, String, String, Object,
+                                                                 String, Int64, String, String, Object,
+                                                                 String, Int64, String, String, Object,
+                                                                 String, Int64, String, String, Object>>();
+
+            this.Skip   = new ThreadLocal<UInt64>();
+            this.Take   = new ThreadLocal<UInt64>();
+
+        }
+
+        #endregion
+
         #endregion
 
 
@@ -190,7 +262,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
                                   String, Int64, String, String, Object,
                                   String, Int64, String, String, Object> _Graph = null;
 
-            if (!GraphServer.TryGetPropertyGraph(GraphId, out _Graph))
+            if (!GraphServer.TryGetGraph(GraphId, out _Graph))
 
                 HTTPErrorResponse = new ThreadLocal<HTTPResponse>(
                     () => HTTPErrors.HTTPErrorResponse(
@@ -411,7 +483,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
         /// <summary>
         /// Return general information of a graph.
         /// </summary>
-        /// <param name="GraphId">The identification of the graph.</param>
+        /// <param name="GraphId">The unique identification of the graph.</param>
         public virtual HTTPResponse GET_GraphById(String GraphId)
         {
             return HTTPErrors.HTTPErrorResponse(IHTTPConnection.InHTTPRequest, HTTPStatusCode.NotAcceptable);
@@ -420,7 +492,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
         /// <summary>
         /// Return general information of a graph.
         /// </summary>
-        /// <param name="GraphId">The identification of the graph.</param>
+        /// <param name="GraphId">The unique identification of the graph.</param>
         protected HTTPResult<IGenericPropertyGraph<String, Int64, String, String, Object,
                                                    String, Int64, String, String, Object,
                                                    String, Int64, String, String, Object,
@@ -480,7 +552,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
         /// Return the vertex referenced by the given vertex identifier.
         /// If no vertex is referenced by the identifier return null.
         /// </summary>
-        /// <param name="GraphId">The identification of the graph.</param>
+        /// <param name="GraphId">The unique identification of the graph.</param>
         /// <param name="VertexId">The vertex identification.</param>
         public virtual HTTPResponse GET_VertexById(String GraphId, String VertexId)
         {
@@ -516,7 +588,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
         /// If no vertex is referenced by a given identifier this value will be
         /// skipped.
         /// </summary>
-        /// <param name="GraphId">The identification of the graph.</param>
+        /// <param name="GraphId">The unique identification of the graph.</param>
         /// <remarks>Include a JSON array having vertex identifiers.</remarks>
         public virtual HTTPResponse GET_VerticesById(String GraphId)
         {
@@ -569,7 +641,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
         /// <summary>
         /// Return all vertices of the given graph.
         /// </summary>
-        /// <param name="GraphId">The identification of the graph.</param>
+        /// <param name="GraphId">The unique identification of the graph.</param>
         public virtual HTTPResponse GET_Vertices(String GraphId)
         {
             return HTTPErrors.HTTPErrorResponse(IHTTPConnection.InHTTPRequest, HTTPStatusCode.NotAcceptable);
@@ -578,7 +650,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
         /// <summary>
         /// Return all vertices of the given graph.
         /// </summary>
-        /// <param name="GraphId">The identification of the graph.</param>
+        /// <param name="GraphId">The unique identification of the graph.</param>
         protected HTTPResult<IEnumerable<IGenericPropertyVertex<String, Int64, String, String, Object,
                                                                 String, Int64, String, String, Object,
                                                                 String, Int64, String, String, Object,
@@ -615,7 +687,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
         /// <summary>
         /// Return all vertices of the given graph.
         /// </summary>
-        /// <param name="GraphId">The identification of the graph.</param>
+        /// <param name="GraphId">The unique identification of the graph.</param>
         public virtual HTTPResponse FILTER_Vertices(String GraphId)
         {
             return HTTPErrors.HTTPErrorResponse(IHTTPConnection.InHTTPRequest, HTTPStatusCode.NotAcceptable);
@@ -624,7 +696,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
         /// <summary>
         /// Return all vertices of the given graph.
         /// </summary>
-        /// <param name="GraphId">The identification of the graph.</param>
+        /// <param name="GraphId">The unique identification of the graph.</param>
         protected HTTPResult<IEnumerable<IGenericPropertyVertex<String, Int64, String, String, Object,
                                                                 String, Int64, String, String, Object,
                                                                 String, Int64, String, String, Object,
@@ -661,7 +733,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
         /// <summary>
         /// Return all vertices of the given graph.
         /// </summary>
-        /// <param name="GraphId">The identification of the graph.</param>
+        /// <param name="GraphId">The unique identification of the graph.</param>
         public virtual HTTPResponse COUNT_Vertices(String GraphId)
         {
             return HTTPErrors.HTTPErrorResponse(IHTTPConnection.InHTTPRequest, HTTPStatusCode.NotAcceptable);
@@ -670,7 +742,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
         /// <summary>
         /// Return all vertices of the given graph.
         /// </summary>
-        /// <param name="GraphId">The identification of the graph.</param>
+        /// <param name="GraphId">The unique identification of the graph.</param>
         protected HTTPResult<UInt64>
 
             COUNT_Vertices_protected(String GraphId)
@@ -701,7 +773,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
         /// Return the edge referenced by the given edge identifier.
         /// If no edge is referenced by the identifier return null.
         /// </summary>
-        /// <param name="GraphId">The identification of the graph.</param>
+        /// <param name="GraphId">The unique identification of the graph.</param>
         /// <param name="EdgeId">The edge identification.</param>
         public virtual HTTPResponse GET_EdgeById(String GraphId, String EdgeId)
         {
@@ -733,7 +805,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
         /// <summary>
         /// Get all edges of the given graph.
         /// </summary>
-        /// <param name="GraphId">The identification of the graph.</param>
+        /// <param name="GraphId">The unique identification of the graph.</param>
         public virtual HTTPResponse GET_Edges(String GraphId)
         {
             return HTTPErrors.HTTPErrorResponse(IHTTPConnection.InHTTPRequest, HTTPStatusCode.NotAcceptable);
@@ -742,7 +814,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
         /// <summary>
         /// Return all edges of the given graph.
         /// </summary>
-        /// <param name="GraphId">The identification of the graph.</param>
+        /// <param name="GraphId">The unique identification of the graph.</param>
         protected HTTPResult<IEnumerable<IGenericPropertyEdge<String, Int64, String, String, Object,
                                                               String, Int64, String, String, Object,
                                                               String, Int64, String, String, Object,
@@ -779,7 +851,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
         /// <summary>
         /// Return all edges of the given graph.
         /// </summary>
-        /// <param name="GraphId">The identification of the graph.</param>
+        /// <param name="GraphId">The unique identification of the graph.</param>
         public virtual HTTPResponse FILTER_Edges(String GraphId)
         {
             return HTTPErrors.HTTPErrorResponse(IHTTPConnection.InHTTPRequest, HTTPStatusCode.NotAcceptable);
@@ -788,7 +860,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
         /// <summary>
         /// Return all edges of the given graph.
         /// </summary>
-        /// <param name="GraphId">The identification of the graph.</param>
+        /// <param name="GraphId">The unique identification of the graph.</param>
         protected HTTPResult<IEnumerable<IGenericPropertyEdge<String, Int64, String, String, Object,
                                                               String, Int64, String, String, Object,
                                                               String, Int64, String, String, Object,
@@ -825,7 +897,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
         /// <summary>
         /// Return all edges of the given graph.
         /// </summary>
-        /// <param name="GraphId">The identification of the graph.</param>
+        /// <param name="GraphId">The unique identification of the graph.</param>
         public virtual HTTPResponse COUNT_Edges(String GraphId)
         {
             return HTTPErrors.HTTPErrorResponse(IHTTPConnection.InHTTPRequest, HTTPStatusCode.NotAcceptable);
@@ -834,7 +906,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
         /// <summary>
         /// Return all edges of the given graph.
         /// </summary>
-        /// <param name="GraphId">The identification of the graph.</param>
+        /// <param name="GraphId">The unique identification of the graph.</param>
         protected HTTPResult<UInt64>
 
             COUNT_edges_protected(String GraphId)

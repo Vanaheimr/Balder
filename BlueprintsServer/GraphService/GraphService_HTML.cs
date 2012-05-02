@@ -106,8 +106,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
         public override HTTPResponse GET_Graphs()
         {
 
-            var AllGraphs = GraphServer.AllGraphs().
-                                        Select(graph => "<a href=\"/graph/" + graph.Id + "\">" + graph.Id + " - " + graph.Description + "</a> " +
+            var AllGraphs = GraphServer.Select(graph => "<a href=\"/graph/" + graph.Id + "\">" + graph.Id + " - " + graph.Description + "</a> " +
                                                         "<a href=\"/graph/" + graph.Id + "/vertices\">[All Vertices]</a> " +
                                                         "<a href=\"/graph/" + graph.Id + "/edges\">[All Edge]</a>").
                                         Aggregate((a, b) => a + "<br>" + b);

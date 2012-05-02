@@ -42,10 +42,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GraphServer.cs" />
+    <Compile Include="GraphService\IGraphService.cs" />
     <Compile Include="GraphService\GraphService_GRAPHML.cs" />
     <Compile Include="GraphService\GraphService_GEXF.cs" />
     <Compile Include="GraphService\GraphService_XML.cs" />
     <Compile Include="IGraphServer.cs" />
+    <Compile Include="ExtentionMethodss.cs" />
     <Compile Include="JurassicGraph\JSPropertyEdge.cs" />
     <Compile Include="JurassicGraph\JSGraphElement.cs" />
     <Compile Include="JurassicGraph\JSPropertyVertex.cs" />
@@ -55,7 +57,6 @@
     <Compile Include="GraphService\GraphService_EVENTSTREAM.cs" />
     <Compile Include="GraphService\GraphService_HTML.cs" />
     <Compile Include="GraphService\GraphService_JSON.cs" />
-    <Compile Include="GraphService\IGraphService.cs" />
     <Compile Include="JSONResponseBuilder.cs" />
   </ItemGroup>
   <ItemGroup>

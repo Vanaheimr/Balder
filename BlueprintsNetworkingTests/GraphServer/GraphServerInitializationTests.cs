@@ -47,16 +47,18 @@ namespace de.ahzf.Blueprints.UnitTests.GraphServerTests
         public void GraphServerConstructorTest()
         {
 
-            using (var GraphServer = new GraphServer(GraphFactory.CreateGenericPropertyGraph2("123"), new IPPort(8080)) {
+            using (var GraphServer = new GraphServer(new IPPort(8080)) {
                                          ServerName = "GraphServer v0.1"
                                      } as IGraphServer)
             {
+
+                GraphServer.CreateNewGraph("123");
 
                 Assert.IsNotNull(GraphServer);
                 Assert.IsNotNull(GraphServer.ServerName);
                 Assert.AreEqual("GraphServer v0.1", GraphServer.ServerName);
 
-                var graphs = GraphServer.AllGraphs().ToList();
+                var graphs = GraphServer.ToList();
                 Assert.IsNotNull(graphs);
                 Assert.AreEqual(1, graphs.Count);
 
@@ -78,18 +80,20 @@ namespace de.ahzf.Blueprints.UnitTests.GraphServerTests
         public void AddPropertyGraphTest()
         {
 
-            using (var GraphServer = new GraphServer(GraphFactory.CreateGenericPropertyGraph2("123"), new IPPort(8080)) {
+            using (var GraphServer = new GraphServer(new IPPort(8080)) {
                                          ServerName = "GraphServer v0.1"
                                      } as IGraphServer)
             {
 
-                var graph = GraphServer.AddPropertyGraph(GraphFactory.CreateGenericPropertyGraph2("256"));
+                GraphServer.CreateNewGraph("123");
+
+                var graph = GraphServer.CreateNewGraph("256");
                 Assert.IsNotNull(graph);
                 Assert.IsNotNull(graph.IdKey);
                 Assert.IsNotNull(graph.RevIdKey);
                 Assert.AreEqual(256UL, graph.Id);
 
-                var graphs = GraphServer.AllGraphs().ToList();
+                var graphs = GraphServer.ToList();
                 Assert.IsNotNull(graphs);
                 Assert.AreEqual(2, graphs.Count);
 
@@ -109,12 +113,14 @@ namespace de.ahzf.Blueprints.UnitTests.GraphServerTests
         public void NewPropertyGraphTest()
         {
 
-            using (var GraphServer = new GraphServer(GraphFactory.CreateGenericPropertyGraph2("123"), new IPPort(8080)) {
+            using (var GraphServer = new GraphServer(new IPPort(8080)) {
                                          ServerName = "GraphServer v0.1"
                                      } as IGraphServer)
             {
 
-                var graph = GraphServer.NewPropertyGraph("512", "demo graph", g => g.SetProperty("hello", "world!"));
+                GraphServer.CreateNewGraph("123");
+
+                var graph = GraphServer.CreateNewGraph("512", "demo graph", g => g.SetProperty("hello", "world!"));
                 Assert.IsNotNull(graph);
                 Assert.IsNotNull(graph.IdKey);
                 Assert.IsNotNull(graph.RevIdKey);
@@ -123,7 +129,7 @@ namespace de.ahzf.Blueprints.UnitTests.GraphServerTests
                 Assert.IsTrue(graph.ContainsValue("world!"));
                 Assert.IsTrue(graph.Contains("hello", "world!"));
 
-                var graphs = GraphServer.AllGraphs().ToList();
+                var graphs = GraphServer.ToList();
                 Assert.IsNotNull(graphs);
                 Assert.AreEqual(2, graphs.Count);
 

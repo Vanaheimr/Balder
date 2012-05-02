@@ -26,17 +26,18 @@ using de.ahzf.Hermod.HTTP;
 namespace de.ahzf.Blueprints.HTTP.Server
 {
 
+    /// <summary>
+    /// The base inetrface for all graph services.
+    /// </summary>
     //[HTTPService(Host: "localhost:8080", ForceAuthentication: true)]
     [HTTPService(HostAuthentication: true)]
     public interface IGraphService : IHTTPBaseService
     {
 
-        #region Properties
-
-        GraphServer GraphServer { get; set; }
-
-        #endregion
-
+        /// <summary>
+        /// The internal graph server.
+        /// </summary>
+        IGraphServer GraphServer { get; set; }
 
 
         #region Events

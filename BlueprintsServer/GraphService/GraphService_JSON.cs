@@ -78,7 +78,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
             var _Content = new JObject(
                                    new JProperty("AllGraphs",
                                        new JObject(
-                                           from graph in GraphServer.AllGraphs() select new JProperty(graph.Id.ToString(), graph.Description)
+                                           from Graph in GraphServer select new JProperty(Graph.Id.ToString(), Graph.Description)
                                        )
                                    )
                                ).ToString();
