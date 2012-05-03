@@ -47,7 +47,7 @@
     <Compile Include="GraphElementIds\MultiEdgeIdTests.cs" />
     <Compile Include="GraphElementIds\EdgeIdTests.cs" />
     <Compile Include="GraphElementIds\HyperEdgeIdTests.cs" />
-    <Compile Include="GraphElementIds\IPropertiesTests.cs" />
+    <Compile Include="PropertyGraphTests\IPropertiesTests.cs" />
     <Compile Include="GraphElementIds\VertexIdTests.cs" />
     <Compile Include="DemoGraphFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -543,21 +543,22 @@ namespace de.ahzf.Blueprints.UnitTests.PropertyGraphTests
 
 
             // --[Func<TValue, TResult>]-------------------------------------------------------
+#if !__MonoCS__
             Assert.AreEqual("world!?",      graph.PropertyFunc("hello",                 PropertyValue => { return (PropertyValue as String) + "?"; }));
             Assert.AreEqual(124UL,          graph.PropertyFunc("Id",                    PropertyValue => { return ( (UInt64) PropertyValue ) + 1; }));
             Assert.AreEqual(0,              graph.PropertyFunc("XYZ",                   PropertyValue => { return ( (UInt64) PropertyValue ) + 1; }));
             Assert.AreEqual(null,           graph.PropertyFunc("XYZ",                   PropertyValue => { return ( (String) PropertyValue ); }));
-
+#endif
             Assert.AreEqual("world!?",      graph.PropertyFunc("hello", typeof(String), PropertyValue => { return (PropertyValue as String) + "?"; }));
             Assert.AreEqual(124UL,          graph.PropertyFunc("Id",    typeof(UInt64), PropertyValue => { return ( (UInt64) PropertyValue ) + 1; }));
             Assert.AreEqual(null,           graph.PropertyFunc("XYZ",   typeof(UInt64), PropertyValue => { return ( (UInt64) PropertyValue ) + 1; }));
             Assert.AreEqual(null,           graph.PropertyFunc("XYZ",   typeof(String), PropertyValue => { return ( (String) PropertyValue ); }));
 
-
+#if !__MonoCS__
             // --[Func<TKey, TValue, TResult>]-------------------------------------------------
             Assert.AreEqual("hello world!", graph.PropertyFunc("hello",                 (OnSuccess_PropertyKey, PropertyValue) => { return OnSuccess_PropertyKey + " " + (PropertyValue as String); }));
             Assert.AreEqual("Id124",        graph.PropertyFunc("Id",                    (OnSuccess_PropertyKey, PropertyValue) => { return OnSuccess_PropertyKey + ((UInt64) PropertyValue + 1); }));
-
+#endif
             Assert.AreEqual("hello world!", graph.PropertyFunc("hello", typeof(String), (OnSuccess_PropertyKey, PropertyValue) => { return OnSuccess_PropertyKey + " " + (PropertyValue as String); }));
             Assert.AreEqual("Id124",        graph.PropertyFunc("Id",    typeof(UInt64), (OnSuccess_PropertyKey, PropertyValue) => { return OnSuccess_PropertyKey + ((UInt64) PropertyValue + 1); }));
 

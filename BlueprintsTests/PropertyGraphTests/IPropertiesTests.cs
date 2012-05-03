@@ -56,7 +56,9 @@ namespace de.ahzf.Blueprints.UnitTests
             Alice1.GetProperty("key", typeof(String));
             Alice1.UseProperty("key", (obj)      => { Console.WriteLine(obj); }, (key) => { Console.WriteLine(key); });
             Alice1.UseProperty("key", (key, obj) => { Console.WriteLine(obj); }, (key) => { Console.WriteLine(key); });
+#if !__MonoCS__            
             Console.WriteLine(Alice1.PropertyFunc("l", (obj) => { return obj; }));
+#endif
             Alice1.UseProperty("key", typeof(String), (obj)      => { Console.WriteLine(obj); }, (key) => { Console.WriteLine(key); });
             Alice1.UseProperty("key", typeof(String), (key, obj) => { Console.WriteLine(obj); }, (key) => { Console.WriteLine(key); });
             Alice1.GetProperties(null);
@@ -70,7 +72,9 @@ namespace de.ahzf.Blueprints.UnitTests
             Alice2.GetProperty("key", typeof(String));
             Alice2.UseProperty("key", (obj)      => { Console.WriteLine(obj); }, (key) => { Console.WriteLine(key); });
             Alice2.UseProperty("key", (key, obj) => { Console.WriteLine(obj); }, (key) => { Console.WriteLine(key); });
+#if !__MonoCS__
             Console.WriteLine(Alice2.PropertyFunc("l", (obj) => { return obj; }));
+#endif
             Alice2.UseProperty("key", typeof(String), (obj)      => { Console.WriteLine(obj); }, (key) => { Console.WriteLine(key); });
             Alice2.UseProperty("key", typeof(String), (key, obj) => { Console.WriteLine(obj); }, (key) => { Console.WriteLine(key); });
             Alice2.GetProperties(null);
