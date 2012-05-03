@@ -90,7 +90,6 @@ if you want to clone the entire Vanaheimr graph processing stack just run the fo
     git clone git://github.com/Vanaheimr/Blueprints.NET
     git clone git://github.com/Vanaheimr/Bragi
     git clone git://github.com/Vanaheimr/Eunomia
-    git clone git://github.com/Vanaheimr/Gera
     git clone git://github.com/Vanaheimr/Glyphe
     git clone git://github.com/Vanaheimr/Hermod
     git clone git://github.com/Vanaheimr/Illias
