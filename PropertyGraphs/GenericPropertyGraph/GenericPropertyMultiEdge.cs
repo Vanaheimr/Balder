@@ -567,32 +567,6 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         #region IComparable Members
 
-        #region CompareTo(Object)
-
-        /// <summary>
-        /// Compares two instances of this object.
-        /// </summary>
-        /// <param name="Object">An object to compare with.</param>
-        public Int32 CompareTo(Object Object)
-        {
-
-            if (Object == null)
-                throw new ArgumentNullException("The given Object must not be null!");
-
-            // Check if the given object can be casted to a PropertyMultiEdge
-            var PropertyMultiEdge = Object as GenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>;
-            if ((Object) PropertyMultiEdge == null)
-                throw new ArgumentException("The given object is not a PropertyMultiEdge!");
-
-            return CompareTo(PropertyMultiEdge);
-
-        }
-
-        #endregion
-
         #region CompareTo(IGenericPropertyMultiEdge)
 
         /// <summary>

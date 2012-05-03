@@ -4718,24 +4718,6 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         #region IComparable Members
 
-        #region CompareTo(Object)
-
-        /// <summary>
-        /// Compares two instances of this object.
-        /// </summary>
-        /// <param name="Object">An object to compare with.</param>
-        public Int32 CompareTo(Object Object)
-        {
-
-            if ((Object) Object == null)
-                throw new ArgumentNullException("The given Object must not be null!");
-
-            return CompareTo((TIdVertex) Object);
-
-        }
-
-        #endregion
-
         #region CompareTo(IGenericPropertyVertex)
 
         /// <summary>
@@ -4751,7 +4733,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
             if ((Object) IGenericPropertyVertex == null)
                 throw new ArgumentNullException("The given IPropertyVertex must not be null!");
 
-            return Id.CompareTo(IGenericPropertyVertex[IdKey]);
+            return Id.CompareTo(IGenericPropertyVertex.Id);
 
         }
         
