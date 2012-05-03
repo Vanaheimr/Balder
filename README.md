@@ -90,7 +90,6 @@ if you want to clone the entire Vanaheimr graph processing stack just run the fo
     git clone git://github.com/Vanaheimr/Blueprints.NET
     git clone git://github.com/Vanaheimr/Bragi
     git clone git://github.com/Vanaheimr/Eunomia
-    git clone git://github.com/Vanaheimr/Gera
     git clone git://github.com/Vanaheimr/Glyphe
     git clone git://github.com/Vanaheimr/Hermod
     git clone git://github.com/Vanaheimr/Illias
@@ -98,10 +97,10 @@ if you want to clone the entire Vanaheimr graph processing stack just run the fo
     git clone git://github.com/Vanaheimr/Styx
     git clone git://github.com/Vanaheimr/Vanir
     git clone git://github.com/Vanaheimr/Walkyr
+    git clone git://github.com/Vanaheimr/libs
         
-    mkdir libs
-    cd libs
-    git clone git://github.com/JamesNK/Newtonsoft.Json.git
+    mkdir srclibs
+    cd srclibs
     git clone git://github.com/ahzf/MonoCompilerAsAService.git
     git clone git://github.com/Alxandr/Jurassic.git
 
