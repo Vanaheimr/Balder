@@ -103,6 +103,9 @@ namespace de.ahzf.Blueprints.HTTP.Server
 
         #region /graphs
 
+        /// <summary>
+        /// Return an overview of all graphs.
+        /// </summary>
         public override HTTPResponse GET_Graphs()
         {
 
@@ -149,6 +152,10 @@ namespace de.ahzf.Blueprints.HTTP.Server
 
         #region /graph/{GraphId}
 
+        /// <summary>
+        /// Return the graph associated with the given graph identification.
+        /// </summary>
+        /// <param name="GraphId">The identification of the graph to return.</param>
         public override HTTPResponse GET_GraphById(String GraphId)
         {
 
@@ -404,7 +411,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
         /// <summary>
         /// Serialize an enumeration of vertices.
         /// </summary>
-        /// <param name="Vertex">A single vertex.</param>
+        /// <param name="Vertices">An enumeration of vertices.</param>
         /// <returns>The serialized vertex.</returns>
         protected override Byte[] VerticesSerialization(IEnumerable<IGenericPropertyVertex<UInt64, Int64, String, String, Object,
                                                                                            UInt64, Int64, String, String, Object,

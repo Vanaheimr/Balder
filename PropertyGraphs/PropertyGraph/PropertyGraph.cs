@@ -18,15 +18,13 @@
 #region Usings
 
 using System;
-using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
-using System.Linq.Expressions;
-
-using de.ahzf.Blueprints.Indices;
-using de.ahzf.Blueprints.PropertyGraphs.Indices;
-using de.ahzf.Illias.Commons;
 using System.Threading;
+using System.Linq.Expressions;
+using System.Collections.Generic;
+
+using de.ahzf.Illias.Commons;
 
 #endregion
 

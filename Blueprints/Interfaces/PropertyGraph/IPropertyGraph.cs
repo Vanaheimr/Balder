@@ -90,15 +90,15 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
         #endregion
 
-        #region AddVertex(IPropertyVertex)
+        #region AddVertex(Vertex)
 
         /// <summary>
         /// Adds the given vertex to the graph, and returns it again.
         /// An exception will be thrown if the vertex identifier is already being
         /// used by the graph to reference another vertex.
         /// </summary>
-        /// <param name="IPropertyVertex">An IPropertyVertex.</param>
-        /// <returns>The given IPropertyVertex.</returns>
+        /// <param name="Vertex">A vertex.</param>
+        /// <returns>The given vertex.</returns>
         new IPropertyVertex AddVertex(IPropertyVertex Vertex);
 
         #endregion

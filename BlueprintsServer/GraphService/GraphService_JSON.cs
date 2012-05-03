@@ -72,6 +72,9 @@ namespace de.ahzf.Blueprints.HTTP.Server
 
         #region GET_Graphs()
 
+        /// <summary>
+        /// Return an overview of all graphs.
+        /// </summary>
         public override HTTPResponse GET_Graphs()
         {
 
@@ -155,12 +158,12 @@ namespace de.ahzf.Blueprints.HTTP.Server
         /// <summary>
         /// Serialize an enumeration of vertices.
         /// </summary>
-        /// <param name="Vertex">A single vertex.</param>
+        /// <param name="Vertices">An enumeration of vertices.</param>
         /// <returns>The serialized vertex.</returns>
         protected override Byte[] VerticesSerialization(IEnumerable<IGenericPropertyVertex<UInt64, Int64, String, String, Object,
-                                                                                    UInt64, Int64, String, String, Object,
-                                                                                    UInt64, Int64, String, String, Object,
-                                                                                    UInt64, Int64, String, String, Object>> Vertices)
+                                                                                           UInt64, Int64, String, String, Object,
+                                                                                           UInt64, Int64, String, String, Object,
+                                                                                           UInt64, Int64, String, String, Object>> Vertices)
         {
 
             return new JArray(  ( from Vertex

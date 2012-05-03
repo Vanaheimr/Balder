@@ -53,13 +53,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="GenericPropertyGraph\AGraphElement.cs" />
-    <Compile Include="Indices\DictionaryIndex.cs" />
-    <Compile Include="Indices\IndexingMethods.cs" />
-    <Compile Include="Indices\IPropertyElementIndexExtensions.cs" />
-    <Compile Include="Indices\PropertyIndex\PropertyEdgeIndex.cs" />
-    <Compile Include="Indices\PropertyIndex\PropertyHyperEdgeIndex.cs" />
-    <Compile Include="Indices\PropertyIndex\PropertyIndex.cs" />
-    <Compile Include="Indices\PropertyIndex\PropertyVertexIndex.cs" />
     <Compile Include="GenericPropertyGraph\GenericPropertyEdge.cs" />
     <Compile Include="GenericPropertyGraph\GenericPropertyMultiEdge.cs" />
     <Compile Include="GenericPropertyGraph\GenericPropertyVertex.cs" />

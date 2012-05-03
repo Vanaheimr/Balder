@@ -71,6 +71,10 @@ namespace de.ahzf.Blueprints.HTTP.Server
 
         #region /graph/{GraphId}
 
+        /// <summary>
+        /// Return the graph associated with the given graph identification.
+        /// </summary>
+        /// <param name="GraphId">The identification of the graph to return.</param>
         public override HTTPResponse GET_GraphById(String GraphId)
         {
 

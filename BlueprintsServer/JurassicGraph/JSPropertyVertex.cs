@@ -41,7 +41,7 @@ namespace de.ahzf.Blueprints.JurassicGraph
         /// <summary>
         /// Create a new property vertex wrapper for JavaScript.
         /// </summary>
-        /// <param name="PropertyVertex">The internal property vertex.</param>
+        /// <param name="Vertex">The internal vertex.</param>
         /// <param name="JavaScriptEngine">An instance of a JavaScript engine.</param>
         public JSPropertyVertex(IGenericPropertyVertex<String, Int64, String, String, Object,
                                                        String, Int64, String, String, Object,

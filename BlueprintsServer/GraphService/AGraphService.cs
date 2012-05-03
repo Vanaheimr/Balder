@@ -44,23 +44,43 @@ namespace de.ahzf.Blueprints.HTTP.Server
 
         private ThreadLocal<HTTPResponse> HTTPErrorResponse;
 
+        /// <summary>
+        /// The graph for this http request.
+        /// </summary>
         protected ThreadLocal<IGenericPropertyGraph <String, Int64, String, String, Object,
                                                      String, Int64, String, String, Object,
                                                      String, Int64, String, String, Object,
                                                      String, Int64, String, String, Object>> Graph;
-                                                    
+                                            
+        /// <summary>
+        /// The vertex for this http request.
+        /// </summary>
         protected ThreadLocal<IGenericPropertyVertex<String, Int64, String, String, Object,
                                                      String, Int64, String, String, Object,
                                                      String, Int64, String, String, Object,
                                                      String, Int64, String, String, Object>> Vertex;
-                                                    
+                                             
+        /// <summary>
+        /// The edge for this http request.
+        /// </summary>
         protected ThreadLocal<IGenericPropertyEdge  <String, Int64, String, String, Object,
                                                      String, Int64, String, String, Object,
                                                      String, Int64, String, String, Object,
                                                      String, Int64, String, String, Object>> Edge;
 
+        /// <summary>
+        /// The 'Callback' parameter within the query string
+        /// </summary>
         protected ThreadLocal<String> Callback;
+
+        /// <summary>
+        /// The 'Skip' parameter within the query string
+        /// </summary>
         protected ThreadLocal<UInt64> Skip;
+
+        /// <summary>
+        /// The 'Take' parameter within the query string
+        /// </summary>
         protected ThreadLocal<UInt64> Take;
 
         #endregion
@@ -925,6 +945,9 @@ namespace de.ahzf.Blueprints.HTTP.Server
 
         #region GetEvents()
 
+        /// <summary>
+        /// Subscribe to the events of this graph.
+        /// </summary>
         public virtual HTTPResponse GetEvents()
         {
             return HTTPErrors.HTTPErrorResponse(IHTTPConnection.InHTTPRequest, HTTPStatusCode.NotAcceptable);
@@ -955,7 +978,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
         /// <summary>
         /// Serialize an enumeration of vertices.
         /// </summary>
-        /// <param name="Vertex">A single vertex.</param>
+        /// <param name="Vertices">An enumeration of vertices.</param>
         /// <returns>The serialized vertex.</returns>
         protected virtual Byte[] VerticesSerialization(IEnumerable<IGenericPropertyVertex<UInt64, Int64, String, String, Object,
                                                                                           UInt64, Int64, String, String, Object,

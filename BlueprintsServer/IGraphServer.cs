@@ -65,6 +65,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
         /// and adds it to the server.
         /// </summary>
         /// <param name="GraphId">A unique identification for this graph (which is also a vertex!).</param>
+        /// <param name="Description">The description of the graph.</param>
         /// <param name="GraphInitializer">A delegate to initialize the new property graph.</param>
         IGenericPropertyGraph<String, Int64, String, String, Object,
                               String, Int64, String, String, Object,
@@ -101,6 +102,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
         /// Try to return the graph identified by the given GraphId.
         /// </summary>
         /// <param name="GraphId">The unique identifier of the graph to return.</param>
+        /// <param name="Graph">The Graph to return.</param>
         Boolean TryGetGraph(String GraphId,
                             out IGenericPropertyGraph<String, Int64, String, String, Object,
                                                       String, Int64, String, String, Object,

@@ -140,6 +140,7 @@ namespace de.ahzf.Blueprints.HTTP.Server
         /// Return the general information of a graph.
         /// </summary>
         /// <param name="GraphId">The identification of the graph.</param>
+        /// <param name="Key">The key of the property to return.</param>
         /// <httpparam name="SKIP">Skip the given number of entries from the beginning of the result set.</httpparam>
         /// <httpparam name="TAKE">Return only the given number of entries from the result set.</httpparam>
         /// <httpparam name="SELECT"></httpparam>

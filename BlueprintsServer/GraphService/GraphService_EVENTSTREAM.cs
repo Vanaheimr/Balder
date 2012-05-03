@@ -68,6 +68,9 @@ namespace de.ahzf.Blueprints.HTTP.Server
 
         #region GetEvents()
 
+        /// <summary>
+        /// Subscribe to the events of a graph.
+        /// </summary>
         public override HTTPResponse GetEvents()
         {
 
