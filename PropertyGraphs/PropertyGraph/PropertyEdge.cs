@@ -18,6 +18,8 @@
 #region Usings
 
 using System;
+using System.Dynamic;
+using System.Linq.Expressions;
 
 using de.ahzf.Illias.Commons;
 
@@ -259,6 +261,23 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         #endregion
 
+        #region IDynamicGraphObject<PropertyEdge> Members
+
+        #region GetMetaObject(Expression)
+
+        /// <summary>
+        /// Return the appropriate DynamicMetaObject.
+        /// </summary>
+        /// <param name="Expression">An Expression.</param>
+        public override DynamicMetaObject GetMetaObject(Expression Expression)
+        {
+            return new DynamicGraphElement<PropertyEdge>(Expression, this);
+        }
+
+        #endregion
+
+        #endregion
+
         #region IComparable Members
 
         #region CompareTo(Object)
@@ -271,7 +290,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         {
 
             if (Object == null)
-                throw new ArgumentNullException("The given object must not be null!");
+                throw new ArgumentNullException("The given Object must not be null!");
 
             // Check if the given object can be casted to a PropertyEdge
             var PropertyEdge = Object as PropertyEdge;

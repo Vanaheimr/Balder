@@ -135,32 +135,6 @@ namespace de.ahzf.Blueprints.HTTP.Server
                                                                     String, Int64, String, String, Object>> VertexLookup;
 
         #endregion
-        
-        #region Properties
-
-        #region ServerName
-
-        /// <summary>
-        /// The HTTP server name.
-        /// </summary>
-        public String ServerName
-        {
-
-            get
-            {
-                return base.ServerName;
-            }
-
-            set
-            {
-                base.ServerName = value;
-            }
-
-        }
-
-        #endregion
-
-        #endregion
 
         #region Constructor(s)
 

@@ -270,81 +270,15 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         #region IDynamicGraphObject<PropertyHyperEdge> Members
 
-        #region GetMetaObject(myExpression)
+        #region GetMetaObject(Expression)
 
         /// <summary>
         /// Return the appropriate DynamicMetaObject.
         /// </summary>
-        /// <param name="myExpression">An Expression.</param>
-        public DynamicMetaObject GetMetaObject(Expression myExpression)
+        /// <param name="Expression">An Expression.</param>
+        public override DynamicMetaObject GetMetaObject(Expression Expression)
         {
-            return new DynamicGraphElement<PropertyHyperEdge>(myExpression, this);
-        }
-
-        #endregion
-
-        #region GetDynamicMemberNames()
-
-        /// <summary>
-        /// Returns an enumeration of all property keys.
-        /// </summary>
-        public virtual IEnumerable<String> GetDynamicMemberNames()
-        {
-            foreach (var _PropertyKey in PropertyData.Keys)
-                yield return _PropertyKey.ToString();
-        }
-
-        #endregion
-
-
-        #region SetMember(myBinder, myObject)
-
-        /// <summary>
-        /// Sets a new property or overwrites an existing.
-        /// </summary>
-        /// <param name="myBinder">The property key</param>
-        /// <param name="myObject">The property value</param>
-        public virtual Object SetMember(String myBinder, Object myObject)
-        {
-            return SetProperty((String) (Object) myBinder, (Object) myObject);
-        }
-
-        #endregion
-
-        #region GetMember(myBinder)
-
-        /// <summary>
-        /// Returns the value of the given property key.
-        /// </summary>
-        /// <param name="myBinder">The property key.</param>
-        public virtual Object GetMember(String myBinder)
-        {
-            Object myObject;
-            TryGetProperty((String) (Object) myBinder, out myObject);
-            return myObject as Object;
-        }
-
-        #endregion
-
-        #region DeleteMember(myBinder)
-
-        /// <summary>
-        /// Tries to remove the property identified by the given property key.
-        /// </summary>
-        /// <param name="myBinder">The property key.</param>
-        public virtual Object DeleteMember(String myBinder)
-        {
-
-            try
-            {
-                PropertyData.Remove((String) (Object) myBinder);
-                return true;
-            }
-            catch
-            { }
-
-            return false;
-
+            return new DynamicGraphElement<PropertyHyperEdge>(Expression, this);
         }
 
         #endregion
@@ -359,7 +293,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// Compares two instances of this object.
         /// </summary>
         /// <param name="Object">An object to compare with.</param>
-        public Int32 CompareTo(Object Object)
+        public override Int32 CompareTo(Object Object)
         {
 
             if (Object == null)

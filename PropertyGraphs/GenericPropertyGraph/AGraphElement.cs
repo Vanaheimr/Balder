@@ -394,6 +394,76 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         #endregion
 
 
+        #region IDynamicGraphObject<PropertyVertex> Members
+
+        #region GetDynamicMemberNames()
+
+        /// <summary>
+        /// Returns an enumeration of all property keys.
+        /// </summary>
+        public virtual IEnumerable<String> GetDynamicMemberNames()
+        {
+            foreach (var _PropertyKey in PropertyData.Keys)
+                yield return _PropertyKey.ToString();
+        }
+
+        #endregion
+
+
+        #region SetMember(myBinder, myObject)
+
+        /// <summary>
+        /// Sets a new property or overwrites an existing.
+        /// </summary>
+        /// <param name="myBinder">The property key</param>
+        /// <param name="myObject">The property value</param>
+        public virtual Object SetMember(String myBinder, Object myObject)
+        {
+            return SetProperty((TKey) (Object) myBinder, (TValue) myObject);
+        }
+
+        #endregion
+
+        #region GetMember(myBinder)
+
+        /// <summary>
+        /// Returns the value of the given property key.
+        /// </summary>
+        /// <param name="myBinder">The property key.</param>
+        public virtual Object GetMember(String myBinder)
+        {
+            TValue myObject;
+            TryGetProperty((TKey) (Object) myBinder, out myObject);
+            return myObject as Object;
+        }
+
+        #endregion
+
+        #region DeleteMember(myBinder)
+
+        /// <summary>
+        /// Tries to remove the property identified by the given property key.
+        /// </summary>
+        /// <param name="myBinder">The property key.</param>
+        public virtual Object DeleteMember(String myBinder)
+        {
+
+            try
+            {
+                PropertyData.Remove((TKey) (Object) myBinder);
+                return true;
+            }
+            catch
+            { }
+
+            return false;
+
+        }
+
+        #endregion
+
+        #endregion
+
         #region IProperties Members
 
         #region SetProperty(Key, Value)

@@ -483,7 +483,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// Return the appropriate DynamicMetaObject.
         /// </summary>
         /// <param name="Expression">An Expression.</param>
-        public DynamicMetaObject GetMetaObject(Expression Expression)
+        public virtual DynamicMetaObject GetMetaObject(Expression Expression)
         {
             return new DynamicGraphElement<GenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                                TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
@@ -494,74 +494,36 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         #endregion
 
-        #region GetDynamicMemberNames()
-
-        /// <summary>
-        /// Returns an enumeration of all property keys.
-        /// </summary>
-        public virtual IEnumerable<String> GetDynamicMemberNames()
-        {
-            foreach (var _PropertyKey in PropertyData.Keys)
-                yield return _PropertyKey.ToString();
-        }
-
-        #endregion
-
-        #region SetMember(Binder, Object)
-
-        /// <summary>
-        /// Sets a new property or overwrites an existing.
-        /// </summary>
-        /// <param name="Binder">The property key</param>
-        /// <param name="Object">The property value</param>
-        public virtual Object SetMember(String Binder, Object Object)
-        {
-            return SetProperty((TKeyEdge) (Object) Binder, (TValueEdge) Object);
-        }
-
-        #endregion
-
-        #region GetMember(Binder)
-
-        /// <summary>
-        /// Returns the value of the given property key.
-        /// </summary>
-        /// <param name="Binder">The property key.</param>
-        public virtual Object GetMember(String Binder)
-        {
-            TValueEdge _Object;
-            TryGetProperty((TKeyEdge) (Object) Binder, out _Object);
-            return _Object as Object;
-        }
-
-        #endregion
-
-        #region DeleteMember(Binder)
-
-        /// <summary>
-        /// Tries to remove the property identified by the given property key.
-        /// </summary>
-        /// <param name="Binder">The property key.</param>
-        public virtual Object DeleteMember(String Binder)
-        {
-
-            try
-            {
-                PropertyData.Remove((TKeyEdge) (Object) Binder);
-                return true;
-            }
-            catch
-            { }
-
-            return false;
-
-        }
-
-        #endregion
-
         #endregion
 
         #region IComparable Members
+
+        #region CompareTo(Object)
+
+        /// <summary>
+        /// Compares two instances of this object.
+        /// </summary>
+        /// <param name="Object">An object to compare with.</param>
+        public override Int32 CompareTo(Object Object)
+        {
+
+            if (Object == null)
+                throw new ArgumentNullException("The given Object must not be null!");
+
+            // Check if the given object can be casted to a IGenericPropertyEdge<...>
+            var IGenericPropertyEdge = Object as IGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                      TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                      TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                      TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>;
+
+            if ((Object) IGenericPropertyEdge == null)
+                throw new ArgumentException("The given object is not a IGenericPropertyEdge<...>!");
+
+            return CompareTo(IGenericPropertyEdge);
+
+        }
+
+        #endregion
 
         #region CompareTo(IGenericPropertyEdge)
 
