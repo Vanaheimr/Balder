@@ -38,7 +38,7 @@ namespace de.ahzf.Blueprints.UnitTests
     [TestFixture]
     public class IPropertyGraphExtensionTests
     {
-
+#if !__MonoCS__
         #region CopyGraphTest()
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace de.ahzf.Blueprints.UnitTests
         }
 
         #endregion
-
+#endif
     }
 
 
