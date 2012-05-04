@@ -55,7 +55,6 @@
     <Compile Include="PropertyGraphTests\GraphWithPropertiesTests.cs" />
     <Compile Include="PropertyGraphTests\CreateVerticesTests.cs" />
     <Compile Include="PropertyGraphTests\EdgeTests.cs" />
-    <Compile Include="PropertyGraphTests\Indices\IndicesTests.cs" />
     <Compile Include="PropertyGraphTests\InitGraph.cs" />
     <Compile Include="PropertyGraphTests\IPropertyGraphExtensionTests.cs" />
     <Compile Include="PropertyGraphTests\PropertyVertexTests.cs" />

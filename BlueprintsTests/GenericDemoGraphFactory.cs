@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2010-2012, Achim 'ahzf' Friedland <code@ahzf.de>
+ * Copyright (c) 2010-2012, Achim 'ahzf' Friedland <achim@graph-database.org>
  * This file is part of Blueprints.NET <http://www.github.com/Vanaheimr/Blueprints.NET>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,17 +26,22 @@ using de.ahzf.Blueprints.PropertyGraphs;
 namespace de.ahzf.Blueprints.UnitTests
 {
 
+    /// <summary>
+    /// Create a generic demo graph.
+    /// </summary>
     public static class GenericDemoGraphFactory
     {
 
+        /// <summary>
+        /// Create a generic demo graph.
+        /// </summary>
         public static IGenericPropertyGraph<UInt64, Int64, String, String, Object,
                                             UInt64, Int64, String, String, Object,
                                             UInt64, Int64, String, String, Object,
-                                            UInt64, Int64, String, String, Object> CreateGenericDemoGraph()
+                                            UInt64, Int64, String, String, Object> Create()
         {
 
             var _graph = GraphFactory.CreateGenericPropertyGraph(1);
-            //var _graph2 = GraphFactory.CreateCommonGenericGraph<UInt32, Int32, String, String, Object>(
 
             // Before adding a vertex/edge/multiedge/hyperedge call the following delegates
             // which might deny the addition of the given graph element!
@@ -71,17 +76,18 @@ namespace de.ahzf.Blueprints.UnitTests
 
             // The following edge will not be added because of the veto vote above!
             // (the method call will return null!)
-            var e1      = _graph.AddEdge(_Alice, _Bob, 1, "knows", e => e.SetProperty("weight", 0.5));
-            var e2      = _graph.AddEdge(_Alice, _Bob, 2, "knows", e => e.SetProperty("weight", 0.5));
+            var e1      = _graph.AddEdge(_Alice, _Bob, "knows", edge => edge.SetProperty("weight", 0.5));
+            var e2      = _graph.AddEdge(_Alice, _Bob, "knows", edge => edge.SetProperty("weight", 0.5));
 
 
-            // A multiedge connectes multiple vertices
-            var he1     = _graph.AddHyperEdge(1, "all", he => he.SetProperty("a", "b"),  _Alice, _Bob, _Carol, _Dave);
-            var he2     = _graph.AddHyperEdge(2, "all", he => he.SetProperty("c", "d"),  _Alice, _Bob, _Carol, _Dave);
+            // A hyperedge connectes multiple vertices
+            var he1     = _graph.AddHyperEdge("all", hyperedge => hyperedge.SetProperty("a", "b"), _Alice, _Bob, _Carol, _Dave);
+            var he2     = _graph.AddHyperEdge("all", hyperedge => hyperedge.SetProperty("c", "d"), _Alice, _Bob, _Carol, _Dave);
 
 
-            _Alice.UseProperty("name", (key, obj) => { Console.WriteLine(key + " => " + obj); }, (key) => { Console.WriteLine("Key " + key + " not found!"); });
-            //_Alice.UseProperty(
+            _Alice.UseProperty("name",
+                               OnSuccess: (key, value) => { Console.WriteLine(key + " => " + value); },
+                               OnError:   (key)        => { Console.WriteLine("Key " + key + " not found!"); });
 
             //var _AliceSubgraph = _Alice.AsSubgraph;
             //_AliceSubgraph.AddVertex(1, v => v.SetProperty("name", "SubAlice1"));

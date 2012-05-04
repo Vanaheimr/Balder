@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2010-2012, Achim 'ahzf' Friedland <code@ahzf.de>
+ * Copyright (c) 2010-2012, Achim 'ahzf' Friedland <achim@graph-database.org>
  * This file is part of Blueprints.NET <http://www.github.com/Vanaheimr/Blueprints.NET>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,26 +30,26 @@ using de.ahzf.Blueprints.PropertyGraphs;
 namespace de.ahzf.Blueprints
 {
 
+    #region IdGenerator
+
     /// <summary>
-    /// Simplified creation of property graphs.
+    /// Generate a new Id.
     /// </summary>
-    public static class GraphFactory
+    public class IdGenerator
     {
 
-        #region Helpers
+        #region Data
 
-        #region (private) NewIds
+        private Int64 _NewId;
 
-        private static Int64 _NewId;
-        private static Int64 _NewVertexId;
-        private static Int64 _NewEdgeId;
-        private static Int64 _NewMultiEdgeId;
-        private static Int64 _NewHyperEdgeId;
+        #endregion
+
+        #region NewId
 
         /// <summary>
-        /// Return a new Id.
+        /// Generate and return a new Id.
         /// </summary>
-        private static UInt64 NewId
+        public UInt64 NewId
         {
             get
             {
@@ -58,55 +58,21 @@ namespace de.ahzf.Blueprints
             }
         }
 
-        /// <summary>
-        /// Return a new VertexId.
-        /// </summary>
-        private static UInt64 NewVertexId
-        {
-            get
-            {
-                var _NewLocalId = Interlocked.Increment(ref _NewVertexId);
-                return (UInt64)_NewLocalId;
-            }
-        }
-
-        /// <summary>
-        /// Return a new NewEdgeId.
-        /// </summary>
-        private static UInt64 NewEdgeId
-        {
-            get
-            {
-                var _NewLocalId = Interlocked.Increment(ref _NewEdgeId);
-                return (UInt64)_NewLocalId;
-            }
-        }
-
-        /// <summary>
-        /// Return a new NewMultiEdgeId.
-        /// </summary>
-        private static UInt64 NewMultiEdgeId
-        {
-            get
-            {
-                var _NewLocalId = Interlocked.Increment(ref _NewMultiEdgeId);
-                return (UInt64)_NewLocalId;
-            }
-        }
-
-        /// <summary>
-        /// Return a new NewHyperEdgeId.
-        /// </summary>
-        private static UInt64 NewHyperEdgeId
-        {
-            get
-            {
-                var _NewLocalId = Interlocked.Increment(ref _NewHyperEdgeId);
-                return (UInt64)_NewLocalId;
-            }
-        }
-
         #endregion
+
+    }
+
+    #endregion
+
+    #region GraphFactory
+
+    /// <summary>
+    /// Simplified creation of property graphs.
+    /// </summary>
+    public static class GraphFactory
+    {
+
+        #region Helpers
 
         #region (private) NewRevId
 
@@ -122,7 +88,6 @@ namespace de.ahzf.Blueprints
         }
 
         #endregion
-
 
         #region IdCreatorDelegate<TId>()
 
@@ -182,13 +147,20 @@ namespace de.ahzf.Blueprints
         public static IGenericPropertyGraph<UInt64, Int64, String, String, Object,
                                             UInt64, Int64, String, String, Object,
                                             UInt64, Int64, String, String, Object,
-                                            UInt64, Int64, String, String, Object> CreateGenericPropertyGraph(UInt64 GraphId,
-                                                                                                              String Description = null,
-                                                                                                              GraphInitializer<UInt64, Int64, String, String, Object,
-                                                                                                                               UInt64, Int64, String, String, Object,
-                                                                                                                               UInt64, Int64, String, String, Object,
-                                                                                                                               UInt64, Int64, String, String, Object> GraphInitializer = null)
+                                            UInt64, Int64, String, String, Object> CreateGenericPropertyGraph(
+                          UInt64 GraphId,
+                          String Description = null,
+                          GraphInitializer<UInt64, Int64, String, String, Object,
+                                           UInt64, Int64, String, String, Object,
+                                           UInt64, Int64, String, String, Object,
+                                           UInt64, Int64, String, String, Object> GraphInitializer = null)
+
         {
+
+            var VertexIdGenerator    = new IdGenerator();
+            var EdgeIdGenerator      = new IdGenerator();
+            var MultiEdgeIdGenerator = new IdGenerator();
+            var HyperEdgeIdGenerator = new IdGenerator();
 
             return new GenericPropertyGraph<UInt64, Int64, String, String, Object,
                                             UInt64, Int64, String, String, Object,
@@ -197,25 +169,25 @@ namespace de.ahzf.Blueprints
                                                                                    GraphDBOntology.Id().Suffix,
                                                                                    GraphDBOntology.RevId().Suffix,
                                                                                    GraphDBOntology.Description().Suffix,
-                                                                                   (graph) => GraphFactory.NewVertexId,
+                                                                                   (graph) => VertexIdGenerator.NewId,
                                                                                    GraphDBOntology.DefaultVertexLabel().Suffix,
 
                                                                                    GraphDBOntology.Id().Suffix,
                                                                                    GraphDBOntology.RevId().Suffix,
                                                                                    GraphDBOntology.Description().Suffix,
-                                                                                   (graph) => GraphFactory.NewEdgeId,
+                                                                                   (graph) => EdgeIdGenerator.NewId,
                                                                                    GraphDBOntology.DefaultEdgeLabel().Suffix,
 
                                                                                    GraphDBOntology.Id().Suffix,
                                                                                    GraphDBOntology.RevId().Suffix,
                                                                                    GraphDBOntology.Description().Suffix,
-                                                                                   (graph) => GraphFactory.NewMultiEdgeId,
+                                                                                   (graph) => MultiEdgeIdGenerator.NewId,
                                                                                    GraphDBOntology.DefaultMultiEdgeLabel().Suffix,
 
                                                                                    GraphDBOntology.Id().Suffix,
                                                                                    GraphDBOntology.RevId().Suffix,
                                                                                    GraphDBOntology.Description().Suffix,
-                                                                                   (graph) => GraphFactory.NewHyperEdgeId,
+                                                                                   (graph) => HyperEdgeIdGenerator.NewId,
                                                                                    GraphDBOntology.DefaultHyperEdgeLabel().Suffix,
 
                                                                                    GraphInitializer)
@@ -231,7 +203,7 @@ namespace de.ahzf.Blueprints
 
         #endregion
 
-        #region CreateGenericPropertyGraph(GraphId, Description = null, GraphInitializer = null)
+        #region CreateGenericPropertyGraph2(GraphId, Description = null, GraphInitializer = null)
 
         /// <summary>
         /// Create a new generic property graph.
@@ -242,13 +214,20 @@ namespace de.ahzf.Blueprints
         public static IGenericPropertyGraph<String, Int64, String, String, Object,
                                             String, Int64, String, String, Object,
                                             String, Int64, String, String, Object,
-                                            String, Int64, String, String, Object> CreateGenericPropertyGraph2(String GraphId,
-                                                                                                               String Description = null,
-                                                                                                               GraphInitializer<String, Int64, String, String, Object,
-                                                                                                                                String, Int64, String, String, Object,
-                                                                                                                                String, Int64, String, String, Object,
-                                                                                                                                String, Int64, String, String, Object> GraphInitializer = null)
+                                            String, Int64, String, String, Object> CreateGenericPropertyGraph2(
+                          String GraphId,
+                          String Description = null,
+                          GraphInitializer<String, Int64, String, String, Object,
+                                           String, Int64, String, String, Object,
+                                           String, Int64, String, String, Object,
+                                           String, Int64, String, String, Object> GraphInitializer = null)
+
         {
+
+            var VertexIdGenerator    = new IdGenerator();
+            var EdgeIdGenerator      = new IdGenerator();
+            var MultiEdgeIdGenerator = new IdGenerator();
+            var HyperEdgeIdGenerator = new IdGenerator();
 
             return new GenericPropertyGraph<String, Int64, String, String, Object,
                                             String, Int64, String, String, Object,
@@ -257,25 +236,25 @@ namespace de.ahzf.Blueprints
                                                                                    GraphDBOntology.Id().Suffix,
                                                                                    GraphDBOntology.RevId().Suffix,
                                                                                    GraphDBOntology.Description().Suffix,
-                                                                                   (graph) => GraphFactory.NewVertexId.ToString(),
+                                                                                   (graph) => VertexIdGenerator.NewId.ToString(),
                                                                                    GraphDBOntology.DefaultVertexLabel().Suffix,
 
                                                                                    GraphDBOntology.Id().Suffix,
                                                                                    GraphDBOntology.RevId().Suffix,
                                                                                    GraphDBOntology.Description().Suffix,
-                                                                                   (graph) => GraphFactory.NewEdgeId.ToString(),
+                                                                                   (graph) => EdgeIdGenerator.NewId.ToString(),
                                                                                    GraphDBOntology.DefaultEdgeLabel().Suffix,
 
                                                                                    GraphDBOntology.Id().Suffix,
                                                                                    GraphDBOntology.RevId().Suffix,
                                                                                    GraphDBOntology.Description().Suffix,
-                                                                                   (graph) => GraphFactory.NewMultiEdgeId.ToString(),
+                                                                                   (graph) => MultiEdgeIdGenerator.NewId.ToString(),
                                                                                    GraphDBOntology.DefaultMultiEdgeLabel().Suffix,
 
                                                                                    GraphDBOntology.Id().Suffix,
                                                                                    GraphDBOntology.RevId().Suffix,
                                                                                    GraphDBOntology.Description().Suffix,
-                                                                                   (graph) => GraphFactory.NewHyperEdgeId.ToString(),
+                                                                                   (graph) => HyperEdgeIdGenerator.NewId.ToString(),
                                                                                    GraphDBOntology.DefaultHyperEdgeLabel().Suffix,
 
                                                                                    GraphInitializer) { Description = Description }
@@ -572,6 +551,11 @@ namespace de.ahzf.Blueprints
 
         {
 
+            var VertexIdGenerator    = new IdGenerator();
+            var EdgeIdGenerator      = new IdGenerator();
+            var MultiEdgeIdGenerator = new IdGenerator();
+            var HyperEdgeIdGenerator = new IdGenerator();
+
             return new GenericPropertyGraph<String, Int64, TVertexLabel,    String, Object,
                                             String, Int64, TEdgeLabel,      String, Object,
                                             String, Int64, TMultiEdgeLabel, String, Object,
@@ -579,25 +563,25 @@ namespace de.ahzf.Blueprints
                                                                                             GraphDBOntology.Id().Suffix,
                                                                                             GraphDBOntology.RevId().Suffix,
                                                                                             GraphDBOntology.Description().Suffix,
-                                                                                            (graph) => GraphFactory.NewVertexId.ToString(),
+                                                                                            (graph) => VertexIdGenerator.NewId.ToString(),
                                                                                             DefaultVertexLabel,
 
                                                                                             GraphDBOntology.Id().Suffix,
                                                                                             GraphDBOntology.RevId().Suffix,
                                                                                             GraphDBOntology.Description().Suffix,
-                                                                                            (graph) => GraphFactory.NewEdgeId.ToString(),
+                                                                                            (graph) => EdgeIdGenerator.NewId.ToString(),
                                                                                             DefaultEdgeLabel,
 
                                                                                             GraphDBOntology.Id().Suffix,
                                                                                             GraphDBOntology.RevId().Suffix,
                                                                                             GraphDBOntology.Description().Suffix,
-                                                                                            (graph) => GraphFactory.NewMultiEdgeId.ToString(),
+                                                                                            (graph) => MultiEdgeIdGenerator.NewId.ToString(),
                                                                                             DefaultMultiEdgeLabel,
 
                                                                                             GraphDBOntology.Id().Suffix,
                                                                                             GraphDBOntology.RevId().Suffix,
                                                                                             GraphDBOntology.Description().Suffix,
-                                                                                            (graph) => GraphFactory.NewHyperEdgeId.ToString(),
+                                                                                            (graph) => HyperEdgeIdGenerator.NewId.ToString(),
                                                                                             DefaultHyperEdgeLabel,
                                                                             
                                                                                             GraphInitializer)
@@ -781,6 +765,11 @@ namespace de.ahzf.Blueprints
                                                                                                                       String, Int64, String, String, Object> GraphInitializer = null)
         {
 
+            var VertexIdGenerator    = new IdGenerator();
+            var EdgeIdGenerator      = new IdGenerator();
+            var MultiEdgeIdGenerator = new IdGenerator();
+            var HyperEdgeIdGenerator = new IdGenerator();
+
             return new GenericPropertyGraph<String, Int64, String, String, Object,
                                             String, Int64, String, String, Object,
                                             String, Int64, String, String, Object,
@@ -788,25 +777,25 @@ namespace de.ahzf.Blueprints
                                                                                    GraphDBOntology.Id().Suffix,
                                                                                    GraphDBOntology.RevId().Suffix,
                                                                                    GraphDBOntology.Description().Suffix,
-                                                                                   (graph) => GraphFactory.NewVertexId.ToString(),
+                                                                                   (graph) => VertexIdGenerator.NewId.ToString(),
                                                                                    GraphDBOntology.DefaultVertexLabel().Suffix,
 
                                                                                    GraphDBOntology.Id().Suffix,
                                                                                    GraphDBOntology.RevId().Suffix,
                                                                                    GraphDBOntology.Description().Suffix,
-                                                                                   (graph) => GraphFactory.NewEdgeId.ToString(),
+                                                                                   (graph) => EdgeIdGenerator.NewId.ToString(),
                                                                                    GraphDBOntology.DefaultEdgeLabel().Suffix,
 
                                                                                    GraphDBOntology.Id().Suffix,
                                                                                    GraphDBOntology.RevId().Suffix,
                                                                                    GraphDBOntology.Description().Suffix,
-                                                                                   (graph) => GraphFactory.NewMultiEdgeId.ToString(),
+                                                                                   (graph) => MultiEdgeIdGenerator.NewId.ToString(),
                                                                                    GraphDBOntology.DefaultMultiEdgeLabel().Suffix,
 
                                                                                    GraphDBOntology.Id().Suffix,
                                                                                    GraphDBOntology.RevId().Suffix,
                                                                                    GraphDBOntology.Description().Suffix,
-                                                                                   (graph) => GraphFactory.NewHyperEdgeId.ToString(),
+                                                                                   (graph) => HyperEdgeIdGenerator.NewId.ToString(),
                                                                                    GraphDBOntology.DefaultHyperEdgeLabel().Suffix,
 
                                                                                    GraphInitializer)
@@ -823,5 +812,7 @@ namespace de.ahzf.Blueprints
         #endregion
 
     }
+
+    #endregion
 
 }
