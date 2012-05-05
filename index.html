@@ -1,0 +1,159 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Blueprints.net by Vanaheimr</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Blueprints.net</h1>
+        <p>Generic PropertyGraphs for .NET, Silverlight and Mono</p>
+        <p class="view"><a href="https://github.com/Vanaheimr/Blueprints.NET">View the Project on GitHub <small>Vanaheimr/Blueprints.NET</small></a></p>
+        <ul>
+          <li><a href="https://github.com/Vanaheimr/Blueprints.NET/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/Vanaheimr/Blueprints.NET/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/Vanaheimr/Blueprints.NET">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <p><img src="/Vanaheimr/blueprints.NET/raw/master/logo.png" alt="Blueprints.NET logo"></p>
+
+<p>Blueprints.NET is a generic graph model [<a href="http://en.wikipedia.org/wiki/Graph_(mathematics)">1</a>, 
+<a href="http://en.wikipedia.org/wiki/Graph_(data_structure)">2</a>, <a href="http://en.wikipedia.org/wiki/Graph_theory">3</a>] 
+interface for .NET, Silverlight and Mono. Graph libraries, Graph databases 
+[<a href="http://en.wikipedia.org/wiki/Graph_database">1</a>, <a href="http://www.graph-database.org">2</a>] and frameworks 
+that implement the Blueprints interface automatically support Blueprints-enabled applications. Likewise, 
+Blueprints-enabled applications can plug-and-play different Blueprints-enabled graph backends.</p>
+
+<p>Blueprints also provides an interface for remote network access using <a href="http://en.wikipedia.org/wiki/Representational_State_Transfer">HTTP/REST</a>.</p>
+
+<h4>Implementations</h4>
+
+<ul>
+<li>In-Memory Property Graphs</li>
+<li>In-Memory Generic Property Graphs</li>
+<li>Property Graph Server</li>
+<li>Remote Property Graphs</li>
+</ul><h4>An usage example for property graphs</h4>
+
+<pre><code>var _TinkerGraph = new PropertyGraph();
+
+_TinkerGraph.OnVertexAdding += (graph, vertex, vote) =&gt; {
+    Console.WriteLine("I like all vertices!");
+};
+
+_TinkerGraph.OnVertexAdding += (graph, vertex, vote) =&gt;
+{
+    if (vertex.Id == 5) {
+        Console.WriteLine("I'm a Jedi!");
+        vote.Veto();
+    }
+};
+
+var marko  = _TinkerGraph.AddVertex(1, v =&gt; v.SetProperty("name", "marko"). SetProperty("age",   29));
+var vadas  = _TinkerGraph.AddVertex(2, v =&gt; v.SetProperty("name", "vadas"). SetProperty("age",   27));
+var lop    = _TinkerGraph.AddVertex(3, v =&gt; v.SetProperty("name", "lop").   SetProperty("lang", "java"));
+var josh   = _TinkerGraph.AddVertex(4, v =&gt; v.SetProperty("name", "josh").  SetProperty("age",   32));
+var vader  = _TinkerGraph.AddVertex(5, v =&gt; v.SetProperty("name", "darth vader"));
+var ripple = _TinkerGraph.AddVertex(6, v =&gt; v.SetProperty("name", "ripple").SetProperty("lang", "java"));
+var peter  = _TinkerGraph.AddVertex(7, v =&gt; v.SetProperty("name", "peter"). SetProperty("age",   35));
+
+Console.WriteLine("Number of vertices added: " + _TinkerGraph.Vertices().Count());
+
+marko.OnPropertyChanging += (sender, Key, oldValue, newValue, vote) =&gt;
+    Console.WriteLine("'" + Key + "' property changing: '" + oldValue + "' -&gt; '" + newValue + "'");
+
+marko.OnPropertyChanged  += (sender, Key, oldValue, newValue)       =&gt;
+    Console.WriteLine("'" + Key + "' property changed: '"  + oldValue + "' -&gt; '" + newValue + "'");
+
+
+var _DynamicMarko = marko.AsDynamic();
+_DynamicMarko.age  += 100;
+_DynamicMarko.doIt  = (Action&lt;String&gt;) ((text) =&gt; Console.WriteLine("Some infos: " + text + "!"));
+_DynamicMarko.doIt(_DynamicMarko.name + "/" + marko.GetProperty("age") + "/");
+
+
+var e7  = _TinkerGraph.AddEdge(marko, vadas,  7,  "knows",   e =&gt; e.SetProperty("weight", 0.5));
+var e8  = _TinkerGraph.AddEdge(marko, josh,   8,  "knows",   e =&gt; e.SetProperty("weight", 1.0));
+var e9  = _TinkerGraph.AddEdge(marko, lop,    9,  "created", e =&gt; e.SetProperty("weight", 0.4));
+
+var e10 = _TinkerGraph.AddEdge(josh,  ripple, 10, "created", e =&gt; e.SetProperty("weight", 1.0));
+var e11 = _TinkerGraph.AddEdge(josh,  lop,    11, "created", e =&gt; e.SetProperty("weight", 0.4));
+
+var e12 = _TinkerGraph.AddEdge(peter, lop,    12, "created", e =&gt; e.SetProperty("weight", 0.2));
+
+return _TinkerGraph;
+</code></pre>
+
+<h4>Help and Documentation</h4>
+
+<p>Additional help and background information can be found in the <a href="http://github.com/Vanaheimr/Blueprints.NET/wiki">Wiki</a>.
+For more examples and tutorials please look at the <a href="http://github.com/Vanaheimr/Bragi">Bragi</a> project if you are interessted
+in simple but interactive graph visualizations consult the <a href="http://github.com/Vanaheimr/Loki">Loki</a> project or look at <a href="http://github.com/Vanaheimr/Aegir">Aegir</a> for mapping applications.<br>
+News and updates can also be found on twitter by following: <a href="http://www.twitter.com/ahzf">@ahzf</a> or <a href="http://www.twitter.com/graphdbs">@graphdbs</a>.</p>
+
+<h4>Installation</h4>
+
+<p>The installation of Blueprints.NET is very straightforward.<br>
+Just check out or download its sources and all its dependencies:</p>
+
+<ul>
+<li>
+<a href="http://www.nunit.org/">NUnit</a> for unit tests</li>
+<li>
+<a href="http://github.com/JamesNK/Newtonsoft.Json">Newtonsoft.JSON</a> for JSON processing</li>
+<li>
+<a href="http://github.com/Alxandr/Jurassic">Jurassic</a> for JavaScript processing and networking</li>
+</ul><p>if you want to clone the entire Vanaheimr graph processing stack just run the following commands:</p>
+
+<pre><code>git clone git://github.com/Vanaheimr/Aegir
+git clone git://github.com/Vanaheimr/Balder
+git clone git://github.com/Vanaheimr/Blueprints.NET
+git clone git://github.com/Vanaheimr/Bragi
+git clone git://github.com/Vanaheimr/Eunomia
+git clone git://github.com/Vanaheimr/Glyphe
+git clone git://github.com/Vanaheimr/Hermod
+git clone git://github.com/Vanaheimr/Illias
+git clone git://github.com/Vanaheimr/Loki
+git clone git://github.com/Vanaheimr/Styx
+git clone git://github.com/Vanaheimr/Vanir
+git clone git://github.com/Vanaheimr/Walkyr
+git clone git://github.com/Vanaheimr/libs
+
+mkdir srclibs
+cd srclibs
+git clone git://github.com/ahzf/MonoCompilerAsAService.git
+git clone git://github.com/Alxandr/Jurassic.git
+</code></pre>
+
+<h4>License and your contribution</h4>
+
+<p><a href="http://github.com/ahzf/blueprints.NET">Blueprints.NET</a> is released under the <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache License 2.0</a>. For details see the <a href="/Vanaheimr/Blueprints.NET/blob/master/LICENSE">LICENSE</a> file.<br>
+To suggest a feature, report a bug or general discussion: <a href="http://github.com/Vanaheimr/Blueprints.NET/issues">http://github.com/Vanaheimr/Blueprints.NET/issues</a><br>
+If you want to help or contribute source code to this project, please use the same license.<br>
+The coding standards can be found by reading the code ;)</p>
+
+<h4>Acknowledgments</h4>
+
+<p>Blueprints.NET is a reimplementation of the <a href="http://github.com/tinkerpop/blueprints">Blueprints</a> library for Java
+provided by <a href="http://tinkerpop.com">Tinkerpop</a>. Additional ideas are based on the <a href="http://www.boost.org/doc/libs/1_47_0/libs/graph/doc/index.html">Boost Graph Library</a>.<br>
+Please read the <a href="/Vanaheimr/Blueprints.NET/blob/master/NOTICE">NOTICE</a> file for further credits.</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/Vanaheimr">Vanaheimr</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
