@@ -37,6 +37,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs
     public interface IReadOnlyGraphElement<TId, TRevId, TLabel, TKey, TValue>
                         : IIdentifier<TId>,
                           IRevisionId<TRevId>,
+                          ILabel<TLabel>,
                           IDescription<TValue>,
                           IReadOnlyProperties<TKey, TValue>,
                           IEquatable <IReadOnlyGraphElement<TId, TRevId, TLabel, TKey, TValue>>,

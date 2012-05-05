@@ -2044,7 +2044,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         #endregion
 
-        #region AddVertexIfNotExists(Id, Label, VertexInitializer = null)
+        #region AddVertexIfNotExists(Id, Label, VertexInitializer = null, AnywayDo = null)
 
         /// <summary>
         /// Create a new vertex using the given vertex identifier, label and optional
@@ -2757,7 +2757,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                   TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
-                             AddEdgeIfNotExists(TIdEdge Id,
+                             AddEdgeIfNotExists(TIdEdge EdgeId,
 
                                                 IGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
@@ -2786,15 +2786,15 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
             #region Initial checks
 
-            if (Id == null)
-                Id = _EdgeIdCreatorDelegate(this);
+            if (EdgeId == null)
+                EdgeId = _EdgeIdCreatorDelegate(this);
 
             IGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                  TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                  TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                  TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> _Edge = null;
 
-            if (_EdgesWhenGraph.TryGetByKey(Id, out _Edge))
+            if (_EdgesWhenGraph.TryGetByKey(EdgeId, out _Edge))
             {
 
                 if (Label.Equals(_Edge.Label))
@@ -2822,7 +2822,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
             #endregion
 
-            return AddEdgeToGraph(_EdgeCreatorDelegate(this, OutVertex, InVertex, Id, Label, EdgeInitializer));
+            return AddEdgeToGraph(_EdgeCreatorDelegate(this, OutVertex, InVertex, EdgeId, Label, EdgeInitializer));
 
         }
 

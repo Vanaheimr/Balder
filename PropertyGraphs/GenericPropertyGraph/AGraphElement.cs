@@ -123,8 +123,20 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         #endregion
 
+        #region LabelKey
+
+        /// <summary>
+        /// The property key of the label.
+        /// </summary>
+        public TKey LabelKey { get; private set; }
+
+        #endregion
+
         #region Label
 
+        /// <summary>
+        /// Provides a label of something.
+        /// </summary>
         public TLabel Label { get; private set; }
 
         #endregion
@@ -378,11 +390,12 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
             this.IdKey          = IdKey;
             this.RevIdKey       = RevIdKey;
+            this.LabelKey       = LabelKey;
             this.DescriptionKey = DescriptionKey;
-            this.Label          = Label;
             this.PropertyData   = DatastructureInitializer();
             this.PropertyData.Add(IdKey,    Id);
             this.PropertyData.Add(RevIdKey, RevId);
+            this.Label          = Label;
 
             if (PropertiesInitializer != null)
                 PropertiesInitializer(this);
@@ -410,47 +423,47 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         #endregion
 
 
-        #region SetMember(myBinder, myObject)
+        #region SetMember(Binder, Object)
 
         /// <summary>
         /// Sets a new property or overwrites an existing.
         /// </summary>
-        /// <param name="myBinder">The property key</param>
-        /// <param name="myObject">The property value</param>
-        public virtual Object SetMember(String myBinder, Object myObject)
+        /// <param name="Binder">The property key</param>
+        /// <param name="Object">The property value</param>
+        public virtual Object SetMember(String Binder, Object Object)
         {
-            return SetProperty((TKey) (Object) myBinder, (TValue) myObject);
+            return SetProperty((TKey) (Object) Binder, (TValue) Object);
         }
 
         #endregion
 
-        #region GetMember(myBinder)
+        #region GetMember(Binder)
 
         /// <summary>
         /// Returns the value of the given property key.
         /// </summary>
-        /// <param name="myBinder">The property key.</param>
-        public virtual Object GetMember(String myBinder)
+        /// <param name="Binder">The property key.</param>
+        public virtual Object GetMember(String Binder)
         {
-            TValue myObject;
-            TryGetProperty((TKey) (Object) myBinder, out myObject);
-            return myObject as Object;
+            TValue _Object;
+            TryGetProperty((TKey) (Object) Binder, out _Object);
+            return _Object as Object;
         }
 
         #endregion
 
-        #region DeleteMember(myBinder)
+        #region DeleteMember(Binder)
 
         /// <summary>
         /// Tries to remove the property identified by the given property key.
         /// </summary>
-        /// <param name="myBinder">The property key.</param>
-        public virtual Object DeleteMember(String myBinder)
+        /// <param name="Binder">The property key.</param>
+        public virtual Object DeleteMember(String Binder)
         {
 
             try
             {
-                PropertyData.Remove((TKey) (Object) myBinder);
+                PropertyData.Remove((TKey) (Object) Binder);
                 return true;
             }
             catch

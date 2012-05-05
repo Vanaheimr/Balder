@@ -843,6 +843,19 @@ namespace de.ahzf.Blueprints.HTTP.Client
         {
             get { throw new NotImplementedException(); }
         }
+
+        public string Label
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        string ILabel<string>.Label
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }            
+        }
     }
 
 }
