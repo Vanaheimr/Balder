@@ -333,15 +333,19 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         #region Constructor(s)
 
-        #region GenericPartitionPropertyGraph(...)
+        #region GenericPartitionPropertyGraph(GraphId, Description = null, WriteGraph = null, params ReadGraphs)
 
         /// <summary>
         /// Create a wrapper to combine multiple graphs to a single graph representation.
         /// The first graph may be used for writing, all others just for reading.
         /// </summary>
+        /// <param name="GraphId">The unique identifiction of this graph.</param>
+        /// <param name="Description">The description of this graph.</param>
         /// <param name="WriteGraph">An optional single graph for all write operations.</param>
         /// <param name="ReadGraphs">Multiple graphs for read-only operations.</param>
-        public GenericPartitionPropertyGraph(IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+        public GenericPartitionPropertyGraph(TIdVertex GraphId,
+                                             String Description = null,
+                                             IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                                    TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                    TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> WriteGraph = null,
@@ -353,6 +357,9 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         {
 
             #region Initial checks
+
+            if (GraphId == null)
+                throw new ArgumentNullException("GraphId", "The parameter 'GraphId' must not be null!");
 
             if (WriteGraph == null && (ReadGraphs == null || !ReadGraphs.Any()))
                 throw new ArgumentNullException("WriteGraph and ReadGraphs", "The parameters 'WriteGraph' and 'ReadGraphs' must not both be null!");
