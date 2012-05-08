@@ -56,7 +56,7 @@
       <Project>{16C85DF8-5DE6-4A9F-9FC7-7CA5B0440DF3}</Project>
       <Name>Commons</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\srclibs\Jurassic\Jurassic\Jurassic.csproj">
+    <ProjectReference Include="..\..\_External\Jurassic\Jurassic\Jurassic.csproj">
       <Project>{9B109B9C-4B72-4BDB-B531-627D7E93011E}</Project>
       <Name>Jurassic</Name>
     </ProjectReference>
