@@ -55,8 +55,6 @@
     <Reference Include="System.Windows.Browser" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommonGenericPropertyGraph\CommonGenericPropertyGraph.cs" />
-    <Compile Include="DistributedPropertyGraph\DistributedPropertyGraph.cs" />
     <Compile Include="GenericPropertyGraph\AGenericPropertyGraph.cs" />
     <Compile Include="GenericPropertyGraph\AGraphElement.cs" />
     <Compile Include="GenericPropertyGraph\GenericPropertyEdge.cs" />
@@ -64,18 +62,16 @@
     <Compile Include="GenericPropertyGraph\GenericPropertyHyperEdge.cs" />
     <Compile Include="GenericPropertyGraph\GenericPropertyMultiEdge.cs" />
     <Compile Include="GenericPropertyGraph\GenericPropertyVertex.cs" />
-    <Compile Include="Indices\DictionaryIndex.cs" />
-    <Compile Include="Indices\IndexingMethods.cs" />
-    <Compile Include="Indices\IPropertyElementIndexExtensions.cs" />
-    <Compile Include="Indices\PropertyIndex\PropertyEdgeIndex.cs" />
-    <Compile Include="Indices\PropertyIndex\PropertyHyperEdgeIndex.cs" />
-    <Compile Include="Indices\PropertyIndex\PropertyIndex.cs" />
-    <Compile Include="Indices\PropertyIndex\PropertyVertexIndex.cs" />
-    <Compile Include="LabeledPropertyGraph\LabeledPropertyGraph.cs" />
+    <Compile Include="GraphFactory.cs" />
+    <Compile Include="GraphSchemaHandling.cs" />
+    <Compile Include="PartitionGraphs\GenericPartitionPropertyGraph.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PropertyExtensions.cs" />
     <Compile Include="PropertyGraph\PropertyEdge.cs" />
     <Compile Include="PropertyGraph\PropertyGraph.cs" />
-    <Compile Include="SemanticPropertyGraph\SemanticPropertyGraph.cs" />
+    <Compile Include="PropertyGraph\PropertyHyperEdge.cs" />
+    <Compile Include="PropertyGraph\PropertyMultiEdge.cs" />
+    <Compile Include="PropertyGraph\PropertyVertex.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Eunomia\Eunomia\Eunomia.SL.csproj">
@@ -91,9 +87,7 @@
       <Name>Blueprints.SL</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Immutable\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
   </ItemGroup>

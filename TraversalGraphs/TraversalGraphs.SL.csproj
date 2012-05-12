@@ -5,12 +5,12 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{C907FBA5-7DE0-4244-9872-806FCFF97175}</ProjectGuid>
+    <ProjectGuid>{A43C42CB-E863-43B7-B2CE-9635EF358F94}</ProjectGuid>
     <ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Blueprints</RootNamespace>
-    <AssemblyName>Blueprints</AssemblyName>
+    <RootNamespace>TravsersalGraphs.SL</RootNamespace>
+    <AssemblyName>TravsersalGraphs.SL</AssemblyName>
     <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
     <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
@@ -34,7 +34,6 @@
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>Bin\Debug\Blueprints.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -56,43 +55,8 @@
     <Reference Include="System.Windows.Browser" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Datastructures\SemanticProperty.cs" />
-    <Compile Include="DynamicGraphElement.cs" />
-    <Compile Include="Exceptions\PropertiesExceptions.cs" />
-    <Compile Include="Exceptions\PropertyGraphExceptions.cs" />
-    <Compile Include="Exceptions\VerticesExceptions.cs" />
-    <Compile Include="Extensions\GenericPropertyGraph\IGenericPropertyEdgeExtensions.cs" />
-    <Compile Include="Extensions\GenericPropertyGraph\IGenericPropertyGraphExtensions.cs" />
-    <Compile Include="Extensions\GenericPropertyGraph\IGenericPropertyHyperEdgeExtensions.cs" />
-    <Compile Include="Extensions\GenericPropertyGraph\IGenericPropertyMultiEdgeExtensions.cs" />
-    <Compile Include="Extensions\GenericPropertyGraph\IGenericPropertyVertexExtensions.cs" />
-    <Compile Include="Extensions\IGraphElementExtensions.cs" />
-    <Compile Include="Extensions\IPropertiesExtensions.cs" />
-    <Compile Include="GraphDBOntology.cs" />
-    <Compile Include="GraphElementIds\AGraphElementId.cs" />
-    <Compile Include="GraphElementIds\EdgeId.cs" />
-    <Compile Include="GraphElementIds\HyperEdgeId.cs" />
-    <Compile Include="GraphElementIds\MultiEdgeId.cs" />
-    <Compile Include="GraphElementIds\VertexId.cs" />
-    <Compile Include="Interfaces\GenericPropertyGraph\IDynamicGraphElement.cs" />
-    <Compile Include="Interfaces\GenericPropertyGraph\IGenericPropertyEdge.cs" />
-    <Compile Include="Interfaces\GenericPropertyGraph\IGenericPropertyGraph.cs" />
-    <Compile Include="Interfaces\GenericPropertyGraph\IGenericPropertyHyperEdge.cs" />
-    <Compile Include="Interfaces\GenericPropertyGraph\IGenericPropertyMultiEdge.cs" />
-    <Compile Include="Interfaces\GenericPropertyGraph\IGenericPropertyVertex.cs" />
-    <Compile Include="Interfaces\GenericPropertyGraph\IGraphElement.cs" />
-    <Compile Include="Interfaces\GenericPropertyGraph\IProperties.cs" />
-    <Compile Include="Interfaces\GenericReadOnlyPropertyGraph\IGenericReadOnlyPropertyGraph.cs" />
-    <Compile Include="Interfaces\GenericReadOnlyPropertyGraph\IReadOnlyGraphElement.cs" />
-    <Compile Include="Interfaces\GenericReadOnlyPropertyGraph\IReadOnlyProperties.cs" />
-    <Compile Include="Interfaces\PropertyGraph\IPropertyEdge.cs" />
-    <Compile Include="Interfaces\PropertyGraph\IPropertyGraph.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Interfaces\PropertyGraph\IPropertyHyperEdge.cs" />
-    <Compile Include="Interfaces\PropertyGraph\IPropertyMultiEdge.cs" />
-    <Compile Include="Interfaces\PropertyGraph\IPropertyVertex.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TraversalGraph.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Eunomia\Eunomia\Eunomia.SL.csproj">
@@ -103,7 +67,12 @@
       <Project>{468893C3-BC44-407A-B1CC-DD88428952E2}</Project>
       <Name>Commons.SL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Blueprints\Blueprints.SL.csproj">
+      <Project>{C907FBA5-7DE0-4244-9872-806FCFF97175}</Project>
+      <Name>Blueprints.SL</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
