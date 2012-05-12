@@ -40,7 +40,8 @@ namespace de.ahzf.Blueprints.PropertyGraphs
     /// </summary>
     /// <typeparam name="TKey">The type of the keys.</typeparam>
     /// <typeparam name="TValue">The type of the values.</typeparam>
-    public delegate void IPropertiesInitializer<TKey, TValue>(IProperties<TKey, TValue> PropertyVertex)
+    /// <param name="Properties">The properties object.</param>
+    public delegate void IPropertiesInitializer<TKey, TValue>(IProperties<TKey, TValue> Properties)
 
         where TKey : IEquatable<TKey>, IComparable<TKey>, IComparable;
 

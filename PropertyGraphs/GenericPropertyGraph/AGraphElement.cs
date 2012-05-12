@@ -30,13 +30,13 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
     /// <summary>
     /// The abstract graph element is the base class for all property graph elements:
-    /// The vertices, edges, hyperedges and the property graph itself.
+    /// The vertices, edges, multiedges, hyperedges and the property graph itself.
     /// </summary>
     /// <typeparam name="TId">The graph element identification.</typeparam>
     /// <typeparam name="TRevId">The graph element revision identification.</typeparam>
+    /// <typeparam name="TLabel">The type of the graph element label.</typeparam>
     /// <typeparam name="TKey">The type of the graph element property keys.</typeparam>
     /// <typeparam name="TValue">The type of the graph element property values.</typeparam>
-    /// <typeparam name="TDatastructure">A datastructure for storing all properties.</typeparam>
     public abstract class AGraphElement<TId, TRevId, TLabel, TKey, TValue>
                               : IGraphElement<TId, TRevId, TLabel, TKey, TValue>
 
@@ -50,9 +50,15 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         #region Data
 
         /// <summary>
+        /// Good for explicit locking of this object
+        /// during complex operations.
+        /// </summary>
+        protected readonly Object LockObject;
+
+        /// <summary>
         /// The datastructure holding all graph properties.
         /// </summary>
-        protected readonly IDictionary<TKey, TValue> PropertyData;
+        private readonly IDictionary<TKey, TValue> PropertyData;
 
         #endregion
 
@@ -346,9 +352,9 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         #endregion
 
-        #region (protected) Constructor(s)
+        #region (internal protected) Constructor(s)
 
-        #region (protected) AGraphElement(Id, IdKey, RevIdKey, Label, DescriptionKey, DatastructureInitializer, GraphElementInitializer = null)
+        #region (internal protected) AGraphElement(Id, IdKey, RevIdKey, Label, DescriptionKey, DatastructureInitializer, GraphElementInitializer = null)
 
         /// <summary>
         /// Creates a new abstract graph element.
@@ -387,6 +393,10 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                 throw new ArgumentNullException("The given DatastructureInitializer must not be null!");
 
             #endregion
+
+            // Good for explicit locking of this object
+            // during complex operations...
+            this.LockObject     = new Object();
 
             this.IdKey          = IdKey;
             this.RevIdKey       = RevIdKey;

@@ -56,7 +56,7 @@ namespace de.ahzf.Blueprints
             get
             {
                 var _NewLocalId = Interlocked.Increment(ref _NewId);
-                return (UInt64) _NewLocalId;
+                return (UInt64) _NewLocalId - 1;
             }
         }
 

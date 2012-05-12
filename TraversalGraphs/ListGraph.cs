@@ -8,14 +8,7 @@ using de.ahzf.Blueprints.PropertyGraphs;
 namespace de.ahzf.Vanaheimr.Blueprints.TraversalGraphs
 {
 
-    public enum TraversalGraphType
-    {
-        Adjacencylist,
-        IncidenceList,
-        InvertedIncidenceList
-    }
-
-    public class TraversalGraph
+    public class ListGraph
     {
 
         #region Data
@@ -29,13 +22,13 @@ namespace de.ahzf.Vanaheimr.Blueprints.TraversalGraphs
 
         #endregion
 
-        #region TraversalGraph(Graph, TraversalGraphType)
+        #region ListGraph(Graph, TraversalGraphType)
 
-        public TraversalGraph(IGenericPropertyGraph<UInt64, Int64, String, String, Object,
-                                                    UInt64, Int64, String, String, Object,
-                                                    UInt64, Int64, String, String, Object,
-                                                    UInt64, Int64, String, String, Object> Graph,
-                              TraversalGraphType TraversalGraphType)
+        public ListGraph(IGenericPropertyGraph<UInt64, Int64, String, String, Object,
+                                               UInt64, Int64, String, String, Object,
+                                               UInt64, Int64, String, String, Object,
+                                               UInt64, Int64, String, String, Object> Graph,
+                         TraversalGraphType TraversalGraphType)
         {
 
             this.Graph = Graph;

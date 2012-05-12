@@ -42,7 +42,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TraversalGraph.cs" />
+    <Compile Include="TraversalGraphType.cs" />
+    <Compile Include="ListGraph.cs" />
+    <Compile Include="MatrixGraph.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
