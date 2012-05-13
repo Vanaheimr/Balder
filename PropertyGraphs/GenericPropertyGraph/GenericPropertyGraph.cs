@@ -97,6 +97,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// Creates a new class-based in-memory implementation of a generic property graph.
         /// </summary>
         /// <param name="GraphId">The identification of this generic property graph.</param>
+        /// <param name="Description">A description of this property graph.</param>
         /// 
         /// <param name="VertexIdKey">The property key to access the Ids of the vertices.</param>
         /// <param name="VertexRevIdKey">The property key to access the RevisionIds of the vertices.</param>
@@ -124,6 +125,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// 
         /// <param name="GraphInitializer">A delegate to initialize the new property graph.</param>
         public GenericPropertyGraph(TIdVertex  GraphId,
+                                    String     Description,
 
                                     TKeyVertex VertexIdKey,
                                     TKeyVertex VertexRevIdKey,
@@ -172,8 +174,6 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
             : base (
 
-                    #region Vertices
-            
                     GraphId,
                     DefaultVertexLabel,
                     VertexIdKey,
@@ -181,7 +181,9 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
                     VertexDescriptionKey,
 
                     () => new Dictionary<TKeyVertex, TValueVertex>(),
-                    
+
+                    #region Vertices
+
                     // Create a new vertex identification
                     VertexIdCreatorDelegate,
                     DefaultVertexLabel,
@@ -353,6 +355,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// Creates a new class-based in-memory implementation of a generic property graph.
         /// </summary>
         /// <param name="GraphId">The identification of this generic property graph.</param>
+        /// <param name="Description">A description of this property graph.</param>
         /// 
         /// <param name="VertexIdKey">The property key to access the Ids of the vertices.</param>
         /// <param name="VertexRevIdKey">The property key to access the RevisionIds of the vertices.</param>
@@ -380,6 +383,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// 
         /// <param name="GraphInitializer">A delegate to initialize the new property graph.</param>
         public GenericPropertyGraph(TIdVertex  GraphId,
+                                    String     Description,
 
                                     TKeyVertex VertexIdKey,
                                     TKeyVertex VertexRevIdKey,
