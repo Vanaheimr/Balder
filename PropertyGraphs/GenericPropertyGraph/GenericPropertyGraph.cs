@@ -21,7 +21,6 @@ using System;
 using System.Collections.Generic;
 
 using de.ahzf.Illias.Commons;
-using System.Threading;
 
 #endregion
 
@@ -92,7 +91,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
         #region Constructor(s)
 
-        #region GenericPropertyGraph(...)
+        #region GenericPropertyGraph(...IdCreatorDelegates...)
 
         /// <summary>
         /// Creates a new class-based in-memory implementation of a generic property graph.
@@ -303,6 +302,250 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
                     // Create a new hyperedge identification
                     HyperEdgeIdCreatorDelegate,
+                    DefaultHyperEdgeLabel,
+
+                    // Create a new hyperedge
+                    (Graph, EdgeSelector, HyperEdgeId, HyperEdgeLabel, HyperEdgeInitializer) =>
+
+                       new GenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                    TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                    TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
+
+                            (Graph,
+                             EdgeSelector,
+                             HyperEdgeId,
+                             HyperEdgeLabel,
+                             HyperEdgeIdKey,
+                             HyperEdgeRevIdKey,
+                             HyperEdgeDescriptionKey,
+
+                             () => new Dictionary<TKeyHyperEdge, TValueHyperEdge>(),
+                             () => new GroupedCollection<TIdVertex, IGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                           TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                           TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TVertexLabel>(),
+
+                             HyperEdgeInitializer),
+
+                    // The hyperedges collection
+                    () => new GroupedCollection<TIdHyperEdge, IGenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, THyperEdgeLabel>()
+
+                    #endregion
+
+                   )
+
+        {
+
+            if (GraphInitializer != null)
+                GraphInitializer(this);
+
+        }
+
+        #endregion
+
+        #region GenericPropertyGraph(...IIdCreators...)
+
+        /// <summary>
+        /// Creates a new class-based in-memory implementation of a generic property graph.
+        /// </summary>
+        /// <param name="GraphId">The identification of this generic property graph.</param>
+        /// 
+        /// <param name="VertexIdKey">The property key to access the Ids of the vertices.</param>
+        /// <param name="VertexRevIdKey">The property key to access the RevisionIds of the vertices.</param>
+        /// <param name="VertexDescriptionKey">The property key to access the descriptions of the vertices.</param>
+        /// <param name="VertexIdCreator">A vertex identification creator.</param>
+        /// <param name="DefaultVertexLabel">The default label of the vertices.</param>
+        /// 
+        /// <param name="EdgeIdKey">The property key to access the Ids of the edges.</param>
+        /// <param name="EdgeRevIdKey">The property key to access the RevisionIds of the edges.</param>
+        /// <param name="EdgeDescriptionKey">The property key to access the descriptions of the edges.</param>
+        /// <param name="EdgeIdCreator">A edge identification creator.</param>
+        /// <param name="DefaultEdgeLabel">The default label of the edges.</param>
+        /// 
+        /// <param name="MultiEdgeIdKey">The property key to access the Ids of the multiedges.</param>
+        /// <param name="MultiEdgeRevIdKey">The property key to access the RevisionIds of the multiedges.</param>
+        /// <param name="MultiEdgeDescriptionKey">The property key to access the descriptions of the multiedges.</param>
+        /// <param name="MultiEdgeIdCreator">A multiedge identification creator.</param>
+        /// <param name="DefaultMultiEdgeLabel">The default label of the multiedges.</param>
+        /// 
+        /// <param name="HyperEdgeIdKey">The property key to access the Ids of the hyperedges.</param>
+        /// <param name="HyperEdgeRevIdKey">The property key to access the RevisionIds of the hyperedges.</param>
+        /// <param name="HyperEdgeDescriptionKey">The property key to access the descriptions of the hyperedges.</param>
+        /// <param name="HyperEdgeIdCreator">A hyperedge identification creator.</param>
+        /// <param name="DefaultHyperEdgeLabel">The default label of the hyperedges.</param>
+        /// 
+        /// <param name="GraphInitializer">A delegate to initialize the new property graph.</param>
+        public GenericPropertyGraph(TIdVertex  GraphId,
+
+                                    TKeyVertex VertexIdKey,
+                                    TKeyVertex VertexRevIdKey,
+                                    TKeyVertex VertexDescriptionKey,
+                                    IIdGenerator<TIdVertex> VertexIdCreator,
+                                    TVertexLabel DefaultVertexLabel,
+
+
+                                    TKeyEdge   EdgeIdKey,
+                                    TKeyEdge   EdgeRevIdKey,
+                                    TKeyEdge   EdgeDescriptionKey,
+                                    IIdGenerator<TIdEdge> EdgeIdCreator,
+                                    TEdgeLabel DefaultEdgeLabel,
+
+
+                                    TKeyMultiEdge MultiEdgeIdKey,
+                                    TKeyMultiEdge MultiEdgeRevIdKey,
+                                    TKeyMultiEdge MultiEdgeDescriptionKey,
+                                    IIdGenerator<TIdMultiEdge> MultiEdgeIdCreator,
+                                    TMultiEdgeLabel DefaultMultiEdgeLabel,
+
+
+                                    TKeyHyperEdge HyperEdgeIdKey,
+                                    TKeyHyperEdge HyperEdgeRevIdKey,
+                                    TKeyHyperEdge HyperEdgeDescriptionKey,
+                                    IIdGenerator<TIdHyperEdge> HyperEdgeIdCreator,
+                                    THyperEdgeLabel DefaultHyperEdgeLabel,
+
+
+                                    GraphInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                     TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                     TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                     TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> GraphInitializer = null)
+
+            : base (
+
+                    #region Vertices
+            
+                    GraphId,
+                    DefaultVertexLabel,
+                    VertexIdKey,
+                    VertexRevIdKey,
+                    VertexDescriptionKey,
+
+                    () => new Dictionary<TKeyVertex, TValueVertex>(),
+                    
+                    // Create a new vertex identification
+                    VertexId => VertexIdCreator.NewId,
+                    DefaultVertexLabel,
+
+                    // Create a new vertex
+                    (Graph, _VertexId, _VertexLabel, VertexInitializer) =>
+                        new GenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                  TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                  TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                  TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
+
+                            (Graph,
+                             _VertexId,
+                             _VertexLabel,
+                             VertexIdKey,
+                             VertexRevIdKey,
+                             VertexDescriptionKey,
+                             () => new Dictionary<TKeyVertex, TValueVertex>(),
+
+                             () => new GroupedCollection<TIdVertex,    IGenericPropertyVertex   <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                                 TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                                 TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                                 TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TVertexLabel>(),
+
+                             () => new GroupedCollection<TIdEdge,      IGenericPropertyEdge     <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                                 TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                                 TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                                 TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TEdgeLabel>(),
+
+                             () => new GroupedCollection<TIdMultiEdge, IGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                                 TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                                 TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                                 TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TMultiEdgeLabel>(),
+
+                             () => new GroupedCollection<TIdHyperEdge, IGenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                                 TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                                 TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                                 TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, THyperEdgeLabel>(),
+                             VertexInitializer),
+
+                    // The vertices collection
+                    () => new GroupedCollection<TIdVertex, IGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                  TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                  TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                  TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TVertexLabel>(),
+
+                    #endregion
+
+                    #region Edges
+
+                    // Create a new edge identification
+                    EdgeId => EdgeIdCreator.NewId,
+                    DefaultEdgeLabel,
+
+                    // Create a new edge
+                    (Graph, OutVertex, InVertex, EdgeId, EdgeLabel, EdgeInitializer) =>
+                        new GenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
+                            (Graph,
+                             OutVertex,
+                             InVertex,
+                             EdgeId,
+                             EdgeLabel,
+                             EdgeIdKey,
+                             EdgeRevIdKey,
+                             EdgeDescriptionKey,
+                             () => new Dictionary<TKeyEdge, TValueEdge>(),
+                             EdgeInitializer),
+
+                    // The edges collection
+                    () => new GroupedCollection<TIdEdge, IGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TEdgeLabel>(),
+
+                    #endregion
+
+                    #region MultiEdges
+
+                    // Create a new multiedge identification
+                    MultiEdgeId => MultiEdgeIdCreator.NewId,
+                    DefaultMultiEdgeLabel,
+
+                    // Create a new multiedge
+                    (Graph, EdgeSelector, MultiEdgeId, MultiEdgeLabel, MultiEdgeInitializer) =>
+
+                       new GenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                    TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                    TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
+
+                            (Graph,
+                             EdgeSelector,
+                             MultiEdgeId,
+                             MultiEdgeLabel,
+                             MultiEdgeIdKey,
+                             MultiEdgeRevIdKey,
+                             MultiEdgeDescriptionKey,
+
+                             () => new Dictionary<TKeyMultiEdge, TValueMultiEdge>(),
+                             () => new GroupedCollection<TEdgeLabel, TIdEdge, IGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                                   TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>(),
+
+                             MultiEdgeInitializer),
+
+                    // The multiedges collection
+                    () => new GroupedCollection<TIdMultiEdge, IGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TMultiEdgeLabel>(),
+                    #endregion
+
+                    #region HyperEdges
+
+                    // Create a new hyperedge identification
+                    HyperEdgeId => HyperEdgeIdCreator.NewId,
                     DefaultHyperEdgeLabel,
 
                     // Create a new hyperedge
