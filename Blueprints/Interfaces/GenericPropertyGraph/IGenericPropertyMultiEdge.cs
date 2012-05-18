@@ -450,16 +450,6 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
         #endregion
 
-        #region Label
-
-        /// <summary>
-        /// The label associated with this multiedge.
-        /// </summary>
-        TMultiEdgeLabel Label { get; }
-
-        #endregion
-
-
         #region Edges
 
         #region EdgesByLabel(params EdgeLabels)

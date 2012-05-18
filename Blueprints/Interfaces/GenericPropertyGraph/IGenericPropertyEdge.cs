@@ -458,15 +458,6 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
         #endregion
 
-        #region Label
-
-        /// <summary>
-        /// The label associated with this edge.
-        /// </summary>
-        TEdgeLabel Label { get; }
-
-        #endregion
-
         #region Weight
 
         /// <summary>

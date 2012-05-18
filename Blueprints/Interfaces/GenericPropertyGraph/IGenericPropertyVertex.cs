@@ -430,91 +430,6 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
     {
 
-        #region Events
-
-        #region OnOutEdgeAdd...
-
-        /// <summary>
-        /// Called whenever an OutEdge will be added to the property graph.
-        /// </summary>
-        event EdgeAddingEventHandler<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                     TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                     TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                     TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnOutEdgeAdding;
-
-        /// <summary>
-        /// Called whenever an OutEdge was added to the property graph.
-        /// </summary>
-        event EdgeAddedEventHandler <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                     TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                     TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                     TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnOutEdgeAdded;
-
-        #endregion
-
-        #region OnInEdgeAdd...
-
-        /// <summary>
-        /// Called whenever an InEdge will be added to the property graph.
-        /// </summary>
-        event EdgeAddingEventHandler<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                     TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                     TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                     TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnInEdgeAdding;
-
-        /// <summary>
-        /// Called whenever an InEdge was added to the property graph.
-        /// </summary>
-        event EdgeAddedEventHandler <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                     TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                     TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                     TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnInEdgeAdded;
-
-        #endregion
-
-        #region OnMultiEdgeAdd...
-
-        /// <summary>
-        /// Called whenever a multiedge will be added to the property graph.
-        /// </summary>
-        event MultiEdgeAddingEventHandler<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnMultiEdgeAdding;
-
-        /// <summary>
-        /// Called whenever a multiedge was added to the property graph.
-        /// </summary>
-        event MultiEdgeAddedEventHandler <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnMultiEdgeAdded;
-
-
-        #endregion
-
-        #region OnHyperEdgeAdd...
-
-        /// <summary>
-        /// Called whenever a hyperedge will be added to the property graph.
-        /// </summary>
-        event HyperEdgeAddingEventHandler<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnHyperEdgeAdding;
-
-        /// <summary>
-        /// Called whenever a hyperedge was added to the property graph.
-        /// </summary>
-        event HyperEdgeAddedEventHandler <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnHyperEdgeAdded;
-
-        #endregion
-
-        #endregion
-
         #region Properties
 
         #region Graph
@@ -541,18 +456,21 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
         #endregion
 
-        #region Label
-
-        /// <summary>
-        /// The label associated with this vertex.
-        /// </summary>
-        TVertexLabel Label { get; }
-
-        #endregion
-
         #endregion
 
         #region OutEdge methods...
+
+        #region OnOutEdgeAdding
+
+        /// <summary>
+        /// Called whenever an OutEdge will be added to the vertex.
+        /// </summary>
+        event EdgeAddingEventHandler<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                     TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                     TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                     TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnOutEdgeAdding;
+
+        #endregion
 
         #region AddOutEdge(Edge)
 
@@ -564,6 +482,18 @@ namespace de.ahzf.Blueprints.PropertyGraphs
                                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Edge);
+
+        #endregion
+
+        #region OnOutEdgeAdded
+
+        /// <summary>
+        /// Called whenever an OutEdge was added to the vertex.
+        /// </summary>
+        event EdgeAddedEventHandler <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                     TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                     TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                     TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnOutEdgeAdded;
 
         #endregion
 
@@ -628,6 +558,18 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         #endregion
 
 
+        #region OnOutEdgeRemoving
+
+        /// <summary>
+        /// Called whenever an OutEdge will be removed from the vertex.
+        /// </summary>
+        event EdgeRemovingEventHandler<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnOutEdgeRemoving;
+
+        #endregion
+
         #region RemoveOutEdges(params Edges)    // RemoveOutEdges()!
 
         /// <summary>
@@ -655,9 +597,33 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
         #endregion
 
+        #region OnOutEdgeRemoved
+
+        /// <summary>
+        /// Called whenever an OutEdge was removed from the vertex.
+        /// </summary>
+        event EdgeRemovedEventHandler<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                      TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                      TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                      TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnOutEdgeRemoved;
+
+        #endregion
+
         #endregion
 
         #region InEdge methods...
+
+        #region OnInEdgeAdding
+
+        /// <summary>
+        /// Called whenever an InEdge will be added to the vertex.
+        /// </summary>
+        event EdgeAddingEventHandler<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                     TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                     TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                     TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnInEdgeAdding;
+
+        #endregion
 
         #region AddInEdge(Edge)
 
@@ -669,6 +635,18 @@ namespace de.ahzf.Blueprints.PropertyGraphs
                                             TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                             TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                             TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Edge);
+
+        #endregion
+
+        #region OnInEdgeAdded
+
+        /// <summary>
+        /// Called whenever an InEdge was added to the vertex.
+        /// </summary>
+        event EdgeAddedEventHandler <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                     TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                     TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                     TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnInEdgeAdded;
 
         #endregion
 
@@ -733,6 +711,18 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         #endregion
 
 
+        #region OnInEdgeRemoving
+
+        /// <summary>
+        /// Called whenever an InEdge will be removed from the vertex.
+        /// </summary>
+        event EdgeRemovingEventHandler<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnInEdgeRemoving;
+
+        #endregion
+
         #region RemoveInEdges(params Edges)    // RemoveInEdges()!
 
         /// <summary>
@@ -760,9 +750,33 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
         #endregion
 
+        #region OnInEdgeRemoved
+
+        /// <summary>
+        /// Called whenever an InEdge was removed from the vertex.
+        /// </summary>
+        event EdgeRemovedEventHandler<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                      TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                      TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                      TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnInEdgeRemoved;
+
+        #endregion
+
         #endregion
 
         #region MultiEdge methods...
+
+        #region OnMultiEdgeAdding
+
+        /// <summary>
+        /// Called whenever a multiedge will be added to the vertex.
+        /// </summary>
+        event MultiEdgeAddingEventHandler<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnMultiEdgeAdding;
+
+        #endregion
 
         #region AddMultiEdge(MultiEdge)
 
@@ -774,6 +788,18 @@ namespace de.ahzf.Blueprints.PropertyGraphs
                                                     TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                     TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                     TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> MultiEdge);
+
+        #endregion
+        
+        #region OnMultiEdgeAdded
+
+        /// <summary>
+        /// Called whenever a multiedge was added to the vertex.
+        /// </summary>
+        event MultiEdgeAddedEventHandler<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                         TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                         TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnMultiEdgeAdded;
 
         #endregion
 
@@ -814,6 +840,18 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         #endregion
 
 
+        #region OnMultiEdgeRemoving
+
+        /// <summary>
+        /// Called whenever a multiedge will be removed from the vertex.
+        /// </summary>
+        event MultiEdgeRemovingEventHandler<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                            TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                            TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                            TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnMultiEdgeRemoving;
+
+        #endregion
+
         #region RemoveMultiEdges(params MultiEdges)    // RemoveMultiEdges()!
 
         /// <summary>
@@ -841,9 +879,33 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
         #endregion
 
+        #region OnMultiEdgeRemoved
+
+        /// <summary>
+        /// Called whenever a multiedge was removed from the vertex.
+        /// </summary>
+        event MultiEdgeRemovedEventHandler<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                           TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                           TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnMultiEdgeRemoved;
+
+        #endregion
+
         #endregion
 
         #region HyperEdge methods...
+
+        #region OnHyperEdgeAdding
+
+        /// <summary>
+        /// Called whenever a hyperedge will be added to the vertex.
+        /// </summary>
+        event HyperEdgeAddingEventHandler<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnHyperEdgeAdding;
+
+        #endregion
 
         #region AddHyperEdge(HyperEdge)
 
@@ -855,6 +917,18 @@ namespace de.ahzf.Blueprints.PropertyGraphs
                                                     TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                     TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                     TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> HyperEdge);
+
+        #endregion
+
+        #region OnHyperEdgeAdded
+
+        /// <summary>
+        /// Called whenever a hyperedge was added to the vertex.
+        /// </summary>
+        event HyperEdgeAddedEventHandler<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                         TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                         TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnHyperEdgeAdded;
 
         #endregion
 
@@ -895,6 +969,18 @@ namespace de.ahzf.Blueprints.PropertyGraphs
         #endregion
 
 
+        #region OnHyperEdgeRemoving
+
+        /// <summary>
+        /// Called whenever a hyperedge will be removed from the vertex.
+        /// </summary>
+        event HyperEdgeRemovingEventHandler<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                            TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                            TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                            TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnHyperEdgeRemoving;
+
+        #endregion
+
         #region RemoveHyperEdges(params HyperEdges)    // RemoveHyperEdges()!
 
         /// <summary>
@@ -919,6 +1005,18 @@ namespace de.ahzf.Blueprints.PropertyGraphs
                                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> HyperEdgeFilter = null);
+
+        #endregion
+
+        #region OnHyperEdgeRemoved
+
+        /// <summary>
+        /// Called whenever a hyperedge was removed from the vertex.
+        /// </summary>
+        event HyperEdgeRemovedEventHandler<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                           TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                           TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnHyperEdgeRemoved;
 
         #endregion
 

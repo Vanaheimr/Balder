@@ -384,16 +384,6 @@ namespace de.ahzf.Blueprints.PropertyGraphs
 
         #endregion
 
-        #region Label
-
-        /// <summary>
-        /// The label associated with this hyperedge.
-        /// </summary>
-        THyperEdgeLabel Label { get; }
-
-        #endregion
-
-
         #region Vertices
 
         Boolean AddVertex(IGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
