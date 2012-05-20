@@ -27,7 +27,7 @@ using de.ahzf.Illias.Commons;
 
 #endregion
 
-namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
+namespace de.ahzf.Blueprints.PropertyGraphs.InMemory
 {
 
     /// <summary>
@@ -124,10 +124,53 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <summary>
         /// The associated property graph.
         /// </summary>
-        public IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,  
-                                     TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,    
-                                     TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                     TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Graph { get; private set; }
+        protected readonly IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                 TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                 TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                 TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Graph;
+
+        /// <summary>
+        /// The associated property graph.
+        /// </summary>
+        IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
+
+            IGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                      TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                      TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                      TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+
+            Graph
+            {
+                get
+                {
+                    return Graph;
+                }
+            }
+
+
+        /// <summary>
+        /// The associated read-only property graph.
+        /// </summary>
+        IReadOnlyGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                      TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                      TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                      TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
+
+            IReadOnlyGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+
+            Graph
+            {
+                get
+                {
+                    return Graph;
+                }
+            }
 
         #endregion
 
@@ -541,9 +584,30 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         {
 
             if ((Object) IGenericPropertyMultiEdge == null)
-                throw new ArgumentNullException("The given IGenericPropertyMultiEdge must not be null!");
+                throw new ArgumentNullException("MultiEdge", "The given MultiEdge must not be null!");
 
-            return Id.CompareTo(IGenericPropertyMultiEdge[IdKey]);
+            return Id.CompareTo(IGenericPropertyMultiEdge.Id);
+
+        }
+
+        #endregion
+
+        #region CompareTo(IReadOnlyGenericPropertyMultiEdge)
+
+        /// <summary>
+        /// Compares two generic property multiedges.
+        /// </summary>
+        /// <param name="MultiEdge">A generic property multiedge to compare with.</param>
+        public Int32 CompareTo(IReadOnlyGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                 TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                 TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                 TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IReadOnlyGenericPropertyMultiEdge)
+        {
+
+            if ((Object) IReadOnlyGenericPropertyMultiEdge == null)
+                throw new ArgumentNullException("IReadOnlyGenericPropertyMultiEdge", "The given IReadOnlyGenericPropertyMultiEdge must not be null!");
+
+            return Id.CompareTo(IReadOnlyGenericPropertyMultiEdge.Id);
 
         }
 
@@ -598,6 +662,29 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
             //TODO: Here it might be good to check all attributes of the UNIQUE constraint!
             return Id.Equals(IGenericPropertyMultiEdge[IdKey]);
+
+        }
+
+        #endregion
+
+        #region Equals(IReadOnlyGenericPropertyMultiEdge)
+
+        /// <summary>
+        /// Compares two generic property multiedges for equality.
+        /// </summary>
+        /// <param name="IReadOnlyGenericPropertyMultiEdge">A generic property multiedge to compare with.</param>
+        /// <returns>True if both match; False otherwise.</returns>
+        public Boolean Equals(IReadOnlyGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IReadOnlyGenericPropertyMultiEdge)
+        {
+
+            if ((Object) IReadOnlyGenericPropertyMultiEdge == null)
+                return false;
+
+            //TODO: Here it might be good to check all attributes of the UNIQUE constraint!
+            return Id.Equals(IReadOnlyGenericPropertyMultiEdge.Id);
 
         }
 

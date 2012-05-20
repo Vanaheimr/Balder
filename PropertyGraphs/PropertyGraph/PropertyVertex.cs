@@ -27,7 +27,7 @@ using de.ahzf.Illias.Commons;
 
 #endregion
 
-namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
+namespace de.ahzf.Blueprints.PropertyGraphs.InMemory
 {
 
     /// <summary>
@@ -123,16 +123,16 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
         /// <param name="DatastructureInitializer"></param>
         /// <param name="VertexIdCreatorDelegate"></param>
         /// <param name="VertexCreatorDelegate"></param>
-        /// <param name="VerticesCollectionInitializer"></param>
+        /// <param name="VertexCollectionInitializer"></param>
         /// <param name="EdgeIdCreatorDelegate"></param>
         /// <param name="EdgeCreatorDelegate"></param>
-        /// <param name="EdgesCollectionInitializer"></param>
+        /// <param name="EdgeCollectionInitializer"></param>
         /// <param name="MultiEdgeIdCreatorDelegate"></param>
         /// <param name="MultiEdgeCreatorDelegate"></param>
-        /// <param name="MultiEdgesCollectionInitializer"></param>
+        /// <param name="MultiEdgeCollectionInitializer"></param>
         /// <param name="HyperEdgeIdCreatorDelegate"></param>
         /// <param name="HyperEdgeCreatorDelegate"></param>
-        /// <param name="HyperEdgesCollectionInitializer"></param>
+        /// <param name="HyperEdgeCollectionInitializer"></param>
         internal PropertyVertex(UInt64  VertexId,
                                 String  IdKey,
                                 String  RevIdKey,
@@ -141,89 +141,85 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
 
                                 #region Create a new vertex
 
-                                       VertexIdCreatorDelegate   <UInt64, Int64, String, String, Object,
-                                                                  UInt64, Int64, String, String, Object,
-                                                                  UInt64, Int64, String, String, Object,
-                                                                  UInt64, Int64, String, String, Object> VertexIdCreatorDelegate,
+                                       VertexIdCreatorDelegate    <UInt64, Int64, String, String, Object,
+                                                                   UInt64, Int64, String, String, Object,
+                                                                   UInt64, Int64, String, String, Object,
+                                                                   UInt64, Int64, String, String, Object> VertexIdCreatorDelegate,
 
-                                       VertexCreatorDelegate     <UInt64, Int64, String, String, Object,
-                                                                  UInt64, Int64, String, String, Object,
-                                                                  UInt64, Int64, String, String, Object,
-                                                                  UInt64, Int64, String, String, Object> VertexCreatorDelegate,
+                                       VertexCreatorDelegate      <UInt64, Int64, String, String, Object,
+                                                                   UInt64, Int64, String, String, Object,
+                                                                   UInt64, Int64, String, String, Object,
+                                                                   UInt64, Int64, String, String, Object> VertexCreatorDelegate,
 
-                                       Func<IGroupedCollection<UInt64, IGenericPropertyVertex<UInt64, Int64, String, String, Object,
-                                                                                              UInt64, Int64, String, String, Object,
-                                                                                              UInt64, Int64, String, String, Object,
-                                                                                              UInt64, Int64, String, String, Object>, String>>
-                                       VerticesCollectionInitializer,
+                                       VertexCollectionInitializer<UInt64, Int64, String, String, Object,
+                                                                   UInt64, Int64, String, String, Object,
+                                                                   UInt64, Int64, String, String, Object,
+                                                                   UInt64, Int64, String, String, Object> VertexCollectionInitializer,
 
                                        #endregion
 
                                 #region Create a new edge
 
-                                EdgeIdCreatorDelegate     <UInt64, Int64, String, String, Object,
-                                                           UInt64, Int64, String, String, Object,
-                                                           UInt64, Int64, String, String, Object,
-                                                           UInt64, Int64, String, String, Object> EdgeIdCreatorDelegate,
+                                EdgeIdCreatorDelegate    <UInt64, Int64, String, String, Object,
+                                                          UInt64, Int64, String, String, Object,
+                                                          UInt64, Int64, String, String, Object,
+                                                          UInt64, Int64, String, String, Object> EdgeIdCreatorDelegate,
 
-                                EdgeCreatorDelegate       <UInt64, Int64, String, String, Object,
-                                                           UInt64, Int64, String, String, Object,
-                                                           UInt64, Int64, String, String, Object,
-                                                           UInt64, Int64, String, String, Object> EdgeCreatorDelegate,
+                                EdgeCreatorDelegate      <UInt64, Int64, String, String, Object,
+                                                          UInt64, Int64, String, String, Object,
+                                                          UInt64, Int64, String, String, Object,
+                                                          UInt64, Int64, String, String, Object> EdgeCreatorDelegate,
 
-                                Func<IGroupedCollection<UInt64, IGenericPropertyEdge<UInt64, Int64, String, String, Object,
-                                                                                     UInt64, Int64, String, String, Object,
-                                                                                     UInt64, Int64, String, String, Object,
-                                                                                     UInt64, Int64, String, String, Object>, String>>
-                                EdgesCollectionInitializer,
+                                EdgeCollectionInitializer<UInt64, Int64, String, String, Object,
+                                                          UInt64, Int64, String, String, Object,
+                                                          UInt64, Int64, String, String, Object,
+                                                          UInt64, Int64, String, String, Object> EdgeCollectionInitializer,
 
                                 #endregion
 
                                 #region Create a new multiedge
 
-                                MultiEdgeIdCreatorDelegate<UInt64, Int64, String, String, Object,
-                                                           UInt64, Int64, String, String, Object,
-                                                           UInt64, Int64, String, String, Object,
-                                                           UInt64, Int64, String, String, Object> MultiEdgeIdCreatorDelegate,
+                                MultiEdgeIdCreatorDelegate    <UInt64, Int64, String, String, Object,
+                                                               UInt64, Int64, String, String, Object,
+                                                               UInt64, Int64, String, String, Object,
+                                                               UInt64, Int64, String, String, Object> MultiEdgeIdCreatorDelegate,
 
-                                MultiEdgeCreatorDelegate  <UInt64, Int64, String, String, Object,
-                                                           UInt64, Int64, String, String, Object,
-                                                           UInt64, Int64, String, String, Object,
-                                                           UInt64, Int64, String, String, Object> MultiEdgeCreatorDelegate,
+                                MultiEdgeCreatorDelegate      <UInt64, Int64, String, String, Object,
+                                                               UInt64, Int64, String, String, Object,
+                                                               UInt64, Int64, String, String, Object,
+                                                               UInt64, Int64, String, String, Object> MultiEdgeCreatorDelegate,
 
-                                Func<IGroupedCollection<UInt64, IGenericPropertyMultiEdge<UInt64, Int64, String, String, Object,
-                                                                                          UInt64, Int64, String, String, Object,
-                                                                                          UInt64, Int64, String, String, Object,
-                                                                                          UInt64, Int64, String, String, Object>, String>>
-                                MultiEdgesCollectionInitializer,
+                                MultiEdgeCollectionInitializer<UInt64, Int64, String, String, Object,
+                                                               UInt64, Int64, String, String, Object,
+                                                               UInt64, Int64, String, String, Object,
+                                                               UInt64, Int64, String, String, Object> MultiEdgeCollectionInitializer,
 
                                 #endregion
 
                                 #region Create a new hyperedge
 
-                                HyperEdgeIdCreatorDelegate<UInt64, Int64, String, String, Object,
-                                                           UInt64, Int64, String, String, Object,
-                                                           UInt64, Int64, String, String, Object,
-                                                           UInt64, Int64, String, String, Object> HyperEdgeIdCreatorDelegate,
+                                HyperEdgeIdCreatorDelegate    <UInt64, Int64, String, String, Object,
+                                                               UInt64, Int64, String, String, Object,
+                                                               UInt64, Int64, String, String, Object,
+                                                               UInt64, Int64, String, String, Object> HyperEdgeIdCreatorDelegate,
 
-                                HyperEdgeCreatorDelegate  <UInt64, Int64, String, String, Object,
-                                                           UInt64, Int64, String, String, Object,
-                                                           UInt64, Int64, String, String, Object,
-                                                           UInt64, Int64, String, String, Object> HyperEdgeCreatorDelegate,
+                                HyperEdgeCreatorDelegate      <UInt64, Int64, String, String, Object,
+                                                               UInt64, Int64, String, String, Object,
+                                                               UInt64, Int64, String, String, Object,
+                                                               UInt64, Int64, String, String, Object> HyperEdgeCreatorDelegate,
 
-                                Func<IGroupedCollection<UInt64, IGenericPropertyHyperEdge<UInt64, Int64, String, String, Object,
-                                                                                          UInt64, Int64, String, String, Object,
-                                                                                          UInt64, Int64, String, String, Object,
-                                                                                          UInt64, Int64, String, String, Object>, String>>
-                                HyperEdgesCollectionInitializer)
+                                HyperEdgeCollectionInitializer<UInt64, Int64, String, String, Object,
+                                                               UInt64, Int64, String, String, Object,
+                                                               UInt64, Int64, String, String, Object,
+                                                               UInt64, Int64, String, String, Object> HyperEdgeCollectionInitializer)
 
                                 #endregion
 
             : base(VertexId, GraphDBOntology.DefaultVertexLabel().Suffix, IdKey, RevIdKey, DescriptionKey, DatastructureInitializer,
-                   VertexIdCreatorDelegate,    GraphDBOntology.DefaultVertexLabel().Suffix,    VertexCreatorDelegate,    VerticesCollectionInitializer,
-                   EdgeIdCreatorDelegate,      GraphDBOntology.DefaultEdgeLabel().Suffix,      EdgeCreatorDelegate,      EdgesCollectionInitializer,
-                   MultiEdgeIdCreatorDelegate, GraphDBOntology.DefaultMultiEdgeLabel().Suffix, MultiEdgeCreatorDelegate, MultiEdgesCollectionInitializer,
-                   HyperEdgeIdCreatorDelegate, GraphDBOntology.DefaultHyperEdgeLabel().Suffix, HyperEdgeCreatorDelegate, HyperEdgesCollectionInitializer)
+                   VertexIdCreatorDelegate,    GraphDBOntology.DefaultVertexLabel().Suffix,    VertexCreatorDelegate,    VertexCollectionInitializer,
+                   EdgeIdCreatorDelegate,      GraphDBOntology.DefaultEdgeLabel().Suffix,      EdgeCreatorDelegate,      EdgeCollectionInitializer,
+                   MultiEdgeIdCreatorDelegate, GraphDBOntology.DefaultMultiEdgeLabel().Suffix, MultiEdgeCreatorDelegate, MultiEdgeCollectionInitializer,
+                   HyperEdgeIdCreatorDelegate, GraphDBOntology.DefaultHyperEdgeLabel().Suffix, HyperEdgeCreatorDelegate, HyperEdgeCollectionInitializer)
 
         { }
 

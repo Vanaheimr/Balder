@@ -23,7 +23,7 @@ using System.Threading;
 using System.Collections.Generic;
 
 using de.ahzf.Illias.Commons;
-using de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable;
+using de.ahzf.Blueprints.PropertyGraphs.InMemory;
 using de.ahzf.Blueprints.PropertyGraphs;
 
 #endregion

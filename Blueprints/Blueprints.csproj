@@ -67,13 +67,17 @@
     <Compile Include="GraphElementIds\HyperEdgeId.cs" />
     <Compile Include="GraphElementIds\MultiEdgeId.cs" />
     <Compile Include="GraphElementIds\VertexId.cs" />
-    <Compile Include="Interfaces\GenericReadOnlyPropertyGraph\IGenericReadOnlyPropertyGraph.cs" />
+    <Compile Include="Interfaces\ReadOnlyGenericPropertyGraph\IReadOnlyGenericPropertyHyperEdge.cs" />
+    <Compile Include="Interfaces\ReadOnlyGenericPropertyGraph\IReadOnlyGenericPropertyMultiEdge.cs" />
+    <Compile Include="Interfaces\ReadOnlyGenericPropertyGraph\IReadOnlyGenericPropertyEdge.cs" />
+    <Compile Include="Interfaces\ReadOnlyGenericPropertyGraph\IReadOnlyGenericPropertyVertex.cs" />
+    <Compile Include="Interfaces\ReadOnlyGenericPropertyGraph\IReadOnlyGenericPropertyGraph.cs" />
     <Compile Include="Interfaces\GenericPropertyGraph\IGenericPropertyMultiEdge.cs" />
     <Compile Include="Interfaces\GenericPropertyGraph\IGenericPropertyHyperEdge.cs" />
     <Compile Include="Interfaces\GenericPropertyGraph\IGenericPropertyVertex.cs" />
     <Compile Include="Interfaces\GenericPropertyGraph\IGenericPropertyEdge.cs" />
-    <Compile Include="Interfaces\GenericReadOnlyPropertyGraph\IReadOnlyProperties.cs" />
-    <Compile Include="Interfaces\GenericReadOnlyPropertyGraph\IReadOnlyGraphElement.cs" />
+    <Compile Include="Interfaces\ReadOnlyGenericPropertyGraph\IReadOnlyProperties.cs" />
+    <Compile Include="Interfaces\ReadOnlyGenericPropertyGraph\IReadOnlyGraphElement.cs" />
     <Compile Include="Interfaces\PropertyGraph\IPropertyMultiEdge.cs" />
     <Compile Include="Interfaces\PropertyGraph\IPropertyGraph.cs" />
     <Compile Include="Interfaces\PropertyGraph\IPropertyHyperEdge.cs" />
@@ -90,7 +94,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DynamicGraphElement.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Interfaces\ReadOnlyPropertyGraph\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Eunomia\Eunomia\Eunomia.csproj">
       <Project>{1DF1A588-33B1-4168-9487-604FE5680681}</Project>

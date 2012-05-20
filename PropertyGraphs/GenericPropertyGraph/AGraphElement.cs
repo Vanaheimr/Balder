@@ -25,7 +25,7 @@ using de.ahzf.Illias.Commons.Votes;
 
 #endregion
 
-namespace de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable
+namespace de.ahzf.Blueprints.PropertyGraphs.InMemory
 {
 
     /// <summary>
