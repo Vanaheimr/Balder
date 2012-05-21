@@ -20,7 +20,7 @@
 using System;
 using System.Collections;
 
-using de.ahzf.Blueprints.PropertyGraphs.InMemory.Mutable;
+using de.ahzf.Blueprints.PropertyGraphs.InMemory;
 using de.ahzf.Blueprints.PropertyGraphs;
 
 #endregion

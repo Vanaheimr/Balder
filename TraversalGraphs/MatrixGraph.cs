@@ -135,20 +135,28 @@ namespace de.ahzf.Vanaheimr.Blueprints.TraversalGraphs
 
         #endregion
 
-        public virtual void AddVertex(IGenericPropertyVertex<UInt64, Int64, String, String, Object,
-                                                             UInt64, Int64, String, String, Object,
-                                                             UInt64, Int64, String, String, Object,
-                                                             UInt64, Int64, String, String, Object> Vertex)
+        public virtual Boolean AddVertex(IGenericPropertyVertex<UInt64, Int64, String, String, Object,
+                                                                UInt64, Int64, String, String, Object,
+                                                                UInt64, Int64, String, String, Object,
+                                                                UInt64, Int64, String, String, Object> Vertex)
         {
+
             if (VertexFilter == null || VertexFilter(Vertex))
+            {
                 _MatrixListGraph.Add(new List<UInt64>(Func(Vertex)));
+                return true;
+            }
+
+            return false;
+
         }
 
-        public virtual void AddEdge(IGenericPropertyEdge<UInt64, Int64, String, String, Object,
-                                                         UInt64, Int64, String, String, Object,
-                                                         UInt64, Int64, String, String, Object,
-                                                         UInt64, Int64, String, String, Object> Edge)
+        public virtual Boolean AddEdge(IGenericPropertyEdge<UInt64, Int64, String, String, Object,
+                                                            UInt64, Int64, String, String, Object,
+                                                            UInt64, Int64, String, String, Object,
+                                                            UInt64, Int64, String, String, Object> Edge)
         {
+            return true;
         }
 
 
@@ -217,13 +225,17 @@ namespace de.ahzf.Vanaheimr.Blueprints.TraversalGraphs
         #endregion
 
 
-        public override void AddEdge(IGenericPropertyEdge<UInt64, Int64, String, String, Object,
-                                                          UInt64, Int64, String, String, Object,
-                                                          UInt64, Int64, String, String, Object,
-                                                          UInt64, Int64, String, String, Object> Edge)
+        public override Boolean AddEdge(IGenericPropertyEdge<UInt64, Int64, String, String, Object,
+                                                             UInt64, Int64, String, String, Object,
+                                                             UInt64, Int64, String, String, Object,
+                                                             UInt64, Int64, String, String, Object> Edge)
         {
+
             if (EdgeFilter == null || EdgeFilter(Edge))
                 _MatrixListGraph.ElementAt((int) Edge.OutVertex.Id).Add(Edge.InVertex.Id);
+
+            return true;
+
         }
 
 
@@ -261,12 +273,16 @@ namespace de.ahzf.Vanaheimr.Blueprints.TraversalGraphs
         {
         }
 
-        public override void AddEdge(IGenericPropertyEdge<UInt64, Int64, String, String, Object,
-                                                          UInt64, Int64, String, String, Object,
-                                                          UInt64, Int64, String, String, Object,
-                                                          UInt64, Int64, String, String, Object> Edge)
+        public override Boolean AddEdge(IGenericPropertyEdge<UInt64, Int64, String, String, Object,
+                                                             UInt64, Int64, String, String, Object,
+                                                             UInt64, Int64, String, String, Object,
+                                                             UInt64, Int64, String, String, Object> Edge)
         {
+            
             _MatrixListGraph.ElementAt((int) Edge.OutVertex.Id).Add(Edge.Id);
+            
+            return true;
+
         }
 
         #endregion
