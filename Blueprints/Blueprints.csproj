@@ -61,6 +61,7 @@
     <Compile Include="Exceptions\VerticesExceptions.cs" />
     <Compile Include="Exceptions\PropertyGraphExceptions.cs" />
     <Compile Include="Extensions\GenericPropertyGraph\IGenericPropertyVertexExtensions.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="GraphDBOntology.cs" />
     <Compile Include="GraphElementIds\AGraphElementId.cs" />
     <Compile Include="GraphElementIds\EdgeId.cs" />
