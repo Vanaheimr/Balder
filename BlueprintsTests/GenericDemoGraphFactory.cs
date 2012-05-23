@@ -19,6 +19,7 @@
 
 using System;
 
+using de.ahzf.Illias.Commons.Collections;
 using de.ahzf.Blueprints.PropertyGraphs;
 
 #endregion
@@ -46,16 +47,16 @@ namespace de.ahzf.Blueprints.UnitTests
             // Before adding a vertex/edge/multiedge/hyperedge call the following delegates
             // which might deny the addition of the given graph element!
             _graph.OnVertexAdding    += (graph, vertex,    vote) => { Console.WriteLine("Vertex " + vertex.Id + " is announced to be added to graph " + graph.Id + "!"); };
-            _graph.OnVertexAdding    += (graph, vertex,    vote) => { if (vertex.Id < 3) { Console.WriteLine("Addition of vertex " + vertex.Id + " denied!"); vote.Veto(); } };
+            _graph.OnVertexAdding    += (graph, vertex,    vote) => { if (vertex.Id < 3) { Console.WriteLine("Addition of vertex " + vertex.Id + " denied!"); vote.Deny(); } };
 
             _graph.OnEdgeAdding      += (graph, edge,      vote) => { Console.WriteLine("Edge " + edge.Id + " is announced to be added to graph " + graph.Id + "!"); };
-            _graph.OnEdgeAdding      += (graph, edge,      vote) => { if (edge.Id < 2) { Console.WriteLine("Addition of edge " + edge.Id + " denied!"); vote.Veto(); } };
+            _graph.OnEdgeAdding      += (graph, edge,      vote) => { if (edge.Id < 2) { Console.WriteLine("Addition of edge " + edge.Id + " denied!"); vote.Deny(); } };
 
             _graph.OnMultiEdgeAdding += (graph, multiedge, vote) => { Console.WriteLine("MultiEdge " + multiedge.Id + " is announced to be added to graph " + graph.Id + "!"); };
-            _graph.OnMultiEdgeAdding += (graph, multiedge, vote) => { if (multiedge.Id < 2) { Console.WriteLine("Addition of multiedge " + multiedge.Id + " denied!"); vote.Veto(); } };
+            _graph.OnMultiEdgeAdding += (graph, multiedge, vote) => { if (multiedge.Id < 2) { Console.WriteLine("Addition of multiedge " + multiedge.Id + " denied!"); vote.Deny(); } };
 
             _graph.OnHyperEdgeAdding += (graph, hyperedge, vote) => { Console.WriteLine("HyperEdge " + hyperedge.Id + " is announced to be added to graph " + graph.Id + "!"); };
-            _graph.OnHyperEdgeAdding += (graph, hyperedge, vote) => { if (hyperedge.Id < 2) { Console.WriteLine("Addition of hyperedge " + hyperedge.Id + " denied!"); vote.Veto(); } };
+            _graph.OnHyperEdgeAdding += (graph, hyperedge, vote) => { if (hyperedge.Id < 2) { Console.WriteLine("Addition of hyperedge " + hyperedge.Id + " denied!"); vote.Deny(); } };
 
             // Call the following delegate for every vertex/edge/multiedge/hyperedge added
             _graph.OnVertexAdded    += (graph, vertex)       => { Console.WriteLine("Vertex "    + vertex.Id    + " was added to graph " + graph.Id + "!"); };

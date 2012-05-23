@@ -22,6 +22,7 @@ using System.Linq;
 using System.Collections.Generic;
 
 using de.ahzf.Illias.Commons;
+using de.ahzf.Illias.Commons.Collections;
 using de.ahzf.Blueprints.PropertyGraphs;
 using de.ahzf.Blueprints.PropertyGraphs.InMemory;
 
@@ -376,8 +377,8 @@ namespace de.ahzf.Blueprints.UnitTests.PropertyGraphTests
 
             var graph = new PropertyGraph(123UL);
 
-            graph.OnPropertyAddition += (g, key, value, vote) => { if (key.StartsWith("ke")) vote.OK(); else vote.Veto(); };
-            graph.OnPropertyAdded    += (g, key, value)       => check = true;
+            graph.OnPropertyAdding += (g, key, value, vote) => { if (key.StartsWith("ke")) vote.Ok(); else vote.Deny(); };
+            graph.OnPropertyAdded  += (g, key, value)       => check = true;
 
             graph.SetProperty("nokey", "value");
             Assert.IsNull(check);
@@ -400,7 +401,7 @@ namespace de.ahzf.Blueprints.UnitTests.PropertyGraphTests
             var graph = new PropertyGraph(123UL, g => g.SetProperty("key", "value").
                                                         SetProperty("nokey", "value"));
 
-            graph.OnPropertyChanging += (g, key, oldvalue, newvalue, vote) => { if (key.StartsWith("ke")) vote.OK(); else vote.Veto(); };
+            graph.OnPropertyChanging += (g, key, oldvalue, newvalue, vote) => { if (key.StartsWith("ke")) vote.Ok(); else vote.Deny(); };
             graph.OnPropertyChanged  += (g, key, oldvalue, newvalue)       => check = true;
 
             graph.SetProperty("nokey", "value");
@@ -424,7 +425,7 @@ namespace de.ahzf.Blueprints.UnitTests.PropertyGraphTests
             var graph = new PropertyGraph(123UL, g => g.SetProperty("key",   "value").
                                                         SetProperty("nokey", "value"));
 
-            graph.OnPropertyRemoval  += (g, key, value, vote) => { if (key.StartsWith("ke")) vote.OK(); else vote.Veto(); };
+            graph.OnPropertyRemoving += (g, key, value, vote) => { if (key.StartsWith("ke")) vote.Ok(); else vote.Deny(); };
             graph.OnPropertyRemoved  += (g, key, value)       => check = true;
 
             graph.Remove("nokey", "value");

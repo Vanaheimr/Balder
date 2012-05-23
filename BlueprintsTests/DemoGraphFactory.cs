@@ -20,8 +20,9 @@
 using System;
 using System.Collections;
 
-using de.ahzf.Blueprints.PropertyGraphs.InMemory;
+using de.ahzf.Illias.Commons.Collections;
 using de.ahzf.Blueprints.PropertyGraphs;
+using de.ahzf.Blueprints.PropertyGraphs.InMemory;
 
 #endregion
 
@@ -36,7 +37,7 @@ namespace de.ahzf.Blueprints.UnitTests
 
             var _Graph = new PropertyGraph() as IPropertyGraph;
             _Graph.OnVertexAdding += (graph, vertex, vote) => { Console.WriteLine("OnVertexAdding1() called!"); };
-            _Graph.OnVertexAdding += (graph, vertex, vote) => { Console.WriteLine("OnVertexAdding2() called!"); if (vertex.Id < 3) vote.Veto(); };
+            _Graph.OnVertexAdding += (graph, vertex, vote) => { Console.WriteLine("OnVertexAdding2() called!"); if (vertex.Id < 3) vote.Deny(); };
             _Graph.OnVertexAdding += (graph, vertex, vote) => { Console.WriteLine("OnVertexAdding3() called!"); };
 
 

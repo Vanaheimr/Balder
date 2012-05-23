@@ -21,6 +21,7 @@ using System;
 using System.Linq;
 using System.Collections;
 
+using de.ahzf.Illias.Commons.Collections;
 using de.ahzf.Blueprints.PropertyGraphs;
 using de.ahzf.Blueprints.PropertyGraphs.InMemory;
 
@@ -45,7 +46,7 @@ namespace de.ahzf.Blueprints.UnitTests
             {
                 if (vertex.Id == 5) {
                     Console.WriteLine("I'm a Jedi!");
-                    vote.Veto();
+                    vote.Deny();
                 }
             };
 

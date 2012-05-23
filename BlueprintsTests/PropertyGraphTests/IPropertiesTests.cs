@@ -21,6 +21,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
+using de.ahzf.Illias.Commons.Collections;
 using de.ahzf.Blueprints.PropertyGraphs;
 using de.ahzf.Blueprints.PropertyGraphs.InMemory;
 
