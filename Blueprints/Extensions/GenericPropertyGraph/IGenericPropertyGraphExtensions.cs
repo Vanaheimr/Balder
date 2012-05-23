@@ -22,6 +22,8 @@ using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
 
+using de.ahzf.Illias.Commons.Collections;
+
 #endregion
 
 namespace de.ahzf.Blueprints.PropertyGraphs

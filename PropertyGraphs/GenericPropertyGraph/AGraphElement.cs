@@ -22,6 +22,7 @@ using System.Collections.Generic;
 
 using de.ahzf.Illias.Commons;
 using de.ahzf.Illias.Commons.Votes;
+using de.ahzf.Illias.Commons.Collections;
 
 #endregion
 
@@ -187,7 +188,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory
         /// <summary>
         /// Called when a property value will be added.
         /// </summary>
-        public event PropertyAdditionEventHandler<TKey, TValue> OnPropertyAddition;
+        public event PropertyAddingEventHandler<TKey, TValue> OnPropertyAdding;
 
         #endregion
 
@@ -223,7 +224,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory
         /// <summary>
         /// Called whenever a property value will be removed.
         /// </summary>
-        public event PropertyRemovalEventHandler<TKey, TValue> OnPropertyRemoval;
+        public event PropertyRemovingEventHandler<TKey, TValue> OnPropertyRemoving;
 
         #endregion
 
@@ -252,8 +253,8 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory
 
             var _VetoVote = new VetoVote();
 
-            if (OnPropertyAddition != null)
-                OnPropertyAddition(this, Key, Value, _VetoVote);
+            if (OnPropertyAdding != null)
+                OnPropertyAdding(this, Key, Value, _VetoVote);
 
             return _VetoVote.Result;
 
@@ -326,8 +327,8 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory
 
             var _VetoVote = new VetoVote();
 
-            if (OnPropertyRemoval != null)
-                OnPropertyRemoval(this, Key, Value, _VetoVote);
+            if (OnPropertyRemoving != null)
+                OnPropertyRemoving(this, Key, Value, _VetoVote);
 
             return _VetoVote.Result;
 

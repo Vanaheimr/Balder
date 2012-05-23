@@ -25,6 +25,7 @@ using System.Linq.Expressions;
 using System.Collections.Generic;
 
 using de.ahzf.Illias.Commons;
+using de.ahzf.Illias.Commons.Collections;
 
 #endregion
 
@@ -231,7 +232,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory
 
         #region Events
 
-        public event PropertyAdditionEventHandler<TKeyVertex, TValueVertex> OnPropertyAddition;
+        public event PropertyAddingEventHandler<TKeyVertex, TValueVertex> OnPropertyAdding;
 
         public event PropertyAddedEventHandler<TKeyVertex, TValueVertex> OnPropertyAdded;
 
@@ -239,7 +240,7 @@ namespace de.ahzf.Blueprints.PropertyGraphs.InMemory
 
         public event PropertyChangedEventHandler<TKeyVertex, TValueVertex> OnPropertyChanged;
 
-        public event PropertyRemovalEventHandler<TKeyVertex, TValueVertex> OnPropertyRemoval;
+        public event PropertyRemovingEventHandler<TKeyVertex, TValueVertex> OnPropertyRemoving;
 
         public event PropertyRemovedEventHandler<TKeyVertex, TValueVertex> OnPropertyRemoved;
 

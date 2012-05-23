@@ -20,6 +20,7 @@
 using System;
 
 using de.ahzf.Illias.Commons;
+using de.ahzf.Illias.Commons.Collections;
 
 #endregion
 
