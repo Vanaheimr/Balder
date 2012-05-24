@@ -19,14 +19,14 @@
 
 using System;
 
-using de.ahzf.Blueprints.PropertyGraphs;
+using de.ahzf.Vanaheimr.Blueprints;
 
 using Jurassic;
 using Jurassic.Library;
 
 #endregion
 
-namespace de.ahzf.Blueprints.JurassicGraph
+namespace de.ahzf.Vanaheimr.Blueprints.JurassicGraph
 {
 
     /// <summary>
