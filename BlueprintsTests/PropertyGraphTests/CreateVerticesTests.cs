@@ -22,13 +22,11 @@ using System.Linq;
 using System.Diagnostics;
 using System.Collections.Generic;
 
-using de.ahzf.Blueprints.PropertyGraphs.InMemory;
-
 using NUnit.Framework;
 
 #endregion
 
-namespace de.ahzf.Blueprints.UnitTests.PropertyGraphTests
+namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.PropertyGraphTests
 {
 
     /// <summary>

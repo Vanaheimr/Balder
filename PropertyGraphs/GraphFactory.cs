@@ -23,12 +23,10 @@ using System.Threading;
 using System.Collections.Generic;
 
 using de.ahzf.Illias.Commons;
-using de.ahzf.Blueprints.PropertyGraphs.InMemory;
-using de.ahzf.Blueprints.PropertyGraphs;
 
 #endregion
 
-namespace de.ahzf.Blueprints
+namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 {
 
     #region GraphFactory

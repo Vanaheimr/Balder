@@ -21,13 +21,11 @@ using System;
 using System.Linq;
 using System.Dynamic;
 using System.Linq.Expressions;
-
-using de.ahzf.Blueprints.PropertyGraphs;
 using System.Collections.Generic;
 
 #endregion
 
-namespace de.ahzf.Blueprints
+namespace de.ahzf.Vanaheimr.Blueprints
 {
 
     /// <summary>

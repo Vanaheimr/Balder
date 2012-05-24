@@ -23,7 +23,7 @@ using de.ahzf.Illias.Commons;
 
 #endregion
 
-namespace de.ahzf.Blueprints.PropertyGraphs
+namespace de.ahzf.Vanaheimr.Blueprints
 {
 
     // Delegates

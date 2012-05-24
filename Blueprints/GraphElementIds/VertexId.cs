@@ -21,7 +21,7 @@ using System;
 
 #endregion
 
-namespace de.ahzf.Blueprints
+namespace de.ahzf.Vanaheimr.Blueprints
 {
 
     /// <summary>

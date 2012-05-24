@@ -22,14 +22,12 @@ using System.Linq;
 using System.Collections.Generic;
 
 using de.ahzf.Illias.Commons.Collections;
-using de.ahzf.Blueprints.PropertyGraphs;
-using de.ahzf.Blueprints.PropertyGraphs.InMemory;
 
 using NUnit.Framework;
 
 #endregion
 
-namespace de.ahzf.Blueprints.UnitTests
+namespace de.ahzf.Vanaheimr.Blueprints.UnitTests
 {
 
     /// <summary>

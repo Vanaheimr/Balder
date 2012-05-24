@@ -26,7 +26,7 @@ using de.ahzf.Illias.Commons;
 
 #endregion
 
-namespace de.ahzf.Blueprints.PropertyGraphs.InMemory
+namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 {
 
     /// <summary>

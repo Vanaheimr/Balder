@@ -19,14 +19,13 @@
 
 using System;
 
-using de.ahzf.Blueprints.PropertyGraphs.InMemory;
-
 using NUnit.Framework;
-using de.ahzf.Blueprints.PropertyGraphs;
+
+using de.ahzf.Vanaheimr.Blueprints.InMemory;
 
 #endregion
 
-namespace de.ahzf.Blueprints.UnitTests.PropertyGraphTests
+namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.PropertyGraphTests
 {
 
     /// <summary>

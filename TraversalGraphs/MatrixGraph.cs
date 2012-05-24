@@ -3,7 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 
 using de.ahzf.Illias.Commons;
-using de.ahzf.Blueprints.PropertyGraphs;
+using de.ahzf.Vanaheimr.Blueprints;
 
 namespace de.ahzf.Vanaheimr.Blueprints.TraversalGraphs
 {
@@ -72,10 +72,10 @@ namespace de.ahzf.Vanaheimr.Blueprints.TraversalGraphs
                                                        UInt64, Int64, String, String, Object,
                                                        UInt64, Int64, String, String, Object> PropertyGraph;
 
-        protected readonly Func<IGenericPropertyVertex<UInt64, Int64, String, String, Object,
-                                                       UInt64, Int64, String, String, Object,
-                                                       UInt64, Int64, String, String, Object,
-                                                       UInt64, Int64, String, String, Object>, IEnumerable<UInt64>> Func;
+        protected readonly Func<IReadOnlyGenericPropertyVertex<UInt64, Int64, String, String, Object,
+                                                               UInt64, Int64, String, String, Object,
+                                                               UInt64, Int64, String, String, Object,
+                                                               UInt64, Int64, String, String, Object>, IEnumerable<UInt64>> Func;
 
         protected readonly VertexFilter               <UInt64, Int64, String, String, Object,
                                                        UInt64, Int64, String, String, Object,
@@ -106,10 +106,10 @@ namespace de.ahzf.Vanaheimr.Blueprints.TraversalGraphs
                                                      UInt64, Int64, String, String, Object,
                                                      UInt64, Int64, String, String, Object> EdgeFilter   = null,
 
-                               Func<IGenericPropertyVertex<UInt64, Int64, String, String, Object,
-                                                           UInt64, Int64, String, String, Object,
-                                                           UInt64, Int64, String, String, Object,
-                                                           UInt64, Int64, String, String, Object>, IEnumerable<UInt64>> Func = null)
+                               Func<IReadOnlyGenericPropertyVertex<UInt64, Int64, String, String, Object,
+                                                                   UInt64, Int64, String, String, Object,
+                                                                   UInt64, Int64, String, String, Object,
+                                                                   UInt64, Int64, String, String, Object>, IEnumerable<UInt64>> Func = null)
 
         {
 
@@ -135,10 +135,10 @@ namespace de.ahzf.Vanaheimr.Blueprints.TraversalGraphs
 
         #endregion
 
-        public virtual Boolean AddVertex(IGenericPropertyVertex<UInt64, Int64, String, String, Object,
-                                                                UInt64, Int64, String, String, Object,
-                                                                UInt64, Int64, String, String, Object,
-                                                                UInt64, Int64, String, String, Object> Vertex)
+        public virtual Boolean AddVertex(IReadOnlyGenericPropertyVertex<UInt64, Int64, String, String, Object,
+                                                                        UInt64, Int64, String, String, Object,
+                                                                        UInt64, Int64, String, String, Object,
+                                                                        UInt64, Int64, String, String, Object> Vertex)
         {
 
             if (VertexFilter == null || VertexFilter(Vertex))
@@ -151,10 +151,10 @@ namespace de.ahzf.Vanaheimr.Blueprints.TraversalGraphs
 
         }
 
-        public virtual Boolean AddEdge(IGenericPropertyEdge<UInt64, Int64, String, String, Object,
-                                                            UInt64, Int64, String, String, Object,
-                                                            UInt64, Int64, String, String, Object,
-                                                            UInt64, Int64, String, String, Object> Edge)
+        public virtual Boolean AddEdge(IReadOnlyGenericPropertyEdge<UInt64, Int64, String, String, Object,
+                                                                    UInt64, Int64, String, String, Object,
+                                                                    UInt64, Int64, String, String, Object,
+                                                                    UInt64, Int64, String, String, Object> Edge)
         {
             return true;
         }
@@ -225,10 +225,10 @@ namespace de.ahzf.Vanaheimr.Blueprints.TraversalGraphs
         #endregion
 
 
-        public override Boolean AddEdge(IGenericPropertyEdge<UInt64, Int64, String, String, Object,
-                                                             UInt64, Int64, String, String, Object,
-                                                             UInt64, Int64, String, String, Object,
-                                                             UInt64, Int64, String, String, Object> Edge)
+        public override Boolean AddEdge(IReadOnlyGenericPropertyEdge<UInt64, Int64, String, String, Object,
+                                                                     UInt64, Int64, String, String, Object,
+                                                                     UInt64, Int64, String, String, Object,
+                                                                     UInt64, Int64, String, String, Object> Edge)
         {
 
             if (EdgeFilter == null || EdgeFilter(Edge))
@@ -273,10 +273,10 @@ namespace de.ahzf.Vanaheimr.Blueprints.TraversalGraphs
         {
         }
 
-        public override Boolean AddEdge(IGenericPropertyEdge<UInt64, Int64, String, String, Object,
-                                                             UInt64, Int64, String, String, Object,
-                                                             UInt64, Int64, String, String, Object,
-                                                             UInt64, Int64, String, String, Object> Edge)
+        public override Boolean AddEdge(IReadOnlyGenericPropertyEdge<UInt64, Int64, String, String, Object,
+                                                                     UInt64, Int64, String, String, Object,
+                                                                     UInt64, Int64, String, String, Object,
+                                                                     UInt64, Int64, String, String, Object> Edge)
         {
             
             _MatrixListGraph.ElementAt((int) Edge.OutVertex.Id).Add(Edge.Id);

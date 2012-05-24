@@ -24,7 +24,7 @@ using de.ahzf.Illias.Commons.Collections;
 
 #endregion
 
-namespace de.ahzf.Blueprints.PropertyGraphs
+namespace de.ahzf.Vanaheimr.Blueprints
 {
 
     /// <summary>

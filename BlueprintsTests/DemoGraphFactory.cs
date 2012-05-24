@@ -21,12 +21,11 @@ using System;
 using System.Collections;
 
 using de.ahzf.Illias.Commons.Collections;
-using de.ahzf.Blueprints.PropertyGraphs;
-using de.ahzf.Blueprints.PropertyGraphs.InMemory;
+using de.ahzf.Vanaheimr.Blueprints.InMemory;
 
 #endregion
 
-namespace de.ahzf.Blueprints.UnitTests
+namespace de.ahzf.Vanaheimr.Blueprints.UnitTests
 {
 
     public static class DemoGraphFactory

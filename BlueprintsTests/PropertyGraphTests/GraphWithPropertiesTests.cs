@@ -23,14 +23,13 @@ using System.Collections.Generic;
 
 using de.ahzf.Illias.Commons;
 using de.ahzf.Illias.Commons.Collections;
-using de.ahzf.Blueprints.PropertyGraphs;
-using de.ahzf.Blueprints.PropertyGraphs.InMemory;
 
 using NUnit.Framework;
+using de.ahzf.Vanaheimr.Blueprints.InMemory;
 
 #endregion
 
-namespace de.ahzf.Blueprints.UnitTests.PropertyGraphTests
+namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.PropertyGraphTests
 {
 
     /// <summary>

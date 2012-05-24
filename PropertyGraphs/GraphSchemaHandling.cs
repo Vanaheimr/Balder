@@ -20,12 +20,13 @@
 using System;
 
 using de.ahzf.Illias.Commons;
-using de.ahzf.Blueprints.PropertyGraphs;
 using de.ahzf.Illias.Commons.Collections;
+using de.ahzf.Vanaheimr.Blueprints;
+using de.ahzf.Vanaheimr.Blueprints.InMemory;
 
 #endregion
 
-namespace de.ahzf.Blueprints.Schema
+namespace de.ahzf.Vanaheimr.Blueprints.Schema
 {
 
     /// <summary>

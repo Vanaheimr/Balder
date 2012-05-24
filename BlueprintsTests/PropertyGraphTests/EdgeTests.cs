@@ -28,7 +28,7 @@
 
 //#endregion
 
-//namespace de.ahzf.Blueprints.UnitTests.Basics
+//namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.Basics
 //{
 
 //    [TestFixture]

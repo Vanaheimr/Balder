@@ -24,12 +24,11 @@ using System.Collections.Generic;
 using NUnit.Framework;
 
 using de.ahzf.Illias.Commons.Collections;
-using de.ahzf.Blueprints.PropertyGraphs;
-using de.ahzf.Blueprints.PropertyGraphs.InMemory;
+using de.ahzf.Vanaheimr.Blueprints.InMemory;
 
 #endregion
 
-namespace de.ahzf.Blueprints.UnitTests.PropertyGraphs.InMemory
+namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.PropertyGraphs.InMemory
 {
 
     /// <summary>
