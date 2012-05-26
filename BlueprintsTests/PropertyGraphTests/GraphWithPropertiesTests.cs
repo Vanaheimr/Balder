@@ -22,6 +22,7 @@ using System.Linq;
 using System.Collections.Generic;
 
 using de.ahzf.Illias.Commons;
+using de.ahzf.Illias.Commons.Votes;
 using de.ahzf.Illias.Commons.Collections;
 
 using NUnit.Framework;

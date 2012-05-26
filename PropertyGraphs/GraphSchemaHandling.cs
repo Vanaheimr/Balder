@@ -116,9 +116,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.Schema
 
                 #region Register [Vertex|Edge]Added events: PropertyGraph -> SchemaGraph
 
-                PropertyGraph.OnVertexAdded += (g, v) => SchemaGraph.AddVertexIfNotExists(v.Label.ToString(), "Vertex");
+                PropertyGraph.OnVertexAddition.OnNotification += (g, v) => SchemaGraph.AddVertexIfNotExists(v.Label.ToString(), "Vertex");
 
-                PropertyGraph.OnEdgeAdded   += (g, e) => SchemaGraph.AddEdgeIfNotExists(e.Label.ToString(),
+                PropertyGraph.OnEdgeAddition.OnNotification   += (g, e) => SchemaGraph.AddEdgeIfNotExists(e.Label.ToString(),
                                                                                         SchemaGraph.VertexById(e.OutVertex.Label.ToString()),
                                                                                         "Edge",
                                                                                         SchemaGraph.VertexById(e.InVertex.Label.ToString()),

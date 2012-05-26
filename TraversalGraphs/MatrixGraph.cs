@@ -128,8 +128,8 @@ namespace de.ahzf.Vanaheimr.Blueprints.TraversalGraphs
 
             });
 
-            PropertyGraph.OnVertexAdded += (g, v) => AddVertex(v);
-            PropertyGraph.OnEdgeAdded   += (g, e) => AddEdge(e);
+            PropertyGraph.OnVertexAddition.OnNotification += (g, v) => AddVertex(v);
+            PropertyGraph.OnEdgeAddition.OnNotification   += (g, e) => AddEdge(e);
 
         }
 

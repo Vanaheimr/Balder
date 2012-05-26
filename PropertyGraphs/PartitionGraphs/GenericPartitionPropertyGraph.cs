@@ -26,6 +26,8 @@ using System.Collections.Generic;
 
 using de.ahzf.Illias.Commons;
 using de.ahzf.Illias.Commons.Collections;
+using de.ahzf.Vanaheimr.Styx;
+using de.ahzf.Illias.Commons.Votes;
 
 #endregion
 
@@ -232,67 +234,67 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #region Events
 
-        public event PropertyAddingEventHandler<TKeyVertex, TValueVertex> OnPropertyAdding;
+        private readonly IVotingNotificator<IGenericPropertyGraph <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                   TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
+                                            IGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                   TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
+                                            Boolean> VertexAddition;
 
-        public event PropertyAddedEventHandler<TKeyVertex, TValueVertex> OnPropertyAdded;
+        public IVotingNotification<IGenericPropertyGraph <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
+                                   IGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
+                                   Boolean>
 
-        public event PropertyChangingEventHandler<TKeyVertex, TValueVertex> OnPropertyChanging;
+            OnVertexAddition
 
-        public event PropertyChangedEventHandler<TKeyVertex, TValueVertex> OnPropertyChanged;
-
-        public event PropertyRemovingEventHandler<TKeyVertex, TValueVertex> OnPropertyRemoving;
-
-        public event PropertyRemovedEventHandler<TKeyVertex, TValueVertex> OnPropertyRemoved;
-
-
-        #region OnVertexAdding
-
-        /// <summary>
-        /// Called whenever a vertex will be added to the property graph.
-        /// </summary>
-        public event VertexAddingEventHandler<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnVertexAdding;
-
-        #endregion
-
-        #region OnVertexAdded
-
-        /// <summary>
-        /// Called whenever a vertex was added to the property graph.
-        /// </summary>
-        public event VertexAddedEventHandler<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                             TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                             TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                             TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnVertexAdded;
-
-        #endregion
+        {
+            get
+            {
+                return VertexAddition;
+            }
+        }
 
 
-        #region OnEdgeAdding
 
-        /// <summary>
-        /// Called whenever an edge will be added to the property graph.
-        /// </summary>
-        public event EdgeAddingEventHandler<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                            TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                            TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                            TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnEdgeAdding;
 
-        #endregion
+        private readonly IVotingNotificator<IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                  TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                  TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                  TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
+                                            IGenericPropertyEdge <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                  TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                  TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                  TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
+                                            Boolean> EdgeAddition;
 
-        #region OnEdgeAdded
+        public IVotingNotification<IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                         TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                         TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
+                                   IGenericPropertyEdge <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                         TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                         TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
+                                   Boolean>
 
-        /// <summary>
-        /// Called whenever an edge was added to the property graph.
-        /// </summary>
-        public event EdgeAddedEventHandler<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                           TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                           TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnEdgeAdded;
+            OnEdgeAddition
 
-        #endregion
+        {
+            get
+            {
+                return EdgeAddition;
+            }
+        }
+
 
 
         #region OnGraphShuttingdown
@@ -367,6 +369,29 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
             #endregion
 
+
+            this.VertexAddition = new VotingNotificator<IGenericPropertyGraph <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
+                                                        IGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
+                                                        Boolean>(() => new VetoVote(), true);
+
+            this.EdgeAddition   = new VotingNotificator<IGenericPropertyGraph <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
+                                                        IGenericPropertyEdge  <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
+                                                        Boolean>(() => new VetoVote(), true);
+
+
+
             #region Process WriteGraph
 
             if (WriteGraph != null)
@@ -376,33 +401,19 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
                 #region Subscribe to vertex events
 
-                WriteGraph.OnVertexAdding += (graph, vertex, vote) =>
-                {
-                    if (this.OnVertexAdding != null)
-                        OnVertexAdding(graph, vertex, vote);
-                };
+                WriteGraph.OnVertexAddition.OnVoting += (graph, vertex, vote) => 
+                    vote.VoteFor(this.VertexAddition.SendVoting(graph, vertex));
 
-                WriteGraph.OnVertexAdded += (graph, vertex) =>
-                {
-                    if (this.OnVertexAdded != null)
-                        OnVertexAdded(graph, vertex);
-                };
+                WriteGraph.OnVertexAddition.OnNotification += this.VertexAddition.SendNotification;
 
                 #endregion
 
                 #region Subscribe to edge events
 
-                WriteGraph.OnEdgeAdding += (graph, edge, vote) =>
-                {
-                    if (this.OnEdgeAdding != null)
-                        OnEdgeAdding(graph, edge, vote);
-                };
+                WriteGraph.OnEdgeAddition.OnVoting += (graph, edge, vote) =>
+                    vote.VoteFor(this.EdgeAddition.SendVoting(graph, edge));
 
-                WriteGraph.OnEdgeAdded += (graph, edge) =>
-                {
-                    if (this.OnEdgeAdded != null)
-                        OnEdgeAdded(graph, edge);
-                };
+                WriteGraph.OnEdgeAddition.OnNotification += this.EdgeAddition.SendNotification;
 
                 #endregion
 
@@ -453,33 +464,19 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
                     #region Subscribe to vertex events
 
-                    ReadGraph.OnVertexAdding += (graph, vertex, vote) =>
-                    {
-                        if (this.OnVertexAdding != null)
-                            OnVertexAdding(graph, vertex, vote);
-                    };
+                    ReadGraph.OnVertexAddition.OnVoting += (graph, vertex, vote) =>
+                        vote.VoteFor(this.VertexAddition.SendVoting(graph, vertex));
 
-                    ReadGraph.OnVertexAdded += (graph, vertex) =>
-                    {
-                        if (this.OnVertexAdded != null)
-                            OnVertexAdded(graph, vertex);
-                    };
+                    ReadGraph.OnVertexAddition.OnNotification += this.VertexAddition.SendNotification;
 
                     #endregion
 
                     #region Subscribe to edge events
 
-                    ReadGraph.OnEdgeAdding += (graph, edge, vote) =>
-                    {
-                        if (this.OnEdgeAdding != null)
-                            OnEdgeAdding(graph, edge, vote);
-                    };
+                    ReadGraph.OnEdgeAddition.OnVoting += (graph, edge, vote) =>
+                        vote.VoteFor(this.EdgeAddition.SendVoting(graph, edge));
 
-                    ReadGraph.OnEdgeAdded += (graph, edge) =>
-                    {
-                        if (this.OnEdgeAdded != null)
-                            OnEdgeAdded(graph, edge);
-                    };
+                    ReadGraph.OnEdgeAddition.OnNotification += this.EdgeAddition.SendNotification;
 
                     #endregion
 
@@ -2755,6 +2752,26 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         public event HyperEdgeRemovingEventHandler<TIdVertex, TRevIdVertex, TVertexLabel, TKeyVertex, TValueVertex, TIdEdge, TRevIdEdge, TEdgeLabel, TKeyEdge, TValueEdge, TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnHyperEdgeRemoving;
 
         public event HyperEdgeRemovedEventHandler<TIdVertex, TRevIdVertex, TVertexLabel, TKeyVertex, TValueVertex, TIdEdge, TRevIdEdge, TEdgeLabel, TKeyEdge, TValueEdge, TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnHyperEdgeRemoved;
+
+
+
+
+
+
+
+
+        public event PropertyAddingEventHandler<TKeyVertex, TValueVertex> OnPropertyAdding;
+
+        public event PropertyAddedEventHandler<TKeyVertex, TValueVertex> OnPropertyAdded;
+
+        public event PropertyChangingEventHandler<TKeyVertex, TValueVertex> OnPropertyChanging;
+
+        public event PropertyChangedEventHandler<TKeyVertex, TValueVertex> OnPropertyChanged;
+
+        public event PropertyRemovingEventHandler<TKeyVertex, TValueVertex> OnPropertyRemoving;
+
+        public event PropertyRemovedEventHandler<TKeyVertex, TValueVertex> OnPropertyRemoved;
+
 
     }
 

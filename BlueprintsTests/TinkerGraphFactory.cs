@@ -21,6 +21,7 @@ using System;
 using System.Linq;
 using System.Collections;
 
+using de.ahzf.Illias.Commons.Votes;
 using de.ahzf.Illias.Commons.Collections;
 using de.ahzf.Vanaheimr.Blueprints.InMemory;
 
@@ -37,11 +38,11 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests
 
             var _TinkerGraph = new PropertyGraph() as IPropertyGraph;
 
-            _TinkerGraph.OnVertexAdding += (graph, vertex, vote) => {
+            _TinkerGraph.OnVertexAddition.OnVoting += (graph, vertex, vote) => {
                 Console.WriteLine("I like all vertices!");
             };
 
-            _TinkerGraph.OnVertexAdding += (graph, vertex, vote) =>
+            _TinkerGraph.OnVertexAddition.OnVoting += (graph, vertex, vote) =>
             {
                 if (vertex.Id == 5) {
                     Console.WriteLine("I'm a Jedi!");

@@ -20,6 +20,7 @@
 using System;
 using System.Collections;
 
+using de.ahzf.Illias.Commons.Votes;
 using de.ahzf.Illias.Commons.Collections;
 using de.ahzf.Vanaheimr.Blueprints.InMemory;
 
@@ -31,13 +32,16 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests
     public static class DemoGraphFactory
     {
 
-        public static IPropertyGraph CreateDemoGraph()
+        public static IGenericPropertyGraph<UInt64, Int64, String, String, Object,
+                                            UInt64, Int64, String, String, Object,
+                                            UInt64, Int64, String, String, Object,
+                                            UInt64, Int64, String, String, Object> CreateDemoGraph()
         {
 
-            var _Graph = new PropertyGraph() as IPropertyGraph;
-            _Graph.OnVertexAdding += (graph, vertex, vote) => { Console.WriteLine("OnVertexAdding1() called!"); };
-            _Graph.OnVertexAdding += (graph, vertex, vote) => { Console.WriteLine("OnVertexAdding2() called!"); if (vertex.Id < 3) vote.Deny(); };
-            _Graph.OnVertexAdding += (graph, vertex, vote) => { Console.WriteLine("OnVertexAdding3() called!"); };
+            var _Graph = GraphFactory.CreateGenericPropertyGraph(0);
+            _Graph.OnVertexAddition.OnVoting += (graph, vertex, vote) => { Console.WriteLine("OnVertexAdding1() called!"); };
+            _Graph.OnVertexAddition.OnVoting += (graph, vertex, vote) => { Console.WriteLine("OnVertexAdding2() called!"); if (vertex.Id < 3) vote.Deny(); };
+            _Graph.OnVertexAddition.OnVoting += (graph, vertex, vote) => { Console.WriteLine("OnVertexAdding3() called!"); };
 
 
             var _Alice1 = _Graph.AddVertex();
