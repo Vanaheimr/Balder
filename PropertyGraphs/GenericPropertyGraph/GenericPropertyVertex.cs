@@ -3328,17 +3328,6 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                 }
             }
 
-            //if (SendEdgeAddingVote(Edge))
-            //{
-            //    if (_EdgesWhenGraph.TryAddValue(Edge.Id, Edge, Edge.Label))
-            //    {
-            //        Edge.OutVertex.AddOutEdge(Edge);
-            //        Edge.InVertex.AddInEdge(Edge);
-            //        SendEdgeAddedNotification(Edge);
-            //        return Edge;
-            //    }
-            //}
-
             return null;
 
         }
