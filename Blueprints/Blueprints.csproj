@@ -68,6 +68,7 @@
     <Compile Include="GraphElementIds\HyperEdgeId.cs" />
     <Compile Include="GraphElementIds\MultiEdgeId.cs" />
     <Compile Include="GraphElementIds\VertexId.cs" />
+    <Compile Include="Interfaces\GenericPropertyGraph\IVertexMethods.cs" />
     <Compile Include="Interfaces\ReadOnlyGenericPropertyGraph\IReadOnlyGenericPropertyHyperEdge.cs" />
     <Compile Include="Interfaces\ReadOnlyGenericPropertyGraph\IReadOnlyGenericPropertyMultiEdge.cs" />
     <Compile Include="Interfaces\ReadOnlyGenericPropertyGraph\IReadOnlyGenericPropertyEdge.cs" />
@@ -89,6 +90,7 @@
     <Compile Include="Interfaces\GenericPropertyGraph\IGenericPropertyGraph.cs" />
     <Compile Include="Interfaces\PropertyGraph\IPropertyEdge.cs" />
     <Compile Include="Interfaces\PropertyGraph\IPropertyVertex.cs" />
+    <Compile Include="Interfaces\ReadOnlyGenericPropertyGraph\IReadOnlyVertexMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DynamicGraphElement.cs" />
   </ItemGroup>

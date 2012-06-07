@@ -2827,7 +2827,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
             #endregion
 
-            return (_VerticesWhenGraph.TryGetByKey(VertexId, out Vertex));
+            return _VerticesWhenGraph.TryGetByKey(VertexId, out Vertex);
 
         }
 

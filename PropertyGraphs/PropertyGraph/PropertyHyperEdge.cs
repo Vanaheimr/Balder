@@ -122,10 +122,10 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
                                  IDictionaryInitializer<String, Object> DatastructureInitializer,
 
-                                 Func<IGroupedCollection<UInt64, IGenericPropertyVertex<UInt64, Int64, String, String, Object,
-                                                                                        UInt64, Int64, String, String, Object,
-                                                                                        UInt64, Int64, String, String, Object,
-                                                                                        UInt64, Int64, String, String, Object>, String>> VerticesCollectionInitializer,
+                                 VertexCollectionInitializer<UInt64, Int64, String, String, Object,
+                                                             UInt64, Int64, String, String, Object,
+                                                             UInt64, Int64, String, String, Object,
+                                                             UInt64, Int64, String, String, Object> VerticesCollectionInitializer,
 
                                  HyperEdgeInitializer<UInt64, Int64, String, String, Object,
                                                       UInt64, Int64, String, String, Object,
@@ -404,6 +404,37 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         }
 
         #endregion
+
+
+        public new IReadOnlyGenericPropertyGraph<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> Graph
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public IGenericPropertyVertex<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> VertexById(ulong VertexId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool TryGetVertexById(ulong VertexId, out IGenericPropertyVertex<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> Vertex)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<IGenericPropertyVertex<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>> VerticesById(params ulong[] VertexIds)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<IReadOnlyGenericPropertyVertex<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>> VerticesByLabel(params string[] VertexLabels)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<IReadOnlyGenericPropertyVertex<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>> Vertices(VertexFilter<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> VertexFilter = null)
+        {
+            throw new NotImplementedException();
+        }
 
     }
 
