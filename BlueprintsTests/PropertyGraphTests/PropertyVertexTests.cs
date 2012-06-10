@@ -254,7 +254,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.PropertyGraphs.InMemory
             Assert.AreEqual(0, _Graph.NumberOfVertices());
 
             var _Vertex1 = _Graph.AddVertex("5", "default");
-            _Vertex1.SetProperty(_Graph.IdKey, 23);
+            _Vertex1.AsMutable().SetProperty(_Graph.IdKey, 23);
 
         }
 
@@ -275,7 +275,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.PropertyGraphs.InMemory
             Assert.AreEqual(0, _Graph.NumberOfVertices());
 
             var _Vertex1 = _Graph.AddVertex("5", "default");
-            _Vertex1.SetProperty(_Graph.RevIdKey, 23);
+            _Vertex1.AsMutable().SetProperty(_Graph.RevIdKey, 23);
 
         }
 
@@ -288,7 +288,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.PropertyGraphs.InMemory
         /// A test for adding two vertices having the same identification.
         /// </summary>
         [Test]
-        [ExpectedException(typeof(DuplicateVertexIdException))]
+        [ExpectedException(typeof(DuplicateVertexIdException<String>))]
         public void AddTwoVerticesHavingTheSameIdentification()
         {
 

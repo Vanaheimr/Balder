@@ -130,32 +130,32 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                              GraphDBOntology.Description().Suffix,
                              () => new Dictionary<String, Object>(),
 
-                             () => new GroupedCollection<UInt64, IGenericPropertyVertex   <UInt64, Int64, String, String, Object,
-                                                                                           UInt64, Int64, String, String, Object,
-                                                                                           UInt64, Int64, String, String, Object,
-                                                                                           UInt64, Int64, String, String, Object>, String>(),
+                             () => new GroupedCollection<UInt64, IReadOnlyGenericPropertyVertex   <UInt64, Int64, String, String, Object,
+                                                                                                   UInt64, Int64, String, String, Object,
+                                                                                                   UInt64, Int64, String, String, Object,
+                                                                                                   UInt64, Int64, String, String, Object>, String>(),
 
-                             () => new GroupedCollection<UInt64, IGenericPropertyEdge     <UInt64, Int64, String, String, Object,
-                                                                                           UInt64, Int64, String, String, Object,
-                                                                                           UInt64, Int64, String, String, Object,
-                                                                                           UInt64, Int64, String, String, Object>, String>(),
+                             () => new GroupedCollection<UInt64, IReadOnlyGenericPropertyEdge     <UInt64, Int64, String, String, Object,
+                                                                                                   UInt64, Int64, String, String, Object,
+                                                                                                   UInt64, Int64, String, String, Object,
+                                                                                                   UInt64, Int64, String, String, Object>, String>(),
 
-                             () => new GroupedCollection<UInt64, IGenericPropertyMultiEdge<UInt64, Int64, String, String, Object,
-                                                                                           UInt64, Int64, String, String, Object,
-                                                                                           UInt64, Int64, String, String, Object,
-                                                                                           UInt64, Int64, String, String, Object>, String>(),
+                             () => new GroupedCollection<UInt64, IReadOnlyGenericPropertyMultiEdge<UInt64, Int64, String, String, Object,
+                                                                                                   UInt64, Int64, String, String, Object,
+                                                                                                   UInt64, Int64, String, String, Object,
+                                                                                                   UInt64, Int64, String, String, Object>, String>(),
 
-                             () => new GroupedCollection<UInt64, IGenericPropertyHyperEdge<UInt64, Int64, String, String, Object,
-                                                                                           UInt64, Int64, String, String, Object,
-                                                                                           UInt64, Int64, String, String, Object,
-                                                                                           UInt64, Int64, String, String, Object>, String>(),
+                             () => new GroupedCollection<UInt64, IReadOnlyGenericPropertyHyperEdge<UInt64, Int64, String, String, Object,
+                                                                                                   UInt64, Int64, String, String, Object,
+                                                                                                   UInt64, Int64, String, String, Object,
+                                                                                                   UInt64, Int64, String, String, Object>, String>(),
                              VertexInitializer),
 
                     // The vertices collection
-                    () => new GroupedCollection< UInt64, IGenericPropertyVertex<UInt64, Int64, String, String, Object,
-                                                                                UInt64, Int64, String, String, Object,
-                                                                                UInt64, Int64, String, String, Object,
-                                                                                UInt64, Int64, String, String, Object>, String>(),
+                    () => new GroupedCollection< UInt64, IReadOnlyGenericPropertyVertex<UInt64, Int64, String, String, Object,
+                                                                                        UInt64, Int64, String, String, Object,
+                                                                                        UInt64, Int64, String, String, Object,
+                                                                                        UInt64, Int64, String, String, Object>, String>(),
 
                                 #endregion
 
@@ -179,10 +179,10 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                              EdgeInitializer),
 
                     // The edges collection
-                    () => new GroupedCollection<UInt64, IGenericPropertyEdge<UInt64, Int64, String, String, Object,
-                                                                             UInt64, Int64, String, String, Object,
-                                                                             UInt64, Int64, String, String, Object,
-                                                                             UInt64, Int64, String, String, Object>, String>(),
+                    () => new GroupedCollection<UInt64, IReadOnlyGenericPropertyEdge<UInt64, Int64, String, String, Object,
+                                                                                     UInt64, Int64, String, String, Object,
+                                                                                     UInt64, Int64, String, String, Object,
+                                                                                     UInt64, Int64, String, String, Object>, String>(),
 
                     #endregion
 
@@ -204,18 +204,18 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                              GraphDBOntology.Description().Suffix,
 
                              () => new Dictionary<String, Object>(),
-                             () => new GroupedCollection<String, UInt64, IGenericPropertyEdge<UInt64, Int64, String, String, Object,
-                                                                                              UInt64, Int64, String, String, Object,
-                                                                                              UInt64, Int64, String, String, Object,
-                                                                                              UInt64, Int64, String, String, Object>>(),
+                             () => new GroupedCollection<String, UInt64, IReadOnlyGenericPropertyEdge<UInt64, Int64, String, String, Object,
+                                                                                                      UInt64, Int64, String, String, Object,
+                                                                                                      UInt64, Int64, String, String, Object,
+                                                                                                      UInt64, Int64, String, String, Object>>(),
 
                              MultiEdgeInitializer),
 
                     // The multiedges collection
-                    () => new GroupedCollection< UInt64, IGenericPropertyMultiEdge<UInt64, Int64, String, String, Object,
-                                                                                   UInt64, Int64, String, String, Object,
-                                                                                   UInt64, Int64, String, String, Object,
-                                                                                   UInt64, Int64, String, String, Object>, String>(),
+                    () => new GroupedCollection< UInt64, IReadOnlyGenericPropertyMultiEdge<UInt64, Int64, String, String, Object,
+                                                                                           UInt64, Int64, String, String, Object,
+                                                                                           UInt64, Int64, String, String, Object,
+                                                                                           UInt64, Int64, String, String, Object>, String>(),
 
                     #endregion
 
@@ -237,18 +237,18 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                              GraphDBOntology.Description().Suffix,
 
                              () => new Dictionary<String, Object>(),
-                             () => new GroupedCollection<UInt64, IGenericPropertyVertex<UInt64, Int64, String, String, Object,
-                                                                                        UInt64, Int64, String, String, Object,
-                                                                                        UInt64, Int64, String, String, Object,
-                                                                                        UInt64, Int64, String, String, Object>, String>(),
+                             () => new GroupedCollection<UInt64, IReadOnlyGenericPropertyVertex<UInt64, Int64, String, String, Object,
+                                                                                                UInt64, Int64, String, String, Object,
+                                                                                                UInt64, Int64, String, String, Object,
+                                                                                                UInt64, Int64, String, String, Object>, String>(),
 
                              HyperEdgeInitializer),
 
                     // The hyperedges collection
-                    () => new GroupedCollection<UInt64, IGenericPropertyHyperEdge<UInt64, Int64, String, String, Object,
-                                                                                  UInt64, Int64, String, String, Object,
-                                                                                  UInt64, Int64, String, String, Object,
-                                                                                  UInt64, Int64, String, String, Object>, String>()
+                    () => new GroupedCollection<UInt64, IReadOnlyGenericPropertyHyperEdge<UInt64, Int64, String, String, Object,
+                                                                                          UInt64, Int64, String, String, Object,
+                                                                                          UInt64, Int64, String, String, Object,
+                                                                                          UInt64, Int64, String, String, Object>, String>()
 
                     #endregion
 

@@ -54,13 +54,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions\GenericPropertyGraph\IGenericPropertyHyperEdgeExtensions.cs" />
-    <Compile Include="Extensions\GenericPropertyGraph\IGenericPropertyMultiEdgeExtensions.cs" />
-    <Compile Include="Extensions\GenericPropertyGraph\IGenericPropertyEdgeExtensions.cs" />
-    <Compile Include="Exceptions\PropertiesExceptions.cs" />
+    <Compile Include="Exceptions\MultiEdgesExceptions.cs" />
+    <Compile Include="Exceptions\HyperEdgesExceptions.cs" />
+    <Compile Include="Exceptions\EdgesExceptions.cs" />
     <Compile Include="Exceptions\VerticesExceptions.cs" />
     <Compile Include="Exceptions\PropertyGraphExceptions.cs" />
-    <Compile Include="Extensions\GenericPropertyGraph\IGenericPropertyVertexExtensions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="GraphDBOntology.cs" />
     <Compile Include="GraphElementIds\AGraphElementId.cs" />
@@ -68,7 +66,13 @@
     <Compile Include="GraphElementIds\HyperEdgeId.cs" />
     <Compile Include="GraphElementIds\MultiEdgeId.cs" />
     <Compile Include="GraphElementIds\VertexId.cs" />
+    <Compile Include="Interfaces\GenericPropertyGraph\IMultiEdgeMethods.cs" />
+    <Compile Include="Interfaces\GenericPropertyGraph\IHyperEdgeMethods.cs" />
+    <Compile Include="Interfaces\GenericPropertyGraph\IEdgeMethods.cs" />
     <Compile Include="Interfaces\GenericPropertyGraph\IVertexMethods.cs" />
+    <Compile Include="Interfaces\ReadOnlyGenericPropertyGraph\IReadOnlyHyperEdgeMethods.cs" />
+    <Compile Include="Interfaces\ReadOnlyGenericPropertyGraph\IReadOnlyMultiEdgeMethods.cs" />
+    <Compile Include="Interfaces\ReadOnlyGenericPropertyGraph\IReadOnlyEdgeMethods.cs" />
     <Compile Include="Interfaces\ReadOnlyGenericPropertyGraph\IReadOnlyGenericPropertyHyperEdge.cs" />
     <Compile Include="Interfaces\ReadOnlyGenericPropertyGraph\IReadOnlyGenericPropertyMultiEdge.cs" />
     <Compile Include="Interfaces\ReadOnlyGenericPropertyGraph\IReadOnlyGenericPropertyEdge.cs" />
@@ -83,8 +87,6 @@
     <Compile Include="Interfaces\PropertyGraph\IPropertyGraph.cs" />
     <Compile Include="Interfaces\PropertyGraph\IPropertyHyperEdge.cs" />
     <Compile Include="Datastructures\SemanticProperty.cs" />
-    <Compile Include="Extensions\GenericPropertyGraph\IGenericPropertyGraphExtensions.cs" />
-    <Compile Include="Extensions\IGraphElementExtensions.cs" />
     <Compile Include="Interfaces\GenericPropertyGraph\IDynamicGraphElement.cs" />
     <Compile Include="Interfaces\GenericPropertyGraph\IGraphElement.cs" />
     <Compile Include="Interfaces\GenericPropertyGraph\IGenericPropertyGraph.cs" />

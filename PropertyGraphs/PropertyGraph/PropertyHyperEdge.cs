@@ -110,10 +110,10 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         /// <param name="VerticesCollectionInitializer">A delegate to initialize the datastructure for storing the vertices.</param>
         /// <param name="MultiEdgeInitializer">A delegate to initialize the newly created hyperedge.</param>
         public PropertyHyperEdge(IPropertyGraph               Graph,
-                                 IEnumerable<IGenericPropertyVertex<UInt64, Int64, String, String, Object,
-                                                                    UInt64, Int64, String, String, Object,
-                                                                    UInt64, Int64, String, String, Object,
-                                                                    UInt64, Int64, String, String, Object>> Vertices,
+                                 IEnumerable<IReadOnlyGenericPropertyVertex<UInt64, Int64, String, String, Object,
+                                                                            UInt64, Int64, String, String, Object,
+                                                                            UInt64, Int64, String, String, Object,
+                                                                            UInt64, Int64, String, String, Object>> Vertices,
                                  UInt64                       HyperEdgeId,
                                  String                       Label,
                                  String                       IdKey,
@@ -436,6 +436,86 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
             throw new NotImplementedException();
         }
 
+
+        public new System.Collections.IEnumerator GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
+
+        IReadOnlyGenericPropertyVertex<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> IReadOnlyVertexMethods<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>.VertexById(ulong VertexId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool TryGetVertexById(ulong VertexId, out IReadOnlyGenericPropertyVertex<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> Vertex)
+        {
+            throw new NotImplementedException();
+        }
+
+        IEnumerable<IReadOnlyGenericPropertyVertex<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>> IReadOnlyVertexMethods<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>.VerticesById(params ulong[] VertexIds)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ulong NumberOfVertices(VertexFilter<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> VertexFilter = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IGenericPropertyVertex<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> AddVertex(IGenericPropertyVertex<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> Vertex)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IGenericPropertyVertex<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> AddVertexIfNotExists(IGenericPropertyVertex<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> Vertex, VertexFilter<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> CheckExistanceDelegate = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveVerticesById(params ulong[] VertexIds)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveVertices(params IGenericPropertyVertex<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>[] Vertices)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveVertices(VertexFilter<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> VertexFilter = null)
+        {
+            throw new NotImplementedException();
+        }
+
+
+
+
+
+
+        public IEnumerable<IReadOnlyGenericPropertyHyperEdge<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>> HyperEdges(params string[] HyperEdgeLabels)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<IReadOnlyGenericPropertyHyperEdge<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>> HyperEdges(HyperEdgeFilter<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> HyperEdgeFilter)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IReadOnlyGenericPropertyVertex<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> AddVertex(IReadOnlyGenericPropertyVertex<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> Vertex)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IReadOnlyGenericPropertyVertex<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> AddVertexIfNotExists(IReadOnlyGenericPropertyVertex<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> Vertex, CheckVertexExistance<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> CheckExistanceDelegate = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveVertices(params IReadOnlyGenericPropertyVertex<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>[] Vertices)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }

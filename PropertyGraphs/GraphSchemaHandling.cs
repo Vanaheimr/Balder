@@ -119,9 +119,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.Schema
                 PropertyGraph.OnVertexAddition.OnNotification += (g, v) => SchemaGraph.AddVertexIfNotExists(v.Label.ToString(), "Vertex");
 
                 PropertyGraph.OnEdgeAddition.OnNotification   += (g, e) => SchemaGraph.AddEdgeIfNotExists(e.Label.ToString(),
-                                                                                        SchemaGraph.VertexById(e.OutVertex.Label.ToString()),
+                                                                                        SchemaGraph.VertexById(e.OutVertex.Label.ToString()).AsMutable(),
                                                                                         "Edge",
-                                                                                        SchemaGraph.VertexById(e.InVertex.Label.ToString()),
+                                                                                        SchemaGraph.VertexById(e.InVertex.Label.ToString()).AsMutable(),
                                                                                         Edge => Edge.SetAdd(GraphSchemaHandling.AlternativeUsage, e.OutVertex.Label.ToString() + " -> " + e.InVertex.Label.ToString()),
                                                                                         Edge => Edge.SetAdd(GraphSchemaHandling.AlternativeUsage, e.OutVertex.Label.ToString() + " -> " + e.InVertex.Label.ToString()));
 
@@ -134,9 +134,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.Schema
             PropertyGraph.Vertices().ForEach(v => SchemaGraph.AddVertexIfNotExists(v.Label.ToString(), "Vertex"));
 
             PropertyGraph.Edges().   ForEach(e => SchemaGraph.AddEdgeIfNotExists(e.Label.ToString(),
-                                                                                 SchemaGraph.VertexById(e.OutVertex.Label.ToString()),
+                                                                                 SchemaGraph.VertexById(e.OutVertex.Label.ToString()).AsMutable(),
                                                                                  "Edge", 
-                                                                                 SchemaGraph.VertexById(e.InVertex. Label.ToString())));
+                                                                                 SchemaGraph.VertexById(e.InVertex. Label.ToString()).AsMutable()));
 
             #endregion
 

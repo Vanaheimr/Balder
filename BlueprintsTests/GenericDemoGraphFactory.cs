@@ -53,17 +53,17 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests
             _graph.OnEdgeAddition.OnVoting   += (graph, edge,      vote) => { Console.WriteLine("Edge " + edge.Id + " is announced to be added to graph " + graph.Id + "!"); };
             _graph.OnEdgeAddition.OnVoting   += (graph, edge,      vote) => { if (edge.Id < 2) { Console.WriteLine("Addition of edge " + edge.Id + " denied!"); vote.Deny(); } };
 
-            _graph.OnMultiEdgeAdding += (graph, multiedge, vote) => { Console.WriteLine("MultiEdge " + multiedge.Id + " is announced to be added to graph " + graph.Id + "!"); };
-            _graph.OnMultiEdgeAdding += (graph, multiedge, vote) => { if (multiedge.Id < 2) { Console.WriteLine("Addition of multiedge " + multiedge.Id + " denied!"); vote.Deny(); } };
+            _graph.OnMultiEdgeAddition.OnVoting += (graph, multiedge, vote) => { Console.WriteLine("MultiEdge " + multiedge.Id + " is announced to be added to graph " + graph.Id + "!"); };
+            _graph.OnMultiEdgeAddition.OnVoting += (graph, multiedge, vote) => { if (multiedge.Id < 2) { Console.WriteLine("Addition of multiedge " + multiedge.Id + " denied!"); vote.Deny(); } };
 
-            _graph.OnHyperEdgeAdding += (graph, hyperedge, vote) => { Console.WriteLine("HyperEdge " + hyperedge.Id + " is announced to be added to graph " + graph.Id + "!"); };
-            _graph.OnHyperEdgeAdding += (graph, hyperedge, vote) => { if (hyperedge.Id < 2) { Console.WriteLine("Addition of hyperedge " + hyperedge.Id + " denied!"); vote.Deny(); } };
+            _graph.OnHyperEdgeAddition.OnVoting += (graph, hyperedge, vote) => { Console.WriteLine("HyperEdge " + hyperedge.Id + " is announced to be added to graph " + graph.Id + "!"); };
+            _graph.OnHyperEdgeAddition.OnVoting += (graph, hyperedge, vote) => { if (hyperedge.Id < 2) { Console.WriteLine("Addition of hyperedge " + hyperedge.Id + " denied!"); vote.Deny(); } };
 
             // Call the following delegate for every vertex/edge/multiedge/hyperedge added
             _graph.OnVertexAddition.OnNotification += (graph, vertex) => { Console.WriteLine("Vertex " + vertex.Id + " was added to graph " + graph.Id + "!"); };
             _graph.OnEdgeAddition.OnNotification   += (graph, edge)   => { Console.WriteLine("Edge " + edge.Id + " was added to graph " + graph.Id + "!"); };
-            _graph.OnMultiEdgeAdded += (graph, multiedge)    => { Console.WriteLine("MultiEdge " + multiedge.Id + " was added to graph " + graph.Id + "!"); };
-            _graph.OnHyperEdgeAdded += (graph, hyperedge)    => { Console.WriteLine("HyperEdge " + hyperedge.Id + " was added to graph " + graph.Id + "!"); };
+            _graph.OnMultiEdgeAddition.OnNotification += (graph, multiedge)    => { Console.WriteLine("MultiEdge " + multiedge.Id + " was added to graph " + graph.Id + "!"); };
+            _graph.OnHyperEdgeAddition.OnNotification += (graph, hyperedge)    => { Console.WriteLine("HyperEdge " + hyperedge.Id + " was added to graph " + graph.Id + "!"); };
 
 
             // The following two vertices will not be added because of the veto vote above!
@@ -90,6 +90,10 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests
             _Alice.UseProperty("name",
                                OnSuccess: (key, value) => { Console.WriteLine(key + " => " + value); },
                                OnError:   (key)        => { Console.WriteLine("Key " + key + " not found!"); });
+
+            _Alice.UseProperty("name",
+                               OnSuccess: (v, key, value) => { Console.WriteLine(key + " => " + value); },
+                               OnError:   (v, key)        => { Console.WriteLine("Key " + key + " not found!"); });
 
             //var _AliceSubgraph = _Alice.AsSubgraph;
             //_AliceSubgraph.AddVertex(1, v => v.SetProperty("name", "SubAlice1"));

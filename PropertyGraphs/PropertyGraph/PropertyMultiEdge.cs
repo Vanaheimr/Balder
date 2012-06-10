@@ -123,10 +123,10 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
                                  IDictionaryInitializer<String, Object> DatastructureInitializer,
 
-                                 Func<IGroupedCollection<String, UInt64, IGenericPropertyEdge<UInt64, Int64, String, String, Object,
-                                                                                              UInt64, Int64, String, String, Object,
-                                                                                              UInt64, Int64, String, String, Object,
-                                                                                              UInt64, Int64, String, String, Object>>> EdgesCollectionInitializer,
+                                 Func<IGroupedCollection<String, UInt64, IReadOnlyGenericPropertyEdge<UInt64, Int64, String, String, Object,
+                                                                                                      UInt64, Int64, String, String, Object,
+                                                                                                      UInt64, Int64, String, String, Object,
+                                                                                                      UInt64, Int64, String, String, Object>>> EdgesCollectionInitializer,
                                 
                                  MultiEdgeInitializer<UInt64, Int64, String, String, Object,
                                                       UInt64, Int64, String, String, Object,
@@ -487,6 +487,23 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         }
 
         #endregion
+
+
+        public new IReadOnlyGenericPropertyGraph<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> Graph
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public new System.Collections.Generic.IEnumerable<IReadOnlyGenericPropertyEdge<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>> EdgesByLabel(params string[] EdgeLabels)
+        {
+            throw new NotImplementedException();
+        }
+
+        public new System.Collections.Generic.IEnumerable<IReadOnlyGenericPropertyEdge<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object>> Edges(EdgeFilter<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> EdgeFilter = null)
+        {
+            throw new NotImplementedException();
+        }
+
 
     }
 

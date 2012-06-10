@@ -24,20 +24,20 @@ using System;
 namespace de.ahzf.Vanaheimr.Blueprints
 {
 
-    #region VerticesException
+    #region HyperEdgesException
 
     /// <summary>
-    /// An exception during vertex processing occurred!
+    /// An exception during hyperedge processing occurred!
     /// </summary>
-    public class VerticesException : PropertyGraphException
+    public class HyperEdgesException : PropertyGraphException
     {
 
         /// <summary>
-        /// An exception during vertex processing occurred!
+        /// An exception during hyperedge processing occurred!
         /// </summary>
         /// <param name="Message">The message that describes the error.</param>
         /// <param name="InnerException">The exception that is the cause of the current exception.</param>
-        public VerticesException(String Message = null, Exception InnerException = null)
+        public HyperEdgesException(String Message = null, Exception InnerException = null)
             : base(Message, InnerException)
         { }
 
@@ -46,22 +46,22 @@ namespace de.ahzf.Vanaheimr.Blueprints
     #endregion
 
 
-    #region DuplicateVertexIdException
+    #region DuplicateHyperEdgeIdException
 
     /// <summary>
-    /// A duplicate VertexId was detected.
+    /// A duplicate HyperEdgeId was detected.
     /// </summary>
-    /// <typeparam name="TId">The type of the vertex ids.</typeparam>
-    public class DuplicateVertexIdException<TId> : VerticesException
+    /// <typeparam name="TId">The type of the hyperedge ids.</typeparam>
+    public class DuplicateHyperEdgeIdException<TId> : HyperEdgesException
     {
 
         /// <summary>
-        /// A duplicate vertex identification was detected.
+        /// A duplicate hyperedge identification was detected.
         /// </summary>
-        /// <param name="VertexId">The unique id of the vertex.</param>
+        /// <param name="HyperEdgeId">The unique id of the hyperedge.</param>
         /// <param name="InnerException">The exception that is the cause of the current exception.</param>
-        public DuplicateVertexIdException(TId VertexId, Exception InnerException = null)
-            : base("Another vertex with identification " + VertexId + " already exists!", InnerException)
+        public DuplicateHyperEdgeIdException(TId HyperEdgeId, Exception InnerException = null)
+            : base("Another hyperedge with identification " + HyperEdgeId + " already exists!", InnerException)
         { }
 
     }

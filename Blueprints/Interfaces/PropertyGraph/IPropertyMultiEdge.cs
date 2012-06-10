@@ -36,9 +36,9 @@ namespace de.ahzf.Vanaheimr.Blueprints
     ///                                      \--> inVertex2.
     /// </summary>
     public interface IPropertyMultiEdge : IGenericPropertyMultiEdge<UInt64, Int64, String, String, Object,
-                                                             UInt64, Int64, String, String, Object,
-                                                             UInt64, Int64, String, String, Object,
-                                                             UInt64, Int64, String, String, Object>
+                                                                    UInt64, Int64, String, String, Object,
+                                                                    UInt64, Int64, String, String, Object,
+                                                                    UInt64, Int64, String, String, Object>
     {
 
         #region Graph

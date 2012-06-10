@@ -51,7 +51,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests
             var _NumberOfEdges    = _SourceGraph.NumberOfEdges();
 
             var _DestinationGraph = new PropertyGraph() as IPropertyGraph;
-            _SourceGraph.CopyGraph(_DestinationGraph);
+            //_SourceGraph.CopyGraph(_DestinationGraph);
 
             Assert.AreEqual(_NumberOfVertices, _DestinationGraph.NumberOfVertices());
             Assert.AreEqual(_NumberOfEdges,    _DestinationGraph.NumberOfEdges());

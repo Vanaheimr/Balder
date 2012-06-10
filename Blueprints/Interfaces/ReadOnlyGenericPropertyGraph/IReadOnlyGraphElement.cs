@@ -27,6 +27,44 @@ using de.ahzf.Illias.Commons.Collections;
 namespace de.ahzf.Vanaheimr.Blueprints
 {
 
+    #region IReadOnlyGraphElementExtensions
+
+    /// <summary>
+    /// Extensions to the IReadOnlyGraphElement interface
+    /// </summary>
+    public static class IReadOnlyGraphElementExtensions
+    {
+
+        #region AsDynamic(this GraphElement)
+
+        /// <summary>
+        /// Converts the given IGraphElement into a dynamic object.
+        /// </summary>
+        /// <typeparam name="TId">The type of the identifiers.</typeparam>
+        /// <typeparam name="TRevId">The type of the revision identifiers.</typeparam>
+        /// <typeparam name="TKey">The type of the property keys.</typeparam>
+        /// <typeparam name="TValue">The type of the property values.</typeparam>
+        /// <param name="GraphElement">An object implementing IReadOnlyGraphElement&lt;...&gt;.</param>
+        /// <returns>A dynamic graph element.</returns>
+        public static dynamic AsDynamic<TId, TRevId, TLabel, TKey, TValue>(this IReadOnlyGraphElement<TId, TRevId, TLabel, TKey, TValue> GraphElement)
+
+            where TId     : IEquatable<TId>,    IComparable<TId>,    IComparable, TValue
+            where TRevId  : IEquatable<TRevId>, IComparable<TRevId>, IComparable, TValue
+            where TLabel  : IEquatable<TLabel>, IComparable<TLabel>, IComparable
+            where TKey    : IEquatable<TKey>,   IComparable<TKey>,   IComparable
+
+        {
+            return GraphElement as dynamic;
+        }
+
+        #endregion
+
+    }
+
+    #endregion
+
+    #region IReadOnlyGraphElement
+
     /// <summary>
     /// The common interface for all property graph elements:
     /// </summary>
@@ -51,5 +89,7 @@ namespace de.ahzf.Vanaheimr.Blueprints
         where TKey    : IEquatable<TKey>,   IComparable<TKey>,   IComparable
 
     { }
+
+    #endregion
 
 }

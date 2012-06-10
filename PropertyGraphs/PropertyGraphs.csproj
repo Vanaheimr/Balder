@@ -44,7 +44,7 @@
   <ItemGroup>
     <Compile Include="GenericPropertyGraph\GenericPropertyGraph.cs" />
     <Compile Include="GenericPropertyGraph\GenericPropertyHyperEdge.cs" />
-    <Compile Include="PartitionGraphs\GenericPartitionPropertyGraph.cs" />
+    <Compile Include="PartitionGraph\GenericPartitionPropertyGraph.cs" />
     <Compile Include="GraphSchemaHandling.cs" />
     <Compile Include="GraphFactory.cs" />
     <Compile Include="PropertyGraph\PropertyMultiEdge.cs" />

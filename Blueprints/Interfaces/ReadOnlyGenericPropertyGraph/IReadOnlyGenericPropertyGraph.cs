@@ -28,6 +28,466 @@ using de.ahzf.Illias.Commons.Votes;
 namespace de.ahzf.Vanaheimr.Blueprints
 {
 
+    #region IGenericPropertyGraphExtensions
+
+    /// <summary>
+    /// Extensions to the IGenericPropertyGraph interface
+    /// </summary>
+    public static class IReadeOnlyGenericPropertyGraphExtensions
+    {
+
+        #region AsDynamic(this Graph)
+
+        /// <summary>
+        /// Converts the given generic property graph into a dynamic object.
+        /// </summary>
+        /// <typeparam name="TIdVertex">The type of the vertex identifiers.</typeparam>
+        /// <typeparam name="TRevIdVertex">The type of the vertex revision identifiers.</typeparam>
+        /// <typeparam name="TVertexLabel">The type of the vertex type.</typeparam>
+        /// <typeparam name="TKeyVertex">The type of the vertex property keys.</typeparam>
+        /// <typeparam name="TValueVertex">The type of the vertex property values.</typeparam>
+        /// 
+        /// <typeparam name="TIdEdge">The type of the edge identifiers.</typeparam>
+        /// <typeparam name="TRevIdEdge">The type of the edge revision identifiers.</typeparam>
+        /// <typeparam name="TEdgeLabel">The type of the edge label.</typeparam>
+        /// <typeparam name="TKeyEdge">The type of the edge property keys.</typeparam>
+        /// <typeparam name="TValueEdge">The type of the edge property values.</typeparam>
+        /// 
+        /// <typeparam name="TIdMultiEdge">The type of the multiedge identifiers.</typeparam>
+        /// <typeparam name="TRevIdMultiEdge">The type of the multiedge revision identifiers.</typeparam>
+        /// <typeparam name="TMultiEdgeLabel">The type of the multiedge label.</typeparam>
+        /// <typeparam name="TKeyMultiEdge">The type of the multiedge property keys.</typeparam>
+        /// <typeparam name="TValueMultiEdge">The type of the multiedge property values.</typeparam>
+        /// 
+        /// <typeparam name="TIdHyperEdge">The type of the hyperedge identifiers.</typeparam>
+        /// <typeparam name="TRevIdHyperEdge">The type of the hyperedge revision identifiers.</typeparam>
+        /// <typeparam name="THyperEdgeLabel">The type of the hyperedge label.</typeparam>
+        /// <typeparam name="TKeyHyperEdge">The type of the hyperedge property keys.</typeparam>
+        /// <typeparam name="TValueHyperEdge">The type of the hyperedge property values.</typeparam>
+        /// <param name="Graph">A generic property graph.</param>
+        /// <returns>A dynamic object</returns>
+        public static dynamic AsDynamic<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>(
+
+                              this IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                         TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                         TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Graph)
+
+            where TIdVertex        : IEquatable<TIdVertex>,       IComparable<TIdVertex>,       IComparable, TValueVertex
+            where TIdEdge          : IEquatable<TIdEdge>,         IComparable<TIdEdge>,         IComparable, TValueEdge
+            where TIdMultiEdge     : IEquatable<TIdMultiEdge>,    IComparable<TIdMultiEdge>,    IComparable, TValueMultiEdge
+            where TIdHyperEdge     : IEquatable<TIdHyperEdge>,    IComparable<TIdHyperEdge>,    IComparable, TValueHyperEdge
+
+            where TRevIdVertex     : IEquatable<TRevIdVertex>,    IComparable<TRevIdVertex>,    IComparable, TValueVertex
+            where TRevIdEdge       : IEquatable<TRevIdEdge>,      IComparable<TRevIdEdge>,      IComparable, TValueEdge
+            where TRevIdMultiEdge  : IEquatable<TRevIdMultiEdge>, IComparable<TRevIdMultiEdge>, IComparable, TValueMultiEdge
+            where TRevIdHyperEdge  : IEquatable<TRevIdHyperEdge>, IComparable<TRevIdHyperEdge>, IComparable, TValueHyperEdge
+
+            where TVertexLabel     : IEquatable<TVertexLabel>,    IComparable<TVertexLabel>,    IComparable
+            where TEdgeLabel       : IEquatable<TEdgeLabel>,      IComparable<TEdgeLabel>,      IComparable
+            where TMultiEdgeLabel  : IEquatable<TMultiEdgeLabel>, IComparable<TMultiEdgeLabel>, IComparable
+            where THyperEdgeLabel  : IEquatable<THyperEdgeLabel>, IComparable<THyperEdgeLabel>, IComparable
+
+            where TKeyVertex       : IEquatable<TKeyVertex>,      IComparable<TKeyVertex>,      IComparable
+            where TKeyEdge         : IEquatable<TKeyEdge>,        IComparable<TKeyEdge>,        IComparable
+            where TKeyMultiEdge    : IEquatable<TKeyMultiEdge>,   IComparable<TKeyMultiEdge>,   IComparable
+            where TKeyHyperEdge    : IEquatable<TKeyHyperEdge>,   IComparable<TKeyHyperEdge>,   IComparable
+
+        {
+            return Graph as dynamic;
+        }
+
+        #endregion
+
+        #region AsMutable(this Graph)
+
+        /// <summary>
+        /// Converts the given read-only generic property graph into a mutable graph.
+        /// </summary>
+        /// <typeparam name="TIdVertex">The type of the vertex identifiers.</typeparam>
+        /// <typeparam name="TRevIdVertex">The type of the vertex revision identifiers.</typeparam>
+        /// <typeparam name="TVertexLabel">The type of the vertex type.</typeparam>
+        /// <typeparam name="TKeyVertex">The type of the vertex property keys.</typeparam>
+        /// <typeparam name="TValueVertex">The type of the vertex property values.</typeparam>
+        /// 
+        /// <typeparam name="TIdEdge">The type of the edge identifiers.</typeparam>
+        /// <typeparam name="TRevIdEdge">The type of the edge revision identifiers.</typeparam>
+        /// <typeparam name="TEdgeLabel">The type of the edge label.</typeparam>
+        /// <typeparam name="TKeyEdge">The type of the edge property keys.</typeparam>
+        /// <typeparam name="TValueEdge">The type of the edge property values.</typeparam>
+        /// 
+        /// <typeparam name="TIdMultiEdge">The type of the multiedge identifiers.</typeparam>
+        /// <typeparam name="TRevIdMultiEdge">The type of the multiedge revision identifiers.</typeparam>
+        /// <typeparam name="TMultiEdgeLabel">The type of the multiedge label.</typeparam>
+        /// <typeparam name="TKeyMultiEdge">The type of the multiedge property keys.</typeparam>
+        /// <typeparam name="TValueMultiEdge">The type of the multiedge property values.</typeparam>
+        /// 
+        /// <typeparam name="TIdHyperEdge">The type of the hyperedge identifiers.</typeparam>
+        /// <typeparam name="TRevIdHyperEdge">The type of the hyperedge revision identifiers.</typeparam>
+        /// <typeparam name="THyperEdgeLabel">The type of the hyperedge label.</typeparam>
+        /// <typeparam name="TKeyHyperEdge">The type of the hyperedge property keys.</typeparam>
+        /// <typeparam name="TValueHyperEdge">The type of the hyperedge property values.</typeparam>
+        /// <param name="Graph">A read-only generic property graph.</param>
+        /// <returns>A mutable generic property graph.</returns>
+        public static IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                            TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                            TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                            TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
+            
+            AsMutable<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                      TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                      TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                      TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>(
+
+                this IReadOnlyGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                   TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Graph)
+
+            where TIdVertex        : IEquatable<TIdVertex>,       IComparable<TIdVertex>,       IComparable, TValueVertex
+            where TIdEdge          : IEquatable<TIdEdge>,         IComparable<TIdEdge>,         IComparable, TValueEdge
+            where TIdMultiEdge     : IEquatable<TIdMultiEdge>,    IComparable<TIdMultiEdge>,    IComparable, TValueMultiEdge
+            where TIdHyperEdge     : IEquatable<TIdHyperEdge>,    IComparable<TIdHyperEdge>,    IComparable, TValueHyperEdge
+
+            where TRevIdVertex     : IEquatable<TRevIdVertex>,    IComparable<TRevIdVertex>,    IComparable, TValueVertex
+            where TRevIdEdge       : IEquatable<TRevIdEdge>,      IComparable<TRevIdEdge>,      IComparable, TValueEdge
+            where TRevIdMultiEdge  : IEquatable<TRevIdMultiEdge>, IComparable<TRevIdMultiEdge>, IComparable, TValueMultiEdge
+            where TRevIdHyperEdge  : IEquatable<TRevIdHyperEdge>, IComparable<TRevIdHyperEdge>, IComparable, TValueHyperEdge
+
+            where TVertexLabel     : IEquatable<TVertexLabel>,    IComparable<TVertexLabel>,    IComparable
+            where TEdgeLabel       : IEquatable<TEdgeLabel>,      IComparable<TEdgeLabel>,      IComparable
+            where TMultiEdgeLabel  : IEquatable<TMultiEdgeLabel>, IComparable<TMultiEdgeLabel>, IComparable
+            where THyperEdgeLabel  : IEquatable<THyperEdgeLabel>, IComparable<THyperEdgeLabel>, IComparable
+
+            where TKeyVertex       : IEquatable<TKeyVertex>,      IComparable<TKeyVertex>,      IComparable
+            where TKeyEdge         : IEquatable<TKeyEdge>,        IComparable<TKeyEdge>,        IComparable
+            where TKeyMultiEdge    : IEquatable<TKeyMultiEdge>,   IComparable<TKeyMultiEdge>,   IComparable
+            where TKeyHyperEdge    : IEquatable<TKeyHyperEdge>,   IComparable<TKeyHyperEdge>,   IComparable
+
+        {
+
+            return Graph as IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                  TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                  TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                  TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>;
+
+        }
+
+        #endregion
+
+
+        #region UseProperty<...>(this IGenericPropertyGraph, PropertyKey, OnSuccess [Action<IGenericPropertyGraph, TKey, TValue>], OnError = null)
+
+        /// <summary>
+        /// Call the given delegate if the given property key is assigned.
+        /// </summary>
+        /// <typeparam name="TIdVertex">The type of the vertex identifiers.</typeparam>
+        /// <typeparam name="TRevIdVertex">The type of the vertex revision identifiers.</typeparam>
+        /// <typeparam name="TVertexLabel">The type of the vertex type.</typeparam>
+        /// <typeparam name="TKeyVertex">The type of the vertex property keys.</typeparam>
+        /// <typeparam name="TValueVertex">The type of the vertex property values.</typeparam>
+        /// 
+        /// <typeparam name="TIdEdge">The type of the edge identifiers.</typeparam>
+        /// <typeparam name="TRevIdEdge">The type of the edge revision identifiers.</typeparam>
+        /// <typeparam name="TEdgeLabel">The type of the edge label.</typeparam>
+        /// <typeparam name="TKeyEdge">The type of the edge property keys.</typeparam>
+        /// <typeparam name="TValueEdge">The type of the edge property values.</typeparam>
+        /// 
+        /// <typeparam name="TIdMultiEdge">The type of the multiedge identifiers.</typeparam>
+        /// <typeparam name="TRevIdMultiEdge">The type of the multiedge revision identifiers.</typeparam>
+        /// <typeparam name="TMultiEdgeLabel">The type of the multiedge label.</typeparam>
+        /// <typeparam name="TKeyMultiEdge">The type of the multiedge property keys.</typeparam>
+        /// <typeparam name="TValueMultiEdge">The type of the multiedge property values.</typeparam>
+        /// 
+        /// <typeparam name="TIdHyperEdge">The type of the multiedge identifiers.</typeparam>
+        /// <typeparam name="TRevIdHyperEdge">The type of the multiedge revision identifiers.</typeparam>
+        /// <typeparam name="THyperEdgeLabel">The type of the multiedge label.</typeparam>
+        /// <typeparam name="TKeyHyperEdge">The type of the multiedge property keys.</typeparam>
+        /// <typeparam name="TValueHyperEdge">The type of the multiedge property values.</typeparam>
+        /// <param name="IGenericPropertyGraph">An object implementing IGenericPropertyGraph.</param>
+        /// <param name="PropertyKey">The property key.</param>
+        /// <param name="OnSuccess">A delegate to call for the associated value of the given property key and its value.</param>
+        /// <param name="OnError">A delegate to call for the associated value of the given property key when an error occurs.</param>
+        public static void UseProperty<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>(
+
+                                           this IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                      TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                      TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                      TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IGenericPropertyGraph,
+
+                                           TKeyVertex PropertyKey,
+
+                                           Action<IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TKeyVertex, TValueVertex> OnSuccess,
+
+                                           Action<IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TKeyVertex> OnError = null)
+
+            where TIdVertex        : IEquatable<TIdVertex>,       IComparable<TIdVertex>,       IComparable, TValueVertex
+            where TIdEdge          : IEquatable<TIdEdge>,         IComparable<TIdEdge>,         IComparable, TValueEdge
+            where TIdMultiEdge     : IEquatable<TIdMultiEdge>,    IComparable<TIdMultiEdge>,    IComparable, TValueMultiEdge
+            where TIdHyperEdge     : IEquatable<TIdHyperEdge>,    IComparable<TIdHyperEdge>,    IComparable, TValueHyperEdge
+
+            where TRevIdVertex     : IEquatable<TRevIdVertex>,    IComparable<TRevIdVertex>,    IComparable, TValueVertex
+            where TRevIdEdge       : IEquatable<TRevIdEdge>,      IComparable<TRevIdEdge>,      IComparable, TValueEdge
+            where TRevIdMultiEdge  : IEquatable<TRevIdMultiEdge>, IComparable<TRevIdMultiEdge>, IComparable, TValueMultiEdge
+            where TRevIdHyperEdge  : IEquatable<TRevIdHyperEdge>, IComparable<TRevIdHyperEdge>, IComparable, TValueHyperEdge
+
+            where TVertexLabel     : IEquatable<TVertexLabel>,    IComparable<TVertexLabel>,    IComparable
+            where TEdgeLabel       : IEquatable<TEdgeLabel>,      IComparable<TEdgeLabel>,      IComparable
+            where TMultiEdgeLabel  : IEquatable<TMultiEdgeLabel>, IComparable<TMultiEdgeLabel>, IComparable
+            where THyperEdgeLabel  : IEquatable<THyperEdgeLabel>, IComparable<THyperEdgeLabel>, IComparable
+
+            where TKeyVertex       : IEquatable<TKeyVertex>,      IComparable<TKeyVertex>,      IComparable
+            where TKeyEdge         : IEquatable<TKeyEdge>,        IComparable<TKeyEdge>,        IComparable
+            where TKeyMultiEdge    : IEquatable<TKeyMultiEdge>,   IComparable<TKeyMultiEdge>,   IComparable
+            where TKeyHyperEdge    : IEquatable<TKeyHyperEdge>,   IComparable<TKeyHyperEdge>,   IComparable
+
+        {
+
+            #region Initial checks
+
+            if (IGenericPropertyGraph == null)
+                throw new ArgumentNullException("IGenericPropertyGraph", "The given IGenericPropertyGraph must not be null!");
+
+            if (OnSuccess == null)
+                throw new ArgumentNullException("OnSuccess", "The given delegate must not be null!");
+
+            #endregion
+
+            TValueVertex Value;
+            if (IGenericPropertyGraph.TryGetProperty(PropertyKey, out Value))
+                OnSuccess(IGenericPropertyGraph, PropertyKey, Value);
+
+            else if (OnError != null)
+                OnError(IGenericPropertyGraph, PropertyKey);
+
+        }
+
+        #endregion
+
+        #region PropertyFunc<...>(this IGenericPropertyGraph, PropertyKey, OnSuccessFunc [Func<IGenericPropertyGraph, TKey, TValue, TResult>], OnErrorFunc = null)
+
+        /// <summary>
+        /// Call the given delegate if the given property key is assigned.
+        /// </summary>
+        /// <typeparam name="TIdVertex">The type of the vertex identifiers.</typeparam>
+        /// <typeparam name="TRevIdVertex">The type of the vertex revision identifiers.</typeparam>
+        /// <typeparam name="TVertexLabel">The type of the vertex type.</typeparam>
+        /// <typeparam name="TKeyVertex">The type of the vertex property keys.</typeparam>
+        /// <typeparam name="TValueVertex">The type of the vertex property values.</typeparam>
+        /// 
+        /// <typeparam name="TIdEdge">The type of the edge identifiers.</typeparam>
+        /// <typeparam name="TRevIdEdge">The type of the edge revision identifiers.</typeparam>
+        /// <typeparam name="TEdgeLabel">The type of the edge label.</typeparam>
+        /// <typeparam name="TKeyEdge">The type of the edge property keys.</typeparam>
+        /// <typeparam name="TValueEdge">The type of the edge property values.</typeparam>
+        /// 
+        /// <typeparam name="TIdMultiEdge">The type of the multiedge identifiers.</typeparam>
+        /// <typeparam name="TRevIdMultiEdge">The type of the multiedge revision identifiers.</typeparam>
+        /// <typeparam name="TMultiEdgeLabel">The type of the multiedge label.</typeparam>
+        /// <typeparam name="TKeyMultiEdge">The type of the multiedge property keys.</typeparam>
+        /// <typeparam name="TValueMultiEdge">The type of the multiedge property values.</typeparam>
+        /// 
+        /// <typeparam name="TIdHyperEdge">The type of the multiedge identifiers.</typeparam>
+        /// <typeparam name="TRevIdHyperEdge">The type of the multiedge revision identifiers.</typeparam>
+        /// <typeparam name="THyperEdgeLabel">The type of the multiedge label.</typeparam>
+        /// <typeparam name="TKeyHyperEdge">The type of the multiedge property keys.</typeparam>
+        /// <typeparam name="TValueHyperEdge">The type of the multiedge property values.</typeparam>
+        /// <typeparam name="TResult">The type of the return value.</typeparam>
+        /// <param name="IGenericPropertyGraph">An object implementing IGenericPropertyGraph.</param>
+        /// <param name="PropertyKey">The property key.</param>
+        /// <param name="OnSuccessFunc">A delegate to call for the key and associated value of the given property key.</param>
+        /// <param name="OnErrorFunc">A delegate to call for the key and associated value of the given property key.</param>
+        public static TResult PropertyFunc<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                           TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                           TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge, TResult>(
+
+                                               this IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IGenericPropertyGraph,
+
+                                               TKeyVertex PropertyKey,
+
+                                               Func<IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TKeyVertex, TValueVertex, TResult> OnSuccessFunc,
+
+                                               Func<IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TKeyVertex, TResult> OnErrorFunc = null)
+
+            where TIdVertex        : IEquatable<TIdVertex>,       IComparable<TIdVertex>,       IComparable, TValueVertex
+            where TIdEdge          : IEquatable<TIdEdge>,         IComparable<TIdEdge>,         IComparable, TValueEdge
+            where TIdMultiEdge     : IEquatable<TIdMultiEdge>,    IComparable<TIdMultiEdge>,    IComparable, TValueMultiEdge
+            where TIdHyperEdge     : IEquatable<TIdHyperEdge>,    IComparable<TIdHyperEdge>,    IComparable, TValueHyperEdge
+
+            where TRevIdVertex     : IEquatable<TRevIdVertex>,    IComparable<TRevIdVertex>,    IComparable, TValueVertex
+            where TRevIdEdge       : IEquatable<TRevIdEdge>,      IComparable<TRevIdEdge>,      IComparable, TValueEdge
+            where TRevIdMultiEdge  : IEquatable<TRevIdMultiEdge>, IComparable<TRevIdMultiEdge>, IComparable, TValueMultiEdge
+            where TRevIdHyperEdge  : IEquatable<TRevIdHyperEdge>, IComparable<TRevIdHyperEdge>, IComparable, TValueHyperEdge
+
+            where TVertexLabel     : IEquatable<TVertexLabel>,    IComparable<TVertexLabel>,    IComparable
+            where TEdgeLabel       : IEquatable<TEdgeLabel>,      IComparable<TEdgeLabel>,      IComparable
+            where TMultiEdgeLabel  : IEquatable<TMultiEdgeLabel>, IComparable<TMultiEdgeLabel>, IComparable
+            where THyperEdgeLabel  : IEquatable<THyperEdgeLabel>, IComparable<THyperEdgeLabel>, IComparable
+
+            where TKeyVertex       : IEquatable<TKeyVertex>,      IComparable<TKeyVertex>,      IComparable
+            where TKeyEdge         : IEquatable<TKeyEdge>,        IComparable<TKeyEdge>,        IComparable
+            where TKeyMultiEdge    : IEquatable<TKeyMultiEdge>,   IComparable<TKeyMultiEdge>,   IComparable
+            where TKeyHyperEdge    : IEquatable<TKeyHyperEdge>,   IComparable<TKeyHyperEdge>,   IComparable
+
+        {
+
+            #region Initial checks
+
+            if (IGenericPropertyGraph == null)
+                throw new ArgumentNullException("IGenericPropertyGraph", "The given IGenericPropertyGraph must not be null!");
+
+            if (OnSuccessFunc == null)
+                throw new ArgumentNullException("OnSuccessFunc", "The given delegate must not be null!");
+
+            #endregion
+
+            TValueVertex Value;
+            if (IGenericPropertyGraph.TryGetProperty(PropertyKey, out Value))
+                return OnSuccessFunc(IGenericPropertyGraph, PropertyKey, Value);
+
+            if (OnErrorFunc != null)
+                OnErrorFunc(IGenericPropertyGraph, PropertyKey);
+
+            return default(TResult);
+
+        }
+
+        #endregion
+
+
+        //#region CopyGraph(this SourcePropertyGraph, DestinationPropertyGraph)
+
+        ///// <summary>
+        ///// Adds a vertex to the graph having an autogenerated identification and
+        ///// initializes the vertex by invoking the given VertexInitializer.
+        ///// </summary>
+        ///// <typeparam name="TIdVertex">The type of the vertex identifiers.</typeparam>
+        ///// <typeparam name="TRevIdVertex">The type of the vertex revision identifiers.</typeparam>
+        ///// <typeparam name="TVertexLabel">The type of the vertex type.</typeparam>
+        ///// <typeparam name="TKeyVertex">The type of the vertex property keys.</typeparam>
+        ///// <typeparam name="TValueVertex">The type of the vertex property values.</typeparam>
+        ///// 
+        ///// <typeparam name="TIdEdge">The type of the edge identifiers.</typeparam>
+        ///// <typeparam name="TRevIdEdge">The type of the edge revision identifiers.</typeparam>
+        ///// <typeparam name="TEdgeLabel">The type of the edge label.</typeparam>
+        ///// <typeparam name="TKeyEdge">The type of the edge property keys.</typeparam>
+        ///// <typeparam name="TValueEdge">The type of the edge property values.</typeparam>
+        ///// 
+        ///// <typeparam name="TIdMultiEdge">The type of the multiedge identifiers.</typeparam>
+        ///// <typeparam name="TRevIdMultiEdge">The type of the multiedge revision identifiers.</typeparam>
+        ///// <typeparam name="TMultiEdgeLabel">The type of the multiedge label.</typeparam>
+        ///// <typeparam name="TKeyMultiEdge">The type of the multiedge property keys.</typeparam>
+        ///// <typeparam name="TValueMultiEdge">The type of the multiedge property values.</typeparam>
+        ///// 
+        ///// <typeparam name="TIdHyperEdge">The type of the hyperedge identifiers.</typeparam>
+        ///// <typeparam name="TRevIdHyperEdge">The type of the hyperedge revision identifiers.</typeparam>
+        ///// <typeparam name="THyperEdgeLabel">The type of the hyperedge label.</typeparam>
+        ///// <typeparam name="TKeyHyperEdge">The type of the hyperedge property keys.</typeparam>
+        ///// <typeparam name="TValueHyperEdge">The type of the hyperedge property values.</typeparam>
+        ///// <param name="SourcePropertyGraph">An IPropertyGraph as source.</param>
+        ///// <param name="DestinationPropertyGraph">An IPropertyGraph as destination.</param>
+        //public static void CopyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+        //                             TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+        //                             TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+        //                             TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>(
+
+        //                             this IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+        //                                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+        //                                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+        //                                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> SourcePropertyGraph,
+
+        //                             IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+        //                                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+        //                                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+        //                                                   TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> DestinationPropertyGraph)
+
+        //    where TIdVertex        : IEquatable<TIdVertex>,       IComparable<TIdVertex>,       IComparable, TValueVertex
+        //    where TIdEdge          : IEquatable<TIdEdge>,         IComparable<TIdEdge>,         IComparable, TValueEdge
+        //    where TIdMultiEdge     : IEquatable<TIdMultiEdge>,    IComparable<TIdMultiEdge>,    IComparable, TValueMultiEdge
+        //    where TIdHyperEdge     : IEquatable<TIdHyperEdge>,    IComparable<TIdHyperEdge>,    IComparable, TValueHyperEdge
+
+        //    where TRevIdVertex     : IEquatable<TRevIdVertex>,    IComparable<TRevIdVertex>,    IComparable, TValueVertex
+        //    where TRevIdEdge       : IEquatable<TRevIdEdge>,      IComparable<TRevIdEdge>,      IComparable, TValueEdge
+        //    where TRevIdMultiEdge  : IEquatable<TRevIdMultiEdge>, IComparable<TRevIdMultiEdge>, IComparable, TValueMultiEdge
+        //    where TRevIdHyperEdge  : IEquatable<TRevIdHyperEdge>, IComparable<TRevIdHyperEdge>, IComparable, TValueHyperEdge
+
+        //    where TVertexLabel     : IEquatable<TVertexLabel>,    IComparable<TVertexLabel>,    IComparable
+        //    where TEdgeLabel       : IEquatable<TEdgeLabel>,      IComparable<TEdgeLabel>,      IComparable
+        //    where TMultiEdgeLabel  : IEquatable<TMultiEdgeLabel>, IComparable<TMultiEdgeLabel>, IComparable
+        //    where THyperEdgeLabel  : IEquatable<THyperEdgeLabel>, IComparable<THyperEdgeLabel>, IComparable
+
+        //    where TKeyVertex       : IEquatable<TKeyVertex>,      IComparable<TKeyVertex>,      IComparable
+        //    where TKeyEdge         : IEquatable<TKeyEdge>,        IComparable<TKeyEdge>,        IComparable
+        //    where TKeyMultiEdge    : IEquatable<TKeyMultiEdge>,   IComparable<TKeyMultiEdge>,   IComparable
+        //    where TKeyHyperEdge    : IEquatable<TKeyHyperEdge>,   IComparable<TKeyHyperEdge>,   IComparable
+
+        //{
+
+        //    // Create new vertices having the same Ids and properties
+        //    foreach (var _Vertex in SourcePropertyGraph.Vertices())
+        //    {
+        //        DestinationPropertyGraph.AddVertex(
+        //            _Vertex.Id,
+        //            _Vertex.Label,
+        //            NewVertex => {
+        //                foreach (var _Property in _Vertex.GetProperties((key, value) => !key.Equals(_Vertex.IdKey)))
+        //                    NewVertex.SetProperty(_Property);
+        //            });
+        //    }
+
+
+        //    // Create new edges having the same Ids and properties
+        //    foreach (var _Edge in SourcePropertyGraph.Edges())
+        //    {
+        //        DestinationPropertyGraph.AddEdge(
+        //            DestinationPropertyGraph.VerticesById(_Edge.OutVertex.Id).First(),
+        //            DestinationPropertyGraph.VerticesById(_Edge.InVertex.Id).First(),
+        //            _Edge.Id,
+        //            _Edge.Label,
+        //            NewEdge => {
+        //                foreach (var _Property in _Edge.GetProperties((key, value) => !key.Equals(_Edge.IdKey)))
+        //                    NewEdge.SetProperty(_Property);
+        //            });
+        //    }
+
+        //    // Create new hyperedges having the same Ids and properties
+        //    // ToDo:
+
+        //}
+
+        //#endregion
+
+        // Union
+        // Intersect
+
+
+    }
+
+    #endregion
+
+
     // Read-Only delegates
     
     #region GraphFilter
@@ -314,7 +774,28 @@ namespace de.ahzf.Vanaheimr.Blueprints
                                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                    TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
 
-                                                   : IReadOnlyGraphElement<TIdVertex, TRevIdVertex, TVertexLabel, TKeyVertex, TValueVertex>
+                                                   : IReadOnlyGraphElement<TIdVertex, TRevIdVertex, TVertexLabel, TKeyVertex, TValueVertex>,
+
+                                                     IReadOnlyVertexMethods   <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
+
+                                                     IReadOnlyEdgeMethods     <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
+
+                                                     IReadOnlyMultiEdgeMethods<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
+
+                                                     IReadOnlyHyperEdgeMethods<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
+
 
         where TIdVertex        : IEquatable<TIdVertex>,       IComparable<TIdVertex>,       IComparable, TValueVertex
         where TIdEdge          : IEquatable<TIdEdge>,         IComparable<TIdEdge>,         IComparable, TValueEdge
@@ -337,378 +818,6 @@ namespace de.ahzf.Vanaheimr.Blueprints
         where TKeyHyperEdge    : IEquatable<TKeyHyperEdge>,   IComparable<TKeyHyperEdge>,   IComparable
 
     {
-
-        #region Vertex methods
-
-        #region VertexById(VertexId)
-
-        /// <summary>
-        /// Return the vertex referenced by the given vertex identifier.
-        /// If no vertex is referenced by the identifier return null.
-        /// </summary>
-        /// <param name="VertexId">A vertex identifier.</param>
-        IGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
-
-                               VertexById(TIdVertex VertexId);
-
-        #endregion
-
-        #region TryGetVertexById(VertexId)
-
-        /// <summary>
-        /// Try to return the vertex referenced by the given vertex identifier.
-        /// </summary>
-        /// <param name="VertexId">A vertex identifier.</param>
-        /// <param name="Vertex">A vertex.</param>
-        /// <returns>True when success; false otherwise.</returns>
-        Boolean TryGetVertexById(TIdVertex VertexId, out IGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                                TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                                TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Vertex);
-
-        #endregion
-
-        #region VerticesById(params VertexIds)
-
-        /// <summary>
-        /// Return the vertices referenced by the given array of vertex identifiers.
-        /// If no vertex is referenced by a given identifier this value will be
-        /// skipped.
-        /// </summary>
-        /// <param name="VertexIds">An array of vertex identifiers.</param>
-        IEnumerable<IGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                           TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                           TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
-
-                                           VerticesById(params TIdVertex[] VertexIds);
-
-        #endregion
-
-        #region VerticesByLabel(params VertexLabels)
-
-        /// <summary>
-        /// Return an enumeration of all vertices having one of the
-        /// given vertex labels.
-        /// </summary>
-        /// <param name="VertexLabels">An array of vertex labels.</param>
-        IEnumerable<IGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                           TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                           TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
-
-                                           VerticesByLabel(params TVertexLabel[] VertexLabels);
-
-        #endregion
-
-        #region Vertices(VertexFilter = null)
-
-        /// <summary>
-        /// Get an enumeration of all vertices in the graph.
-        /// An optional vertex filter may be applied for filtering.
-        /// </summary>
-        /// <param name="VertexFilter">A delegate for vertex filtering.</param>
-        IEnumerable<IGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                           TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                           TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
-
-                                           Vertices(VertexFilter<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                 TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                 TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                 TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> VertexFilter = null);
-
-        #endregion
-
-        #region NumberOfVertices(VertexFilter = null)
-
-        /// <summary>
-        /// Return the current number of vertices which match the given optional filter.
-        /// When the filter is null, this method should implement an optimized
-        /// way to get the currenty number of vertices.
-        /// </summary>
-        /// <param name="VertexFilter">A delegate for vertex filtering.</param>
-        UInt64 NumberOfVertices(VertexFilter<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                             TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                             TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                             TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> VertexFilter = null);
-
-        #endregion
-
-        #endregion
-
-        #region Edge methods
-
-        #region EdgeById(EdgeId)
-
-        /// <summary>
-        /// Return the edge referenced by the given edge identifier.
-        /// If no edge is referenced by a given identifier return null.
-        /// </summary>
-        /// <param name="EdgeId">An edge identifier.</param>
-        IGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                             TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                             TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                             TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
-
-                             EdgeById(TIdEdge EdgeId);
-
-        #endregion
-
-        #region TryGetEdgeById(EdgeId)
-
-        /// <summary>
-        /// Try to return the edge referenced by the given edge identifier.
-        /// </summary>
-        /// <param name="EdgeId">An edge identifier.</param>
-        /// <param name="Edge">An edge.</param>
-        /// <returns>True when success; false otherwise.</returns>
-        Boolean TryGetEdgeById(TIdEdge EdgeId, out IGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Edge);
-
-        #endregion
-
-        #region EdgesById(params EdgeIds)
-
-        /// <summary>
-        /// Return the edges referenced by the given array of edge identifiers.
-        /// If no edge is referenced by a given identifier this value will be
-        /// skipped.
-        /// </summary>
-        /// <param name="EdgeIds">An array of edge identifiers.</param>
-        IEnumerable<IGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                         TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                         TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
-
-                                         EdgesById(params TIdEdge[] EdgeIds);
-
-        #endregion
-
-        #region EdgesByLabel(params EdgeLabels)
-
-        /// <summary>
-        /// Return an enumeration of all edges having one of the
-        /// given edge labels.
-        /// </summary>
-        /// <param name="EdgeLabels">An array of edge labels.</param>
-        IEnumerable<IGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                         TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                         TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> EdgesByLabel(params TEdgeLabel[] EdgeLabels);
-
-        #endregion
-
-        #region Edges(EdgeFilter = null)
-
-        /// <summary>
-        /// Get an enumeration of all edges in the graph.
-        /// An optional edge filter may be applied for filtering.
-        /// </summary>
-        /// <param name="EdgeFilter">A delegate for edge filtering.</param>
-        IEnumerable<IGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                         TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                         TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
-            
-                                         Edges(EdgeFilter<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeFilter = null);
-
-        #endregion
-
-        #region NumberOfEdges(EdgeFilter = null)
-
-        /// <summary>
-        /// Return the current number of edges matching the given optional edge filter.
-        /// When the filter is null, this method should implement an optimized
-        /// way to get the currenty number of edges.
-        /// </summary>
-        /// <param name="EdgeFilter">A delegate for edge filtering.</param>
-        UInt64 NumberOfEdges(EdgeFilter<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeFilter = null);
-
-        #endregion
-
-        #endregion
-
-        #region MultiEdge methods
-
-        #region MultiEdgeById(MultiEdgeId)
-
-        /// <summary>
-        /// Return the MultiEdge referenced by the given MultiEdge identifier.
-        /// If no MultiEdge is referenced by a given identifier return null.
-        /// </summary>
-        /// <param name="MultiEdgeId">A MultiEdge identifier.</param>
-        IGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                  TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                  TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                  TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
-
-                                  MultiEdgeById(TIdMultiEdge MultiEdgeId);
-
-        #endregion
-
-        #region MultiEdgesById(params MultiEdgeIds)
-
-        /// <summary>
-        /// Return the MultiEdges referenced by the given array of MultiEdge identifiers.
-        /// If no MultiEdge is referenced by a given identifier this value will be
-        /// skipped.
-        /// </summary>
-        /// <param name="MultiEdgeIds">An array of MultiEdge identifiers.</param>
-        IEnumerable<IGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
-
-                                              MultiEdgesById(params TIdMultiEdge[] MultiEdgeIds);
-
-        #endregion
-
-        #region MultiEdgesByLabel(params EdgeLabels)
-
-        /// <summary>
-        /// The enumeration of all multiedges having one of the given label.
-        /// </summary>
-        IEnumerable<IGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> MultiEdgesByLabel(params TMultiEdgeLabel[] MultiEdgeLabels);
-
-        #endregion
-
-        #region MultiEdges(MultiEdgeFilter = null)
-
-        /// <summary>
-        /// Get an enumeration of all MultiEdges in the graph.
-        /// An optional MultiEdge filter may be applied for filtering.
-        /// </summary>
-        /// <param name="MultiEdgeFilter">A delegate for MultiEdge filtering.</param>
-        IEnumerable<IGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
-
-                                              MultiEdges(MultiEdgeFilter<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                         TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                         TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> MultiEdgeFilter = null);
-
-        #endregion
-
-        #region NumberOfMultiEdges(MultiEdgeFilter = null)
-
-        /// <summary>
-        /// Return the current number of MultiEdges matching the given optional MultiEdge filter.
-        /// When the filter is null, this method should implement an optimized
-        /// way to get the currenty number of edges.
-        /// </summary>
-        /// <param name="MultiEdgeFilter">A delegate for MultiEdge filtering.</param>
-        UInt64 NumberOfMultiEdges(MultiEdgeFilter<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                  TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                  TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                  TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> MultiEdgeFilter = null);
-
-        #endregion
-
-        #endregion
-
-        #region HyperEdge methods
-
-        #region HyperEdgeById(HyperEdgeId)
-
-        /// <summary>
-        /// Return the HyperEdge referenced by the given HyperEdge identifier.
-        /// If no HyperEdge is referenced by a given identifier return null.
-        /// </summary>
-        /// <param name="HyperEdgeId">A HyperEdge identifier.</param>
-        IGenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                  TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                  TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                  TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
-
-                                  HyperEdgeById(TIdHyperEdge HyperEdgeId);
-
-        #endregion
-
-        #region HyperEdgesById(params HyperEdgeIds)
-
-        /// <summary>
-        /// Return the HyperEdges referenced by the given array of HyperEdge identifiers.
-        /// If no HyperEdge is referenced by a given identifier this value will be
-        /// skipped.
-        /// </summary>
-        /// <param name="HyperEdgeIds">An array of HyperEdge identifiers.</param>
-        IEnumerable<IGenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
-
-                                              HyperEdgesById(params TIdHyperEdge[] HyperEdgeIds);
-
-        #endregion
-
-        #region HyperEdgesByLabel(params EdgeLabels)
-
-        /// <summary>
-        /// The enumeration of all hyperedges having one of the given label.
-        /// </summary>
-        IEnumerable<IGenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
-            
-                                              HyperEdgesByLabel(params THyperEdgeLabel[] HyperEdgeLabels);
-
-        #endregion
-
-        #region HyperEdges(HyperEdgeFilter = null)
-
-        /// <summary>
-        /// Get an enumeration of all HyperEdges in the graph.
-        /// An optional HyperEdge filter may be applied for filtering.
-        /// </summary>
-        /// <param name="HyperEdgeFilter">A delegate for HyperEdge filtering.</param>
-        IEnumerable<IGenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
-
-                                              HyperEdges(HyperEdgeFilter<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                         TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                         TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> HyperEdgeFilter = null);
-
-        #endregion
-
-        #region NumberOfHyperEdges(HyperEdgeFilter = null)
-
-        /// <summary>
-        /// Return the current number of HyperEdges matching the given optional HyperEdge filter.
-        /// When the filter is null, this method should implement an optimized
-        /// way to get the currenty number of edges.
-        /// </summary>
-        /// <param name="HyperEdgeFilter">A delegate for HyperEdge filtering.</param>
-        UInt64 NumberOfHyperEdges(HyperEdgeFilter<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                  TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                  TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                  TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> HyperEdgeFilter = null);
-
-        #endregion
-
-        #endregion
-
-        #region General Graph Maintenance
 
         #region OnGraphShuttingdown
 
@@ -742,8 +851,6 @@ namespace de.ahzf.Vanaheimr.Blueprints
                                             TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                             TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                             TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnGraphShutteddown;
-
-        #endregion
 
         #endregion
 
