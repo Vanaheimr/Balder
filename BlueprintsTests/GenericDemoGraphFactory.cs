@@ -48,16 +48,24 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests
             // Before adding a vertex/edge/multiedge/hyperedge call the following delegates
             // which might deny the addition of the given graph element!
             _graph.OnVertexAddition.OnVoting += (graph, vertex,    vote) => { Console.WriteLine("Vertex " + vertex.Id + " is announced to be added to graph " + graph.Id + "!"); };
-            _graph.OnVertexAddition.OnVoting += (graph, vertex,    vote) => { if (vertex.Id < 3) { Console.WriteLine("Addition of vertex " + vertex.Id + " denied!"); vote.Deny(); } };
+            _graph.OnVertexAddition.OnVoting += (graph, vertex,    vote) => {
+                if (vertex.Id < 2) { Console.WriteLine("Addition of vertex " + vertex.Id + " denied!"); vote.Deny(); }
+            };
 
             _graph.OnEdgeAddition.OnVoting   += (graph, edge,      vote) => { Console.WriteLine("Edge " + edge.Id + " is announced to be added to graph " + graph.Id + "!"); };
-            _graph.OnEdgeAddition.OnVoting   += (graph, edge,      vote) => { if (edge.Id < 2) { Console.WriteLine("Addition of edge " + edge.Id + " denied!"); vote.Deny(); } };
+            _graph.OnEdgeAddition.OnVoting   += (graph, edge,      vote) => {
+                if (edge.Id < 1) { Console.WriteLine("Addition of edge " + edge.Id + " denied!"); vote.Deny(); }
+            };
 
             _graph.OnMultiEdgeAddition.OnVoting += (graph, multiedge, vote) => { Console.WriteLine("MultiEdge " + multiedge.Id + " is announced to be added to graph " + graph.Id + "!"); };
-            _graph.OnMultiEdgeAddition.OnVoting += (graph, multiedge, vote) => { if (multiedge.Id < 2) { Console.WriteLine("Addition of multiedge " + multiedge.Id + " denied!"); vote.Deny(); } };
+            _graph.OnMultiEdgeAddition.OnVoting += (graph, multiedge, vote) => {
+                if (multiedge.Id < 1) { Console.WriteLine("Addition of multiedge " + multiedge.Id + " denied!"); vote.Deny(); }
+            };
 
             _graph.OnHyperEdgeAddition.OnVoting += (graph, hyperedge, vote) => { Console.WriteLine("HyperEdge " + hyperedge.Id + " is announced to be added to graph " + graph.Id + "!"); };
-            _graph.OnHyperEdgeAddition.OnVoting += (graph, hyperedge, vote) => { if (hyperedge.Id < 2) { Console.WriteLine("Addition of hyperedge " + hyperedge.Id + " denied!"); vote.Deny(); } };
+            _graph.OnHyperEdgeAddition.OnVoting += (graph, hyperedge, vote) => {
+                if (hyperedge.Id < 1) { Console.WriteLine("Addition of hyperedge " + hyperedge.Id + " denied!"); vote.Deny(); }
+            };
 
             // Call the following delegate for every vertex/edge/multiedge/hyperedge added
             _graph.OnVertexAddition.OnNotification += (graph, vertex) => { Console.WriteLine("Vertex " + vertex.Id + " was added to graph " + graph.Id + "!"); };

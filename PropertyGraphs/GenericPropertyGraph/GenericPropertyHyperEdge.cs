@@ -204,18 +204,6 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
             if (Graph == null)
                 throw new ArgumentNullException("The given graph must not be null!");
 
-            if (HyperEdgeId == null)
-                throw new ArgumentNullException("The given HyperEdgeId must not be null!");
-
-            if (IdKey == null)
-                throw new ArgumentNullException("The given IdKey must not be null!");
-
-            if (RevIdKey == null)
-                throw new ArgumentNullException("The given RevIdKey must not be null!");
-
-            if (DatastructureInitializer == null)
-                throw new ArgumentNullException("The given DatastructureInitializer must not be null!");
-
             if (VerticesCollectionInitializer == null)
                 throw new ArgumentNullException("The given VerticesCollectionInitializer must not be null!");
 
@@ -223,7 +211,6 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
             this.Graph     = Graph;
             this._Vertices = VerticesCollectionInitializer();
-
 
             this.VertexAddition = new VotingNotificator<IReadOnlyGenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                                                           TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
@@ -251,6 +238,10 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
             if (HyperEdgeInitializer != null)
                 HyperEdgeInitializer(this);
+
+            if (Vertices != null)
+                foreach (var v in Vertices)
+                    this._Vertices.TryAddValue(v.Id, v, v.Label);
 
         }
 

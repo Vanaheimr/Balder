@@ -873,17 +873,16 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         {
 
-            if (EdgeLabels != null && EdgeLabels.Any())
-            {
-                foreach (var _Edge in _OutEdgesWhenVertex)
-                    foreach (var _Label in EdgeLabels)
-                        if (_Edge.Label.Equals(_Label))
-                            yield return _Edge;
-            }
+            if (EdgeLabels.Any())
+                return from   Edge
+                       in     _OutEdgesWhenVertex
+                       where  EdgeLabels.Any(EdgeLabel => EdgeLabel.Equals(Edge.Label))
+                       select Edge;
 
             else
-                foreach (var _Edge in _OutEdgesWhenVertex)
-                    yield return _Edge;
+                return from   Edge
+                       in     _OutEdgesWhenVertex
+                       select Edge;
 
         }
 
@@ -912,15 +911,15 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         
         {
 
-            if (EdgeFilter == null)
+            if (EdgeFilter != null)
                 return from   Edge
                        in     _OutEdgesWhenVertex
+                       where  EdgeFilter(Edge)
                        select Edge;
 
             else
                 return from   Edge
                        in     _OutEdgesWhenVertex
-                       where  EdgeFilter(Edge)
                        select Edge;
 
         }
@@ -987,7 +986,10 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
             if (EdgeFilter == null)
                 return _OutEdgesWhenVertex.Count();
 
-            return (UInt64) SuperVertex.OutEdges(EdgeFilter).Count();
+            return (UInt64) (from   Edge
+                             in     _OutEdgesWhenVertex
+                             where  EdgeFilter(Edge)
+                             select Edge).LongCount();
 
         }
 
@@ -1212,17 +1214,16 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         {
 
-            if (EdgeLabels != null && EdgeLabels.Any())
-            {
-                foreach (var _Edge in _InEdgesWhenVertex)
-                    foreach (var _Label in EdgeLabels)
-                        if (_Edge.Label.Equals(_Label))
-                            yield return _Edge;
-            }
+            if (EdgeLabels.Any())
+                return from   Edge
+                       in     _InEdgesWhenVertex
+                       where  EdgeLabels.Any(EdgeLabel => EdgeLabel.Equals(Edge.Label))
+                       select Edge;
 
             else
-                foreach (var _Edge in _InEdgesWhenVertex)
-                    yield return _Edge;
+                return from   Edge
+                       in     _InEdgesWhenVertex
+                       select Edge;
 
         }
 
@@ -1251,10 +1252,16 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         
         {
 
-            return from   Edge
-                   in     _InEdgesWhenVertex
-                   where  EdgeFilter(Edge)
-                   select Edge;
+            if (EdgeFilter != null)
+                return from   Edge
+                       in     _InEdgesWhenVertex
+                       where  EdgeFilter(Edge)
+                       select Edge;
+
+            else
+                return from   Edge
+                       in     _InEdgesWhenVertex
+                       select Edge;
 
         }
 
@@ -1320,7 +1327,10 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
             if (EdgeFilter == null)
                 return _InEdgesWhenVertex.Count();
 
-            return (UInt64) SuperVertex.InEdges(EdgeFilter).Count();
+            return (UInt64) (from   Edge
+                             in     _InEdgesWhenVertex
+                             where  EdgeFilter(Edge)
+                             select Edge).LongCount();
 
         }
 
@@ -2414,15 +2424,10 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         {
 
-            foreach (var Vertex in _VerticesWhenGraph)
-            {
-                foreach (var VertexLabel in VertexLabels)
-                {
-                    if (Vertex.Label != null &&
-                        Vertex.Label.Equals(VertexLabel))
-                        yield return Vertex;
-                }
-            }
+            return from   Vertex
+                   in     _VerticesWhenGraph
+                   where  VertexLabels.Any(VertexLabel => VertexLabel.Equals(Vertex.Label))
+                   select Vertex;
 
         }
 
@@ -2490,21 +2495,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
             if (VertexFilter == null)
                 return _VerticesWhenGraph.Count();
 
-            else
-            {
-                lock (this)
-                {
-
-                    var _Counter = 0UL;
-
-                    foreach (var _Vertex in _VerticesWhenGraph)
-                        if (VertexFilter(_Vertex))
-                            _Counter++;
-
-                    return _Counter;
-
-                }
-            }
+            return (UInt64) (from   Vertex
+                             in     _VerticesWhenGraph
+                             select Vertex).LongCount();
 
         }
 
@@ -3352,15 +3345,10 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         {
 
-            foreach (var Edge in _EdgesWhenGraph)
-            {
-                foreach (var EdgeLabel in EdgeLabels)
-                {
-                    if (Edge.Label != null &&
-                        Edge.Label.Equals(EdgeLabel))
-                        yield return Edge;
-                }
-            }
+            return from   Edge
+                   in     _EdgesWhenGraph
+                   where  EdgeLabels.Any(EdgeLabel => EdgeLabel.Equals(Edge.Label))
+                   select Edge;
 
         }
 
@@ -3428,22 +3416,10 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
             if (EdgeFilter == null)
                 return _EdgesWhenGraph.Count();
 
-            else
-            {
-                lock (this)
-                {
+            return (UInt64) (from   Edge
+                             in     _EdgesWhenGraph
+                             select Edge).LongCount();
 
-                    var _Counter = 0UL;
-
-                    foreach (var _Edge in _EdgesWhenGraph)
-                        if (EdgeFilter(_Edge))
-                            _Counter++;
-
-                    return _Counter;
-
-                }
-            }
-        
         }
 
         #endregion
@@ -4008,15 +3984,10 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         {
 
-            foreach (var MultiEdge in _MultiEdgesWhenVertex)
-            {
-                foreach (var MultiEdgeLabel in MultiEdgeLabels)
-                {
-                    if (MultiEdge.Label != null &&
-                        MultiEdge.Label.Equals(MultiEdgeLabel))
-                        yield return MultiEdge;
-                }
-            }
+            return from   MultiEdge
+                   in     _MultiEdgesWhenGraph
+                   where  MultiEdgeLabels.Any(MultiEdgeLabel => MultiEdgeLabel.Equals(MultiEdge.Label))
+                   select MultiEdge;
 
         }
 
@@ -4084,21 +4055,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
             if (MultiEdgeFilter == null)
                 return _MultiEdgesWhenVertex.Count();
 
-            else
-            {
-                lock (this)
-                {
-
-                    var _Counter = 0UL;
-
-                    foreach (var _MultiEdge in _MultiEdgesWhenVertex)
-                        if (MultiEdgeFilter(_MultiEdge))
-                            _Counter++;
-
-                    return _Counter;
-
-                }
-            }
+            return (UInt64) (from   MultiEdge
+                             in     _MultiEdgesWhenGraph
+                             select MultiEdge).LongCount();
 
         }
 
@@ -4408,10 +4367,14 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
             {
                 if (_HyperEdgesWhenGraph.TryAddValue(HyperEdgeId, _HyperEdge, _HyperEdge.Label))
                 {
-                    //OutVertex.AddOutEdge(_HyperEdge);
-                    //InVertex.AddInEdge(_HyperEdge);
+
+                    foreach (var v in Vertices)
+                        v.AsMutable().AddHyperEdge(_HyperEdge);
+
                     HyperEdgeAddition_WhenGraph.SendNotification(this, _HyperEdge);
+
                     return _HyperEdge;
+
                 }
             }
 
@@ -4637,23 +4600,10 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         {
 
-            throw new NotImplementedException();
-
-            // This should be optimized in the future!
-
-            //return HyperEdges(HyperEdge =>
-            //{
-
-            //    foreach (var HyperEdgeLabel in HyperEdgeLabels)
-            //    {
-            //        if (HyperEdge.Label != null &&
-            //            HyperEdge.Label.Equals(HyperEdgeLabel))
-            //            return true;
-            //    }
-
-            //    return false;
-
-            //});
+            return from   HyperEdge
+                   in     _HyperEdgesWhenGraph
+                   where  HyperEdgeLabels.Any(HyperEdgeLabel => HyperEdgeLabel.Equals(HyperEdge.Label))
+                   select HyperEdge;
 
         }
 
@@ -4683,18 +4633,16 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         {
 
-            throw new NotImplementedException();
+            if (HyperEdgeFilter == null)
+                return from   HyperEdge
+                       in     _HyperEdgesWhenGraph
+                       select HyperEdge;
 
-            //if (HyperEdgeFilter == null)
-            //    return from   HyperEdge
-            //           in     _HyperEdges
-            //           select HyperEdge;
-
-            //else
-            //    return from   Edge
-            //           in     _ForeignEdges
-            //           where  EdgeFilter(Edge)
-            //           select Edge;
+            else
+                return from   HyperEdge
+                       in     _HyperEdgesWhenGraph
+                       where  HyperEdgeFilter(HyperEdge)
+                       select HyperEdge;
 
         }
 
@@ -4721,23 +4669,11 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         {
 
             if (HyperEdgeFilter == null)
-                return _HyperEdgesWhenVertex.Count();
+                return _HyperEdgesWhenGraph.Count();
 
-            else
-            {
-                lock (this)
-                {
-
-                    var _Counter = 0UL;
-
-                    foreach (var _HyperEdge in _HyperEdgesWhenVertex)
-                        if (HyperEdgeFilter(_HyperEdge))
-                            _Counter++;
-
-                    return _Counter;
-
-                }
-            }
+            return (UInt64) (from   HyperEdge
+                             in     _HyperEdgesWhenGraph
+                             select HyperEdge).LongCount();
 
         }
 
@@ -5358,7 +5294,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         /// </summary>
         public override String ToString()
         {
-            return "GenericPropertyVertex [Id: " + Id.ToString() + ", " + _OutEdgesWhenVertex.Count() + " OutEdges, " + _InEdgesWhenVertex.Count() + " InEdges]";
+            return "GenericPropertyVertex [Id: " + Id.ToString() + ", " + _OutEdgesWhenVertex.Count() + " OutEdges, " + _InEdgesWhenVertex.Count() + " InEdges, " + _HyperEdgesWhenVertex.Count() + " HyperEdges]";
         }
 
         #endregion
