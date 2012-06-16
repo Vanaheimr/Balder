@@ -27,6 +27,7 @@ using System.Collections.Generic;
 using de.ahzf.Illias.Commons;
 using de.ahzf.Illias.Commons.Votes;
 using de.ahzf.Vanaheimr.Styx;
+using de.ahzf.Illias.Commons.Transactions;
 
 #endregion
 
@@ -4787,6 +4788,99 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         }
 
         #endregion
+
+        #endregion
+
+        #region BeginTransaction(...)
+
+        private static ThreadLocal<Transaction<TIdVertex, TIdVertex, IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                           TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                           TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>> _ThreadLocalTransaction;
+
+        /// <summary>
+        /// Start a new transaction.
+        /// </summary>
+        /// <param name="Name">A name or identification for this transaction.</param>
+        /// <param name="Distributed">Indicates that this transaction should synched within the entire cluster.</param>
+        /// <param name="LongRunning">Indicates that this transaction is a long-running transaction.</param>
+        /// <param name="IsolationLevel">The isolation level of this transaction.</param>
+        /// <param name="CreationTime">The timestamp when this transaction started.</param>
+        /// <param name="InvalidationTime">The timestamp when this transaction will be invalid.</param>
+        /// <returns>A new transaction object.</returns>
+
+        Transaction<TIdVertex, TIdVertex, IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
+
+            IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                  TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                  TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                  TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+            
+                BeginTransaction(String         Name             = "", 
+                                 Boolean        Distributed      = false,
+                                 Boolean        LongRunning      = false,
+                                 IsolationLevel IsolationLevel   = IsolationLevel.Write,
+                                 DateTime?      CreationTime     = null,
+                                 DateTime?      InvalidationTime = null)
+
+        {
+
+            if (_ThreadLocalTransaction != null &&
+                _ThreadLocalTransaction.IsValueCreated &&
+               (_ThreadLocalTransaction.Value.State == TransactionState.Running ||
+                _ThreadLocalTransaction.Value.State == TransactionState.NestedTransaction ||
+                _ThreadLocalTransaction.Value.State == TransactionState.Committing ||
+                _ThreadLocalTransaction.Value.State == TransactionState.RollingBack))
+            {
+
+                throw new CouldNotBeginTransactionException<TIdVertex, TIdVertex, IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>(
+                    _ThreadLocalTransaction.Value,
+                    Message: "Transaction still in state '" + _ThreadLocalTransaction.Value.State.ToString() + "' on Thread " + Thread.CurrentThread.ManagedThreadId + "!");
+
+            }
+
+
+            _ThreadLocalTransaction = new ThreadLocal<Transaction<TIdVertex, TIdVertex, IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>>(
+
+                () => new Transaction<TIdVertex, TIdVertex, IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                  TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                  TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                  TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>(
+                    default(TIdVertex),
+                    this.Id,
+                    Name,
+                    Distributed,
+                    LongRunning,
+                    IsolationLevel,
+                    CreationTime,
+                    InvalidationTime,
+                    () => new GenericPartitionPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                            TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                            TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                            TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>(
+                                                            this.Id,
+                                                            "Transaction Graph",
+                                                            //GraphFactory.cre<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                            //                         TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                            //                         TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                            //                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>(this.Id,),
+                                                            ReadGraphs: this)));
+
+
+            //ToDo: Add delegates denying all modifications of the underlying graph!
+
+            return _ThreadLocalTransaction.Value;
+
+        }
 
         #endregion
 

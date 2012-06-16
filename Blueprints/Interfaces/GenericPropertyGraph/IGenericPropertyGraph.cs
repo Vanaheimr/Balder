@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using de.ahzf.Illias.Commons;
 using de.ahzf.Illias.Commons.Votes;
 using de.ahzf.Vanaheimr.Styx;
+using de.ahzf.Illias.Commons.Transactions;
 
 #endregion
 
@@ -4326,6 +4327,18 @@ namespace de.ahzf.Vanaheimr.Blueprints
         #endregion
 
         #endregion
+
+        Transaction<TIdVertex, TIdVertex, IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
+
+            BeginTransaction(String         Name              = "", 
+                             Boolean        Distributed       = false,
+                             Boolean        LongRunning       = false,
+                             IsolationLevel IsolationLevel    = IsolationLevel.Write,
+                             DateTime?      CreationTime      = null,
+                             DateTime?      InvalidationTime  = null);
 
         #region General Graph Maintenance
 
