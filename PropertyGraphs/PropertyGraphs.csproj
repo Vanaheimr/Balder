@@ -42,7 +42,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GenericPropertyGraph\GenericPropertyGraph.cs" />
     <Compile Include="GenericPropertyGraph\GenericPropertyHyperEdge.cs" />
     <Compile Include="PartitionGraph\GenericPartitionPropertyGraph.cs" />
     <Compile Include="GraphSchemaHandling.cs" />

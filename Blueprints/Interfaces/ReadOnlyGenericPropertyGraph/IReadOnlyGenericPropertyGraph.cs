@@ -854,6 +854,15 @@ namespace de.ahzf.Vanaheimr.Blueprints
 
         #endregion
 
+        #region ToString()
+
+        /// <summary>
+        /// Return a string representation of this generic property graph.
+        /// </summary>
+        String ToString();
+
+        #endregion
+
     }
 
     #endregion

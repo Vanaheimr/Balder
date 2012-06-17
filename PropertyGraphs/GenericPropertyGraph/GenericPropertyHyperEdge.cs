@@ -1233,7 +1233,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         #region ToString()
 
         /// <summary>
-        /// Returns a string representation of this object.
+        /// Return a string representation of this object.
         /// </summary>
         public override String ToString()
         {

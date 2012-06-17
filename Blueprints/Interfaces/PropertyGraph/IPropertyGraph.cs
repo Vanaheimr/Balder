@@ -26,7 +26,7 @@ namespace de.ahzf.Vanaheimr.Blueprints
 {
 
     /// <summary>
-    /// A standardized property graph.
+    /// A simplified property graph.
     /// </summary>
     public interface IPropertyGraph : IGenericPropertyGraph<UInt64, Int64, String, String, Object,
                                                             UInt64, Int64, String, String, Object,
