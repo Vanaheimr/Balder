@@ -5889,6 +5889,8 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #region ToString()
 
+        // It's always a vertex and sometimes a graph...
+
         /// <summary>
         /// Return a string representation of this object as a generic property vertex.
         /// </summary>
