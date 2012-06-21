@@ -509,7 +509,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #endregion
 
-        #region CreateLabeledPropertyGraph<TVertexLabel, TEdgeLabel, TMultiEdgeLabel, THyperEdgeLabel>(...)
+        #region CreateLabeledPropertyGraph2<TVertexLabel, TEdgeLabel, TMultiEdgeLabel, THyperEdgeLabel>(...)
 
         public static IGenericPropertyGraph<String, Int64, TVertexLabel,    String, Object,
                                             String, Int64, TEdgeLabel,      String, Object,
