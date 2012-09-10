@@ -43,7 +43,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         where TId     : IEquatable<TId>,    IComparable<TId>,    IComparable, TValue
         where TRevId  : IEquatable<TRevId>, IComparable<TRevId>, IComparable, TValue
-        where TLabel  : IEquatable<TLabel>, IComparable<TLabel>, IComparable
+        where TLabel  : IEquatable<TLabel>, IComparable<TLabel>, IComparable, TValue
         where TKey    : IEquatable<TKey>,   IComparable<TKey>,   IComparable
 
     {
@@ -144,7 +144,20 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         /// <summary>
         /// Provides a label of something.
         /// </summary>
-        public TLabel Label { get; private set; }
+        public TLabel Label
+        {
+            get
+            {
+
+                TValue _TValue;
+
+                if (PropertyData.TryGetValue(LabelKey, out _TValue))
+                    return (TLabel) (Object) _TValue;
+
+                return default(TLabel);
+
+            }
+        }
 
         #endregion
 
@@ -364,6 +377,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         /// <param name="Label">The label of the graph element.</param>
         /// <param name="IdKey">The key to access the Id of this graph element.</param>
         /// <param name="RevIdKey">The key to access the RevId of this graph element.</param>
+        /// <param name="LabelKey">The key to access the Label of this graph element.</param>
         /// <param name="DescriptionKey">The key to access the description of this graph element.</param>
         /// <param name="DatastructureInitializer">A delegate to initialize the properties datastructure of the this graph element.</param>
         /// <param name="PropertiesInitializer">A delegate to do some initial operations like adding some properties.</param>
@@ -371,6 +385,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                          TLabel                               Label,
                                          TKey                                 IdKey,
                                          TKey                                 RevIdKey,
+                                         TKey                                 LabelKey,
                                          TKey                                 DescriptionKey,                                         
                                          IDictionaryInitializer<TKey, TValue> DatastructureInitializer,
                                          IPropertiesInitializer<TKey, TValue> PropertiesInitializer = null)
@@ -379,19 +394,22 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
             #region Initial checks
 
             if (IdKey == null)
-                throw new ArgumentNullException("The given IdKey must not be null!");
+                throw new ArgumentNullException("IdKey", "The given IdKey must not be null!");
 
             if (Id == null)
-                throw new ArgumentNullException("The given Id must not be null!");
+                throw new ArgumentNullException("Id", "The given Id must not be null!");
 
             if (RevIdKey == null)
-                throw new ArgumentNullException("The given RevIdKey must not be null!");
+                throw new ArgumentNullException("RevIdKey", "The given RevIdKey must not be null!");
+
+            if (LabelKey == null)
+                throw new ArgumentNullException("LabelKey", "The given LabelKey must not be null!");
 
             if (DescriptionKey == null)
-                throw new ArgumentNullException("The given DescriptionKey must not be null!");
+                throw new ArgumentNullException("DescriptionKey", "The given DescriptionKey must not be null!");
 
             if (DatastructureInitializer == null)
-                throw new ArgumentNullException("The given DatastructureInitializer must not be null!");
+                throw new ArgumentNullException("DatastructureInitializer", "The given DatastructureInitializer must not be null!");
 
             #endregion
 
@@ -406,7 +424,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
             this.PropertyData   = DatastructureInitializer();
             this.PropertyData.Add(IdKey,    Id);
             this.PropertyData.Add(RevIdKey, RevId);
-            this.Label          = Label;
+            this.PropertyData.Add(LabelKey, Label);
 
             if (PropertiesInitializer != null)
                 PropertiesInitializer(this);

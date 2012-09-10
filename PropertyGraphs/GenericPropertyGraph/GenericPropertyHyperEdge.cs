@@ -89,10 +89,10 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         where TRevIdMultiEdge  : IEquatable<TRevIdMultiEdge>, IComparable<TRevIdMultiEdge>, IComparable, TValueMultiEdge
         where TRevIdHyperEdge  : IEquatable<TRevIdHyperEdge>, IComparable<TRevIdHyperEdge>, IComparable, TValueHyperEdge
 
-        where TVertexLabel     : IEquatable<TVertexLabel>,    IComparable<TVertexLabel>,    IComparable
-        where TEdgeLabel       : IEquatable<TEdgeLabel>,      IComparable<TEdgeLabel>,      IComparable
-        where TMultiEdgeLabel  : IEquatable<TMultiEdgeLabel>, IComparable<TMultiEdgeLabel>, IComparable
-        where THyperEdgeLabel  : IEquatable<THyperEdgeLabel>, IComparable<THyperEdgeLabel>, IComparable
+        where TVertexLabel     : IEquatable<TVertexLabel>,    IComparable<TVertexLabel>,    IComparable, TValueVertex
+        where TEdgeLabel       : IEquatable<TEdgeLabel>,      IComparable<TEdgeLabel>,      IComparable, TValueEdge
+        where TMultiEdgeLabel  : IEquatable<TMultiEdgeLabel>, IComparable<TMultiEdgeLabel>, IComparable, TValueMultiEdge
+        where THyperEdgeLabel  : IEquatable<THyperEdgeLabel>, IComparable<THyperEdgeLabel>, IComparable, TValueHyperEdge
 
         where TKeyVertex       : IEquatable<TKeyVertex>,      IComparable<TKeyVertex>,      IComparable
         where TKeyEdge         : IEquatable<TKeyEdge>,        IComparable<TKeyEdge>,        IComparable
@@ -151,7 +151,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #region Constructor(s)
 
-        #region GenericPropertyHyperEdge(Graph, OutVertex, InVertex, HyperEdgeId, HyperEdgeLabel, IdKey, RevIdKey, DatastructureInitializer, EdgeInitializer = null)
+        #region GenericPropertyHyperEdge(Graph, OutVertex, InVertex, HyperEdgeId, HyperEdgeLabel, IdKey, RevIdKey, LabelKey, DatastructureInitializer, EdgeInitializer = null)
 
         /// <summary>
         /// Creates a new hyperedge.
@@ -162,6 +162,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         /// <param name="HyperEdgeLabel">A label stored within this hyperedge.</param>
         /// <param name="IdKey">The key of the hyperedge identifier.</param>
         /// <param name="RevIdKey">The key of the hyperedge revision identifier.</param>
+        /// <param name="LabelKey">The key to access the Label of this graph element.</param>
         /// <param name="DescriptionKey">The property key to access the description of the hyperedge.</param>
         /// <param name="DatastructureInitializer">A delegate to initialize the properties datastructure.</param>
         /// <param name="VerticesCollectionInitializer">A delegate to initialize the datastructure for storing the vertices.</param>
@@ -181,6 +182,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                         THyperEdgeLabel HyperEdgeLabel,
                                         TKeyHyperEdge   IdKey,
                                         TKeyHyperEdge   RevIdKey,
+                                        TKeyHyperEdge   LabelKey,
                                         TKeyHyperEdge   DescriptionKey,
 
                                         IDictionaryInitializer<TKeyHyperEdge, TValueHyperEdge> DatastructureInitializer,
@@ -195,7 +197,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> HyperEdgeInitializer = null)
 
-            : base(HyperEdgeId, HyperEdgeLabel, IdKey, RevIdKey, DescriptionKey, DatastructureInitializer)
+            : base(HyperEdgeId, HyperEdgeLabel, IdKey, RevIdKey, LabelKey, DescriptionKey, DatastructureInitializer)
 
         {
 

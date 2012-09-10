@@ -131,6 +131,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                     // Vertices
                                                                                     GraphDBOntology.Id().Suffix,
                                                                                     GraphDBOntology.RevId().Suffix,
+                                                                                    GraphDBOntology.Label().Suffix,
                                                                                     GraphDBOntology.Description().Suffix,
                                                                                     new IdGenerator_UInt64(),
                                                                                     GraphDBOntology.DefaultVertexLabel().Suffix,
@@ -138,6 +139,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                     // Edges
                                                                                     GraphDBOntology.Id().Suffix,
                                                                                     GraphDBOntology.RevId().Suffix,
+                                                                                    GraphDBOntology.Label().Suffix,
                                                                                     GraphDBOntology.Description().Suffix,
                                                                                     new IdGenerator_UInt64(),
                                                                                     GraphDBOntology.DefaultEdgeLabel().Suffix,
@@ -145,6 +147,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                     // Multiedges
                                                                                     GraphDBOntology.Id().Suffix,
                                                                                     GraphDBOntology.RevId().Suffix,
+                                                                                    GraphDBOntology.Label().Suffix,
                                                                                     GraphDBOntology.Description().Suffix,
                                                                                     new IdGenerator_UInt64(),
                                                                                     GraphDBOntology.DefaultMultiEdgeLabel().Suffix,
@@ -152,6 +155,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                     // Hyperedges
                                                                                     GraphDBOntology.Id().Suffix,
                                                                                     GraphDBOntology.RevId().Suffix,
+                                                                                    GraphDBOntology.Label().Suffix,
                                                                                     GraphDBOntology.Description().Suffix,
                                                                                     new IdGenerator_UInt64(),
                                                                                     GraphDBOntology.DefaultHyperEdgeLabel().Suffix,
@@ -199,6 +203,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                     // Vertices
                                                                                     GraphDBOntology.Id().Suffix,
                                                                                     GraphDBOntology.RevId().Suffix,
+                                                                                    GraphDBOntology.Label().Suffix,
                                                                                     GraphDBOntology.Description().Suffix,
                                                                                     new IdGenerator_String(),
                                                                                     GraphDBOntology.DefaultVertexLabel().Suffix,
@@ -206,6 +211,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                     // Edges
                                                                                     GraphDBOntology.Id().Suffix,
                                                                                     GraphDBOntology.RevId().Suffix,
+                                                                                    GraphDBOntology.Label().Suffix,
                                                                                     GraphDBOntology.Description().Suffix,
                                                                                     new IdGenerator_String(),
                                                                                     GraphDBOntology.DefaultEdgeLabel().Suffix,
@@ -213,6 +219,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                     // Multiedges
                                                                                     GraphDBOntology.Id().Suffix,
                                                                                     GraphDBOntology.RevId().Suffix,
+                                                                                    GraphDBOntology.Label().Suffix,
                                                                                     GraphDBOntology.Description().Suffix,
                                                                                     new IdGenerator_String(),
                                                                                     GraphDBOntology.DefaultMultiEdgeLabel().Suffix,
@@ -220,6 +227,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                     // Hyperedges
                                                                                     GraphDBOntology.Id().Suffix,
                                                                                     GraphDBOntology.RevId().Suffix,
+                                                                                    GraphDBOntology.Label().Suffix,
                                                                                     GraphDBOntology.Description().Suffix,
                                                                                     new IdGenerator_String(),
                                                                                     GraphDBOntology.DefaultHyperEdgeLabel().Suffix,
@@ -249,6 +257,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         /// <param name="GraphId">The graph identification.</param></param>
         /// <param name="IdKey">The property key to access the Ids.</param>
         /// <param name="RevIdKey">The property key to access the RevisionIds.</param>
+        /// <param name="LabelKey">The key to access the Label of this graph element.</param>
         /// <param name="DescriptionKey">The property key to access the descriptions.</param>
         /// <param name="VertexIdCreatorDelegate">A delegate to create a new vertex identification.</param>
         /// <param name="EdgeIdCreatorDelegate">A delegate to create a new edge identification.</param>
@@ -266,6 +275,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                      String Description,
                                      TKey IdKey,
                                      TKey RevIdKey,
+                                     TKey LabelKey,
                                      TKey DescriptionKey,
 
                                      VertexIdCreatorDelegate   <TId, TRevId, TLabel, TKey, TValue,
@@ -299,8 +309,8 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
             where TId     : IEquatable<TId>,    IComparable<TId>,    IComparable, TValue
             where TRevId  : IEquatable<TRevId>, IComparable<TRevId>, IComparable, TValue
+            where TLabel  : IEquatable<TLabel>, IComparable<TLabel>, IComparable, TValue
             where TKey    : IEquatable<TKey>,   IComparable<TKey>,   IComparable
-            where TLabel  : IEquatable<TLabel>, IComparable<TLabel>, IComparable
 
         {
 
@@ -313,6 +323,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                 // Vertices
                                                                                 IdKey,
                                                                                 RevIdKey,
+                                                                                LabelKey,
                                                                                 DescriptionKey,
                                                                                 VertexIdCreatorDelegate,
                                                                                 DefaultLabel,
@@ -320,6 +331,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                 // Edges
                                                                                 IdKey,
                                                                                 RevIdKey,
+                                                                                LabelKey,
                                                                                 DescriptionKey,
                                                                                 EdgeIdCreatorDelegate,
                                                                                 DefaultLabel,
@@ -327,6 +339,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                 // Multiedges
                                                                                 IdKey,
                                                                                 RevIdKey,
+                                                                                LabelKey,
                                                                                 DescriptionKey,
                                                                                 MultiEdgeIdCreatorDelegate,
                                                                                 DefaultLabel,
@@ -334,6 +347,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                 // Hyperedges
                                                                                 IdKey,
                                                                                 RevIdKey,
+                                                                                LabelKey,
                                                                                 DescriptionKey,
                                                                                 HyperEdgeIdCreatorDelegate,
                                                                                 DefaultLabel,
@@ -377,6 +391,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                      String                       Description,
                                      TKey                         IdKey,
                                      TKey                         RevIdKey,
+                                     TKey                         LabelKey,
                                      TKey                         DescriptionKey,                                     
                                      IdCreatorDelegate<TId>       IdCreatorDelegate,
                                      RevIdCreatorDelegate<TRevId> RevIdCreatorDelegate,
@@ -388,8 +403,8 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
             where TId     : IEquatable<TId>,    IComparable<TId>,    IComparable, TValue
             where TRevId  : IEquatable<TRevId>, IComparable<TRevId>, IComparable, TValue
+            where TLabel  : IEquatable<TLabel>, IComparable<TLabel>, IComparable, TValue
             where TKey    : IEquatable<TKey>,   IComparable<TKey>,   IComparable
-            where TLabel  : IEquatable<TLabel>, IComparable<TLabel>, IComparable
 
         {
 
@@ -397,6 +412,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                Description,
                                                                                IdKey,
                                                                                RevIdKey,
+                                                                               LabelKey,
                                                                                DescriptionKey,
                                                                                (graph) => IdCreatorDelegate(),
                                                                                (graph) => IdCreatorDelegate(),
@@ -473,6 +489,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                              // Vertices
                                                                                              GraphDBOntology.Id().Suffix,
                                                                                              GraphDBOntology.RevId().Suffix,
+                                                                                             GraphDBOntology.Label().Suffix,
                                                                                              GraphDBOntology.Description().Suffix,
                                                                                              VertexIdCreatorDelegate,
                                                                                              DefaultVertexLabel,
@@ -480,6 +497,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                              // Edges
                                                                                              GraphDBOntology.Id().Suffix,
                                                                                              GraphDBOntology.RevId().Suffix,
+                                                                                             GraphDBOntology.Label().Suffix,
                                                                                              GraphDBOntology.Description().Suffix,
                                                                                              EdgeIdCreatorDelegate,
                                                                                              DefaultEdgeLabel,
@@ -487,6 +505,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                              // Multiedges
                                                                                              GraphDBOntology.Id().Suffix,
                                                                                              GraphDBOntology.RevId().Suffix,
+                                                                                             GraphDBOntology.Label().Suffix,
                                                                                              GraphDBOntology.Description().Suffix,
                                                                                              MultiEdgeIdCreatorDelegate,
                                                                                              DefaultMultiEdgeLabel,
@@ -494,6 +513,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                              // Hyperedges
                                                                                              GraphDBOntology.Id().Suffix,
                                                                                              GraphDBOntology.RevId().Suffix,
+                                                                                             GraphDBOntology.Label().Suffix,
                                                                                              GraphDBOntology.Description().Suffix,
                                                                                              HyperEdgeIdCreatorDelegate,
                                                                                              DefaultHyperEdgeLabel,
@@ -544,6 +564,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                              // Vertices
                                                                                              GraphDBOntology.Id().Suffix,
                                                                                              GraphDBOntology.RevId().Suffix,
+                                                                                             GraphDBOntology.Label().Suffix,
                                                                                              GraphDBOntology.Description().Suffix,
                                                                                              new IdGenerator_String(),
                                                                                              DefaultVertexLabel,
@@ -551,6 +572,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                              // Edges
                                                                                              GraphDBOntology.Id().Suffix,
                                                                                              GraphDBOntology.RevId().Suffix,
+                                                                                             GraphDBOntology.Label().Suffix,
                                                                                              GraphDBOntology.Description().Suffix,
                                                                                              new IdGenerator_String(),
                                                                                              DefaultEdgeLabel,
@@ -558,6 +580,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                              // Multiedges
                                                                                              GraphDBOntology.Id().Suffix,
                                                                                              GraphDBOntology.RevId().Suffix,
+                                                                                             GraphDBOntology.Label().Suffix,
                                                                                              GraphDBOntology.Description().Suffix,
                                                                                              new IdGenerator_String(),
                                                                                              DefaultMultiEdgeLabel,
@@ -565,6 +588,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                              // Hyperedges
                                                                                              GraphDBOntology.Id().Suffix,
                                                                                              GraphDBOntology.RevId().Suffix,
+                                                                                             GraphDBOntology.Label().Suffix,
                                                                                              GraphDBOntology.Description().Suffix,
                                                                                              new IdGenerator_String(),
                                                                                              DefaultHyperEdgeLabel,
@@ -629,6 +653,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                               // Vertices
                                                                                               GraphDBOntology.Id().Suffix,
                                                                                               GraphDBOntology.RevId().Suffix,
+                                                                                              GraphDBOntology.Label().Suffix,
                                                                                               GraphDBOntology.Description().Suffix,
                                                                                               VertexIdCreatorDelegate,
                                                                                               GraphDBOntology.DefaultVertexLabel().Suffix,
@@ -636,6 +661,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                               // Edhes
                                                                                               GraphDBOntology.Id().Suffix,
                                                                                               GraphDBOntology.RevId().Suffix,
+                                                                                              GraphDBOntology.Label().Suffix,
                                                                                               GraphDBOntology.Description().Suffix,
                                                                                               EdgeIdCreatorDelegate,
                                                                                               GraphDBOntology.DefaultEdgeLabel().Suffix,
@@ -643,6 +669,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                               // MultiEdges
                                                                                               GraphDBOntology.Id().Suffix,
                                                                                               GraphDBOntology.RevId().Suffix,
+                                                                                              GraphDBOntology.Label().Suffix,
                                                                                               GraphDBOntology.Description().Suffix,
                                                                                               MultiEdgeIdCreatorDelegate,
                                                                                               GraphDBOntology.DefaultMultiEdgeLabel().Suffix,
@@ -650,6 +677,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                               // HyperEdges
                                                                                               GraphDBOntology.Id().Suffix,
                                                                                               GraphDBOntology.RevId().Suffix,
+                                                                                              GraphDBOntology.Label().Suffix,
                                                                                               GraphDBOntology.Description().Suffix,
                                                                                               HyperEdgeIdCreatorDelegate,
                                                                                               GraphDBOntology.DefaultHyperEdgeLabel().Suffix,
@@ -716,6 +744,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                                                  // Vertices
                                                                                                                  GraphDBOntology.Id(),
                                                                                                                  GraphDBOntology.RevId(),
+                                                                                                                 GraphDBOntology.Label(),
                                                                                                                  GraphDBOntology.Description(),
                                                                                                                  VertexIdCreatorDelegate,
                                                                                                                  GraphDBOntology.DefaultVertexLabel(),
@@ -723,6 +752,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                                                   // Edges
                                                                                                                   GraphDBOntology.Id(),
                                                                                                                   GraphDBOntology.RevId(),
+                                                                                                                  GraphDBOntology.Label(),
                                                                                                                   GraphDBOntology.Description(),
                                                                                                                   EdgeIdCreatorDelegate,
                                                                                                                   GraphDBOntology.DefaultEdgeLabel(),
@@ -730,6 +760,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                                                   // Multiedges
                                                                                                                   GraphDBOntology.Id(),
                                                                                                                   GraphDBOntology.RevId(),
+                                                                                                                  GraphDBOntology.Label(),
                                                                                                                   GraphDBOntology.Description(),
                                                                                                                   MultiEdgeIdCreatorDelegate,
                                                                                                                   GraphDBOntology.DefaultMultiEdgeLabel(),
@@ -737,6 +768,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                                                   // Hyperedges
                                                                                                                   GraphDBOntology.Id(),
                                                                                                                   GraphDBOntology.RevId(),
+                                                                                                                  GraphDBOntology.Label(),
                                                                                                                   GraphDBOntology.Description(),
                                                                                                                   HyperEdgeIdCreatorDelegate,
                                                                                                                   GraphDBOntology.DefaultHyperEdgeLabel(),
@@ -781,6 +813,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                     // Vertices
                                                                                     GraphDBOntology.Id().Suffix,
                                                                                     GraphDBOntology.RevId().Suffix,
+                                                                                    GraphDBOntology.Label().Suffix,
                                                                                     GraphDBOntology.Description().Suffix,
                                                                                     new IdGenerator_String(),
                                                                                     GraphDBOntology.DefaultVertexLabel().Suffix,
@@ -788,6 +821,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                     // Edges
                                                                                     GraphDBOntology.Id().Suffix,
                                                                                     GraphDBOntology.RevId().Suffix,
+                                                                                    GraphDBOntology.Label().Suffix,
                                                                                     GraphDBOntology.Description().Suffix,
                                                                                     new IdGenerator_String(),
                                                                                     GraphDBOntology.DefaultEdgeLabel().Suffix,
@@ -795,6 +829,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                     // Multiedges
                                                                                     GraphDBOntology.Id().Suffix,
                                                                                     GraphDBOntology.RevId().Suffix,
+                                                                                    GraphDBOntology.Label().Suffix,
                                                                                     GraphDBOntology.Description().Suffix,
                                                                                     new IdGenerator_String(),
                                                                                     GraphDBOntology.DefaultMultiEdgeLabel().Suffix,
@@ -802,6 +837,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                     // Hyperedges
                                                                                     GraphDBOntology.Id().Suffix,
                                                                                     GraphDBOntology.RevId().Suffix,
+                                                                                    GraphDBOntology.Label().Suffix,
                                                                                     GraphDBOntology.Description().Suffix,
                                                                                     new IdGenerator_String(),
                                                                                     GraphDBOntology.DefaultHyperEdgeLabel().Suffix,
@@ -889,10 +925,10 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
             where TRevIdMultiEdge  : IEquatable<TRevIdMultiEdge>, IComparable<TRevIdMultiEdge>, IComparable, TValueMultiEdge
             where TRevIdHyperEdge  : IEquatable<TRevIdHyperEdge>, IComparable<TRevIdHyperEdge>, IComparable, TValueHyperEdge
 
-            where TVertexLabel     : IEquatable<TVertexLabel>,    IComparable<TVertexLabel>,    IComparable
-            where TEdgeLabel       : IEquatable<TEdgeLabel>,      IComparable<TEdgeLabel>,      IComparable
-            where TMultiEdgeLabel  : IEquatable<TMultiEdgeLabel>, IComparable<TMultiEdgeLabel>, IComparable
-            where THyperEdgeLabel  : IEquatable<THyperEdgeLabel>, IComparable<THyperEdgeLabel>, IComparable
+            where TVertexLabel     : IEquatable<TVertexLabel>,    IComparable<TVertexLabel>,    IComparable, TValueVertex
+            where TEdgeLabel       : IEquatable<TEdgeLabel>,      IComparable<TEdgeLabel>,      IComparable, TValueEdge
+            where TMultiEdgeLabel  : IEquatable<TMultiEdgeLabel>, IComparable<TMultiEdgeLabel>, IComparable, TValueMultiEdge
+            where THyperEdgeLabel  : IEquatable<THyperEdgeLabel>, IComparable<THyperEdgeLabel>, IComparable, TValueHyperEdge
 
             where TKeyVertex       : IEquatable<TKeyVertex>,      IComparable<TKeyVertex>,      IComparable
             where TKeyEdge         : IEquatable<TKeyEdge>,        IComparable<TKeyEdge>,        IComparable
@@ -982,10 +1018,10 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
             where TRevIdMultiEdge  : IEquatable<TRevIdMultiEdge>, IComparable<TRevIdMultiEdge>, IComparable, TValueMultiEdge
             where TRevIdHyperEdge  : IEquatable<TRevIdHyperEdge>, IComparable<TRevIdHyperEdge>, IComparable, TValueHyperEdge
 
-            where TVertexLabel     : IEquatable<TVertexLabel>,    IComparable<TVertexLabel>,    IComparable
-            where TEdgeLabel       : IEquatable<TEdgeLabel>,      IComparable<TEdgeLabel>,      IComparable
-            where TMultiEdgeLabel  : IEquatable<TMultiEdgeLabel>, IComparable<TMultiEdgeLabel>, IComparable
-            where THyperEdgeLabel  : IEquatable<THyperEdgeLabel>, IComparable<THyperEdgeLabel>, IComparable
+            where TVertexLabel     : IEquatable<TVertexLabel>,    IComparable<TVertexLabel>,    IComparable, TValueVertex
+            where TEdgeLabel       : IEquatable<TEdgeLabel>,      IComparable<TEdgeLabel>,      IComparable, TValueEdge
+            where TMultiEdgeLabel  : IEquatable<TMultiEdgeLabel>, IComparable<TMultiEdgeLabel>, IComparable, TValueMultiEdge
+            where THyperEdgeLabel  : IEquatable<THyperEdgeLabel>, IComparable<THyperEdgeLabel>, IComparable, TValueHyperEdge
 
             where TKeyVertex       : IEquatable<TKeyVertex>,      IComparable<TKeyVertex>,      IComparable
             where TKeyEdge         : IEquatable<TKeyEdge>,        IComparable<TKeyEdge>,        IComparable
@@ -1082,10 +1118,10 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
             where TRevIdMultiEdge  : IEquatable<TRevIdMultiEdge>, IComparable<TRevIdMultiEdge>, IComparable, TValueMultiEdge
             where TRevIdHyperEdge  : IEquatable<TRevIdHyperEdge>, IComparable<TRevIdHyperEdge>, IComparable, TValueHyperEdge
 
-            where TVertexLabel     : IEquatable<TVertexLabel>,    IComparable<TVertexLabel>,    IComparable
-            where TEdgeLabel       : IEquatable<TEdgeLabel>,      IComparable<TEdgeLabel>,      IComparable
-            where TMultiEdgeLabel  : IEquatable<TMultiEdgeLabel>, IComparable<TMultiEdgeLabel>, IComparable
-            where THyperEdgeLabel  : IEquatable<THyperEdgeLabel>, IComparable<THyperEdgeLabel>, IComparable
+            where TVertexLabel     : IEquatable<TVertexLabel>,    IComparable<TVertexLabel>,    IComparable, TValueVertex
+            where TEdgeLabel       : IEquatable<TEdgeLabel>,      IComparable<TEdgeLabel>,      IComparable, TValueEdge
+            where TMultiEdgeLabel  : IEquatable<TMultiEdgeLabel>, IComparable<TMultiEdgeLabel>, IComparable, TValueMultiEdge
+            where THyperEdgeLabel  : IEquatable<THyperEdgeLabel>, IComparable<THyperEdgeLabel>, IComparable, TValueHyperEdge
 
             where TKeyVertex       : IEquatable<TKeyVertex>,      IComparable<TKeyVertex>,      IComparable
             where TKeyEdge         : IEquatable<TKeyEdge>,        IComparable<TKeyEdge>,        IComparable

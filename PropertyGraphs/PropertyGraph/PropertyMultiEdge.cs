@@ -105,6 +105,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         /// <param name="Label">A label stored within this multiedge.</param>
         /// <param name="IdKey">The key to access the Id of this multiedge.</param>
         /// <param name="RevIdKey">The key to access the RevId of this multiedge.</param>
+        /// <param name="LabelKey">The key to access the Label of this graph element.</param>
         /// <param name="DatastructureInitializer">A delegate to initialize the properties datastructure.</param>
         /// <param name="EdgesCollectionInitializer">A delegate to initialize the datastructure for storing the edges.</param>
         /// <param name="MultiEdgeInitializer">A delegate to initialize the newly created multiedge.</param>
@@ -118,8 +119,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                  UInt64 MultiEdgeId,
                                  String Label,
                                  String IdKey,
-                                 String DescriptionKey,
                                  String RevIdKey,
+                                 String LabelKey,
+                                 String DescriptionKey,
 
                                  IDictionaryInitializer<String, Object> DatastructureInitializer,
 
@@ -133,7 +135,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                       UInt64, Int64, String, String, Object,
                                                       UInt64, Int64, String, String, Object> MultiEdgeInitializer = null)
 
-            : base(Graph, EdgeSelector, MultiEdgeId, Label, IdKey, DescriptionKey, RevIdKey, DatastructureInitializer, EdgesCollectionInitializer, MultiEdgeInitializer)
+            : base(Graph, EdgeSelector, MultiEdgeId, Label, IdKey, DescriptionKey, RevIdKey, LabelKey, DatastructureInitializer, EdgesCollectionInitializer, MultiEdgeInitializer)
 
         { }
 

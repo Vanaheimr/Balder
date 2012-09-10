@@ -113,6 +113,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                     // Property keys
                     GraphDBOntology.Id().Suffix,
                     GraphDBOntology.RevId().Suffix,
+                    GraphDBOntology.Label().Suffix,
                     GraphDBOntology.Description().Suffix,
                     () => new Dictionary<String, Object>(),
                     
@@ -127,6 +128,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                              _VertexLabel,
                              GraphDBOntology.Id().Suffix,
                              GraphDBOntology.RevId().Suffix,
+                             GraphDBOntology.Label().Suffix,
                              GraphDBOntology.Description().Suffix,
                              () => new Dictionary<String, Object>(),
 
@@ -174,6 +176,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                              Label,
                              GraphDBOntology.Id().Suffix,
                              GraphDBOntology.RevId().Suffix,
+                             GraphDBOntology.Label().Suffix,
                              GraphDBOntology.Description().Suffix,
                              () => new Dictionary<String, Object>(),
                              EdgeInitializer),
@@ -201,6 +204,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                              Label,
                              GraphDBOntology.Id().Suffix,
                              GraphDBOntology.RevId().Suffix,
+                             GraphDBOntology.Label().Suffix,
                              GraphDBOntology.Description().Suffix,
 
                              () => new Dictionary<String, Object>(),
@@ -234,6 +238,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                              Label,
                              GraphDBOntology.Id().Suffix,
                              GraphDBOntology.RevId().Suffix,
+                             GraphDBOntology.Label().Suffix,
                              GraphDBOntology.Description().Suffix,
 
                              () => new Dictionary<String, Object>(),

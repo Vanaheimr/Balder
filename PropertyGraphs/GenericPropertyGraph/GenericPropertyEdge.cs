@@ -85,10 +85,10 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         where TRevIdMultiEdge  : IEquatable<TRevIdMultiEdge>, IComparable<TRevIdMultiEdge>, IComparable, TValueMultiEdge
         where TRevIdHyperEdge  : IEquatable<TRevIdHyperEdge>, IComparable<TRevIdHyperEdge>, IComparable, TValueHyperEdge
 
-        where TVertexLabel     : IEquatable<TVertexLabel>,    IComparable<TVertexLabel>,    IComparable
-        where TEdgeLabel       : IEquatable<TEdgeLabel>,      IComparable<TEdgeLabel>,      IComparable
-        where TMultiEdgeLabel  : IEquatable<TMultiEdgeLabel>, IComparable<TMultiEdgeLabel>, IComparable
-        where THyperEdgeLabel  : IEquatable<THyperEdgeLabel>, IComparable<THyperEdgeLabel>, IComparable
+        where TVertexLabel     : IEquatable<TVertexLabel>,    IComparable<TVertexLabel>,    IComparable, TValueVertex
+        where TEdgeLabel       : IEquatable<TEdgeLabel>,      IComparable<TEdgeLabel>,      IComparable, TValueEdge
+        where TMultiEdgeLabel  : IEquatable<TMultiEdgeLabel>, IComparable<TMultiEdgeLabel>, IComparable, TValueMultiEdge
+        where THyperEdgeLabel  : IEquatable<THyperEdgeLabel>, IComparable<THyperEdgeLabel>, IComparable, TValueHyperEdge
 
         where TKeyVertex       : IEquatable<TKeyVertex>,      IComparable<TKeyVertex>,      IComparable
         where TKeyEdge         : IEquatable<TKeyEdge>,        IComparable<TKeyEdge>,        IComparable
@@ -154,7 +154,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #region Constructor(s)
 
-        #region GenericPropertyEdge(Graph, OutVertex, InVertex, EdgeId, EdgeLabel, IdKey, RevIdKey, DescriptionKey, DatastructureInitializer, EdgeInitializer = null)
+        #region GenericPropertyEdge(Graph, OutVertex, InVertex, EdgeId, EdgeLabel, IdKey, RevIdKey, LabelKey, DescriptionKey, DatastructureInitializer, EdgeInitializer = null)
 
         /// <summary>
         /// Creates a new generic property edge.
@@ -166,6 +166,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         /// <param name="EdgeLabel">A label stored within this edge.</param>
         /// <param name="IdKey">The key of the edge identifier.</param>
         /// <param name="RevIdKey">The key of the edge revision identifier.</param>
+        /// <param name="LabelKey">The key to access the Label of this graph element.</param>
         /// <param name="DescriptionKey">The property key to access the descriptions of the vertices.</param>
         /// <param name="DatastructureInitializer">A delegate to initialize the properties datastructure.</param>
         /// <param name="EdgeInitializer">A delegate to initialize the newly created edge.</param>
@@ -188,6 +189,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                    TEdgeLabel EdgeLabel,
                                    TKeyEdge   IdKey,
                                    TKeyEdge   RevIdKey,
+                                   TKeyEdge   LabelKey,
                                    TKeyEdge   DescriptionKey,
 
                                    IDictionaryInitializer<TKeyEdge, TValueEdge> DatastructureInitializer,
@@ -197,7 +199,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                    TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeInitializer = null)
 
-            : base(EdgeId, EdgeLabel, IdKey, RevIdKey, DescriptionKey, DatastructureInitializer)
+            : base(EdgeId, EdgeLabel, IdKey, RevIdKey, LabelKey, DescriptionKey, DatastructureInitializer)
 
         {
 

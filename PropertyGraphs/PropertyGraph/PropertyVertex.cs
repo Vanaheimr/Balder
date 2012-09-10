@@ -136,6 +136,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         internal PropertyVertex(UInt64  VertexId,
                                 String  IdKey,
                                 String  RevIdKey,
+                                String  LabelKey,
                                 String  DescriptionKey,
                                 IDictionaryInitializer<String, Object> DatastructureInitializer,
 
@@ -215,7 +216,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
                                 #endregion
 
-            : base(VertexId, GraphDBOntology.DefaultVertexLabel().Suffix, IdKey, RevIdKey, DescriptionKey, DatastructureInitializer,
+            : base(VertexId, GraphDBOntology.DefaultVertexLabel().Suffix, IdKey, RevIdKey, LabelKey, DescriptionKey, DatastructureInitializer,
                    VertexIdCreatorDelegate,    GraphDBOntology.DefaultVertexLabel().Suffix,    VertexCreatorDelegate,    VertexCollectionInitializer,
                    EdgeIdCreatorDelegate,      GraphDBOntology.DefaultEdgeLabel().Suffix,      EdgeCreatorDelegate,      EdgeCollectionInitializer,
                    MultiEdgeIdCreatorDelegate, GraphDBOntology.DefaultMultiEdgeLabel().Suffix, MultiEdgeCreatorDelegate, MultiEdgeCollectionInitializer,
@@ -234,6 +235,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         /// <param name="VertexId">The identification of this vertex.</param>
         /// <param name="IdKey">The key to access the Id of this vertex.</param>
         /// <param name="RevIdKey">The key to access the RevId of this vertex.</param>
+        /// <param name="LabelKey">The key to access the Label of this graph element.</param>
         /// <param name="DatastructureInitializer">A delegate to initialize the properties datastructure.</param>
         /// <param name="EdgesCollectionInitializer">A delegate to initialize the datastructure for storing all edges.</param>
         /// <param name="HyperEdgeCollectionInitializer">A delegate to initialize the datastructure for storing all hyperedges.</param>
@@ -243,6 +245,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                               String         VertexLabel,
                               String         IdKey,
                               String         RevIdKey,
+                              String         LabelKey,
                               String         DescriptionKey,
 
                               IDictionaryInitializer<String, Object> DatastructureInitializer,
@@ -272,7 +275,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                 UInt64, Int64, String, String, Object,
                                                 UInt64, Int64, String, String, Object> VertexInitializer = null)
 
-            : base(Graph, VertexId, VertexLabel, IdKey, RevIdKey, DescriptionKey, DatastructureInitializer,
+            : base(Graph, VertexId, VertexLabel, IdKey, RevIdKey, LabelKey, DescriptionKey, DatastructureInitializer,
                    VerticesCollectionInitializer, EdgesCollectionInitializer, MultiEdgesCollectionInitializer, HyperEdgesCollectionInitializer,
                    VertexInitializer)
 

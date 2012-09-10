@@ -106,6 +106,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         /// <param name="Label">A label stored within this hyperedge.</param>
         /// <param name="IdKey">The key of the hyperedge identifier.</param>
         /// <param name="RevIdKey">The key of the hyperedge revision identifier.</param>
+        /// <param name="LabelKey">The key to access the Label of this graph element.</param>
         /// <param name="DatastructureInitializer">A delegate to initialize the properties datastructure.</param>
         /// <param name="VerticesCollectionInitializer">A delegate to initialize the datastructure for storing the vertices.</param>
         /// <param name="MultiEdgeInitializer">A delegate to initialize the newly created hyperedge.</param>
@@ -118,6 +119,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                  String                       Label,
                                  String                       IdKey,
                                  String                       RevIdKey,
+                                 String                       LabelKey,
                                  String                       DescriptionKey,
 
                                  IDictionaryInitializer<String, Object> DatastructureInitializer,
@@ -132,7 +134,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                       UInt64, Int64, String, String, Object,
                                                       UInt64, Int64, String, String, Object> HyperEdgeInitializer = null)
 
-            : base(Graph, Vertices, HyperEdgeId, Label, IdKey, RevIdKey, DescriptionKey, DatastructureInitializer, VerticesCollectionInitializer, HyperEdgeInitializer)
+            : base(Graph, Vertices, HyperEdgeId, Label, IdKey, RevIdKey, LabelKey, DescriptionKey, DatastructureInitializer, VerticesCollectionInitializer, HyperEdgeInitializer)
 
         { }
 

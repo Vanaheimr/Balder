@@ -95,10 +95,10 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         where TRevIdMultiEdge  : IEquatable<TRevIdMultiEdge>, IComparable<TRevIdMultiEdge>, IComparable, TValueMultiEdge
         where TRevIdHyperEdge  : IEquatable<TRevIdHyperEdge>, IComparable<TRevIdHyperEdge>, IComparable, TValueHyperEdge
 
-        where TVertexLabel     : IEquatable<TVertexLabel>,    IComparable<TVertexLabel>,    IComparable
-        where TEdgeLabel       : IEquatable<TEdgeLabel>,      IComparable<TEdgeLabel>,      IComparable
-        where TMultiEdgeLabel  : IEquatable<TMultiEdgeLabel>, IComparable<TMultiEdgeLabel>, IComparable
-        where THyperEdgeLabel  : IEquatable<THyperEdgeLabel>, IComparable<THyperEdgeLabel>, IComparable
+        where TVertexLabel     : IEquatable<TVertexLabel>,    IComparable<TVertexLabel>,    IComparable, TValueVertex
+        where TEdgeLabel       : IEquatable<TEdgeLabel>,      IComparable<TEdgeLabel>,      IComparable, TValueEdge
+        where TMultiEdgeLabel  : IEquatable<TMultiEdgeLabel>, IComparable<TMultiEdgeLabel>, IComparable, TValueMultiEdge
+        where THyperEdgeLabel  : IEquatable<THyperEdgeLabel>, IComparable<THyperEdgeLabel>, IComparable, TValueHyperEdge
 
         where TKeyVertex       : IEquatable<TKeyVertex>,      IComparable<TKeyVertex>,      IComparable
         where TKeyEdge         : IEquatable<TKeyEdge>,        IComparable<TKeyEdge>,        IComparable
@@ -329,7 +329,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #region Constructor(s)
 
-        #region (internal) GenericPropertyVertex(VertexId, IdKey, RevIdKey, DescriptionKey, DatastructureInitializer)
+        #region (internal) GenericPropertyVertex(VertexId, IdKey, RevIdKey, LabelKey, DescriptionKey, DatastructureInitializer)
 
         /// <summary>
         /// Creates a new class-based in-memory implementation of a generic property vertex.
@@ -338,6 +338,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         /// <param name="VertexLabel">A label stored within this vertex.</typeparam>
         /// <param name="IdKey">The property key to access the Ids of the vertices.</param>
         /// <param name="RevIdKey">The property key to access the RevisionIds of the vertices.</param>
+        /// <param name="LabelKey">The key to access the Label of this graph element.</param>
         /// <param name="DescriptionKey">The property key to access the descriptions of the vertices.</param>
         /// <param name="PropertiesInitializer">A delegate to initialize the properties datastructure.</param>
         /// 
@@ -360,6 +361,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                        TVertexLabel VertexLabel, 
                                        TKeyVertex   IdKey,
                                        TKeyVertex   RevIdKey,
+                                       TKeyVertex   LabelKey,
                                        TKeyVertex   DescriptionKey,
 
                                        IDictionaryInitializer<TKeyVertex, TValueVertex> PropertiesInitializer,
@@ -448,7 +450,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
                                        #endregion
 
-            : base(VertexId, VertexLabel, IdKey, RevIdKey, DescriptionKey, PropertiesInitializer)
+            : base(VertexId, VertexLabel, IdKey, RevIdKey, LabelKey, DescriptionKey, PropertiesInitializer)
 
         {
 
@@ -646,6 +648,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                        // Vertices
                                        TKeyVertex VertexIdKey,
                                        TKeyVertex VertexRevIdKey,
+                                       TKeyVertex VertexLabelKey,
                                        TKeyVertex VertexDescriptionKey,
                                        VertexIdCreatorDelegate   <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
@@ -656,6 +659,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                        // Edges
                                        TKeyEdge   EdgeIdKey,
                                        TKeyEdge   EdgeRevIdKey,
+                                       TKeyEdge   EdgeLabelKey,
                                        TKeyEdge   EdgeDescriptionKey,
                                        EdgeIdCreatorDelegate     <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
@@ -666,6 +670,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                        // MultiEdges
                                        TKeyMultiEdge MultiEdgeIdKey,
                                        TKeyMultiEdge MultiEdgeRevIdKey,
+                                       TKeyMultiEdge MultiEdgeLabelKey,
                                        TKeyMultiEdge MultiEdgeDescriptionKey,
                                        MultiEdgeIdCreatorDelegate<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
@@ -676,6 +681,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                        // HyperEdges
                                        TKeyHyperEdge HyperEdgeIdKey,
                                        TKeyHyperEdge HyperEdgeRevIdKey,
+                                       TKeyHyperEdge HyperEdgeLabelKey,
                                        TKeyHyperEdge HyperEdgeDescriptionKey,
                                        HyperEdgeIdCreatorDelegate<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
@@ -694,6 +700,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                     DefaultVertexLabel,
                     VertexIdKey,
                     VertexRevIdKey,
+                    VertexLabelKey,
                     VertexDescriptionKey,
 
                     () => new Dictionary<TKeyVertex, TValueVertex>(),
@@ -716,6 +723,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                              _VertexLabel,
                              VertexIdKey,
                              VertexRevIdKey,
+                             VertexLabelKey,
                              VertexDescriptionKey,
                              () => new Dictionary<TKeyVertex, TValueVertex>(),
 
@@ -768,6 +776,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                              EdgeLabel,
                              EdgeIdKey,
                              EdgeRevIdKey,
+                             EdgeLabelKey,
                              EdgeDescriptionKey,
                              () => new Dictionary<TKeyEdge, TValueEdge>(),
                              EdgeInitializer),
@@ -800,6 +809,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                              MultiEdgeLabel,
                              MultiEdgeIdKey,
                              MultiEdgeRevIdKey,
+                             MultiEdgeLabelKey,
                              MultiEdgeDescriptionKey,
 
                              () => new Dictionary<TKeyMultiEdge, TValueMultiEdge>(),
@@ -837,6 +847,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                              HyperEdgeLabel,
                              HyperEdgeIdKey,
                              HyperEdgeRevIdKey,
+                             HyperEdgeLabelKey,
                              HyperEdgeDescriptionKey,
 
                              () => new Dictionary<TKeyHyperEdge, TValueHyperEdge>(),
@@ -905,6 +916,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                      // Vertices
                                      TKeyVertex VertexIdKey,
                                      TKeyVertex VertexRevIdKey,
+                                     TKeyVertex VertexLabelKey,
                                      TKeyVertex VertexDescriptionKey,
                                      IIdGenerator<TIdVertex> VertexIdCreator,
                                      TVertexLabel DefaultVertexLabel,
@@ -912,6 +924,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                      // Edges
                                      TKeyEdge   EdgeIdKey,
                                      TKeyEdge   EdgeRevIdKey,
+                                     TKeyEdge   EdgeLabelKey,
                                      TKeyEdge   EdgeDescriptionKey,
                                      IIdGenerator<TIdEdge> EdgeIdCreator,
                                      TEdgeLabel DefaultEdgeLabel,
@@ -919,6 +932,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                      // MultiEdges
                                      TKeyMultiEdge MultiEdgeIdKey,
                                      TKeyMultiEdge MultiEdgeRevIdKey,
+                                     TKeyMultiEdge MultiEdgeLabelKey,
                                      TKeyMultiEdge MultiEdgeDescriptionKey,
                                      IIdGenerator<TIdMultiEdge> MultiEdgeIdCreator,
                                      TMultiEdgeLabel DefaultMultiEdgeLabel,
@@ -926,6 +940,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                      // HyperEdges
                                      TKeyHyperEdge HyperEdgeIdKey,
                                      TKeyHyperEdge HyperEdgeRevIdKey,
+                                     TKeyHyperEdge HyperEdgeLabelKey,
                                      TKeyHyperEdge HyperEdgeDescriptionKey,
                                      IIdGenerator<TIdHyperEdge> HyperEdgeIdCreator,
                                      THyperEdgeLabel DefaultHyperEdgeLabel,
@@ -943,6 +958,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                     DefaultVertexLabel,
                     VertexIdKey,
                     VertexRevIdKey,
+                    VertexLabelKey,
                     VertexDescriptionKey,
 
                     () => new Dictionary<TKeyVertex, TValueVertex>(),
@@ -963,6 +979,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                              _VertexLabel,
                              VertexIdKey,
                              VertexRevIdKey,
+                             VertexLabelKey,
                              VertexDescriptionKey,
                              () => new Dictionary<TKeyVertex, TValueVertex>(),
 
@@ -1015,6 +1032,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                              EdgeLabel,
                              EdgeIdKey,
                              EdgeRevIdKey,
+                             EdgeLabelKey,
                              EdgeDescriptionKey,
                              () => new Dictionary<TKeyEdge, TValueEdge>(),
                              EdgeInitializer),
@@ -1047,6 +1065,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                              MultiEdgeLabel,
                              MultiEdgeIdKey,
                              MultiEdgeRevIdKey,
+                             MultiEdgeLabelKey,
                              MultiEdgeDescriptionKey,
 
                              () => new Dictionary<TKeyMultiEdge, TValueMultiEdge>(),
@@ -1084,6 +1103,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                              HyperEdgeLabel,
                              HyperEdgeIdKey,
                              HyperEdgeRevIdKey,
+                             HyperEdgeLabelKey,
                              HyperEdgeDescriptionKey,
 
                              () => new Dictionary<TKeyHyperEdge, TValueHyperEdge>(),
@@ -1113,7 +1133,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #endregion
 
-        #region GenericPropertyVertex(Graph, VertexId, IdKey, RevIdKey, DescriptionKey, DatastructureInitializer, EdgeCollectionInitializer, HyperEdgeCollectionInitializer, VertexInitializer = null)
+        #region GenericPropertyVertex(Graph, VertexId, IdKey, RevIdKey, LabelKey, DescriptionKey, DatastructureInitializer, EdgeCollectionInitializer, HyperEdgeCollectionInitializer, VertexInitializer = null)
 
         /// <summary>
         /// Creates a new class-based in-memory implementation of a generic property vertex.
@@ -1122,6 +1142,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         /// <param name="VertexId">The identification of this vertex.</param>
         /// <param name="IdKey">The key to access the Id of this vertex.</param>
         /// <param name="RevIdKey">The key to access the RevId of this vertex.</param>
+        /// <param name="LabelKey">The key to access the Label of this graph element.</param>
         /// <param name="DatastructureInitializer">A delegate to initialize the properties datastructure.</param>
         /// <param name="EdgesCollectionInitializer">A delegate to initialize the datastructure for storing all edges.</param>
         /// <param name="HyperEdgeCollectionInitializer">A delegate to initialize the datastructure for storing all hyperedges.</param>
@@ -1136,6 +1157,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
                               TKeyVertex   IdKey,
                               TKeyVertex   RevIdKey,
+                              TKeyVertex   LabelKey,
                               TKeyVertex   DescriptionKey,
 
                               IDictionaryInitializer<TKeyVertex, TValueVertex> DatastructureInitializer,
@@ -1165,7 +1187,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                 TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                 TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> VertexInitializer = null)
 
-            : base(VertexId, VertexLabel, IdKey, RevIdKey, DescriptionKey, DatastructureInitializer)
+            : base(VertexId, VertexLabel, IdKey, RevIdKey, LabelKey, DescriptionKey, DatastructureInitializer)
 
         {
 

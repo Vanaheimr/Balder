@@ -107,6 +107,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         /// <param name="Label">A label stored within this edge.</param>
         /// <param name="IdKey">The key of the edge identifier.</param>
         /// <param name="RevIdKey">The key of the edge revision identifier.</param>
+        /// <param name="LabelKey">The key to access the Label of this graph element.</param>
         /// <param name="DatastructureInitializer">A delegate to initialize the properties datastructure.</param>
         /// <param name="EdgeInitializer">A delegate to initialize the newly created edge.</param>
         public PropertyEdge(IPropertyGraph  Graph,
@@ -117,6 +118,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                             String          Label,
                             String          IdKey,
                             String          RevIdKey,
+                            String          LabelKey,
                             String          DescriptionKey,
 
                             IDictionaryInitializer<String, Object> DatastructureInitializer,
@@ -126,7 +128,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                             UInt64, Int64, String, String, Object,
                                             UInt64, Int64, String, String, Object> EdgeInitializer = null)
 
-            : base(Graph, OutVertex, InVertex, EdgeId, Label, IdKey, RevIdKey, DescriptionKey, DatastructureInitializer, EdgeInitializer)
+            : base(Graph, OutVertex, InVertex, EdgeId, Label, IdKey, RevIdKey, LabelKey, DescriptionKey, DatastructureInitializer, EdgeInitializer)
 
         { }
 
