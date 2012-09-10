@@ -95,6 +95,22 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
             }
         }
 
+        //ToDo: Solve ambiguity!
+        //TValue IReadOnlyProperties<TKey, TValue>.Id
+        //{
+        //    get
+        //    {
+
+        //        TValue _TValue;
+
+        //        if (PropertyData.TryGetValue(IdKey, out _TValue))
+        //            return _TValue;
+
+        //        return default(TId);
+
+        //    }
+        //}
+
         #endregion
 
         #region RevIdKey
@@ -127,6 +143,22 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
             }
         }
+
+        //ToDo: Solve ambiguity!
+        //TValue IReadOnlyProperties<TKey, TValue>.RevId
+        //{
+        //    get
+        //    {
+
+        //        TValue _TValue;
+
+        //        if (PropertyData.TryGetValue(RevIdKey, out _TValue))
+        //            return _TValue;
+
+        //        return default(TId);
+
+        //    }
+        //}
 
         #endregion
 
