@@ -515,6 +515,25 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #endregion
 
+        #region HasVertexId(VertexId)
+
+        /// <summary>
+        /// Check if the given vertex identifier already exists within the graph.
+        /// </summary>
+        /// <param name="VertexId">A vertex identifier.</param>
+        /// <returns>True when yes; false otherwise.</returns>
+        Boolean IReadOnlyVertexMethods<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.HasVertexId(TIdVertex VertexId)
+        {
+
+            return _Vertices.ContainsKey(VertexId);
+
+        }
+
+        #endregion
+
         #region VerticesById(params VertexIds)
 
         /// <summary>

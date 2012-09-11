@@ -343,6 +343,17 @@ namespace de.ahzf.Vanaheimr.Blueprints
 
         #endregion
 
+        #region HasVertexId(VertexId)
+
+        /// <summary>
+        /// Check if the given vertex identifier already exists within the graph.
+        /// </summary>
+        /// <param name="VertexId">A vertex identifier.</param>
+        /// <returns>True when yes; false otherwise.</returns>
+        Boolean HasVertexId(TIdVertex VertexId);
+
+        #endregion
+
         #region VerticesById(params VertexIds)
 
         /// <summary>

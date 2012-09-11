@@ -952,8 +952,6 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
             : this (
 
-                    #region Vertices
-            
                     GraphId,
                     DefaultVertexLabel,
                     VertexIdKey,
@@ -962,9 +960,11 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                     VertexDescriptionKey,
 
                     () => new Dictionary<TKeyVertex, TValueVertex>(),
+
+                    #region Vertices
                     
                     // Create a new vertex identification
-                    VertexId => VertexIdCreator.NewId,
+                    graph => VertexIdCreator.NewId(NewId => !graph.HasVertexId(NewId)),
                     DefaultVertexLabel,
 
                     // Create a new vertex
@@ -1016,7 +1016,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                     #region Edges
 
                     // Create a new edge identification
-                    EdgeId => EdgeIdCreator.NewId,
+                    graph => EdgeIdCreator.NewId(NewId => !graph.HasEdgeId(NewId)),
                     DefaultEdgeLabel,
 
                     // Create a new edge
@@ -1048,7 +1048,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                     #region MultiEdges
 
                     // Create a new multiedge identification
-                    MultiEdgeId => MultiEdgeIdCreator.NewId,
+                    graph => MultiEdgeIdCreator.NewId(NewId => !graph.HasMultiEdgeId(NewId)),
                     DefaultMultiEdgeLabel,
 
                     // Create a new multiedge
@@ -1086,7 +1086,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                     #region HyperEdges
 
                     // Create a new hyperedge identification
-                    HyperEdgeId => HyperEdgeIdCreator.NewId,
+                    graph => HyperEdgeIdCreator.NewId(NewId => !graph.HasHyperEdgeId(NewId)),
                     DefaultHyperEdgeLabel,
 
                     // Create a new hyperedge
@@ -2882,6 +2882,25 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #endregion
 
+        #region HasVertexId(VertexId)
+
+        /// <summary>
+        /// Check if the given vertex identifier already exists within the graph.
+        /// </summary>
+        /// <param name="VertexId">A vertex identifier.</param>
+        /// <returns>True when yes; false otherwise.</returns>
+        Boolean IReadOnlyVertexMethods<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.HasVertexId(TIdVertex VertexId)
+        {
+
+            return _VerticesWhenGraph.ContainsKey(VertexId);
+
+        }
+
+        #endregion
+
         #region VerticesById(params VertexIds)
 
         /// <summary>
@@ -3803,6 +3822,25 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #endregion
 
+        #region HasEdgeId(EdgeId)
+
+        /// <summary>
+        /// Check if the given edge identifier already exists within the graph.
+        /// </summary>
+        /// <param name="EdgeId">An edge identifier.</param>
+        /// <returns>True when yes; false otherwise.</returns>
+        Boolean IReadOnlyEdgeMethods<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                     TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                     TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                     TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.HasEdgeId(TIdEdge EdgeId)
+        {
+
+            return _EdgesWhenGraph.ContainsKey(EdgeId);
+
+        }
+
+        #endregion
+
         #region EdgesById(params EdgeIds)
 
         /// <summary>
@@ -4493,6 +4531,25 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #endregion
 
+        #region HasMultiEdgeId(MultiEdgeId)
+
+        /// <summary>
+        /// Check if the given multiedge identifier already exists within the graph.
+        /// </summary>
+        /// <param name="MultiEdgeId">A multiedge identifier.</param>
+        /// <returns>True when yes; false otherwise.</returns>
+        Boolean IReadOnlyMultiEdgeMethods<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.HasMultiEdgeId(TIdMultiEdge MultiEdgeId)
+        {
+
+            return _MultiEdgesWhenGraph.ContainsKey(MultiEdgeId);
+
+        }
+
+        #endregion
+
         #region MultiEdgesByLabel(params MultiEdgeLabels)
 
         /// <summary>
@@ -5104,6 +5161,25 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                 yield return null;
 
             }
+
+        }
+
+        #endregion
+
+        #region HasHyperEdgeId(HyperEdgeId)
+
+        /// <summary>
+        /// Check if the given hyperedge identifier already exists within the graph.
+        /// </summary>
+        /// <param name="HyperEdgeId">A hyperEdge identifier.</param>
+        /// <returns>True when yes; false otherwise.</returns>
+        Boolean IReadOnlyHyperEdgeMethods<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.HasHyperEdgeId(TIdHyperEdge HyperEdgeId)
+        {
+
+            return _HyperEdgesWhenGraph.ContainsKey(HyperEdgeId);
 
         }
 

@@ -179,6 +179,17 @@ namespace de.ahzf.Vanaheimr.Blueprints
 
         #endregion
 
+        #region HasHyperEdgeId(HyperEdgeId)
+
+        /// <summary>
+        /// Check if the given hyperedge identifier already exists within the graph.
+        /// </summary>
+        /// <param name="HyperEdgeId">A hyperedge identifier.</param>
+        /// <returns>True when yes; false otherwise.</returns>
+        Boolean HasHyperEdgeId(TIdHyperEdge HyperEdgeId);
+
+        #endregion
+
         #region HyperEdgesByLabel(params EdgeLabels)
 
         /// <summary>

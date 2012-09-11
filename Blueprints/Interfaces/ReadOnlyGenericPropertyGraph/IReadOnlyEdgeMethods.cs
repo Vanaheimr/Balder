@@ -345,6 +345,17 @@ namespace de.ahzf.Vanaheimr.Blueprints
 
         #endregion
 
+        #region HasEdgeId(EdgeId)
+
+        /// <summary>
+        /// Check if the given edge identifier already exists within the graph.
+        /// </summary>
+        /// <param name="EdgeId">An edge identifier.</param>
+        /// <returns>True when yes; false otherwise.</returns>
+        Boolean HasEdgeId(TIdEdge EdgeId);
+
+        #endregion
+
         #region EdgesById(params EdgeIds)
 
         /// <summary>

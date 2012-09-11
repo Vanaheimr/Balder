@@ -180,6 +180,17 @@ namespace de.ahzf.Vanaheimr.Blueprints
 
         #endregion
 
+        #region HasMultiEdgeId(MultiEdgeId)
+
+        /// <summary>
+        /// Check if the given multiedge identifier already exists within the graph.
+        /// </summary>
+        /// <param name="MultiEdgeId">A multiedge identifier.</param>
+        /// <returns>True when yes; false otherwise.</returns>
+        Boolean HasMultiEdgeId(TIdMultiEdge MultiEdgeId);
+
+        #endregion
+
         #region MultiEdgesByLabel(params EdgeLabels)
 
         /// <summary>

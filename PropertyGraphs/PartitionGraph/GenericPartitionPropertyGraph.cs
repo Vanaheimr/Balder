@@ -44,28 +44,24 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
     /// <typeparam name="TVertexLabel">The type of the vertex type.</typeparam>
     /// <typeparam name="TKeyVertex">The type of the vertex property keys.</typeparam>
     /// <typeparam name="TValueVertex">The type of the vertex property values.</typeparam>
-    /// <typeparam name="TPropertiesCollectionVertex">A data structure to store the properties of the vertices.</typeparam>
     /// 
     /// <typeparam name="TIdEdge">The type of the edge identifiers.</typeparam>
     /// <typeparam name="TRevIdEdge">The type of the edge revision identifiers.</typeparam>
     /// <typeparam name="TEdgeLabel">The type of the edge label.</typeparam>
     /// <typeparam name="TKeyEdge">The type of the edge property keys.</typeparam>
     /// <typeparam name="TValueEdge">The type of the edge property values.</typeparam>
-    /// <typeparam name="TPropertiesCollectionEdge">A data structure to store the properties of the edges.</typeparam>
     /// 
     /// <typeparam name="TIdMultiEdge">The type of the multiedge identifiers.</typeparam>
     /// <typeparam name="TRevIdMultiEdge">The type of the multiedge revision identifiers.</typeparam>
     /// <typeparam name="TMultiEdgeLabel">The type of the multiedge label.</typeparam>
     /// <typeparam name="TKeyMultiEdge">The type of the multiedge property keys.</typeparam>
     /// <typeparam name="TValueMultiEdge">The type of the multiedge property values.</typeparam>
-    /// <typeparam name="TPropertiesCollectionMultiEdge">A data structure to store the properties of the multiedges.</typeparam>
     /// 
     /// <typeparam name="TIdHyperEdge">The type of the hyperedge identifiers.</typeparam>
     /// <typeparam name="TRevIdHyperEdge">The type of the hyperedge revision identifiers.</typeparam>
     /// <typeparam name="THyperEdgeLabel">The type of the hyperedge label.</typeparam>
     /// <typeparam name="TKeyHyperEdge">The type of the hyperedge property keys.</typeparam>
     /// <typeparam name="TValueHyperEdge">The type of the hyperedge property values.</typeparam>
-    /// <typeparam name="TPropertiesCollectionHyperEdge">A data structure to store the properties of the hyperedges.</typeparam>
     public class GenericPartitionPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -3225,6 +3221,30 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                              DateTime? CreationTime = null,
                              DateTime? InvalidationTime = null)
 
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public bool HasVertexId(TIdVertex VertexId)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public bool HasEdgeId(TIdEdge EdgeId)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public bool HasMultiEdgeId(TIdMultiEdge MultiEdgeId)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public bool HasHyperEdgeId(TIdHyperEdge HyperEdgeId)
         {
             throw new NotImplementedException();
         }
