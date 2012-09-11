@@ -3399,7 +3399,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         {
 
-            return Subgraph.AddEdge(OutVertex, InVertex, _EdgeIdCreatorDelegate(this), Label, EdgeInitializer);
+            return Subgraph.AddEdge(OutVertex, InVertex, EdgeId, Label, EdgeInitializer);
 
         }
 
