@@ -1,3 +1,4 @@
+# Build Folders (you can keep bin if you'd like, to store dlls and pdbs)
 *.pidb
 *.VisualState.xml
 *.suo
@@ -11,3 +12,12 @@
 */[bB]in
 libs/*/obj
 libs/*/bin
+bin
+obj
+Debug
+Release
+
+# mstest test results
+TestResults
+.psess
+.vsp
