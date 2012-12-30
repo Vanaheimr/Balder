@@ -435,43 +435,18 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                             UInt64, Int64, THyperEdgeLabel, String, Object>
 
             CreateLabeledPropertyGraph<TVertexLabel, TEdgeLabel, TMultiEdgeLabel, THyperEdgeLabel>(
-                                     UInt64 GraphId,
-                                     String Description,
+                                       UInt64           GraphId,
+                                       String           Description,
 
-                                     VertexIdCreatorDelegate   <UInt64, Int64, TVertexLabel,    String, Object,
-                                                                UInt64, Int64, TEdgeLabel,      String, Object,
-                                                                UInt64, Int64, TMultiEdgeLabel, String, Object,
-                                                                UInt64, Int64, THyperEdgeLabel, String, Object> VertexIdCreatorDelegate,
-                                     TVertexLabel DefaultVertexLabel,
+                                       TVertexLabel     DefaultVertexLabel,
+                                       TEdgeLabel       DefaultEdgeLabel,
+                                       TMultiEdgeLabel  DefaultMultiEdgeLabel,
+                                       THyperEdgeLabel  DefaultHyperEdgeLabel,
 
-
-                                     EdgeIdCreatorDelegate     <UInt64, Int64, TVertexLabel,    String, Object,
-                                                                UInt64, Int64, TEdgeLabel,      String, Object,
-                                                                UInt64, Int64, TMultiEdgeLabel, String, Object,
-                                                                UInt64, Int64, THyperEdgeLabel, String, Object> EdgeIdCreatorDelegate,
-                                     TEdgeLabel DefaultEdgeLabel,
-
-
-                                     MultiEdgeIdCreatorDelegate<UInt64, Int64, TVertexLabel,    String, Object,
-                                                                UInt64, Int64, TEdgeLabel,      String, Object,
-                                                                UInt64, Int64, TMultiEdgeLabel, String, Object,
-                                                                UInt64, Int64, THyperEdgeLabel, String, Object> MultiEdgeIdCreatorDelegate,
-                                     TMultiEdgeLabel DefaultMultiEdgeLabel,
-
-
-                                     HyperEdgeIdCreatorDelegate<UInt64, Int64, TVertexLabel,    String, Object,
-                                                                UInt64, Int64, TEdgeLabel,      String, Object,
-                                                                UInt64, Int64, TMultiEdgeLabel, String, Object,
-                                                                UInt64, Int64, THyperEdgeLabel, String, Object> HyperEdgeIdCreatorDelegate,
-                                     THyperEdgeLabel DefaultHyperEdgeLabel,
-
-
-                                     RevIdCreatorDelegate<Int64>                                                RevIdCreatorDelegate,
-
-                                     GraphInitializer          <UInt64, Int64, TVertexLabel,    String, Object,
-                                                                UInt64, Int64, TEdgeLabel,      String, Object,
-                                                                UInt64, Int64, TMultiEdgeLabel, String, Object,
-                                                                UInt64, Int64, THyperEdgeLabel, String, Object> GraphInitializer = null)
+                                       GraphInitializer<UInt64, Int64, TVertexLabel,    String, Object,
+                                                        UInt64, Int64, TEdgeLabel,      String, Object,
+                                                        UInt64, Int64, TMultiEdgeLabel, String, Object,
+                                                        UInt64, Int64, THyperEdgeLabel, String, Object> GraphInitializer = null)
 
             where TVertexLabel     : IEquatable<TVertexLabel>,    IComparable<TVertexLabel>,    IComparable
             where TEdgeLabel       : IEquatable<TEdgeLabel>,      IComparable<TEdgeLabel>,      IComparable
@@ -491,7 +466,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                              GraphDBOntology.RevId().Suffix,
                                                                                              GraphDBOntology.Label().Suffix,
                                                                                              GraphDBOntology.Description().Suffix,
-                                                                                             VertexIdCreatorDelegate,
+                                                                                             new IdGenerator_UInt64(),
                                                                                              DefaultVertexLabel,
 
                                                                                              // Edges
@@ -499,7 +474,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                              GraphDBOntology.RevId().Suffix,
                                                                                              GraphDBOntology.Label().Suffix,
                                                                                              GraphDBOntology.Description().Suffix,
-                                                                                             EdgeIdCreatorDelegate,
+                                                                                             new IdGenerator_UInt64(),
                                                                                              DefaultEdgeLabel,
 
                                                                                              // Multiedges
@@ -507,7 +482,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                              GraphDBOntology.RevId().Suffix,
                                                                                              GraphDBOntology.Label().Suffix,
                                                                                              GraphDBOntology.Description().Suffix,
-                                                                                             MultiEdgeIdCreatorDelegate,
+                                                                                             new IdGenerator_UInt64(),
                                                                                              DefaultMultiEdgeLabel,
 
                                                                                              // Hyperedges
@@ -515,9 +490,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                              GraphDBOntology.RevId().Suffix,
                                                                                              GraphDBOntology.Label().Suffix,
                                                                                              GraphDBOntology.Description().Suffix,
-                                                                                             HyperEdgeIdCreatorDelegate,
+                                                                                             new IdGenerator_UInt64(),
                                                                                              DefaultHyperEdgeLabel,
-                                                                            
+
                                                                                              GraphInitializer)
 
                                              as IGenericPropertyGraph<UInt64, Int64, TVertexLabel,    String, Object,
@@ -537,12 +512,14 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                             String, Int64, THyperEdgeLabel, String, Object>
 
             CreateLabeledPropertyGraph2<TVertexLabel, TEdgeLabel, TMultiEdgeLabel, THyperEdgeLabel>(
-                                        String          GraphId,
-                                        String          Description,
-                                        TVertexLabel    DefaultVertexLabel,
-                                        TEdgeLabel      DefaultEdgeLabel,
-                                        TMultiEdgeLabel DefaultMultiEdgeLabel,
-                                        THyperEdgeLabel DefaultHyperEdgeLabel,
+                                        String           GraphId,
+                                        String           Description,
+
+                                        TVertexLabel     DefaultVertexLabel,
+                                        TEdgeLabel       DefaultEdgeLabel,
+                                        TMultiEdgeLabel  DefaultMultiEdgeLabel,
+                                        THyperEdgeLabel  DefaultHyperEdgeLabel,
+
                                         GraphInitializer<String, Int64, TVertexLabel,    String, Object,
                                                          String, Int64, TEdgeLabel,      String, Object,
                                                          String, Int64, TMultiEdgeLabel, String, Object,
@@ -592,7 +569,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                              GraphDBOntology.Description().Suffix,
                                                                                              new IdGenerator_String(),
                                                                                              DefaultHyperEdgeLabel,
-                                                                            
+
                                                                                              GraphInitializer)
 
                                              as IGenericPropertyGraph<String, Int64, TVertexLabel,    String, Object,
