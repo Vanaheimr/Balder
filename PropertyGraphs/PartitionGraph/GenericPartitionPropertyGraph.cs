@@ -1375,6 +1375,57 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #endregion
 
+        #region AddEdgeIfNotExists(OutVertex, Label, InVertex, EdgeInitializer = null)
+
+        /// <summary>
+        /// Add an edge to the graph. The added edge requires a tail vertex,
+        /// a head vertex, an identifier, a label and initializes the edge
+        /// by invoking the given EdgeInitializer.
+        /// 'OutVertex --Label-> InVertex' is the "Semantic Web Notation" ;)
+        /// </summary>
+        /// <param name="OutVertex">The vertex on the tail of the edge.</param>
+        /// <param name="Label">The label associated with the edge.</param>
+        /// <param name="InVertex">The vertex on the head of the edge.</param>
+        /// <param name="EdgeInitializer">A delegate to initialize the new edge.</param>
+        /// <returns>The new edge.</returns>
+        public IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                            TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                            TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                            TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
+
+            AddEdgeIfNotExists(IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OutVertex,
+
+                               TEdgeLabel Label,
+
+                               IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> InVertex,
+
+                               EdgeInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeInitializer,
+
+                               EdgeInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> AnywayDo)
+
+        {
+
+            if (WriteGraph != null)
+                return WriteGraph.AddEdgeIfNotExists(OutVertex, Label, InVertex, EdgeInitializer);
+
+            throw new Exception("No WriteGraph present!");
+
+        }
+
+        #endregion
+
         #region AddEdge(EdgeId, OutVertex, Label, InVertex, EdgeInitializer = null)
 
         /// <summary>
@@ -1470,7 +1521,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         {
 
             if (WriteGraph != null)
-                return WriteGraph.AddEdge(EdgeId, OutVertex, Label, InVertex, EdgeInitializer);
+                return WriteGraph.AddEdgeIfNotExists(EdgeId, OutVertex, Label, InVertex, EdgeInitializer);
 
             throw new Exception("No WriteGraph present!");
 

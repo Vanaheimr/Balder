@@ -54,11 +54,26 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Datastructures\EdgeDirection.cs" />
     <Compile Include="Exceptions\MultiEdgesExceptions.cs" />
     <Compile Include="Exceptions\HyperEdgesExceptions.cs" />
     <Compile Include="Exceptions\EdgesExceptions.cs" />
     <Compile Include="Exceptions\VerticesExceptions.cs" />
     <Compile Include="Exceptions\PropertyGraphExceptions.cs" />
+    <Compile Include="ExtentionMethods\GenericPropertyGraph\IGenericPropertyEdge.cs" />
+    <Compile Include="ExtentionMethods\GenericPropertyGraph\IGenericPropertyGraph.cs" />
+    <Compile Include="ExtentionMethods\GenericPropertyGraph\IGenericPropertyHyperEdge.cs" />
+    <Compile Include="ExtentionMethods\GenericPropertyGraph\IGenericPropertyMultiEdge.cs" />
+    <Compile Include="ExtentionMethods\GenericPropertyGraph\IGenericPropertyVertex.cs" />
+    <Compile Include="ExtentionMethods\GenericPropertyGraph\IGraphElement.cs" />
+    <Compile Include="ExtentionMethods\ReadOnlyGenericPropertyGraph\IReadOnlyEdgeMethods.cs" />
+    <Compile Include="ExtentionMethods\ReadOnlyGenericPropertyGraph\IReadOnlyGenericPropertyEdge.cs" />
+    <Compile Include="ExtentionMethods\ReadOnlyGenericPropertyGraph\IReadOnlyGenericPropertyGraph.cs" />
+    <Compile Include="ExtentionMethods\ReadOnlyGenericPropertyGraph\IReadOnlyGenericPropertyHyperEdge.cs" />
+    <Compile Include="ExtentionMethods\ReadOnlyGenericPropertyGraph\IReadOnlyGenericPropertyMultiEdge.cs" />
+    <Compile Include="ExtentionMethods\ReadOnlyGenericPropertyGraph\IReadOnlyGenericPropertyVertex.cs" />
+    <Compile Include="ExtentionMethods\ReadOnlyGenericPropertyGraph\IReadOnlyGraphElement.cs" />
+    <Compile Include="ExtentionMethods\ReadOnlyGenericPropertyGraph\IReadOnlyVertexMethods.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="GraphDBOntology.cs" />
     <Compile Include="GraphElementIds\AGraphElementId.cs" />

@@ -26,44 +26,6 @@ using de.ahzf.Illias.Commons.Collections;
 namespace de.ahzf.Vanaheimr.Blueprints
 {
 
-    #region IGraphElementExtensions
-
-    /// <summary>
-    /// Extensions to the IGraphElement interface
-    /// </summary>
-    public static class IGraphElementExtensions
-    {
-
-        #region AsDynamic(this GraphElement)
-
-        /// <summary>
-        /// Converts the given IGraphElement into a dynamic object.
-        /// </summary>
-        /// <typeparam name="TId">The type of the identifiers.</typeparam>
-        /// <typeparam name="TRevId">The type of the revision identifiers.</typeparam>
-        /// <typeparam name="TKey">The type of the property keys.</typeparam>
-        /// <typeparam name="TValue">The type of the property values.</typeparam>
-        /// <param name="GraphElement">An object implementing IGraphElement&lt;...&gt;.</param>
-        /// <returns>A dynamic graph element.</returns>
-        public static dynamic AsDynamic<TId, TRevId, TLabel, TKey, TValue>(this IGraphElement<TId, TRevId, TLabel, TKey, TValue> GraphElement)
-
-            where TId     : IEquatable<TId>,    IComparable<TId>,    IComparable, TValue
-            where TRevId  : IEquatable<TRevId>, IComparable<TRevId>, IComparable, TValue
-            where TLabel  : IEquatable<TLabel>, IComparable<TLabel>, IComparable
-            where TKey    : IEquatable<TKey>,   IComparable<TKey>,   IComparable
-
-        {
-            return GraphElement as dynamic;
-        }
-
-        #endregion
-
-    }
-
-    #endregion
-
-    #region IGraphElement
-
     /// <summary>
     /// The common interface for all property graph elements:
     /// </summary>
@@ -73,7 +35,6 @@ namespace de.ahzf.Vanaheimr.Blueprints
     /// <typeparam name="TKey">The type of the property keys.</typeparam>
     /// <typeparam name="TValue">The type of the property values.</typeparam>
     public interface IGraphElement<TId, TRevId, TLabel, TKey, TValue>
-
                                   : IReadOnlyGraphElement<TId, TRevId, TLabel, TKey, TValue>,
                                     IProperties<TKey, TValue>,
                                     IEquatable <IGraphElement<TId, TRevId, TLabel, TKey, TValue>>,
@@ -85,7 +46,5 @@ namespace de.ahzf.Vanaheimr.Blueprints
         where TKey    : IEquatable<TKey>,   IComparable<TKey>,   IComparable
 
     { }
-
-    #endregion
 
 }

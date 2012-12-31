@@ -887,24 +887,28 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         /// 
         /// <param name="VertexIdKey">The property key to access the Ids of the vertices.</param>
         /// <param name="VertexRevIdKey">The property key to access the RevisionIds of the vertices.</param>
+        /// <param name="VertexLabelKey">The property key to access the vertex label.</param>
         /// <param name="VertexDescriptionKey">The property key to access the descriptions of the vertices.</param>
         /// <param name="VertexIdCreator">A vertex identification creator.</param>
         /// <param name="DefaultVertexLabel">The default label of the vertices.</param>
         /// 
         /// <param name="EdgeIdKey">The property key to access the Ids of the edges.</param>
         /// <param name="EdgeRevIdKey">The property key to access the RevisionIds of the edges.</param>
+        /// <param name="EdgeLabelKey">The property key to access the edge label.</param>
         /// <param name="EdgeDescriptionKey">The property key to access the descriptions of the edges.</param>
         /// <param name="EdgeIdCreator">A edge identification creator.</param>
         /// <param name="DefaultEdgeLabel">The default label of the edges.</param>
         /// 
         /// <param name="MultiEdgeIdKey">The property key to access the Ids of the multiedges.</param>
         /// <param name="MultiEdgeRevIdKey">The property key to access the RevisionIds of the multiedges.</param>
+        /// <param name="MultiEdgeLabelKey">The property key to access the multi edge label.</param>
         /// <param name="MultiEdgeDescriptionKey">The property key to access the descriptions of the multiedges.</param>
         /// <param name="MultiEdgeIdCreator">A multiedge identification creator.</param>
         /// <param name="DefaultMultiEdgeLabel">The default label of the multiedges.</param>
         /// 
         /// <param name="HyperEdgeIdKey">The property key to access the Ids of the hyperedges.</param>
         /// <param name="HyperEdgeRevIdKey">The property key to access the RevisionIds of the hyperedges.</param>
+        /// <param name="HyperEdgeLabelKey">The property key to access the hyper edge label.</param>
         /// <param name="HyperEdgeDescriptionKey">The property key to access the descriptions of the hyperedges.</param>
         /// <param name="HyperEdgeIdCreator">A hyperedge identification creator.</param>
         /// <param name="DefaultHyperEdgeLabel">The default label of the hyperedges.</param>
@@ -3367,6 +3371,90 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         {
 
             return Subgraph.AddEdge(OutVertex, InVertex, _EdgeIdCreatorDelegate(this), Label, EdgeInitializer);
+
+        }
+
+        #endregion
+
+        #region AddEdgeIfNotExists(OutVertex, Label, InVertex, EdgeInitializer = null)
+
+        /// <summary>
+        /// Add an edge to the graph. The added edge requires a tail vertex,
+        /// a head vertex, an identifier, a label and initializes the edge
+        /// by invoking the given EdgeInitializer.
+        /// 'OutVertex --Label-> InVertex' is the "Semantic Web Notation" ;)
+        /// </summary>
+        /// <param name="OutVertex">The vertex on the tail of the edge.</param>
+        /// <param name="Label">The label associated with the edge.</param>
+        /// <param name="InVertex">The vertex on the head of the edge.</param>
+        /// <param name="EdgeInitializer">A delegate to initialize the new edge.</param>
+        /// <returns>The new edge.</returns>
+        IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                     TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                     TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                     TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
+            
+            IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                  TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                  TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                  TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+
+                AddEdgeIfNotExists(IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                  TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                  TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                  TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OutVertex,
+
+                                   TEdgeLabel Label,
+
+                                   IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                  TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                  TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                  TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> InVertex,
+
+                                   EdgeInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                   TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeInitializer,
+
+                                   EdgeInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                   TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> AnywayDo)
+
+
+        {
+
+            #region Initial checks
+
+            if (OutVertex == null)
+                throw new ArgumentException("The OutVertex must not be null!");
+
+            if (InVertex == null)
+                throw new ArgumentException("The InVertex must not be null!");
+
+            if (Label == null)
+                Label = _DefaultEdgeLabel;
+
+
+            var ExistingEdge = OutVertex.Edges(e => e.Label.Equals(Label) &&
+                                                    e.InVertex.Equals(InVertex)).FirstOrDefault();
+
+            if (ExistingEdge != null)
+            {
+
+                if (AnywayDo != null)
+                    AnywayDo(ExistingEdge.AsMutable());
+
+                return ExistingEdge;
+
+            }
+
+
+            var EdgeId = _EdgeIdCreatorDelegate(this);
+
+            #endregion
+
+            return AddEdgeToGraph(_EdgeCreatorDelegate(this, OutVertex, InVertex, EdgeId, Label, EdgeInitializer));
 
         }
 

@@ -26,7 +26,7 @@ namespace de.ahzf.Vanaheimr.Blueprints
 {
 
     // Delegates
-    
+
     #region HyperEdgeFilter
 
     /// <summary>
