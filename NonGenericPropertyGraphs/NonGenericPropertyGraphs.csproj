@@ -41,12 +41,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GraphFactory.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Interfaces\IPropertyEdge.cs" />
     <Compile Include="Interfaces\IPropertyGraph.cs" />
     <Compile Include="Interfaces\IPropertyHyperEdge.cs" />
     <Compile Include="Interfaces\IPropertyMultiEdge.cs" />
     <Compile Include="Interfaces\IPropertyVertex.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyGraph\PropertyEdge.cs" />
     <Compile Include="PropertyGraph\PropertyGraph.cs" />
     <Compile Include="PropertyGraph\PropertyHyperEdge.cs" />

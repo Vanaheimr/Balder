@@ -45,12 +45,12 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests
         public void CopyGraphTest()
         {
 
-            var _SourceGraph = TinkerGraphFactory.CreateTinkerGraph() as IPropertyGraph;
+            var _SourceGraph = TinkerGraphFactory.CreateTinkerGraph();
 
             var _NumberOfVertices = _SourceGraph.NumberOfVertices();
             var _NumberOfEdges    = _SourceGraph.NumberOfEdges();
 
-            var _DestinationGraph = new PropertyGraph() as IPropertyGraph;
+            var _DestinationGraph = GraphFactory.CreateGenericPropertyGraph(Convert.ToUInt64(new Random().Next()));
             //_SourceGraph.CopyGraph(_DestinationGraph);
 
             Assert.AreEqual(_NumberOfVertices, _DestinationGraph.NumberOfVertices());

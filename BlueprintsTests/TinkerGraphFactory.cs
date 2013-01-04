@@ -33,10 +33,13 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests
     public static class TinkerGraphFactory
     {
 
-        public static IPropertyGraph CreateTinkerGraph()
+        public static IGenericPropertyGraph<UInt64, Int64, String, String, Object,
+                                            UInt64, Int64, String, String, Object,
+                                            UInt64, Int64, String, String, Object,
+                                            UInt64, Int64, String, String, Object> CreateTinkerGraph()
         {
 
-            var _TinkerGraph = new PropertyGraph() as IPropertyGraph;
+            var _TinkerGraph = GraphFactory.CreateGenericPropertyGraph(0, "The Tinker graph");
 
             _TinkerGraph.OnVertexAddition.OnVoting += (graph, vertex, vote) => {
                 Console.WriteLine("I like all vertices!");
@@ -60,10 +63,10 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests
 
             Console.WriteLine("Number of vertices added: " + _TinkerGraph.Vertices().Count());
 
-            marko.OnPropertyChanging += (sender, Key, oldValue, newValue, vote) =>
+            marko.AsMutable().OnPropertyChanging += (sender, Key, oldValue, newValue, vote) =>
                 Console.WriteLine("'" + Key + "' property changing: '" + oldValue + "' -> '" + newValue + "'");
 
-            marko.OnPropertyChanged  += (sender, Key, oldValue, newValue)       =>
+            marko.AsMutable().OnPropertyChanged  += (sender, Key, oldValue, newValue) =>
                 Console.WriteLine("'" + Key + "' property changed: '"  + oldValue + "' -> '" + newValue + "'");
 
 

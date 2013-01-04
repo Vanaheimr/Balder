@@ -35,14 +35,40 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.PropertyGraphTests
     public class InitGraph
     {
 
-        protected IPropertyGraph CreateGraph()
+        protected IGenericPropertyGraph<UInt64, Int64, String, String, Object,
+                                        UInt64, Int64, String, String, Object,
+                                        UInt64, Int64, String, String, Object,
+                                        UInt64, Int64, String, String, Object> CreateGraph(GraphInitializer<UInt64, Int64, String, String, Object,
+                                                                                                            UInt64, Int64, String, String, Object,
+                                                                                                            UInt64, Int64, String, String, Object,
+                                                                                                            UInt64, Int64, String, String, Object> GraphInitializer = null)
         {
-            return new PropertyGraph();
+            return GraphFactory.CreateGenericPropertyGraph(Convert.ToUInt64(new Random().Next()), GraphInitializer: GraphInitializer);
         }
 
-        protected IPropertyGraph CreateGraph(UInt64 GraphId)
+        protected IGenericPropertyGraph<UInt64, Int64, String, String, Object,
+                                        UInt64, Int64, String, String, Object,
+                                        UInt64, Int64, String, String, Object,
+                                        UInt64, Int64, String, String, Object> CreateGraph(String Description,
+                                                                                           GraphInitializer<UInt64, Int64, String, String, Object,
+                                                                                                            UInt64, Int64, String, String, Object,
+                                                                                                            UInt64, Int64, String, String, Object,
+                                                                                                            UInt64, Int64, String, String, Object> GraphInitializer = null)
         {
-            return new PropertyGraph(GraphId);
+            return GraphFactory.CreateGenericPropertyGraph(Convert.ToUInt64(new Random().Next()), Description, GraphInitializer);
+        }
+
+        protected IGenericPropertyGraph<UInt64, Int64, String, String, Object,
+                                        UInt64, Int64, String, String, Object,
+                                        UInt64, Int64, String, String, Object,
+                                        UInt64, Int64, String, String, Object> CreateGraph(UInt64 GraphId,
+                                                                                           String Description = null,
+                                                                                           GraphInitializer<UInt64, Int64, String, String, Object,
+                                                                                                            UInt64, Int64, String, String, Object,
+                                                                                                            UInt64, Int64, String, String, Object,
+                                                                                                            UInt64, Int64, String, String, Object> GraphInitializer = null)
+        {
+            return GraphFactory.CreateGenericPropertyGraph(GraphId, Description, GraphInitializer);
         }
 
     }

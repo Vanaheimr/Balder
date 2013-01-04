@@ -115,7 +115,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                        UInt64, Int64, String, String, Object,
                                                        UInt64, Int64, String, String, Object,
                                                        UInt64, Int64, String, String, Object> EdgeSelector,
-                                
+
                                  UInt64 MultiEdgeId,
                                  String Label,
                                  String IdKey,
@@ -129,7 +129,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                                       UInt64, Int64, String, String, Object,
                                                                                                       UInt64, Int64, String, String, Object,
                                                                                                       UInt64, Int64, String, String, Object>>> EdgesCollectionInitializer,
-                                
+
                                  MultiEdgeInitializer<UInt64, Int64, String, String, Object,
                                                       UInt64, Int64, String, String, Object,
                                                       UInt64, Int64, String, String, Object,

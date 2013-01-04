@@ -329,7 +329,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #region Constructor(s)
 
-        #region (internal) GenericPropertyVertex(VertexId, IdKey, RevIdKey, LabelKey, DescriptionKey, DatastructureInitializer)
+        #region !!! (internal) GenericPropertyVertex(VertexId, IdKey, RevIdKey, LabelKey, DescriptionKey, DatastructureInitializer)
 
         /// <summary>
         /// Creates a new class-based in-memory implementation of a generic property vertex.
@@ -357,7 +357,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         /// <param name="HyperEdgeIdCreatorDelegate">A delegate to create a new hyperedge identification.</param>
         /// <param name="HyperEdgeCreatorDelegate">A delegate to create a new hyperedge.</param>
         /// <param name="HyperEdgesCollectionInitializer">A delegate to initialize the datastructure for storing all hyperedges.</param>
-        internal GenericPropertyVertex(TIdVertex    VertexId,
+        public GenericPropertyVertex(TIdVertex    VertexId,
                                        TVertexLabel VertexLabel, 
                                        TKeyVertex   IdKey,
                                        TKeyVertex   RevIdKey,
@@ -1137,61 +1137,65 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #endregion
 
-        #region GenericPropertyVertex(Graph, VertexId, IdKey, RevIdKey, LabelKey, DescriptionKey, DatastructureInitializer, EdgeCollectionInitializer, HyperEdgeCollectionInitializer, VertexInitializer = null)
+        #region GenericPropertyVertex(Graph, VertexId, VertexLabel, IdKey, RevIdKey, LabelKey, DescriptionKey, PropertiesInitializer, EdgeCollectionInitializer, HyperEdgeCollectionInitializer, VertexInitializer = null)
 
         /// <summary>
         /// Creates a new class-based in-memory implementation of a generic property vertex.
         /// </summary>
         /// <param name="Graph">The associated property graph.</param>
         /// <param name="VertexId">The identification of this vertex.</param>
-        /// <param name="IdKey">The key to access the Id of this vertex.</param>
-        /// <param name="RevIdKey">The key to access the RevId of this vertex.</param>
-        /// <param name="LabelKey">The key to access the Label of this graph element.</param>
-        /// <param name="DatastructureInitializer">A delegate to initialize the properties datastructure.</param>
+        /// <param name="VertexLabel">The label of this vertex.</param>
+        /// <param name="IdKey">The key to access the identifier of this vertex.</param>
+        /// <param name="RevIdKey">The key to access the revision identifier of this vertex.</param>
+        /// <param name="LabelKey">The key to access the label of this graph element.</param>
+        /// <param name="DescriptionKey">The key to access the description of this graph element.</param>
+        /// <param name="PropertiesInitializer">A delegate to initialize the properties datastructure.</param>
+        /// <param name="VerticesCollectionInitializer"></param>
         /// <param name="EdgesCollectionInitializer">A delegate to initialize the datastructure for storing all edges.</param>
-        /// <param name="HyperEdgeCollectionInitializer">A delegate to initialize the datastructure for storing all hyperedges.</param>
+        /// <param name="MultiEdgesCollectionInitializer"></param>
+        /// <param name="HyperEdgesCollectionInitializer">A delegate to initialize the datastructure for storing all hyperedges.</param>
         /// <param name="VertexInitializer">A delegate to initialize the newly created vertex.</param>
         public GenericPropertyVertex(IReadOnlyGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,  
                                                                    TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,    
                                                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                    TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Graph,
 
-                              TIdVertex    VertexId,
-                              TVertexLabel VertexLabel,
+                                     TIdVertex    VertexId,
+                                     TVertexLabel VertexLabel,
 
-                              TKeyVertex   IdKey,
-                              TKeyVertex   RevIdKey,
-                              TKeyVertex   LabelKey,
-                              TKeyVertex   DescriptionKey,
+                                     TKeyVertex   IdKey,
+                                     TKeyVertex   RevIdKey,
+                                     TKeyVertex   LabelKey,
+                                     TKeyVertex   DescriptionKey,
 
-                              IDictionaryInitializer<TKeyVertex, TValueVertex> DatastructureInitializer,
+                                     IDictionaryInitializer<TKeyVertex, TValueVertex> PropertiesInitializer,
 
-                              Func<IGroupedCollection<TIdVertex,    IReadOnlyGenericPropertyVertex   <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                                                      TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                                      TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                                                      TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TVertexLabel>> VerticesCollectionInitializer,
+                                     Func<IGroupedCollection<TIdVertex,    IReadOnlyGenericPropertyVertex   <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                                             TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                                             TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                                             TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TVertexLabel>> VerticesCollectionInitializer,
 
-                              Func<IGroupedCollection<TIdEdge,      IReadOnlyGenericPropertyEdge     <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                                                      TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                                      TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                                                      TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TEdgeLabel>> EdgesCollectionInitializer,
+                                     Func<IGroupedCollection<TIdEdge,      IReadOnlyGenericPropertyEdge     <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                                             TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                                             TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                                             TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TEdgeLabel>> EdgesCollectionInitializer,
 
-                              Func<IGroupedCollection<TIdMultiEdge, IReadOnlyGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                                                      TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                                      TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                                                      TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TMultiEdgeLabel>> MultiEdgesCollectionInitializer,
+                                     Func<IGroupedCollection<TIdMultiEdge, IReadOnlyGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                                             TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                                             TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                                             TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TMultiEdgeLabel>> MultiEdgesCollectionInitializer,
 
-                              Func<IGroupedCollection<TIdHyperEdge, IReadOnlyGenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                                                      TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                                      TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                                                      TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, THyperEdgeLabel>> HyperEdgesCollectionInitializer,
+                                     Func<IGroupedCollection<TIdHyperEdge, IReadOnlyGenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                                             TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                                             TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                                             TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, THyperEdgeLabel>> HyperEdgesCollectionInitializer,
 
-                              VertexInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> VertexInitializer = null)
+                                     VertexInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> VertexInitializer = null)
 
-            : base(VertexId, VertexLabel, IdKey, RevIdKey, LabelKey, DescriptionKey, DatastructureInitializer)
+            : base(VertexId, VertexLabel, IdKey, RevIdKey, LabelKey, DescriptionKey, PropertiesInitializer)
 
         {
 
@@ -1203,7 +1207,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
             if (VertexId == null)
                 throw new ArgumentNullException("The given VertexId must not be null!");
 
-            if (DatastructureInitializer == null)
+            if (PropertiesInitializer == null)
                 throw new ArgumentNullException("The given DatastructureInitializer must not be null!");
 
             if (VerticesCollectionInitializer == null)

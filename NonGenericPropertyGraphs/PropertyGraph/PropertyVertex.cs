@@ -120,7 +120,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         /// <param name="IdKey"></param>
         /// <param name="RevIdKey"></param>
         /// <param name="DescriptionKey"></param>
-        /// <param name="DatastructureInitializer"></param>
+        /// <param name="PropertiesInitializer"></param>
         /// <param name="VertexIdCreatorDelegate"></param>
         /// <param name="VertexCreatorDelegate"></param>
         /// <param name="VertexCollectionInitializer"></param>
@@ -138,26 +138,26 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                 String  RevIdKey,
                                 String  LabelKey,
                                 String  DescriptionKey,
-                                IDictionaryInitializer<String, Object> DatastructureInitializer,
+                                IDictionaryInitializer<String, Object> PropertiesInitializer,
 
                                 #region Create a new vertex
 
-                                       VertexIdCreatorDelegate    <UInt64, Int64, String, String, Object,
-                                                                   UInt64, Int64, String, String, Object,
-                                                                   UInt64, Int64, String, String, Object,
-                                                                   UInt64, Int64, String, String, Object> VertexIdCreatorDelegate,
+                                VertexIdCreatorDelegate    <UInt64, Int64, String, String, Object,
+                                                            UInt64, Int64, String, String, Object,
+                                                            UInt64, Int64, String, String, Object,
+                                                            UInt64, Int64, String, String, Object> VertexIdCreatorDelegate,
 
-                                       VertexCreatorDelegate      <UInt64, Int64, String, String, Object,
-                                                                   UInt64, Int64, String, String, Object,
-                                                                   UInt64, Int64, String, String, Object,
-                                                                   UInt64, Int64, String, String, Object> VertexCreatorDelegate,
+                                VertexCreatorDelegate      <UInt64, Int64, String, String, Object,
+                                                            UInt64, Int64, String, String, Object,
+                                                            UInt64, Int64, String, String, Object,
+                                                            UInt64, Int64, String, String, Object> VertexCreatorDelegate,
 
-                                       VertexCollectionInitializer<UInt64, Int64, String, String, Object,
-                                                                   UInt64, Int64, String, String, Object,
-                                                                   UInt64, Int64, String, String, Object,
-                                                                   UInt64, Int64, String, String, Object> VertexCollectionInitializer,
+                                VertexCollectionInitializer<UInt64, Int64, String, String, Object,
+                                                            UInt64, Int64, String, String, Object,
+                                                            UInt64, Int64, String, String, Object,
+                                                            UInt64, Int64, String, String, Object> VertexCollectionInitializer,
 
-                                       #endregion
+                                #endregion
 
                                 #region Create a new edge
 
@@ -216,7 +216,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
                                 #endregion
 
-            : base(VertexId, GraphDBOntology.DefaultVertexLabel().Suffix, IdKey, RevIdKey, LabelKey, DescriptionKey, DatastructureInitializer,
+            : base(VertexId, GraphDBOntology.DefaultVertexLabel().Suffix,
+                   IdKey, RevIdKey, LabelKey, DescriptionKey,
+                   PropertiesInitializer,
                    VertexIdCreatorDelegate,    GraphDBOntology.DefaultVertexLabel().Suffix,    VertexCreatorDelegate,    VertexCollectionInitializer,
                    EdgeIdCreatorDelegate,      GraphDBOntology.DefaultEdgeLabel().Suffix,      EdgeCreatorDelegate,      EdgeCollectionInitializer,
                    MultiEdgeIdCreatorDelegate, GraphDBOntology.DefaultMultiEdgeLabel().Suffix, MultiEdgeCreatorDelegate, MultiEdgeCollectionInitializer,
@@ -236,7 +238,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         /// <param name="IdKey">The key to access the Id of this vertex.</param>
         /// <param name="RevIdKey">The key to access the RevId of this vertex.</param>
         /// <param name="LabelKey">The key to access the Label of this graph element.</param>
-        /// <param name="DatastructureInitializer">A delegate to initialize the properties datastructure.</param>
+        /// <param name="PropertiesInitializer">A delegate to initialize the properties datastructure.</param>
         /// <param name="EdgesCollectionInitializer">A delegate to initialize the datastructure for storing all edges.</param>
         /// <param name="HyperEdgeCollectionInitializer">A delegate to initialize the datastructure for storing all hyperedges.</param>
         /// <param name="VertexInitializer">A delegate to initialize the newly created vertex.</param>
@@ -248,7 +250,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                               String         LabelKey,
                               String         DescriptionKey,
 
-                              IDictionaryInitializer<String, Object> DatastructureInitializer,
+                              IDictionaryInitializer<String, Object> PropertiesInitializer,
 
                               Func<IGroupedCollection<UInt64, IReadOnlyGenericPropertyVertex   <UInt64, Int64, String, String, Object,
                                                                                                 UInt64, Int64, String, String, Object,
@@ -275,7 +277,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                 UInt64, Int64, String, String, Object,
                                                 UInt64, Int64, String, String, Object> VertexInitializer = null)
 
-            : base(Graph, VertexId, VertexLabel, IdKey, RevIdKey, LabelKey, DescriptionKey, DatastructureInitializer,
+            : base(Graph, VertexId, VertexLabel,
+                   IdKey, RevIdKey, LabelKey, DescriptionKey,
+                   PropertiesInitializer,
                    VerticesCollectionInitializer, EdgesCollectionInitializer, MultiEdgesCollectionInitializer, HyperEdgesCollectionInitializer,
                    VertexInitializer)
 
