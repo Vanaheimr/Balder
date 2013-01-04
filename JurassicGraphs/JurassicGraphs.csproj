@@ -48,21 +48,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Eunomia\Eunomia\Eunomia.csproj">
-      <Project>{1DF1A588-33B1-4168-9487-604FE5680681}</Project>
-      <Name>Eunomia</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Illias\Commons\Commons.csproj">
-      <Project>{16C85DF8-5DE6-4A9F-9FC7-7CA5B0440DF3}</Project>
-      <Name>Commons</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\_External\Jurassic\Jurassic\Jurassic.csproj">
-      <Project>{9B109B9C-4B72-4BDB-B531-627D7E93011E}</Project>
-      <Name>Jurassic</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Blueprints\Blueprints.csproj">
       <Project>{47FA1E7C-8C47-493D-A371-91A15D53BC95}</Project>
       <Name>Blueprints</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\libs\Jurassic\Jurassic\Jurassic.csproj">
+      <Project>{9B109B9C-4B72-4BDB-B531-627D7E93011E}</Project>
+      <Name>Jurassic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\libs\Styx\libs\Illias\Commons\Commons.csproj">
+      <Project>{16C85DF8-5DE6-4A9F-9FC7-7CA5B0440DF3}</Project>
+      <Name>Commons</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
