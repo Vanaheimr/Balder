@@ -29,8 +29,6 @@ using de.ahzf.Illias.Commons;
 namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 {
 
-    #region GraphFactory
-
     /// <summary>
     /// Simplified creation of property graphs.
     /// </summary>
@@ -78,28 +76,6 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #endregion
 
-
-        #region CreatePropertyGraph(GraphId, Description = null, GraphInitializer = null)
-
-        /// <summary>
-        /// Create a new property graph.
-        /// </summary>
-        /// <param name="GraphId">The graph identification.</param>
-        /// <param name="Description">The optional description of the graph.</param>
-        /// <param name="GraphInitializer">The optional graph initializer.</param>
-        public static IPropertyGraph CreatePropertyGraph(UInt64 GraphId,
-                                                         String Description = null,
-                                                         GraphInitializer<UInt64, Int64, String, String, Object,
-                                                                          UInt64, Int64, String, String, Object,
-                                                                          UInt64, Int64, String, String, Object,
-                                                                          UInt64, Int64, String, String, Object> GraphInitializer = null)
-        {
-
-            return new PropertyGraph(GraphId, GraphInitializer) { Description = Description } as IPropertyGraph;
-
-        }
-
-        #endregion
 
         #region CreateGenericPropertyGraph(GraphId, Description = null, GraphInitializer = null)
 
@@ -1128,7 +1104,5 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         #endregion
 
     }
-
-    #endregion
 
 }

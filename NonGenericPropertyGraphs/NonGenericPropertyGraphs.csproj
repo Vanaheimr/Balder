@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{562AC94F-60EA-4911-8C62-684F02867783}</ProjectGuid>
+    <ProjectGuid>{BE267FF0-5CC4-4287-A696-81680F90D0F9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PropertyGraphs</RootNamespace>
-    <AssemblyName>PropertyGraphs</AssemblyName>
+    <RootNamespace>NonGenericPropertyGraphs</RootNamespace>
+    <AssemblyName>NonGenericPropertyGraphs</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -21,8 +21,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>bin\Debug\PropertyGraphs.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -42,39 +40,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GenericPropertyGraph\GenericPropertyHyperEdge.cs" />
-    <Compile Include="PartitionGraph\GenericPartitionPropertyGraph.cs" />
-    <Compile Include="GraphSchemaHandling.cs" />
     <Compile Include="GraphFactory.cs" />
-    <Compile Include="GenericPropertyGraph\AGraphElement.cs" />
-    <Compile Include="GenericPropertyGraph\GenericPropertyEdge.cs" />
-    <Compile Include="GenericPropertyGraph\GenericPropertyMultiEdge.cs" />
-    <Compile Include="GenericPropertyGraph\GenericPropertyVertex.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Interfaces\IPropertyEdge.cs" />
+    <Compile Include="Interfaces\IPropertyGraph.cs" />
+    <Compile Include="Interfaces\IPropertyHyperEdge.cs" />
+    <Compile Include="Interfaces\IPropertyMultiEdge.cs" />
+    <Compile Include="Interfaces\IPropertyVertex.cs" />
+    <Compile Include="PropertyGraph\PropertyEdge.cs" />
+    <Compile Include="PropertyGraph\PropertyGraph.cs" />
+    <Compile Include="PropertyGraph\PropertyHyperEdge.cs" />
+    <Compile Include="PropertyGraph\PropertyMultiEdge.cs" />
+    <Compile Include="PropertyGraph\PropertyVertex.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Blueprints\Blueprints.csproj">
       <Project>{47FA1E7C-8C47-493D-A371-91A15D53BC95}</Project>
       <Name>Blueprints</Name>
     </ProjectReference>
-    <ProjectReference Include="..\libs\Eunomia\Eunomia\Eunomia.csproj">
-      <Project>{1DF1A588-33B1-4168-9487-604FE5680681}</Project>
-      <Name>Eunomia</Name>
-    </ProjectReference>
     <ProjectReference Include="..\libs\Styx\libs\Illias\Commons\Commons.csproj">
       <Project>{16C85DF8-5DE6-4A9F-9FC7-7CA5B0440DF3}</Project>
       <Name>Commons</Name>
     </ProjectReference>
-    <ProjectReference Include="..\libs\Styx\Styx\Styx.csproj">
-      <Project>{3949790D-8591-4101-9E4D-CE7A758E7409}</Project>
-      <Name>Styx</Name>
+    <ProjectReference Include="..\PropertyGraphs\PropertyGraphs.csproj">
+      <Project>{562AC94F-60EA-4911-8C62-684F02867783}</Project>
+      <Name>PropertyGraphs</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
