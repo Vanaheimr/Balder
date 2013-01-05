@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4BF95036-986A-47EE-B48E-CF8C2B0E7841}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>de.ahzf.Vanaheimr.Balder.UnitTests</RootNamespace>
+    <AssemblyName>BalderTests</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="nunit.framework">
+      <HintPath>..\libs\Styx\libs\Illias\libs\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BaseTest.cs" />
+    <Compile Include="Extensions\GremlinTests.cs" />
+    <Compile Include="Pipes\AbstractPipeTest.cs" />
+    <Compile Include="Pipes\Blueprints\EdgeVertexPipeTest.cs" />
+    <Compile Include="Pipes\FilterPipes\AndFilterPipeTest.cs" />
+    <Compile Include="Pipes\FilterPipes\DuplicateFilterPipeTest.cs" />
+    <Compile Include="Pipes\FilterPipes\FutureFilterPipeTest.cs" />
+    <Compile Include="Pipes\FilterPipes\OrFilterPipeTest.cs" />
+    <Compile Include="Pipes\FilterPipes\RandomFilterPipeTest.cs" />
+    <Compile Include="Pipes\FilterPipes\UniquePathFilterPipeTest.cs" />
+    <Compile Include="Pipes\Blueprints\GraphElementPipeTest.cs" />
+    <Compile Include="Pipes\Blueprints\IdEdgePipeTest.cs" />
+    <Compile Include="Pipes\Blueprints\IdPipeTest.cs" />
+    <Compile Include="Pipes\Blueprints\IdVertexPipeTest.cs" />
+    <Compile Include="Pipes\Blueprints\LabelFilterPipeTest.cs" />
+    <Compile Include="Pipes\Blueprints\LabelPipeTest.cs" />
+    <Compile Include="Pipes\Utils\GatherPipeTest.cs" />
+    <Compile Include="Pipes\Utils\PathPipeTest.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Pipes\Blueprints\PropertyFilterPipeTest.cs" />
+    <Compile Include="Pipes\Blueprints\PropertyPipeTest.cs" />
+    <Compile Include="Pipes\Blueprints\VertexEdgePipeTest.cs" />
+    <Compile Include="Pipes\Blueprints\VertexIdFilterPipeTest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Balder\Balder.csproj">
+      <Project>{D2B4E7C7-0524-4DE5-9D62-2DE05682A74D}</Project>
+      <Name>Balder</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueprintsTests\BlueprintsTests.csproj">
+      <Project>{7F4CE297-4A42-47A8-9A0A-74BA46B09891}</Project>
+      <Name>BlueprintsTests</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Blueprints\Blueprints.csproj">
+      <Project>{47FA1E7C-8C47-493D-A371-91A15D53BC95}</Project>
+      <Name>Blueprints</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JurassicGraphs\JurassicGraphs.csproj">
+      <Project>{B84C5392-CA7E-4F8A-A406-A55E31C1B04A}</Project>
+      <Name>JurassicGraphs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\libs\Eunomia\Eunomia\Eunomia.csproj">
+      <Project>{1DF1A588-33B1-4168-9487-604FE5680681}</Project>
+      <Name>Eunomia</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\libs\Jurassic\Jurassic\Jurassic.csproj">
+      <Project>{9B109B9C-4B72-4BDB-B531-627D7E93011E}</Project>
+      <Name>Jurassic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\libs\Styx\libs\Illias\Commons\Commons.csproj">
+      <Project>{16C85DF8-5DE6-4A9F-9FC7-7CA5B0440DF3}</Project>
+      <Name>Commons</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\libs\Styx\Styx\Styx.csproj">
+      <Project>{3949790D-8591-4101-9E4D-CE7A758E7409}</Project>
+      <Name>Styx</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NonGenericPropertyGraphs\NonGenericPropertyGraphs.csproj">
+      <Project>{BE267FF0-5CC4-4287-A696-81680F90D0F9}</Project>
+      <Name>NonGenericPropertyGraphs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PropertyGraphs\PropertyGraphs.csproj">
+      <Project>{562AC94F-60EA-4911-8C62-684F02867783}</Project>
+      <Name>PropertyGraphs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TraversalGraphs\TraversalGraphs.csproj">
+      <Project>{F5CE7102-FE69-4D39-88B9-7FA3E8EE1C5B}</Project>
+      <Name>TraversalGraphs</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <AssemblyName>Styx</AssemblyName>
+    <OutputType>Library</OutputType>
+    <RootNamespace>de.ahzf.Vanaheimr.Styx</RootNamespace>
+    <ProjectTypeGuids>{b69e3092-b931-443c-abe7-7e7b65f2a37f};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F6ED06B7-DA8D-40CC-96F8-E3AFB80077B7}</ProjectGuid>
+    <TargetFrameworkVersion>v4.1</TargetFrameworkVersion>
+    <NetMfTargetsBaseDir Condition="'$(NetMfTargetsBaseDir)'==''">$(MSBuildExtensionsPath32)\Microsoft\.NET Micro Framework\</NetMfTargetsBaseDir>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE,MICRO_FRAMEWORK,MF_FRAMEWORK_VERSION_V4_1</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Styx.MF.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <Import Project="$(NetMfTargetsBaseDir)$(TargetFrameworkVersion)\CSharp.Targets" />
+  <ItemGroup>
+    <Compile Include="Arrows\AbstractArrow.cs" />
+    <Compile Include="Arrows\AbstractArrowReceiver.cs" />
+    <Compile Include="Arrows\AbstractArrowSender.cs" />
+    <Compile Include="Arrows\Arrows\SimpleArrows\ActionArrow.cs" />
+    <Compile Include="Arrows\Arrows\SimpleArrows\IdentityArrow.cs" />
+    <Compile Include="Arrows\Arrows\SimpleArrows\SkipArrow.cs" />
+    <Compile Include="Arrows\ExtensionMethods\SimpleArrows\ActionArrowExtensions.cs" />
+    <Compile Include="Arrows\ExtensionMethods\SimpleArrows\IdentityArrowExtensions.cs" />
+    <Compile Include="Arrows\ExtensionMethods\SimpleArrows\SkipArrowExtensions.cs" />
+    <Compile Include="Arrows\Interfaces\Delegates.cs" />
+    <Compile Include="Arrows\Interfaces\IArrow.cs" />
+    <Compile Include="Arrows\Interfaces\IArrowReceiver.cs" />
+    <Compile Include="Arrows\Interfaces\IArrowSender.cs" />
+    <Compile Include="Arrows\Interfaces\IFilterArrow.cs" />
+    <Compile Include="Arrows\Interfaces\ISideEffectArrow.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sensors\Interfaces\ISensor.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.SPOT.Native">
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Illias\Commons.MF\Commons.MF.csproj">
+      <Project>{F6ED06B7-CA8D-40CC-96F8-E3AFB80077B7}</Project>
+      <Name>Commons.MF</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>

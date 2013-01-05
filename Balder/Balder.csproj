@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D2B4E7C7-0524-4DE5-9D62-2DE05682A74D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>de.ahzf.Vanaheimr.Balder</RootNamespace>
+    <AssemblyName>Balder</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Balder.XML</DocumentationFile>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyEdge\AVertexPipe.cs" />
+    <Compile Include="Pipes\GenericPropertyGraph\EdgeTraversalDirection.cs" />
+    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyEdge\Filters\EdgeIdFilterPipe.cs" />
+    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyEdge\Filters\EdgeLabelFilterPipe.cs" />
+    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyEdge\Filters\EdgePropertyFilterPipe.cs" />
+    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyEdge\Filters\EdgeRevIdFilterPipe.cs" />
+    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyGraph\IdMultiEdgePipe.cs" />
+    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyGraph\IdHyperEdgePipe.cs" />
+    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyVertex\HyperEdgesVerticesPipe.cs" />
+    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyVertex\Filters\VertexIdFilterPipe.cs" />
+    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyVertex\Filters\VertexLabelFilterPipe.cs" />
+    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyVertex\Filters\VertexPropertyFilterPipe.cs" />
+    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyVertex\Filters\VertexRevIdFilterPipe.cs" />
+    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyVertex\MultiEdgesPipe.cs" />
+    <Compile Include="Pipes\GraphIO\N3\N3ImportPipe.cs" />
+    <Compile Include="Pipes\GenericPropertyGraph\GraphElements\Properties\RevIdPipe.cs" />
+    <Compile Include="Pipes\GenericPropertyGraph\GraphElements\Filter\GraphElementFilterPipe.cs" />
+    <Compile Include="Pipes\GenericPropertyGraph\HigherOrderRelations\Foaf.cs" />
+    <Compile Include="Pipes\GenericPropertyGraph\HigherOrderRelations\IsComplicatedExtensions.cs" />
+    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyHyperEdge\HyperEdgeVerticesPipe.cs" />
+    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyMultiEdge\MultiEdgeEdgesPipe.cs" />
+    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyVertex\HyperEdgesPipe.cs" />
+    <Compile Include="Pipes\GenericPropertyGraph\GraphElements\Properties\IdPipe.cs" />
+    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyEdge\BothVerticesPipe.cs" />
+    <Compile Include="Pipes\GenericPropertyGraph\GraphElements\Properties\LabelPipe.cs" />
+    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyGraph\IdEdgePipe.cs" />
+    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyEdge\InVertexPipe.cs" />
+    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyEdge\OutVertexPipe.cs" />
+    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyGraph\AllEdgesPipe.cs" />
+    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyGraph\AllVerticesPipe.cs" />
+    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyVertex\AEdgesPipe.cs" />
+    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyVertex\AEdgesVerticesPipe.cs" />
+    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyVertex\BothEdgesPipe.cs" />
+    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyVertex\BothPipe.cs" />
+    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyGraph\IdVertexPipe.cs" />
+    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyVertex\InEdgesPipe.cs" />
+    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyVertex\InPipe.cs" />
+    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyVertex\OutEdgesPipe.cs" />
+    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyVertex\OutPipe.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Blueprints\Blueprints.csproj">
+      <Project>{47FA1E7C-8C47-493D-A371-91A15D53BC95}</Project>
+      <Name>Blueprints</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\libs\Eunomia\Eunomia\Eunomia.csproj">
+      <Project>{1DF1A588-33B1-4168-9487-604FE5680681}</Project>
+      <Name>Eunomia</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\libs\Styx\libs\Illias\Commons\Commons.csproj">
+      <Project>{16C85DF8-5DE6-4A9F-9FC7-7CA5B0440DF3}</Project>
+      <Name>Commons</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\libs\Styx\Styx\Styx.csproj">
+      <Project>{3949790D-8591-4101-9E4D-CE7A758E7409}</Project>
+      <Name>Styx</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TraversalGraphs\TraversalGraphs.csproj">
+      <Project>{F5CE7102-FE69-4D39-88B9-7FA3E8EE1C5B}</Project>
+      <Name>TraversalGraphs</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Arrows\" />
+    <Folder Include="Pipes\GraphIO\CSV\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

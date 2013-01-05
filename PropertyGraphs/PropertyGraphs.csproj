@@ -43,7 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GenericPropertyGraph\GenericPropertyHyperEdge.cs" />
-    <Compile Include="PartitionGraph\GenericPartitionPropertyGraph.cs" />
+    <Compile Include="GenericPartitionPropertyGraph\GenericPartitionPropertyGraph.cs" />
     <Compile Include="GraphSchemaHandling.cs" />
     <Compile Include="GraphFactory.cs" />
     <Compile Include="GenericPropertyGraph\AGraphElement.cs" />
@@ -69,12 +69,6 @@
       <Project>{3949790D-8591-4101-9E4D-CE7A758E7409}</Project>
       <Name>Styx</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
