@@ -16,6 +16,7 @@ bin
 obj
 Debug
 Release
+Vanaheimr
 
 # mstest test results
 TestResults
