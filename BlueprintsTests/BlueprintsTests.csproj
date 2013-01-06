@@ -65,15 +65,15 @@
       <Project>{47FA1E7C-8C47-493D-A371-91A15D53BC95}</Project>
       <Name>Blueprints</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Vanaheimr\Illias\CommonsTests\CommonsTests.csproj">
+    <ProjectReference Include="..\..\Illias\CommonsTests\CommonsTests.csproj">
       <Project>{02A5F706-A9AC-46BE-A428-EA6F990D8E21}</Project>
       <Name>CommonsTests</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Vanaheimr\Illias\Commons\Commons.csproj">
+    <ProjectReference Include="..\..\Illias\Commons\Commons.csproj">
       <Project>{16C85DF8-5DE6-4A9F-9FC7-7CA5B0440DF3}</Project>
       <Name>Commons</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Vanaheimr\Styx\Styx\Styx.csproj">
+    <ProjectReference Include="..\..\Styx\Styx\Styx.csproj">
       <Project>{3949790D-8591-4101-9E4D-CE7A758E7409}</Project>
       <Name>Styx</Name>
     </ProjectReference>

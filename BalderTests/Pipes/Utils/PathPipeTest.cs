@@ -77,8 +77,14 @@ namespace de.ahzf.Vanaheimr.Balder.UnitTests.util
             foreach (var _Path in _Pipeline)
             {
                 Assert.AreEqual(_Marko, _Path.ElementAt(0));
-                Assert.IsTrue(_Path.ElementAt(1) is IPropertyEdge);
-                Assert.IsTrue(_Path.ElementAt(2) is IPropertyVertex);
+                Assert.IsTrue(_Path.ElementAt(1) is IGenericPropertyEdge  <UInt64, Int64, String, String, Object,
+                                                                           UInt64, Int64, String, String, Object,
+                                                                           UInt64, Int64, String, String, Object,
+                                                                           UInt64, Int64, String, String, Object>);
+                Assert.IsTrue(_Path.ElementAt(2) is IGenericPropertyVertex<UInt64, Int64, String, String, Object,
+                                                                           UInt64, Int64, String, String, Object,
+                                                                           UInt64, Int64, String, String, Object,
+                                                                           UInt64, Int64, String, String, Object>);
             }
 
         }
