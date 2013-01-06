@@ -1,9 +1,0 @@
-[submodule "libs/Styx"]
-	path = libs/Styx
-	url = git://github.com/Vanaheimr/Styx.git
-[submodule "libs/Eunomia"]
-	path = libs/Eunomia
-	url = git://github.com/Vanaheimr/Eunomia.git
-[submodule "libs/Jurassic"]
-	path = libs/Jurassic
-	url = git://github.com/Vanaheimr/Jurassic.git
