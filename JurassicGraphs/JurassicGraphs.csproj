@@ -48,17 +48,29 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Balder\Balder.csproj">
+      <Project>{D2B4E7C7-0524-4DE5-9D62-2DE05682A74D}</Project>
+      <Name>Balder</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Blueprints\Blueprints.csproj">
       <Project>{47FA1E7C-8C47-493D-A371-91A15D53BC95}</Project>
       <Name>Blueprints</Name>
     </ProjectReference>
-    <ProjectReference Include="..\libs\Jurassic\Jurassic\Jurassic.csproj">
+    <ProjectReference Include="..\Vanaheimr\Eunomia\Eunomia\Eunomia.csproj">
+      <Project>{1DF1A588-33B1-4168-9487-604FE5680681}</Project>
+      <Name>Eunomia</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Vanaheimr\Jurassic\Jurassic\Jurassic.csproj">
       <Project>{9B109B9C-4B72-4BDB-B531-627D7E93011E}</Project>
       <Name>Jurassic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\libs\Styx\libs\Illias\Commons\Commons.csproj">
+    <ProjectReference Include="..\Vanaheimr\Illias\Commons\Commons.csproj">
       <Project>{16C85DF8-5DE6-4A9F-9FC7-7CA5B0440DF3}</Project>
       <Name>Commons</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Vanaheimr\Styx\Styx\Styx.csproj">
+      <Project>{3949790D-8591-4101-9E4D-CE7A758E7409}</Project>
+      <Name>Styx</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
