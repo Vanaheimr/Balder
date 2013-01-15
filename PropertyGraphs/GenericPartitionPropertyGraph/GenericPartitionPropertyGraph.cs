@@ -178,6 +178,21 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #endregion
 
+        #region LabelKey
+
+        /// <summary>
+        /// The property key of the label.
+        /// </summary>
+        public TKeyVertex LabelKey
+        {
+            get
+            {
+                return WriteGraph.LabelKey;
+            }
+        }
+
+        #endregion
+
         #region Label
 
         public TVertexLabel Label

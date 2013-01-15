@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using de.ahzf.Illias.Commons.Collections;
 
 using NUnit.Framework;
+using de.ahzf.Vanaheimr.Blueprints.InMemory;
 
 #endregion
 
@@ -45,7 +46,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests
 
             Object _Object;
 
-            var _Graph = DemoGraphFactory.CreateDemoGraph();
+            var _Graph = DemoGraphFactory.CreateDemoGraph(() => GraphFactory.CreateGenericPropertyGraph(0));
 
             var Alice1 = _Graph.Vertices(v => v["name"].ToString() == "Alice").First();
             Assert.IsNotNull(Alice1);
@@ -55,13 +56,13 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests
             Alice1.GetProperty("key", typeof(String));
             Alice1.UseProperty("key", (obj)      => { Console.WriteLine(obj); }, (key) => { Console.WriteLine(key); });
             Alice1.UseProperty("key", (key, obj) => { Console.WriteLine(obj); }, (key) => { Console.WriteLine(key); });
-#if !__MonoCS__            
+#if !__MonoCS__
             Console.WriteLine(Alice1.PropertyFunc("l", (obj) => { return obj; }));
 #endif
             Alice1.UseProperty("key", typeof(String), (obj)      => { Console.WriteLine(obj); }, (key) => { Console.WriteLine(key); });
             Alice1.UseProperty("key", typeof(String), (key, obj) => { Console.WriteLine(obj); }, (key) => { Console.WriteLine(key); });
             Alice1.GetProperties(null);
-            
+
 
             var Alice2 = _Graph.Vertices("name", "Alice").First();
             Assert.IsNotNull(Alice2);

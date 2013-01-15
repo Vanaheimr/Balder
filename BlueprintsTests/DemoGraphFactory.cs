@@ -35,12 +35,19 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests
         public static IGenericPropertyGraph<UInt64, Int64, String, String, Object,
                                             UInt64, Int64, String, String, Object,
                                             UInt64, Int64, String, String, Object,
-                                            UInt64, Int64, String, String, Object> CreateDemoGraph()
+                                            UInt64, Int64, String, String, Object>
+
+            CreateDemoGraph(Func<IGenericPropertyGraph<UInt64, Int64, String, String, Object,
+                                                       UInt64, Int64, String, String, Object,
+                                                       UInt64, Int64, String, String, Object,
+                                                       UInt64, Int64, String, String, Object>> GraphCreator)
+
         {
 
-            var _Graph = GraphFactory.CreateGenericPropertyGraph(0);
+            var _Graph = GraphCreator();
+
             _Graph.OnVertexAddition.OnVoting += (graph, vertex, vote) => { Console.WriteLine("OnVertexAdding1() called!"); };
-            _Graph.OnVertexAddition.OnVoting += (graph, vertex, vote) => { Console.WriteLine("OnVertexAdding2() called!"); if (vertex.Id < 3) vote.Deny(); };
+            _Graph.OnVertexAddition.OnVoting += (graph, vertex, vote) => { Console.WriteLine("OnVertexAdding2() called!"); if (vertex.Id < 2) vote.Deny(); };
             _Graph.OnVertexAddition.OnVoting += (graph, vertex, vote) => { Console.WriteLine("OnVertexAdding3() called!"); };
 
 

@@ -67,10 +67,11 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.PropertyGraphs.InMemory
             Assert.IsTrue(_Vertex.ContainsKey(_Graph.RevIdKey));
 
             var _Properties = _Vertex.ToList();
-            Assert.AreEqual(2, _Properties.Count);
+            Assert.AreEqual(3, _Properties.Count);
             foreach (var _KeyValuePair in _Properties)
                 Assert.IsTrue(_KeyValuePair.Key == _Graph.IdKey ||
-                              _KeyValuePair.Key == _Graph.RevIdKey);
+                              _KeyValuePair.Key == _Graph.RevIdKey ||
+                              _KeyValuePair.Key == _Graph.LabelKey);
 
         }
 
@@ -106,10 +107,11 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.PropertyGraphs.InMemory
             Assert.IsTrue(_Vertex.ContainsValue("5"));
 
             var _Properties = _Vertex.ToList();
-            Assert.AreEqual(2, _Properties.Count);
+            Assert.AreEqual(3, _Properties.Count);
             foreach (var _KeyValuePair in _Properties)
                 Assert.IsTrue(_KeyValuePair.Key == _Graph.IdKey ||
-                              _KeyValuePair.Key == _Graph.RevIdKey);
+                              _KeyValuePair.Key == _Graph.RevIdKey ||
+                              _KeyValuePair.Key == _Graph.LabelKey);
 
         }
 
@@ -150,25 +152,27 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.PropertyGraphs.InMemory
 
             var _Properties = _Vertex.ToList();
             Assert.NotNull(_Properties);
-            Assert.AreEqual(4, _Properties.Count);
+            Assert.AreEqual(5, _Properties.Count);
             foreach (var _KeyValuePair in _Properties)
                 Assert.IsTrue( _KeyValuePair.Key == _Graph.IdKey    ||
                                _KeyValuePair.Key == _Graph.RevIdKey ||
+                               _KeyValuePair.Key == _Graph.LabelKey ||
                               (_KeyValuePair.Key == "key1" && _KeyValuePair.Value.ToString() == "value1") ||
                               (_KeyValuePair.Key == "key2" && ((Int32) _KeyValuePair.Value   == 42)));
 
             var _PropertyKeys = _Vertex.Keys;
             Assert.NotNull(_PropertyKeys);
-            Assert.AreEqual(4, _PropertyKeys.Count());
+            Assert.AreEqual(5, _PropertyKeys.Count());
             foreach (var _Keys in _PropertyKeys)
                 Assert.IsTrue(_Keys == _Graph.IdKey    ||
                               _Keys == _Graph.RevIdKey ||
+                              _Keys == _Graph.LabelKey ||
                               _Keys == "key1"          ||
                               _Keys == "key2");
 
             var _PropertyValues = _Vertex.Values;
             Assert.NotNull(_PropertyValues);
-            Assert.AreEqual(4, _PropertyValues.Count());
+            Assert.AreEqual(5, _PropertyValues.Count());
             Assert.IsTrue(_PropertyValues.Contains("value1"));
             Assert.IsTrue(_PropertyValues.Contains(42));
 
