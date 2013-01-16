@@ -17,7 +17,8 @@ obj
 Debug
 Release
 Vanaheimr
-
+# NUnitTests
+*.VisualState.xml
 # mstest test results
 TestResults
 .psess

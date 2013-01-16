@@ -32,15 +32,102 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests
     public static class DemoGraphFactory
     {
 
+        #region Create()
+
+        /// <summary>
+        /// Create a generic demo graph.
+        /// </summary>
+        public static IGenericPropertyGraph<UInt64, Int64, String, String, Object,
+                                            UInt64, Int64, String, String, Object,
+                                            UInt64, Int64, String, String, Object,
+                                            UInt64, Int64, String, String, Object> Create()
+        {
+
+            var _graph = GraphFactory.CreateGenericPropertyGraph(0);
+
+            // Before adding a vertex/edge/multiedge/hyperedge call the following delegates
+            // which might deny the addition of the given graph element!
+            _graph.OnVertexAddition.OnVoting += (graph, vertex,    vote) => { Console.WriteLine("Vertex " + vertex.Id + " is announced to be added to graph " + graph.Id + "!"); };
+            _graph.OnVertexAddition.OnVoting += (graph, vertex,    vote) => {
+                if (vertex.Id < 2) { Console.WriteLine("Addition of vertex " + vertex.Id + " denied!"); vote.Deny(); }
+            };
+
+            _graph.OnEdgeAddition.OnVoting   += (graph, edge,      vote) => { Console.WriteLine("Edge " + edge.Id + " is announced to be added to graph " + graph.Id + "!"); };
+            _graph.OnEdgeAddition.OnVoting   += (graph, edge,      vote) => {
+                if (edge.Id < 1) { Console.WriteLine("Addition of edge " + edge.Id + " denied!"); vote.Deny(); }
+            };
+
+            _graph.OnMultiEdgeAddition.OnVoting += (graph, multiedge, vote) => { Console.WriteLine("MultiEdge " + multiedge.Id + " is announced to be added to graph " + graph.Id + "!"); };
+            _graph.OnMultiEdgeAddition.OnVoting += (graph, multiedge, vote) => {
+                if (multiedge.Id < 1) { Console.WriteLine("Addition of multiedge " + multiedge.Id + " denied!"); vote.Deny(); }
+            };
+
+            _graph.OnHyperEdgeAddition.OnVoting += (graph, hyperedge, vote) => { Console.WriteLine("HyperEdge " + hyperedge.Id + " is announced to be added to graph " + graph.Id + "!"); };
+            _graph.OnHyperEdgeAddition.OnVoting += (graph, hyperedge, vote) => {
+                if (hyperedge.Id < 1) { Console.WriteLine("Addition of hyperedge " + hyperedge.Id + " denied!"); vote.Deny(); }
+            };
+
+            // Call the following delegate for every vertex/edge/multiedge/hyperedge added
+            _graph.OnVertexAddition.OnNotification += (graph, vertex) => { Console.WriteLine("Vertex " + vertex.Id + " was added to graph " + graph.Id + "!"); };
+            _graph.OnEdgeAddition.OnNotification   += (graph, edge)   => { Console.WriteLine("Edge " + edge.Id + " was added to graph " + graph.Id + "!"); };
+            _graph.OnMultiEdgeAddition.OnNotification += (graph, multiedge)    => { Console.WriteLine("MultiEdge " + multiedge.Id + " was added to graph " + graph.Id + "!"); };
+            _graph.OnHyperEdgeAddition.OnNotification += (graph, hyperedge)    => { Console.WriteLine("HyperEdge " + hyperedge.Id + " was added to graph " + graph.Id + "!"); };
+
+
+            // The following two vertices will not be added because of the veto vote above!
+            // (the method call will return null!)
+            var _Alice1 = _graph.AddVertex();
+            var _Alice2 = _graph.AddVertex(v => v.SetProperty("name", "Alice"));
+
+            var _Alice  = _graph.AddVertex(v => v.SetProperty("name", "Alice").SetProperty("age", 18));
+            var _Bob    = _graph.AddVertex(v => v.SetProperty("name", "Bob").  SetProperty("age", 20));
+            var _Carol  = _graph.AddVertex(v => v.SetProperty("name", "Carol").SetProperty("age", 22));
+            var _Dave   = _graph.AddVertex(v => v.SetProperty("name", "Dave"). SetProperty("age", 23));
+
+            // The following edge will not be added because of the veto vote above!
+            // (the method call will return null!)
+            var e1      = _graph.AddEdge(_Alice, _Bob,   "knows", edge => edge.SetProperty("weight", 0.5));
+            var e2      = _graph.AddEdge(_Alice, _Bob,   "knows", edge => edge.SetProperty("weight", 0.5));
+            var e3      = _graph.AddEdge(_Alice, _Bob,   "likes", edge => edge.SetProperty("weight", 1.0));
+            var e4      = _graph.AddEdge(_Bob,   _Alice, "likes", edge => edge.SetProperty("weight", 0.1));
+            var e5      = _graph.AddEdge(_Alice, _Carol, "likes", edge => edge.SetProperty("weight", 0.3));
+
+
+            // A hyperedge connectes multiple vertices
+            var he1     = _graph.AddHyperEdge("all", hyperedge => hyperedge.SetProperty("a", "b"), _Alice, _Bob, _Carol, _Dave);
+            var he2     = _graph.AddHyperEdge("all", hyperedge => hyperedge.SetProperty("c", "d"), _Alice, _Bob, _Carol, _Dave);
+
+
+            _Alice.UseProperty("name",
+                               OnSuccess: (key, value) => { Console.WriteLine(key + " => " + value); },
+                               OnError:   (key)        => { Console.WriteLine("Key " + key + " not found!"); });
+
+            _Alice.UseProperty("name",
+                               OnSuccess: (v, key, value) => { Console.WriteLine(key + " => " + value); },
+                               OnError:   (v, key)        => { Console.WriteLine("Key " + key + " not found!"); });
+
+            //var _AliceSubgraph = _Alice.AsSubgraph;
+            //_AliceSubgraph.AddVertex(1, v => v.SetProperty("name", "SubAlice1"));
+            //_AliceSubgraph.AddVertex(2, v => v.SetProperty("name", "SubAlice2"));
+
+
+            return _graph;
+
+        }
+
+        #endregion
+
+        #region CreateIntegerDemoGraph(GraphCreator)
+
         public static IGenericPropertyGraph<UInt64, Int64, String, String, Object,
                                             UInt64, Int64, String, String, Object,
                                             UInt64, Int64, String, String, Object,
                                             UInt64, Int64, String, String, Object>
 
-            CreateDemoGraph(Func<IGenericPropertyGraph<UInt64, Int64, String, String, Object,
-                                                       UInt64, Int64, String, String, Object,
-                                                       UInt64, Int64, String, String, Object,
-                                                       UInt64, Int64, String, String, Object>> GraphCreator)
+            CreateIntegerDemoGraph(Func<IGenericPropertyGraph<UInt64, Int64, String, String, Object,
+                                                              UInt64, Int64, String, String, Object,
+                                                              UInt64, Int64, String, String, Object,
+                                                              UInt64, Int64, String, String, Object>> GraphCreator)
 
         {
 
@@ -71,6 +158,68 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests
             return _Graph;
 
         }
+
+        #endregion
+
+
+        // Vertex labels
+        public const String person  = "person";
+
+        // Vertex property keys
+        public const String age     = "age";
+
+        // Edge labels
+        public const String knows   = "knows";
+        public const String loves   = "loves";
+
+        // Edge property keys
+        public const String since   = "since";
+
+
+        #region CreateStringIdGraph(GraphCreator = null)
+
+        public static IGenericPropertyGraph<String, Int64, String, String, Object,
+                                            String, Int64, String, String, Object,
+                                            String, Int64, String, String, Object,
+                                            String, Int64, String, String, Object>
+
+            CreateStringIdGraph(Func<IGenericPropertyGraph<String, Int64, String, String, Object,
+                                                           String, Int64, String, String, Object,
+                                                           String, Int64, String, String, Object,
+                                                           String, Int64, String, String, Object>> GraphCreator = null)
+
+        {
+
+            var _graph = (GraphCreator != null) ? GraphCreator() : GraphFactory.CreateGenericPropertyGraph2("DemoGraph");
+
+            //_graph.OnVertexAddition.OnVoting += (graph, vertex, vote) => { Console.WriteLine("OnVertexAdding1() called!"); };
+            //_graph.OnVertexAddition.OnVoting += (graph, vertex, vote) => { Console.WriteLine("OnVertexAdding2() called!"); if (vertex.Id < 2) vote.Deny(); };
+            //_graph.OnVertexAddition.OnVoting += (graph, vertex, vote) => { Console.WriteLine("OnVertexAdding3() called!"); };
+
+
+            var _Alice   = _graph.AddVertex("Alice", person, v => v.SetProperty(age, 18));
+            var _Bob     = _graph.AddVertex("Bob",   person, v => v.SetProperty(age, 20));
+            var _Carol   = _graph.AddVertex("Carol", person, v => v.SetProperty(age, 22));
+            var _Dave    = _graph.AddVertex("Dave",  person, v => v.SetProperty(age, 23));
+
+            // v <=> v
+            var _e1      = _graph.AddDoubleEdge(_Alice, knows, _Bob,   EdgeInitializer: e => e.SetProperty(since, new DateTime(2000, 08, 01)));
+            var _e2      = _graph.AddDoubleEdge(_Alice, knows, _Carol, EdgeInitializer: e => e.SetProperty(since, new DateTime(2002, 04, 12)));
+
+            // v -> v
+            var _e3      = _graph.AddEdge(_Alice, loves, _Bob,   e => e.SetProperty(since, ""));
+            var _e4      = _graph.AddEdge(_Bob,   loves, _Carol, e => e.SetProperty(since, ""));
+            var _e5      = _graph.AddEdge(_Carol, loves, _Alice, e => e.SetProperty(since, ""));
+
+            var _AllPersons     = _graph.AddHyperEdge("All persons",  "index", he => { }, v => v.Label == person);
+            var _PersonGroup1   = _graph.AddHyperEdge("PersonGroup1", "he",    he => { }, _Alice, _Bob, _Carol);
+
+
+            return _graph;
+
+        }
+
+        #endregion
 
     }
 

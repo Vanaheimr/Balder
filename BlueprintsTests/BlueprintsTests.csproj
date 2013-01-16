@@ -44,7 +44,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GenericDemoGraphFactory.cs" />
     <Compile Include="GraphElementIds\MultiEdgeIdTests.cs" />
     <Compile Include="GraphElementIds\EdgeIdTests.cs" />
     <Compile Include="GraphElementIds\HyperEdgeIdTests.cs" />

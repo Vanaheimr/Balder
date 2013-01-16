@@ -46,7 +46,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests
 
             Object _Object;
 
-            var _Graph = DemoGraphFactory.CreateDemoGraph(() => GraphFactory.CreateGenericPropertyGraph(0));
+            var _Graph = DemoGraphFactory.CreateIntegerDemoGraph(() => GraphFactory.CreateGenericPropertyGraph(0));
 
             var Alice1 = _Graph.Vertices(v => v["name"].ToString() == "Alice").First();
             Assert.IsNotNull(Alice1);

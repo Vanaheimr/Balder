@@ -40,7 +40,7 @@ namespace de.ahzf.Vanaheimr.Balder.UnitTests.Pipes
         public void Gremlin01()
         {
 
-            var _ToyGraph = GenericDemoGraphFactory.Create();
+            var _ToyGraph = DemoGraphFactory.Create();
 
             var _AllEdges01 = _ToyGraph.Vertices().OutE().ToList();
             var _AllEdges02 = _ToyGraph.Vertices().OutE("knows").ToList();

@@ -40,7 +40,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.Schema
         #region GetSchemaGraph(this PropertyGraph, GraphId, Description = null, ContinuousLearning = true)
 
         /// <summary>
-        /// Analyses the given property graph and returns a schema graph for the property graph.
+        /// Analyse the given property graph and return a schema graph for this graph.
         /// </summary>
         /// <typeparam name="TIdVertex">The type of the vertex identifiers.</typeparam>
         /// <typeparam name="TRevIdVertex">The type of the vertex revision identifiers.</typeparam>
@@ -65,7 +65,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.Schema
         /// <typeparam name="THyperEdgeLabel">The type of the multiedge label.</typeparam>
         /// <typeparam name="TKeyHyperEdge">The type of the multiedge property keys.</typeparam>
         /// <typeparam name="TValueHyperEdge">The type of the multiedge property values.</typeparam>
-        /// <param name="PropertyGraph">The property graph to extract the schema from.</param>
+        /// <param name="Graph">The property graph to extract the schema from.</param>
         /// <param name="GraphId">The schema graph identification.</param>
         /// <param name="Description">The optional description of the schema graph.</param>
         /// <param name="ContinuousLearning">If set to true, the schema graph will subsribe vertex/edge additions in order to continuously learn the graph schema.</param>
@@ -74,7 +74,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.Schema
                                             String, Int64, String, String, Object,
                                             String, Int64, String, String, Object>
 
-                          GetGraphSchema<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                          GetSchemaGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>(
@@ -82,14 +82,17 @@ namespace de.ahzf.Vanaheimr.Blueprints.Schema
                              this IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                         TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                         TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> PropertyGraph,
+                                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Graph,
+
                              String  GraphId,
                              String  Description        = null,
                              Boolean ContinuousLearning = true,
+
                              IGenericPropertyGraph<String, Int64, String, String, Object,
                                                    String, Int64, String, String, Object,
                                                    String, Int64, String, String, Object,
                                                    String, Int64, String, String, Object> ExistingSchemaGraph = null)
+
 
             where TIdVertex        : IEquatable<TIdVertex>,       IComparable<TIdVertex>,       IComparable, TValueVertex
             where TIdEdge          : IEquatable<TIdEdge>,         IComparable<TIdEdge>,         IComparable, TValueEdge
@@ -120,9 +123,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.Schema
 
                 #region Register [Vertex|Edge]Added events: PropertyGraph -> SchemaGraph
 
-                PropertyGraph.OnVertexAddition.OnNotification += (g, v) => SchemaGraph.AddVertexIfNotExists(v.Label.ToString(), "Vertex");
+                Graph.OnVertexAddition.OnNotification += (g, v) => SchemaGraph.AddVertexIfNotExists(v.Label.ToString(), "Vertex");
 
-                PropertyGraph.OnEdgeAddition.OnNotification   += (g, e) => SchemaGraph.AddEdgeIfNotExists(e.Label.ToString(),
+                Graph.OnEdgeAddition.OnNotification   += (g, e) => SchemaGraph.AddEdgeIfNotExists(e.Label.ToString(),
                                                                                        SchemaGraph.VertexById(e.OutVertex.Label.ToString()).AsMutable(),
                                                                                        "Edge",
                                                                                        SchemaGraph.VertexById(e.InVertex.Label.ToString()).AsMutable(),
@@ -135,9 +138,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.Schema
 
             #region Add all current vertices and edges: PropertyGraph -> SchemaGraph
 
-            PropertyGraph.Vertices().ForEach(v => SchemaGraph.AddVertexIfNotExists(v.Label.ToString(), "Vertex"));
+            Graph.Vertices().ForEach(v => SchemaGraph.AddVertexIfNotExists(v.Label.ToString(), "Vertex"));
 
-            PropertyGraph.Edges().   ForEach(e => SchemaGraph.AddEdgeIfNotExists(e.Label.ToString(),
+            Graph.Edges().   ForEach(e => SchemaGraph.AddEdgeIfNotExists(e.Label.ToString(),
                                                                                  SchemaGraph.VertexById(e.OutVertex.Label.ToString()).AsMutable(),
                                                                                  "Edge", 
                                                                                  SchemaGraph.VertexById(e.InVertex. Label.ToString()).AsMutable()));

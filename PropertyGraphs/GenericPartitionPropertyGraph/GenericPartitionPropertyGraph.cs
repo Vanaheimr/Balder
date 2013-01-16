@@ -2304,7 +2304,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         #endregion
 
         #region HyperEdge methods [IGenericPropertyGraph]
-        
+
         #region OnHyperEdgeAddition
         
         private readonly IVotingNotificator<IReadOnlyGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
@@ -2510,15 +2510,62 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #endregion
 
-        #region AddHyperEdge(IGenericPropertyHyperEdge)
+
+        #region AddHyperEdge(HyperEdgeId, Label, HyperEdgeInitializer, VertexSelector)
+
+        /// <summary>
+        /// Add a multiedge based on the given multiedge label and
+        /// an enumeration of vertices to the graph and initialize
+        /// it by invoking the given HyperEdgeInitializer.
+        /// </summary>
+        /// <param name="HyperEdgeId">A HyperEdgeId. If none was given a new one will be generated.</param>
+        /// <param name="Label">The multiedge label.</param>
+        /// <param name="HyperEdgeInitializer">A delegate to initialize the newly generated multiedge.</param>
+        /// <param name="VertexSelector">An enumeration of vertices.</param>
+        /// <returns>The new multiedge</returns>
+        IReadOnlyGenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
+
+        IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+
+            AddHyperEdge(TIdHyperEdge    HyperEdgeId,
+                         THyperEdgeLabel Label,
+
+                         HyperEdgeInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> HyperEdgeInitializer,
+
+                         Func<IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                             TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                             TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                             TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, Boolean> VertexSelector)
+        {
+
+            if (WriteGraph != null)
+                return WriteGraph.AddHyperEdge(HyperEdgeId, Label, HyperEdgeInitializer, VertexSelector);
+
+            throw new Exception("No WriteGraph present!");
+
+        }
+
+        #endregion
+
+
+        #region AddHyperEdge(HyperEdge)
 
         /// <summary>
         /// Adds the given hyperedge to the graph, and returns it again.
         /// An exception will be thrown if the hyperedge identifier is already being
         /// used by the graph to reference another hyperedge.
         /// </summary>
-        /// <param name="IGenericPropertyHyperEdge">An IGenericPropertyHyperEdge.</param>
-        /// <returns>The given IGenericPropertyHyperEdge.</returns>
+        /// <param name="HyperEdge">A generic property hyperedge.</param>
+        /// <returns>The given generic property hyperedge.</returns>
         public IGenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -2527,9 +2574,14 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                        AddHyperEdge(IGenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IGenericPropertyHyperEdge)
+                                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> HyperEdge)
         {
-            throw new NotImplementedException();
+
+            if (WriteGraph != null)
+                return WriteGraph.AddHyperEdge(HyperEdge).AsMutable();
+
+            throw new Exception("No WriteGraph present!");
+
         }
 
         #endregion

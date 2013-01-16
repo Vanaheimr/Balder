@@ -373,10 +373,10 @@ namespace de.ahzf.Vanaheimr.Blueprints
         #endregion
 
 
-        #region AddDoubleEdge(this Graph, OutVertex, InVertex, EdgeId = null, Label = null, EdgeInitializer = null)
+        #region AddDoubleEdge(this Graph, Vertex1, Label, Vertex2, Label2, EdgeInitializer = null, EdgeInitializer2 = null, EdgeId1 = default, EdgeId2 = default)
 
         /// <summary>
-        /// Adds an edge and another one in the opposite direction to the graph.
+        /// Adds two edges, a forward edge and a backward edge in the opposite direction between the given two vertices.
         /// </summary>
         /// <typeparam name="TIdVertex">The type of the vertex identifiers.</typeparam>
         /// <typeparam name="TRevIdVertex">The type of the vertex revision identifiers.</typeparam>
@@ -402,11 +402,14 @@ namespace de.ahzf.Vanaheimr.Blueprints
         /// <typeparam name="TKeyHyperEdge">The type of the hyperedge property keys.</typeparam>
         /// <typeparam name="TValueHyperEdge">The type of the hyperedge property values.</typeparam>
         /// <param name="Graph">A generic property graph.</param>
-        /// <param name="OutVertex"></param>
-        /// <param name="InVertex"></param>
-        /// <param name="Label">A label for both edges.</param>
-        /// <param name="EdgeId">An EdgeId. If none was given a new one will be generated.</param>
-        /// <param name="EdgeInitializer">A delegate to initialize the first generated edge.</param>
+        /// <param name="Vertex1">A vertex.</param>
+        /// <param name="Label">A label for the forward edge or both edges.</param>
+        /// <param name="Vertex2">Another vertex.</param>
+        /// <param name="Label2">A label for the backward edge.</param>
+        /// <param name="EdgeInitializer">A delegate to initialize the forward edge or both edges.</param>
+        /// <param name="EdgeInitializer2">A delegate to initialize the backward edge.</param>
+        /// <param name="EdgeId1">The EdgeId of the forward edge. If none was given a new one will be generated.</param>
+        /// <param name="EdgeId2">The EdgeId of the backward edge. If none was given a new one will be generated.</param>
         /// <returns>Both new edges.</returns>
         public static Tuple<IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
@@ -431,20 +434,30 @@ namespace de.ahzf.Vanaheimr.Blueprints
                                           IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OutVertex,
+                                                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Vertex1,
+
+                                          TEdgeLabel Label,
 
                                           IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> InVertex,
+                                                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Vertex2,
 
-                                          TEdgeLabel  Label,
-                                          TIdEdge     EdgeId = default(TIdEdge),
+                                          TEdgeLabel Label2 = default(TEdgeLabel),
 
                                           EdgeInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                           TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                           TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeInitializer = null)
+                                                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeInitializer = null,
+
+                                          EdgeInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeInitializer2 = null,
+
+                                          TIdEdge EdgeId1 = default(TIdEdge),
+                                          TIdEdge EdgeId2 = default(TIdEdge))
+
 
             where TIdVertex        : IEquatable<TIdVertex>,       IComparable<TIdVertex>,       IComparable, TValueVertex
             where TIdEdge          : IEquatable<TIdEdge>,         IComparable<TIdEdge>,         IComparable, TValueEdge
@@ -473,16 +486,22 @@ namespace de.ahzf.Vanaheimr.Blueprints
             if (Graph == null)
                 throw new ArgumentNullException("The given graph must not be null!");
 
-            if (OutVertex == null)
-                throw new ArgumentException("The given OutVertex '" + OutVertex + "' is unknown!");
+            if (Vertex1 == null)
+                throw new ArgumentException("The given OutVertex '" + Vertex1 + "' is unknown!");
 
-            if (InVertex == null)
-                throw new ArgumentException("The given InVertex '" + InVertex + "' is unknown!");
+            if (Vertex2 == null)
+                throw new ArgumentException("The given InVertex '" + Vertex2 + "' is unknown!");
 
             #endregion
 
-            var _Edge1 = Graph.AddEdge(OutVertex, InVertex, EdgeId, Label, EdgeInitializer);
-            var _Edge2 = Graph.AddEdge(InVertex, OutVertex, EdgeId, Label, EdgeInitializer);
+            if (Label2 == null || Label2.Equals(default(TEdgeLabel)))
+                Label2 = Label;
+
+            if (EdgeInitializer2 == null)
+                EdgeInitializer2 = EdgeInitializer;
+
+            var _Edge1 = Graph.AddEdge(Vertex1, Vertex2, EdgeId1, Label, EdgeInitializer);
+            var _Edge2 = Graph.AddEdge(Vertex2, Vertex1, EdgeId2, Label2, EdgeInitializer2);
 
             return new Tuple<IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                           TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
@@ -495,149 +514,6 @@ namespace de.ahzf.Vanaheimr.Blueprints
                                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
 
                              (_Edge1, _Edge2);
-
-        }
-
-        #endregion
-
-        #region AddDoubleEdge(this Graph, OutVertex, InVertex, EdgeId1 = null, EdgeId2 = null, Label = null, Label1 = null, Label2 = null, EdgeInitializer1 = null, EdgeInitializer2 = null)
-
-        /// <summary>
-        /// Adds an edge and another one in the opposite direction to the graph.
-        /// </summary>
-        /// <typeparam name="TIdVertex">The type of the vertex identifiers.</typeparam>
-        /// <typeparam name="TRevIdVertex">The type of the vertex revision identifiers.</typeparam>
-        /// <typeparam name="TVertexLabel">The type of the vertex type.</typeparam>
-        /// <typeparam name="TKeyVertex">The type of the vertex property keys.</typeparam>
-        /// <typeparam name="TValueVertex">The type of the vertex property values.</typeparam>
-        /// 
-        /// <typeparam name="TIdEdge">The type of the edge identifiers.</typeparam>
-        /// <typeparam name="TRevIdEdge">The type of the edge revision identifiers.</typeparam>
-        /// <typeparam name="TEdgeLabel">The type of the edge label.</typeparam>
-        /// <typeparam name="TKeyEdge">The type of the edge property keys.</typeparam>
-        /// <typeparam name="TValueEdge">The type of the edge property values.</typeparam>
-        /// 
-        /// <typeparam name="TIdMultiEdge">The type of the multiedge identifiers.</typeparam>
-        /// <typeparam name="TRevIdMultiEdge">The type of the multiedge revision identifiers.</typeparam>
-        /// <typeparam name="TMultiEdgeLabel">The type of the multiedge label.</typeparam>
-        /// <typeparam name="TKeyMultiEdge">The type of the multiedge property keys.</typeparam>
-        /// <typeparam name="TValueMultiEdge">The type of the multiedge property values.</typeparam>
-        /// 
-        /// <typeparam name="TIdHyperEdge">The type of the hyperedge identifiers.</typeparam>
-        /// <typeparam name="TRevIdHyperEdge">The type of the hyperedge revision identifiers.</typeparam>
-        /// <typeparam name="THyperEdgeLabel">The type of the hyperedge label.</typeparam>
-        /// <typeparam name="TKeyHyperEdge">The type of the hyperedge property keys.</typeparam>
-        /// <typeparam name="TValueHyperEdge">The type of the hyperedge property values.</typeparam>
-        /// <param name="Graph">A generic property graph.</param>
-        /// <param name="OutVertex"></param>
-        /// <param name="InVertex"></param>
-        /// <param name="EdgeId1">An EdgeId. If none was given a new one will be generated.</param>
-        /// <param name="EdgeId2">An EdgeId. If none was given a new one will be generated.</param>
-        /// <param name="Label">A label for both edges.</param>
-        /// <param name="Label1">A label for the first edge.</param>
-        /// <param name="Label2">A label for the second edge.</param>
-        /// <param name="EdgeInitializer1">A delegate to initialize the first generated edge.</param>
-        /// <param name="EdgeInitializer2">A delegate to initialize the second generated edge.</param>
-        /// <returns>Both new edges.</returns>
-        public static Tuple<IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                         TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                         TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
-
-                            IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                         TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                         TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
-
-                            AddDoubleEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>(
-
-                                          this IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                     TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                     TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                     TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Graph,
-
-                                          IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                         TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                         TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OutVertex,
-
-                                          IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                         TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                         TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> InVertex,
-
-                                          TIdEdge    EdgeId1 = default(TIdEdge),
-                                          TIdEdge    EdgeId2 = default(TIdEdge),
-                                          TEdgeLabel Label   = default(TEdgeLabel),
-                                          TEdgeLabel Label1  = default(TEdgeLabel),
-                                          TEdgeLabel Label2  = default(TEdgeLabel),
-
-                                          EdgeInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeInitializer1 = null,
-
-                                          EdgeInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeInitializer2 = null)
-
-            where TIdVertex        : IEquatable<TIdVertex>,       IComparable<TIdVertex>,       IComparable, TValueVertex
-            where TIdEdge          : IEquatable<TIdEdge>,         IComparable<TIdEdge>,         IComparable, TValueEdge
-            where TIdMultiEdge     : IEquatable<TIdMultiEdge>,    IComparable<TIdMultiEdge>,    IComparable, TValueMultiEdge
-            where TIdHyperEdge     : IEquatable<TIdHyperEdge>,    IComparable<TIdHyperEdge>,    IComparable, TValueHyperEdge
-
-            where TRevIdVertex     : IEquatable<TRevIdVertex>,    IComparable<TRevIdVertex>,    IComparable, TValueVertex
-            where TRevIdEdge       : IEquatable<TRevIdEdge>,      IComparable<TRevIdEdge>,      IComparable, TValueEdge
-            where TRevIdMultiEdge  : IEquatable<TRevIdMultiEdge>, IComparable<TRevIdMultiEdge>, IComparable, TValueMultiEdge
-            where TRevIdHyperEdge  : IEquatable<TRevIdHyperEdge>, IComparable<TRevIdHyperEdge>, IComparable, TValueHyperEdge
-
-            where TVertexLabel     : IEquatable<TVertexLabel>,    IComparable<TVertexLabel>,    IComparable, TValueVertex
-            where TEdgeLabel       : IEquatable<TEdgeLabel>,      IComparable<TEdgeLabel>,      IComparable, TValueEdge
-            where TMultiEdgeLabel  : IEquatable<TMultiEdgeLabel>, IComparable<TMultiEdgeLabel>, IComparable, TValueMultiEdge
-            where THyperEdgeLabel  : IEquatable<THyperEdgeLabel>, IComparable<THyperEdgeLabel>, IComparable, TValueHyperEdge
-
-            where TKeyVertex       : IEquatable<TKeyVertex>,      IComparable<TKeyVertex>,      IComparable
-            where TKeyEdge         : IEquatable<TKeyEdge>,        IComparable<TKeyEdge>,        IComparable
-            where TKeyMultiEdge    : IEquatable<TKeyMultiEdge>,   IComparable<TKeyMultiEdge>,   IComparable
-            where TKeyHyperEdge    : IEquatable<TKeyHyperEdge>,   IComparable<TKeyHyperEdge>,   IComparable
-
-        {
-
-            #region Initial Checks
-
-            if (Graph == null)
-                throw new ArgumentNullException("The given graph must not be null!");
-
-            if (OutVertex == null)
-                throw new ArgumentException("The given OutVertex '" + OutVertex + "' is unknown!");
-
-            if (InVertex == null)
-                throw new ArgumentException("The given InVertex '" + InVertex + "' is unknown!");
-
-            if (Label1 == null)
-                Label1 = Label;
-
-            if (Label2 == null)
-                Label2 = Label;
-
-            #endregion
-
-            return new Tuple<IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
-
-                             IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
-
-                             (Graph.AddEdge(OutVertex, InVertex,  EdgeId1, Label1, EdgeInitializer1),
-                              Graph.AddEdge(InVertex,  OutVertex, EdgeId2, Label2, EdgeInitializer2));
 
         }
 
