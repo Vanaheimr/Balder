@@ -198,7 +198,7 @@ namespace de.ahzf.Vanaheimr.Balder
 
     #endregion
 
-    #region AllVerticesPipe<...>
+    #region AllEdgesPipe<...>
 
     /// <summary>
     /// Emits all edges of a the given enumeration of generic property graphs.

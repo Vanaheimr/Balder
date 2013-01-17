@@ -94,8 +94,8 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests
 
 
             // A hyperedge connectes multiple vertices
-            var he1     = _graph.AddHyperEdge("all", hyperedge => hyperedge.SetProperty("a", "b"), _Alice, _Bob, _Carol, _Dave);
-            var he2     = _graph.AddHyperEdge("all", hyperedge => hyperedge.SetProperty("c", "d"), _Alice, _Bob, _Carol, _Dave);
+            //var he1     = _graph.AddHyperEdge("all", hyperedge => hyperedge.SetProperty("a", "b"), _Alice, _Bob, _Carol, _Dave);
+            //var he2     = _graph.AddHyperEdge("all", hyperedge => hyperedge.SetProperty("c", "d"), _Alice, _Bob, _Carol, _Dave);
 
 
             _Alice.UseProperty("name",
@@ -212,7 +212,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests
             var _e5      = _graph.AddEdge(_Carol, loves, _Alice, e => e.SetProperty(since, ""));
 
             var _AllPersons     = _graph.AddHyperEdge("All persons",  "index", he => { }, v => v.Label == person);
-            var _PersonGroup1   = _graph.AddHyperEdge("PersonGroup1", "he",    he => { }, _Alice, _Bob, _Carol);
+            var _PersonGroup1   = _graph.AddHyperEdge("PersonGroup1", "he",    he => { }, null, _Alice, _Bob, _Carol);
 
 
             return _graph;
