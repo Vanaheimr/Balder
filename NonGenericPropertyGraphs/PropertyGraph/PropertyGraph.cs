@@ -229,11 +229,10 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                     (graph) => PropertyGraph.NewHyperEdgeId,
 
                     // Create a new hyperedge
-                    (Graph, EdgeSelector, HyperEdgeId, Label, HyperEdgeInitializer) =>
+                    (Graph, HyperEdgeId, Label, HyperEdgeInitializer, VertexSelector, Vertices) =>
 
                        new PropertyHyperEdge
                             (Graph as IPropertyGraph,
-                             EdgeSelector,
                              HyperEdgeId,
                              Label,
                              GraphDBOntology.Id().Suffix,
@@ -247,7 +246,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                                 UInt64, Int64, String, String, Object,
                                                                                                 UInt64, Int64, String, String, Object>, String>(),
 
-                             HyperEdgeInitializer),
+                             HyperEdgeInitializer,
+                             VertexSelector,
+                             Vertices),
 
                     // The hyperedges collection
                     () => new GroupedCollection<UInt64, IReadOnlyGenericPropertyHyperEdge<UInt64, Int64, String, String, Object,

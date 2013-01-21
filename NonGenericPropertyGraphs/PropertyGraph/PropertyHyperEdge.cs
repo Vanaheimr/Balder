@@ -111,10 +111,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         /// <param name="VerticesCollectionInitializer">A delegate to initialize the datastructure for storing the vertices.</param>
         /// <param name="MultiEdgeInitializer">A delegate to initialize the newly created hyperedge.</param>
         public PropertyHyperEdge(IPropertyGraph               Graph,
-                                 IEnumerable<IReadOnlyGenericPropertyVertex<UInt64, Int64, String, String, Object,
-                                                                            UInt64, Int64, String, String, Object,
-                                                                            UInt64, Int64, String, String, Object,
-                                                                            UInt64, Int64, String, String, Object>> Vertices,
+
                                  UInt64                       HyperEdgeId,
                                  String                       Label,
                                  String                       IdKey,
@@ -132,9 +129,19 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                  HyperEdgeInitializer<UInt64, Int64, String, String, Object,
                                                       UInt64, Int64, String, String, Object,
                                                       UInt64, Int64, String, String, Object,
-                                                      UInt64, Int64, String, String, Object> HyperEdgeInitializer = null)
+                                                      UInt64, Int64, String, String, Object> HyperEdgeInitializer = null,
 
-            : base(Graph, Vertices, HyperEdgeId, Label, IdKey, RevIdKey, LabelKey, DescriptionKey, DatastructureInitializer, VerticesCollectionInitializer, HyperEdgeInitializer)
+                                 VertexFilter<UInt64, Int64, String, String, Object,
+                                              UInt64, Int64, String, String, Object,
+                                              UInt64, Int64, String, String, Object,
+                                              UInt64, Int64, String, String, Object> VertexSelector = null,
+
+                                 IEnumerable<IReadOnlyGenericPropertyVertex<UInt64, Int64, String, String, Object,
+                                                                            UInt64, Int64, String, String, Object,
+                                                                            UInt64, Int64, String, String, Object,
+                                                                            UInt64, Int64, String, String, Object>> Vertices = null)
+
+            : base(Graph, HyperEdgeId, Label, IdKey, RevIdKey, LabelKey, DescriptionKey, DatastructureInitializer, VerticesCollectionInitializer, HyperEdgeInitializer, VertexSelector, Vertices)
 
         { }
 
