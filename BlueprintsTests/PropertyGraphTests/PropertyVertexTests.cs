@@ -47,7 +47,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.PropertyGraphs.InMemory
         public void AddVertexEmptyAddMethodTest()
         {
 
-            var _Graph = GraphFactory.CreateGenericPropertyGraph2("1");
+            var _Graph = GraphFactory.CreateGenericPropertyGraph_WithStringIds("1");
             Assert.AreEqual("1", _Graph.Id);
             Assert.AreEqual(0, _Graph.NumberOfVertices());
 
@@ -86,7 +86,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.PropertyGraphs.InMemory
         public void AddVertexWithIdTest()
         {
 
-            var _Graph = GraphFactory.CreateGenericPropertyGraph2("1");
+            var _Graph = GraphFactory.CreateGenericPropertyGraph_WithStringIds("1");
             Assert.AreEqual("1", _Graph.Id);
             Assert.AreEqual(0, _Graph.NumberOfVertices());
 
@@ -126,7 +126,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.PropertyGraphs.InMemory
         public void AddVertexWithVertexInitializerTest()
         {
 
-            var _Graph = GraphFactory.CreateGenericPropertyGraph2("1");
+            var _Graph = GraphFactory.CreateGenericPropertyGraph_WithStringIds("1");
             Assert.AreEqual("1", _Graph.Id);
             Assert.AreEqual(0, _Graph.NumberOfVertices());
 
@@ -189,7 +189,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.PropertyGraphs.InMemory
         public void AddVertexWithIdAndVertexInitializerTest()
         {
 
-            var _Graph = GraphFactory.CreateGenericPropertyGraph2("1");
+            var _Graph = GraphFactory.CreateGenericPropertyGraph_WithStringIds("1");
             Assert.AreEqual("1", _Graph.Id);
             Assert.AreEqual(0, _Graph.NumberOfVertices());
 
@@ -253,7 +253,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.PropertyGraphs.InMemory
         public void TryToChangeTheVertexIdentification()
         {
 
-            var _Graph = GraphFactory.CreateGenericPropertyGraph2("1");
+            var _Graph = GraphFactory.CreateGenericPropertyGraph_WithStringIds("1");
             Assert.AreEqual("1", _Graph.Id);
             Assert.AreEqual(0, _Graph.NumberOfVertices());
 
@@ -274,7 +274,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.PropertyGraphs.InMemory
         public void TryToChangeTheVertexRevIdentification()
         {
 
-            var _Graph = GraphFactory.CreateGenericPropertyGraph2("1");
+            var _Graph = GraphFactory.CreateGenericPropertyGraph_WithStringIds("1");
             Assert.AreEqual("1", _Graph.Id);
             Assert.AreEqual(0, _Graph.NumberOfVertices());
 
@@ -296,7 +296,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.PropertyGraphs.InMemory
         public void AddTwoVerticesHavingTheSameIdentification()
         {
 
-            var _Graph = GraphFactory.CreateGenericPropertyGraph2("1");
+            var _Graph = GraphFactory.CreateGenericPropertyGraph_WithStringIds("1");
             Assert.AreEqual("1", _Graph.Id);
             Assert.AreEqual(0, _Graph.NumberOfVertices());
 
@@ -318,7 +318,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.PropertyGraphs.InMemory
         public void AddMultipleVertices()
         {
 
-            var _Graph = GraphFactory.CreateGenericPropertyGraph2("1");
+            var _Graph = GraphFactory.CreateGenericPropertyGraph_WithStringIds("1");
             Assert.AreEqual("1", _Graph.Id);
             Assert.AreEqual(0, _Graph.NumberOfVertices());
 

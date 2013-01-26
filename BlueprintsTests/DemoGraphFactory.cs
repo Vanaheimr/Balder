@@ -190,7 +190,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests
 
         {
 
-            var _graph = (GraphCreator != null) ? GraphCreator() : GraphFactory.CreateGenericPropertyGraph2("DemoGraph");
+            var _graph = (GraphCreator != null) ? GraphCreator() : GraphFactory.CreateGenericPropertyGraph_WithStringIds("DemoGraph");
 
             //_graph.OnVertexAddition.OnVoting += (graph, vertex, vote) => { Console.WriteLine("OnVertexAdding1() called!"); };
             //_graph.OnVertexAddition.OnVoting += (graph, vertex, vote) => { Console.WriteLine("OnVertexAdding2() called!"); if (vertex.Id < 2) vote.Deny(); };

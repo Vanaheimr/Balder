@@ -7,7 +7,7 @@
  * You may obtain a copy of the License at
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *     
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,7 +19,6 @@
 
 using System;
 using System.Linq;
-using System.Threading;
 using System.Collections.Generic;
 
 using de.ahzf.Illias.Commons;
@@ -36,6 +35,21 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
     {
 
         #region Helpers
+
+        #region (private) NewGraphId
+
+        /// <summary>
+        /// Return a new random GraphId.
+        /// </summary>
+        private static UInt64 NewGraphId
+        {
+            get
+            {
+                return UniqueTimestamp.Ticks;
+            }
+        }
+
+        #endregion
 
         #region (private) NewRevId
 
@@ -77,31 +91,31 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         #endregion
 
 
-        #region CreateGenericPropertyGraph(GraphId, Description = null, GraphInitializer = null)
+        #region CreateGenericPropertyGraph(GraphId = null, Description = "", GraphInitializer = null)
 
         /// <summary>
-        /// Create a new generic property graph.
+        /// Create a new standardized generic property graph.
         /// </summary>
-        /// <param name="GraphId">The graph identification.</param>
+        /// <param name="GraphId">The optional graph identification. If no value is given, a unique GraphId will be generated.</param>
         /// <param name="Description">The optional description of the graph.</param>
         /// <param name="GraphInitializer">The optional graph initializer.</param>
         public static IGenericPropertyGraph<UInt64, Int64, String, String, Object,
                                             UInt64, Int64, String, String, Object,
                                             UInt64, Int64, String, String, Object,
                                             UInt64, Int64, String, String, Object> CreateGenericPropertyGraph(
-                          UInt64 GraphId,
-                          String Description = null,
+                          Nullable<UInt64>                                         GraphId           = null,
+                          String                                                   Description       = "",
                           GraphInitializer<UInt64, Int64, String, String, Object,
                                            UInt64, Int64, String, String, Object,
                                            UInt64, Int64, String, String, Object,
-                                           UInt64, Int64, String, String, Object> GraphInitializer = null)
+                                           UInt64, Int64, String, String, Object>  GraphInitializer  = null)
 
         {
 
             return new GenericPropertyVertex<UInt64, Int64, String, String, Object,
                                              UInt64, Int64, String, String, Object,
                                              UInt64, Int64, String, String, Object,
-                                             UInt64, Int64, String, String, Object>(GraphId,
+                                             UInt64, Int64, String, String, Object>(GraphId == null ? NewGraphId : GraphId.Value,
                                                                                     Description,
 
                                                                                     // Vertices
@@ -137,9 +151,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                     GraphDBOntology.DefaultHyperEdgeLabel().Suffix,
 
                                                                                     GraphInitializer)
-                                                                                   
+
                                                                                     { Description = Description }
-                                            
+
                                              as IGenericPropertyGraph<UInt64, Int64, String, String, Object,
                                                                       UInt64, Int64, String, String, Object,
                                                                       UInt64, Int64, String, String, Object,
@@ -149,31 +163,31 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #endregion
 
-        #region CreateGenericPropertyGraph2(GraphId, Description = null, GraphInitializer = null)
+        #region CreateGenericPropertyGraph_WithStringIds(GraphId = null, Description = "", GraphInitializer = null)
 
         /// <summary>
-        /// Create a new generic property graph.
+        /// Create a new standardized generic property graph having string-based identificators.
         /// </summary>
-        /// <param name="GraphId">The graph identification.</param>
+        /// <param name="GraphId">The optional graph identification. If no value is given, a unique GraphId will be generated.</param>
         /// <param name="Description">The optional description of the graph.</param>
         /// <param name="GraphInitializer">The optional graph initializer.</param>
         public static IGenericPropertyGraph<String, Int64, String, String, Object,
                                             String, Int64, String, String, Object,
                                             String, Int64, String, String, Object,
-                                            String, Int64, String, String, Object> CreateGenericPropertyGraph2(
-                          String GraphId,
-                          String Description = null,
+                                            String, Int64, String, String, Object> CreateGenericPropertyGraph_WithStringIds(
+                          String                                                   GraphId           = null,
+                          String                                                   Description       = "",
                           GraphInitializer<String, Int64, String, String, Object,
                                            String, Int64, String, String, Object,
                                            String, Int64, String, String, Object,
-                                           String, Int64, String, String, Object> GraphInitializer = null)
+                                           String, Int64, String, String, Object>  GraphInitializer  = null)
 
         {
 
             return new GenericPropertyVertex<String, Int64, String, String, Object,
                                              String, Int64, String, String, Object,
                                              String, Int64, String, String, Object,
-                                             String, Int64, String, String, Object>(GraphId,
+                                             String, Int64, String, String, Object>(GraphId == null ? NewGraphId.ToString() : GraphId,
                                                                                     Description,
 
                                                                                     // Vertices
@@ -214,189 +228,6 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                       String, Int64, String, String, Object,
                                                                       String, Int64, String, String, Object,
                                                                       String, Int64, String, String, Object>;
-
-        }
-
-        #endregion
-
-
-        #region CreateCommonGenericGraph<TId, TRevId, TLabel, TKey, TValue>(GraphId, IdKey, RevIdKey, DescriptionKey, VertexIdCreatorDelegate, EdgeIdCreatorDelegate, MultiEdgeIdCreatorDelegate, HyperEdgeIdCreatorDelegate, RevIdCreatorDelegate, GraphInitializer = null)
-
-        /// <summary>
-        /// Create a new generic property graph with common datatypes for all graph elements (vertices, edges, multiedges and hyperedges).
-        /// </summary>
-        /// <typeparam name="TId">The type of all identificators.</typeparam>
-        /// <typeparam name="TRevId">The type of all revision identificators.</typeparam>
-        /// <typeparam name="TLabel">The type of all labels.</typeparam>
-        /// <typeparam name="TKey">The type of all property keys.</typeparam>
-        /// <typeparam name="TValue">The type of all property values.</typeparam>
-        /// <param name="GraphId">The graph identification.</param></param>
-        /// <param name="IdKey">The property key to access the Ids.</param>
-        /// <param name="RevIdKey">The property key to access the RevisionIds.</param>
-        /// <param name="LabelKey">The key to access the Label of this graph element.</param>
-        /// <param name="DescriptionKey">The property key to access the descriptions.</param>
-        /// <param name="VertexIdCreatorDelegate">A delegate to create a new vertex identification.</param>
-        /// <param name="EdgeIdCreatorDelegate">A delegate to create a new edge identification.</param>
-        /// <param name="MultiEdgeIdCreatorDelegate">A delegate to create a new multiedge identification.</param>
-        /// <param name="HyperEdgeIdCreatorDelegate">A delegate to create a new hyperedge identification.</param>
-        /// <param name="RevIdCreatorDelegate">A delegate to create a new revision identifications.</param>
-        /// <param name="GraphInitializer">A delegate to initialize the new property graph.</param>
-        public static IGenericPropertyGraph<TId, TRevId, TLabel, TKey, TValue,
-                                            TId, TRevId, TLabel, TKey, TValue,
-                                            TId, TRevId, TLabel, TKey, TValue,
-                                            TId, TRevId, TLabel, TKey, TValue>
-            
-            CreateCommonGenericGraph<TId, TRevId, TLabel, TKey, TValue>(
-                                     TId  GraphId,
-                                     String Description,
-                                     TKey IdKey,
-                                     TKey RevIdKey,
-                                     TKey LabelKey,
-                                     TKey DescriptionKey,
-
-                                     VertexIdCreatorDelegate   <TId, TRevId, TLabel, TKey, TValue,
-                                                                TId, TRevId, TLabel, TKey, TValue,
-                                                                TId, TRevId, TLabel, TKey, TValue,
-                                                                TId, TRevId, TLabel, TKey, TValue> VertexIdCreatorDelegate,
-
-                                     EdgeIdCreatorDelegate     <TId, TRevId, TLabel, TKey, TValue,
-                                                                TId, TRevId, TLabel, TKey, TValue,
-                                                                TId, TRevId, TLabel, TKey, TValue,
-                                                                TId, TRevId, TLabel, TKey, TValue> EdgeIdCreatorDelegate,
-
-                                     MultiEdgeIdCreatorDelegate<TId, TRevId, TLabel, TKey, TValue,
-                                                                TId, TRevId, TLabel, TKey, TValue,
-                                                                TId, TRevId, TLabel, TKey, TValue,
-                                                                TId, TRevId, TLabel, TKey, TValue> MultiEdgeIdCreatorDelegate,
-
-                                     HyperEdgeIdCreatorDelegate<TId, TRevId, TLabel, TKey, TValue,
-                                                                TId, TRevId, TLabel, TKey, TValue,
-                                                                TId, TRevId, TLabel, TKey, TValue,
-                                                                TId, TRevId, TLabel, TKey, TValue> HyperEdgeIdCreatorDelegate,
-
-                                     RevIdCreatorDelegate<TRevId>                                  RevIdCreatorDelegate,
-
-                                     TLabel DefaultLabel,
-
-                                     GraphInitializer          <TId, TRevId, TLabel, TKey, TValue,
-                                                                TId, TRevId, TLabel, TKey, TValue,
-                                                                TId, TRevId, TLabel, TKey, TValue,
-                                                                TId, TRevId, TLabel, TKey, TValue> GraphInitializer = null)
-
-            where TId     : IEquatable<TId>,    IComparable<TId>,    IComparable, TValue
-            where TRevId  : IEquatable<TRevId>, IComparable<TRevId>, IComparable, TValue
-            where TLabel  : IEquatable<TLabel>, IComparable<TLabel>, IComparable, TValue
-            where TKey    : IEquatable<TKey>,   IComparable<TKey>,   IComparable
-
-        {
-
-            return new GenericPropertyVertex<TId, TRevId, TLabel, TKey, TValue,
-                                             TId, TRevId, TLabel, TKey, TValue,
-                                             TId, TRevId, TLabel, TKey, TValue,
-                                             TId, TRevId, TLabel, TKey, TValue>(GraphId,
-                                                                                Description,
-
-                                                                                // Vertices
-                                                                                IdKey,
-                                                                                RevIdKey,
-                                                                                LabelKey,
-                                                                                DescriptionKey,
-                                                                                VertexIdCreatorDelegate,
-                                                                                DefaultLabel,
-
-                                                                                // Edges
-                                                                                IdKey,
-                                                                                RevIdKey,
-                                                                                LabelKey,
-                                                                                DescriptionKey,
-                                                                                EdgeIdCreatorDelegate,
-                                                                                DefaultLabel,
-
-                                                                                // Multiedges
-                                                                                IdKey,
-                                                                                RevIdKey,
-                                                                                LabelKey,
-                                                                                DescriptionKey,
-                                                                                MultiEdgeIdCreatorDelegate,
-                                                                                DefaultLabel,
-
-                                                                                // Hyperedges
-                                                                                IdKey,
-                                                                                RevIdKey,
-                                                                                LabelKey,
-                                                                                DescriptionKey,
-                                                                                HyperEdgeIdCreatorDelegate,
-                                                                                DefaultLabel,
-                                                                               
-                                                                                GraphInitializer)
-
-                                             as IGenericPropertyGraph<TId, TRevId, TLabel, TKey, TValue,
-                                                                      TId, TRevId, TLabel, TKey, TValue,
-                                                                      TId, TRevId, TLabel, TKey, TValue,
-                                                                      TId, TRevId, TLabel, TKey, TValue>;
-
-        }
-
-        #endregion
-
-        #region CreateCommonGenericGraph<TId, TRevId, TLabel, TKey, TValue>(GraphId, IdKey, RevIdKey, DescriptionKey, IdCreatorDelegate, RevIdCreatorDelegate, GraphInitializer = null)
-
-        /// <summary>
-        /// Create a new generic property graph with common datatypes for all graph elements (vertices, edges, multiedges and hyperedges).
-        /// </summary>
-        /// <typeparam name="TId">The type of all identificators.</typeparam>
-        /// <typeparam name="TRevId">The type of all revision identificators.</typeparam>
-        /// <typeparam name="TLabel">The type of all labels.</typeparam>
-        /// <typeparam name="TKey">The type of all property keys.</typeparam>
-        /// <typeparam name="TValue">The type of all property values.</typeparam>
-        /// <param name="GraphId">The graph identification.</param></param>
-        /// <param name="IdKey">The property key to access the Ids.</param>
-        /// <param name="RevIdKey">The property key to access the RevisionIds.</param>
-        /// <param name="DescriptionKey">The property key to access the descriptions.</param>
-        /// <param name="IdCreatorDelegate">A delegate to create new graph element identifications.</param>
-        /// <param name="RevIdCreatorDelegate">A delegate to create a new revision identifications.</param>
-        /// <param name="GraphInitializer">A delegate to initialize the new property graph.</param>
-        /// <returns></returns>
-        public static IGenericPropertyGraph<TId, TRevId, TLabel, TKey, TValue,
-                                            TId, TRevId, TLabel, TKey, TValue,
-                                            TId, TRevId, TLabel, TKey, TValue,
-                                            TId, TRevId, TLabel, TKey, TValue>
-            
-            CreateCommonGenericGraph<TId, TRevId, TLabel, TKey, TValue>(
-                                     TId                          GraphId,
-                                     String                       Description,
-                                     TKey                         IdKey,
-                                     TKey                         RevIdKey,
-                                     TKey                         LabelKey,
-                                     TKey                         DescriptionKey,                                     
-                                     IdCreatorDelegate<TId>       IdCreatorDelegate,
-                                     RevIdCreatorDelegate<TRevId> RevIdCreatorDelegate,
-                                     TLabel                       DefaultLabel,
-                                     GraphInitializer<TId, TRevId, TLabel, TKey, TValue,
-                                                      TId, TRevId, TLabel, TKey, TValue,
-                                                      TId, TRevId, TLabel, TKey, TValue,
-                                                      TId, TRevId, TLabel, TKey, TValue> GraphInitializer = null)
-
-            where TId     : IEquatable<TId>,    IComparable<TId>,    IComparable, TValue
-            where TRevId  : IEquatable<TRevId>, IComparable<TRevId>, IComparable, TValue
-            where TLabel  : IEquatable<TLabel>, IComparable<TLabel>, IComparable, TValue
-            where TKey    : IEquatable<TKey>,   IComparable<TKey>,   IComparable
-
-        {
-
-            return CreateCommonGenericGraph<TId, TRevId, TLabel, TKey, TValue>(GraphId,
-                                                                               Description,
-                                                                               IdKey,
-                                                                               RevIdKey,
-                                                                               LabelKey,
-                                                                               DescriptionKey,
-                                                                               (graph) => IdCreatorDelegate(),
-                                                                               (graph) => IdCreatorDelegate(),
-                                                                               (graph) => IdCreatorDelegate(),
-                                                                               (graph) => IdCreatorDelegate(),
-                                                                               RevIdCreatorDelegate,
-                                                                               DefaultLabel,
-                                                                               GraphInitializer = null);
 
         }
 
@@ -552,6 +383,189 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                       String, Int64, TEdgeLabel,      String, Object,
                                                                       String, Int64, TMultiEdgeLabel, String, Object,
                                                                       String, Int64, THyperEdgeLabel, String, Object>;
+
+        }
+
+        #endregion
+
+
+        #region CreateCommonGenericGraph<TId, TRevId, TLabel, TKey, TValue>(GraphId, IdKey, RevIdKey, DescriptionKey, VertexIdCreatorDelegate, EdgeIdCreatorDelegate, MultiEdgeIdCreatorDelegate, HyperEdgeIdCreatorDelegate, RevIdCreatorDelegate, GraphInitializer = null)
+
+        /// <summary>
+        /// Create a new generic property graph with common datatypes for all graph elements (vertices, edges, multiedges and hyperedges).
+        /// </summary>
+        /// <typeparam name="TId">The type of all identificators.</typeparam>
+        /// <typeparam name="TRevId">The type of all revision identificators.</typeparam>
+        /// <typeparam name="TLabel">The type of all labels.</typeparam>
+        /// <typeparam name="TKey">The type of all property keys.</typeparam>
+        /// <typeparam name="TValue">The type of all property values.</typeparam>
+        /// <param name="GraphId">The graph identification.</param></param>
+        /// <param name="IdKey">The property key to access the Ids.</param>
+        /// <param name="RevIdKey">The property key to access the RevisionIds.</param>
+        /// <param name="LabelKey">The key to access the Label of this graph element.</param>
+        /// <param name="DescriptionKey">The property key to access the descriptions.</param>
+        /// <param name="VertexIdCreatorDelegate">A delegate to create a new vertex identification.</param>
+        /// <param name="EdgeIdCreatorDelegate">A delegate to create a new edge identification.</param>
+        /// <param name="MultiEdgeIdCreatorDelegate">A delegate to create a new multiedge identification.</param>
+        /// <param name="HyperEdgeIdCreatorDelegate">A delegate to create a new hyperedge identification.</param>
+        /// <param name="RevIdCreatorDelegate">A delegate to create a new revision identifications.</param>
+        /// <param name="GraphInitializer">A delegate to initialize the new property graph.</param>
+        public static IGenericPropertyGraph<TId, TRevId, TLabel, TKey, TValue,
+                                            TId, TRevId, TLabel, TKey, TValue,
+                                            TId, TRevId, TLabel, TKey, TValue,
+                                            TId, TRevId, TLabel, TKey, TValue>
+
+            CreateCommonGenericGraph<TId, TRevId, TLabel, TKey, TValue>(
+                                     TId  GraphId,
+                                     String Description,
+                                     TKey IdKey,
+                                     TKey RevIdKey,
+                                     TKey LabelKey,
+                                     TKey DescriptionKey,
+
+                                     VertexIdCreatorDelegate   <TId, TRevId, TLabel, TKey, TValue,
+                                                                TId, TRevId, TLabel, TKey, TValue,
+                                                                TId, TRevId, TLabel, TKey, TValue,
+                                                                TId, TRevId, TLabel, TKey, TValue> VertexIdCreatorDelegate,
+
+                                     EdgeIdCreatorDelegate     <TId, TRevId, TLabel, TKey, TValue,
+                                                                TId, TRevId, TLabel, TKey, TValue,
+                                                                TId, TRevId, TLabel, TKey, TValue,
+                                                                TId, TRevId, TLabel, TKey, TValue> EdgeIdCreatorDelegate,
+
+                                     MultiEdgeIdCreatorDelegate<TId, TRevId, TLabel, TKey, TValue,
+                                                                TId, TRevId, TLabel, TKey, TValue,
+                                                                TId, TRevId, TLabel, TKey, TValue,
+                                                                TId, TRevId, TLabel, TKey, TValue> MultiEdgeIdCreatorDelegate,
+
+                                     HyperEdgeIdCreatorDelegate<TId, TRevId, TLabel, TKey, TValue,
+                                                                TId, TRevId, TLabel, TKey, TValue,
+                                                                TId, TRevId, TLabel, TKey, TValue,
+                                                                TId, TRevId, TLabel, TKey, TValue> HyperEdgeIdCreatorDelegate,
+
+                                     RevIdCreatorDelegate<TRevId>                                  RevIdCreatorDelegate,
+
+                                     TLabel DefaultLabel,
+
+                                     GraphInitializer          <TId, TRevId, TLabel, TKey, TValue,
+                                                                TId, TRevId, TLabel, TKey, TValue,
+                                                                TId, TRevId, TLabel, TKey, TValue,
+                                                                TId, TRevId, TLabel, TKey, TValue> GraphInitializer = null)
+
+            where TId     : IEquatable<TId>,    IComparable<TId>,    IComparable, TValue
+            where TRevId  : IEquatable<TRevId>, IComparable<TRevId>, IComparable, TValue
+            where TLabel  : IEquatable<TLabel>, IComparable<TLabel>, IComparable, TValue
+            where TKey    : IEquatable<TKey>,   IComparable<TKey>,   IComparable
+
+        {
+
+            return new GenericPropertyVertex<TId, TRevId, TLabel, TKey, TValue,
+                                             TId, TRevId, TLabel, TKey, TValue,
+                                             TId, TRevId, TLabel, TKey, TValue,
+                                             TId, TRevId, TLabel, TKey, TValue>(GraphId,
+                                                                                Description,
+
+                                                                                // Vertices
+                                                                                IdKey,
+                                                                                RevIdKey,
+                                                                                LabelKey,
+                                                                                DescriptionKey,
+                                                                                VertexIdCreatorDelegate,
+                                                                                DefaultLabel,
+
+                                                                                // Edges
+                                                                                IdKey,
+                                                                                RevIdKey,
+                                                                                LabelKey,
+                                                                                DescriptionKey,
+                                                                                EdgeIdCreatorDelegate,
+                                                                                DefaultLabel,
+
+                                                                                // Multiedges
+                                                                                IdKey,
+                                                                                RevIdKey,
+                                                                                LabelKey,
+                                                                                DescriptionKey,
+                                                                                MultiEdgeIdCreatorDelegate,
+                                                                                DefaultLabel,
+
+                                                                                // Hyperedges
+                                                                                IdKey,
+                                                                                RevIdKey,
+                                                                                LabelKey,
+                                                                                DescriptionKey,
+                                                                                HyperEdgeIdCreatorDelegate,
+                                                                                DefaultLabel,
+                                                                               
+                                                                                GraphInitializer)
+
+                                             as IGenericPropertyGraph<TId, TRevId, TLabel, TKey, TValue,
+                                                                      TId, TRevId, TLabel, TKey, TValue,
+                                                                      TId, TRevId, TLabel, TKey, TValue,
+                                                                      TId, TRevId, TLabel, TKey, TValue>;
+
+        }
+
+        #endregion
+
+        #region CreateCommonGenericGraph<TId, TRevId, TLabel, TKey, TValue>(GraphId, IdKey, RevIdKey, DescriptionKey, IdCreatorDelegate, RevIdCreatorDelegate, GraphInitializer = null)
+
+        /// <summary>
+        /// Create a new generic property graph with common datatypes for all graph elements (vertices, edges, multiedges and hyperedges).
+        /// </summary>
+        /// <typeparam name="TId">The type of all identificators.</typeparam>
+        /// <typeparam name="TRevId">The type of all revision identificators.</typeparam>
+        /// <typeparam name="TLabel">The type of all labels.</typeparam>
+        /// <typeparam name="TKey">The type of all property keys.</typeparam>
+        /// <typeparam name="TValue">The type of all property values.</typeparam>
+        /// <param name="GraphId">The graph identification.</param></param>
+        /// <param name="IdKey">The property key to access the Ids.</param>
+        /// <param name="RevIdKey">The property key to access the RevisionIds.</param>
+        /// <param name="DescriptionKey">The property key to access the descriptions.</param>
+        /// <param name="IdCreatorDelegate">A delegate to create new graph element identifications.</param>
+        /// <param name="RevIdCreatorDelegate">A delegate to create a new revision identifications.</param>
+        /// <param name="GraphInitializer">A delegate to initialize the new property graph.</param>
+        /// <returns></returns>
+        public static IGenericPropertyGraph<TId, TRevId, TLabel, TKey, TValue,
+                                            TId, TRevId, TLabel, TKey, TValue,
+                                            TId, TRevId, TLabel, TKey, TValue,
+                                            TId, TRevId, TLabel, TKey, TValue>
+
+            CreateCommonGenericGraph<TId, TRevId, TLabel, TKey, TValue>(
+                                     TId                          GraphId,
+                                     String                       Description,
+                                     TKey                         IdKey,
+                                     TKey                         RevIdKey,
+                                     TKey                         LabelKey,
+                                     TKey                         DescriptionKey,                                     
+                                     IdCreatorDelegate<TId>       IdCreatorDelegate,
+                                     RevIdCreatorDelegate<TRevId> RevIdCreatorDelegate,
+                                     TLabel                       DefaultLabel,
+                                     GraphInitializer<TId, TRevId, TLabel, TKey, TValue,
+                                                      TId, TRevId, TLabel, TKey, TValue,
+                                                      TId, TRevId, TLabel, TKey, TValue,
+                                                      TId, TRevId, TLabel, TKey, TValue> GraphInitializer = null)
+
+            where TId     : IEquatable<TId>,    IComparable<TId>,    IComparable, TValue
+            where TRevId  : IEquatable<TRevId>, IComparable<TRevId>, IComparable, TValue
+            where TLabel  : IEquatable<TLabel>, IComparable<TLabel>, IComparable, TValue
+            where TKey    : IEquatable<TKey>,   IComparable<TKey>,   IComparable
+
+        {
+
+            return CreateCommonGenericGraph<TId, TRevId, TLabel, TKey, TValue>(GraphId,
+                                                                               Description,
+                                                                               IdKey,
+                                                                               RevIdKey,
+                                                                               LabelKey,
+                                                                               DescriptionKey,
+                                                                               (graph) => IdCreatorDelegate(),
+                                                                               (graph) => IdCreatorDelegate(),
+                                                                               (graph) => IdCreatorDelegate(),
+                                                                               (graph) => IdCreatorDelegate(),
+                                                                               RevIdCreatorDelegate,
+                                                                               DefaultLabel,
+                                                                               GraphInitializer = null);
 
         }
 
