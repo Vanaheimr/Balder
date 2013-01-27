@@ -35,6 +35,12 @@ namespace de.ahzf.Vanaheimr.Blueprints.Schema
     public static class GraphSchemaHandling
     {
 
+        public class SchemaUsage<T>
+        {
+            public  T           DefaultValue;
+            public  Type        DefaultType;
+        }
+
         public const String AlternativeUsage = "AlternativeUsage";
 
         #region GetSchemaGraph(this PropertyGraph, GraphId, Description = null, ContinuousLearning = true)
@@ -69,10 +75,10 @@ namespace de.ahzf.Vanaheimr.Blueprints.Schema
         /// <param name="GraphId">The schema graph identification.</param>
         /// <param name="Description">The optional description of the schema graph.</param>
         /// <param name="ContinuousLearning">If set to true, the schema graph will subsribe vertex/edge additions in order to continuously learn the graph schema.</param>
-        public static IGenericPropertyGraph<String, Int64, String, String, Object,
-                                            String, Int64, String, String, Object,
-                                            String, Int64, String, String, Object,
-                                            String, Int64, String, String, Object>
+        public static IGenericPropertyGraph<String, TRevIdVertex,    String, String, Object,
+                                            String, TRevIdEdge,      String, String, Object,
+                                            String, TRevIdMultiEdge, String, String, Object,
+                                            String, TRevIdHyperEdge, String, String, Object>
 
                           GetSchemaGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
@@ -88,10 +94,10 @@ namespace de.ahzf.Vanaheimr.Blueprints.Schema
                              String  Description        = null,
                              Boolean ContinuousLearning = true,
 
-                             IGenericPropertyGraph<String, Int64, String, String, Object,
-                                                   String, Int64, String, String, Object,
-                                                   String, Int64, String, String, Object,
-                                                   String, Int64, String, String, Object> ExistingSchemaGraph = null)
+                             IGenericPropertyGraph<String, TRevIdVertex,    String, String, Object,
+                                                   String, TRevIdEdge,      String, String, Object,
+                                                   String, TRevIdMultiEdge, String, String, Object,
+                                                   String, TRevIdHyperEdge, String, String, Object> ExistingSchemaGraph = null)
 
 
             where TIdVertex        : IEquatable<TIdVertex>,       IComparable<TIdVertex>,       IComparable, TValueVertex
@@ -116,7 +122,48 @@ namespace de.ahzf.Vanaheimr.Blueprints.Schema
 
         {
 
-            var SchemaGraph = (ExistingSchemaGraph == null) ? GraphFactory.CreateSchemaGraph(GraphId, Description) : ExistingSchemaGraph;
+            var SchemaGraph = (ExistingSchemaGraph != null) ?
+                   ExistingSchemaGraph :
+                   new GenericPropertyVertex<String, TRevIdVertex,    String, String, Object,
+                                             String, TRevIdEdge,      String, String, Object,
+                                             String, TRevIdMultiEdge, String, String, Object,
+                                             String, TRevIdHyperEdge, String, String, Object>(GraphId,
+                                                                                    Description,
+
+                                                                                    // Vertices
+                                                                                    GraphDBOntology.Id().Suffix,
+                                                                                    GraphDBOntology.RevId().Suffix,
+                                                                                    GraphDBOntology.Label().Suffix,
+                                                                                    GraphDBOntology.Description().Suffix,
+                                                                                    new IdGenerator_String(),
+                                                                                    GraphDBOntology.DefaultVertexLabel().Suffix,
+
+                                                                                    // Edges
+                                                                                    GraphDBOntology.Id().Suffix,
+                                                                                    GraphDBOntology.RevId().Suffix,
+                                                                                    GraphDBOntology.Label().Suffix,
+                                                                                    GraphDBOntology.Description().Suffix,
+                                                                                    new IdGenerator_String(),
+                                                                                    GraphDBOntology.DefaultEdgeLabel().Suffix,
+
+                                                                                    // Multiedges
+                                                                                    GraphDBOntology.Id().Suffix,
+                                                                                    GraphDBOntology.RevId().Suffix,
+                                                                                    GraphDBOntology.Label().Suffix,
+                                                                                    GraphDBOntology.Description().Suffix,
+                                                                                    new IdGenerator_String(),
+                                                                                    GraphDBOntology.DefaultMultiEdgeLabel().Suffix,
+
+                                                                                    // Hyperedges
+                                                                                    GraphDBOntology.Id().Suffix,
+                                                                                    GraphDBOntology.RevId().Suffix,
+                                                                                    GraphDBOntology.Label().Suffix,
+                                                                                    GraphDBOntology.Description().Suffix,
+                                                                                    new IdGenerator_String(),
+                                                                                    GraphDBOntology.DefaultHyperEdgeLabel().Suffix//,
+
+                                                                                    //GraphInitializer
+                                                                                    ) { };
 
             if (ContinuousLearning)
             {
