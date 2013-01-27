@@ -44,13 +44,17 @@
   <ItemGroup>
     <Compile Include="GenericPropertyGraph\GenericPropertyHyperEdge.cs" />
     <Compile Include="GenericPartitionPropertyGraph\GenericPartitionPropertyGraph.cs" />
-    <Compile Include="GraphSchemaHandling.cs" />
+    <Compile Include="Schema\GraphSchemaHandling.cs" />
     <Compile Include="GraphFactory.cs" />
     <Compile Include="GenericPropertyGraph\AGraphElement.cs" />
     <Compile Include="GenericPropertyGraph\GenericPropertyEdge.cs" />
     <Compile Include="GenericPropertyGraph\GenericPropertyMultiEdge.cs" />
     <Compile Include="GenericPropertyGraph\GenericPropertyVertex.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Schema\EdgeLabels.cs" />
+    <Compile Include="Schema\HyperEdgeLabels.cs" />
+    <Compile Include="Schema\MultiEdgeLabels.cs" />
+    <Compile Include="Schema\VertexLabels.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Blueprints\Blueprints.csproj">
