@@ -185,15 +185,17 @@ namespace de.ahzf.Vanaheimr.Blueprints.Schema
 
                 #region Register [Vertex|Edge]Added events: PropertyGraph -> SchemaGraph
 
-                Graph.OnVertexAddition.OnNotification += (g, v) => SchemaGraph.AddVertexIfNotExists(Id:    v.Label,
-                                                                                                    Label: VertexLabel.Vertex);
+                Graph.OnVertexAddition.OnNotification +=
+                    (g, v) => SchemaGraph.AddVertexIfNotExists(Id:    v.Label,
+                                                               Label: VertexLabel.Vertex);
 
-                Graph.OnEdgeAddition.OnNotification   += (g, e) => SchemaGraph.AddEdgeIfNotExists(Id:              e.Label,
-                                                                                                  OutVertex:       SchemaGraph.VertexById(e.OutVertex.Label).AsMutable(),
-                                                                                                  Label:           EdgeLabel.IsConnectedWith,
-                                                                                                  InVertex:        SchemaGraph.VertexById(e.InVertex.Label).AsMutable(),
-                                                                                                  EdgeInitializer: Edge => Edge.SetAdd(GraphSchemaHandling.AlternativeUsage, e.OutVertex.Label.ToString() + " -> " + e.InVertex.Label.ToString()),
-                                                                                                  AnywayDo:        Edge => Edge.SetAdd(GraphSchemaHandling.AlternativeUsage, e.OutVertex.Label.ToString() + " -> " + e.InVertex.Label.ToString()));
+                Graph.OnEdgeAddition.OnNotification   +=
+                    (g, e) => SchemaGraph.AddEdgeIfNotExists(Id:              e.Label,
+                                                             OutVertex:       SchemaGraph.VertexById(e.OutVertex.Label).AsMutable(),
+                                                             Label:           EdgeLabel.IsConnectedWith,
+                                                             InVertex:        SchemaGraph.VertexById(e.InVertex.Label).AsMutable(),
+                                                             EdgeInitializer: Edge => Edge.SetAdd(GraphSchemaHandling.AlternativeUsage, e.OutVertex.Label.ToString() + " -> " + e.InVertex.Label.ToString()),
+                                                             AnywayDo:        Edge => Edge.SetAdd(GraphSchemaHandling.AlternativeUsage, e.OutVertex.Label.ToString() + " -> " + e.InVertex.Label.ToString()));
 
                 #endregion
 
