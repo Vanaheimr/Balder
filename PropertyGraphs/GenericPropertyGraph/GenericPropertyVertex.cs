@@ -3382,19 +3382,21 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #endregion
 
-        #region AddEdgeIfNotExists(OutVertex, Label, InVertex, EdgeInitializer = null)
+        #region AddEdgeIfNotExists(OutVertex, Label, InVertex, EdgeInitializer = null, ElseDo = null, AnywayDo = null)
 
         /// <summary>
-        /// Add an edge to the graph. The added edge requires a tail vertex,
-        /// a head vertex, an identifier, a label and initializes the edge
-        /// by invoking the given EdgeInitializer.
-        /// 'OutVertex --Label-> InVertex' is the "Semantic Web Notation" ;)
+        /// Add an edge to the graph, if it dows not exist already.
+        /// The added edge requires a tail vertex, a head vertex, an identifier,
+        /// a label and initializes the edge by invoking the given EdgeInitializer.
+        /// OutVertex --Label-> InVertex is the "Semantic Web Notation" ;)
         /// </summary>
         /// <param name="OutVertex">The vertex on the tail of the edge.</param>
         /// <param name="Label">The label associated with the edge.</param>
         /// <param name="InVertex">The vertex on the head of the edge.</param>
-        /// <param name="EdgeInitializer">A delegate to initialize the new edge.</param>
-        /// <returns>The new edge.</returns>
+        /// <param name="EdgeInitializer">A delegate to initialize the newly created edge.</param>
+        /// <param name="ElseDo">A delegate to modify the existing edge.</param>
+        /// <param name="AnywayDo">A delegate to do something with the edge, no matter if is was newly created or already existing.</param>
+        /// <returns>The new or old edge.</returns>
         IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                      TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                      TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -3425,8 +3427,12 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                    EdgeInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                    TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                   TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> AnywayDo)
+                                                   TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> ElseDo,
 
+                                   EdgeInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                   TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> AnywayDo)
 
         {
 
@@ -3441,12 +3447,18 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
             if (Label == null)
                 Label = _DefaultEdgeLabel;
 
+            #endregion
+
+            #region If the edge already exists...
 
             var ExistingEdge = OutVertex.Edges(e => e.Label.Equals(Label) &&
                                                     e.InVertex.Equals(InVertex)).FirstOrDefault();
 
             if (ExistingEdge != null)
             {
+
+                if (ElseDo != null)
+                    ElseDo(ExistingEdge.AsMutable());
 
                 if (AnywayDo != null)
                     AnywayDo(ExistingEdge.AsMutable());
@@ -3455,12 +3467,15 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
             }
 
+            #endregion
+
+            #region ...or, if not...
 
             var EdgeId = _EdgeIdCreatorDelegate(this);
 
-            #endregion
+            return AddEdgeToGraph(_EdgeCreatorDelegate(this, OutVertex, InVertex, EdgeId, Label, e => { EdgeInitializer(e); AnywayDo(e); }));
 
-            return AddEdgeToGraph(_EdgeCreatorDelegate(this, OutVertex, InVertex, EdgeId, Label, EdgeInitializer));
+            #endregion
 
         }
 
@@ -3518,31 +3533,33 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #endregion
 
-        #region AddEdgeIfNotExists(EdgeId, OutVertex, Label, InVertex, EdgeInitializer = null)
+        #region AddEdgeIfNotExists(Id, OutVertex, Label, InVertex, EdgeInitializer = null, ElseDo = null, AnywayDo = null)
 
         /// <summary>
-        /// Add an edge to the graph. The added edge requires a tail vertex,
-        /// a head vertex, an identifier, a label and initializes the edge
-        /// by invoking the given EdgeInitializer.
-        /// 'OutVertex --Label-> InVertex' is the "Semantic Web Notation" ;)
+        /// Add an edge to the graph, if it dows not exist already.
+        /// The added edge requires a tail vertex, a head vertex, an identifier,
+        /// a label and initializes the edge by invoking the given EdgeInitializer.
+        /// OutVertex --Label-> InVertex is the "Semantic Web Notation" ;)
         /// </summary>
-        /// <param name="EdgeId">A EdgeId. If none was given a new one will be generated.</param>
+        /// <param name="Id">The unique identification of the edge. If none was given a new one will be generated.</param>
         /// <param name="OutVertex">The vertex on the tail of the edge.</param>
         /// <param name="Label">The label associated with the edge.</param>
         /// <param name="InVertex">The vertex on the head of the edge.</param>
-        /// <param name="EdgeInitializer">A delegate to initialize the new edge.</param>
-        /// <returns>The new edge.</returns>
+        /// <param name="EdgeInitializer">A delegate to initialize the newly created edge.</param>
+        /// <param name="ElseDo">A delegate to modify the existing edge.</param>
+        /// <param name="AnywayDo">A delegate to do something with the edge, no matter if is was newly created or already existing.</param>
+        /// <returns>The new or old edge.</returns>
         IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                      TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                      TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                      TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
-            
+
             IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                   TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
-            
-                AddEdgeIfNotExists(TIdEdge EdgeId,
+
+                AddEdgeIfNotExists(TIdEdge Id,
 
                                    IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
@@ -3564,37 +3581,24 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                    EdgeInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                    TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                   TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> AnywayDo)
+                                                   TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> ElseDo,
 
+                                   EdgeInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                   TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> AnywayDo)
 
         {
 
             #region Initial checks
 
-            if (EdgeId == null)
-                EdgeId = _EdgeIdCreatorDelegate(this);
+            if (Id == null)
+                Id = _EdgeIdCreatorDelegate(this);
 
             IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> _Edge = null;
-
-            if (_EdgesWhenGraph.TryGetByKey(EdgeId, out _Edge))
-            {
-
-                if (Label.Equals(_Edge.Label))
-                {
-
-                    if (AnywayDo != null)
-                        AnywayDo(_Edge.AsMutable());
-                    
-                    return _Edge;
-
-                }
-
-                throw new DuplicateEdgeIdException<TIdEdge>(_Edge.Id);
-
-            }
 
             if (OutVertex == null)
                 throw new ArgumentException("The OutVertex must not be null!");
@@ -3605,9 +3609,41 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
             if (Label == null)
                 Label = _DefaultEdgeLabel;
 
+
             #endregion
 
-            return AddEdgeToGraph(_EdgeCreatorDelegate(this, OutVertex, InVertex, EdgeId, Label, EdgeInitializer));
+            #region If the edge already exists...
+
+            if (_EdgesWhenGraph.TryGetByKey(Id, out _Edge))
+            {
+
+                if (!OutVertex.Equals(_Edge.OutVertex))
+                    throw new DuplicateEdgeIdException<TIdEdge>(_Edge.Id);
+
+                if (!Label.Equals(_Edge.Label))
+                    throw new DuplicateEdgeIdException<TIdEdge>(_Edge.Id);
+
+                if (!InVertex.Equals(_Edge.InVertex))
+                    throw new DuplicateEdgeIdException<TIdEdge>(_Edge.Id);
+
+                if (ElseDo != null)
+                    ElseDo(_Edge.AsMutable());
+
+                if (AnywayDo != null)
+                    AnywayDo(_Edge.AsMutable());
+
+                return _Edge;
+
+            }
+
+
+            #endregion
+
+            #region ...or, if not...
+
+            return AddEdgeToGraph(_EdgeCreatorDelegate(this, OutVertex, InVertex, Id, Label, EdgeInitializer));
+
+            #endregion
 
         }
 

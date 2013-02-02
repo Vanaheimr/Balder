@@ -29,7 +29,7 @@ using de.ahzf.Vanaheimr.Blueprints.Schema;
 
 #endregion
 
-namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.PropertyGraphs.InMemory
+namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.InMemoryPropertyGraphs
 {
 
     /// <summary>
@@ -50,31 +50,42 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.PropertyGraphs.InMemory
 
             var graph = GraphFactory.CreateGenericPropertyGraph_WithStringIds();
 
-            var Alice = graph.AddVertex("Alice", "a_person");
-            var Bob   = graph.AddVertex("Bob",   "a_person");
-            var Carol = graph.AddVertex("Carol", "a_person");
+            // vertex labels
+            var a_person = "a_person";
+            var a_pet    = "a_pet";
 
-            var e1    = graph.AddEdge(Alice, "loves",    Bob);
-            var e2    = graph.AddEdge(Bob,   "loves",    Carol);
-            var e3    = graph.AddEdge(Alice, "dislikes", Carol);
+            // edge labels
+            var loves    = "loves";
+            var dislikes = "dislikes";
+
+            var Alice = graph.AddVertex("Alice", a_person);
+            var Bob   = graph.AddVertex("Bob",   a_person);
+            var Carol = graph.AddVertex("Carol", a_person);
+
+            var Gizmo = graph.AddVertex("Gizmo", a_pet);
+
+            var e1    = graph.AddEdge(Alice, loves,    Bob);
+            var e2    = graph.AddEdge(Bob,   loves,    Carol);
+            var e3    = graph.AddEdge(Alice, dislikes, Carol);
+            var e4    = graph.AddEdge(Alice, loves,    Gizmo);
 
             var schema = graph.SchemaGraph("Schema01");
 
             Assert.IsNotNull(schema);
 
-            Assert.AreEqual(1UL, schema.NumberOfVertices());
-            Assert.AreEqual(2UL, schema.NumberOfEdges());
+            Assert.AreEqual(2UL, schema.NumberOfVertices());    // a_person, a_pet
+            Assert.AreEqual(2UL, schema.NumberOfEdges());       // loves, dislikes
             Assert.AreEqual(0UL, schema.NumberOfMultiEdges());
             Assert.AreEqual(0UL, schema.NumberOfHyperEdges());
 
-            var a_person_vertex = schema.VertexById("a_person");
+            var a_person_vertex = schema.VertexById(a_person);
             Assert.IsNotNull(a_person_vertex);
             Assert.AreEqual(2UL, a_person_vertex.OutDegree());
 
-            var loves_edge      = schema.EdgeById("loves");
+            var loves_edge      = schema.EdgeById(loves);
             Assert.IsNotNull(loves_edge);
 
-            var dislikes_edge   = schema.EdgeById("dislikes");
+            var dislikes_edge   = schema.EdgeById(dislikes);
             Assert.IsNotNull(dislikes_edge);
 
         }

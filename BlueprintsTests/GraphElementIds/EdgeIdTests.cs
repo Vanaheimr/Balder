@@ -24,7 +24,7 @@ using NUnit.Framework;
 
 #endregion
 
-namespace de.ahzf.Vanaheimr.Blueprints.UnitTests
+namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
 {
 
     /// <summary>

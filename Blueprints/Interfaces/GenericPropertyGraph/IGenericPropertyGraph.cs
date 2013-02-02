@@ -3197,19 +3197,21 @@ namespace de.ahzf.Vanaheimr.Blueprints
 
         #endregion
 
-        #region AddEdgeIfNotExists(OutVertex, Label, InVertex, EdgeInitializer = null, AnywayDo = null)
+        #region AddEdgeIfNotExists(OutVertex, Label, InVertex, EdgeInitializer = null, ElseDo = null, AnywayDo = null)
 
         /// <summary>
-        /// Add an edge to the graph. The added edge requires a tail vertex,
-        /// a head vertex, an identifier, a label and initializes the edge
-        /// by invoking the given EdgeInitializer.
+        /// Add an edge to the graph, if it dows not exist already.
+        /// The added edge requires a tail vertex, a head vertex, an identifier,
+        /// a label and initializes the edge by invoking the given EdgeInitializer.
         /// OutVertex --Label-> InVertex is the "Semantic Web Notation" ;)
         /// </summary>
         /// <param name="OutVertex">The vertex on the tail of the edge.</param>
         /// <param name="Label">The label associated with the edge.</param>
         /// <param name="InVertex">The vertex on the head of the edge.</param>
-        /// <param name="EdgeInitializer">A delegate to initialize the new edge.</param>
-        /// <returns>The new edge.</returns>
+        /// <param name="EdgeInitializer">A delegate to initialize the newly created edge.</param>
+        /// <param name="ElseDo">A delegate to modify the existing edge.</param>
+        /// <param name="AnywayDo">A delegate to do something with the edge, no matter if is was newly created or already existing.</param>
+        /// <returns>The new or old edge.</returns>
         IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                      TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                      TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -3231,6 +3233,11 @@ namespace de.ahzf.Vanaheimr.Blueprints
                                                TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeInitializer = null,
+
+                               EdgeInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> ElseDo = null,
 
                                EdgeInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
@@ -3279,20 +3286,22 @@ namespace de.ahzf.Vanaheimr.Blueprints
 
         #endregion
 
-        #region AddEdgeIfNotExists(Id, OutVertex, Label, InVertex, EdgeInitializer = null, AnywayDo = null)
+        #region AddEdgeIfNotExists(Id, OutVertex, Label, InVertex, EdgeInitializer = null, ElseDo = null, AnywayDo = null)
 
         /// <summary>
-        /// Add an edge to the graph. The added edge requires a tail vertex,
-        /// a head vertex, an identifier, a label and initializes the edge
-        /// by invoking the given EdgeInitializer.
+        /// Add an edge to the graph, if it dows not exist already.
+        /// The added edge requires a tail vertex, a head vertex, an identifier,
+        /// a label and initializes the edge by invoking the given EdgeInitializer.
         /// OutVertex --Label-> InVertex is the "Semantic Web Notation" ;)
         /// </summary>
         /// <param name="Id">The unique identification of the edge. If none was given a new one will be generated.</param>
         /// <param name="OutVertex">The vertex on the tail of the edge.</param>
         /// <param name="Label">The label associated with the edge.</param>
         /// <param name="InVertex">The vertex on the head of the edge.</param>
-        /// <param name="EdgeInitializer">A delegate to initialize the new edge.</param>
-        /// <returns>The new edge.</returns>
+        /// <param name="EdgeInitializer">A delegate to initialize the newly created edge.</param>
+        /// <param name="ElseDo">A delegate to modify the existing edge.</param>
+        /// <param name="AnywayDo">A delegate to do something with the edge, no matter if is was newly created or already existing.</param>
+        /// <returns>The new or old edge.</returns>
         IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                      TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                      TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -3316,6 +3325,11 @@ namespace de.ahzf.Vanaheimr.Blueprints
                                                TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeInitializer = null,
+
+                               EdgeInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> ElseDo = null,
 
                                EdgeInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,

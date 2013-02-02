@@ -28,7 +28,7 @@ using de.ahzf.Vanaheimr.Blueprints.InMemory;
 
 #endregion
 
-namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.PropertyGraphs.InMemory
+namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.InMemoryPropertyGraphs
 {
 
     /// <summary>
