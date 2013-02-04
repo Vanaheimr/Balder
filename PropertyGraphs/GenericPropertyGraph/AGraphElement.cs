@@ -217,7 +217,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
             set
             {
-                this.SetProperty(DescriptionKey, value);
+                this.Set(DescriptionKey, value);
             }
 
         }
@@ -493,7 +493,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         /// <param name="Object">The property value</param>
         public virtual Object SetMember(String Binder, Object Object)
         {
-            return SetProperty((TKey) (Object) Binder, (TValue) Object);
+            return Set((TKey) (Object) Binder, (TValue) Object);
         }
 
         #endregion
@@ -540,7 +540,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #region IProperties Members
 
-        #region SetProperty(Key, Value)
+        #region Set(Key, Value)
 
         /// <summary>
         /// Add a KeyValuePair to the graph element.
@@ -548,7 +548,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         /// </summary>
         /// <param name="Key">A key.</param>
         /// <param name="Value">A value.</param>
-        public virtual IProperties<TKey, TValue> SetProperty(TKey Key, TValue Value)
+        public virtual IProperties<TKey, TValue> Set(TKey Key, TValue Value)
         {
 
             #region Initial Checks

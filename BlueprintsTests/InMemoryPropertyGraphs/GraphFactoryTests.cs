@@ -203,7 +203,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.InMemoryPropertyGraphs
             var GraphDescription  =          Random.Next().ToString();
             var PropertyKey       =          Random.Next().ToString();
             var PropertyValue     =          Random.Next();
-            var graph             = GraphFactory.CreateGenericPropertyGraph(GraphId, GraphDescription, GraphInitializer => GraphInitializer.SetProperty(PropertyKey, PropertyValue));
+            var graph             = GraphFactory.CreateGenericPropertyGraph(GraphId, GraphDescription, GraphInitializer => GraphInitializer.Set(PropertyKey, PropertyValue));
 
             // graph identification
             Assert.IsNotNull(graph,    "graph must not be null!");

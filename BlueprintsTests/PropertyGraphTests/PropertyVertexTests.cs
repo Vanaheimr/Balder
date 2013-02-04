@@ -130,8 +130,8 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.PropertyGraphs.InMemory
             Assert.AreEqual("1", _Graph.Id);
             Assert.AreEqual(0, _Graph.NumberOfVertices());
 
-            var _Vertex = _Graph.AddVertex(v => v.SetProperty("key1", "value1").
-                                                  SetProperty("key2", 42));
+            var _Vertex = _Graph.AddVertex(v => v.Set("key1", "value1").
+                                                  Set("key2", 42));
             Assert.AreEqual(1, _Graph.NumberOfVertices());
             Assert.AreEqual(0, _Vertex.OutEdges().Count());
             Assert.AreEqual(0, _Vertex.InEdges().Count());
@@ -193,7 +193,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.PropertyGraphs.InMemory
             Assert.AreEqual("1", _Graph.Id);
             Assert.AreEqual(0, _Graph.NumberOfVertices());
 
-            var _Vertex = _Graph.AddVertex(v => v.SetProperty("key1", "value1").
+            var _Vertex = _Graph.AddVertex(v => v.Set("key1", "value1").
                                                   SetProperty(new KeyValuePair<String, Object>("key2", 42)));
             Assert.AreEqual(1, _Graph.NumberOfVertices());
             Assert.AreEqual(0, _Vertex.OutEdges().Count());
@@ -258,7 +258,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.PropertyGraphs.InMemory
             Assert.AreEqual(0, _Graph.NumberOfVertices());
 
             var _Vertex1 = _Graph.AddVertex("5", "default");
-            _Vertex1.AsMutable().SetProperty(_Graph.IdKey, 23);
+            _Vertex1.AsMutable().Set(_Graph.IdKey, 23);
 
         }
 
@@ -279,7 +279,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.PropertyGraphs.InMemory
             Assert.AreEqual(0, _Graph.NumberOfVertices());
 
             var _Vertex1 = _Graph.AddVertex("5", "default");
-            _Vertex1.AsMutable().SetProperty(_Graph.RevIdKey, 23);
+            _Vertex1.AsMutable().Set(_Graph.RevIdKey, 23);
 
         }
 

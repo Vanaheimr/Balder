@@ -53,13 +53,13 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests
                 }
             };
 
-            var marko  = _TinkerGraph.AddVertex(v => v.SetProperty("name", "marko"). SetProperty("age",   29));
-            var vadas  = _TinkerGraph.AddVertex(v => v.SetProperty("name", "vadas"). SetProperty("age",   27));
-            var lop    = _TinkerGraph.AddVertex(v => v.SetProperty("name", "lop").   SetProperty("lang", "java"));
-            var josh   = _TinkerGraph.AddVertex(v => v.SetProperty("name", "josh").  SetProperty("age",   32));
-            var vader  = _TinkerGraph.AddVertex(v => v.SetProperty("name", "darth vader"));
-            var ripple = _TinkerGraph.AddVertex(v => v.SetProperty("name", "ripple").SetProperty("lang", "java"));
-            var peter  = _TinkerGraph.AddVertex(v => v.SetProperty("name", "peter"). SetProperty("age",   35));
+            var marko  = _TinkerGraph.AddVertex(v => v.Set("name", "marko"). Set("age",   29));
+            var vadas  = _TinkerGraph.AddVertex(v => v.Set("name", "vadas"). Set("age",   27));
+            var lop    = _TinkerGraph.AddVertex(v => v.Set("name", "lop").   Set("lang", "java"));
+            var josh   = _TinkerGraph.AddVertex(v => v.Set("name", "josh").  Set("age",   32));
+            var vader  = _TinkerGraph.AddVertex(v => v.Set("name", "darth vader"));
+            var ripple = _TinkerGraph.AddVertex(v => v.Set("name", "ripple").Set("lang", "java"));
+            var peter  = _TinkerGraph.AddVertex(v => v.Set("name", "peter"). Set("age",   35));
 
             Console.WriteLine("Number of vertices added: " + _TinkerGraph.Vertices().Count());
 
@@ -76,14 +76,14 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests
             _DynamicMarko.doIt(_DynamicMarko.name + "/" + marko.GetProperty("age") + "/");
 
 
-            var e7  = _TinkerGraph.AddEdge(marko, vadas,  7,  "knows",   e => e.SetProperty("weight", 0.5));
-            var e8  = _TinkerGraph.AddEdge(marko, josh,   8,  "knows",   e => e.SetProperty("weight", 1.0));
-            var e9  = _TinkerGraph.AddEdge(marko, lop,    9,  "created", e => e.SetProperty("weight", 0.4));
+            var e7  = _TinkerGraph.AddEdge(marko, vadas,  7,  "knows",   e => e.Set("weight", 0.5));
+            var e8  = _TinkerGraph.AddEdge(marko, josh,   8,  "knows",   e => e.Set("weight", 1.0));
+            var e9  = _TinkerGraph.AddEdge(marko, lop,    9,  "created", e => e.Set("weight", 0.4));
 
-            var e10 = _TinkerGraph.AddEdge(josh,  ripple, 10, "created", e => e.SetProperty("weight", 1.0));
-            var e11 = _TinkerGraph.AddEdge(josh,  lop,    11, "created", e => e.SetProperty("weight", 0.4));
+            var e10 = _TinkerGraph.AddEdge(josh,  ripple, 10, "created", e => e.Set("weight", 1.0));
+            var e11 = _TinkerGraph.AddEdge(josh,  lop,    11, "created", e => e.Set("weight", 0.4));
 
-            var e12 = _TinkerGraph.AddEdge(peter, lop,    12, "created", e => e.SetProperty("weight", 0.2));
+            var e12 = _TinkerGraph.AddEdge(peter, lop,    12, "created", e => e.Set("weight", 0.2));
 
             return _TinkerGraph;
 

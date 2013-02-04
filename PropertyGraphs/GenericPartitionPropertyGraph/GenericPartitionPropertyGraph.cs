@@ -568,7 +568,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #region IProperties Members
 
-        #region SetProperty(Key, Value)
+        #region Set(Key, Value)
 
         /// <summary>
         /// Add a KeyValuePair to the graph element.
@@ -576,7 +576,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         /// </summary>
         /// <param name="Key">A key.</param>
         /// <param name="Value">A value.</param>
-        public virtual IProperties<TKeyVertex, TValueVertex> SetProperty(TKeyVertex Key, TValueVertex Value)
+        public virtual IProperties<TKeyVertex, TValueVertex> Set(TKeyVertex Key, TValueVertex Value)
         {
             throw new NotImplementedException();
         }
@@ -938,8 +938,10 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         /// <param name="Id">The vertex identifier.</param>
         /// <param name="Label">The label (or type) of the vertex.</param>
         /// <param name="VertexInitializer">A delegate to initialize the new vertex.</param>
+        /// <param name="OnDuplicateVertex">Call this delegate for a duplicate vertex, or throw an exception if undefined.</param>
+        /// <param name="AnywayDo">A delegate to do something with the vertex, no matter if is was newly created or already existing.</param>
         /// <returns>The newly created or already existing vertex.</returns>
-        public IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+        public IReadOnlyGenericPropertyVertex<TIdVertex, TRevIdVertex, TVertexLabel, TKeyVertex, TValueVertex,
                                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
@@ -951,6 +953,16 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> VertexInitializer = null,
 
+                                     VertexAction     <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnDuplicateVertex = null,
+
+                                     VertexInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> ElseDo = null,
+
                                      VertexInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -958,7 +970,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         {
 
             if (WriteGraph != null)
-                return WriteGraph.AddVertexIfNotExists(Id, Label, VertexInitializer, AnywayDo);
+                return WriteGraph.AddVertexIfNotExists(Id, Label, VertexInitializer, OnDuplicateVertex, ElseDo, AnywayDo);
 
             throw new Exception("No WriteGraph present!");
 
@@ -1537,6 +1549,11 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeInitializer = null,
 
+                               EdgeAction     <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnDuplicateEdge = null,
+
                                EdgeInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -1550,7 +1567,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         {
 
             if (WriteGraph != null)
-                return WriteGraph.AddEdgeIfNotExists(EdgeId, OutVertex, Label, InVertex, EdgeInitializer, ElseDo, AnywayDo);
+                return WriteGraph.AddEdgeIfNotExists(EdgeId, OutVertex, Label, InVertex, EdgeInitializer, OnDuplicateEdge, ElseDo, AnywayDo);
 
             throw new Exception("No WriteGraph present!");
 
@@ -2959,7 +2976,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         /// <param name="Object">The property value</param>
         public virtual Object SetMember(String Binder, Object Object)
         {
-            return WriteGraph.SetProperty((TKeyVertex) (Object) Binder, (TValueVertex) Object);
+            return WriteGraph.Set((TKeyVertex) (Object) Binder, (TValueVertex) Object);
         }
 
         #endregion
@@ -3318,6 +3335,28 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
             throw new NotImplementedException();
         }
 
+
+
+        public TKeyEdge EdgeIdKey
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+
+        public TKeyEdge EdgeRevIdKey
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public TKeyEdge EdgeLabelKey
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public TKeyEdge EdgeDescriptionKey
+        {
+            get { throw new NotImplementedException(); }
+        }
     }
 
 }

@@ -30,6 +30,70 @@ using de.ahzf.Illias.Commons.Transactions;
 namespace de.ahzf.Vanaheimr.Blueprints
 {
 
+    // Delegates
+
+    #region GraphInitializer
+
+    /// <summary>
+    /// A delegate for graph initializing.
+    /// </summary>
+    /// <typeparam name="TIdVertex">The type of the vertex identifiers.</typeparam>
+    /// <typeparam name="TRevIdVertex">The type of the vertex revision identifiers.</typeparam>
+    /// <typeparam name="TVertexLabel">The type of the vertex type.</typeparam>
+    /// <typeparam name="TKeyVertex">The type of the vertex property keys.</typeparam>
+    /// <typeparam name="TValueVertex">The type of the vertex property values.</typeparam>
+    /// 
+    /// <typeparam name="TIdEdge">The type of the edge identifiers.</typeparam>
+    /// <typeparam name="TRevIdEdge">The type of the edge revision identifiers.</typeparam>
+    /// <typeparam name="TEdgeLabel">The type of the edge label.</typeparam>
+    /// <typeparam name="TKeyEdge">The type of the edge property keys.</typeparam>
+    /// <typeparam name="TValueEdge">The type of the edge property values.</typeparam>
+    /// 
+    /// <typeparam name="TIdMultiEdge">The type of the multiedge identifiers.</typeparam>
+    /// <typeparam name="TRevIdMultiEdge">The type of the multiedge revision identifiers.</typeparam>
+    /// <typeparam name="TMultiEdgeLabel">The type of the multiedge label.</typeparam>
+    /// <typeparam name="TKeyMultiEdge">The type of the multiedge property keys.</typeparam>
+    /// <typeparam name="TValueMultiEdge">The type of the multiedge property values.</typeparam>
+    /// 
+    /// <typeparam name="TIdHyperEdge">The type of the multiedge identifiers.</typeparam>
+    /// <typeparam name="TRevIdHyperEdge">The type of the multiedge revision identifiers.</typeparam>
+    /// <typeparam name="THyperEdgeLabel">The type of the multiedge label.</typeparam>
+    /// <typeparam name="TKeyHyperEdge">The type of the multiedge property keys.</typeparam>
+    /// <typeparam name="TValueHyperEdge">The type of the multiedge property values.</typeparam>
+    /// <param name="IGenericPropertyGraph">A gerneric property graph.</param>
+    public delegate void GraphInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>(
+
+                             IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                   TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IGenericPropertyGraph)
+
+        where TIdVertex        : IEquatable<TIdVertex>,       IComparable<TIdVertex>,       IComparable, TValueVertex
+        where TIdEdge          : IEquatable<TIdEdge>,         IComparable<TIdEdge>,         IComparable, TValueEdge
+        where TIdMultiEdge     : IEquatable<TIdMultiEdge>,    IComparable<TIdMultiEdge>,    IComparable, TValueMultiEdge
+        where TIdHyperEdge     : IEquatable<TIdHyperEdge>,    IComparable<TIdHyperEdge>,    IComparable, TValueHyperEdge
+
+        where TRevIdVertex     : IEquatable<TRevIdVertex>,    IComparable<TRevIdVertex>,    IComparable, TValueVertex
+        where TRevIdEdge       : IEquatable<TRevIdEdge>,      IComparable<TRevIdEdge>,      IComparable, TValueEdge
+        where TRevIdMultiEdge  : IEquatable<TRevIdMultiEdge>, IComparable<TRevIdMultiEdge>, IComparable, TValueMultiEdge
+        where TRevIdHyperEdge  : IEquatable<TRevIdHyperEdge>, IComparable<TRevIdHyperEdge>, IComparable, TValueHyperEdge
+
+        where TVertexLabel     : IEquatable<TVertexLabel>,    IComparable<TVertexLabel>,    IComparable, TValueVertex
+        where TEdgeLabel       : IEquatable<TEdgeLabel>,      IComparable<TEdgeLabel>,      IComparable, TValueEdge
+        where TMultiEdgeLabel  : IEquatable<TMultiEdgeLabel>, IComparable<TMultiEdgeLabel>, IComparable, TValueMultiEdge
+        where THyperEdgeLabel  : IEquatable<THyperEdgeLabel>, IComparable<THyperEdgeLabel>, IComparable, TValueHyperEdge
+
+        where TKeyVertex       : IEquatable<TKeyVertex>,      IComparable<TKeyVertex>,      IComparable
+        where TKeyEdge         : IEquatable<TKeyEdge>,        IComparable<TKeyEdge>,        IComparable
+        where TKeyMultiEdge    : IEquatable<TKeyMultiEdge>,   IComparable<TKeyMultiEdge>,   IComparable
+        where TKeyHyperEdge    : IEquatable<TKeyHyperEdge>,   IComparable<TKeyHyperEdge>,   IComparable;
+
+    #endregion
+
+
     // Graph modification delegates
 
     #region VertexAddingEventHandler
@@ -2911,7 +2975,7 @@ namespace de.ahzf.Vanaheimr.Blueprints
 
     // Interface
 
-    #region IGenericPropertyGraph
+    #region IGenericPropertyGraph<...>
 
     /// <summary>
     /// The interface of a generic property graph.
@@ -3085,7 +3149,7 @@ namespace de.ahzf.Vanaheimr.Blueprints
 
         #endregion
 
-        #region AddVertexIfNotExists(Id, Label, VertexInitializer = null, AnywayDo = null)
+        #region AddVertexIfNotExists(Id, Label, VertexInitializer = null, OnDuplicateVertex = null, ElseDo = null, AnywayDo = null)
 
         /// <summary>
         /// Create a new vertex using the given vertex identifier, label and optional
@@ -3097,6 +3161,8 @@ namespace de.ahzf.Vanaheimr.Blueprints
         /// <param name="Id">The vertex identifier.</param>
         /// <param name="Label">The label (or type) of the vertex.</param>
         /// <param name="VertexInitializer">A delegate to initialize the new vertex.</param>
+        /// <param name="OnDuplicateVertex">Call this delegate for a duplicate vertex, or throw an exception if undefined.</param>
+        /// <param name="AnywayDo">A delegate to do something with the vertex, no matter if is was newly created or already existing.</param>
         /// <returns>The newly created or already existing vertex.</returns>
         IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
@@ -3109,6 +3175,16 @@ namespace de.ahzf.Vanaheimr.Blueprints
                                                    TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                    TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> VertexInitializer = null,
+
+                                 VertexAction     <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                   TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnDuplicateVertex = null,
+
+                                 VertexInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                   TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> ElseDo = null,
 
                                  VertexInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                    TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
@@ -3136,6 +3212,11 @@ namespace de.ahzf.Vanaheimr.Blueprints
                             Boolean> OnVertexRemoval { get; }
 
         #endregion
+
+        TKeyEdge EdgeIdKey           { get; }
+        TKeyEdge EdgeRevIdKey        { get; }
+        TKeyEdge EdgeLabelKey        { get; }
+        TKeyEdge EdgeDescriptionKey  { get; }
 
         #endregion
 
@@ -3325,6 +3406,11 @@ namespace de.ahzf.Vanaheimr.Blueprints
                                                TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeInitializer = null,
+
+                               EdgeAction     <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnDuplicateEdge = null,
 
                                EdgeInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,

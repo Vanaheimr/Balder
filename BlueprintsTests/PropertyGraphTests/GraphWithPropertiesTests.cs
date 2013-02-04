@@ -56,7 +56,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.PropertyGraphTests
         public void GraphInitializerConstructorTest()
         {
 
-            var graph = CreateGraph(g => g.SetProperty("hello", "world!"));
+            var graph = CreateGraph(g => g.Set("hello", "world!"));
 
             Assert.IsNotNull(graph);
             Assert.IsNotNull(graph.IdKey);
@@ -130,7 +130,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.PropertyGraphTests
         public void GraphDescriptionTest()
         {
 
-            var graph = CreateGraph(g => g.SetProperty("hello", "world!"));
+            var graph = CreateGraph(g => g.Set("hello", "world!"));
 
             Assert.IsNotNull(graph);
             Assert.IsNotNull(graph.IdKey);
@@ -152,9 +152,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.PropertyGraphTests
         public void GraphIdAndInitializerConstructor_AGraphElementTest()
         {
 
-            var graph = GraphFactory.CreateGenericPropertyGraph(123UL, "TestGraph", g => g.SetProperty("hello",  "world!").
-                                                                                           SetProperty("graphs", "are cool!").
-                                                                                           SetProperty("Keep",   "it simple!"));
+            var graph = GraphFactory.CreateGenericPropertyGraph(123UL, "TestGraph", g => g.Set("hello",  "world!").
+                                                                                           Set("graphs", "are cool!").
+                                                                                           Set("Keep",   "it simple!"));
 
             Assert.IsNotNull(graph);
             Assert.IsNotNull(graph.IdKey);
@@ -276,7 +276,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.PropertyGraphTests
         public void ChangeIdTest1()
         {
             var graph = CreateGraph(123UL);
-            graph.SetProperty("Id", 256UL);
+            graph.Set("Id", 256UL);
         }
 
         #endregion
@@ -288,7 +288,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.PropertyGraphTests
         public void ChangeRevIdTest1()
         {
             var graph = CreateGraph(123UL);
-            graph.SetProperty("RevId", 256UL);
+            graph.Set("RevId", 256UL);
         }
 
         #endregion
@@ -380,10 +380,10 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.PropertyGraphTests
             graph.OnPropertyAdding += (g, key, value, vote) => { if (key.StartsWith("ke")) vote.Ok(); else vote.Deny(); };
             graph.OnPropertyAdded  += (g, key, value)       => check = true;
 
-            graph.SetProperty("nokey", "value");
+            graph.Set("nokey", "value");
             Assert.IsNull(check);
 
-            graph.SetProperty("key", "value");
+            graph.Set("key", "value");
             Assert.IsTrue(check.Value);
 
         }
@@ -398,16 +398,16 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.PropertyGraphTests
 
             Nullable<Boolean> check = null;
 
-            var graph = CreateGraph(123UL, GraphInitializer: g => g.SetProperty("key", "value").
-                                                                    SetProperty("nokey", "value"));
+            var graph = CreateGraph(123UL, GraphInitializer: g => g.Set("key", "value").
+                                                                    Set("nokey", "value"));
 
             graph.OnPropertyChanging += (g, key, oldvalue, newvalue, vote) => { if (key.StartsWith("ke")) vote.Ok(); else vote.Deny(); };
             graph.OnPropertyChanged  += (g, key, oldvalue, newvalue)       => check = true;
 
-            graph.SetProperty("nokey", "value");
+            graph.Set("nokey", "value");
             Assert.IsNull(check);
 
-            graph.SetProperty("key", "value");
+            graph.Set("key", "value");
             Assert.IsTrue(check.Value);
 
         }
@@ -422,8 +422,8 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.PropertyGraphTests
 
             Nullable<Boolean> check = null;
 
-            var graph = CreateGraph(123UL, GraphInitializer: g => g.SetProperty("key", "value").
-                                                                    SetProperty("nokey", "value"));
+            var graph = CreateGraph(123UL, GraphInitializer: g => g.Set("key", "value").
+                                                                    Set("nokey", "value"));
 
             graph.OnPropertyRemoving += (g, key, value, vote) => { if (key.StartsWith("ke")) vote.Ok(); else vote.Deny(); };
             graph.OnPropertyRemoved  += (g, key, value)       => check = true;
@@ -451,7 +451,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.PropertyGraphTests
                                                                     SetProperties(new List<KeyValuePair<String, Object>>() { new KeyValuePair<String, Object>("graphs", "are cool!"),
                                                                                                                              new KeyValuePair<String, Object>("Keep",   "it simple!")}).
                                                                     SetProperties(new Dictionary<String, Object>() { { "a", "b" }, { "c", "d" } }).
-                                                                    SetProperty  ("e", "f"));
+                                                                    Set  ("e", "f"));
 
 
             Assert.AreEqual(123UL,        graph.GetProperty("Id"));

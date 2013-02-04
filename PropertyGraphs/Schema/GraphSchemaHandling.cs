@@ -78,7 +78,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.Schema
         /// <param name="EnforceSchema">Disallow the 'continous learning' and any changes of the graph schema after setting up the schema graph. NOTE: Changing the schema graph is still allowed!</param>
         /// <param name="ExistingSchemaGraph">An existing schema graph.</param>
         public static IGenericPropertyGraph<TVertexLabel,    TRevIdVertex,    VertexLabel,    TKeyVertex, Object,
-                                            TEdgeLabel,      TRevIdEdge,      EdgeLabel,      String,     Object,
+                                            TEdgeLabel,      TRevIdEdge,      EdgeLabel,      TKeyEdge,   Object,
                                             TMultiEdgeLabel, TRevIdMultiEdge, MultiEdgeLabel, String,     Object,
                                             THyperEdgeLabel, TRevIdHyperEdge, HyperEdgeLabel, String,     Object>
 
@@ -98,7 +98,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.Schema
                              Boolean       EnforceSchema           = false,
 
                              IGenericPropertyGraph<TVertexLabel,    TRevIdVertex,    VertexLabel,    TKeyVertex, Object,
-                                                   TEdgeLabel,      TRevIdEdge,      EdgeLabel,      String,     Object,
+                                                   TEdgeLabel,      TRevIdEdge,      EdgeLabel,      TKeyEdge,   Object,
                                                    TMultiEdgeLabel, TRevIdMultiEdge, MultiEdgeLabel, String,     Object,
                                                    THyperEdgeLabel, TRevIdHyperEdge, HyperEdgeLabel, String,     Object> ExistingSchemaGraph = null)
 
@@ -135,7 +135,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.Schema
                    ExistingSchemaGraph :
 
                    new GenericPropertyVertex<TVertexLabel,    TRevIdVertex,    VertexLabel,    TKeyVertex, Object,
-                                             TEdgeLabel,      TRevIdEdge,      EdgeLabel,      String,     Object,
+                                             TEdgeLabel,      TRevIdEdge,      EdgeLabel,      TKeyEdge,   Object,
                                              TMultiEdgeLabel, TRevIdMultiEdge, MultiEdgeLabel, String,     Object,
                                              THyperEdgeLabel, TRevIdHyperEdge, HyperEdgeLabel, String,     Object>(
 
@@ -151,10 +151,10 @@ namespace de.ahzf.Vanaheimr.Blueprints.Schema
                                                  VertexLabel.DEFAULT,
 
                                                  // Edges
-                                                 GraphDBOntology.Id().Suffix,
-                                                 GraphDBOntology.RevId().Suffix,
-                                                 GraphDBOntology.Label().Suffix,
-                                                 GraphDBOntology.Description().Suffix,
+                                                 Graph.EdgeIdKey,
+                                                 Graph.EdgeRevIdKey,
+                                                 Graph.EdgeLabelKey,
+                                                 Graph.EdgeDescriptionKey,
                                                  (g) => { return default(TEdgeLabel); },        // AutoIdGeneration currently turned off!
                                                  EdgeLabel.DEFAULT,
 
@@ -178,25 +178,57 @@ namespace de.ahzf.Vanaheimr.Blueprints.Schema
 
             #endregion
 
+
+                Action<IReadOnlyGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                   TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
+                     IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                    TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                    TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
+
+                AddV = (g, v) => SchemaGraph.AddVertexIfNotExists(Id:        v.Label,
+                                                                  Label:     VertexLabel.Vertex,
+                                                                  AnywayDo:  Vertex => {
+                                                                      v.ForEach(kvp => {
+                                                                          if (!kvp.Key.Equals(g.IdKey)    &&
+                                                                              !kvp.Key.Equals(g.RevIdKey) &&
+                                                                              !kvp.Key.Equals(g.LabelKey) &&
+                                                                              !kvp.Key.Equals(g.DescriptionKey))
+                                                                              Vertex.ZSetAdd(kvp.Key, kvp.Value.GetType());
+                                                                      });
+                                                                  });
+
+
             #region If 'continuous learning', then wire graph 'update' events
 
             if (ContinuousLearning)
             {
 
+
                 #region Register [Vertex|Edge]Added events: PropertyGraph -> SchemaGraph
 
-                Graph.OnVertexAddition.OnNotification +=
-                    (g, v) => SchemaGraph.AddVertexIfNotExists(Id:    v.Label,
-                                                               Label: VertexLabel.Vertex);
+                Graph.OnVertexAddition.OnNotification += (g, v) => AddV(g, v);
 
                 Graph.OnEdgeAddition.OnNotification   +=
                     (g, e) => SchemaGraph.AddEdgeIfNotExists(Id:              e.Label,
                                                              OutVertex:       SchemaGraph.VertexById(e.OutVertex.Label).AsMutable(),
                                                              Label:           EdgeLabel.IsConnectedWith,
                                                              InVertex:        SchemaGraph.VertexById(e.InVertex.Label).AsMutable(),
-                                                             EdgeInitializer: Edge => Edge.ZSetAdd(GraphSchemaHandling.AlternativeUsage, e.OutVertex.Label.ToString() + " -> " + e.InVertex.Label.ToString()),
-                                                             AnywayDo:        Edge => { throw new Exception("Strict schema graph violation!"); }
-                                                            );
+                                                             OnDuplicateEdge: Edge => { throw new Exception("Strict schema violation! The edge label '" + e.Label + "' is already used for '" +
+                                                                                                            Edge.OutVertex.Id.   ToString() + " -> " + Edge.InVertex.Id.   ToString() + "' relations and thus can not be used for '" +
+                                                                                                               e.OutVertex.Label.ToString() + " -> " +    e.InVertex.Label.ToString() + "' relations."); }
+                                                             //AnywayDo:        Edge => {
+                                                             //    e.ForEach(kvp => {
+                                                             //        if (!kvp.Key.Equals(g.EdgeIdKey) &&
+                                                             //            !kvp.Key.Equals(g.RevIdKey)  &&
+                                                             //            !kvp.Key.Equals(g.LabelKey)  &&
+                                                             //            !kvp.Key.Equals(g.DescriptionKey))
+                                                             //            Edge.ZSetAdd(kvp.Key, kvp.Value.GetType());
+                                                             //    });
+                                                             //}
+                                                             );
 
                 #endregion
 
@@ -208,49 +240,26 @@ namespace de.ahzf.Vanaheimr.Blueprints.Schema
 
             #region Add all current vertices and edges: PropertyGraph -> SchemaGraph
 
-            Graph.Vertices().ForEach(v => SchemaGraph.AddVertexIfNotExists(Id:     v.Label,
-                                                                           Label:  VertexLabel.Vertex));
-
-            Graph.Edges().   ForEach(e => {
-
-                IReadOnlyGenericPropertyEdge<TVertexLabel,    TRevIdVertex,    VertexLabel,    TKeyVertex, Object,
-                                             TEdgeLabel,      TRevIdEdge,      EdgeLabel,      String,     Object,
-                                             TMultiEdgeLabel, TRevIdMultiEdge, MultiEdgeLabel, String,     Object,
-                                             THyperEdgeLabel, TRevIdHyperEdge, HyperEdgeLabel, String,     Object> __Edge;
-
-                if (SchemaGraph.TryGetEdgeById(e.Label, out __Edge))
-                {
-
-                    if (__Edge.OutVertex.Id.Equals(e.OutVertex.Label) &&
-                        __Edge.InVertex. Id.Equals(e.InVertex.Label))
-                    {
-                    }
-
-                    else
-                        throw new Exception("Strict schema graph violation! The edge label '" + e.Label + "' is used for '" +
-                                                  e.OutVertex.Label.ToString() + " -> " +      e.InVertex.Label.ToString() + "' and '" +
-                                             __Edge.OutVertex.Id.   ToString() + " -> " + __Edge.InVertex.Id.   ToString() + "'");
-
-                }
-
-                SchemaGraph.AddEdgeIfNotExists  (Id:              e.Label,
-                                                 OutVertex:       SchemaGraph.VertexById(e.OutVertex.Label).AsMutable(),
-                                                 Label:           EdgeLabel.IsConnectedWith,
-                                                 InVertex:        SchemaGraph.VertexById(e.InVertex. Label).AsMutable(),
-                                                 EdgeInitializer: Edge => Edge.ZSetAdd(GraphSchemaHandling.AlternativeUsage, e.OutVertex.Label.ToString() + " -> " + e.InVertex.Label.ToString()),
-                                                 AnywayDo:        Edge => Edge.ZSetAdd(GraphSchemaHandling.AlternativeUsage, e.OutVertex.Label.ToString() + " -> " + e.InVertex.Label.ToString())
-                                                );
-
-            });
-
-            //Graph.Edges().   ForEach(e => SchemaGraph.AddHyperEdge(//e.Label,
-            //                                                       HyperEdgeLabel.DEFAULT,
-            //                                                       null,
-            //                                                       SchemaGraph.VertexById(e.OutVertex.Label).AsMutable(),
-            //                                                       SchemaGraph.VertexById(e.InVertex.Label).AsMutable()));
+            Graph.Vertices().ForEach(v => AddV(Graph, v));
 
 
-            // It would also be a good idea to analyse the usage of the vertex/edge properties!
+            Graph.Edges().   ForEach(e => SchemaGraph.AddEdgeIfNotExists(Id:              e.Label,
+                                                                         OutVertex:       SchemaGraph.VertexById(e.OutVertex.Label).AsMutable(),
+                                                                         Label:           EdgeLabel.IsConnectedWith,
+                                                                         InVertex:        SchemaGraph.VertexById(e.InVertex.Label).AsMutable(),
+                                                                         OnDuplicateEdge: Edge => { throw new Exception("Strict schema violation! The edge label '" + e.Label + "' is already used for '" +
+                                                                                                                        Edge.OutVertex.Id.   ToString() + " -> " + Edge.InVertex.Id.   ToString() + "' relations and thus can not be used for '" +
+                                                                                                                           e.OutVertex.Label.ToString() + " -> " +    e.InVertex.Label.ToString() + "' relations."); },
+                                                                         AnywayDo:        Edge => {
+                                                                             e.ForEach(kvp => {
+                                                                                 if (!kvp.Key.Equals(Graph.EdgeIdKey) &&
+                                                                                     !kvp.Key.Equals(Graph.RevIdKey)  &&
+                                                                                     !kvp.Key.Equals(Graph.LabelKey)  &&
+                                                                                     !kvp.Key.Equals(Graph.DescriptionKey))
+                                                                                     Edge.ZSetAdd(kvp.Key, kvp.Value.GetType());
+                                                                             });
+                                                                         }
+                                                                        ));
 
             #endregion
 

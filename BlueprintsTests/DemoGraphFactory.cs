@@ -29,6 +29,19 @@ using de.ahzf.Vanaheimr.Blueprints.InMemory;
 namespace de.ahzf.Vanaheimr.Blueprints.UnitTests
 {
 
+    public static class assa
+    {
+
+        //public static T Set2Property<T, K, V>(this T Properties, K Key, V Value)
+        //    where T : IProperties<K, V>
+        //    where K : IEquatable<K>, IComparable<K>, IComparable
+        //{
+        //    return Properties;
+        //}
+
+    }
+
+
     public static class DemoGraphFactory
     {
 
@@ -139,12 +152,12 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests
 
 
             var _Alice1 = _Graph.AddVertex();
-            var _Alice2 = _Graph.AddVertex(v => v.SetProperty("name", "Alice"));
+            var _Alice2 = _Graph.AddVertex(v => v.Set("name", "Alice"));
 
-            var _Alice = _Graph.AddVertex(v => v.SetProperty("name", "Alice").SetProperty("age", 18));
-            var _Bob   = _Graph.AddVertex(v => v.SetProperty("name", "Bob").  SetProperty("age", 20));
-            var _Carol = _Graph.AddVertex(v => v.SetProperty("name", "Carol").SetProperty("age", 22));
-            var _Dave  = _Graph.AddVertex(v => v.SetProperty("name", "Dave"). SetProperty("age", 23));
+            var _Alice = _Graph.AddVertex(v => v.Set("name", "Alice").Set("age", 18));
+            var _Bob   = _Graph.AddVertex(v => v.Set("name", "Bob").  Set("age", 20));
+            var _Carol = _Graph.AddVertex(v => v.Set("name", "Carol").Set("age", 22));
+            var _Dave  = _Graph.AddVertex(v => v.Set("name", "Dave"). Set("age", 23));
 
             //var e7 = _Graph.AddEdge(marko, vadas, new EdgeId("7"), "knows", e => e.SetProperty("weight", 0.5));
             //var e8 = _Graph.AddEdge(marko, josh, new EdgeId("8"), "knows", e => e.SetProperty("weight", 1.0));
