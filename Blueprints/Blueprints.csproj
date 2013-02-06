@@ -54,6 +54,7 @@
     <Compile Include="Exceptions\MultiEdgesExceptions.cs" />
     <Compile Include="Exceptions\HyperEdgesExceptions.cs" />
     <Compile Include="Exceptions\EdgesExceptions.cs" />
+    <Compile Include="Exceptions\SchemaExceptions.cs" />
     <Compile Include="Exceptions\VerticesExceptions.cs" />
     <Compile Include="Exceptions\PropertyGraphExceptions.cs" />
     <Compile Include="ExtentionMethods\GenericPropertyGraph\IGenericPropertyEdge.cs" />

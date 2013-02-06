@@ -205,43 +205,6 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #endregion
 
-        #region DescriptionKey
-
-        /// <summary>
-        /// The property key of the description.
-        /// </summary>
-        public TKeyVertex DescriptionKey
-        {
-            get
-            {
-                return WriteGraph.DescriptionKey;
-            }
-        }
-
-        #endregion
-
-        #region Description
-
-        /// <summary>
-        /// Provides a description of this graph element.
-        /// </summary>
-        public TValueVertex Description
-        {
-
-            get
-            {
-                return WriteGraph.Description;
-            }
-
-            set
-            {
-                WriteGraph.Description = value;
-            }
-
-        }
-
-        #endregion
-
         #endregion
 
         #region Events
@@ -3354,6 +3317,47 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         }
 
         public TKeyEdge EdgeDescriptionKey
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+
+        public TKeyMultiEdge MultiEdgeIdKey
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public TKeyMultiEdge MultiEdgeRevIdKey
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public TKeyMultiEdge MultiEdgeLabelKey
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public TKeyMultiEdge MultiEdgeDescriptionKey
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public TKeyHyperEdge HyperEdgeIdKey
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public TKeyHyperEdge HyperEdgeRevIdKey
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public TKeyHyperEdge HyperEdgeLabelKey
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public TKeyHyperEdge HyperEdgeDescriptionKey
         {
             get { throw new NotImplementedException(); }
         }

@@ -39,7 +39,7 @@ namespace de.ahzf.Vanaheimr.Blueprints
                         : IIdentifier<TId>,
                           IRevisionId<TRevId>,
                           ILabel<TLabel>,
-                          IDescription<TValue>,
+                          //IDescription<TValue>,
                           IReadOnlyProperties<TKey, TValue>,
                           IEquatable <IReadOnlyGraphElement<TId, TRevId, TLabel, TKey, TValue>>,
                           IComparable<IReadOnlyGraphElement<TId, TRevId, TLabel, TKey, TValue>>,

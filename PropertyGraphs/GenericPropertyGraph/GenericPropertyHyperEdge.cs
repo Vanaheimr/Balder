@@ -160,7 +160,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #region Constructor(s)
 
-        #region GenericPropertyHyperEdge(Graph, Id, Label, IdKey, RevIdKey, LabelKey, DescriptionKey, DatastructureInitializer, VerticesCollectionInitializer, HyperEdgeInitializer = null, Vertices = null, VertexSelector = null)
+        #region GenericPropertyHyperEdge(Graph, Id, Label, IdKey, RevIdKey, LabelKey, DatastructureInitializer, VerticesCollectionInitializer, HyperEdgeInitializer = null, Vertices = null, VertexSelector = null)
 
         /// <summary>
         /// Creates a new hyperedge.
@@ -171,7 +171,6 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         /// <param name="IdKey">The key of the hyperedge identifier.</param>
         /// <param name="RevIdKey">The key of the hyperedge revision identifier.</param>
         /// <param name="LabelKey">The key to access the Label of this graph element.</param>
-        /// <param name="DescriptionKey">The property key to access the description of the hyperedge.</param>
         /// <param name="DatastructureInitializer">A delegate to initialize the properties datastructure.</param>
         /// <param name="VerticesCollectionInitializer">A delegate to initialize the datastructure for storing the vertices.</param>
         /// <param name="HyperEdgeInitializer">A delegate to initialize the newly created hyperedge.</param>
@@ -187,7 +186,6 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                         TKeyHyperEdge    IdKey,
                                         TKeyHyperEdge    RevIdKey,
                                         TKeyHyperEdge    LabelKey,
-                                        TKeyHyperEdge    DescriptionKey,
 
                                         IDictionaryInitializer<TKeyHyperEdge, TValueHyperEdge> DatastructureInitializer,
 
@@ -211,7 +209,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                                    TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> Vertices = null)
 
-            : base(Id, Label, IdKey, RevIdKey, LabelKey, DescriptionKey, DatastructureInitializer)
+            : base(Id, Label, IdKey, RevIdKey, LabelKey, DatastructureInitializer)
 
         {
 

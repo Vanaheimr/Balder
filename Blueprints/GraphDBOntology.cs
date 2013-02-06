@@ -40,107 +40,131 @@ namespace de.ahzf.Vanaheimr.Blueprints
         #endregion
 
 
-        #region Id()
+        #region Id
 
         /// <summary>
         /// The Id of something.
         /// </summary>
         /// <returns>A semantic property key to be used within property graphs.</returns>
-        public static SemanticProperty Id()
+        public static SemanticProperty Id
         {
-            return new SemanticProperty(Prefix, Eunomia.Semantics.Id, Eunomia.Semantics.Id);
+            get
+            {
+                return new SemanticProperty(Prefix, Eunomia.Semantics.Id, Eunomia.Semantics.Id);
+            }
         }
 
         #endregion
 
-        #region RevId()
+        #region RevId
 
         /// <summary>
         /// The RevId of something.
         /// </summary>
         /// <returns>A semantic property key to be used within property graphs.</returns>
-        public static SemanticProperty RevId()
+        public static SemanticProperty RevId
         {
-            return new SemanticProperty(Prefix, Eunomia.Semantics.RevId, Eunomia.Semantics.RevId);
+            get
+            {
+                return new SemanticProperty(Prefix, Eunomia.Semantics.RevId, Eunomia.Semantics.RevId);
+            }
         }
 
         #endregion
 
-        #region Label()
+        #region Label
 
         /// <summary>
         /// The Label of something.
         /// </summary>
         /// <returns>A semantic property key to be used within property graphs.</returns>
-        public static SemanticProperty Label()
+        public static SemanticProperty Label
         {
-            return new SemanticProperty(Prefix, Eunomia.Semantics.Label, Eunomia.Semantics.Label);
+            get
+            {
+                return new SemanticProperty(Prefix, Eunomia.Semantics.Label, Eunomia.Semantics.Label);
+            }
         }
 
         #endregion
 
-        #region Description()
+        #region Description
 
         /// <summary>
         /// The description of something.
         /// </summary>
         /// <returns>A semantic property key to be used within property graphs.</returns>
-        public static SemanticProperty Description()
+        public static SemanticProperty Description
         {
-            return new SemanticProperty(Prefix, Eunomia.Semantics.Description, Eunomia.Semantics.Description);
+            get
+            {
+                return new SemanticProperty(Prefix, Eunomia.Semantics.Description, Eunomia.Semantics.Description);
+            }
         }
 
         #endregion
 
 
-        #region DefaultVertexLabel()
+        #region DefaultVertexLabel
 
         /// <summary>
         /// The default vertex label.
         /// </summary>
         /// <returns>A semantic property key to be used within property graphs.</returns>
-        public static SemanticProperty DefaultVertexLabel()
+        public static SemanticProperty DefaultVertexLabel
         {
-            return new SemanticProperty(Prefix, Eunomia.Semantics.DefaultVertexLabel, Eunomia.Semantics.DefaultVertexLabel);
+            get
+            {
+                return new SemanticProperty(Prefix, Eunomia.Semantics.DefaultVertexLabel, Eunomia.Semantics.DefaultVertexLabel);
+            }
         }
 
         #endregion
 
-        #region DefaultEdgeLabel()
+        #region DefaultEdgeLabel
 
         /// <summary>
         /// The default edge label.
         /// </summary>
         /// <returns>A semantic property key to be used within property graphs.</returns>
-        public static SemanticProperty DefaultEdgeLabel()
+        public static SemanticProperty DefaultEdgeLabel
         {
-            return new SemanticProperty(Prefix, Eunomia.Semantics.DefaultEdgeLabel, Eunomia.Semantics.DefaultEdgeLabel);
+            get
+            {
+                return new SemanticProperty(Prefix, Eunomia.Semantics.DefaultEdgeLabel, Eunomia.Semantics.DefaultEdgeLabel);
+            }
         }
 
         #endregion
 
-        #region DefaultMultiEdgeLabel()
+        #region DefaultMultiEdgeLabel
 
         /// <summary>
         /// The default multiedge label.
         /// </summary>
         /// <returns>A semantic property key to be used within property graphs.</returns>
-        public static SemanticProperty DefaultMultiEdgeLabel()
+        public static SemanticProperty DefaultMultiEdgeLabel
         {
-            return new SemanticProperty(Prefix, Eunomia.Semantics.DefaultMultiEdgeLabel, Eunomia.Semantics.DefaultMultiEdgeLabel);
+            get
+            {
+                return new SemanticProperty(Prefix, Eunomia.Semantics.DefaultMultiEdgeLabel, Eunomia.Semantics.DefaultMultiEdgeLabel);
+            }
         }
 
         #endregion
 
-        #region DefaultHyperEdgeLabel()
+        #region DefaultHyperEdgeLabel
 
         /// <summary>
         /// The default hyperedge label.
         /// </summary>
         /// <returns>A semantic property key to be used within property graphs.</returns>
-        public static SemanticProperty DefaultHyperEdgeLabel()
+        public static SemanticProperty DefaultHyperEdgeLabel
         {
-            return new SemanticProperty(Prefix, Eunomia.Semantics.DefaultHyperEdgeLabel, Eunomia.Semantics.DefaultHyperEdgeLabel);
+            get
+            {
+                return new SemanticProperty(Prefix, Eunomia.Semantics.DefaultHyperEdgeLabel, Eunomia.Semantics.DefaultHyperEdgeLabel);
+            }
         }
 
         #endregion

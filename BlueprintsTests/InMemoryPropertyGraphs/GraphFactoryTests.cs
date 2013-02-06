@@ -82,7 +82,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.InMemoryPropertyGraphs
             Assert.IsNotNull(graph,       "graph must not be null!");
             Assert.IsNotNull(graph.Id,    "graph.Id must not be null!");
             Assert.IsNotNull(graph.IdKey, "graph.IdKey must not be null!");
-            Assert.AreEqual(GraphDBOntology.Id().Suffix, graph.IdKey);
+            Assert.AreEqual(GraphDBOntology.Id.Suffix, graph.IdKey);
             Assert.AreEqual(typeof(UInt64), graph.Id.GetType());
 
             Assert.IsNotNull(graph[graph.IdKey], "graph[graph.IdKey] must not be null!");
@@ -101,14 +101,12 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.InMemoryPropertyGraphs
             // graph label
 
             // graph description
-            Assert.IsNotNull(graph.Description, "graph.Description must not be null!");
+            Assert.IsNull(graph["Description"], "graph.Description must be null!");
 
             // graph properties
-            Assert.AreEqual(4, graph.Count(), "Instead of the expected number of KeyValuePairs the following property keys had been found: " + graph.Select(kvp => kvp.Key).Aggregate((a, b) => a + ", " + b) + "...");
-
-            Assert.IsNotNull(graph.RevIdKey,       "graph.Id must not be null!");
-            Assert.IsNotNull(graph.LabelKey,       "graph.Id must not be null!");
-            Assert.IsNotNull(graph.DescriptionKey, "graph.Id must not be null!");
+            Assert.AreEqual(3UL, graph.Count(), "Instead of the expected number of KeyValuePairs the following property keys had been found: " + graph.Select(kvp => kvp.Key).Aggregate((a, b) => a + ", " + b) + "...");
+            Assert.IsNotNull(graph.RevIdKey,    "graph.RevIdKey must not be null!");
+            Assert.IsNotNull(graph.LabelKey,    "graph.LabelKey must not be null!");
 
             // Vertices and edges
             Assert.AreEqual(0UL, graph.NumberOfVertices());
@@ -142,8 +140,8 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.InMemoryPropertyGraphs
             // graph label
 
             // graph description
-            Assert.IsNotNull(graph.Description, "graph.Description must not be null!");
-            Assert.AreEqual(GraphDescription, graph.Description, "The description of the graph has not the expected value!");
+            Assert.IsNotNull(graph["Description"], "graph.Description must not be null!");
+            Assert.AreEqual(GraphDescription, graph["Description"], "The description of the graph has not the expected value!");
 
             // graph properties
             Assert.AreEqual(4, graph.Count(), "Instead of the expected number of KeyValuePairs the following property keys had been found: " + graph.Select(kvp => kvp.Key).Aggregate((a, b) => a + ", " + b) + "...");
@@ -178,8 +176,8 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.InMemoryPropertyGraphs
             // graph label
 
             // graph description
-            Assert.IsNotNull(graph.Description, "graph.Description must not be null!");
-            Assert.AreEqual(GraphDescription, graph.Description, "The description of the graph has not the expected value!");
+            Assert.IsNotNull(graph["Description"], "graph.Description must not be null!");
+            Assert.AreEqual(GraphDescription, graph["Description"], "The description of the graph has not the expected value!");
 
             // graph properties
             Assert.AreEqual(4, graph.Count(), "Instead of the expected number of KeyValuePairs the following property keys had been found: " + graph.Select(kvp => kvp.Key).Aggregate((a, b) => a + ", " + b) + "...");
@@ -217,8 +215,8 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.InMemoryPropertyGraphs
             // graph label
 
             // graph description
-            Assert.IsNotNull(graph.Description, "graph.Description must not be null!");
-            Assert.AreEqual(GraphDescription, graph.Description, "The description of the graph has not the expected value!");
+            Assert.IsNotNull(graph["Description"], "graph.Description must not be null!");
+            Assert.AreEqual(GraphDescription, graph["Description"], "The description of the graph has not the expected value!");
             Assert.IsTrue(graph.Values.Contains(GraphDescription));
 
             // graph properties

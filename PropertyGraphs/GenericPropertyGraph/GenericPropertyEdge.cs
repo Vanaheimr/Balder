@@ -154,7 +154,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #region Constructor(s)
 
-        #region GenericPropertyEdge(Graph, OutVertex, InVertex, EdgeId, EdgeLabel, IdKey, RevIdKey, LabelKey, DescriptionKey, DatastructureInitializer, EdgeInitializer = null)
+        #region GenericPropertyEdge(Graph, OutVertex, InVertex, EdgeId, EdgeLabel, IdKey, RevIdKey, LabelKey, DatastructureInitializer, EdgeInitializer = null)
 
         /// <summary>
         /// Creates a new generic property edge.
@@ -167,7 +167,6 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         /// <param name="IdKey">The key of the edge identifier.</param>
         /// <param name="RevIdKey">The key of the edge revision identifier.</param>
         /// <param name="LabelKey">The key to access the Label of this graph element.</param>
-        /// <param name="DescriptionKey">The property key to access the descriptions of the vertices.</param>
         /// <param name="DatastructureInitializer">A delegate to initialize the properties datastructure.</param>
         /// <param name="EdgeInitializer">A delegate to initialize the newly created edge.</param>
         public GenericPropertyEdge(IReadOnlyGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
@@ -190,7 +189,6 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                    TKeyEdge   IdKey,
                                    TKeyEdge   RevIdKey,
                                    TKeyEdge   LabelKey,
-                                   TKeyEdge   DescriptionKey,
 
                                    IDictionaryInitializer<TKeyEdge, TValueEdge> DatastructureInitializer,
 
@@ -199,7 +197,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                    TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeInitializer = null)
 
-            : base(EdgeId, EdgeLabel, IdKey, RevIdKey, LabelKey, DescriptionKey, DatastructureInitializer)
+            : base(EdgeId, EdgeLabel, IdKey, RevIdKey, LabelKey, DatastructureInitializer)
 
         {
 

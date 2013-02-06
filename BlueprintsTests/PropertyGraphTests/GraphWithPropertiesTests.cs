@@ -61,8 +61,6 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.PropertyGraphTests
             Assert.IsNotNull(graph);
             Assert.IsNotNull(graph.IdKey);
             Assert.IsNotNull(graph.RevIdKey);
-            Assert.IsNotNull(graph.DescriptionKey);
-            Assert.IsNull   (graph.Description);
 
         }
 
@@ -80,8 +78,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.PropertyGraphTests
             Assert.IsNotNull(graph.IdKey);
             Assert.AreEqual(123UL, graph.Id);
             Assert.IsNotNull(graph.RevIdKey);
-            Assert.IsNotNull(graph.DescriptionKey);
-            Assert.IsNull   (graph.Description);
+            Assert.IsNull   (graph["Description"]);
 
         }
 
@@ -101,9 +98,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.PropertyGraphTests
             Assert.IsNotNull(graph2.Id);
             Assert.IsNotNull(graph3.Id);
 
-            Assert.IsNotNull(graph1.Description);
-            Assert.IsNotNull(graph2.Description);
-            Assert.IsNotNull(graph3.Description);
+            Assert.IsNotNull(graph1["Description"]);
+            Assert.IsNotNull(graph2["Description"]);
+            Assert.IsNotNull(graph3["Description"]);
 
             Assert.IsNotNull(graph1.GetHashCode());
             Assert.IsNotNull(graph2.GetHashCode());
@@ -116,9 +113,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.PropertyGraphTests
             Assert.AreEqual(graph1.Id, graph3.Id);
             Assert.AreEqual(graph1.GetHashCode(), graph3.GetHashCode());
 
-            Assert.AreNotEqual(graph1.Description, graph2.Description);
-            Assert.AreNotEqual(graph2.Description, graph3.Description);
-            Assert.AreNotEqual(graph3.Description, graph1.Description);
+            Assert.AreNotEqual(graph1["Description"], graph2["Description"]);
+            Assert.AreNotEqual(graph2["Description"], graph3["Description"]);
+            Assert.AreNotEqual(graph3["Description"], graph1["Description"]);
 
         }
 
@@ -135,12 +132,11 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.PropertyGraphTests
             Assert.IsNotNull(graph);
             Assert.IsNotNull(graph.IdKey);
             Assert.IsNotNull(graph.RevIdKey);
-            Assert.IsNotNull(graph.DescriptionKey);
-            Assert.IsNull(graph.Description);
+            Assert.IsNull(graph["Description"]);
 
-            graph.Description = "This is a property graph!";
-            Assert.IsNotNull(graph.Description);
-            Assert.AreEqual("This is a property graph!", graph.Description);
+            graph.Set("Description", "This is a property graph!");
+            Assert.IsNotNull(graph["Description"]);
+            Assert.AreEqual("This is a property graph!", graph["Description"]);
 
         }
 

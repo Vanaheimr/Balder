@@ -359,6 +359,30 @@ namespace de.ahzf.Vanaheimr.Blueprints
 
     {
 
+
+        #region Properties
+
+        // For the vertex this is already done
+        // as the graph is a specialized vertex.
+
+        TKeyEdge       EdgeIdKey                { get; }
+        TKeyEdge       EdgeRevIdKey             { get; }
+        TKeyEdge       EdgeLabelKey             { get; }
+        TKeyEdge       EdgeDescriptionKey       { get; }
+
+        TKeyMultiEdge  MultiEdgeIdKey           { get; }
+        TKeyMultiEdge  MultiEdgeRevIdKey        { get; }
+        TKeyMultiEdge  MultiEdgeLabelKey        { get; }
+        TKeyMultiEdge  MultiEdgeDescriptionKey  { get; }
+
+        TKeyHyperEdge  HyperEdgeIdKey           { get; }
+        TKeyHyperEdge  HyperEdgeRevIdKey        { get; }
+        TKeyHyperEdge  HyperEdgeLabelKey        { get; }
+        TKeyHyperEdge  HyperEdgeDescriptionKey  { get; }
+
+        #endregion
+
+
         #region OnGraphShuttingdown
 
         /// <summary>

@@ -308,10 +308,10 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         protected readonly TKeyEdge _EdgeIdKey;
 
-        TKeyEdge IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+        TKeyEdge IReadOnlyGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
         EdgeIdKey
         {
             get
@@ -326,10 +326,10 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         protected readonly TKeyEdge _EdgeRevIdKey;
 
-        TKeyEdge IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+        TKeyEdge IReadOnlyGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
         EdgeRevIdKey
         {
             get
@@ -344,10 +344,10 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         protected readonly TKeyEdge _EdgeLabelKey;
 
-        TKeyEdge IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+        TKeyEdge IReadOnlyGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
         EdgeLabelKey
         {
             get
@@ -362,15 +362,161 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         protected readonly TKeyEdge _EdgeDescriptionKey;
 
-        TKeyEdge IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+        TKeyEdge IReadOnlyGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
         EdgeDescriptionKey
         {
             get
             {
                 return _EdgeDescriptionKey;
+            }
+        }
+
+        #endregion
+
+
+        #region MultiEdgeIdKey
+
+        protected readonly TKeyMultiEdge _MultiEdgeIdKey;
+
+        TKeyMultiEdge IReadOnlyGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                    TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                    TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+        MultiEdgeIdKey
+        {
+            get
+            {
+                return _MultiEdgeIdKey;
+            }
+        }
+
+        #endregion
+
+        #region MultiEdgeRevIdKey
+
+        protected readonly TKeyMultiEdge _MultiEdgeRevIdKey;
+
+        TKeyMultiEdge IReadOnlyGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                    TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                    TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+        MultiEdgeRevIdKey
+        {
+            get
+            {
+                return _MultiEdgeRevIdKey;
+            }
+        }
+
+        #endregion
+
+        #region MultiEdgeLabelKey
+
+        protected readonly TKeyMultiEdge _MultiEdgeLabelKey;
+
+        TKeyMultiEdge IReadOnlyGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                    TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                    TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+        MultiEdgeLabelKey
+        {
+            get
+            {
+                return _MultiEdgeLabelKey;
+            }
+        }
+
+        #endregion
+
+        #region MultiEdgeDescriptionKey
+
+        protected readonly TKeyMultiEdge _MultiEdgeDescriptionKey;
+
+        TKeyMultiEdge IReadOnlyGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                    TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                    TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+        MultiEdgeDescriptionKey
+        {
+            get
+            {
+                return _MultiEdgeDescriptionKey;
+            }
+        }
+
+        #endregion
+
+
+        #region HyperEdgeIdKey
+
+        protected readonly TKeyHyperEdge _HyperEdgeIdKey;
+
+        TKeyHyperEdge IReadOnlyGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                    TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                    TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+        HyperEdgeIdKey
+        {
+            get
+            {
+                return _HyperEdgeIdKey;
+            }
+        }
+
+        #endregion
+
+        #region HyperEdgeRevIdKey
+
+        protected readonly TKeyHyperEdge _HyperEdgeRevIdKey;
+
+        TKeyHyperEdge IReadOnlyGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                    TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                    TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+        HyperEdgeRevIdKey
+        {
+            get
+            {
+                return _HyperEdgeRevIdKey;
+            }
+        }
+
+        #endregion
+
+        #region HyperEdgeLabelKey
+
+        protected readonly TKeyHyperEdge _HyperEdgeLabelKey;
+
+        TKeyHyperEdge IReadOnlyGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                    TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                    TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+        HyperEdgeLabelKey
+        {
+            get
+            {
+                return _HyperEdgeLabelKey;
+            }
+        }
+
+        #endregion
+
+        #region HyperEdgeDescriptionKey
+
+        protected readonly TKeyHyperEdge _HyperEdgeDescriptionKey;
+
+        TKeyHyperEdge IReadOnlyGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                    TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                    TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+        HyperEdgeDescriptionKey
+        {
+            get
+            {
+                return _HyperEdgeDescriptionKey;
             }
         }
 
@@ -439,11 +585,10 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         /// <param name="HyperEdgeCreatorDelegate">A delegate to create a new hyperedge.</param>
         /// <param name="HyperEdgesCollectionInitializer">A delegate to initialize the datastructure for storing all hyperedges.</param>
         private GenericPropertyVertex(TIdVertex     VertexId,
-                                     TVertexLabel  VertexLabel, 
-                                     TKeyVertex    IdKey,
-                                     TKeyVertex    RevIdKey,
-                                     TKeyVertex    LabelKey,
-                                     TKeyVertex    DescriptionKey,
+                                      TVertexLabel  VertexLabel, 
+                                      TKeyVertex    IdKey,
+                                      TKeyVertex    RevIdKey,
+                                      TKeyVertex    LabelKey,
 
                                        IDictionaryInitializer<TKeyVertex, TValueVertex> PropertiesInitializer,
 
@@ -531,7 +676,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
                                        #endregion
 
-            : base(VertexId, VertexLabel, IdKey, RevIdKey, LabelKey, DescriptionKey, PropertiesInitializer)
+            : base(VertexId, VertexLabel, IdKey, RevIdKey, LabelKey, PropertiesInitializer)
 
         {
 
@@ -724,13 +869,11 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         /// 
         /// <param name="GraphInitializer">A delegate to initialize the new property graph.</param>
         internal GenericPropertyVertex(TIdVertex  GraphId,
-                                       String     Description,
 
                                        // Vertices
                                        TKeyVertex VertexIdKey,
                                        TKeyVertex VertexRevIdKey,
                                        TKeyVertex VertexLabelKey,
-                                       TKeyVertex VertexDescriptionKey,
                                        VertexIdCreatorDelegate   <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -741,7 +884,6 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                        TKeyEdge   EdgeIdKey,
                                        TKeyEdge   EdgeRevIdKey,
                                        TKeyEdge   EdgeLabelKey,
-                                       TKeyEdge   EdgeDescriptionKey,
                                        EdgeIdCreatorDelegate     <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -752,7 +894,6 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                        TKeyMultiEdge MultiEdgeIdKey,
                                        TKeyMultiEdge MultiEdgeRevIdKey,
                                        TKeyMultiEdge MultiEdgeLabelKey,
-                                       TKeyMultiEdge MultiEdgeDescriptionKey,
                                        MultiEdgeIdCreatorDelegate<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -763,7 +904,6 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                        TKeyHyperEdge HyperEdgeIdKey,
                                        TKeyHyperEdge HyperEdgeRevIdKey,
                                        TKeyHyperEdge HyperEdgeLabelKey,
-                                       TKeyHyperEdge HyperEdgeDescriptionKey,
                                        HyperEdgeIdCreatorDelegate<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -782,7 +922,6 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                     VertexIdKey,
                     VertexRevIdKey,
                     VertexLabelKey,
-                    VertexDescriptionKey,
 
                     () => new Dictionary<TKeyVertex, TValueVertex>(),
 
@@ -794,6 +933,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
                     // Create a new vertex
                     (Graph, _VertexId, _VertexLabel, VertexInitializer) =>
+
                         new GenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -805,7 +945,6 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                              VertexIdKey,
                              VertexRevIdKey,
                              VertexLabelKey,
-                             VertexDescriptionKey,
                              () => new Dictionary<TKeyVertex, TValueVertex>(),
 
                              () => new GroupedCollection<TIdVertex,    IReadOnlyGenericPropertyVertex   <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
@@ -858,7 +997,6 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                              EdgeIdKey,
                              EdgeRevIdKey,
                              EdgeLabelKey,
-                             EdgeDescriptionKey,
                              () => new Dictionary<TKeyEdge, TValueEdge>(),
                              EdgeInitializer),
 
@@ -891,7 +1029,6 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                              MultiEdgeIdKey,
                              MultiEdgeRevIdKey,
                              MultiEdgeLabelKey,
-                             MultiEdgeDescriptionKey,
 
                              () => new Dictionary<TKeyMultiEdge, TValueMultiEdge>(),
                              () => new GroupedCollection<TEdgeLabel, TIdEdge, IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
@@ -928,7 +1065,6 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                              HyperEdgeIdKey,
                              HyperEdgeRevIdKey,
                              HyperEdgeLabelKey,
-                             HyperEdgeDescriptionKey,
 
                              () => new Dictionary<TKeyHyperEdge, TValueHyperEdge>(),
                              () => new GroupedCollection<TIdVertex, IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
@@ -952,10 +1088,17 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         {
 
-            this._EdgeIdKey           = EdgeIdKey;
-            this._EdgeRevIdKey        = EdgeRevIdKey;
-            this._EdgeLabelKey        = EdgeLabelKey;
-            this._EdgeDescriptionKey  = EdgeDescriptionKey;
+            this._EdgeIdKey                = EdgeIdKey;
+            this._EdgeRevIdKey             = EdgeRevIdKey;
+            this._EdgeLabelKey             = EdgeLabelKey;
+
+            this._MultiEdgeIdKey           = MultiEdgeIdKey;
+            this._MultiEdgeRevIdKey        = MultiEdgeRevIdKey;
+            this._MultiEdgeLabelKey        = MultiEdgeLabelKey;
+
+            this._HyperEdgeIdKey           = HyperEdgeIdKey;
+            this._HyperEdgeRevIdKey        = HyperEdgeRevIdKey;
+            this._HyperEdgeLabelKey        = HyperEdgeLabelKey;
 
             if (GraphInitializer != null)
                 GraphInitializer(this);
@@ -1002,13 +1145,11 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         /// 
         /// <param name="GraphInitializer">A delegate to initialize the new property graph.</param>
         public GenericPropertyVertex(TIdVertex  GraphId,
-                                     String     Description,
 
                                      // Vertices
                                      TKeyVertex VertexIdKey,
                                      TKeyVertex VertexRevIdKey,
                                      TKeyVertex VertexLabelKey,
-                                     TKeyVertex VertexDescriptionKey,
                                      IIdGenerator<TIdVertex> VertexIdCreator,
                                      TVertexLabel DefaultVertexLabel,
 
@@ -1016,7 +1157,6 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                      TKeyEdge   EdgeIdKey,
                                      TKeyEdge   EdgeRevIdKey,
                                      TKeyEdge   EdgeLabelKey,
-                                     TKeyEdge   EdgeDescriptionKey,
                                      IIdGenerator<TIdEdge> EdgeIdCreator,
                                      TEdgeLabel DefaultEdgeLabel,
 
@@ -1024,7 +1164,6 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                      TKeyMultiEdge MultiEdgeIdKey,
                                      TKeyMultiEdge MultiEdgeRevIdKey,
                                      TKeyMultiEdge MultiEdgeLabelKey,
-                                     TKeyMultiEdge MultiEdgeDescriptionKey,
                                      IIdGenerator<TIdMultiEdge> MultiEdgeIdCreator,
                                      TMultiEdgeLabel DefaultMultiEdgeLabel,
 
@@ -1032,7 +1171,6 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                      TKeyHyperEdge HyperEdgeIdKey,
                                      TKeyHyperEdge HyperEdgeRevIdKey,
                                      TKeyHyperEdge HyperEdgeLabelKey,
-                                     TKeyHyperEdge HyperEdgeDescriptionKey,
                                      IIdGenerator<TIdHyperEdge> HyperEdgeIdCreator,
                                      THyperEdgeLabel DefaultHyperEdgeLabel,
 
@@ -1048,7 +1186,6 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                     VertexIdKey,
                     VertexRevIdKey,
                     VertexLabelKey,
-                    VertexDescriptionKey,
 
                     () => new Dictionary<TKeyVertex, TValueVertex>(),
 
@@ -1060,6 +1197,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
                     // Create a new vertex
                     (Graph, _VertexId, _VertexLabel, VertexInitializer) =>
+
                         new GenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -1071,7 +1209,6 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                              VertexIdKey,
                              VertexRevIdKey,
                              VertexLabelKey,
-                             VertexDescriptionKey,
                              () => new Dictionary<TKeyVertex, TValueVertex>(),
 
                              () => new GroupedCollection<TIdVertex,    IReadOnlyGenericPropertyVertex   <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
@@ -1124,7 +1261,6 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                              EdgeIdKey,
                              EdgeRevIdKey,
                              EdgeLabelKey,
-                             EdgeDescriptionKey,
                              () => new Dictionary<TKeyEdge, TValueEdge>(),
                              EdgeInitializer),
 
@@ -1157,7 +1293,6 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                              MultiEdgeIdKey,
                              MultiEdgeRevIdKey,
                              MultiEdgeLabelKey,
-                             MultiEdgeDescriptionKey,
 
                              () => new Dictionary<TKeyMultiEdge, TValueMultiEdge>(),
                              () => new GroupedCollection<TEdgeLabel, TIdEdge, IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
@@ -1194,7 +1329,6 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                              HyperEdgeIdKey,
                              HyperEdgeRevIdKey,
                              HyperEdgeLabelKey,
-                             HyperEdgeDescriptionKey,
 
                              () => new Dictionary<TKeyHyperEdge, TValueHyperEdge>(),
                              () => new GroupedCollection<TIdVertex, IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
@@ -1218,10 +1352,17 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         {
 
-            this._EdgeIdKey           = EdgeIdKey;
-            this._EdgeRevIdKey        = EdgeRevIdKey;
-            this._EdgeLabelKey        = EdgeLabelKey;
-            this._EdgeDescriptionKey  = EdgeDescriptionKey;
+            this._EdgeIdKey                = EdgeIdKey;
+            this._EdgeRevIdKey             = EdgeRevIdKey;
+            this._EdgeLabelKey             = EdgeLabelKey;
+
+            this._MultiEdgeIdKey           = MultiEdgeIdKey;
+            this._MultiEdgeRevIdKey        = MultiEdgeRevIdKey;
+            this._MultiEdgeLabelKey        = MultiEdgeLabelKey;
+
+            this._HyperEdgeIdKey           = HyperEdgeIdKey;
+            this._HyperEdgeRevIdKey        = HyperEdgeRevIdKey;
+            this._HyperEdgeLabelKey        = HyperEdgeLabelKey;
 
             if (GraphInitializer != null)
                 GraphInitializer(this);
@@ -1230,7 +1371,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #endregion
 
-        #region (private) GenericPropertyVertex(Graph, VertexId, VertexLabel, IdKey, RevIdKey, LabelKey, DescriptionKey, PropertiesInitializer, EdgeCollectionInitializer, HyperEdgeCollectionInitializer, VertexInitializer = null)
+        #region (private) GenericPropertyVertex(Graph, VertexId, VertexLabel, IdKey, RevIdKey, LabelKey, PropertiesInitializer, EdgeCollectionInitializer, HyperEdgeCollectionInitializer, VertexInitializer = null)
 
         /// <summary>
         /// Creates a new class-based in-memory implementation of a generic property vertex.
@@ -1241,7 +1382,6 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         /// <param name="IdKey">The key to access the identifier of this vertex.</param>
         /// <param name="RevIdKey">The key to access the revision identifier of this vertex.</param>
         /// <param name="LabelKey">The key to access the label of this graph element.</param>
-        /// <param name="DescriptionKey">The key to access the description of this graph element.</param>
         /// <param name="PropertiesInitializer">A delegate to initialize the properties datastructure.</param>
         /// <param name="VerticesCollectionInitializer"></param>
         /// <param name="EdgesCollectionInitializer">A delegate to initialize the datastructure for storing all edges.</param>
@@ -1249,17 +1389,15 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         /// <param name="HyperEdgesCollectionInitializer">A delegate to initialize the datastructure for storing all hyperedges.</param>
         /// <param name="VertexInitializer">A delegate to initialize the newly created vertex.</param>
         private GenericPropertyVertex(IReadOnlyGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,  
-                                                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,    
-                                                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                   TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Graph,
+                                                                    TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,    
+                                                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                    TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Graph,
 
-                                     TIdVertex    VertexId,
-                                     TVertexLabel VertexLabel,
-
-                                     TKeyVertex   IdKey,
-                                     TKeyVertex   RevIdKey,
-                                     TKeyVertex   LabelKey,
-                                     TKeyVertex   DescriptionKey,
+                                     TIdVertex     VertexId,
+                                     TVertexLabel  VertexLabel,
+                                     TKeyVertex    IdKey,
+                                     TKeyVertex    RevIdKey,
+                                     TKeyVertex    LabelKey,
 
                                      IDictionaryInitializer<TKeyVertex, TValueVertex> PropertiesInitializer,
 
@@ -1288,7 +1426,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> VertexInitializer = null)
 
-            : base(VertexId, VertexLabel, IdKey, RevIdKey, LabelKey, DescriptionKey, PropertiesInitializer)
+            : base(VertexId, VertexLabel, IdKey, RevIdKey, LabelKey, PropertiesInitializer)
 
         {
 

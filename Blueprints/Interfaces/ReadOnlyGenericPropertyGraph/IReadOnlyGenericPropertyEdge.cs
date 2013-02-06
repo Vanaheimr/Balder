@@ -306,14 +306,14 @@ namespace de.ahzf.Vanaheimr.Blueprints
 
         #endregion
 
-        #region Weight
+        //#region Weight
 
-        /// <summary>
-        /// The edge weight associated with this edge.
-        /// </summary>
-        Double Weight { get; }
+        ///// <summary>
+        ///// The edge weight associated with this edge.
+        ///// </summary>
+        //Double Weight { get; }
 
-        #endregion
+        //#endregion
 
         #region OutVertex
 

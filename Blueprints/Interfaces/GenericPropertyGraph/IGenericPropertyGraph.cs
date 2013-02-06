@@ -3213,11 +3213,6 @@ namespace de.ahzf.Vanaheimr.Blueprints
 
         #endregion
 
-        TKeyEdge EdgeIdKey           { get; }
-        TKeyEdge EdgeRevIdKey        { get; }
-        TKeyEdge EdgeLabelKey        { get; }
-        TKeyEdge EdgeDescriptionKey  { get; }
-
         #endregion
 
         #region Edge methods

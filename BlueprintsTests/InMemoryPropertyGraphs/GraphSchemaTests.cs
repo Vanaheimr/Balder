@@ -51,29 +51,25 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.InMemoryPropertyGraphs
             var graph = GraphFactory.CreateGenericPropertyGraph_WithStringIds();
 
             // vertex labels
-            var a_person = "a_person";
-            var a_pet    = "a_pet";
+            var a_person  = "a_person";
 
             // edge labels
-            var loves    = "loves";
-            var dislikes = "dislikes";
+            var loves     = "loves";
+            var dislikes  = "dislikes";
 
-            var Alice = graph.AddVertex("Alice", a_person);
-            var Bob   = graph.AddVertex("Bob",   a_person);
-            var Carol = graph.AddVertex("Carol", a_person);
+            var Alice     = graph.AddVertex("Alice", a_person);
+            var Bob       = graph.AddVertex("Bob",   a_person);
+            var Carol     = graph.AddVertex("Carol", a_person);
 
-            var Gizmo = graph.AddVertex("Gizmo", a_pet);
+            var e1        = graph.AddEdge(Alice, loves,    Bob);
+            var e2        = graph.AddEdge(Bob,   loves,    Carol);
+            var e3        = graph.AddEdge(Alice, dislikes, Carol);
 
-            var e1    = graph.AddEdge(Alice, loves,    Bob);
-            var e2    = graph.AddEdge(Bob,   loves,    Carol);
-            var e3    = graph.AddEdge(Alice, dislikes, Carol);
-            var e4    = graph.AddEdge(Alice, loves,    Gizmo);
-
-            var schema = graph.SchemaGraph("Schema01");
+            var schema    = graph.StrictSchemaGraph("Schema01");
 
             Assert.IsNotNull(schema);
 
-            Assert.AreEqual(2UL, schema.NumberOfVertices());    // a_person, a_pet
+            Assert.AreEqual(1UL, schema.NumberOfVertices());    // a_person
             Assert.AreEqual(2UL, schema.NumberOfEdges());       // loves, dislikes
             Assert.AreEqual(0UL, schema.NumberOfMultiEdges());
             Assert.AreEqual(0UL, schema.NumberOfHyperEdges());
@@ -87,6 +83,43 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.InMemoryPropertyGraphs
 
             var dislikes_edge   = schema.EdgeById(dislikes);
             Assert.IsNotNull(dislikes_edge);
+
+        }
+
+        #endregion
+
+        #region CreateSimpleSchemaGraph_ShouldFail()
+
+        /// <summary>
+        /// A test for the empty PropertyGraph.AddVertex() method.
+        /// </summary>
+        [Test]
+        [ExpectedException(typeof(SchemaViolation))]
+        public void CreateSimpleSchemaGraph_ShouldFail()
+        {
+
+            var graph = GraphFactory.CreateGenericPropertyGraph_WithStringIds();
+
+            // vertex labels
+            var a_person  = "a_person";
+            var a_pet     = "a_pet";
+
+            // edge labels
+            var loves     = "loves";
+            var dislikes  = "dislikes";
+
+            var Alice     = graph.AddVertex("Alice", a_person);
+            var Bob       = graph.AddVertex("Bob",   a_person);
+            var Carol     = graph.AddVertex("Carol", a_person);
+
+            var Gizmo     = graph.AddVertex("Gizmo", a_pet);
+
+            var e1        = graph.AddEdge(Alice, loves,    Bob);
+            var e2        = graph.AddEdge(Bob,   loves,    Carol);
+            var e3        = graph.AddEdge(Alice, dislikes, Carol);
+            var e4        = graph.AddEdge(Alice, loves,    Gizmo);
+
+            var schema    = graph.StrictSchemaGraph("Schema01");
 
         }
 

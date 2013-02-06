@@ -156,7 +156,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #region Constructor(s)
 
-        #region GenericPropertyMultiEdge(Graph, Edges, MultiEdgeId, Label, IdKey, RevIdKey, DescriptionKey, DatastructureInitializer, EdgesCollectionInitializer, MultiEdgeInitializer = null)
+        #region GenericPropertyMultiEdge(Graph, Edges, MultiEdgeId, Label, IdKey, RevIdKey, DatastructureInitializer, EdgesCollectionInitializer, MultiEdgeInitializer = null)
 
         /// <summary>
         /// Creates a new edge.
@@ -181,12 +181,11 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeSelector,
 
-                                        TIdMultiEdge    MultiEdgeId,
-                                        TMultiEdgeLabel MultiEdgeLabel,
-                                        TKeyMultiEdge   IdKey,
-                                        TKeyMultiEdge   RevIdKey,
-                                        TKeyMultiEdge   LabelKey,
-                                        TKeyMultiEdge   DescriptionKey,
+                                        TIdMultiEdge     MultiEdgeId,
+                                        TMultiEdgeLabel  MultiEdgeLabel,
+                                        TKeyMultiEdge    IdKey,
+                                        TKeyMultiEdge    RevIdKey,
+                                        TKeyMultiEdge    LabelKey,
 
                                         IDictionaryInitializer<TKeyMultiEdge, TValueMultiEdge> DatastructureInitializer,
 
@@ -200,7 +199,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> MultiEdgeInitializer = null)
 
-            : base(MultiEdgeId, MultiEdgeLabel, IdKey, RevIdKey, LabelKey, DescriptionKey, DatastructureInitializer)
+            : base(MultiEdgeId, MultiEdgeLabel, IdKey, RevIdKey, LabelKey, DatastructureInitializer)
 
         {
 

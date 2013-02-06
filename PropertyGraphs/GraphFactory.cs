@@ -91,7 +91,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         #endregion
 
 
-        #region CreateGenericPropertyGraph(GraphId = null, Description = "", GraphInitializer = null)
+        #region CreateGenericPropertyGraph(GraphId = null, Description = null, GraphInitializer = null)
 
         /// <summary>
         /// Create a new standardized generic property graph.
@@ -104,7 +104,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                             UInt64, Int64, String, String, Object,
                                             UInt64, Int64, String, String, Object> CreateGenericPropertyGraph(
                           Nullable<UInt64>                                         GraphId           = null,
-                          String                                                   Description       = "",
+                          String                                                   Description       = null,
                           GraphInitializer<UInt64, Int64, String, String, Object,
                                            UInt64, Int64, String, String, Object,
                                            UInt64, Int64, String, String, Object,
@@ -116,43 +116,46 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                              UInt64, Int64, String, String, Object,
                                              UInt64, Int64, String, String, Object,
                                              UInt64, Int64, String, String, Object>(GraphId == null ? NewGraphId : GraphId.Value,
-                                                                                    Description,
 
                                                                                     // Vertices
-                                                                                    GraphDBOntology.Id().Suffix,
-                                                                                    GraphDBOntology.RevId().Suffix,
-                                                                                    GraphDBOntology.Label().Suffix,
-                                                                                    GraphDBOntology.Description().Suffix,
+                                                                                    GraphDBOntology.Id.Suffix,
+                                                                                    GraphDBOntology.RevId.Suffix,
+                                                                                    GraphDBOntology.Label.Suffix,
                                                                                     new IdGenerator_UInt64(),
-                                                                                    GraphDBOntology.DefaultVertexLabel().Suffix,
+                                                                                    GraphDBOntology.DefaultVertexLabel.Suffix,
 
                                                                                     // Edges
-                                                                                    GraphDBOntology.Id().Suffix,
-                                                                                    GraphDBOntology.RevId().Suffix,
-                                                                                    GraphDBOntology.Label().Suffix,
-                                                                                    GraphDBOntology.Description().Suffix,
+                                                                                    GraphDBOntology.Id.Suffix,
+                                                                                    GraphDBOntology.RevId.Suffix,
+                                                                                    GraphDBOntology.Label.Suffix,
                                                                                     new IdGenerator_UInt64(),
-                                                                                    GraphDBOntology.DefaultEdgeLabel().Suffix,
+                                                                                    GraphDBOntology.DefaultEdgeLabel.Suffix,
 
                                                                                     // Multiedges
-                                                                                    GraphDBOntology.Id().Suffix,
-                                                                                    GraphDBOntology.RevId().Suffix,
-                                                                                    GraphDBOntology.Label().Suffix,
-                                                                                    GraphDBOntology.Description().Suffix,
+                                                                                    GraphDBOntology.Id.Suffix,
+                                                                                    GraphDBOntology.RevId.Suffix,
+                                                                                    GraphDBOntology.Label.Suffix,
                                                                                     new IdGenerator_UInt64(),
-                                                                                    GraphDBOntology.DefaultMultiEdgeLabel().Suffix,
+                                                                                    GraphDBOntology.DefaultMultiEdgeLabel.Suffix,
 
                                                                                     // Hyperedges
-                                                                                    GraphDBOntology.Id().Suffix,
-                                                                                    GraphDBOntology.RevId().Suffix,
-                                                                                    GraphDBOntology.Label().Suffix,
-                                                                                    GraphDBOntology.Description().Suffix,
+                                                                                    GraphDBOntology.Id.Suffix,
+                                                                                    GraphDBOntology.RevId.Suffix,
+                                                                                    GraphDBOntology.Label.Suffix,
                                                                                     new IdGenerator_UInt64(),
-                                                                                    GraphDBOntology.DefaultHyperEdgeLabel().Suffix,
+                                                                                    GraphDBOntology.DefaultHyperEdgeLabel.Suffix,
 
-                                                                                    GraphInitializer)
+                                                                                    g => {
 
-                                                                                    { Description = Description }
+                                                                                             if (Description != null)
+                                                                                                 g.Set(GraphDBOntology.Description.Suffix, Description);
+
+                                                                                             if (GraphInitializer != null)
+                                                                                                 GraphInitializer(g);
+
+                                                                                         })
+
+                                                                                    { }
 
                                              as IGenericPropertyGraph<UInt64, Int64, String, String, Object,
                                                                       UInt64, Int64, String, String, Object,
@@ -163,7 +166,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #endregion
 
-        #region CreateGenericPropertyGraph_WithStringIds(GraphId = null, Description = "", GraphInitializer = null)
+        #region CreateGenericPropertyGraph_WithStringIds(GraphId = null, Description = null, GraphInitializer = null)
 
         /// <summary>
         /// Create a new standardized generic property graph having string-based identificators.
@@ -176,7 +179,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                             String, Int64, String, String, Object,
                                             String, Int64, String, String, Object> CreateGenericPropertyGraph_WithStringIds(
                           String                                                   GraphId           = null,
-                          String                                                   Description       = "",
+                          String                                                   Description       = null,
                           GraphInitializer<String, Int64, String, String, Object,
                                            String, Int64, String, String, Object,
                                            String, Int64, String, String, Object,
@@ -188,41 +191,46 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                              String, Int64, String, String, Object,
                                              String, Int64, String, String, Object,
                                              String, Int64, String, String, Object>(GraphId == null ? NewGraphId.ToString() : GraphId,
-                                                                                    Description,
 
                                                                                     // Vertices
-                                                                                    GraphDBOntology.Id().Suffix,
-                                                                                    GraphDBOntology.RevId().Suffix,
-                                                                                    GraphDBOntology.Label().Suffix,
-                                                                                    GraphDBOntology.Description().Suffix,
+                                                                                    GraphDBOntology.Id.Suffix,
+                                                                                    GraphDBOntology.RevId.Suffix,
+                                                                                    GraphDBOntology.Label.Suffix,
                                                                                     new IdGenerator_String(),
-                                                                                    GraphDBOntology.DefaultVertexLabel().Suffix,
+                                                                                    GraphDBOntology.DefaultVertexLabel.Suffix,
 
                                                                                     // Edges
-                                                                                    GraphDBOntology.Id().Suffix,
-                                                                                    GraphDBOntology.RevId().Suffix,
-                                                                                    GraphDBOntology.Label().Suffix,
-                                                                                    GraphDBOntology.Description().Suffix,
+                                                                                    GraphDBOntology.Id.Suffix,
+                                                                                    GraphDBOntology.RevId.Suffix,
+                                                                                    GraphDBOntology.Label.Suffix,
                                                                                     new IdGenerator_String(),
-                                                                                    GraphDBOntology.DefaultEdgeLabel().Suffix,
+                                                                                    GraphDBOntology.DefaultEdgeLabel.Suffix,
 
                                                                                     // Multiedges
-                                                                                    GraphDBOntology.Id().Suffix,
-                                                                                    GraphDBOntology.RevId().Suffix,
-                                                                                    GraphDBOntology.Label().Suffix,
-                                                                                    GraphDBOntology.Description().Suffix,
+                                                                                    GraphDBOntology.Id.Suffix,
+                                                                                    GraphDBOntology.RevId.Suffix,
+                                                                                    GraphDBOntology.Label.Suffix,
                                                                                     new IdGenerator_String(),
-                                                                                    GraphDBOntology.DefaultMultiEdgeLabel().Suffix,
+                                                                                    GraphDBOntology.DefaultMultiEdgeLabel.Suffix,
 
                                                                                     // Hyperedges
-                                                                                    GraphDBOntology.Id().Suffix,
-                                                                                    GraphDBOntology.RevId().Suffix,
-                                                                                    GraphDBOntology.Label().Suffix,
-                                                                                    GraphDBOntology.Description().Suffix,
+                                                                                    GraphDBOntology.Id.Suffix,
+                                                                                    GraphDBOntology.RevId.Suffix,
+                                                                                    GraphDBOntology.Label.Suffix,
                                                                                     new IdGenerator_String(),
-                                                                                    GraphDBOntology.DefaultHyperEdgeLabel().Suffix,
+                                                                                    GraphDBOntology.DefaultHyperEdgeLabel.Suffix,
 
-                                                                                    GraphInitializer) { Description = Description }
+                                                                                    g => {
+
+                                                                                             if (Description != null)
+                                                                                                 g.Set(GraphDBOntology.Description.Suffix, Description);
+
+                                                                                             if (GraphInitializer != null)
+                                                                                                 GraphInitializer(g);
+
+                                                                                         })
+
+                                                                                    { }
 
                                              as IGenericPropertyGraph<String, Int64, String, String, Object,
                                                                       String, Int64, String, String, Object,
@@ -236,6 +244,20 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #region CreateLabeledPropertyGraph<TVertexLabel, TEdgeLabel, TMultiEdgeLabel, THyperEdgeLabel>(...)
 
+        /// <summary>
+        /// Create a new labeld generic property graph.
+        /// </summary>
+        /// <typeparam name="TVertexLabel">The type of the vertex label.</typeparam>
+        /// <typeparam name="TEdgeLabel">The type of the edge label.</typeparam>
+        /// <typeparam name="TMultiEdgeLabel">The type of the multiedge label.</typeparam>
+        /// <typeparam name="THyperEdgeLabel">The type of the hyperedge label.</typeparam>
+        /// <param name="GraphId">The optional graph identification. If no value is given, a unique GraphId will be generated.</param>
+        /// <param name="Description">The optional description of the graph.</param>
+        /// <param name="DefaultVertexLabel">The default value of the vertex label.</param>
+        /// <param name="DefaultEdgeLabel">The default value of the edge label.</param>
+        /// <param name="DefaultMultiEdgeLabel">The default value of the multiedge label.</param>
+        /// <param name="DefaultHyperEdgeLabel">The default value of the hyperedge label.</param>
+        /// <param name="GraphInitializer">The optional graph initializer.</param>
         public static IGenericPropertyGraph<UInt64, Int64, TVertexLabel,    String, Object,
                                             UInt64, Int64, TEdgeLabel,      String, Object,
                                             UInt64, Int64, TMultiEdgeLabel, String, Object,
@@ -266,41 +288,46 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                              UInt64, Int64, TEdgeLabel,      String, Object,
                                              UInt64, Int64, TMultiEdgeLabel, String, Object,
                                              UInt64, Int64, THyperEdgeLabel, String, Object>(GraphId,
-                                                                                             Description,
 
                                                                                              // Vertices
-                                                                                             GraphDBOntology.Id().Suffix,
-                                                                                             GraphDBOntology.RevId().Suffix,
-                                                                                             GraphDBOntology.Label().Suffix,
-                                                                                             GraphDBOntology.Description().Suffix,
+                                                                                             GraphDBOntology.Id.Suffix,
+                                                                                             GraphDBOntology.RevId.Suffix,
+                                                                                             GraphDBOntology.Label.Suffix,
                                                                                              new IdGenerator_UInt64(),
                                                                                              DefaultVertexLabel,
 
                                                                                              // Edges
-                                                                                             GraphDBOntology.Id().Suffix,
-                                                                                             GraphDBOntology.RevId().Suffix,
-                                                                                             GraphDBOntology.Label().Suffix,
-                                                                                             GraphDBOntology.Description().Suffix,
+                                                                                             GraphDBOntology.Id.Suffix,
+                                                                                             GraphDBOntology.RevId.Suffix,
+                                                                                             GraphDBOntology.Label.Suffix,
                                                                                              new IdGenerator_UInt64(),
                                                                                              DefaultEdgeLabel,
 
                                                                                              // Multiedges
-                                                                                             GraphDBOntology.Id().Suffix,
-                                                                                             GraphDBOntology.RevId().Suffix,
-                                                                                             GraphDBOntology.Label().Suffix,
-                                                                                             GraphDBOntology.Description().Suffix,
+                                                                                             GraphDBOntology.Id.Suffix,
+                                                                                             GraphDBOntology.RevId.Suffix,
+                                                                                             GraphDBOntology.Label.Suffix,
                                                                                              new IdGenerator_UInt64(),
                                                                                              DefaultMultiEdgeLabel,
 
                                                                                              // Hyperedges
-                                                                                             GraphDBOntology.Id().Suffix,
-                                                                                             GraphDBOntology.RevId().Suffix,
-                                                                                             GraphDBOntology.Label().Suffix,
-                                                                                             GraphDBOntology.Description().Suffix,
+                                                                                             GraphDBOntology.Id.Suffix,
+                                                                                             GraphDBOntology.RevId.Suffix,
+                                                                                             GraphDBOntology.Label.Suffix,
                                                                                              new IdGenerator_UInt64(),
                                                                                              DefaultHyperEdgeLabel,
 
-                                                                                             GraphInitializer)
+                                                                                             g => {
+
+                                                                                                 if (Description != null)
+                                                                                                     g.Set(GraphDBOntology.Description.Suffix, Description);
+
+                                                                                                 if (GraphInitializer != null)
+                                                                                                     GraphInitializer(g);
+
+                                                                                             })
+
+                                                                                             { }
 
                                              as IGenericPropertyGraph<UInt64, Int64, TVertexLabel,    String, Object,
                                                                       UInt64, Int64, TEdgeLabel,      String, Object,
@@ -311,14 +338,28 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #endregion
 
-        #region CreateLabeledPropertyGraph2<TVertexLabel, TEdgeLabel, TMultiEdgeLabel, THyperEdgeLabel>(...)
+        #region CreateLabeledPropertyGraph_WithStringIds<TVertexLabel, TEdgeLabel, TMultiEdgeLabel, THyperEdgeLabel>(...)
 
+        /// <summary>
+        /// Create a new labeld generic property graph having string-based identificators.
+        /// </summary>
+        /// <typeparam name="TVertexLabel">The type of the vertex label.</typeparam>
+        /// <typeparam name="TEdgeLabel">The type of the edge label.</typeparam>
+        /// <typeparam name="TMultiEdgeLabel">The type of the multiedge label.</typeparam>
+        /// <typeparam name="THyperEdgeLabel">The type of the hyperedge label.</typeparam>
+        /// <param name="GraphId">The optional graph identification. If no value is given, a unique GraphId will be generated.</param>
+        /// <param name="Description">The optional description of the graph.</param>
+        /// <param name="DefaultVertexLabel">The default value of the vertex label.</param>
+        /// <param name="DefaultEdgeLabel">The default value of the edge label.</param>
+        /// <param name="DefaultMultiEdgeLabel">The default value of the multiedge label.</param>
+        /// <param name="DefaultHyperEdgeLabel">The default value of the hyperedge label.</param>
+        /// <param name="GraphInitializer">The optional graph initializer.</param>
         public static IGenericPropertyGraph<String, Int64, TVertexLabel,    String, Object,
                                             String, Int64, TEdgeLabel,      String, Object,
                                             String, Int64, TMultiEdgeLabel, String, Object,
                                             String, Int64, THyperEdgeLabel, String, Object>
 
-            CreateLabeledPropertyGraph2<TVertexLabel, TEdgeLabel, TMultiEdgeLabel, THyperEdgeLabel>(
+            CreateLabeledPropertyGraph_WithStringIds<TVertexLabel, TEdgeLabel, TMultiEdgeLabel, THyperEdgeLabel>(
                                         String           GraphId,
                                         String           Description,
 
@@ -343,41 +384,46 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                              String, Int64, TEdgeLabel,      String, Object,
                                              String, Int64, TMultiEdgeLabel, String, Object,
                                              String, Int64, THyperEdgeLabel, String, Object>(GraphId,
-                                                                                             Description,
 
                                                                                              // Vertices
-                                                                                             GraphDBOntology.Id().Suffix,
-                                                                                             GraphDBOntology.RevId().Suffix,
-                                                                                             GraphDBOntology.Label().Suffix,
-                                                                                             GraphDBOntology.Description().Suffix,
+                                                                                             GraphDBOntology.Id.Suffix,
+                                                                                             GraphDBOntology.RevId.Suffix,
+                                                                                             GraphDBOntology.Label.Suffix,
                                                                                              new IdGenerator_String(),
                                                                                              DefaultVertexLabel,
 
                                                                                              // Edges
-                                                                                             GraphDBOntology.Id().Suffix,
-                                                                                             GraphDBOntology.RevId().Suffix,
-                                                                                             GraphDBOntology.Label().Suffix,
-                                                                                             GraphDBOntology.Description().Suffix,
+                                                                                             GraphDBOntology.Id.Suffix,
+                                                                                             GraphDBOntology.RevId.Suffix,
+                                                                                             GraphDBOntology.Label.Suffix,
                                                                                              new IdGenerator_String(),
                                                                                              DefaultEdgeLabel,
 
                                                                                              // Multiedges
-                                                                                             GraphDBOntology.Id().Suffix,
-                                                                                             GraphDBOntology.RevId().Suffix,
-                                                                                             GraphDBOntology.Label().Suffix,
-                                                                                             GraphDBOntology.Description().Suffix,
+                                                                                             GraphDBOntology.Id.Suffix,
+                                                                                             GraphDBOntology.RevId.Suffix,
+                                                                                             GraphDBOntology.Label.Suffix,
                                                                                              new IdGenerator_String(),
                                                                                              DefaultMultiEdgeLabel,
 
                                                                                              // Hyperedges
-                                                                                             GraphDBOntology.Id().Suffix,
-                                                                                             GraphDBOntology.RevId().Suffix,
-                                                                                             GraphDBOntology.Label().Suffix,
-                                                                                             GraphDBOntology.Description().Suffix,
+                                                                                             GraphDBOntology.Id.Suffix,
+                                                                                             GraphDBOntology.RevId.Suffix,
+                                                                                             GraphDBOntology.Label.Suffix,
                                                                                              new IdGenerator_String(),
                                                                                              DefaultHyperEdgeLabel,
 
-                                                                                             GraphInitializer)
+                                                                                             g => {
+
+                                                                                                 if (Description != null)
+                                                                                                     g.Set(GraphDBOntology.Description.Suffix, Description);
+
+                                                                                                 if (GraphInitializer != null)
+                                                                                                     GraphInitializer(g);
+
+                                                                                             })
+
+                                                                                             { }
 
                                              as IGenericPropertyGraph<String, Int64, TVertexLabel,    String, Object,
                                                                       String, Int64, TEdgeLabel,      String, Object,
@@ -389,7 +435,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         #endregion
 
 
-        #region CreateCommonGenericGraph<TId, TRevId, TLabel, TKey, TValue>(GraphId, IdKey, RevIdKey, DescriptionKey, VertexIdCreatorDelegate, EdgeIdCreatorDelegate, MultiEdgeIdCreatorDelegate, HyperEdgeIdCreatorDelegate, RevIdCreatorDelegate, GraphInitializer = null)
+        #region CreateCommonGenericGraph<TId, TRevId, TLabel, TKey, TValue>(GraphId, IdKey, RevIdKey, VertexIdCreatorDelegate, EdgeIdCreatorDelegate, MultiEdgeIdCreatorDelegate, HyperEdgeIdCreatorDelegate, RevIdCreatorDelegate, GraphInitializer = null)
 
         /// <summary>
         /// Create a new generic property graph with common datatypes for all graph elements (vertices, edges, multiedges and hyperedges).
@@ -403,7 +449,6 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         /// <param name="IdKey">The property key to access the Ids.</param>
         /// <param name="RevIdKey">The property key to access the RevisionIds.</param>
         /// <param name="LabelKey">The key to access the Label of this graph element.</param>
-        /// <param name="DescriptionKey">The property key to access the descriptions.</param>
         /// <param name="VertexIdCreatorDelegate">A delegate to create a new vertex identification.</param>
         /// <param name="EdgeIdCreatorDelegate">A delegate to create a new edge identification.</param>
         /// <param name="MultiEdgeIdCreatorDelegate">A delegate to create a new multiedge identification.</param>
@@ -417,11 +462,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
             CreateCommonGenericGraph<TId, TRevId, TLabel, TKey, TValue>(
                                      TId  GraphId,
-                                     String Description,
                                      TKey IdKey,
                                      TKey RevIdKey,
                                      TKey LabelKey,
-                                     TKey DescriptionKey,
 
                                      VertexIdCreatorDelegate   <TId, TRevId, TLabel, TKey, TValue,
                                                                 TId, TRevId, TLabel, TKey, TValue,
@@ -463,13 +506,11 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                              TId, TRevId, TLabel, TKey, TValue,
                                              TId, TRevId, TLabel, TKey, TValue,
                                              TId, TRevId, TLabel, TKey, TValue>(GraphId,
-                                                                                Description,
 
                                                                                 // Vertices
                                                                                 IdKey,
                                                                                 RevIdKey,
                                                                                 LabelKey,
-                                                                                DescriptionKey,
                                                                                 VertexIdCreatorDelegate,
                                                                                 DefaultLabel,
 
@@ -477,7 +518,6 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                 IdKey,
                                                                                 RevIdKey,
                                                                                 LabelKey,
-                                                                                DescriptionKey,
                                                                                 EdgeIdCreatorDelegate,
                                                                                 DefaultLabel,
 
@@ -485,7 +525,6 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                 IdKey,
                                                                                 RevIdKey,
                                                                                 LabelKey,
-                                                                                DescriptionKey,
                                                                                 MultiEdgeIdCreatorDelegate,
                                                                                 DefaultLabel,
 
@@ -493,10 +532,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                 IdKey,
                                                                                 RevIdKey,
                                                                                 LabelKey,
-                                                                                DescriptionKey,
                                                                                 HyperEdgeIdCreatorDelegate,
                                                                                 DefaultLabel,
-                                                                               
+
                                                                                 GraphInitializer)
 
                                              as IGenericPropertyGraph<TId, TRevId, TLabel, TKey, TValue,
@@ -508,7 +546,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #endregion
 
-        #region CreateCommonGenericGraph<TId, TRevId, TLabel, TKey, TValue>(GraphId, IdKey, RevIdKey, DescriptionKey, IdCreatorDelegate, RevIdCreatorDelegate, GraphInitializer = null)
+        #region CreateCommonGenericGraph<TId, TRevId, TLabel, TKey, TValue>(GraphId, IdKey, RevIdKey, IdCreatorDelegate, RevIdCreatorDelegate, GraphInitializer = null)
 
         /// <summary>
         /// Create a new generic property graph with common datatypes for all graph elements (vertices, edges, multiedges and hyperedges).
@@ -521,30 +559,25 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         /// <param name="GraphId">The graph identification.</param></param>
         /// <param name="IdKey">The property key to access the Ids.</param>
         /// <param name="RevIdKey">The property key to access the RevisionIds.</param>
-        /// <param name="DescriptionKey">The property key to access the descriptions.</param>
         /// <param name="IdCreatorDelegate">A delegate to create new graph element identifications.</param>
         /// <param name="RevIdCreatorDelegate">A delegate to create a new revision identifications.</param>
         /// <param name="GraphInitializer">A delegate to initialize the new property graph.</param>
-        /// <returns></returns>
         public static IGenericPropertyGraph<TId, TRevId, TLabel, TKey, TValue,
                                             TId, TRevId, TLabel, TKey, TValue,
                                             TId, TRevId, TLabel, TKey, TValue,
                                             TId, TRevId, TLabel, TKey, TValue>
 
-            CreateCommonGenericGraph<TId, TRevId, TLabel, TKey, TValue>(
-                                     TId                          GraphId,
-                                     String                       Description,
-                                     TKey                         IdKey,
-                                     TKey                         RevIdKey,
-                                     TKey                         LabelKey,
-                                     TKey                         DescriptionKey,                                     
-                                     IdCreatorDelegate<TId>       IdCreatorDelegate,
-                                     RevIdCreatorDelegate<TRevId> RevIdCreatorDelegate,
-                                     TLabel                       DefaultLabel,
-                                     GraphInitializer<TId, TRevId, TLabel, TKey, TValue,
-                                                      TId, TRevId, TLabel, TKey, TValue,
-                                                      TId, TRevId, TLabel, TKey, TValue,
-                                                      TId, TRevId, TLabel, TKey, TValue> GraphInitializer = null)
+            CreateCommonGenericGraph<TId, TRevId, TLabel, TKey, TValue>(TId                           GraphId,
+                                                                        TKey                          IdKey,
+                                                                        TKey                          RevIdKey,
+                                                                        TKey                          LabelKey,
+                                                                        IdCreatorDelegate<TId>        IdCreatorDelegate,
+                                                                        RevIdCreatorDelegate<TRevId>  RevIdCreatorDelegate,
+                                                                        TLabel                        DefaultLabel,
+                                                                        GraphInitializer<TId, TRevId, TLabel, TKey, TValue,
+                                                                                         TId, TRevId, TLabel, TKey, TValue,
+                                                                                         TId, TRevId, TLabel, TKey, TValue,
+                                                                                         TId, TRevId, TLabel, TKey, TValue> GraphInitializer = null)
 
             where TId     : IEquatable<TId>,    IComparable<TId>,    IComparable, TValue
             where TRevId  : IEquatable<TRevId>, IComparable<TRevId>, IComparable, TValue
@@ -554,11 +587,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         {
 
             return CreateCommonGenericGraph<TId, TRevId, TLabel, TKey, TValue>(GraphId,
-                                                                               Description,
                                                                                IdKey,
                                                                                RevIdKey,
                                                                                LabelKey,
-                                                                               DescriptionKey,
                                                                                (graph) => IdCreatorDelegate(),
                                                                                (graph) => IdCreatorDelegate(),
                                                                                (graph) => IdCreatorDelegate(),
@@ -615,41 +646,46 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                              EdgeId,      RevisionId, String, String, Object,
                                              MultiEdgeId, RevisionId, String, String, Object,
                                              HyperEdgeId, RevisionId, String, String, Object>(GraphId,
-                                                                                              Description,
 
                                                                                               // Vertices
-                                                                                              GraphDBOntology.Id().Suffix,
-                                                                                              GraphDBOntology.RevId().Suffix,
-                                                                                              GraphDBOntology.Label().Suffix,
-                                                                                              GraphDBOntology.Description().Suffix,
+                                                                                              GraphDBOntology.Id.Suffix,
+                                                                                              GraphDBOntology.RevId.Suffix,
+                                                                                              GraphDBOntology.Label.Suffix,
                                                                                               VertexIdCreatorDelegate,
-                                                                                              GraphDBOntology.DefaultVertexLabel().Suffix,
+                                                                                              GraphDBOntology.DefaultVertexLabel.Suffix,
 
                                                                                               // Edhes
-                                                                                              GraphDBOntology.Id().Suffix,
-                                                                                              GraphDBOntology.RevId().Suffix,
-                                                                                              GraphDBOntology.Label().Suffix,
-                                                                                              GraphDBOntology.Description().Suffix,
+                                                                                              GraphDBOntology.Id.Suffix,
+                                                                                              GraphDBOntology.RevId.Suffix,
+                                                                                              GraphDBOntology.Label.Suffix,
                                                                                               EdgeIdCreatorDelegate,
-                                                                                              GraphDBOntology.DefaultEdgeLabel().Suffix,
+                                                                                              GraphDBOntology.DefaultEdgeLabel.Suffix,
 
                                                                                               // MultiEdges
-                                                                                              GraphDBOntology.Id().Suffix,
-                                                                                              GraphDBOntology.RevId().Suffix,
-                                                                                              GraphDBOntology.Label().Suffix,
-                                                                                              GraphDBOntology.Description().Suffix,
+                                                                                              GraphDBOntology.Id.Suffix,
+                                                                                              GraphDBOntology.RevId.Suffix,
+                                                                                              GraphDBOntology.Label.Suffix,
                                                                                               MultiEdgeIdCreatorDelegate,
-                                                                                              GraphDBOntology.DefaultMultiEdgeLabel().Suffix,
+                                                                                              GraphDBOntology.DefaultMultiEdgeLabel.Suffix,
 
                                                                                               // HyperEdges
-                                                                                              GraphDBOntology.Id().Suffix,
-                                                                                              GraphDBOntology.RevId().Suffix,
-                                                                                              GraphDBOntology.Label().Suffix,
-                                                                                              GraphDBOntology.Description().Suffix,
+                                                                                              GraphDBOntology.Id.Suffix,
+                                                                                              GraphDBOntology.RevId.Suffix,
+                                                                                              GraphDBOntology.Label.Suffix,
                                                                                               HyperEdgeIdCreatorDelegate,
-                                                                                              GraphDBOntology.DefaultHyperEdgeLabel().Suffix,
-                                                                            
-                                                                                              GraphInitializer)
+                                                                                              GraphDBOntology.DefaultHyperEdgeLabel.Suffix,
+
+                                                                                              g => {
+
+                                                                                                 if (Description != null)
+                                                                                                     g.Set(GraphDBOntology.Description.Suffix, Description);
+
+                                                                                                 if (GraphInitializer != null)
+                                                                                                     GraphInitializer(g);
+
+                                                                                             })
+
+                                                                                             { }
 
                                              as IGenericPropertyGraph<VertexId,    RevisionId, String, String, Object,
                                                                       EdgeId,      RevisionId, String, String, Object,
@@ -706,41 +742,46 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                              EdgeId,      RevisionId, SemanticProperty, SemanticProperty, Object,
                                              MultiEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object,
                                              HyperEdgeId, RevisionId, SemanticProperty, SemanticProperty, Object>(GraphId,
-                                                                                                                  Description,
 
-                                                                                                                 // Vertices
-                                                                                                                 GraphDBOntology.Id(),
-                                                                                                                 GraphDBOntology.RevId(),
-                                                                                                                 GraphDBOntology.Label(),
-                                                                                                                 GraphDBOntology.Description(),
-                                                                                                                 VertexIdCreatorDelegate,
-                                                                                                                 GraphDBOntology.DefaultVertexLabel(),
+                                                                                                                  // Vertices
+                                                                                                                  GraphDBOntology.Id,
+                                                                                                                  GraphDBOntology.RevId,
+                                                                                                                  GraphDBOntology.Label,
+                                                                                                                  VertexIdCreatorDelegate,
+                                                                                                                  GraphDBOntology.DefaultVertexLabel,
 
                                                                                                                   // Edges
-                                                                                                                  GraphDBOntology.Id(),
-                                                                                                                  GraphDBOntology.RevId(),
-                                                                                                                  GraphDBOntology.Label(),
-                                                                                                                  GraphDBOntology.Description(),
+                                                                                                                  GraphDBOntology.Id,
+                                                                                                                  GraphDBOntology.RevId,
+                                                                                                                  GraphDBOntology.Label,
                                                                                                                   EdgeIdCreatorDelegate,
-                                                                                                                  GraphDBOntology.DefaultEdgeLabel(),
+                                                                                                                  GraphDBOntology.DefaultEdgeLabel,
 
                                                                                                                   // Multiedges
-                                                                                                                  GraphDBOntology.Id(),
-                                                                                                                  GraphDBOntology.RevId(),
-                                                                                                                  GraphDBOntology.Label(),
-                                                                                                                  GraphDBOntology.Description(),
+                                                                                                                  GraphDBOntology.Id,
+                                                                                                                  GraphDBOntology.RevId,
+                                                                                                                  GraphDBOntology.Label,
                                                                                                                   MultiEdgeIdCreatorDelegate,
-                                                                                                                  GraphDBOntology.DefaultMultiEdgeLabel(),
+                                                                                                                  GraphDBOntology.DefaultMultiEdgeLabel,
 
                                                                                                                   // Hyperedges
-                                                                                                                  GraphDBOntology.Id(),
-                                                                                                                  GraphDBOntology.RevId(),
-                                                                                                                  GraphDBOntology.Label(),
-                                                                                                                  GraphDBOntology.Description(),
+                                                                                                                  GraphDBOntology.Id,
+                                                                                                                  GraphDBOntology.RevId,
+                                                                                                                  GraphDBOntology.Label,
                                                                                                                   HyperEdgeIdCreatorDelegate,
-                                                                                                                  GraphDBOntology.DefaultHyperEdgeLabel(),
-                                                                            
-                                                                                                                  GraphInitializer)
+                                                                                                                  GraphDBOntology.DefaultHyperEdgeLabel,
+
+                                                                                                                  g => {
+
+                                                                                                                      if (Description != null)
+                                                                                                                          g.Set(GraphDBOntology.Description, Description);
+
+                                                                                                                      if (GraphInitializer != null)
+                                                                                                                          GraphInitializer(g);
+
+                                                                                                                  })
+
+                                                                                                                  { }
 
                                              as IGenericPropertyGraph<VertexId,    RevisionId, SemanticProperty, SemanticProperty, Object,
                                                                       EdgeId,      RevisionId, SemanticProperty, SemanticProperty, Object,
@@ -763,28 +804,24 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         /// <typeparam name="TVertexLabel">The type of the vertex type.</typeparam>
         /// <typeparam name="TKeyVertex">The type of the vertex property keys.</typeparam>
         /// <typeparam name="TValueVertex">The type of the vertex property values.</typeparam>
-        /// <typeparam name="TPropertiesCollectionVertex">A data structure to store the properties of the vertices.</typeparam>
         /// 
         /// <typeparam name="TIdEdge">The type of the edge identifiers.</typeparam>
         /// <typeparam name="TRevIdEdge">The type of the edge revision identifiers.</typeparam>
         /// <typeparam name="TEdgeLabel">The type of the edge label.</typeparam>
         /// <typeparam name="TKeyEdge">The type of the edge property keys.</typeparam>
         /// <typeparam name="TValueEdge">The type of the edge property values.</typeparam>
-        /// <typeparam name="TPropertiesCollectionEdge">A data structure to store the properties of the edges.</typeparam>
         /// 
         /// <typeparam name="TIdMultiEdge">The type of the multiedge identifiers.</typeparam>
         /// <typeparam name="TRevIdMultiEdge">The type of the multiedge revision identifiers.</typeparam>
         /// <typeparam name="TMultiEdgeLabel">The type of the multiedge label.</typeparam>
         /// <typeparam name="TKeyMultiEdge">The type of the multiedge property keys.</typeparam>
         /// <typeparam name="TValueMultiEdge">The type of the multiedge property values.</typeparam>
-        /// <typeparam name="TPropertiesCollectionMultiEdge">A data structure to store the properties of the multiedges.</typeparam>
         /// 
         /// <typeparam name="TIdHyperEdge">The type of the hyperedge identifiers.</typeparam>
         /// <typeparam name="TRevIdHyperEdge">The type of the hyperedge revision identifiers.</typeparam>
         /// <typeparam name="THyperEdgeLabel">The type of the hyperedge label.</typeparam>
         /// <typeparam name="TKeyHyperEdge">The type of the hyperedge property keys.</typeparam>
         /// <typeparam name="TValueHyperEdge">The type of the hyperedge property values.</typeparam>
-        /// <typeparam name="TPropertiesCollectionHyperEdge">A data structure to store the properties of the hyperedges.</typeparam>
         /// <param name="GraphId">The unique identifiction of this graph.</param>
         /// <param name="Description">The description of this graph.</param>
         /// <param name="WriteGraph">An optional single graph for all write operations.</param>
@@ -793,7 +830,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                     TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                     TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                     TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
-            
+
             CreatePartitionGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                  TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                  TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -805,7 +842,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> WriteGraph = null,
-             
+
                                  params IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -857,28 +894,24 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         /// <typeparam name="TVertexLabel">The type of the vertex type.</typeparam>
         /// <typeparam name="TKeyVertex">The type of the vertex property keys.</typeparam>
         /// <typeparam name="TValueVertex">The type of the vertex property values.</typeparam>
-        /// <typeparam name="TPropertiesCollectionVertex">A data structure to store the properties of the vertices.</typeparam>
         /// 
         /// <typeparam name="TIdEdge">The type of the edge identifiers.</typeparam>
         /// <typeparam name="TRevIdEdge">The type of the edge revision identifiers.</typeparam>
         /// <typeparam name="TEdgeLabel">The type of the edge label.</typeparam>
         /// <typeparam name="TKeyEdge">The type of the edge property keys.</typeparam>
         /// <typeparam name="TValueEdge">The type of the edge property values.</typeparam>
-        /// <typeparam name="TPropertiesCollectionEdge">A data structure to store the properties of the edges.</typeparam>
         /// 
         /// <typeparam name="TIdMultiEdge">The type of the multiedge identifiers.</typeparam>
         /// <typeparam name="TRevIdMultiEdge">The type of the multiedge revision identifiers.</typeparam>
         /// <typeparam name="TMultiEdgeLabel">The type of the multiedge label.</typeparam>
         /// <typeparam name="TKeyMultiEdge">The type of the multiedge property keys.</typeparam>
         /// <typeparam name="TValueMultiEdge">The type of the multiedge property values.</typeparam>
-        /// <typeparam name="TPropertiesCollectionMultiEdge">A data structure to store the properties of the multiedges.</typeparam>
         /// 
         /// <typeparam name="TIdHyperEdge">The type of the hyperedge identifiers.</typeparam>
         /// <typeparam name="TRevIdHyperEdge">The type of the hyperedge revision identifiers.</typeparam>
         /// <typeparam name="THyperEdgeLabel">The type of the hyperedge label.</typeparam>
         /// <typeparam name="TKeyHyperEdge">The type of the hyperedge property keys.</typeparam>
         /// <typeparam name="TValueHyperEdge">The type of the hyperedge property values.</typeparam>
-        /// <typeparam name="TPropertiesCollectionHyperEdge">A data structure to store the properties of the hyperedges.</typeparam>
         /// <param name="WriteGraph">The graph for all write operations.</param>
         /// <param name="GraphId">The unique identifiction of this graph.</param>
         /// <param name="Description">The description of this graph.</param>
@@ -957,28 +990,24 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         /// <typeparam name="TVertexLabel">The type of the vertex type.</typeparam>
         /// <typeparam name="TKeyVertex">The type of the vertex property keys.</typeparam>
         /// <typeparam name="TValueVertex">The type of the vertex property values.</typeparam>
-        /// <typeparam name="TPropertiesCollectionVertex">A data structure to store the properties of the vertices.</typeparam>
         /// 
         /// <typeparam name="TIdEdge">The type of the edge identifiers.</typeparam>
         /// <typeparam name="TRevIdEdge">The type of the edge revision identifiers.</typeparam>
         /// <typeparam name="TEdgeLabel">The type of the edge label.</typeparam>
         /// <typeparam name="TKeyEdge">The type of the edge property keys.</typeparam>
         /// <typeparam name="TValueEdge">The type of the edge property values.</typeparam>
-        /// <typeparam name="TPropertiesCollectionEdge">A data structure to store the properties of the edges.</typeparam>
         /// 
         /// <typeparam name="TIdMultiEdge">The type of the multiedge identifiers.</typeparam>
         /// <typeparam name="TRevIdMultiEdge">The type of the multiedge revision identifiers.</typeparam>
         /// <typeparam name="TMultiEdgeLabel">The type of the multiedge label.</typeparam>
         /// <typeparam name="TKeyMultiEdge">The type of the multiedge property keys.</typeparam>
         /// <typeparam name="TValueMultiEdge">The type of the multiedge property values.</typeparam>
-        /// <typeparam name="TPropertiesCollectionMultiEdge">A data structure to store the properties of the multiedges.</typeparam>
         /// 
         /// <typeparam name="TIdHyperEdge">The type of the hyperedge identifiers.</typeparam>
         /// <typeparam name="TRevIdHyperEdge">The type of the hyperedge revision identifiers.</typeparam>
         /// <typeparam name="THyperEdgeLabel">The type of the hyperedge label.</typeparam>
         /// <typeparam name="TKeyHyperEdge">The type of the hyperedge property keys.</typeparam>
         /// <typeparam name="TValueHyperEdge">The type of the hyperedge property values.</typeparam>
-        /// <typeparam name="TPropertiesCollectionHyperEdge">A data structure to store the properties of the hyperedges.</typeparam>
         /// <param name="WriteGraph">The graph for all write operations.</param>
         /// <param name="GraphId">The unique identifiction of this graph.</param>
         /// <param name="Description">The description of this graph.</param>

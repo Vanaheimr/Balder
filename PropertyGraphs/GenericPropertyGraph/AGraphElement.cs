@@ -193,37 +193,6 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #endregion
 
-        #region DescriptionKey
-
-        /// <summary>
-        /// The property key of the description.
-        /// </summary>
-        public TKey DescriptionKey { get; private set; }
-
-        #endregion
-
-        #region Description
-
-        /// <summary>
-        /// Provides a description of this graph element.
-        /// </summary>
-        public TValue Description
-        {
-
-            get
-            {
-                return this[DescriptionKey];
-            }
-
-            set
-            {
-                this.Set(DescriptionKey, value);
-            }
-
-        }
-
-        #endregion
-
         #endregion
 
         #region Events
@@ -400,7 +369,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #region (internal protected) Constructor(s)
 
-        #region (internal protected) AGraphElement(Id, IdKey, RevIdKey, Label, DescriptionKey, DatastructureInitializer, GraphElementInitializer = null)
+        #region (internal protected) AGraphElement(Id, IdKey, RevIdKey, Label, DatastructureInitializer, GraphElementInitializer = null)
 
         /// <summary>
         /// Creates a new abstract graph element.
@@ -418,7 +387,6 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                          TKey                                 IdKey,
                                          TKey                                 RevIdKey,
                                          TKey                                 LabelKey,
-                                         TKey                                 DescriptionKey,                                         
                                          IDictionaryInitializer<TKey, TValue> DatastructureInitializer,
                                          IPropertiesInitializer<TKey, TValue> PropertiesInitializer = null)
         {
@@ -437,23 +405,19 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
             if (LabelKey == null)
                 throw new ArgumentNullException("LabelKey", "The given LabelKey must not be null!");
 
-            if (DescriptionKey == null)
-                throw new ArgumentNullException("DescriptionKey", "The given DescriptionKey must not be null!");
-
             if (DatastructureInitializer == null)
                 throw new ArgumentNullException("DatastructureInitializer", "The given DatastructureInitializer must not be null!");
 
             #endregion
 
             // Good for explicit locking of this object
-            // during complex operations...
-            this.LockObject     = new Object();
+            // during complex oerations...
+            this.LockObject    = new Object();
 
-            this.IdKey          = IdKey;
-            this.RevIdKey       = RevIdKey;
-            this.LabelKey       = LabelKey;
-            this.DescriptionKey = DescriptionKey;
-            this.PropertyData   = DatastructureInitializer();
+            this.IdKey         = IdKey;
+            this.RevIdKey      = RevIdKey;
+            this.LabelKey      = LabelKey;
+            this.PropertyData  = DatastructureInitializer();
             this.PropertyData.Add(IdKey,    Id);
             this.PropertyData.Add(RevIdKey, RevId);
             this.PropertyData.Add(LabelKey, Label);
