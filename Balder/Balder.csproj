@@ -42,45 +42,47 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyEdge\AVertexPipe.cs" />
-    <Compile Include="Pipes\GenericPropertyGraph\EdgeTraversalDirection.cs" />
-    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyEdge\Filters\EdgeIdFilterPipe.cs" />
-    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyEdge\Filters\EdgeLabelFilterPipe.cs" />
-    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyEdge\Filters\EdgePropertyFilterPipe.cs" />
-    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyEdge\Filters\EdgeRevIdFilterPipe.cs" />
-    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyGraph\IdMultiEdgePipe.cs" />
-    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyGraph\IdHyperEdgePipe.cs" />
-    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyVertex\HyperEdgesVerticesPipe.cs" />
-    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyVertex\Filters\VertexIdFilterPipe.cs" />
-    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyVertex\Filters\VertexLabelFilterPipe.cs" />
-    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyVertex\Filters\VertexPropertyFilterPipe.cs" />
-    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyVertex\Filters\VertexRevIdFilterPipe.cs" />
-    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyVertex\MultiEdgesPipe.cs" />
-    <Compile Include="Pipes\GraphIO\N3\N3ImportPipe.cs" />
-    <Compile Include="Pipes\GenericPropertyGraph\GraphElements\Properties\RevIdPipe.cs" />
-    <Compile Include="Pipes\GenericPropertyGraph\GraphElements\Filter\GraphElementFilterPipe.cs" />
-    <Compile Include="Pipes\GenericPropertyGraph\HigherOrderRelations\Foaf.cs" />
-    <Compile Include="Pipes\GenericPropertyGraph\HigherOrderRelations\IsComplicatedExtensions.cs" />
-    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyHyperEdge\HyperEdgeVerticesPipe.cs" />
-    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyMultiEdge\MultiEdgeEdgesPipe.cs" />
-    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyVertex\HyperEdgesPipe.cs" />
-    <Compile Include="Pipes\GenericPropertyGraph\GraphElements\Properties\IdPipe.cs" />
-    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyEdge\BothVerticesPipe.cs" />
-    <Compile Include="Pipes\GenericPropertyGraph\GraphElements\Properties\LabelPipe.cs" />
-    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyGraph\IdEdgePipe.cs" />
-    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyEdge\InVertexPipe.cs" />
-    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyEdge\OutVertexPipe.cs" />
-    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyGraph\AllEdgesPipe.cs" />
-    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyGraph\AllVerticesPipe.cs" />
-    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyVertex\AEdgesPipe.cs" />
-    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyVertex\AEdgesVerticesPipe.cs" />
-    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyVertex\BothEdgesPipe.cs" />
-    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyVertex\BothPipe.cs" />
-    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyGraph\IdVertexPipe.cs" />
-    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyVertex\InEdgesPipe.cs" />
-    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyVertex\InPipe.cs" />
-    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyVertex\OutEdgesPipe.cs" />
-    <Compile Include="Pipes\GenericPropertyGraph\IGenericPropertyVertex\OutPipe.cs" />
+    <Compile Include="Arrows\GraphElements\RevIdArrow.cs" />
+    <Compile Include="Arrows\GraphElements\LabelArrow.cs" />
+    <Compile Include="Arrows\GraphElements\IdArrow.cs" />
+    <Compile Include="Pipes\GraphElements\RevIdPipe.cs" />
+    <Compile Include="Pipes\IGenericPropertyEdge\AVertexPipe.cs" />
+    <Compile Include="EdgeTraversalDirection.cs" />
+    <Compile Include="Pipes\IGenericPropertyEdge\Filters\EdgeIdFilterPipe.cs" />
+    <Compile Include="Pipes\IGenericPropertyEdge\Filters\EdgeLabelFilterPipe.cs" />
+    <Compile Include="Pipes\IGenericPropertyEdge\Filters\EdgePropertyFilterPipe.cs" />
+    <Compile Include="Pipes\IGenericPropertyEdge\Filters\EdgeRevIdFilterPipe.cs" />
+    <Compile Include="Pipes\IGenericPropertyGraph\IdMultiEdgePipe.cs" />
+    <Compile Include="Pipes\IGenericPropertyGraph\IdHyperEdgePipe.cs" />
+    <Compile Include="Pipes\IGenericPropertyVertex\HyperEdgesVerticesPipe.cs" />
+    <Compile Include="Pipes\IGenericPropertyVertex\Filters\VertexIdFilterPipe.cs" />
+    <Compile Include="Pipes\IGenericPropertyVertex\Filters\VertexLabelFilterPipe.cs" />
+    <Compile Include="Pipes\IGenericPropertyVertex\Filters\VertexPropertyFilterPipe.cs" />
+    <Compile Include="Pipes\IGenericPropertyVertex\Filters\VertexRevIdFilterPipe.cs" />
+    <Compile Include="Pipes\IGenericPropertyVertex\MultiEdgesPipe.cs" />
+    <Compile Include="Pipes\GraphElements\Filter\GraphElementFilterPipe.cs" />
+    <Compile Include="Pipes\HigherOrderRelations\Foaf.cs" />
+    <Compile Include="Pipes\HigherOrderRelations\IsComplicatedExtensions.cs" />
+    <Compile Include="Pipes\IGenericPropertyHyperEdge\HyperEdgeVerticesPipe.cs" />
+    <Compile Include="Pipes\IGenericPropertyMultiEdge\MultiEdgeEdgesPipe.cs" />
+    <Compile Include="Pipes\IGenericPropertyVertex\HyperEdgesPipe.cs" />
+    <Compile Include="Pipes\GraphElements\IdPipe.cs" />
+    <Compile Include="Pipes\IGenericPropertyEdge\BothVerticesPipe.cs" />
+    <Compile Include="Pipes\GraphElements\LabelPipe.cs" />
+    <Compile Include="Pipes\IGenericPropertyGraph\IdEdgePipe.cs" />
+    <Compile Include="Pipes\IGenericPropertyEdge\InVertexPipe.cs" />
+    <Compile Include="Pipes\IGenericPropertyEdge\OutVertexPipe.cs" />
+    <Compile Include="Pipes\IGenericPropertyGraph\AllEdgesPipe.cs" />
+    <Compile Include="Pipes\IGenericPropertyGraph\AllVerticesPipe.cs" />
+    <Compile Include="Pipes\IGenericPropertyVertex\AEdgesPipe.cs" />
+    <Compile Include="Pipes\IGenericPropertyVertex\AEdgesVerticesPipe.cs" />
+    <Compile Include="Pipes\IGenericPropertyVertex\BothEdgesPipe.cs" />
+    <Compile Include="Pipes\IGenericPropertyVertex\BothPipe.cs" />
+    <Compile Include="Pipes\IGenericPropertyGraph\IdVertexPipe.cs" />
+    <Compile Include="Pipes\IGenericPropertyVertex\InEdgesPipe.cs" />
+    <Compile Include="Pipes\IGenericPropertyVertex\InPipe.cs" />
+    <Compile Include="Pipes\IGenericPropertyVertex\OutEdgesPipe.cs" />
+    <Compile Include="Pipes\IGenericPropertyVertex\OutPipe.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -106,8 +108,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Arrows\" />
-    <Folder Include="Pipes\GraphIO\CSV\" />
+    <Folder Include="Arrows\GraphElements\Filter\" />
+    <Folder Include="ExtentionMethods\GenericPropertyGraph\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

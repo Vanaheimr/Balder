@@ -40,7 +40,7 @@ namespace de.ahzf.Vanaheimr.Balder.UnitTests.Blueprints
         {
 
             var _Graph     = TinkerGraphFactory.CreateTinkerGraph();
-            var _LabelPipe = new LabelPipe<UInt64, Int64, String, String, Object>();
+            var _LabelPipe = new LabelPipe<String>();
 
             _LabelPipe.SetSourceCollection(_Graph.VertexById(1).OutEdges());
 
