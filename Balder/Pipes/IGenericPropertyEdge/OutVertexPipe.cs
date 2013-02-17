@@ -153,7 +153,7 @@ namespace de.ahzf.Vanaheimr.Balder
         /// <typeparam name="TKeyHyperEdge">The type of the hyperedge property keys.</typeparam>
         /// <typeparam name="TValueHyperEdge">The type of the hyperedge property values.</typeparam>
         /// <param name="IEnumerable">An enumeration of generic property edges.</param>
-        /// <param name="VertexFilter">An optional delegate for vertex filtering.</param>
+        /// <param name="VertexLabels">An optional array of vertex labels to traverse (OR-logic).</param>
         /// <returns>The outgoing vertices of the given generic property edges.</returns>
         public static OutVertexPipe<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                     TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,

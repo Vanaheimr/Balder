@@ -35,11 +35,11 @@ namespace de.ahzf.Vanaheimr.Balder
     public static class HyperEdgeVerticesPipeExtensions
     {
 
-        #region V(this IGenericPropertyHyperEdge<...>, params VertexLabels)
+        #region V(this IGenericPropertyHyperEdge<...>, params HyperEdgeLabels)
 
         /// <summary>
         /// Emits the vertices of the given generic property hyperedge
-        /// having the given vertex labels (OR-logic).
+        /// having the given hyperedge labels (OR-logic).
         /// </summary>
         /// <typeparam name="TIdVertex">The type of the vertex identifiers.</typeparam>
         /// <typeparam name="TRevIdVertex">The type of the vertex revision identifiers.</typeparam>
@@ -65,7 +65,7 @@ namespace de.ahzf.Vanaheimr.Balder
         /// <typeparam name="TKeyHyperEdge">The type of the hyperedge property keys.</typeparam>
         /// <typeparam name="TValueHyperEdge">The type of the hyperedge property values.</typeparam>
         /// <param name="HyperEdge">A generic property hyperedge.</param>
-        /// <param name="VertexLabels">An optional array of vertex labels to traverse (OR-logic).</param>
+        /// <param name="HyperEdgeLabels">An optional array of hyperedge labels to traverse (OR-logic).</param>
         /// <returns>The vertices of the given generic property hyperedge.</returns>
         public static HyperEdgeVerticesPipe<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                             TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
@@ -123,11 +123,11 @@ namespace de.ahzf.Vanaheimr.Balder
 
         #endregion
 
-        #region V(this IEnumerable<IGenericPropertyHyperEdge<...>>, params VertexLabels)
+        #region V(this IEnumerable<IGenericPropertyHyperEdge<...>>, params HyperEdgeLabels)
 
         /// <summary>
         /// Emits the vertices of the given generic property hyperedges
-        /// having the given vertex labels (OR-logic).
+        /// having the given hyperedge labels (OR-logic).
         /// </summary>
         /// <typeparam name="TIdVertex">The type of the vertex identifiers.</typeparam>
         /// <typeparam name="TRevIdVertex">The type of the vertex revision identifiers.</typeparam>
@@ -153,7 +153,7 @@ namespace de.ahzf.Vanaheimr.Balder
         /// <typeparam name="TKeyHyperEdge">The type of the hyperedge property keys.</typeparam>
         /// <typeparam name="TValueHyperEdge">The type of the hyperedge property values.</typeparam>
         /// <param name="IEnumerable">An enumeration of generic property hyperedges.</param>
-        /// <param name="VertexLabels">An optional array of vertex labels to traverse (OR-logic).</param>
+        /// <param name="HyperEdgeLabels">An optional array of hyperedge labels to traverse (OR-logic).</param>
         /// <returns>The vertices of the given generic property hyperedge.</returns>
         public static HyperEdgeVerticesPipe<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                             TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,

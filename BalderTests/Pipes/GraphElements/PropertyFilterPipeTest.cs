@@ -59,7 +59,7 @@ namespace de.ahzf.Vanaheimr.Balder.UnitTests.Blueprints
             var _Pipe3    = new VertexPropertyFilterPipe<UInt64, Int64, String, String, Object,
                                                          UInt64, Int64, String, String, Object,
                                                          UInt64, Int64, String, String, Object,
-                                                         UInt64, Int64, String, String, Object>("lang", v => v == "java");
+                                                         UInt64, Int64, String, String, Object>("lang", v => v.ToString() == "java");
 
             var _Pipeline = new Pipeline<IGenericPropertyVertex<UInt64, Int64, String, String, Object,
                                                                 UInt64, Int64, String, String, Object,

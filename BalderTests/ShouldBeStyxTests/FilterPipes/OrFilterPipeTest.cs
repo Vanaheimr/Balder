@@ -280,7 +280,7 @@ namespace de.ahzf.Vanaheimr.Balder.UnitTests.FilterPipes
             var _PipeD      = new VertexPropertyFilterPipe<UInt64, Int64, String, String, Object,
                                                            UInt64, Int64, String, String, Object,
                                                            UInt64, Int64, String, String, Object,
-                                                           UInt64, Int64, String, String, Object>("name", v => v == "lop");
+                                                           UInt64, Int64, String, String, Object>("name", v => v.ToString() == "lop");
 
             var _Pipe1      = new AndFilterPipe<IGenericPropertyVertex<UInt64, Int64, String, String, Object,
                                                                        UInt64, Int64, String, String, Object,

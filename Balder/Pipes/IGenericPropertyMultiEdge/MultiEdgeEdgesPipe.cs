@@ -79,8 +79,8 @@ namespace de.ahzf.Vanaheimr.Balder
         /// <summary>
         /// If the edge label is in use, as _Label is always at least default(TEdgeLabel)!
         /// </summary>
-        private Boolean _UseEdgeLabel;
-        
+        private Boolean _UseEdgeLabel = false;
+
         /// <summary>
         /// Edges to be traversed next...
         /// </summary>

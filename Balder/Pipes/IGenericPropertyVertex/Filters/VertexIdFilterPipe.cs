@@ -67,7 +67,7 @@ namespace de.ahzf.Vanaheimr.Balder
         /// <typeparam name="TKeyHyperEdge">The type of the hyperedge property keys.</typeparam>
         /// <typeparam name="TValueHyperEdge">The type of the hyperedge property values.</typeparam>
         /// <param name="IEnumerable">An enumeration of read-only generic property vertices.</param>
-        /// <param name="Labels">An array of vertex labels to match any.</param>
+        /// <param name="Ids">An array of vertex identifications to match any.</param>
         /// <returns>A filtered enumeration of read-only generic property vertices.</returns>
         public static VertexIdFilterPipe<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
@@ -148,7 +148,7 @@ namespace de.ahzf.Vanaheimr.Balder
         /// <typeparam name="TKeyHyperEdge">The type of the hyperedge property keys.</typeparam>
         /// <typeparam name="TValueHyperEdge">The type of the hyperedge property values.</typeparam>
         /// <param name="IEnumerable">An enumeration of read-only generic property vertices.</param>
-        /// <param name="Labels">An array of vertex labels to match any.</param>
+        /// <param name="Ids">An array of vertex identifications to match any.</param>
         /// <returns>A filtered enumeration of read-only generic property vertices.</returns>
         public static VertexIdFilterPipe<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,

@@ -35,7 +35,7 @@ namespace de.ahzf.Vanaheimr.Balder.UnitTests.Pipes
     [TestFixture]
     public class AbstractPipeTest
     {
-        
+
         #region TestIEnumerator()
 
         [Test]
@@ -121,21 +121,21 @@ namespace de.ahzf.Vanaheimr.Balder.UnitTests.Pipes
 
                 Assert.AreEqual(typeof(String),         path[3].GetType());
 
-                if (_Name == "vadas")
+                if (_Name.ToString() == "vadas")
                 {
                     Assert.AreEqual(_Graph.EdgeById(7),     path[1]);
                     Assert.AreEqual(_Graph.VertexById(2), path[2]);
                     Assert.AreEqual("vadas", path[3]);
                 }
-                
-                else if (_Name == "lop")
+
+                else if (_Name.ToString() == "lop")
                 {
                     Assert.AreEqual(_Graph.EdgeById(9),     path[1]);
                     Assert.AreEqual(_Graph.VertexById(3), path[2]);
                     Assert.AreEqual("lop", path[3]);
                 }
-                
-                else if (_Name == "josh")
+
+                else if (_Name.ToString() == "josh")
                 {
                     Assert.AreEqual(_Graph.EdgeById(8),     path[1]);
                     Assert.AreEqual(_Graph.VertexById(4), path[2]);

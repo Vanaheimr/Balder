@@ -206,7 +206,7 @@ namespace de.ahzf.Vanaheimr.Balder
         #endregion
 
 
-        #region BothE(this IReadOnlyGenericPropertyVertex<...>, params EdgeLabels)
+        #region BothE(this IReadOnlyGenericPropertyVertex<...>, EdgeFilter)
 
         /// <summary>
         /// Emit the incoming and outgoing edges of the given generic property vertex
@@ -236,7 +236,7 @@ namespace de.ahzf.Vanaheimr.Balder
         /// <typeparam name="TKeyHyperEdge">The type of the hyperedge property keys.</typeparam>
         /// <typeparam name="TValueHyperEdge">The type of the hyperedge property values.</typeparam>
         /// <param name="Vertex">A generic property vertex.</param>
-        /// <param name="EdgeLabels">An optional array of edge labels to traverse (OR-logic).</param>
+        /// <param name="EdgeFilter">A delegate for edge filtering.</param>
         /// <returns>The incoming and outgoing edges of the given generic property vertex having the given edge labels.</returns>
         public static BothEdgesPipe<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                     TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
@@ -297,7 +297,7 @@ namespace de.ahzf.Vanaheimr.Balder
 
         #endregion
 
-        #region BothE(this IEnumerable<IReadOnlyGenericPropertyVertex<...>>, params EdgeLabels)
+        #region BothE(this IEnumerable<IReadOnlyGenericPropertyVertex<...>>, EdgeFilter)
 
         /// <summary>
         /// Emit the incoming and outgoing edges of the given generic property vertices
@@ -327,7 +327,7 @@ namespace de.ahzf.Vanaheimr.Balder
         /// <typeparam name="TKeyHyperEdge">The type of the hyperedge property keys.</typeparam>
         /// <typeparam name="TValueHyperEdge">The type of the hyperedge property values.</typeparam>
         /// <param name="IEnumerable">An enumeration of generic property vertices.</param>
-        /// <param name="EdgeLabels">An optional array of edge labels to traverse (OR-logic).</param>
+        /// <param name="EdgeFilter">A delegate for edge filtering.</param>
         /// <returns>The outgoing edges of the given generic property vertices having the given edge labels.</returns>
         public static BothEdgesPipe<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                     TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,

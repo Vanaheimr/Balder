@@ -146,7 +146,7 @@ namespace de.ahzf.Vanaheimr.Balder
 
         private readonly Func<S, T>           KeySelector;
         private readonly ComparisonFilter<T>  ComparisonFilter;
-        private          T                    ActualValue;
+        //private          T                    ActualValue;
 
         #endregion
 

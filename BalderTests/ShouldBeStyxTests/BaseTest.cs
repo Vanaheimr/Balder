@@ -32,7 +32,7 @@ namespace de.ahzf.Vanaheimr.Balder.UnitTests
 
         public static IEnumerable<String> GenerateUUIDs(UInt32 myNumber)
         {
-            
+
             var _UUIDs = new List<String>();
             
             for (int i = 0; i < myNumber; i++)
@@ -60,77 +60,17 @@ namespace de.ahzf.Vanaheimr.Balder.UnitTests
 
         #endregion
 
-        #region PrintCollection<T>(myCollection)
-
-        public static void PrintCollection<T>(ICollection<T> myCollection)
-        {
-            foreach (var _Object in myCollection)
-                Console.WriteLine(_Object);
-        }
-
-        #endregion
-
-        #region PrintIEnumerator<T>(myIEnumerator)
-
-        public static void PrintIEnumerator<T>(IEnumerator<T> myIEnumerator)
-        {
-            while (myIEnumerator.MoveNext())
-                Console.WriteLine(myIEnumerator.Current);
-        }
-
-        #endregion
-
-        #region Count<T>(myIEnumerator)
-
-        public static UInt64 Count<T>(IEnumerator<T> myIEnumerator)
-        {
-
-            UInt64 _Counter = 0;
-
-            while (myIEnumerator.MoveNext())
-                _Counter++;
-
-            return _Counter;
-
-        }
-
-        #endregion
-
-        #region Count<T>(myIEnumerable)
-
-        public static UInt64 Count<T>(IEnumerable<T> myIEnumerable)
-        {
-            return Count(myIEnumerable.GetEnumerator());
-        }
-
-        #endregion
-
         #region AsList<T>(myObject, myTimes)
 
         public static List<T> AsList<T>(T myObject, UInt64 myTimes)
         {
-            
+
             var _List = new List<T>();
 
             for (var i = 0UL; i < myTimes; i++)
                 _List.Add(myObject);
 
             return _List;
-
-        }
-
-        #endregion
-
-        #region PrintPerformance(String myName, Nullable<Int32> myEvents, String myEventName, Double myTimeInMilliseconds)
-
-        public static void PrintPerformance(String myName, Nullable<Int32> myEvents, String myEventName, Double myTimeInMilliseconds)
-        {
-            
-            if (myEvents != null)
-                Console.WriteLine("\t" + myName + ": " + myEvents + " " + myEventName + " in " + myTimeInMilliseconds + "ms");
-
-            else
-                Console.WriteLine("\t" + myName + ": " + myEventName + " in " + myTimeInMilliseconds + "ms");
 
         }
 

@@ -43,6 +43,7 @@ namespace de.ahzf.Vanaheimr.Balder
         /// </summary>
         /// <typeparam name="TIdVertex">The type of the vertex identifiers.</typeparam>
         /// <typeparam name="TRevIdVertex">The type of the vertex revision identifiers.</typeparam>
+        /// <typeparam name="TVertexLabel">The type of the vertex type.</typeparam>
         /// <typeparam name="TKeyVertex">The type of the vertex property keys.</typeparam>
         /// <typeparam name="TValueVertex">The type of the vertex property values.</typeparam>
         /// 
@@ -51,6 +52,12 @@ namespace de.ahzf.Vanaheimr.Balder
         /// <typeparam name="TEdgeLabel">The type of the edge label.</typeparam>
         /// <typeparam name="TKeyEdge">The type of the edge property keys.</typeparam>
         /// <typeparam name="TValueEdge">The type of the edge property values.</typeparam>
+        /// 
+        /// <typeparam name="TIdMultiEdge">The type of the multiedge identifiers.</typeparam>
+        /// <typeparam name="TRevIdMultiEdge">The type of the multiedge revision identifiers.</typeparam>
+        /// <typeparam name="TMultiEdgeLabel">The type of the multiedge label.</typeparam>
+        /// <typeparam name="TKeyMultiEdge">The type of the multiedge property keys.</typeparam>
+        /// <typeparam name="TValueMultiEdge">The type of the multiedge property values.</typeparam>
         /// 
         /// <typeparam name="TIdHyperEdge">The type of the hyperedge identifiers.</typeparam>
         /// <typeparam name="TRevIdHyperEdge">The type of the hyperedge revision identifiers.</typeparam>
@@ -125,6 +132,7 @@ namespace de.ahzf.Vanaheimr.Balder
         /// </summary>
         /// <typeparam name="TIdVertex">The type of the vertex identifiers.</typeparam>
         /// <typeparam name="TRevIdVertex">The type of the vertex revision identifiers.</typeparam>
+        /// <typeparam name="TVertexLabel">The type of the vertex type.</typeparam>
         /// <typeparam name="TKeyVertex">The type of the vertex property keys.</typeparam>
         /// <typeparam name="TValueVertex">The type of the vertex property values.</typeparam>
         /// 
@@ -133,6 +141,12 @@ namespace de.ahzf.Vanaheimr.Balder
         /// <typeparam name="TEdgeLabel">The type of the edge label.</typeparam>
         /// <typeparam name="TKeyEdge">The type of the edge property keys.</typeparam>
         /// <typeparam name="TValueEdge">The type of the edge property values.</typeparam>
+        /// 
+        /// <typeparam name="TIdMultiEdge">The type of the multiedge identifiers.</typeparam>
+        /// <typeparam name="TRevIdMultiEdge">The type of the multiedge revision identifiers.</typeparam>
+        /// <typeparam name="TMultiEdgeLabel">The type of the multiedge label.</typeparam>
+        /// <typeparam name="TKeyMultiEdge">The type of the multiedge property keys.</typeparam>
+        /// <typeparam name="TValueMultiEdge">The type of the multiedge property values.</typeparam>
         /// 
         /// <typeparam name="TIdHyperEdge">The type of the hyperedge identifiers.</typeparam>
         /// <typeparam name="TRevIdHyperEdge">The type of the hyperedge revision identifiers.</typeparam>
@@ -302,7 +316,7 @@ namespace de.ahzf.Vanaheimr.Balder
                                                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> IEnumerator = null)
-            
+
             : base(IEnumerable, IEnumerator)
 
         {
