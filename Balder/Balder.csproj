@@ -109,7 +109,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Arrows\GraphElements\Filter\" />
-    <Folder Include="ExtentionMethods\GenericPropertyGraph\" />
+    <Folder Include="ExtentionMethods\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

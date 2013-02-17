@@ -443,6 +443,7 @@ namespace de.ahzf.Vanaheimr.Balder
         where TKeyEdge         : IEquatable<TKeyEdge>,        IComparable<TKeyEdge>,        IComparable
         where TKeyMultiEdge    : IEquatable<TKeyMultiEdge>,   IComparable<TKeyMultiEdge>,   IComparable
         where TKeyHyperEdge    : IEquatable<TKeyHyperEdge>,   IComparable<TKeyHyperEdge>,   IComparable
+
     {
 
         #region InPipe(IEnumerable = null, IEnumerator = null, params EdgeLabels)
