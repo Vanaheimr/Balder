@@ -210,7 +210,7 @@ namespace de.ahzf.Vanaheimr.Balder.UnitTests
             var _Carol              = _graph.AddVertex("Carol", person, v => v.SetProperty(age, 22));
             var _Dave               = _graph.AddVertex("Dave",  person, v => v.SetProperty(age, 23));
 
-            var _rex                = _graph.AddVertex("Rex",   pet,    v => v.SetProperty(age, 3));
+            var _rex                = _graph.AddVertex("Rex",   pet);
 
             // DoubleEdges: v <=> v
             var _e_k01              = _graph.AddDoubleEdge(_Alice, knows, _Bob,   EdgeInitializer: e => e.SetProperty(since, new DateTime(2000, 08, 01)));

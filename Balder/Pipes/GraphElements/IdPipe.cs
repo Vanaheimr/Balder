@@ -36,24 +36,6 @@ namespace de.ahzf.Vanaheimr.Balder
     public static class IdPipeExtensions
     {
 
-        //#region Ids<TId>(this IIdentifier)
-
-        ///// <summary>
-        ///// Emits the identification of the given identifiable object.
-        ///// </summary>
-        ///// <typeparam name="TId">The type of the identifications.</typeparam>
-        ///// <param name="IIdentifier">An identifiable object.</param>
-        ///// <returns>An identification.</returns>
-        //public static IdPipe<TId> Ids<TId>(this IIdentifier<TId> IIdentifier)
-
-        //    where TId : IEquatable<TId>, IComparable<TId>, IComparable
-
-        //{
-        //    return new IdPipe<TId>(new IIdentifier<TId>[1] { IIdentifier });
-        //}
-
-        //#endregion
-
         #region Ids<TId>(this IEnumerable)
 
         /// <summary>

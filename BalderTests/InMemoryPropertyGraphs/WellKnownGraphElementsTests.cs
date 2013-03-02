@@ -39,13 +39,13 @@ namespace de.ahzf.Vanaheimr.Balder.UnitTests.InMemoryPropertyGraphs
     public class GraphElementsTests
     {
 
-        #region CreateMultipleEmptyGenericPropertyGraphs()
+        #region CheckGraphElements()
 
         /// <summary>
         /// A test for the empty PropertyGraph.AddVertex() method.
         /// </summary>
         [Test]
-        public void GetIds()
+        public void CheckGraphElementPipes()
         {
 
             var _graph = DemoGraphFactory.CreateSimpleGraph();
@@ -55,24 +55,44 @@ namespace de.ahzf.Vanaheimr.Balder.UnitTests.InMemoryPropertyGraphs
 
             // Vertices
             Assert.AreEqual(5, _graph.NumberOfVertices(), "Wrong number of vertices!");
-            var VertexIdSet = new HashSet<String>(_graph.Vertices().Ids());
-            Assert.AreEqual(5, VertexIdSet.Count, "Wrong number of vertices!");
 
+            var VertexIdSet = new HashSet<String>(_graph.Vertices().Ids());
+            Assert.AreEqual(5, VertexIdSet.Count, "Wrong number of vertex identifications!");
             Assert.IsTrue(VertexIdSet.Contains("Alice"));
             Assert.IsTrue(VertexIdSet.Contains("Bob"));
             Assert.IsTrue(VertexIdSet.Contains("Carol"));
             Assert.IsTrue(VertexIdSet.Contains("Dave"));
             Assert.IsTrue(VertexIdSet.Contains("Rex"));
 
+            Assert.AreEqual(3, new HashSet<String>(_graph.Vertices(v => v.Id.Contains("e")).Ids()).Count);
+            Assert.AreEqual(4, new HashSet<String>(_graph.Vertices(DemoGraphFactory.age).Ids()).Count);     // property key filter
+            Assert.AreEqual(1, new HashSet<String>(_graph.Vertices(DemoGraphFactory.age, 18).Ids()).Count); // property key+value filter
+
+            var VertexLabelSet = new HashSet<String>(_graph.Vertices().Labels());
+            Assert.AreEqual(2, VertexLabelSet.Count, "Wrong number of vertex labels!");
+            Assert.IsTrue(VertexLabelSet.Contains(DemoGraphFactory.person));
+            Assert.IsTrue(VertexLabelSet.Contains(DemoGraphFactory.pet));
+
+            var VertexRevIdSet = new HashSet<Int64>(_graph.Vertices().RevIds());
+            Assert.AreEqual(1, VertexRevIdSet.Count, "Wrong number of vertex revision identifications!");
+
 
             // Edges
             Assert.AreEqual(9, _graph.NumberOfEdges(), "Wrong number of edges!");
-            var EdgeIdSet = new HashSet<String>(_graph.Edges().Ids());
-            Assert.AreEqual(9, EdgeIdSet.Count, "Wrong number of edges!");
 
+            var EdgeIdSet = new HashSet<String>(_graph.Edges().Ids());
+            Assert.AreEqual(9, EdgeIdSet.Count, "Wrong number of edge identifications!");
             Assert.IsTrue(EdgeIdSet.Contains("Alice -loves-> Bob"));
             Assert.IsTrue(EdgeIdSet.Contains("Bob -loves-> Carol"));
             Assert.IsTrue(EdgeIdSet.Contains("Carol -loves-> Alice"));
+
+            var EdgeLabelSet = new HashSet<String>(_graph.Edges().Labels());
+            Assert.AreEqual(2, EdgeLabelSet.Count, "Wrong number of edge labels!");
+            Assert.IsTrue(EdgeLabelSet.Contains(DemoGraphFactory.knows));
+            Assert.IsTrue(EdgeLabelSet.Contains(DemoGraphFactory.loves));
+
+            var EdgeRevIdSet = new HashSet<Int64>(_graph.Edges().RevIds());
+            Assert.AreEqual(1, EdgeRevIdSet.Count, "Wrong number of edge revision identifications!");
 
 
             // Multiedges

@@ -59,7 +59,7 @@
     <Compile Include="Pipes\IGenericPropertyVertex\Filters\VertexLabelFilterPipe.cs" />
     <Compile Include="Pipes\IGenericPropertyVertex\Filters\VertexPropertyFilterPipe.cs" />
     <Compile Include="Pipes\IGenericPropertyVertex\Filters\VertexRevIdFilterPipe.cs" />
-    <Compile Include="Pipes\IGenericPropertyVertex\MultiEdgesPipe.cs" />
+    <Compile Include="Pipes\IGenericPropertyEdge\MultiEdgesPipe.cs" />
     <Compile Include="Pipes\GraphElements\Filter\GraphElementFilterPipe.cs" />
     <Compile Include="Pipes\HigherOrderRelations\Foaf.cs" />
     <Compile Include="Pipes\HigherOrderRelations\IsComplicatedExtensions.cs" />
