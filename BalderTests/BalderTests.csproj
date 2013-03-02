@@ -44,39 +44,36 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ShouldBeStyxTests\BaseTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ShouldBeStyxTests\AbstractPipeTest.cs" />
+    <Compile Include="DemoGraphFactory.cs" />
+    <Compile Include="EmptyGraphFactory.cs" />
+    <Compile Include="GraphElementIds\EdgeIdTests.cs" />
+    <Compile Include="GraphElementIds\HyperEdgeIdTests.cs" />
+    <Compile Include="GraphElementIds\MultiEdgeIdTests.cs" />
+    <Compile Include="GraphElementIds\VertexIdTests.cs" />
+    <Compile Include="InMemoryPropertyGraphs\WellKnownGraphElementsTests.cs" />
+    <Compile Include="InMemoryPropertyGraphs\GraphFactoryTests.cs" />
+    <Compile Include="InMemoryPropertyGraphs\GraphSchemaTests.cs" />
+    <Compile Include="PropertyGraphTests\GraphWithPropertiesTests.cs" />
+    <Compile Include="PropertyGraphTests\IPropertiesTests.cs" />
+    <Compile Include="PropertyGraphTests\IPropertyGraphExtensionTests.cs" />
+    <Compile Include="PropertyGraphTests\PropertyVertexTests.cs" />
     <Compile Include="Pipes\IGenericPropertyEdge\EdgeVertexPipeTest.cs" />
     <Compile Include="Pipes\IGenericPropertyGraph\GraphElementPipeTest.cs" />
     <Compile Include="Pipes\IGenericPropertyEdge\IdEdgePipeTest.cs" />
-    <Compile Include="Pipes\GraphElements\IdPipeTest.cs" />
     <Compile Include="Pipes\IGenericPropertyVertex\IdVertexPipeTest.cs" />
     <Compile Include="Pipes\GraphElements\LabelFilterPipeTest.cs" />
     <Compile Include="Pipes\GraphElements\LabelPipeTest.cs" />
-    <Compile Include="ShouldBeStyxTests\FilterPipes\AndFilterPipeTest.cs" />
-    <Compile Include="ShouldBeStyxTests\FilterPipes\DuplicateFilterPipeTest.cs" />
-    <Compile Include="ShouldBeStyxTests\FilterPipes\FutureFilterPipeTest.cs" />
-    <Compile Include="ShouldBeStyxTests\FilterPipes\OrFilterPipeTest.cs" />
-    <Compile Include="ShouldBeStyxTests\FilterPipes\RandomFilterPipeTest.cs" />
-    <Compile Include="ShouldBeStyxTests\FilterPipes\UniquePathFilterPipeTest.cs" />
-    <Compile Include="ShouldBeStyxTests\Utils\GatherPipeTest.cs" />
-    <Compile Include="ShouldBeStyxTests\Utils\PathPipeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Pipes\GraphElements\PropertyFilterPipeTest.cs" />
     <Compile Include="Pipes\GraphElements\PropertyPipeTest.cs" />
     <Compile Include="Pipes\IGenericPropertyVertex\VertexEdgePipeTest.cs" />
     <Compile Include="Pipes\IGenericPropertyVertex\VertexIdFilterPipeTest.cs" />
+    <Compile Include="TinkerGraphFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Balder\Balder.csproj">
       <Project>{D2B4E7C7-0524-4DE5-9D62-2DE05682A74D}</Project>
       <Name>Balder</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BlueprintsTests\BlueprintsTests.csproj">
-      <Project>{7F4CE297-4A42-47A8-9A0A-74BA46B09891}</Project>
-      <Name>BlueprintsTests</Name>
     </ProjectReference>
     <ProjectReference Include="..\Blueprints\Blueprints.csproj">
       <Project>{47FA1E7C-8C47-493D-A371-91A15D53BC95}</Project>

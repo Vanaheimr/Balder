@@ -447,45 +447,6 @@ namespace de.ahzf.Vanaheimr.Blueprints
 
         #endregion
 
-        #region MultiEdge methods...
-
-        #region MultiEdges(params MultiEdgeLabels)      // MultiEdges()!
-
-        /// <summary>
-        /// The multiedges emanating from, or leaving, this vertex
-        /// filtered by their label. If no label was given,
-        /// all multiedges will be returned.
-        /// </summary>
-        IEnumerable<IReadOnlyGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                      TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                      TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                      TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
-
-            MultiEdges(params TMultiEdgeLabel[] MultiEdgeLabels);
-
-        #endregion
-
-        #region MultiEdges(MultiEdgeFilter)
-
-        /// <summary>
-        /// The multiedges emanating from, or leaving, this vertex
-        /// filtered by the given multiedge filter delegate.
-        /// </summary>
-        /// <param name="MultiEdgeFilter">A delegate for multiedge filtering.</param>
-        IEnumerable<IReadOnlyGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                      TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                      TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                      TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
-            
-            MultiEdges(MultiEdgeFilter<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> MultiEdgeFilter);
-
-        #endregion
-
-        #endregion
-
         #region HyperEdge methods...
 
         #region HyperEdges(params HyperEdgeLabels)      // HyperEdges()!

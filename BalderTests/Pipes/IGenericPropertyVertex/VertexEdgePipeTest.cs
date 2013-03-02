@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2010-2011, Achim 'ahzf' Friedland <achim@graph-database.org>
+ * Copyright (c) 2010-2013, Achim 'ahzf' Friedland <achim@graph-database.org>
  * This file is part of Balder <http://www.github.com/Vanaheimr/Balder>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,7 +24,7 @@ using NUnit.Framework;
 
 using de.ahzf.Vanaheimr.Styx;
 using de.ahzf.Illias.Commons;
-using de.ahzf.Vanaheimr.Blueprints.UnitTests;
+using de.ahzf.Vanaheimr.Balder.UnitTests;
 using de.ahzf.Vanaheimr.Blueprints;
 
 #endregion

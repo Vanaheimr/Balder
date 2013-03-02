@@ -19,6 +19,8 @@
 
 using System;
 
+using de.ahzf.Vanaheimr.Eunomia;
+
 #endregion
 
 namespace de.ahzf.Vanaheimr.Blueprints
@@ -35,7 +37,7 @@ namespace de.ahzf.Vanaheimr.Blueprints
         /// <summary>
         /// The base Uri of the graph-database ontology.
         /// </summary>
-        public static readonly Uri Prefix = new Uri(Eunomia.Semantics.GraphDBPrefix);
+        public static readonly Uri Prefix = new Uri(Semantics.GraphDBPrefix);
 
         #endregion
 
@@ -50,7 +52,7 @@ namespace de.ahzf.Vanaheimr.Blueprints
         {
             get
             {
-                return new SemanticProperty(Prefix, Eunomia.Semantics.Id, Eunomia.Semantics.Id);
+                return new SemanticProperty(Prefix, Semantics.Id, Semantics.Id);
             }
         }
 
@@ -66,7 +68,7 @@ namespace de.ahzf.Vanaheimr.Blueprints
         {
             get
             {
-                return new SemanticProperty(Prefix, Eunomia.Semantics.RevId, Eunomia.Semantics.RevId);
+                return new SemanticProperty(Prefix, Semantics.RevId, Semantics.RevId);
             }
         }
 
@@ -82,7 +84,7 @@ namespace de.ahzf.Vanaheimr.Blueprints
         {
             get
             {
-                return new SemanticProperty(Prefix, Eunomia.Semantics.Label, Eunomia.Semantics.Label);
+                return new SemanticProperty(Prefix, Semantics.Label, Semantics.Label);
             }
         }
 
@@ -98,7 +100,7 @@ namespace de.ahzf.Vanaheimr.Blueprints
         {
             get
             {
-                return new SemanticProperty(Prefix, Eunomia.Semantics.Description, Eunomia.Semantics.Description);
+                return new SemanticProperty(Prefix, Semantics.Description, Semantics.Description);
             }
         }
 
@@ -115,7 +117,7 @@ namespace de.ahzf.Vanaheimr.Blueprints
         {
             get
             {
-                return new SemanticProperty(Prefix, Eunomia.Semantics.DefaultVertexLabel, Eunomia.Semantics.DefaultVertexLabel);
+                return new SemanticProperty(Prefix, Semantics.DefaultVertexLabel, Semantics.DefaultVertexLabel);
             }
         }
 
@@ -131,7 +133,7 @@ namespace de.ahzf.Vanaheimr.Blueprints
         {
             get
             {
-                return new SemanticProperty(Prefix, Eunomia.Semantics.DefaultEdgeLabel, Eunomia.Semantics.DefaultEdgeLabel);
+                return new SemanticProperty(Prefix, Semantics.DefaultEdgeLabel, Semantics.DefaultEdgeLabel);
             }
         }
 
@@ -147,7 +149,7 @@ namespace de.ahzf.Vanaheimr.Blueprints
         {
             get
             {
-                return new SemanticProperty(Prefix, Eunomia.Semantics.DefaultMultiEdgeLabel, Eunomia.Semantics.DefaultMultiEdgeLabel);
+                return new SemanticProperty(Prefix, Semantics.DefaultMultiEdgeLabel, Semantics.DefaultMultiEdgeLabel);
             }
         }
 
@@ -163,7 +165,7 @@ namespace de.ahzf.Vanaheimr.Blueprints
         {
             get
             {
-                return new SemanticProperty(Prefix, Eunomia.Semantics.DefaultHyperEdgeLabel, Eunomia.Semantics.DefaultHyperEdgeLabel);
+                return new SemanticProperty(Prefix, Semantics.DefaultHyperEdgeLabel, Semantics.DefaultHyperEdgeLabel);
             }
         }
 

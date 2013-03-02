@@ -1,6 +1,6 @@
 ﻿/*
  * Copyright (c) 2010-2013, Achim 'ahzf' Friedland <achim@graph-database.org>
- * This file is part of Blueprints.NET <http://www.github.com/Vanaheimr/Blueprints.NET>
+ * This file is part of Balder <http://www.github.com/Vanaheimr/Balder>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ using de.ahzf.Vanaheimr.Blueprints.InMemory;
 
 #endregion
 
-namespace de.ahzf.Vanaheimr.Blueprints.UnitTests
+namespace de.ahzf.Vanaheimr.Balder.UnitTests
 {
 
     /// <summary>

@@ -1,6 +1,6 @@
 ﻿/*
  * Copyright (c) 2010-2013, Achim 'ahzf' Friedland <achim@graph-database.org>
- * This file is part of Blueprints.NET <http://www.github.com/Vanaheimr/Blueprints.NET>
+ * This file is part of Balder <http://www.github.com/Vanaheimr/Balder>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,155 +21,156 @@ using System;
 using System.Collections.Generic;
 
 using NUnit.Framework;
+using de.ahzf.Vanaheimr.Blueprints;
 
 #endregion
 
-namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
+namespace de.ahzf.Vanaheimr.Balder.UnitTests.GraphElementIds
 {
 
     /// <summary>
-    /// Unit tests for the MultiEdgeId class.
+    /// Unit tests for the VertexId class.
     /// </summary>
     [TestFixture]
-    public class MultiEdgeIdTests
+    public class VertexIdTests
     {
 
-        #region MultiEdgeIdEmptyConstructorTest()
+        #region VertexIdEmptyConstructorTest()
 
         /// <summary>
-        /// A test for an empty MultiEdgeId constructor.
+        /// A test for an empty VertexId constructor.
         /// </summary>
         [Test]
-        public void MultiEdgeIdEmptyConstructorTest()
+        public void VertexIdEmptyConstructorTest()
         {
-            var _MultiEdgeId1 = new MultiEdgeId();
-            var _MultiEdgeId2 = new MultiEdgeId();
-            Assert.IsTrue(_MultiEdgeId1.Length > 0);
-            Assert.IsTrue(_MultiEdgeId2.Length > 0);
-            Assert.AreNotEqual(_MultiEdgeId1, _MultiEdgeId2);
+            var _VertexId1 = new VertexId();
+            var _VertexId2 = new VertexId();
+            Assert.IsTrue(_VertexId1.Length > 0);
+            Assert.IsTrue(_VertexId2.Length > 0);
+            Assert.AreNotEqual(_VertexId1, _VertexId2);
         }
 
         #endregion
 
-        #region MultiEdgeIdStringConstructorTest()
+        #region VertexIdStringConstructorTest()
 
         /// <summary>
-        /// A test for the MultiEdgeId string constructor.
+        /// A test for the VertexId string constructor.
         /// </summary>
         [Test]
-        public void MultiEdgeIdStringConstructorTest()
+        public void VertexIdStringConstructorTest()
         {
-            var _MultiEdgeId = new MultiEdgeId("123");
-            Assert.AreEqual("123", _MultiEdgeId.ToString());
-            Assert.AreEqual(3,     _MultiEdgeId.Length);
+            var _VertexId = new VertexId("123");
+            Assert.AreEqual("123", _VertexId.ToString());
+            Assert.AreEqual(3,     _VertexId.Length);
         }
 
         #endregion
 
-        #region MultiEdgeIdInt32ConstructorTest()
+        #region VertexIdInt32ConstructorTest()
 
         /// <summary>
-        /// A test for the MultiEdgeId Int32 constructor.
+        /// A test for the VertexId Int32 constructor.
         /// </summary>
         [Test]
-        public void MultiEdgeIdInt32ConstructorTest()
+        public void VertexIdInt32ConstructorTest()
         {
-            var _MultiEdgeId = new MultiEdgeId(5);
-            Assert.AreEqual("5", _MultiEdgeId.ToString());
-            Assert.AreEqual(1,   _MultiEdgeId.Length);
+            var _VertexId = new VertexId(5);
+            Assert.AreEqual("5", _VertexId.ToString());
+            Assert.AreEqual(1,   _VertexId.Length);
         }
 
         #endregion
 
-        #region MultiEdgeIdUInt32ConstructorTest()
+        #region VertexIdUInt32ConstructorTest()
 
         /// <summary>
-        /// A test for the MultiEdgeId UInt32 constructor.
+        /// A test for the VertexId UInt32 constructor.
         /// </summary>
         [Test]
-        public void MultiEdgeIdUInt32ConstructorTest()
+        public void VertexIdUInt32ConstructorTest()
         {
-            var _MultiEdgeId = new MultiEdgeId(23U);
-            Assert.AreEqual("23", _MultiEdgeId.ToString());
-            Assert.AreEqual(2,    _MultiEdgeId.Length);
+            var _VertexId = new VertexId(23U);
+            Assert.AreEqual("23", _VertexId.ToString());
+            Assert.AreEqual(2,    _VertexId.Length);
         }
 
         #endregion
 
-        #region MultiEdgeIdInt64ConstructorTest()
+        #region VertexIdInt64ConstructorTest()
 
         /// <summary>
-        /// A test for the MultiEdgeId Int64 constructor.
+        /// A test for the VertexId Int64 constructor.
         /// </summary>
         [Test]
-        public void MultiEdgeIdInt64ConstructorTest()
+        public void VertexIdInt64ConstructorTest()
         {
-            var _MultiEdgeId = new MultiEdgeId(42L);
-            Assert.AreEqual("42", _MultiEdgeId.ToString());
-            Assert.AreEqual(2,    _MultiEdgeId.Length);
+            var _VertexId = new VertexId(42L);
+            Assert.AreEqual("42", _VertexId.ToString());
+            Assert.AreEqual(2,    _VertexId.Length);
         }
 
         #endregion
 
-        #region MultiEdgeIdUInt64ConstructorTest()
+        #region VertexIdUInt64ConstructorTest()
 
         /// <summary>
-        /// A test for the MultiEdgeId UInt64 constructor.
+        /// A test for the VertexId UInt64 constructor.
         /// </summary>
         [Test]
-        public void MultiEdgeIdUInt64ConstructorTest()
+        public void VertexIdUInt64ConstructorTest()
         {
-            var _MultiEdgeId = new MultiEdgeId(123UL);
-            Assert.AreEqual("123", _MultiEdgeId.ToString());
-            Assert.AreEqual(3,     _MultiEdgeId.Length);
+            var _VertexId = new VertexId(123UL);
+            Assert.AreEqual("123", _VertexId.ToString());
+            Assert.AreEqual(3,     _VertexId.Length);
         }
 
         #endregion
 
-        #region MultiEdgeIdMultiEdgeIdConstructorTest()
+        #region VertexIdVertexIdConstructorTest()
 
         /// <summary>
-        /// A test for the MultiEdgeId MultiEdgeId constructor.
+        /// A test for the VertexId VertexId constructor.
         /// </summary>
         [Test]
-        public void MultiEdgeIdMultiEdgeIdConstructorTest()
+        public void VertexIdVertexIdConstructorTest()
         {
-            var _MultiEdgeId1 = MultiEdgeId.NewMultiEdgeId;
-            var _MultiEdgeId2 = new MultiEdgeId(_MultiEdgeId1);
-            Assert.AreEqual(_MultiEdgeId1.ToString(), _MultiEdgeId2.ToString());
-            Assert.AreEqual(_MultiEdgeId1.Length,     _MultiEdgeId2.Length);
-            Assert.AreEqual(_MultiEdgeId1,            _MultiEdgeId2);
+            var _VertexId1 = VertexId.NewVertexId;
+            var _VertexId2 = new VertexId(_VertexId1);
+            Assert.AreEqual(_VertexId1.ToString(), _VertexId2.ToString());
+            Assert.AreEqual(_VertexId1.Length,     _VertexId2.Length);
+            Assert.AreEqual(_VertexId1,            _VertexId2);
         }
 
         #endregion
 
-        #region MultiEdgeIdUriConstructorTest()
+        #region VertexIdUriConstructorTest()
 
         /// <summary>
-        /// A test for the MultiEdgeId Uri constructor.
+        /// A test for the VertexId Uri constructor.
         /// </summary>
         [Test]
-        public void MultiEdgeIdUriConstructorTest()
+        public void VertexIdUriConstructorTest()
         {
-            var _MultiEdgeId = new MultiEdgeId(new Uri("http://example.org"));
-            Assert.AreEqual("http://example.org/", _MultiEdgeId.ToString());
-            Assert.AreEqual(19,                    _MultiEdgeId.Length);
+            var _VertexId = new VertexId(new Uri("http://example.org"));
+            Assert.AreEqual("http://example.org/", _VertexId.ToString());
+            Assert.AreEqual(19,                    _VertexId.Length);
         }
 
         #endregion
 
 
-        #region NewMultiEdgeIdMethodTest()
+        #region NewVertexIdMethodTest()
 
         /// <summary>
-        /// A test for the static newMultiEdgeId method.
+        /// A test for the static newVertexId method.
         /// </summary>
         [Test]
-        public void NewMultiEdgeIdMethodTest()
+        public void NewVertexIdMethodTest()
         {
-            var _MultiEdgeId1 = MultiEdgeId.NewMultiEdgeId;
-            var _MultiEdgeId2 = MultiEdgeId.NewMultiEdgeId;
-            Assert.AreNotEqual(_MultiEdgeId1, _MultiEdgeId2);
+            var _VertexId1 = VertexId.NewVertexId;
+            var _VertexId2 = VertexId.NewVertexId;
+            Assert.AreNotEqual(_VertexId1, _VertexId2);
         }
 
         #endregion
@@ -183,9 +184,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [Test]
         public void op_Equality_Null_Test1()
         {
-            var      _MultiEdgeId1 = new MultiEdgeId();
-            MultiEdgeId _MultiEdgeId2 = null;
-            Assert.IsFalse(_MultiEdgeId1 == _MultiEdgeId2);
+            var      _VertexId1 = new VertexId();
+            VertexId _VertexId2 = null;
+            Assert.IsFalse(_VertexId1 == _VertexId2);
         }
 
         #endregion
@@ -198,9 +199,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [Test]
         public void op_Equality_Null_Test2()
         {
-            MultiEdgeId _MultiEdgeId1 = null;
-            var    _MultiEdgeId2 = new MultiEdgeId();
-            Assert.IsFalse(_MultiEdgeId1 == _MultiEdgeId2);
+            VertexId _VertexId1 = null;
+            var      _VertexId2 = new VertexId();
+            Assert.IsFalse(_VertexId1 == _VertexId2);
         }
 
         #endregion
@@ -213,9 +214,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [Test]
         public void op_Equality_BothNull_Test()
         {
-            MultiEdgeId _MultiEdgeId1 = null;
-            MultiEdgeId _MultiEdgeId2 = null;
-            Assert.IsTrue(_MultiEdgeId1 == _MultiEdgeId2);
+            VertexId _VertexId1 = null;
+            VertexId _VertexId2 = null;
+            Assert.IsTrue(_VertexId1 == _VertexId2);
         }
 
         #endregion
@@ -229,9 +230,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         
         public void op_Equality_SameReference_Test()
         {
-            var _MultiEdgeId1 = new MultiEdgeId();
+            var _VertexId1 = new VertexId();
             #pragma warning disable
-            Assert.IsTrue(_MultiEdgeId1 == _MultiEdgeId1);
+            Assert.IsTrue(_VertexId1 == _VertexId1);
             #pragma warning restore
         }
 
@@ -245,9 +246,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [Test]
         public void op_Equality_Equals_Test()
         {
-            var _MultiEdgeId1 = new MultiEdgeId(1);
-            var _MultiEdgeId2 = new MultiEdgeId(1);
-            Assert.IsTrue(_MultiEdgeId1 == _MultiEdgeId2);
+            var _VertexId1 = new VertexId(1);
+            var _VertexId2 = new VertexId(1);
+            Assert.IsTrue(_VertexId1 == _VertexId2);
         }
 
         #endregion
@@ -260,9 +261,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [Test]
         public void op_Equality_NotEquals_Test()
         {
-            var _MultiEdgeId1 = new MultiEdgeId(1);
-            var _MultiEdgeId2 = new MultiEdgeId(2);
-            Assert.IsFalse(_MultiEdgeId1 == _MultiEdgeId2);
+            var _VertexId1 = new VertexId(1);
+            var _VertexId2 = new VertexId(2);
+            Assert.IsFalse(_VertexId1 == _VertexId2);
         }
 
         #endregion
@@ -276,9 +277,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [Test]
         public void op_Inequality_Null_Test1()
         {
-            var      _MultiEdgeId1 = new MultiEdgeId();
-            MultiEdgeId _MultiEdgeId2 = null;
-            Assert.IsTrue(_MultiEdgeId1 != _MultiEdgeId2);
+            var      _VertexId1 = new VertexId();
+            VertexId _VertexId2 = null;
+            Assert.IsTrue(_VertexId1 != _VertexId2);
         }
 
         #endregion
@@ -291,9 +292,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [Test]
         public void op_Inequality_Null_Test2()
         {
-            MultiEdgeId _MultiEdgeId1 = null;
-            var      _MultiEdgeId2 = new MultiEdgeId();
-            Assert.IsTrue(_MultiEdgeId1 != _MultiEdgeId2);
+            VertexId _VertexId1 = null;
+            var      _VertexId2 = new VertexId();
+            Assert.IsTrue(_VertexId1 != _VertexId2);
         }
 
         #endregion
@@ -306,9 +307,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [Test]
         public void op_Inequality_BothNull_Test()
         {
-            MultiEdgeId _MultiEdgeId1 = null;
-            MultiEdgeId _MultiEdgeId2 = null;
-            Assert.IsFalse(_MultiEdgeId1 != _MultiEdgeId2);
+            VertexId _VertexId1 = null;
+            VertexId _VertexId2 = null;
+            Assert.IsFalse(_VertexId1 != _VertexId2);
         }
 
         #endregion
@@ -321,9 +322,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [Test]
         public void op_Inequality_SameReference_Test()
         {
-            var _MultiEdgeId1 = new MultiEdgeId();
+            var _VertexId1 = new VertexId();
             #pragma warning disable
-            Assert.IsFalse(_MultiEdgeId1 != _MultiEdgeId1);
+            Assert.IsFalse(_VertexId1 != _VertexId1);
             #pragma warning restore
         }
 
@@ -337,9 +338,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [Test]
         public void op_Inequality_Equals_Test()
         {
-            var _MultiEdgeId1 = new MultiEdgeId(1);
-            var _MultiEdgeId2 = new MultiEdgeId(1);
-            Assert.IsFalse(_MultiEdgeId1 != _MultiEdgeId2);
+            var _VertexId1 = new VertexId(1);
+            var _VertexId2 = new VertexId(1);
+            Assert.IsFalse(_VertexId1 != _VertexId2);
         }
 
         #endregion
@@ -352,9 +353,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [Test]
         public void op_Inequality_NotEquals1_Test()
         {
-            var _MultiEdgeId1 = new MultiEdgeId(1);
-            var _MultiEdgeId2 = new MultiEdgeId(2);
-            Assert.IsTrue(_MultiEdgeId1 != _MultiEdgeId2);
+            var _VertexId1 = new VertexId(1);
+            var _VertexId2 = new VertexId(2);
+            Assert.IsTrue(_VertexId1 != _VertexId2);
         }
 
         #endregion
@@ -367,9 +368,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [Test]
         public void op_Inequality_NotEquals2_Test()
         {
-            var _MultiEdgeId1 = new MultiEdgeId(5);
-            var _MultiEdgeId2 = new MultiEdgeId(23);
-            Assert.IsTrue(_MultiEdgeId1 != _MultiEdgeId2);
+            var _VertexId1 = new VertexId(5);
+            var _VertexId2 = new VertexId(23);
+            Assert.IsTrue(_VertexId1 != _VertexId2);
         }
 
         #endregion
@@ -384,9 +385,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [ExpectedException(typeof(ArgumentNullException))]
         public void op_Smaller_Null_Test1()
         {
-            var      _MultiEdgeId1 = new MultiEdgeId();
-            MultiEdgeId _MultiEdgeId2 = null;
-            Assert.IsTrue(_MultiEdgeId1 < _MultiEdgeId2);
+            var      _VertexId1 = new VertexId();
+            VertexId _VertexId2 = null;
+            Assert.IsTrue(_VertexId1 < _VertexId2);
         }
 
         #endregion
@@ -400,9 +401,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [ExpectedException(typeof(ArgumentNullException))]
         public void op_Smaller_Null_Test2()
         {
-            MultiEdgeId _MultiEdgeId1 = null;
-            var      _MultiEdgeId2 = new MultiEdgeId();
-            Assert.IsTrue(_MultiEdgeId1 < _MultiEdgeId2);
+            VertexId _VertexId1 = null;
+            var      _VertexId2 = new VertexId();
+            Assert.IsTrue(_VertexId1 < _VertexId2);
         }
 
         #endregion
@@ -416,9 +417,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [ExpectedException(typeof(ArgumentNullException))]
         public void op_Smaller_BothNull_Test()
         {
-            MultiEdgeId _MultiEdgeId1 = null;
-            MultiEdgeId _MultiEdgeId2 = null;
-            Assert.IsFalse(_MultiEdgeId1 < _MultiEdgeId2);
+            VertexId _VertexId1 = null;
+            VertexId _VertexId2 = null;
+            Assert.IsFalse(_VertexId1 < _VertexId2);
         }
 
         #endregion
@@ -431,9 +432,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [Test]
         public void op_Smaller_SameReference_Test()
         {
-            var _MultiEdgeId1 = new MultiEdgeId();
+            var _VertexId1 = new VertexId();
             #pragma warning disable
-            Assert.IsFalse(_MultiEdgeId1 < _MultiEdgeId1);
+            Assert.IsFalse(_VertexId1 < _VertexId1);
             #pragma warning restore
         }
 
@@ -447,9 +448,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [Test]
         public void op_Smaller_Equals_Test()
         {
-            var _MultiEdgeId1 = new MultiEdgeId(1);
-            var _MultiEdgeId2 = new MultiEdgeId(1);
-            Assert.IsFalse(_MultiEdgeId1 < _MultiEdgeId2);
+            var _VertexId1 = new VertexId(1);
+            var _VertexId2 = new VertexId(1);
+            Assert.IsFalse(_VertexId1 < _VertexId2);
         }
 
         #endregion
@@ -462,9 +463,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [Test]
         public void op_Smaller_Smaller1_Test()
         {
-            var _MultiEdgeId1 = new MultiEdgeId(1);
-            var _MultiEdgeId2 = new MultiEdgeId(2);
-            Assert.IsTrue(_MultiEdgeId1 < _MultiEdgeId2);
+            var _VertexId1 = new VertexId(1);
+            var _VertexId2 = new VertexId(2);
+            Assert.IsTrue(_VertexId1 < _VertexId2);
         }
 
         #endregion
@@ -477,9 +478,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [Test]
         public void op_Smaller_Smaller2_Test()
         {
-            var _MultiEdgeId1 = new MultiEdgeId(5);
-            var _MultiEdgeId2 = new MultiEdgeId(23);
-            Assert.IsTrue(_MultiEdgeId1 < _MultiEdgeId2);
+            var _VertexId1 = new VertexId(5);
+            var _VertexId2 = new VertexId(23);
+            Assert.IsTrue(_VertexId1 < _VertexId2);
         }
 
         #endregion
@@ -492,9 +493,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [Test]
         public void op_Smaller_Bigger1_Test()
         {
-            var _MultiEdgeId1 = new MultiEdgeId(2);
-            var _MultiEdgeId2 = new MultiEdgeId(1);
-            Assert.IsFalse(_MultiEdgeId1 < _MultiEdgeId2);
+            var _VertexId1 = new VertexId(2);
+            var _VertexId2 = new VertexId(1);
+            Assert.IsFalse(_VertexId1 < _VertexId2);
         }
 
         #endregion
@@ -507,9 +508,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [Test]
         public void op_Smaller_Bigger2_Test()
         {
-            var _MultiEdgeId1 = new MultiEdgeId(23);
-            var _MultiEdgeId2 = new MultiEdgeId(5);
-            Assert.IsFalse(_MultiEdgeId1 < _MultiEdgeId2);
+            var _VertexId1 = new VertexId(23);
+            var _VertexId2 = new VertexId(5);
+            Assert.IsFalse(_VertexId1 < _VertexId2);
         }
 
         #endregion
@@ -524,9 +525,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [ExpectedException(typeof(ArgumentNullException))]
         public void op_SmallerOrEqual_Null_Test1()
         {
-            var      _MultiEdgeId1 = new MultiEdgeId();
-            MultiEdgeId _MultiEdgeId2 = null;
-            Assert.IsTrue(_MultiEdgeId1 <= _MultiEdgeId2);
+            var      _VertexId1 = new VertexId();
+            VertexId _VertexId2 = null;
+            Assert.IsTrue(_VertexId1 <= _VertexId2);
         }
 
         #endregion
@@ -540,9 +541,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [ExpectedException(typeof(ArgumentNullException))]
         public void op_SmallerOrEqual_Null_Test2()
         {
-            MultiEdgeId _MultiEdgeId1 = null;
-            var      _MultiEdgeId2 = new MultiEdgeId();
-            Assert.IsTrue(_MultiEdgeId1 <= _MultiEdgeId2);
+            VertexId _VertexId1 = null;
+            var      _VertexId2 = new VertexId();
+            Assert.IsTrue(_VertexId1 <= _VertexId2);
         }
 
         #endregion
@@ -556,9 +557,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [ExpectedException(typeof(ArgumentNullException))]
         public void op_SmallerOrEqual_BothNull_Test()
         {
-            MultiEdgeId _MultiEdgeId1 = null;
-            MultiEdgeId _MultiEdgeId2 = null;
-            Assert.IsFalse(_MultiEdgeId1 <= _MultiEdgeId2);
+            VertexId _VertexId1 = null;
+            VertexId _VertexId2 = null;
+            Assert.IsFalse(_VertexId1 <= _VertexId2);
         }
 
         #endregion
@@ -571,9 +572,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [Test]
         public void op_SmallerOrEqual_SameReference_Test()
         {
-            var _MultiEdgeId1 = new MultiEdgeId();
+            var _VertexId1 = new VertexId();
             #pragma warning disable
-            Assert.IsTrue(_MultiEdgeId1 <= _MultiEdgeId1);
+            Assert.IsTrue(_VertexId1 <= _VertexId1);
             #pragma warning restore
         }
 
@@ -587,9 +588,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [Test]
         public void op_SmallerOrEqual_Equals_Test()
         {
-            var _MultiEdgeId1 = new MultiEdgeId(1);
-            var _MultiEdgeId2 = new MultiEdgeId(1);
-            Assert.IsTrue(_MultiEdgeId1 <= _MultiEdgeId2);
+            var _VertexId1 = new VertexId(1);
+            var _VertexId2 = new VertexId(1);
+            Assert.IsTrue(_VertexId1 <= _VertexId2);
         }
 
         #endregion
@@ -602,9 +603,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [Test]
         public void op_SmallerOrEqual_SmallerThan1_Test()
         {
-            var _MultiEdgeId1 = new MultiEdgeId(1);
-            var _MultiEdgeId2 = new MultiEdgeId(2);
-            Assert.IsTrue(_MultiEdgeId1 <= _MultiEdgeId2);
+            var _VertexId1 = new VertexId(1);
+            var _VertexId2 = new VertexId(2);
+            Assert.IsTrue(_VertexId1 <= _VertexId2);
         }
 
         #endregion
@@ -617,9 +618,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [Test]
         public void op_SmallerOrEqual_SmallerThan2_Test()
         {
-            var _MultiEdgeId1 = new MultiEdgeId(5);
-            var _MultiEdgeId2 = new MultiEdgeId(23);
-            Assert.IsTrue(_MultiEdgeId1 <= _MultiEdgeId2);
+            var _VertexId1 = new VertexId(5);
+            var _VertexId2 = new VertexId(23);
+            Assert.IsTrue(_VertexId1 <= _VertexId2);
         }
 
         #endregion
@@ -632,9 +633,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [Test]
         public void op_SmallerOrEqual_Bigger1_Test()
         {
-            var _MultiEdgeId1 = new MultiEdgeId(2);
-            var _MultiEdgeId2 = new MultiEdgeId(1);
-            Assert.IsFalse(_MultiEdgeId1 <= _MultiEdgeId2);
+            var _VertexId1 = new VertexId(2);
+            var _VertexId2 = new VertexId(1);
+            Assert.IsFalse(_VertexId1 <= _VertexId2);
         }
 
         #endregion
@@ -647,9 +648,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [Test]
         public void op_SmallerOrEqual_Bigger2_Test()
         {
-            var _MultiEdgeId1 = new MultiEdgeId(23);
-            var _MultiEdgeId2 = new MultiEdgeId(5);
-            Assert.IsFalse(_MultiEdgeId1 <= _MultiEdgeId2);
+            var _VertexId1 = new VertexId(23);
+            var _VertexId2 = new VertexId(5);
+            Assert.IsFalse(_VertexId1 <= _VertexId2);
         }
 
         #endregion
@@ -664,9 +665,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [ExpectedException(typeof(ArgumentNullException))]
         public void op_Bigger_Null_Test1()
         {
-            var      _MultiEdgeId1 = new MultiEdgeId();
-            MultiEdgeId _MultiEdgeId2 = null;
-            Assert.IsTrue(_MultiEdgeId1 > _MultiEdgeId2);
+            var      _VertexId1 = new VertexId();
+            VertexId _VertexId2 = null;
+            Assert.IsTrue(_VertexId1 > _VertexId2);
         }
 
         #endregion
@@ -680,9 +681,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [ExpectedException(typeof(ArgumentNullException))]
         public void op_Bigger_Null_Test2()
         {
-            MultiEdgeId _MultiEdgeId1 = null;
-            var      _MultiEdgeId2 = new MultiEdgeId();
-            Assert.IsTrue(_MultiEdgeId1 > _MultiEdgeId2);
+            VertexId _VertexId1 = null;
+            var      _VertexId2 = new VertexId();
+            Assert.IsTrue(_VertexId1 > _VertexId2);
         }
 
         #endregion
@@ -696,9 +697,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [ExpectedException(typeof(ArgumentNullException))]
         public void op_Bigger_BothNull_Test()
         {
-            MultiEdgeId _MultiEdgeId1 = null;
-            MultiEdgeId _MultiEdgeId2 = null;
-            Assert.IsFalse(_MultiEdgeId1 > _MultiEdgeId2);
+            VertexId _VertexId1 = null;
+            VertexId _VertexId2 = null;
+            Assert.IsFalse(_VertexId1 > _VertexId2);
         }
 
         #endregion
@@ -711,9 +712,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [Test]
         public void op_Bigger_SameReference_Test()
         {
-            var _MultiEdgeId1 = new MultiEdgeId();
+            var _VertexId1 = new VertexId();
             #pragma warning disable
-            Assert.IsFalse(_MultiEdgeId1 > _MultiEdgeId1);
+            Assert.IsFalse(_VertexId1 > _VertexId1);
             #pragma warning restore
         }
 
@@ -727,9 +728,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [Test]
         public void op_Bigger_Equals_Test()
         {
-            var _MultiEdgeId1 = new MultiEdgeId(1);
-            var _MultiEdgeId2 = new MultiEdgeId(1);
-            Assert.IsFalse(_MultiEdgeId1 > _MultiEdgeId2);
+            var _VertexId1 = new VertexId(1);
+            var _VertexId2 = new VertexId(1);
+            Assert.IsFalse(_VertexId1 > _VertexId2);
         }
 
         #endregion
@@ -742,9 +743,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [Test]
         public void op_Bigger_Smaller1_Test()
         {
-            var _MultiEdgeId1 = new MultiEdgeId(1);
-            var _MultiEdgeId2 = new MultiEdgeId(2);
-            Assert.IsFalse(_MultiEdgeId1 > _MultiEdgeId2);
+            var _VertexId1 = new VertexId(1);
+            var _VertexId2 = new VertexId(2);
+            Assert.IsFalse(_VertexId1 > _VertexId2);
         }
 
         #endregion
@@ -757,9 +758,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [Test]
         public void op_Bigger_Smaller2_Test()
         {
-            var _MultiEdgeId1 = new MultiEdgeId(5);
-            var _MultiEdgeId2 = new MultiEdgeId(23);
-            Assert.IsFalse(_MultiEdgeId1 > _MultiEdgeId2);
+            var _VertexId1 = new VertexId(5);
+            var _VertexId2 = new VertexId(23);
+            Assert.IsFalse(_VertexId1 > _VertexId2);
         }
 
         #endregion
@@ -772,9 +773,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [Test]
         public void op_Bigger_Bigger1_Test()
         {
-            var _MultiEdgeId1 = new MultiEdgeId(2);
-            var _MultiEdgeId2 = new MultiEdgeId(1);
-            Assert.IsTrue(_MultiEdgeId1 > _MultiEdgeId2);
+            var _VertexId1 = new VertexId(2);
+            var _VertexId2 = new VertexId(1);
+            Assert.IsTrue(_VertexId1 > _VertexId2);
         }
 
         #endregion
@@ -787,9 +788,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [Test]
         public void op_Bigger_Bigger2_Test()
         {
-            var _MultiEdgeId1 = new MultiEdgeId(23);
-            var _MultiEdgeId2 = new MultiEdgeId(5);
-            Assert.IsTrue(_MultiEdgeId1 > _MultiEdgeId2);
+            var _VertexId1 = new VertexId(23);
+            var _VertexId2 = new VertexId(5);
+            Assert.IsTrue(_VertexId1 > _VertexId2);
         }
 
         #endregion
@@ -804,9 +805,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [ExpectedException(typeof(ArgumentNullException))]
         public void op_BiggerOrEqual_Null_Test1()
         {
-            var      _MultiEdgeId1 = new MultiEdgeId();
-            MultiEdgeId _MultiEdgeId2 = null;
-            Assert.IsTrue(_MultiEdgeId1 >= _MultiEdgeId2);
+            var      _VertexId1 = new VertexId();
+            VertexId _VertexId2 = null;
+            Assert.IsTrue(_VertexId1 >= _VertexId2);
         }
 
         #endregion
@@ -820,9 +821,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [ExpectedException(typeof(ArgumentNullException))]
         public void op_BiggerOrEqual_Null_Test2()
         {
-            MultiEdgeId _MultiEdgeId1 = null;
-            var      _MultiEdgeId2 = new MultiEdgeId();
-            Assert.IsTrue(_MultiEdgeId1 >= _MultiEdgeId2);
+            VertexId _VertexId1 = null;
+            var      _VertexId2 = new VertexId();
+            Assert.IsTrue(_VertexId1 >= _VertexId2);
         }
 
         #endregion
@@ -836,9 +837,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [ExpectedException(typeof(ArgumentNullException))]
         public void op_BiggerOrEqual_BothNull_Test()
         {
-            MultiEdgeId _MultiEdgeId1 = null;
-            MultiEdgeId _MultiEdgeId2 = null;
-            Assert.IsFalse(_MultiEdgeId1 >= _MultiEdgeId2);
+            VertexId _VertexId1 = null;
+            VertexId _VertexId2 = null;
+            Assert.IsFalse(_VertexId1 >= _VertexId2);
         }
 
         #endregion
@@ -851,9 +852,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [Test]
         public void op_BiggerOrEqual_SameReference_Test()
         {
-            var _MultiEdgeId1 = new MultiEdgeId();
+            var _VertexId1 = new VertexId();
             #pragma warning disable
-            Assert.IsTrue(_MultiEdgeId1 >= _MultiEdgeId1);
+            Assert.IsTrue(_VertexId1 >= _VertexId1);
             #pragma warning restore
         }
 
@@ -867,9 +868,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [Test]
         public void op_BiggerOrEqual_Equals_Test()
         {
-            var _MultiEdgeId1 = new MultiEdgeId(1);
-            var _MultiEdgeId2 = new MultiEdgeId(1);
-            Assert.IsTrue(_MultiEdgeId1 >= _MultiEdgeId2);
+            var _VertexId1 = new VertexId(1);
+            var _VertexId2 = new VertexId(1);
+            Assert.IsTrue(_VertexId1 >= _VertexId2);
         }
 
         #endregion
@@ -882,9 +883,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [Test]
         public void op_BiggerOrEqual_SmallerThan1_Test()
         {
-            var _MultiEdgeId1 = new MultiEdgeId(1);
-            var _MultiEdgeId2 = new MultiEdgeId(2);
-            Assert.IsFalse(_MultiEdgeId1 >= _MultiEdgeId2);
+            var _VertexId1 = new VertexId(1);
+            var _VertexId2 = new VertexId(2);
+            Assert.IsFalse(_VertexId1 >= _VertexId2);
         }
 
         #endregion
@@ -897,9 +898,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [Test]
         public void op_BiggerOrEqual_SmallerThan2_Test()
         {
-            var _MultiEdgeId1 = new MultiEdgeId(5);
-            var _MultiEdgeId2 = new MultiEdgeId(23);
-            Assert.IsFalse(_MultiEdgeId1 >= _MultiEdgeId2);
+            var _VertexId1 = new VertexId(5);
+            var _VertexId2 = new VertexId(23);
+            Assert.IsFalse(_VertexId1 >= _VertexId2);
         }
 
         #endregion
@@ -912,9 +913,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [Test]
         public void op_BiggerOrEqual_Bigger1_Test()
         {
-            var _MultiEdgeId1 = new MultiEdgeId(2);
-            var _MultiEdgeId2 = new MultiEdgeId(1);
-            Assert.IsTrue(_MultiEdgeId1 >= _MultiEdgeId2);
+            var _VertexId1 = new VertexId(2);
+            var _VertexId2 = new VertexId(1);
+            Assert.IsTrue(_VertexId1 >= _VertexId2);
         }
 
         #endregion
@@ -927,9 +928,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [Test]
         public void op_BiggerOrEqual_Bigger2_Test()
         {
-            var _MultiEdgeId1 = new MultiEdgeId(23);
-            var _MultiEdgeId2 = new MultiEdgeId(5);
-            Assert.IsTrue(_MultiEdgeId1 >= _MultiEdgeId2);
+            var _VertexId1 = new VertexId(23);
+            var _VertexId2 = new VertexId(5);
+            Assert.IsTrue(_VertexId1 >= _VertexId2);
         }
 
         #endregion
@@ -944,9 +945,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [ExpectedException(typeof(ArgumentNullException))]
         public void CompareToNullTest1()
         {
-            var    _MultiEdgeId = MultiEdgeId.NewMultiEdgeId;
+            var    _VertexId = VertexId.NewVertexId;
             Object _Object   = null;
-            _MultiEdgeId.CompareTo(_Object);
+            _VertexId.CompareTo(_Object);
         }
 
         #endregion
@@ -960,25 +961,25 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [ExpectedException(typeof(ArgumentNullException))]
         public void CompareToNullTest2()
         {
-            var      _MultiEdgeId = MultiEdgeId.NewMultiEdgeId;
-            MultiEdgeId _Object   = null;
-            _MultiEdgeId.CompareTo(_Object);
+            var      _VertexId = VertexId.NewVertexId;
+            VertexId _Object   = null;
+            _VertexId.CompareTo(_Object);
         }
 
         #endregion
 
-        #region CompareToNonMultiEdgeIdTest()
+        #region CompareToNonVertexIdTest()
 
         /// <summary>
-        /// A test for CompareTo a non-MultiEdgeId.
+        /// A test for CompareTo a non-VertexId.
         /// </summary>
         [Test]
         [ExpectedException(typeof(ArgumentException))]
-        public void CompareToNonMultiEdgeIdTest()
+        public void CompareToNonVertexIdTest()
         {
-            var _MultiEdgeId = MultiEdgeId.NewMultiEdgeId;
+            var _VertexId = VertexId.NewVertexId;
             var _Object   = "123";
-            _MultiEdgeId.CompareTo(_Object);
+            _VertexId.CompareTo(_Object);
         }
 
         #endregion
@@ -991,9 +992,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [Test]
         public void CompareToSmallerTest1()
         {
-            var _MultiEdgeId1 = new MultiEdgeId(1);
-            var _MultiEdgeId2 = new MultiEdgeId(2);
-            Assert.IsTrue(_MultiEdgeId1.CompareTo(_MultiEdgeId2) < 0);
+            var _VertexId1 = new VertexId(1);
+            var _VertexId2 = new VertexId(2);
+            Assert.IsTrue(_VertexId1.CompareTo(_VertexId2) < 0);
         }
 
         #endregion
@@ -1006,9 +1007,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [Test]
         public void CompareToSmallerTest2()
         {
-            var _MultiEdgeId1 = new MultiEdgeId(5);
-            var _MultiEdgeId2 = new MultiEdgeId(23);
-            Assert.IsTrue(_MultiEdgeId1.CompareTo(_MultiEdgeId2) < 0);
+            var _VertexId1 = new VertexId(5);
+            var _VertexId2 = new VertexId(23);
+            Assert.IsTrue(_VertexId1.CompareTo(_VertexId2) < 0);
         }
 
         #endregion
@@ -1021,9 +1022,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [Test]
         public void CompareToEqualsTest()
         {
-            var _MultiEdgeId1 = new MultiEdgeId(1);
-            var _MultiEdgeId2 = new MultiEdgeId(1);
-            Assert.IsTrue(_MultiEdgeId1.CompareTo(_MultiEdgeId2) == 0);
+            var _VertexId1 = new VertexId(1);
+            var _VertexId2 = new VertexId(1);
+            Assert.IsTrue(_VertexId1.CompareTo(_VertexId2) == 0);
         }
 
         #endregion
@@ -1036,9 +1037,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [Test]
         public void CompareToBiggerTest()
         {
-            var _MultiEdgeId1 = new MultiEdgeId(2);
-            var _MultiEdgeId2 = new MultiEdgeId(1);
-            Assert.IsTrue(_MultiEdgeId1.CompareTo(_MultiEdgeId2) > 0);
+            var _VertexId1 = new VertexId(2);
+            var _VertexId2 = new VertexId(1);
+            Assert.IsTrue(_VertexId1.CompareTo(_VertexId2) > 0);
         }
 
         #endregion
@@ -1052,9 +1053,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [Test]
         public void EqualsNullTest1()
         {
-            var    _MultiEdgeId = MultiEdgeId.NewMultiEdgeId;
+            var    _VertexId = VertexId.NewVertexId;
             Object _Object   = null;
-            Assert.IsFalse(_MultiEdgeId.Equals(_Object));
+            Assert.IsFalse(_VertexId.Equals(_Object));
         }
 
         #endregion
@@ -1067,24 +1068,24 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [Test]
         public void EqualsNullTest2()
         {
-            var    _MultiEdgeId = MultiEdgeId.NewMultiEdgeId;
-            MultiEdgeId _Object   = null;
-            Assert.IsFalse(_MultiEdgeId.Equals(_Object));
+            var      _VertexId = VertexId.NewVertexId;
+            VertexId _Object   = null;
+            Assert.IsFalse(_VertexId.Equals(_Object));
         }
 
         #endregion
 
-        #region EqualsNonMultiEdgeIdTest()
+        #region EqualsNonVertexIdTest()
 
         /// <summary>
-        /// A test for equals a non-MultiEdgeId.
+        /// A test for equals a non-VertexId.
         /// </summary>
         [Test]
-        public void EqualsNonMultiEdgeIdTest()
+        public void EqualsNonVertexIdTest()
         {
-            var _MultiEdgeId = MultiEdgeId.NewMultiEdgeId;
+            var _VertexId = VertexId.NewVertexId;
             var _Object   = "123";
-            Assert.IsFalse(_MultiEdgeId.Equals(_Object));
+            Assert.IsFalse(_VertexId.Equals(_Object));
         }
 
         #endregion
@@ -1097,9 +1098,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [Test]
         public void EqualsEqualsTest()
         {
-            var _MultiEdgeId1 = new MultiEdgeId(1);
-            var _MultiEdgeId2 = new MultiEdgeId(1);
-            Assert.IsTrue(_MultiEdgeId1.Equals(_MultiEdgeId2));
+            var _VertexId1 = new VertexId(1);
+            var _VertexId2 = new VertexId(1);
+            Assert.IsTrue(_VertexId1.Equals(_VertexId2));
         }
 
         #endregion
@@ -1112,9 +1113,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [Test]
         public void EqualsNotEqualsTest()
         {
-            var _MultiEdgeId1 = new MultiEdgeId(1);
-            var _MultiEdgeId2 = new MultiEdgeId(2);
-            Assert.IsFalse(_MultiEdgeId1.Equals(_MultiEdgeId2));
+            var _VertexId1 = new VertexId(1);
+            var _VertexId2 = new VertexId(2);
+            Assert.IsFalse(_VertexId1.Equals(_VertexId2));
         }
 
         #endregion
@@ -1128,8 +1129,8 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [Test]
         public void GetHashCodeEqualTest()
         {
-            var _SensorHashCode1 = new MultiEdgeId(5).GetHashCode();
-            var _SensorHashCode2 = new MultiEdgeId(5).GetHashCode();
+            var _SensorHashCode1 = new VertexId(5).GetHashCode();
+            var _SensorHashCode2 = new VertexId(5).GetHashCode();
             Assert.AreEqual(_SensorHashCode1, _SensorHashCode2);
         }
 
@@ -1143,31 +1144,31 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
         [Test]
         public void GetHashCodeNotEqualTest()
         {
-            var _SensorHashCode1 = new MultiEdgeId(1).GetHashCode();
-            var _SensorHashCode2 = new MultiEdgeId(2).GetHashCode();
+            var _SensorHashCode1 = new VertexId(1).GetHashCode();
+            var _SensorHashCode2 = new VertexId(2).GetHashCode();
             Assert.AreNotEqual(_SensorHashCode1, _SensorHashCode2);
         }
 
         #endregion
 
 
-        #region MultiEdgeIdsAndNUnitTest()
+        #region VertexIdsAndNUnitTest()
 
         /// <summary>
-        /// Tests MultiEdgeIds in combination with NUnit.
+        /// Tests VertexIds in combination with NUnit.
         /// </summary>
         [Test]
-        public void MultiEdgeIdsAndNUnitTest()
+        public void VertexIdsAndNUnitTest()
         {
 
-            var a = new MultiEdgeId(1);
-            var b = new MultiEdgeId(2);
-            var c = new MultiEdgeId(1);
+            var a = new VertexId(1);
+            var b = new VertexId(2);
+            var c = new VertexId(1);
 
             Assert.AreEqual(a, a);
             Assert.AreEqual(b, b);
             Assert.AreEqual(c, c);
-            
+
             Assert.AreEqual(a, c);
             Assert.AreNotEqual(a, b);
             Assert.AreNotEqual(b, c);
@@ -1176,20 +1177,20 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests.GraphElementIds
 
         #endregion
 
-        #region MultiEdgeIdsInHashSetTest()
+        #region VertexIdsInHashSetTest()
 
         /// <summary>
-        /// Test MultiEdgeIds within a HashSet.
+        /// Test VertexIds within a HashSet.
         /// </summary>
         [Test]
-        public void MultiEdgeIdsInHashSetTest()
+        public void VertexIdsInHashSetTest()
         {
 
-            var a = new MultiEdgeId(1);
-            var b = new MultiEdgeId(2);
-            var c = new MultiEdgeId(1);
+            var a = new VertexId(1);
+            var b = new VertexId(2);
+            var c = new VertexId(1);
 
-            var _HashSet = new HashSet<MultiEdgeId>();
+            var _HashSet = new HashSet<VertexId>();
             Assert.AreEqual(0, _HashSet.Count);
 
             _HashSet.Add(a);

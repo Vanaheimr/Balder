@@ -1,6 +1,6 @@
 ﻿/*
  * Copyright (c) 2010-2013, Achim 'ahzf' Friedland <achim@graph-database.org>
- * This file is part of Blueprints.NET <http://www.github.com/Vanaheimr/Blueprints.NET>
+ * This file is part of Balder <http://www.github.com/Vanaheimr/Balder>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,10 +23,11 @@ using System.Collections;
 using de.ahzf.Illias.Commons.Votes;
 using de.ahzf.Illias.Commons.Collections;
 using de.ahzf.Vanaheimr.Blueprints.InMemory;
+using de.ahzf.Vanaheimr.Blueprints;
 
 #endregion
 
-namespace de.ahzf.Vanaheimr.Blueprints.UnitTests
+namespace de.ahzf.Vanaheimr.Balder.UnitTests
 {
 
     public static class assa
@@ -44,6 +45,21 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests
 
     public static class DemoGraphFactory
     {
+
+        // Vertex labels
+        public const String person  = "person";
+        public const String pet     = "pet";
+
+        // Vertex property keys
+        public const String age     = "age";
+
+        // Edge labels
+        public const String knows   = "knows";
+        public const String loves   = "loves";
+
+        // Edge property keys
+        public const String since   = "since";
+
 
         #region Create()
 
@@ -174,20 +190,50 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests
 
         #endregion
 
+        #region CreateSimpleGraph(GraphCreator = null)
 
-        // Vertex labels
-        public const String person  = "person";
+        public static IGenericPropertyGraph<String, Int64, String, String, Object,
+                                            String, Int64, String, String, Object,
+                                            String, Int64, String, String, Object,
+                                            String, Int64, String, String, Object>
 
-        // Vertex property keys
-        public const String age     = "age";
+            CreateSimpleGraph(Func<IGenericPropertyGraph<String, Int64, String, String, Object,
+                                                         String, Int64, String, String, Object,
+                                                         String, Int64, String, String, Object,
+                                                         String, Int64, String, String, Object>> GraphCreator = null)
+        {
 
-        // Edge labels
-        public const String knows   = "knows";
-        public const String loves   = "loves";
+            var _graph = (GraphCreator != null) ? GraphCreator() : GraphFactory.CreateGenericPropertyGraph_WithStringIds("DemoGraph");
 
-        // Edge property keys
-        public const String since   = "since";
+            var _Alice              = _graph.AddVertex("Alice", person, v => v.SetProperty(age, 18));
+            var _Bob                = _graph.AddVertex("Bob",   person, v => v.SetProperty(age, 20));
+            var _Carol              = _graph.AddVertex("Carol", person, v => v.SetProperty(age, 22));
+            var _Dave               = _graph.AddVertex("Dave",  person, v => v.SetProperty(age, 23));
 
+            var _rex                = _graph.AddVertex("Rex",   pet,    v => v.SetProperty(age, 3));
+
+            // DoubleEdges: v <=> v
+            var _e_k01              = _graph.AddDoubleEdge(_Alice, knows, _Bob,   EdgeInitializer: e => e.SetProperty(since, new DateTime(2000, 08, 01)));
+            var _e_k02              = _graph.AddDoubleEdge(_Alice, knows, _Carol, EdgeInitializer: e => e.SetProperty(since, new DateTime(2001, 03, 10)));
+            var _e_k03              = _graph.AddDoubleEdge(_Bob,   knows, _Carol, EdgeInitializer: e => e.SetProperty(since, new DateTime(2002, 12, 23)));
+
+            // Edges: v -> v
+            var _Alice_loves_Bob    = _graph.AddEdge("Alice -loves-> Bob",   _Alice, loves, _Bob);
+            var _Bob_loves_Carol    = _graph.AddEdge("Bob -loves-> Carol",   _Bob,   loves, _Carol);
+            var _Carol_loves_Alice  = _graph.AddEdge("Carol -loves-> Alice", _Carol, loves, _Alice);
+
+            // Multiedges:
+            var _ItsComplicated     = _graph.AddMultiEdge("It's complicated", null, _Alice_loves_Bob, _Bob_loves_Carol, _Carol_loves_Alice);
+
+            // Hyperedges:
+            var _AllPersons         = _graph.AddHyperEdge("All persons",  "index", he => { }, v => v.Label == person);
+            var _Clique01           = _graph.AddHyperEdge("Clique01",     "he",    he => { }, null, _Alice, _Bob, _Carol);
+
+            return _graph;
+
+        }
+
+        #endregion
 
         #region CreateStringIdGraph(GraphCreator = null)
 
@@ -210,19 +256,20 @@ namespace de.ahzf.Vanaheimr.Blueprints.UnitTests
             //_graph.OnVertexAddition.OnVoting += (graph, vertex, vote) => { Console.WriteLine("OnVertexAdding3() called!"); };
 
 
-            var _Alice   = _graph.AddVertex("Alice", person, v => v.SetProperty(age, 18));
-            var _Bob     = _graph.AddVertex("Bob",   person, v => v.SetProperty(age, 20));
-            var _Carol   = _graph.AddVertex("Carol", person, v => v.SetProperty(age, 22));
-            var _Dave    = _graph.AddVertex("Dave",  person, v => v.SetProperty(age, 23));
+            var _Alice          = _graph.AddVertex("Alice", person, v => v.SetProperty(age, 18));
+            var _Bob            = _graph.AddVertex("Bob",   person, v => v.SetProperty(age, 20));
+            var _Carol          = _graph.AddVertex("Carol", person, v => v.SetProperty(age, 22));
+            var _Dave           = _graph.AddVertex("Dave",  person, v => v.SetProperty(age, 23));
 
             // v <=> v
-            var _e1      = _graph.AddDoubleEdge(_Alice, knows, _Bob,   EdgeInitializer: e => e.SetProperty(since, new DateTime(2000, 08, 01)));
-            var _e2      = _graph.AddDoubleEdge(_Alice, knows, _Carol, EdgeInitializer: e => e.SetProperty(since, new DateTime(2002, 04, 12)));
+            var _e01            = _graph.AddDoubleEdge(_Alice, knows, _Bob,   EdgeInitializer: e => e.SetProperty(since, new DateTime(2000, 08, 01)));
+            var _e02            = _graph.AddDoubleEdge(_Alice, knows, _Carol, EdgeInitializer: e => e.SetProperty(since, new DateTime(2002, 04, 12)));
+            var _e03            = _graph.AddDoubleEdge(_Bob,   knows, _Carol, EdgeInitializer: e => e.SetProperty(since, new DateTime(2002, 04, 12)));
 
             // v -> v
-            var _e3      = _graph.AddEdge(_Alice, loves, _Bob,   e => e.SetProperty(since, ""));
-            var _e4      = _graph.AddEdge(_Bob,   loves, _Carol, e => e.SetProperty(since, ""));
-            var _e5      = _graph.AddEdge(_Carol, loves, _Alice, e => e.SetProperty(since, ""));
+            var _e13            = _graph.AddEdge(_Alice, loves, _Bob,   e => e.SetProperty(since, ""));
+            var _e14            = _graph.AddEdge(_Bob,   loves, _Carol, e => e.SetProperty(since, ""));
+            var _e15            = _graph.AddEdge(_Carol, loves, _Alice, e => e.SetProperty(since, ""));
 
             var _AllPersons     = _graph.AddHyperEdge("All persons",  "index", he => { }, v => v.Label == person);
             var _PersonGroup1   = _graph.AddHyperEdge("PersonGroup1", "he",    he => { }, null, _Alice, _Bob, _Carol);
