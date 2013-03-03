@@ -148,7 +148,7 @@ namespace de.ahzf.Vanaheimr.Balder
                                                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> IEnumerator = null,
-            
+
                              params TVertexLabel[] VertexLabels)
 
             : base(IEnumerable, IEnumerator)
@@ -157,9 +157,9 @@ namespace de.ahzf.Vanaheimr.Balder
 
             switch (TraversalDirection)
             {
-                case Balder.TraversalDirection.Out:  Edge2VertexDelegate = edge => edge.OutVertex; break;
-                case Balder.TraversalDirection.In:   Edge2VertexDelegate = edge => edge.InVertex;  break;
-                case Balder.TraversalDirection.Both: Edge2VertexDelegate = Edge2BothVertices;      break;
+                case Balder.TraversalDirection.Out:  Edge2VertexDelegate = Edge => (Edge != null) ? Edge.OutVertex : null; break;
+                case Balder.TraversalDirection.In:   Edge2VertexDelegate = Edge => (Edge != null) ? Edge.InVertex  : null; break;
+                case Balder.TraversalDirection.Both: Edge2VertexDelegate = Edge2BothVertices;                              break;
             }
 
             this.VertexLabels = VertexLabels.Any() ? VertexLabels : null;
@@ -196,13 +196,14 @@ namespace de.ahzf.Vanaheimr.Balder
                                                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> IEnumerator = null)
 
             : base(IEnumerable, IEnumerator)
+
         {
 
             switch (TraversalDirection)
             {
-                case Balder.TraversalDirection.Out:  Edge2VertexDelegate = edge => edge.OutVertex; break;
-                case Balder.TraversalDirection.In:   Edge2VertexDelegate = edge => edge.InVertex;  break;
-                case Balder.TraversalDirection.Both: Edge2VertexDelegate = Edge2BothVertices;      break;
+                case Balder.TraversalDirection.Out:  Edge2VertexDelegate = Edge => (Edge != null) ? Edge.OutVertex : null; break;
+                case Balder.TraversalDirection.In:   Edge2VertexDelegate = Edge => (Edge != null) ? Edge.InVertex  : null; break;
+                case Balder.TraversalDirection.Both: Edge2VertexDelegate = Edge2BothVertices;                              break;
             }
 
             this.VertexFilter = (VertexFilter != null) ? VertexFilter : v => true;
@@ -233,8 +234,9 @@ namespace de.ahzf.Vanaheimr.Balder
                 _NextVertex = _InputEnumerator.Current.OutVertex;
                 return _InputEnumerator.Current.InVertex;
             }
-            
+
             _NextVertex = null;
+
             return _NextVertex;
 
         }

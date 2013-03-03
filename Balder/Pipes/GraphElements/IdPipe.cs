@@ -77,7 +77,7 @@ namespace de.ahzf.Vanaheimr.Balder
         /// <param name="IEnumerator">An optional IEnumerator&lt;IIdentifier&lt;TId&gt;&gt; as element source.</param>
         public IdPipe(IEnumerable<IIdentifier<TId>> IEnumerable = null,
                       IEnumerator<IIdentifier<TId>> IEnumerator = null)
-            : base(Object => Object.Id, IEnumerable, IEnumerator)
+            : base(Object => (Object != null) ? Object.Id : default(TId), IEnumerable, IEnumerator)
         { }
 
         #endregion

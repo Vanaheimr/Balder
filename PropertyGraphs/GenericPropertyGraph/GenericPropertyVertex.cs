@@ -2901,21 +2901,17 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                 VertexById(TIdVertex VertexId)
 
         {
-            
-            #region Initial checks
 
             if (VertexId == null)
-                throw new ArgumentNullException("VertexId", "The given vertex identifier must not be null!");
-
-            #endregion
+                return null;
 
             IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                            TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                            TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> _Vertex = null;
+                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Vertex = null;
 
-            if (_VerticesWhenGraph.TryGetByKey(VertexId, out _Vertex))
-                return _Vertex;
+            if (_VerticesWhenGraph.TryGetByKey(VertexId, out Vertex))
+                return Vertex;
 
             return null;
 
@@ -2980,6 +2976,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.HasVertexId(TIdVertex VertexId)
         {
 
+            if (VertexId == null)
+                return false;
+
             return _VerticesWhenGraph.ContainsKey(VertexId);
 
         }
@@ -3008,30 +3007,22 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         {
 
-            #region Initial checks
-
-            if (VertexIds == null || !VertexIds.Any())
-                throw new ArgumentNullException("VertexIds", "The array of vertex identifiers must not be null or its length zero!");
-
-            #endregion
-
             IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                            TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                            TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> _IVertex;
+                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Vertex;
 
-            foreach (var _VertexId in VertexIds)
-            {
-
-                if (_VertexId != null)
+            if (VertexIds != null)
+                foreach (var VertexId in VertexIds)
                 {
-                    if (_VerticesWhenGraph.TryGetByKey(_VertexId, out _IVertex))
-                        yield return _IVertex;
+
+                    if (VertexId != null && _VerticesWhenGraph.TryGetByKey(VertexId, out Vertex))
+                        yield return Vertex;
+
+                    else
+                        yield return null;
+
                 }
-
-                yield return null;
-
-            }
 
         }
 
@@ -3971,20 +3962,16 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         {
 
-            #region Initial checks
-
             if (EdgeId == null)
-                throw new ArgumentNullException("EdgeId", "The given edge identifier must not be null!");
-
-            #endregion
+                return null;
 
             IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> _Edge = null;
+                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Edge = null;
 
-            if (_EdgesWhenGraph.TryGetByKey(EdgeId, out _Edge))
-                return _Edge;
+            if (_EdgesWhenGraph.TryGetByKey(EdgeId, out Edge))
+                return Edge;
 
             return null;
 
@@ -4050,6 +4037,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                      TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.HasEdgeId(TIdEdge EdgeId)
         {
 
+            if (EdgeId == null)
+                return false;
+
             return _EdgesWhenGraph.ContainsKey(EdgeId);
 
         }
@@ -4078,30 +4068,22 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         {
 
-            #region Initial checks
-
-            if (EdgeIds == null || !EdgeIds.Any())
-                throw new ArgumentNullException("EdgeIds", "The given array of edge identifiers must not be null or its length zero!");
-
-            #endregion
-
             IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> _Edge;
+                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Edge;
 
-            foreach (var _EdgeId in EdgeIds)
-            {
-
-                if (_EdgeId != null)
+            if (EdgeIds != null)
+                foreach (var EdgeId in EdgeIds)
                 {
-                    if (_EdgesWhenGraph.TryGetByKey(_EdgeId, out _Edge))
-                        yield return _Edge;
+
+                    if (EdgeId != null && _EdgesWhenGraph.TryGetByKey(EdgeId, out Edge))
+                        yield return Edge;
+
+                    else
+                        yield return null;
+
                 }
-
-                yield return null;
-
-            }
 
         }
 
@@ -4728,20 +4710,16 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         {
 
-            #region Initial checks
-
             if (MultiEdgeId == null)
-                throw new ArgumentNullException("MultiEdgeId", "The given multiedge identifier must not be null!");
-
-            #endregion
+                return null;
 
             IReadOnlyGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> _MultiEdge = null;
+                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> MultiEdge = null;
 
-            if (_MultiEdgesWhenGraph.TryGetByKey(MultiEdgeId, out _MultiEdge))
-                return _MultiEdge;
+            if (_MultiEdgesWhenGraph.TryGetByKey(MultiEdgeId, out MultiEdge))
+                return MultiEdge;
 
             return null;
 
@@ -4771,30 +4749,22 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         {
 
-            #region Initial checks
-
-            if (MultiEdgeIds == null || !MultiEdgeIds.Any())
-                throw new ArgumentNullException("MultiEdgeIds", "The array of multiedge identifiers must not be null or its length zero!");
-
-            #endregion
-
             IReadOnlyGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> _MultiEdge;
+                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> MultiEdge;
 
-            foreach (var _MultiEdgeId in MultiEdgeIds)
-            {
-
-                if (_MultiEdgeId != null)
+            if (MultiEdgeIds != null)
+                foreach (var MultiEdgeId in MultiEdgeIds)
                 {
-                    if (_MultiEdgesWhenGraph.TryGetByKey(_MultiEdgeId, out _MultiEdge))
-                        yield return _MultiEdge;
+
+                    if (MultiEdgeId != null && _MultiEdgesWhenGraph.TryGetByKey(MultiEdgeId, out MultiEdge))
+                        yield return MultiEdge;
+
+                    else
+                        yield return null;
+
                 }
-
-                yield return null;
-
-            }
 
         }
 
@@ -4812,6 +4782,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                           TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.HasMultiEdgeId(TIdMultiEdge MultiEdgeId)
         {
+
+            if (MultiEdgeId == null)
+                return false;
 
             return _MultiEdgesWhenGraph.ContainsKey(MultiEdgeId);
 
@@ -5361,20 +5334,16 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         {
 
-            #region Initial checks
-
             if (HyperEdgeId == null)
-                throw new ArgumentNullException("HyperEdgeId", "The given hyperedge identifier must not be null!");
-
-            #endregion
+                return null;
 
             IReadOnlyGenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> _HyperEdge = null;
+                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> HyperEdge = null;
 
-            if (_HyperEdgesWhenGraph.TryGetByKey(HyperEdgeId, out _HyperEdge))
-                return _HyperEdge;
+            if (_HyperEdgesWhenGraph.TryGetByKey(HyperEdgeId, out HyperEdge))
+                return HyperEdge;
 
             return null;
 
@@ -5404,30 +5373,22 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         {
 
-            #region Initial checks
-
-            if (HyperEdgeIds == null || !HyperEdgeIds.Any())
-                throw new ArgumentNullException("HyperEdgeIds", "The array of hyperedge identifiers must not be null or its length zero!");
-
-            #endregion
-
             IReadOnlyGenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> _HyperEdge;
+                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> HyperEdge;
 
-            foreach (var _HyperEdgeId in HyperEdgeIds)
-            {
-
-                if (_HyperEdgeId != null)
+            if (HyperEdgeIds != null)
+                foreach (var HyperEdgeId in HyperEdgeIds)
                 {
-                    if (_HyperEdgesWhenGraph.TryGetByKey(_HyperEdgeId, out _HyperEdge))
-                        yield return _HyperEdge;
+
+                    if (HyperEdgeId != null && _HyperEdgesWhenGraph.TryGetByKey(HyperEdgeId, out HyperEdge))
+                        yield return HyperEdge;
+
+                    else
+                        yield return null;
+
                 }
-
-                yield return null;
-
-            }
 
         }
 
@@ -5445,6 +5406,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                           TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.HasHyperEdgeId(TIdHyperEdge HyperEdgeId)
         {
+
+            if (HyperEdgeId == null)
+                return false;
 
             return _HyperEdgesWhenGraph.ContainsKey(HyperEdgeId);
 

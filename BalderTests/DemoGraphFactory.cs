@@ -203,7 +203,8 @@ namespace de.ahzf.Vanaheimr.Balder.UnitTests
                                                          String, Int64, String, String, Object>> GraphCreator = null)
         {
 
-            var _graph = (GraphCreator != null) ? GraphCreator() : GraphFactory.CreateGenericPropertyGraph_WithStringIds("DemoGraph");
+            var _graph = (GraphCreator != null) ? GraphCreator()
+                                                : GraphFactory.CreateGenericPropertyGraph_WithStringIds("DemoGraph");
 
             var _Alice              = _graph.AddVertex("Alice", person, v => v.SetProperty(age, 18));
             var _Bob                = _graph.AddVertex("Bob",   person, v => v.SetProperty(age, 20));

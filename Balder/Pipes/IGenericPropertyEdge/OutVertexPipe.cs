@@ -464,7 +464,7 @@ namespace de.ahzf.Vanaheimr.Balder
                                                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> IEnumerator = null,
-            
+
                              params TVertexLabel[] VertexLabels)
 
             : base(TraversalDirection.Out, IEnumerable, IEnumerator, VertexLabels)
