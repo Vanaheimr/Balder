@@ -35,15 +35,13 @@ namespace de.ahzf.Vanaheimr.Balder
         where TLabel : IEquatable<TLabel>, IComparable<TLabel>, IComparable
     {
 
-        #region Constructor(s)
-
         #region LabelArrow()
 
         /// <summary>
         /// Emits the labels of the given labeled objects.
         /// </summary>
         public LabelArrow()
-            : base(Object => Object.Label)
+            : base(Object => (Object != null) ? Object.Label : default(TLabel))
         { }
 
         #endregion
@@ -56,7 +54,7 @@ namespace de.ahzf.Vanaheimr.Balder
         /// <param name="Recipient">A recipient of the processed messages.</param>
         /// <param name="Recipients">Further recipients of the processed messages.</param>
         public LabelArrow(MessageRecipient<TLabel> Recipient, params MessageRecipient<TLabel>[] Recipients)
-            : base(Object => Object.Label, Recipient, Recipients)
+            : base(Object => (Object != null) ? Object.Label : default(TLabel), Recipient, Recipients)
         { }
 
         #endregion
@@ -69,10 +67,8 @@ namespace de.ahzf.Vanaheimr.Balder
         /// <param name="Recipient">A recipient of the processed messages.</param>
         /// <param name="Recipients">Further recipients of the processed messages.</param>
         public LabelArrow(IArrowReceiver<TLabel> Recipient, params IArrowReceiver<TLabel>[] Recipients)
-            : base(Object => Object.Label, Recipient, Recipients)
+            : base(Object => (Object != null) ? Object.Label : default(TLabel), Recipient, Recipients)
         { }
-
-        #endregion
 
         #endregion
 

@@ -66,8 +66,6 @@ namespace de.ahzf.Vanaheimr.Balder
         where TId : IEquatable<TId>, IComparable<TId>, IComparable
     {
 
-        #region Constructor(s)
-
         #region IdPipe(IEnumerable = null, IEnumerator = null)
 
         /// <summary>
@@ -79,8 +77,6 @@ namespace de.ahzf.Vanaheimr.Balder
                       IEnumerator<IIdentifier<TId>> IEnumerator = null)
             : base(Object => (Object != null) ? Object.Id : default(TId), IEnumerable, IEnumerator)
         { }
-
-        #endregion
 
         #endregion
 

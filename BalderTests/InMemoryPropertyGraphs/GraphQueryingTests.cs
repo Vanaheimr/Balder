@@ -59,8 +59,8 @@ namespace de.ahzf.Vanaheimr.Balder.UnitTests.InMemoryPropertyGraphs
             Assert.IsNull(_graph.VertexById("Eve"));
             Assert.AreEqual("Alice", _graph.VertexById("Alice").Id);
 
-            Assert.AreEqual("",           _graph.VerticesById().                    Ids().AggString());
-            Assert.AreEqual("",           _graph.VerticesById(null).                Ids().AggString());
+            Assert.AreEqual(false,        _graph.VerticesById().    Any());
+            Assert.AreEqual(false,        _graph.VerticesById(null).Any());
             Assert.AreEqual("Alice|Bob",  _graph.VerticesById("Alice", "Bob").      Ids().AggString());
             Assert.AreEqual("Alice||Bob", _graph.VerticesById("Alice", null, "Bob").Ids().AggString());
 
@@ -74,8 +74,8 @@ namespace de.ahzf.Vanaheimr.Balder.UnitTests.InMemoryPropertyGraphs
             Assert.IsNull(_graph.EdgeById("Eve"));
             Assert.AreEqual("Alice", _graph.EdgeById("Alice -loves-> Bob").OutVertex.Id);
 
-            Assert.AreEqual("",           _graph.EdgesById().    Ids().AggString());
-            Assert.AreEqual("",           _graph.EdgesById(null).Ids().AggString());
+            Assert.AreEqual(false,        _graph.EdgesById().    Any());
+            Assert.AreEqual(false,        _graph.EdgesById(null).Any());
             Assert.AreEqual("Alice|Bob",  _graph.EdgesById("Alice -loves-> Bob", "Bob -loves-> Carol").      OutV().Ids().AggString());
             Assert.AreEqual("Alice||Bob", _graph.EdgesById("Alice -loves-> Bob", null, "Bob -loves-> Carol").OutV().Ids().AggString());
 

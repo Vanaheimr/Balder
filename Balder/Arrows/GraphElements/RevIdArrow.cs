@@ -27,8 +27,6 @@ using de.ahzf.Vanaheimr.Styx;
 namespace de.ahzf.Vanaheimr.Balder
 {
 
-    #region RevIdArrow<TRevId>
-
     /// <summary>
     /// Emits the revision identifications of the given revisioned objects.
     /// </summary>
@@ -37,15 +35,13 @@ namespace de.ahzf.Vanaheimr.Balder
         where TRevId : IEquatable<TRevId>, IComparable<TRevId>, IComparable
     {
 
-        #region Constructor(s)
-
         #region RevIdArrow()
 
         /// <summary>
         /// Emits the revision identifications of the given revisioned objects.
         /// </summary>
         public RevIdArrow()
-            : base(Object => Object.RevId)
+            : base(Object => (Object != null) ? Object.RevId : default(TRevId))
         { }
 
         #endregion
@@ -58,7 +54,7 @@ namespace de.ahzf.Vanaheimr.Balder
         /// <param name="Recipient">A recipient of the processed messages.</param>
         /// <param name="Recipients">Further recipients of the processed messages.</param>
         public RevIdArrow(MessageRecipient<TRevId> Recipient, params MessageRecipient<TRevId>[] Recipients)
-            : base(Object => Object.RevId, Recipient, Recipients)
+            : base(Object => (Object != null) ? Object.RevId : default(TRevId), Recipient, Recipients)
         { }
 
         #endregion
@@ -71,15 +67,11 @@ namespace de.ahzf.Vanaheimr.Balder
         /// <param name="Recipient">A recipient of the processed messages.</param>
         /// <param name="Recipients">Further recipients of the processed messages.</param>
         public RevIdArrow(IArrowReceiver<TRevId> Recipient, params IArrowReceiver<TRevId>[] Recipients)
-            : base(Object => Object.RevId, Recipient, Recipients)
+            : base(Object => (Object != null) ? Object.RevId : default(TRevId), Recipient, Recipients)
         { }
 
         #endregion
 
-        #endregion
-
     }
-
-    #endregion
 
 }

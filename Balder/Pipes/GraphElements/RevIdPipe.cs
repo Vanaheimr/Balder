@@ -66,8 +66,6 @@ namespace de.ahzf.Vanaheimr.Balder
         where TRevId : IEquatable<TRevId>, IComparable<TRevId>, IComparable
     {
 
-        #region Constructor(s)
-
         #region RevIdPipe(IEnumerable = null, IEnumerator = null)
 
         /// <summary>
@@ -77,10 +75,8 @@ namespace de.ahzf.Vanaheimr.Balder
         /// <param name="IEnumerator">An optional IEnumerator&lt;IRevIdentifier&lt;TRevId&gt;&gt; as element source.</param>
         public RevIdPipe(IEnumerable<IRevisionId<TRevId>> IEnumerable = null,
                       IEnumerator<IRevisionId<TRevId>> IEnumerator = null)
-            : base(Object => Object.RevId, IEnumerable, IEnumerator)
+            : base(Object => (Object != null) ? Object.RevId : default(TRevId), IEnumerable, IEnumerator)
         { }
-
-        #endregion
 
         #endregion
 

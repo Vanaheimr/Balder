@@ -66,8 +66,6 @@ namespace de.ahzf.Vanaheimr.Balder
         where TLabel : IEquatable<TLabel>, IComparable<TLabel>, IComparable
     {
 
-        #region Constructor(s)
-
         #region LabelPipe(IEnumerable = null, IEnumerator = null)
 
         /// <summary>
@@ -76,10 +74,8 @@ namespace de.ahzf.Vanaheimr.Balder
         /// <param name="IEnumerable">An optional IEnumerable&lt;...&gt; as element source.</param>
         /// <param name="IEnumerator">An optional IEnumerator&lt;...&gt; as element source.</param>
         public LabelPipe(IEnumerable<ILabel<TLabel>> IEnumerable = null, IEnumerator<ILabel<TLabel>> IEnumerator = null)
-            : base(Object => Object.Label, IEnumerable, IEnumerator)
+            : base(Object => (Object != null) ? Object.Label : default(TLabel), IEnumerable, IEnumerator)
         { }
-
-        #endregion
 
         #endregion
 

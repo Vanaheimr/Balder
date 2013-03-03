@@ -27,8 +27,6 @@ using de.ahzf.Vanaheimr.Styx;
 namespace de.ahzf.Vanaheimr.Balder
 {
 
-    #region IdArrow<TId>
-
     /// <summary>
     /// Emits the identifications of the given identifiable objects.
     /// </summary>
@@ -37,15 +35,13 @@ namespace de.ahzf.Vanaheimr.Balder
         where TId : IEquatable<TId>, IComparable<TId>, IComparable
     {
 
-        #region Constructor(s)
-
         #region IdArrow()
 
         /// <summary>
         /// Emits the identifications of the given identifiable objects.
         /// </summary>
         public IdArrow()
-            : base(Object => Object.Id)
+            : base(Object => (Object != null) ? Object.Id : default(TId))
         { }
 
         #endregion
@@ -58,7 +54,7 @@ namespace de.ahzf.Vanaheimr.Balder
         /// <param name="Recipient">A recipient of the processed messages.</param>
         /// <param name="Recipients">Further recipients of the processed messages.</param>
         public IdArrow(MessageRecipient<TId> Recipient, params MessageRecipient<TId>[] Recipients)
-            : base(Object => Object.Id, Recipient, Recipients)
+            : base(Object => (Object != null) ? Object.Id : default(TId), Recipient, Recipients)
         { }
 
         #endregion
@@ -71,15 +67,11 @@ namespace de.ahzf.Vanaheimr.Balder
         /// <param name="Recipient">A recipient of the processed messages.</param>
         /// <param name="Recipients">Further recipients of the processed messages.</param>
         public IdArrow(IArrowReceiver<TId> Recipient, params IArrowReceiver<TId>[] Recipients)
-            : base(Object => Object.Id, Recipient, Recipients)
+            : base(Object => (Object != null) ? Object.Id : default(TId), Recipient, Recipients)
         { }
 
         #endregion
 
-        #endregion
-
     }
-
-    #endregion
 
 }

@@ -58,15 +58,12 @@
     <Compile Include="PropertyGraphTests\IPropertiesTests.cs" />
     <Compile Include="PropertyGraphTests\IPropertyGraphExtensionTests.cs" />
     <Compile Include="PropertyGraphTests\PropertyVertexTests.cs" />
-    <Compile Include="Pipes\IGenericPropertyEdge\EdgeVertexPipeTest.cs" />
-    <Compile Include="Pipes\IGenericPropertyGraph\GraphElementPipeTest.cs" />
-    <Compile Include="Pipes\IGenericPropertyEdge\IdEdgePipeTest.cs" />
-    <Compile Include="Pipes\IGenericPropertyVertex\IdVertexPipeTest.cs" />
+    <Compile Include="Pipes\GraphElements\GraphElementPipeTest.cs" />
     <Compile Include="Pipes\GraphElements\LabelFilterPipeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Pipes\GraphElements\PropertyFilterPipeTest.cs" />
     <Compile Include="Pipes\GraphElements\PropertyPipeTest.cs" />
-    <Compile Include="Pipes\IGenericPropertyVertex\VertexIdFilterPipeTest.cs" />
+    <Compile Include="Pipes\GraphElements\VertexIdFilterPipeTest.cs" />
     <Compile Include="TinkerGraphFactory.cs" />
   </ItemGroup>
   <ItemGroup>
