@@ -76,6 +76,28 @@ namespace de.ahzf.Vanaheimr.Balder.UnitTests.InMemoryPropertyGraphs
             var VertexRevIdSet = new HashSet<Int64>(_graph.Vertices().RevIds());
             Assert.AreEqual(1, VertexRevIdSet.Count, "Wrong number of vertex revision identifications!");
 
+            var AlicesOutEdges1           = _graph.VertexById("Alice").OutE().Ids().ToArray();
+            var AlicesOutEdges2           = _graph.VertexById("Alice").OutEdges().Ids().ToArray();
+            Assert.AreEqual("Alice -loves-> Bob|0|2", AlicesOutEdges1.Aggregate((a, b) => a + "|" + b));
+            Assert.AreEqual("Alice -loves-> Bob|0|2", AlicesOutEdges2.Aggregate((a, b) => a + "|" + b));
+
+            var AlicesInEdges1            = _graph.VertexById("Alice").InE().Ids().ToArray();
+            var AlicesInEdges2            = _graph.VertexById("Alice").InEdges().Ids().ToArray();
+            Assert.AreEqual("Carol -loves-> Alice|1|3", AlicesInEdges1.Aggregate((a, b) => a + "|" + b));
+            Assert.AreEqual("Carol -loves-> Alice|1|3", AlicesInEdges2.Aggregate((a, b) => a + "|" + b));
+
+
+            var AlicesOutNeighbors        = _graph.VertexById("Alice").Out().Ids().ToArray();
+            var AlicesOutUniqueNeighbors  = _graph.VertexById("Alice").Out().Distinct().Ids().ToArray();
+            Assert.AreEqual("Bob|Bob|Carol",  AlicesOutNeighbors.      Aggregate((a, b) => a + "|" + b));
+            Assert.AreEqual("Bob|Carol",      AlicesOutUniqueNeighbors.Aggregate((a, b) => a + "|" + b));
+
+            var AlicesInNeighbors         = _graph.VertexById("Alice").In().Ids().ToArray();
+            var AlicesInUniqueNeighbors   = _graph.VertexById("Alice").In().Distinct().Ids().ToArray();
+            Assert.AreEqual("Carol|Bob|Carol",  AlicesInNeighbors.      Aggregate((a, b) => a + "|" + b));
+            Assert.AreEqual("Carol|Bob",        AlicesInUniqueNeighbors.Aggregate((a, b) => a + "|" + b));
+
+
 
             // Edges
             Assert.AreEqual(9, _graph.NumberOfEdges(), "Wrong number of edges!");
