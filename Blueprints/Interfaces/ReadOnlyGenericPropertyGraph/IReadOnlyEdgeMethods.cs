@@ -29,7 +29,7 @@ namespace de.ahzf.Vanaheimr.Blueprints
 {
 
     /// <summary>
-    /// The interface for common read-only edge methods.
+    /// The interface for all common read-only edge methods.
     /// </summary>
     /// <typeparam name="TIdVertex">The type of the vertex identifiers.</typeparam>
     /// <typeparam name="TRevIdVertex">The type of the vertex revision identifiers.</typeparam>
@@ -81,86 +81,86 @@ namespace de.ahzf.Vanaheimr.Blueprints
 
     {
 
-        #region EdgeById(EdgeId)
+        #region EdgeById(Id)
 
         /// <summary>
         /// Return the edge referenced by the given edge identifier.
         /// If no edge is referenced by a given identifier return null.
         /// </summary>
-        /// <param name="EdgeId">An edge identifier.</param>
+        /// <param name="Id">An edge identifier.</param>
         IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                      TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                      TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                      TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
 
-            EdgeById(TIdEdge EdgeId);
+            EdgeById(TIdEdge Id);
 
         #endregion
 
-        #region TryGetEdgeById(EdgeId)
+        #region TryGetEdgeById(Id)
 
         /// <summary>
         /// Try to return the edge referenced by the given edge identifier.
         /// </summary>
-        /// <param name="EdgeId">An edge identifier.</param>
+        /// <param name="Id">An edge identifier.</param>
         /// <param name="Edge">An edge.</param>
         /// <returns>True when success; false otherwise.</returns>
-        Boolean TryGetEdgeById(TIdEdge EdgeId, out IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                                TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                                TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Edge);
+        Boolean TryGetEdgeById(TIdEdge Id,
+                               out IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Edge);
 
         #endregion
 
-        #region HasEdgeId(EdgeId)
+        #region HasEdgeId(Id)
 
         /// <summary>
         /// Check if the given edge identifier already exists within the graph.
         /// </summary>
-        /// <param name="EdgeId">An edge identifier.</param>
+        /// <param name="Id">An edge identifier.</param>
         /// <returns>True when yes; false otherwise.</returns>
-        Boolean HasEdgeId(TIdEdge EdgeId);
+        Boolean HasEdgeId(TIdEdge Id);
 
         #endregion
 
-        #region EdgesById(params EdgeIds)
+        #region EdgesById(params Ids)
 
         /// <summary>
         /// Return the edges referenced by the given array of edge identifiers.
-        /// If no edge is referenced by a given identifier this value will be
-        /// skipped.
+        /// If no edge is referenced by a given identifier this value will be null.
         /// </summary>
-        /// <param name="EdgeIds">An array of edge identifiers.</param>
+        /// <param name="Ids">An array of edge identifiers.</param>
         IEnumerable<IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                  TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                  TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                  TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
 
-            EdgesById(params TIdEdge[] EdgeIds);
+            EdgesById(params TIdEdge[] Ids);
 
         #endregion
 
-        #region EdgesByLabel(params EdgeLabels)
+        #region EdgesByLabel(params Labels)
 
         /// <summary>
-        /// Return an enumeration of all edges having one of the
-        /// given edge labels.
+        /// Return all edges having one of the given labels.
         /// </summary>
-        /// <param name="EdgeLabels">An array of edge labels.</param>
+        /// <param name="Labels">An array of edge labels.</param>
         IEnumerable<IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                  TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                  TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                 TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> EdgesByLabel(params TEdgeLabel[] EdgeLabels);
+                                                 TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
+
+            EdgesByLabel(params TEdgeLabel[] Labels);
 
         #endregion
 
-        #region Edges(EdgeFilter = null)
+        #region Edges(Include = null)
 
         /// <summary>
-        /// Get an enumeration of all edges in the graph.
-        /// An optional edge filter may be applied for filtering.
+        /// Return all edges or only the ones matching the given filter delegate.
         /// </summary>
-        /// <param name="EdgeFilter">A delegate for edge filtering.</param>
+        /// <param name="Include">An optional delegate to select the edges to be returned.</param>
         IEnumerable<IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                  TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                  TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -169,22 +169,22 @@ namespace de.ahzf.Vanaheimr.Blueprints
             Edges(EdgeFilter<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                             TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeFilter = null);
+                             TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Include = null);
 
         #endregion
 
-        #region NumberOfEdges(EdgeFilter = null)
+        #region NumberOfEdges(Include = null)
 
         /// <summary>
-        /// Return the current number of edges matching the given optional edge filter.
+        /// Return the total number of edges or only the number of edges matching the given filter delegate.
         /// When the filter is null, this method should implement an optimized
         /// way to get the currenty number of edges.
         /// </summary>
-        /// <param name="EdgeFilter">A delegate for edge filtering.</param>
+        /// <param name="Include">An optional delegate to select the edges to be counted.</param>
         UInt64 NumberOfEdges(EdgeFilter<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                         TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                         TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeFilter = null);
+                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Include = null);
 
         #endregion
 

@@ -26,7 +26,7 @@ namespace de.ahzf.Vanaheimr.Blueprints
 {
 
     /// <summary>
-    /// The interface for common read-only vertex methods.
+    /// The interface for all common read-only vertex methods.
     /// </summary>
     /// <typeparam name="TIdVertex">The type of the vertex identifiers.</typeparam>
     /// <typeparam name="TRevIdVertex">The type of the vertex revision identifiers.</typeparam>
@@ -78,88 +78,86 @@ namespace de.ahzf.Vanaheimr.Blueprints
 
     {
 
-        #region VertexById(VertexId)
+        #region VertexById(Id)
 
         /// <summary>
         /// Return the vertex referenced by the given vertex identifier.
         /// If no vertex is referenced by the identifier return null.
         /// </summary>
-        /// <param name="VertexId">A vertex identifier.</param>
+        /// <param name="Id">A vertex identifier.</param>
         IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
 
-            VertexById(TIdVertex VertexId);
+            VertexById(TIdVertex Id);
 
         #endregion
 
-        #region TryGetVertexById(VertexId, out Vertex)
+        #region TryGetVertexById(Id, out Vertex)
 
         /// <summary>
         /// Try to return the vertex referenced by the given vertex identifier.
         /// </summary>
-        /// <param name="VertexId">A vertex identifier.</param>
+        /// <param name="Id">A vertex identifier.</param>
         /// <param name="Vertex">A vertex.</param>
         /// <returns>True when success; false otherwise.</returns>
-        Boolean TryGetVertexById(TIdVertex VertexId, out IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Vertex);
+        Boolean TryGetVertexById(TIdVertex VertexId,
+                                 out IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                    TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                    TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Vertex);
 
         #endregion
 
-        #region HasVertexId(VertexId)
+        #region HasVertexId(Id)
 
         /// <summary>
         /// Check if the given vertex identifier already exists within the graph.
         /// </summary>
-        /// <param name="VertexId">A vertex identifier.</param>
+        /// <param name="Id">A vertex identifier.</param>
         /// <returns>True when yes; false otherwise.</returns>
-        Boolean HasVertexId(TIdVertex VertexId);
+        Boolean HasVertexId(TIdVertex Id);
 
         #endregion
 
-        #region VerticesById(params VertexIds)
+        #region VerticesById(params Ids)
 
         /// <summary>
         /// Return the vertices referenced by the given array of vertex identifiers.
-        /// If no vertex is referenced by a given identifier this value will be
-        /// skipped.
+        /// If no vertex is referenced by a given identifier this value will be null.
         /// </summary>
-        /// <param name="VertexIds">An array of vertex identifiers.</param>
+        /// <param name="Ids">An array of vertex identifiers.</param>
         IEnumerable<IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                    TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                    TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
 
-            VerticesById(params TIdVertex[] VertexIds);
+            VerticesById(params TIdVertex[] Ids);
 
         #endregion
 
-        #region VerticesByLabel(params VertexLabels)
+        #region VerticesByLabel(params Labels)
 
         /// <summary>
-        /// Return an enumeration of all vertices having one of the
-        /// given vertex labels.
+        /// Return all vertices having one of the given labels.
         /// </summary>
-        /// <param name="VertexLabels">An array of vertex labels.</param>
+        /// <param name="Labels">An array of vertex labels.</param>
         IEnumerable<IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                    TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                    TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
 
-            VerticesByLabel(params TVertexLabel[] VertexLabels);
+            VerticesByLabel(params TVertexLabel[] Labels);
 
         #endregion
 
-        #region Vertices(VertexFilter = null)
+        #region Vertices(Include = null)
 
         /// <summary>
-        /// Get an enumeration of all vertices in the graph.
-        /// An optional vertex filter may be applied for filtering.
+        /// Return all vertices or only the ones matching the given filter delegate.
         /// </summary>
-        /// <param name="VertexFilter">A delegate for vertex filtering.</param>
+        /// <param name="Include">An optional delegate to select the vertices to be returned.</param>
         IEnumerable<IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                    TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -168,22 +166,22 @@ namespace de.ahzf.Vanaheimr.Blueprints
             Vertices(VertexFilter<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                  TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> VertexFilter = null);
+                                  TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Include = null);
 
         #endregion
 
-        #region NumberOfVertices(VertexFilter = null)
+        #region NumberOfVertices(Include = null)
 
         /// <summary>
-        /// Return the current number of vertices which match the given optional filter.
+        /// Return the total number of vertices or only the number of vertices matching the given filter delegate.
         /// When the filter is null, this method should implement an optimized
         /// way to get the currenty number of vertices.
         /// </summary>
-        /// <param name="VertexFilter">A delegate for vertex filtering.</param>
+        /// <param name="Include">An optional delegate to select the vertices to be counted.</param>
         UInt64 NumberOfVertices(VertexFilter<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                             TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> VertexFilter = null);
+                                             TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Include = null);
 
         #endregion
 

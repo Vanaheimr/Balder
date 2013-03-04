@@ -54,19 +54,62 @@ namespace de.ahzf.Vanaheimr.Balder.UnitTests.InMemoryPropertyGraphs
             Assert.IsNotNull(_graph, "graph must not be null!");
 
 
-            // Vertices
+            #region Vertices...
+
+            // VertexById(...)
             Assert.IsNull(_graph.VertexById(null));
             Assert.IsNull(_graph.VertexById("Eve"));
             Assert.AreEqual("Alice", _graph.VertexById("Alice").Id);
 
-            Assert.AreEqual(false,        _graph.VerticesById().    Any());
-            Assert.AreEqual(false,        _graph.VerticesById(null).Any());
-            Assert.AreEqual("Alice|Bob",  _graph.VerticesById("Alice", "Bob").      Ids().AggString());
-            Assert.AreEqual("Alice||Bob", _graph.VerticesById("Alice", null, "Bob").Ids().AggString());
+            // TryGetVertexById(...)
+            IReadOnlyGenericPropertyVertex<String, Int64, String, String, Object,
+                                           String, Int64, String, String, Object,
+                                           String, Int64, String, String, Object,
+                                           String, Int64, String, String, Object> Vertex;
 
+            Assert.IsFalse(_graph.TryGetVertexById(null, out Vertex));
+            Assert.IsNull(Vertex);
+            Assert.IsFalse(_graph.TryGetVertexById("Eve", out Vertex));
+            Assert.IsNull(Vertex);
+            Assert.IsTrue(_graph.TryGetVertexById("Alice", out Vertex));
+            Assert.IsNotNull(Vertex);
+            Assert.AreEqual("Alice", Vertex.Id);
+
+            // HasVertexId(...)
             Assert.IsFalse(_graph.HasVertexId(null));
             Assert.IsFalse(_graph.HasVertexId("Eve"));
             Assert.IsTrue (_graph.HasVertexId("Alice"));
+
+            // VerticesById(...)
+            Assert.IsFalse(               _graph.VerticesById().    Any());
+            Assert.IsFalse(               _graph.VerticesById(null).Any());
+            Assert.AreEqual(0,            _graph.VerticesById(null).Count());
+            Assert.AreEqual(2,            _graph.VerticesById(null, null).Count());  // Compared to VerticesById(null) perhaps a bit surprising!
+            Assert.AreEqual("|",          _graph.VerticesById(null, null).Ids().AggString());
+            Assert.AreEqual(3,            _graph.VerticesById(null, null, null).Count());
+            Assert.AreEqual("||",         _graph.VerticesById(null, null, null).Ids().AggString());
+            Assert.AreEqual("Alice",      _graph.VerticesById("Alice").Ids().AggString());
+            Assert.AreEqual("Alice|Bob",  _graph.VerticesById("Alice", "Bob").      Ids().AggString());
+            Assert.AreEqual("Alice||Bob", _graph.VerticesById("Alice", null, "Bob").Ids().AggString());
+            Assert.AreEqual("|Alice|Bob", _graph.VerticesById(null, "Alice", "Bob").Ids().AggString());
+
+            // VerticesByLabel(...)
+            Assert.IsFalse(               _graph.VerticesByLabel().Any());
+            Assert.IsFalse(               _graph.VerticesByLabel(null).Any());
+            Assert.AreEqual(0,            _graph.VerticesByLabel(null).Count());
+            Assert.AreEqual(4,            _graph.VerticesByLabel(DemoGraphFactory.person).Count());
+            Assert.AreEqual(1,            _graph.VerticesByLabel(DemoGraphFactory.pet).Count());
+            Assert.AreEqual(5,            _graph.VerticesByLabel(DemoGraphFactory.person, DemoGraphFactory.pet).Count());
+            Assert.AreEqual(5,            _graph.VerticesByLabel(DemoGraphFactory.person, null, DemoGraphFactory.pet).Count());
+
+            // Vertices(...)
+            Assert.AreEqual(5,            _graph.Vertices().Count());
+            Assert.AreEqual(5,            _graph.Vertices(null).Count());
+            Assert.AreEqual(5,            _graph.Vertices(v => true).Count());
+            Assert.AreEqual(0,            _graph.Vertices(v => false).Count());
+            Assert.AreEqual(1,            _graph.Vertices(v => v.Id == "Alice").Count());
+
+            #endregion
 
 
             // Edges
@@ -74,14 +117,28 @@ namespace de.ahzf.Vanaheimr.Balder.UnitTests.InMemoryPropertyGraphs
             Assert.IsNull(_graph.EdgeById("Eve"));
             Assert.AreEqual("Alice", _graph.EdgeById("Alice -loves-> Bob").OutVertex.Id);
 
+            IReadOnlyGenericPropertyEdge<String, Int64, String, String, Object,
+                                         String, Int64, String, String, Object,
+                                         String, Int64, String, String, Object,
+                                         String, Int64, String, String, Object> Edge;
+
+            Assert.IsFalse(_graph.TryGetEdgeById(null, out Edge));
+            Assert.IsNull(Edge);
+            Assert.IsFalse(_graph.TryGetEdgeById("Eve", out Edge));
+            Assert.IsNull(Edge);
+            Assert.IsTrue(_graph.TryGetEdgeById("Alice -loves-> Bob", out Edge));
+            Assert.IsNotNull(Edge);
+            Assert.AreEqual("Alice -loves-> Bob", Edge.Id);
+
+            Assert.IsFalse(_graph.HasEdgeId(null));
+            Assert.IsFalse(_graph.HasEdgeId("Eve"));
+            Assert.IsTrue (_graph.HasEdgeId("Alice -loves-> Bob"));
+
             Assert.AreEqual(false,        _graph.EdgesById().    Any());
             Assert.AreEqual(false,        _graph.EdgesById(null).Any());
             Assert.AreEqual("Alice|Bob",  _graph.EdgesById("Alice -loves-> Bob", "Bob -loves-> Carol").      OutV().Ids().AggString());
             Assert.AreEqual("Alice||Bob", _graph.EdgesById("Alice -loves-> Bob", null, "Bob -loves-> Carol").OutV().Ids().AggString());
 
-            Assert.IsFalse(_graph.HasEdgeId(null));
-            Assert.IsFalse(_graph.HasEdgeId("Eve"));
-            Assert.IsTrue (_graph.HasEdgeId("Alice -loves-> Bob"));
 
         }
 

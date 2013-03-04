@@ -26,7 +26,7 @@ namespace de.ahzf.Vanaheimr.Blueprints
 {
 
     /// <summary>
-    /// The interface for common read-only multiedge methods.
+    /// The interface for all common read-only multiedge methods.
     /// </summary>
     /// <typeparam name="TIdVertex">The type of the vertex identifiers.</typeparam>
     /// <typeparam name="TRevIdVertex">The type of the vertex revision identifiers.</typeparam>
@@ -78,95 +78,110 @@ namespace de.ahzf.Vanaheimr.Blueprints
 
     {
 
-        #region MultiEdgeById(MultiEdgeId)
+        #region MultiEdgeById(Id)
 
         /// <summary>
-        /// Return the MultiEdge referenced by the given MultiEdge identifier.
-        /// If no MultiEdge is referenced by a given identifier return null.
+        /// Return the multiedge referenced by the given multiedge identifier.
+        /// If no multiedge is referenced by a given identifier return null.
         /// </summary>
-        /// <param name="MultiEdgeId">A MultiEdge identifier.</param>
+        /// <param name="Id">A multiedge identifier.</param>
         IReadOnlyGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                           TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                           TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
 
-            MultiEdgeById(TIdMultiEdge MultiEdgeId);
+            MultiEdgeById(TIdMultiEdge Id);
 
         #endregion
 
-        #region MultiEdgesById(params MultiEdgeIds)
+        #region TryGetMultiEdgeById(Id)
 
         /// <summary>
-        /// Return the MultiEdges referenced by the given array of MultiEdge identifiers.
-        /// If no MultiEdge is referenced by a given identifier this value will be
-        /// skipped.
+        /// Try to return the multiedge referenced by the given multiedge identifier.
         /// </summary>
-        /// <param name="MultiEdgeIds">An array of MultiEdge identifiers.</param>
-        IEnumerable<IReadOnlyGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                      TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                      TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                      TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
-
-            MultiEdgesById(params TIdMultiEdge[] MultiEdgeIds);
+        /// <param name="Id">A multiedge identifier.</param>
+        /// <param name="MultiEdge">A multiedge.</param>
+        /// <returns>True when success; false otherwise.</returns>
+        Boolean TryGetMultiEdgeById(TIdMultiEdge Id,
+                                    out IReadOnlyGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> MultiEdge);
 
         #endregion
 
-        #region HasMultiEdgeId(MultiEdgeId)
+        #region HasMultiEdgeId(Id)
 
         /// <summary>
         /// Check if the given multiedge identifier already exists within the graph.
         /// </summary>
-        /// <param name="MultiEdgeId">A multiedge identifier.</param>
+        /// <param name="Id">A multiedge identifier.</param>
         /// <returns>True when yes; false otherwise.</returns>
-        Boolean HasMultiEdgeId(TIdMultiEdge MultiEdgeId);
+        Boolean HasMultiEdgeId(TIdMultiEdge Id);
 
         #endregion
 
-        #region MultiEdgesByLabel(params EdgeLabels)
+        #region MultiEdgesById(params Ids)
 
         /// <summary>
-        /// The enumeration of all multiedges having one of the given label.
+        /// Return the multiedges referenced by the given array of multiedge identifiers.
+        /// If no multiedge is referenced by a given identifier this value will be null.
         /// </summary>
+        /// <param name="Ids">An array of multiedge identifiers.</param>
         IEnumerable<IReadOnlyGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
 
-            MultiEdgesByLabel(params TMultiEdgeLabel[] MultiEdgeLabels);
+            MultiEdgesById(params TIdMultiEdge[] Ids);
 
         #endregion
 
-        #region MultiEdges(MultiEdgeFilter = null)
+        #region MultiEdgesByLabel(params Labels)
 
         /// <summary>
-        /// Get an enumeration of all MultiEdges in the graph.
-        /// An optional MultiEdge filter may be applied for filtering.
+        /// Return all multiedges having one of the given labels.
         /// </summary>
-        /// <param name="MultiEdgeFilter">A delegate for MultiEdge filtering.</param>
+        /// <param name="Labels">An array of multiedge labels.</param>
         IEnumerable<IReadOnlyGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
-            
+
+            MultiEdgesByLabel(params TMultiEdgeLabel[] Labels);
+
+        #endregion
+
+        #region MultiEdges(Include = null)
+
+        /// <summary>
+        /// Return all multiedges or only the ones matching the given filter delegate.
+        /// </summary>
+        /// <param name="Include">An optional delegate to select the multiedges to be returned.</param>
+        IEnumerable<IReadOnlyGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                      TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                      TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                      TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
+
             MultiEdges(MultiEdgeFilter<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> MultiEdgeFilter = null);
+                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Include = null);
 
         #endregion
 
-        #region NumberOfMultiEdges(MultiEdgeFilter = null)
+        #region NumberOfMultiEdges(Include = null)
 
         /// <summary>
-        /// Return the current number of MultiEdges matching the given optional MultiEdge filter.
+        /// Return the total number of multiedges or only the number of multiedges matching the given filter delegate.
         /// When the filter is null, this method should implement an optimized
-        /// way to get the currenty number of edges.
+        /// way to get the currenty number of multiedges.
         /// </summary>
-        /// <param name="MultiEdgeFilter">A delegate for MultiEdge filtering.</param>
+        /// <param name="Include">An optional delegate to select the multiedges to be counted.</param>
         UInt64 NumberOfMultiEdges(MultiEdgeFilter<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                  TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> MultiEdgeFilter = null);
+                                                  TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Include = null);
 
         #endregion
 
