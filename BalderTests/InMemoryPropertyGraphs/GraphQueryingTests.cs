@@ -33,7 +33,7 @@ namespace de.ahzf.Vanaheimr.Balder.UnitTests.InMemoryPropertyGraphs
 {
 
     /// <summary>
-    /// Unit tests for creating generic property graphs by using the GraphFactory.
+    /// Unit tests for querying generic property graphs.
     /// </summary>
     [TestFixture]
     public class GraphQueryingTests
