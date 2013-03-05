@@ -39,22 +39,19 @@ namespace de.ahzf.Vanaheimr.Balder.UnitTests.InMemoryPropertyGraphs
     public class GraphQueryingTests
     {
 
-        #region CheckGraphQueries()
+        #region CheckGraphQueriesVertices()
 
         /// <summary>
-        /// A test for vertex-centric property graph queries.
+        /// A test for graph-centric property graph queries for vertices.
         /// </summary>
         [Test]
-        public void CheckGraphQueries()
+        public void CheckGraphQueriesVertices()
         {
 
             // Setup
             var _graph = DemoGraphFactory.CreateSimpleGraph();
-
             Assert.IsNotNull(_graph, "graph must not be null!");
 
-
-            #region Vertices...
 
             // VertexById(...)
             Assert.IsNull(_graph.VertexById(null));
@@ -101,6 +98,7 @@ namespace de.ahzf.Vanaheimr.Balder.UnitTests.InMemoryPropertyGraphs
             Assert.AreEqual(1,            _graph.VerticesByLabel(DemoGraphFactory.pet).Count());
             Assert.AreEqual(5,            _graph.VerticesByLabel(DemoGraphFactory.person, DemoGraphFactory.pet).Count());
             Assert.AreEqual(5,            _graph.VerticesByLabel(DemoGraphFactory.person, null, DemoGraphFactory.pet).Count());
+            Assert.AreEqual(5,            _graph.VerticesByLabel(null, DemoGraphFactory.person, DemoGraphFactory.pet).Count());
 
             // Vertices(...)
             Assert.AreEqual(5,            _graph.Vertices().Count());
@@ -109,14 +107,30 @@ namespace de.ahzf.Vanaheimr.Balder.UnitTests.InMemoryPropertyGraphs
             Assert.AreEqual(0,            _graph.Vertices(v => false).Count());
             Assert.AreEqual(1,            _graph.Vertices(v => v.Id == "Alice").Count());
 
-            #endregion
+        }
+
+        #endregion
+
+        #region CheckGraphQueriesEdges()
+
+        /// <summary>
+        /// A test for graph-centric property graph queries for edges.
+        /// </summary>
+        [Test]
+        public void CheckGraphQueriesEdges()
+        {
+
+            // Setup
+            var _graph = DemoGraphFactory.CreateSimpleGraph();
+            Assert.IsNotNull(_graph, "graph must not be null!");
 
 
-            // Edges
+            // VertexById(...)
             Assert.IsNull(_graph.EdgeById(null));
             Assert.IsNull(_graph.EdgeById("Eve"));
             Assert.AreEqual("Alice", _graph.EdgeById("Alice -loves-> Bob").OutVertex.Id);
 
+            // TryGetVertexById(...)
             IReadOnlyGenericPropertyEdge<String, Int64, String, String, Object,
                                          String, Int64, String, String, Object,
                                          String, Int64, String, String, Object,
@@ -130,15 +144,40 @@ namespace de.ahzf.Vanaheimr.Balder.UnitTests.InMemoryPropertyGraphs
             Assert.IsNotNull(Edge);
             Assert.AreEqual("Alice -loves-> Bob", Edge.Id);
 
+            // HasEdgeId(...)
             Assert.IsFalse(_graph.HasEdgeId(null));
             Assert.IsFalse(_graph.HasEdgeId("Eve"));
-            Assert.IsTrue (_graph.HasEdgeId("Alice -loves-> Bob"));
+            Assert.IsTrue(_graph.HasEdgeId("Alice -loves-> Bob"));
 
-            Assert.AreEqual(false,        _graph.EdgesById().    Any());
-            Assert.AreEqual(false,        _graph.EdgesById(null).Any());
-            Assert.AreEqual("Alice|Bob",  _graph.EdgesById("Alice -loves-> Bob", "Bob -loves-> Carol").      OutV().Ids().AggString());
+            // EdgesById(...)
+            Assert.IsFalse(               _graph.EdgesById().    Any());
+            Assert.IsFalse(               _graph.EdgesById(null).Any());
+            Assert.AreEqual(0,            _graph.EdgesById(null).Count());
+            Assert.AreEqual(2,            _graph.EdgesById(null, null).Count());  // Compared to EdgesById(null) perhaps a bit surprising!
+            Assert.AreEqual("|",          _graph.EdgesById(null, null).Ids().AggString());
+            Assert.AreEqual(3,            _graph.EdgesById(null, null, null).Count());
+            Assert.AreEqual("||",         _graph.EdgesById(null, null, null).Ids().AggString());
+            Assert.AreEqual("Alice",      _graph.EdgesById("Alice -loves-> Bob").OutV().Ids().AggString());
+            Assert.AreEqual("Alice|Bob",  _graph.EdgesById("Alice -loves-> Bob", "Bob -loves-> Carol").OutV().Ids().AggString());
             Assert.AreEqual("Alice||Bob", _graph.EdgesById("Alice -loves-> Bob", null, "Bob -loves-> Carol").OutV().Ids().AggString());
+            Assert.AreEqual("|Alice|Bob", _graph.EdgesById(null, "Alice -loves-> Bob", "Bob -loves-> Carol").OutV().Ids().AggString());
 
+            // EdgesByLabel(...)
+            Assert.IsFalse(               _graph.EdgesByLabel().Any());
+            Assert.IsFalse(               _graph.EdgesByLabel(null).Any());
+            Assert.AreEqual(0,            _graph.EdgesByLabel(null).Count());
+            Assert.AreEqual(6,            _graph.EdgesByLabel(DemoGraphFactory.knows).Count());
+            Assert.AreEqual(3,            _graph.EdgesByLabel(DemoGraphFactory.loves).Count());
+            Assert.AreEqual(9,            _graph.EdgesByLabel(DemoGraphFactory.knows, DemoGraphFactory.loves).Count());
+            Assert.AreEqual(9,            _graph.EdgesByLabel(DemoGraphFactory.knows, null, DemoGraphFactory.loves).Count());
+            Assert.AreEqual(9,            _graph.EdgesByLabel(null, DemoGraphFactory.knows, DemoGraphFactory.loves).Count());
+
+            // Edges(...)
+            Assert.AreEqual(9,            _graph.Edges().Count());
+            Assert.AreEqual(9,            _graph.Edges(null).Count());
+            Assert.AreEqual(9,            _graph.Edges(e => true).Count());
+            Assert.AreEqual(0,            _graph.Edges(e => false).Count());
+            Assert.AreEqual(1,            _graph.Edges(e => e.Id == "Alice -loves-> Bob").Count());
 
         }
 
@@ -273,3 +312,4 @@ namespace de.ahzf.Vanaheimr.Balder.UnitTests.InMemoryPropertyGraphs
     }
 
 }
+
