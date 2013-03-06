@@ -23,9 +23,9 @@ using System.Collections.Generic;
 
 using NUnit.Framework;
 
-using de.ahzf.Illias.Commons.Collections;
-using de.ahzf.Vanaheimr.Blueprints.InMemory;
+using de.ahzf.Illias.Commons.Votes;
 using de.ahzf.Vanaheimr.Blueprints;
+using de.ahzf.Vanaheimr.Blueprints.InMemory;
 
 #endregion
 
@@ -130,10 +130,10 @@ namespace de.ahzf.Vanaheimr.Balder.UnitTests.InMemoryPropertyGraphs
 
 
             // Wire graph voting events... and deny all
-            _graph.OnVertexAddition.   OnVoting += (g,  v, Vote)  =>  { if (v.Id.   Contains("1")) { Vote.VoteFor(false); } else  Vote.VoteFor(true); };
-            _graph.OnEdgeAddition.     OnVoting += (g,  e, Vote)  =>  { if (e.Label.Contains("1")) { Vote.VoteFor(false); } else  Vote.VoteFor(true); };
-            _graph.OnMultiEdgeAddition.OnVoting += (g, me, Vote)  =>  Vote.VoteFor(false);
-            _graph.OnHyperEdgeAddition.OnVoting += (g, he, Vote)  =>  Vote.VoteFor(false);
+            _graph.OnVertexAddition.   OnVoting += (g,  v, Vote)  =>  { if (v.Id.   Contains("1")) { Vote.Deny(); } else Vote.Accept(); };
+            _graph.OnEdgeAddition.     OnVoting += (g,  e, Vote)  =>  { if (e.Label.Contains("1")) { Vote.Deny(); } else Vote.Accept(); };
+            _graph.OnMultiEdgeAddition.OnVoting += (g, me, Vote)  =>  Vote.Deny();
+            _graph.OnHyperEdgeAddition.OnVoting += (g, he, Vote)  =>  Vote.Deny();
 
             // Wire graph events...
             _graph.OnVertexAddition.   OnNotification += (g,  v)  =>  Vertices.  Add(v);

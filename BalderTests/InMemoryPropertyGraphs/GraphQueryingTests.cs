@@ -24,8 +24,8 @@ using System.Collections.Generic;
 using NUnit.Framework;
 
 using de.ahzf.Illias.Commons.Collections;
-using de.ahzf.Vanaheimr.Blueprints.InMemory;
 using de.ahzf.Vanaheimr.Blueprints;
+using de.ahzf.Vanaheimr.Blueprints.InMemory;
 
 #endregion
 
