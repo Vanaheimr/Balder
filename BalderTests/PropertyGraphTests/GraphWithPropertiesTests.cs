@@ -206,11 +206,11 @@ namespace de.ahzf.Vanaheimr.Balder.UnitTests.PropertyGraphTests
 
             var filtered01 = graph.GetProperties(null).ToList();
             Assert.NotNull(filtered01);
-            Assert.AreEqual(5, filtered01.Count);
+            Assert.AreEqual(7, filtered01.Count);
 
             var filtered02 = graph.GetProperties((k, v) => true).ToList();
             Assert.NotNull(filtered02);
-            Assert.AreEqual(5, filtered02.Count);
+            Assert.AreEqual(7, filtered02.Count);
 
             var filtered03 = graph.GetProperties((k, v) => k.StartsWith("he")).ToList();
             Assert.NotNull(filtered03);
@@ -225,15 +225,15 @@ namespace de.ahzf.Vanaheimr.Balder.UnitTests.PropertyGraphTests
             foreach (var property in graph)
                 AllProperties.Add(property.Key, property.Value);
 
-            Assert.AreEqual(5, AllProperties.Count);
+            Assert.AreEqual(7, AllProperties.Count);
 
             var keys   = graph.Keys.ToList();
             Assert.NotNull(keys);
-            Assert.AreEqual(5, keys.Count);
+            Assert.AreEqual(7, keys.Count);
 
             var values = graph.Values.ToList();
             Assert.NotNull(values);
-            Assert.AreEqual(5, values.Count);
+            Assert.AreEqual(7, values.Count);
 
 
             var deleted1 = graph.Remove("hello");
@@ -563,7 +563,7 @@ namespace de.ahzf.Vanaheimr.Balder.UnitTests.PropertyGraphTests
             // Filtered Keys/Values
             var FilteredKeys1   = graph.FilteredKeys  ((k, v) => true).ToList();
             Assert.NotNull(FilteredKeys1);
-            Assert.AreEqual(8, FilteredKeys1.Count);
+            Assert.AreEqual(9, FilteredKeys1.Count);
 
             var FilteredKeys2   = graph.FilteredKeys  ((k, v) => { if ((v as String).IsNotNullAndContains("!")) return true; else return false;}).ToList();
             Assert.NotNull(FilteredKeys2);
@@ -572,7 +572,7 @@ namespace de.ahzf.Vanaheimr.Balder.UnitTests.PropertyGraphTests
 
             var FilteredValues1 = graph.FilteredValues((k, v) => true).ToList();
             Assert.NotNull(FilteredValues1);
-            Assert.AreEqual(8, FilteredValues1.Count);
+            Assert.AreEqual(9, FilteredValues1.Count);
 
             var FilteredValues2 = graph.FilteredValues((k, v) => { if ((v as String).IsNotNullAndContains("!")) return true; else return false; }).ToList();
             Assert.NotNull(FilteredValues2);

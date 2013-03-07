@@ -33,7 +33,6 @@ namespace de.ahzf.Vanaheimr.Balder.UnitTests.PropertyGraphTests
     /// Create some empty graphs with random graph
     /// identifications for unit tests.
     /// </summary>
-    [TestFixture]
     public static class EmptyGraphFactory
     {
 
