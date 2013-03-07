@@ -57,8 +57,7 @@
     <Compile Include="InMemoryPropertyGraphs\GraphSchemaTests.cs" />
     <Compile Include="PropertyGraphTests\GraphWithPropertiesTests.cs" />
     <Compile Include="PropertyGraphTests\IPropertiesTests.cs" />
-    <Compile Include="PropertyGraphTests\IPropertyGraphExtensionTests.cs" />
-    <Compile Include="PropertyGraphTests\PropertyVertexTests.cs" />
+    <Compile Include="InMemoryPropertyGraphs\GraphManipulationTests.cs" />
     <Compile Include="Pipes\GraphElements\GraphElementPipeTest.cs" />
     <Compile Include="Pipes\GraphElements\LabelFilterPipeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

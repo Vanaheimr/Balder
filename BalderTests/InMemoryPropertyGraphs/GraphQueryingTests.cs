@@ -107,6 +107,20 @@ namespace de.ahzf.Vanaheimr.Balder.UnitTests.InMemoryPropertyGraphs
             Assert.AreEqual(0,            _graph.Vertices(v => false).Count());
             Assert.AreEqual(1,            _graph.Vertices(v => v.Id == "Alice").Count());
 
+
+            // Multiple graphs...
+            var _graphs = new List<IReadOnlyGenericPropertyGraph<String, Int64, String, String, Object,
+                                                                 String, Int64, String, String, Object,
+                                                                 String, Int64, String, String, Object,
+                                                                 String, Int64, String, String, Object>>() { _graph, _graph, _graph };
+
+            Assert.AreEqual(15,           _graphs.V().          Count());
+            Assert.AreEqual(15,           _graphs.V(null).      Count());
+            Assert.AreEqual(15,           _graphs.V(v => true). Count());
+            Assert.AreEqual(0,            _graphs.V(v => false).Count());
+            Assert.AreEqual(3,            _graphs.V(v => v.Id == "Alice").Count());
+
+
         }
 
         #endregion
@@ -173,11 +187,24 @@ namespace de.ahzf.Vanaheimr.Balder.UnitTests.InMemoryPropertyGraphs
             Assert.AreEqual(9,            _graph.EdgesByLabel(null, DemoGraphFactory.knows, DemoGraphFactory.loves).Count());
 
             // Edges(...)
-            Assert.AreEqual(9,            _graph.Edges().Count());
-            Assert.AreEqual(9,            _graph.Edges(null).Count());
-            Assert.AreEqual(9,            _graph.Edges(e => true).Count());
+            Assert.AreEqual(9,            _graph.Edges().          Count());
+            Assert.AreEqual(9,            _graph.Edges(null).      Count());
+            Assert.AreEqual(9,            _graph.Edges(e => true). Count());
             Assert.AreEqual(0,            _graph.Edges(e => false).Count());
             Assert.AreEqual(1,            _graph.Edges(e => e.Id == "Alice -loves-> Bob").Count());
+
+
+            // Multiple graphs...
+            var _graphs = new List<IReadOnlyGenericPropertyGraph<String, Int64, String, String, Object,
+                                                                 String, Int64, String, String, Object,
+                                                                 String, Int64, String, String, Object,
+                                                                 String, Int64, String, String, Object>>() { _graph, _graph, _graph };
+
+            Assert.AreEqual(27,           _graphs.E().          Count());
+            Assert.AreEqual(27,           _graphs.E(null).      Count());
+            Assert.AreEqual(27,           _graphs.E(e => true). Count());
+            Assert.AreEqual(0,            _graphs.E(e => false).Count());
+            Assert.AreEqual(3,            _graphs.E(e => e.Id == "Alice -loves-> Bob").Count());
 
         }
 
