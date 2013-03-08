@@ -238,9 +238,9 @@ namespace de.ahzf.Vanaheimr.Balder.UnitTests.InMemoryPropertyGraphs
             Assert.IsTrue(VertexIdSet.Contains("Dave"));
             Assert.IsTrue(VertexIdSet.Contains("Rex"));
 
-            Assert.AreEqual("Rex|Alice|Dave",       _graph.Vertices(v => v.Id.Contains("e")).Ids().Distinct().AggString());
-            Assert.AreEqual("Alice|Bob|Carol|Dave", _graph.Vertices(DemoGraphFactory.age).Ids().Distinct().AggString());      // property key filter
-            Assert.AreEqual("Alice",                _graph.Vertices(DemoGraphFactory.age, 18).Ids().Distinct().AggString());  // property key+value filter
+            Assert.AreEqual("Alice|Dave|Rex",       _graph.Vertices(v => v.Id.Contains("e")).Ids().Distinct().OrderBy(s => s).AggString());
+            Assert.AreEqual("Alice|Bob|Carol|Dave", _graph.Vertices(DemoGraphFactory.age).Ids().Distinct().OrderBy(s => s).AggString());      // property key filter
+            Assert.AreEqual("Alice",                _graph.Vertices(DemoGraphFactory.age, 18).Ids().AggString());  // property key+value filter
 
             // Labels
             var VertexLabelSet = _graph.Vertices().Labels().Distinct().ToArray();
@@ -252,33 +252,63 @@ namespace de.ahzf.Vanaheimr.Balder.UnitTests.InMemoryPropertyGraphs
             var VertexRevIdSet = _graph.Vertices().RevIds().Distinct().ToArray();
             Assert.AreEqual(1, VertexRevIdSet.Length, "Wrong number of vertex revision identifications!");
 
-            // Edges and neighbors
-            var AlicesOutEdges1            = _graph.VertexById("Alice").OutE().Ids().ToArray();
-            var AlicesOutEdges2            = _graph.VertexById("Alice").OutEdges().Ids().ToArray();
-            Assert.AreEqual("Alice -loves-> Bob|0|2", AlicesOutEdges1.AggString());
-            Assert.AreEqual("Alice -loves-> Bob|0|2", AlicesOutEdges2.AggString());
+            // OutEdges (pure, edge filter delegate, edge labels)
+            Assert.AreEqual("0|2|Alice -loves-> Bob", _graph.VertexById("Alice").OutE    ().                       Ids().Sort().AggString());
+            Assert.AreEqual("0|2|Alice -loves-> Bob", _graph.VertexById("Alice").OutEdges().                       Ids().Sort().AggString());
+            Assert.AreEqual("0|2|Alice -loves-> Bob", _graph.VertexById("Alice").OutE    (e => true).              Ids().Sort().AggString());
+            Assert.AreEqual("0|2|Alice -loves-> Bob", _graph.VertexById("Alice").OutEdges(e => true).              Ids().Sort().AggString());
+            Assert.AreEqual("0|2",                    _graph.VertexById("Alice").OutE    (e => e.Label == "knows").Ids().Sort().AggString());
+            Assert.AreEqual("0|2",                    _graph.VertexById("Alice").OutEdges(e => e.Label == "knows").Ids().Sort().AggString());
+            Assert.AreEqual("Alice -loves-> Bob",     _graph.VertexById("Alice").OutE    (e => e.Label == "loves").Ids().Sort().AggString());
+            Assert.AreEqual("Alice -loves-> Bob",     _graph.VertexById("Alice").OutEdges(e => e.Label == "loves").Ids().Sort().AggString());
+            Assert.AreEqual("",                       _graph.VertexById("Alice").OutE    (e => false).             Ids().Sort().AggString());
+            Assert.AreEqual("",                       _graph.VertexById("Alice").OutEdges(e => false).             Ids().Sort().AggString());
+            Assert.AreEqual("",                       _graph.VertexById("Alice").OutE    ("evil").                 Ids().Sort().AggString());
+            Assert.AreEqual("",                       _graph.VertexById("Alice").OutEdges("evil").                 Ids().Sort().AggString());
+            Assert.AreEqual("0|2",                    _graph.VertexById("Alice").OutE    ("knows").                Ids().Sort().AggString());
+            Assert.AreEqual("0|2",                    _graph.VertexById("Alice").OutEdges("knows").                Ids().Sort().AggString());
+            Assert.AreEqual("Alice -loves-> Bob",     _graph.VertexById("Alice").OutE    ("loves").                Ids().Sort().AggString());
+            Assert.AreEqual("Alice -loves-> Bob",     _graph.VertexById("Alice").OutEdges("loves").                Ids().Sort().AggString());
+            Assert.AreEqual("0|2|Alice -loves-> Bob", _graph.VertexById("Alice").OutE    ("knows", "loves").       Ids().Sort().AggString());
+            Assert.AreEqual("0|2|Alice -loves-> Bob", _graph.VertexById("Alice").OutEdges("knows", "loves").       Ids().Sort().AggString());
 
-            var AlicesOutNeighbors         = _graph.VertexById("Alice").Out().Ids().ToArray();
-            var AlicesOutNeighborsUnique   = _graph.VertexById("Alice").Out().Distinct().Ids().ToArray();
-            Assert.AreEqual("Bob|Bob|Carol",  AlicesOutNeighbors.      AggString());
-            Assert.AreEqual("Bob|Carol",      AlicesOutNeighborsUnique.AggString());
+            // OutNeighbors (pure, edge filter delegate, edge labels)
+            Assert.AreEqual("Bob|Bob|Carol",          _graph.VertexById("Alice").Out().                                  Ids().Sort().AggString());
+            Assert.AreEqual("Bob|Carol",              _graph.VertexById("Alice").Out().Distinct().                       Ids().Sort().AggString());
+            Assert.AreEqual("Bob|Bob|Carol",          _graph.VertexById("Alice").Out(e => true).                         Ids().Sort().AggString());
+            Assert.AreEqual("Bob|Carol",              _graph.VertexById("Alice").Out(e => true).Distinct().              Ids().Sort().AggString());
+            Assert.AreEqual("Bob|Carol",              _graph.VertexById("Alice").Out(e => e.Label == "knows").           Ids().Sort().AggString());
+            Assert.AreEqual("Bob|Carol",              _graph.VertexById("Alice").Out(e => e.Label == "knows").Distinct().Ids().Sort().AggString());
+            Assert.AreEqual("Bob",                    _graph.VertexById("Alice").Out(e => e.Label == "loves").           Ids().Sort().AggString());
+            Assert.AreEqual("Bob",                    _graph.VertexById("Alice").Out(e => e.Label == "loves").Distinct().Ids().Sort().AggString());
+            Assert.AreEqual("",                       _graph.VertexById("Alice").Out(e => false).                        Ids().Sort().AggString());
+            Assert.AreEqual("",                       _graph.VertexById("Alice").Out(e => false).Distinct().             Ids().Sort().AggString());
 
 
+            // InEdges
             var AlicesInEdges1             = _graph.VertexById("Alice").InE().Ids().ToArray();
             var AlicesInEdges2             = _graph.VertexById("Alice").InEdges().Ids().ToArray();
             Assert.AreEqual("Carol -loves-> Alice|1|3", AlicesInEdges1.AggString());
             Assert.AreEqual("Carol -loves-> Alice|1|3", AlicesInEdges2.AggString());
 
+            // InNeighbors
             var AlicesInNeighbors          = _graph.VertexById("Alice").In().Ids().ToArray();
             var AlicesInNeighborsUnique    = _graph.VertexById("Alice").In().Distinct().Ids().ToArray();
             Assert.AreEqual("Carol|Bob|Carol",  AlicesInNeighbors.      AggString());
             Assert.AreEqual("Carol|Bob",        AlicesInNeighborsUnique.AggString());
 
 
+
             var AlicesBothEdges            = _graph.VertexById("Alice").BothE().Ids().ToArray();
             var AlicesBothEdgesUnique      = _graph.VertexById("Alice").BothE().Distinct().Ids().ToArray();
             Assert.AreEqual("Alice -loves-> Bob|0|2|Carol -loves-> Alice|1|3",  AlicesBothEdges.      AggString());
             Assert.AreEqual("Alice -loves-> Bob|0|2|Carol -loves-> Alice|1|3",  AlicesBothEdgesUnique.AggString());
+
+            var AlicesBothEdges2           = _graph.VertexById("Alice").BothE(e => e.Label == "knows").Ids().ToArray();
+            var AlicesBothEdges2Unique     = _graph.VertexById("Alice").BothE(e => e.Label == "knows").Distinct().Ids().ToArray();
+            Assert.AreEqual("Alice -loves-> Bob|0|2|Carol -loves-> Alice|1|3",  AlicesBothEdges.      AggString());
+            Assert.AreEqual("Alice -loves-> Bob|0|2|Carol -loves-> Alice|1|3",  AlicesBothEdgesUnique.AggString());
+
 
             var AlicesBothNeighbors        = _graph.VertexById("Alice").Both().Ids().ToArray();
             var AlicesBothUniqueNeighbors  = _graph.VertexById("Alice").Both().Distinct().Ids().ToArray();

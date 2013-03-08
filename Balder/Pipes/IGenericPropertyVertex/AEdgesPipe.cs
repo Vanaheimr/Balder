@@ -161,7 +161,7 @@ namespace de.ahzf.Vanaheimr.Balder
 
             switch (TraversalDirection)
             {
-                
+
                 case Balder.TraversalDirection.Out:  Vertex2EdgesDelegate = vertex => vertex.OutEdges(EdgeLabels).GetEnumerator();
                                                      break;
                 
@@ -205,16 +205,18 @@ namespace de.ahzf.Vanaheimr.Balder
                                                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> IEnumerator = null)
 
+            : base(IEnumerable, IEnumerator)
+
         {
 
-            this.EdgeFilter = (EdgeFilter != null) ? EdgeFilter : v => true;
+            this.EdgeFilter = (EdgeFilter != null) ? EdgeFilter : e => true;
 
             switch (TraversalDirection)
             {
-                
+
                 case Balder.TraversalDirection.Out:  Vertex2EdgesDelegate = vertex => vertex.OutEdges(this.EdgeFilter).GetEnumerator();
                                                      break;
-                
+
                 case Balder.TraversalDirection.In:   Vertex2EdgesDelegate = vertex => vertex.InEdges (this.EdgeFilter).GetEnumerator();
                                                      break;
 

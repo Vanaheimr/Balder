@@ -2794,12 +2794,12 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
-        
+
             IVertexMethods<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                            TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                            TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                            TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
-            
+
                 AddVertex(IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -2812,7 +2812,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
             if (Vertex == null)
                 throw new ArgumentNullException("The given vertex must not be null!");
 
-            if (Vertex.Id == null || Vertex.Id.Equals(default(TIdVertex)))
+            if (Vertex.Id == null)
                 throw new ArgumentNullException("The unique identification of vertex must not be null!");
 
             if (_VerticesWhenGraph.ContainsKey(Vertex.Id))
@@ -2863,7 +2863,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
             if (Vertex == null)
                 throw new ArgumentNullException("The given vertex must not be null!");
 
-            if (Vertex.Id == null || Vertex.Id.Equals(default(TIdVertex)))
+            if (Vertex.Id == null)
                 throw new ArgumentNullException("The unique identification of vertex must not be null!");
 
             if (_VerticesWhenGraph.ContainsKey(Vertex.Id))
@@ -3859,7 +3859,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
             if (Edge == null)
                 throw new ArgumentNullException("The given edge must not be null!");
 
-            if (Edge.Id == null || Edge.Id.Equals(default(TIdEdge)))
+            if (Edge.Id == null)
                 throw new ArgumentNullException("The unique identification of edge must not be null!");
 
             if (_EdgesWhenGraph.ContainsKey(Edge.Id))
@@ -3910,7 +3910,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
             if (Edge == null)
                 throw new ArgumentNullException("The given edge must not be null!");
 
-            if (Edge.Id == null || Edge.Id.Equals(default(TIdEdge)))
+            if (Edge.Id == null)
                 throw new ArgumentNullException("The unique identification of edge must not be null!");
 
             if (_EdgesWhenGraph.ContainsKey(Edge.Id))

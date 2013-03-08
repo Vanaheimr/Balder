@@ -42,6 +42,11 @@ namespace de.ahzf.Vanaheimr.Balder.UnitTests
 
         }
 
+        public static IEnumerable<String> Sort(this IEnumerable<String> IEnumerable)
+        {
+            return IEnumerable.OrderBy(s => s);
+        }
+
     }
 
 }

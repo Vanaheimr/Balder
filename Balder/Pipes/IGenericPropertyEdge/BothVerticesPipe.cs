@@ -18,10 +18,8 @@
 #region Usings
 
 using System;
-using System.Linq;
 using System.Collections.Generic;
 
-using de.ahzf.Vanaheimr.Styx;
 using de.ahzf.Vanaheimr.Blueprints;
 
 #endregion
@@ -467,7 +465,7 @@ namespace de.ahzf.Vanaheimr.Balder
                                                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> IEnumerator = null,
-            
+
                                 params TVertexLabel[] VertexLabels)
 
             : base(TraversalDirection.Both, IEnumerable, IEnumerator, VertexLabels)

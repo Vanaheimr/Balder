@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Algorithms\Components.cs" />
     <Compile Include="Arrows\GraphElements\RevIdArrow.cs" />
     <Compile Include="Arrows\GraphElements\LabelArrow.cs" />
     <Compile Include="Arrows\GraphElements\IdArrow.cs" />
