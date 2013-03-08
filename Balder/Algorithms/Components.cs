@@ -86,19 +86,19 @@ namespace de.ahzf.Vanaheimr.Balder
                                                                 TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                 TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>();
 
-            foreach (var e in Edge.InVertex.BothE()) // Missing EdgeSelector, as it leads to an error!
+            foreach (var e in Edge.InVertex.BothE(EdgeSelector))
                 Hash.Add(e);
 
-            foreach (var e in Edge.OutVertex.BothE())
+            foreach (var e in Edge.OutVertex.BothE(EdgeSelector))
                 Hash.Add(e);
 
-//            foreach (var edge in Edge.BothV().BothE(EdgeSelector)) <-- leads to an error!
+//            foreach (var edge in Edge.BothV().BothE(EdgeSelector))// <-- leads to an error!
             foreach (var edge in Hash)
             {
                 if (!HashSet.Contains(edge))
                 {
                     HashSet.Add(edge);
-                    GetNeighborEdges(edge, ref HashSet);
+                    GetNeighborEdges(edge, ref HashSet, EdgeSelector);
                 }
             }
 
