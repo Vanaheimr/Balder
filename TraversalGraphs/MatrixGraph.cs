@@ -29,56 +29,6 @@ using de.ahzf.Vanaheimr.Blueprints;
 namespace de.ahzf.Vanaheimr.Blueprints.TraversalGraphs
 {
 
-    #region MatrixArrayGraph
-
-    public class MatrixArrayGraph
-    {
-
-        #region Data
-
-        protected readonly UInt64[,] _MatrixGraph;
-
-        protected readonly IGenericPropertyGraph<UInt64, Int64, String, String, Object,
-                                                 UInt64, Int64, String, String, Object,
-                                                 UInt64, Int64, String, String, Object,
-                                                 UInt64, Int64, String, String, Object> PropertyGraph;
-
-        #endregion
-
-        #region MatrixArrayGraph(PropertyGraph, X, Y)
-
-        public MatrixArrayGraph(IGenericPropertyGraph<UInt64, Int64, String, String, Object,
-                                                      UInt64, Int64, String, String, Object,
-                                                      UInt64, Int64, String, String, Object,
-                                                      UInt64, Int64, String, String, Object> PropertyGraph,
-                                UInt64 X, UInt64 Y)
-        {
-
-            this.PropertyGraph = PropertyGraph;
-            this._MatrixGraph  = new UInt64[X, Y];
-
-            PropertyGraph.Vertices().ForEach(v =>
-            {
-                _MatrixGraph[v.Id - 1, 0] = (from e in v.OutEdges() select e.Id).ToArray().First();
-            });
-
-        }
-
-        #endregion
-
-
-        //public void ForEachVertex(Action<UInt64[]> Action)
-        //{
-        //    //_ListGraph.ForEach(vid => { });
-        //    for (var i = 0UL; i < this.Graph.NumberOfVertices(); i++)
-        //        Action(_ListGraph[i]);
-
-        //}
-
-    }
-
-    #endregion
-
     #region MatrixListGraph
 
     public class MatrixListGraph

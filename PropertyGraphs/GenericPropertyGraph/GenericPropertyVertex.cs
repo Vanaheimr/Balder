@@ -1789,7 +1789,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
 
         #region OnOutEdgeRemoval
-        
+
         private readonly IVotingNotificator<IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                                            TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                            TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -1841,7 +1841,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                     TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                     TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                     TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.            
-            
+
              RemoveOutEdges(params IGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                         TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                         TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -1850,9 +1850,12 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         {
 
-            foreach (var _Edge in _OutEdgesWhenVertex)
+            lock (this)
             {
-                _OutEdgesWhenVertex.TryRemoveValue(_Edge.Id, _Edge, _Edge.Label);    // Is supposed to be thread-safe!
+
+                foreach (var _Edge in _OutEdgesWhenVertex.ToArray())
+                    _OutEdgesWhenVertex.TryRemoveValue(_Edge.Id, _Edge, _Edge.Label);    // Is supposed to be thread-safe!
+
             }
 
         }
@@ -1870,7 +1873,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                     TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                     TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                     TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.            
-            
+
              RemoveOutEdges(EdgeFilter<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -1898,9 +1901,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                         _tmp.Add(_IEdge);
 
                 foreach (var _Edge in _tmp)
-                {
                     _OutEdgesWhenVertex.TryRemoveValue(_Edge.Id, _Edge, _Edge.Label);
-                }
 
             }
 
@@ -1983,7 +1984,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         }
 
         #endregion
-        
+
 
         #region InEdges(params EdgeLabels)      // InEdges()!
 
@@ -2130,7 +2131,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
 
         #region OnInEdgeRemoval
-        
+
         private readonly IVotingNotificator<IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                                            TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                            TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -2190,9 +2191,12 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         {
 
-            foreach (var _Edge in _InEdgesWhenVertex)
+            lock (this)
             {
-                _InEdgesWhenVertex.TryRemoveValue(_Edge.Id, _Edge, _Edge.Label);     // Is supposed to be thread-safe!
+
+                foreach (var _Edge in _InEdgesWhenVertex.ToArray())
+                    _InEdgesWhenVertex.TryRemoveValue(_Edge.Id, _Edge, _Edge.Label);     // Is supposed to be thread-safe!
+
             }
 
         }
@@ -2238,9 +2242,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                         _tmp.Add(_IEdge);
 
                 foreach (var _Edge in _tmp)
-                {
                     _InEdgesWhenVertex.TryRemoveValue(_Edge.Id, _Edge, _Edge.Label);    // Is supposed to be thread-safe!
-                }
 
             }
 
@@ -3058,7 +3060,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                    TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                    TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
-        
+
             IReadOnlyVertexMethods<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                    TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -3117,7 +3119,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
 
         #region OnVertexRemoval
-        
+
         private readonly IVotingNotificator<IReadOnlyGenericPropertyGraph <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                                            TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                            TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -3144,7 +3146,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                            TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
 
                             Boolean>
-            
+
             IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -3169,33 +3171,29 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                             TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                             TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                             TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
-            
+
             RemoveVerticesById(params TIdVertex[] VertexIds)
 
         {
 
             #region Initial checks
 
-            if (VertexIds == null || !VertexIds.Any())
-                throw new ArgumentNullException("VertexIds", "The given array of vertex identifiers must not be null or its length zero!");
-
-            #endregion
+            if (VertexIds == null)
+                return;
 
             IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                            TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                            TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> _Vertex;
+                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Vertex;
+
+            #endregion
 
             foreach (var VertexId in VertexIds)
             {
-                if (_VerticesWhenGraph.TryGetByKey(VertexId, out _Vertex))
-                    (this as IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                   TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>).
-                    RemoveVertices(_Vertex);
+                if (_VerticesWhenGraph.TryGetByKey(VertexId, out Vertex))
+                    this.Graph.AsMutable().RemoveVertices(Vertex);
                 else
-                    throw new ArgumentException("The given vertex identifier '" + VertexId.ToString() + "' is unknowen!");
+                    throw new ArgumentException("The given vertex identifier '" + VertexId.ToString() + "' is unknown!");
             }
 
         }
@@ -3224,36 +3222,33 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
             #region Initial checks
 
-            if (Vertices == null || !Vertices.Any())
-                throw new ArgumentNullException("Vertices", "The array of vertices must not be null or its length zero!");
+            if (Vertices == null)
+                return;
 
             #endregion
 
             lock (this)
             {
 
-                foreach (var _Vertex in Vertices)
-                {
-                    if (_VerticesWhenGraph.ContainsKey(_Vertex.Id))
+                foreach (var Vertex in Vertices)
+                    if (_VerticesWhenGraph.ContainsKey(Vertex.Id))
                     {
-    
-                        var _EdgeList = new List<IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>();
-    
-                        _EdgeList.AddRange(_Vertex.InEdges());
-                        _EdgeList.AddRange(_Vertex.OutEdges());
-    
-                        // removal requires removal from all indices
-                        //for (TinkerIndex index : this.indices.values()) {
-                        //    index.remove(vertex);
-                        //}
 
-                        _VerticesWhenGraph.TryRemoveValue(_Vertex.Id, _Vertex.AsMutable(), _Vertex.Label);
-    
+                        if (Vertex.OutDegree() > 0 || Vertex.InDegree() > 0)
+                            throw new Exception("Vertex '" + Vertex.Id + "' could not be removed, as there are still edges attached!");
+
+                        if (VertexRemoval.SendVoting(this, Vertex))
+                        {
+
+                            // Remove the vertex from any 'indexing' hyperedge...
+                            Vertex.HyperEdges().ForEach(HyperEdge => HyperEdge.AsMutable().RemoveVertices(Vertex));
+
+                            _VerticesWhenGraph.TryRemoveValue(Vertex.Id, Vertex.AsMutable(), Vertex.Label);
+                            VertexRemoval.SendNotification(this, Vertex);
+
+                        }
+
                     }
-                }
 
             }
 
@@ -3281,22 +3276,16 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
             lock (this)
             {
 
-                var _VerticesToRemove = new List<IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                                TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                                TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>();
-
                 if (VertexFilter == null)
-                    foreach (var _Vertex in _VerticesWhenGraph)
-                        _VerticesToRemove.Add(_Vertex);
+                    _VerticesWhenGraph.ToArray().
+                        ForEach(Vertex => this.Graph.AsMutable().
+                            RemoveVertices(Vertex));
 
-                else    
-                    foreach (var _Vertex in _VerticesWhenGraph)
-                        if (VertexFilter(_Vertex))
-                            _VerticesToRemove.Add(_Vertex);
-
-                foreach (var _Vertex in _VerticesToRemove)
-                    this.Graph.AsMutable().RemoveVertices(_Vertex);
+                else
+                    _VerticesWhenGraph.
+                        Where(Vertex => VertexFilter(Vertex)).ToArray().
+                        ForEach(Vertex => this.Graph.AsMutable().
+                            RemoveVertices(Vertex));
 
             }
 
@@ -4165,7 +4154,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
 
         #region OnEdgeRemoval
-        
+
         private readonly IVotingNotificator<IReadOnlyGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                                           TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                           TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -4193,7 +4182,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                            TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
 
                             Boolean>
-            
+
             IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -4218,32 +4207,29 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                           TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                           TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
-            
+
             RemoveEdgesById(params TIdEdge[] EdgeIds)
 
         {
 
             #region Initial checks
 
-            if (EdgeIds == null || !EdgeIds.Any())
-                throw new ArgumentNullException("EdgeIds", "The given array of edge identifiers must not be null or its length zero!");
-
-            #endregion
+            if (EdgeIds == null)
+                return;
 
             IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> _Edge;
+                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Edge;
 
-            if (EdgeIds.Any())
+            #endregion
+
+            foreach (var EdgeId in EdgeIds)
             {
-                foreach (var _EdgeId in EdgeIds)
-                {
-                    if (_EdgesWhenGraph.TryGetByKey(_EdgeId, out _Edge))
-                        this.Graph.AsMutable().RemoveEdges(_Edge);
-                    else
-                        throw new ArgumentException("The given edge identifier '" + _EdgeId.ToString() + "' is unknowen!");
-                }
+                if (_EdgesWhenGraph.TryGetByKey(EdgeId, out Edge))
+                    this.Graph.AsMutable().RemoveEdges(Edge);
+                else
+                    throw new ArgumentException("The given edge identifier '" + EdgeId.ToString() + "' is unknown!");
             }
 
         }
@@ -4270,37 +4256,30 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
             #region Initial checks
 
-            if (Edges == null || !Edges.Any())
-                throw new ArgumentNullException("Edges", "The given array of edges must not be null or its length zero!");
+            if (Edges == null)
+                return;
 
             #endregion
 
             lock (this)
             {
 
-                foreach (var _Edge in Edges)
-                {
-                    if (_EdgesWhenGraph.ContainsKey(_Edge.Id))
-                    {
+                foreach (var Edge in Edges)
+                    if (_EdgesWhenGraph.ContainsKey(Edge.Id) &&
+                        EdgeRemoval.SendVoting(this, Edge))
+                        {
 
-                        var _OutVertex = _Edge.OutVertex;
-                        var _InVertex  = _Edge.InVertex;
+                            Edge.OutVertex.AsMutable().RemoveOutEdges(Edge.AsMutable());
+                            Edge.InVertex. AsMutable().RemoveInEdges (Edge.AsMutable());
 
-                        if (_OutVertex != null && _OutVertex.OutEdges() != null)
-                            _OutVertex.AsMutable().RemoveOutEdges(_Edge.AsMutable());
+                            // Remove the edge from any 'indexing' multiedge...
+                            Edge.MultiEdges().ForEach(MultiEdge => MultiEdge.AsMutable().RemoveEdges(Edge));
 
-                        if (_InVertex != null && _InVertex.InEdges() != null)
-                            _InVertex.AsMutable().RemoveInEdges(_Edge.AsMutable());
+                            _EdgesWhenGraph.TryRemoveValue(Edge.Id, Edge.AsMutable(), Edge.Label);
 
-                        // removal requires removal from all indices
-                        //for (TinkerIndex index : this.indices.values()) {
-                        //    index.remove(edge);
-                        //}
+                            EdgeRemoval.SendNotification(this, Edge);
 
-                        _EdgesWhenGraph.TryRemoveValue(_Edge.Id, _Edge.AsMutable(), _Edge.Label);
-
-                    }
-                }
+                        }
 
             }
 
@@ -4328,22 +4307,16 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
             lock (this)
             {
 
-                var _EdgesToRemove = new List<IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                           TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                           TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>();
-
                 if (EdgeFilter == null)
-                    foreach (var _IEdge in _EdgesWhenGraph)
-                        _EdgesToRemove.Add(_IEdge);
+                    _EdgesWhenGraph.ToArray().
+                        ForEach(Edge => this.Graph.AsMutable().
+                            RemoveEdges(Edge));
 
                 else
-                    foreach (var _IEdge in _EdgesWhenGraph)
-                        if (EdgeFilter(_IEdge))
-                            _EdgesToRemove.Add(_IEdge);
-
-                foreach (var _IEdge in _EdgesToRemove)
-                    this.Graph.AsMutable().RemoveEdges(_IEdge);
+                    _EdgesWhenGraph.
+                        Where(Edge => EdgeFilter(Edge)).ToArray().
+                        ForEach(Edge => this.Graph.AsMutable().
+                            RemoveEdges(Edge));
 
             }
 
@@ -4900,7 +4873,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
 
         #region OnMultiEdgeRemoval
-        
+
         private readonly IVotingNotificator<IReadOnlyGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                                           TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                           TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -4928,7 +4901,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
 
                             Boolean>
-            
+
             IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -4949,7 +4922,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         /// Remove the given array of multiedges identified by their MultiEdgeIds.
         /// </summary>
         /// <param name="MultiEdgeIds">An array of MultiEdgeIds of the multiedges to remove.</param>
-        void IMultiEdgeMethods<TIdVertex, TRevIdVertex, TVertexLabel, TKeyVertex, TValueVertex,
+        void IMultiEdgeMethods<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
@@ -4957,7 +4930,27 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
             RemoveMultiEdgesById(params TIdMultiEdge[] MultiEdgeIds)
 
         {
-            throw new NotImplementedException();
+
+            #region Initial checks
+
+            if (MultiEdgeIds == null)
+                return;
+
+            IReadOnlyGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> MultiEdge;
+
+            #endregion
+
+            foreach (var MultiEdgeId in MultiEdgeIds)
+            {
+                if (_MultiEdgesWhenGraph.TryGetByKey(MultiEdgeId, out MultiEdge))
+                    this.Graph.AsMutable().RemoveMultiEdges(MultiEdge);
+                else
+                    throw new ArgumentException("The given multiedge identifier '" + MultiEdgeId.ToString() + "' is unknown!");
+            }
+
         }
 
         #endregion
@@ -4979,7 +4972,32 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>[] MultiEdges)
 
         {
-            throw new NotImplementedException();
+
+            #region Initial checks
+
+            if (MultiEdges == null)
+                return;
+
+            #endregion
+
+            lock (this)
+            {
+
+                foreach (var MultiEdge in MultiEdges)
+                    if (_MultiEdgesWhenGraph.ContainsKey(MultiEdge.Id) &&
+                        MultiEdgeRemoval_WhenGraph.SendVoting(this, MultiEdge))
+                        {
+
+                            MultiEdge.Edges().ForEach(Edge => Edge.AsMutable().RemoveMultiEdges(MultiEdge.AsMutable()));
+
+                            _MultiEdgesWhenGraph.TryRemoveValue(MultiEdge.Id, MultiEdge.AsMutable(), MultiEdge.Label);
+
+                            MultiEdgeRemoval_WhenGraph.SendNotification(this, MultiEdge);
+
+                        }
+
+            }
+
         }
 
         #endregion
@@ -5001,7 +5019,23 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> MultiEdgeFilter)
 
         {
-            throw new NotImplementedException();
+
+            lock (this)
+            {
+
+                if (MultiEdgeFilter == null)
+                    _MultiEdgesWhenGraph.ToArray().
+                        ForEach(MultiEdge => this.Graph.AsMutable().
+                            RemoveMultiEdges(MultiEdge));
+
+                else
+                    _MultiEdgesWhenGraph.
+                        Where(MultiEdge => MultiEdgeFilter(MultiEdge)).ToArray().
+                        ForEach(MultiEdge => this.Graph.AsMutable().
+                            RemoveMultiEdges(MultiEdge));
+
+            }
+
         }
 
         #endregion
@@ -5556,7 +5590,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
 
         #region OnHyperEdgeRemoval
-        
+
         private readonly IVotingNotificator<IReadOnlyGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                                           TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                           TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -5584,7 +5618,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
 
                             Boolean>
-            
+
             IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -5613,7 +5647,27 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
             RemoveHyperEdgesById(params TIdHyperEdge[] HyperEdgeIds)
 
         {
-            throw new NotImplementedException();
+
+            #region Initial checks
+
+            if (HyperEdgeIds == null)
+                return;
+
+            IReadOnlyGenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> HyperEdge;
+
+            #endregion
+
+            foreach (var HyperEdgeId in HyperEdgeIds)
+            {
+                if (_HyperEdgesWhenGraph.TryGetByKey(HyperEdgeId, out HyperEdge))
+                    this.Graph.AsMutable().RemoveHyperEdges(HyperEdge);
+                else
+                    throw new ArgumentException("The given hyperedge identifier '" + HyperEdgeId.ToString() + "' is unknown!");
+            }
+
         }
 
         #endregion
@@ -5633,9 +5687,34 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>[] HyperEdges)
-
         {
-            throw new NotImplementedException();
+
+            #region Initial checks
+
+            if (HyperEdges == null)
+                return;
+
+            #endregion
+
+            lock (this)
+            {
+
+                foreach (var HyperEdge in HyperEdges)
+                    if (_HyperEdgesWhenGraph.ContainsKey(HyperEdge.Id) &&
+                        HyperEdgeRemoval_WhenGraph.SendVoting(this, HyperEdge))
+                    {
+
+                        HyperEdge.Vertices().ForEach(Vertex => Vertex.AsMutable().RemoveHyperEdges(HyperEdge.AsMutable()));
+
+                        _HyperEdgesWhenGraph.TryRemoveValue(HyperEdge.Id, HyperEdge.AsMutable(), HyperEdge.Label);
+
+                        HyperEdgeRemoval_WhenGraph.SendNotification(this, HyperEdge);
+
+                    }
+
+
+            }
+
         }
 
         #endregion
@@ -5658,7 +5737,21 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> HyperEdgeFilter)
 
         {
-            throw new NotImplementedException();
+
+            lock (this)
+            {
+
+                if (HyperEdgeFilter == null)
+                    _HyperEdgesWhenGraph.ToArray().
+                        ForEach(HyperEdge => this.Graph.AsMutable().RemoveHyperEdges(HyperEdge));
+
+                else
+                    _HyperEdgesWhenGraph.
+                        Where(HyperEdge => HyperEdgeFilter(HyperEdge)).ToArray().
+                        ForEach(HyperEdge => this.Graph.AsMutable().RemoveHyperEdges(HyperEdge));
+
+            }
+
         }
 
         #endregion

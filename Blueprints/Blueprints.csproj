@@ -78,6 +78,10 @@
     <Compile Include="GraphElementIds\HyperEdgeId.cs" />
     <Compile Include="GraphElementIds\MultiEdgeId.cs" />
     <Compile Include="GraphElementIds\VertexId.cs" />
+    <Compile Include="DependentGraphs\AdjacencyListGraph.cs" />
+    <Compile Include="DependentGraphs\WeightedAdjacencyListGraph.cs" />
+    <Compile Include="DependentGraphs\UndirectedAdjacencyMatrixGraph.cs" />
+    <Compile Include="DependentGraphs\AdjacencyMatrixGraph.cs" />
     <Compile Include="Interfaces\GenericPropertyGraph\IMultiEdgeMethods.cs" />
     <Compile Include="Interfaces\GenericPropertyGraph\IHyperEdgeMethods.cs" />
     <Compile Include="Interfaces\GenericPropertyGraph\IEdgeMethods.cs" />
