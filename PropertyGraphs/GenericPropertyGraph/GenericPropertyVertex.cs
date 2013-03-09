@@ -1493,7 +1493,6 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
             this._OutEdgesWhenVertex    = EdgesCollectionInitializer();
             this._InEdgesWhenVertex     = EdgesCollectionInitializer();
             this._EdgesWhenGraph        = EdgesCollectionInitializer();
-            //this._MultiEdgesWhenVertex  = MultiEdgesCollectionInitializer();
             this._HyperEdgesWhenVertex  = HyperEdgesCollectionInitializer();
 
             // IGenericPropertyVertex
@@ -1556,6 +1555,21 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
             #endregion
 
+            #region HyperEdgeAddition/-Removal
+
+            this.HyperEdgeRemoval_WhenVertex = new VotingNotificator<IReadOnlyGenericPropertyVertex   <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
+
+                                                                     IReadOnlyGenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
+
+                                                                     Boolean>(() => new VetoVote(), true);
+
+            #endregion
 
             if (VertexInitializer != null)
                 VertexInitializer(this);
@@ -1570,7 +1584,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         // IGenericPropertyVertex
 
         #region OutEdge methods [IGenericPropertyVertex]
-        
+
         #region OnOutEdgeAddition
         
         private readonly IVotingNotificator<IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
@@ -2338,10 +2352,10 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
             if (HyperEdgeLabels != null && HyperEdgeLabels.Any())
             {
-                foreach (var _HyperEdge in _HyperEdgesWhenVertex)
-                    foreach (var _Label in HyperEdgeLabels)
-                        if (_HyperEdge.Label.Equals(_Label))
-                            yield return _HyperEdge;
+                foreach (var HyperEdge in _HyperEdgesWhenVertex)
+                    foreach (var Label in HyperEdgeLabels)
+                        if (HyperEdge.Label.Equals(Label))
+                            yield return HyperEdge;
             }
 
             else
@@ -2393,7 +2407,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
 
         #region OnHyperEdgeRemoval
-        
+
         private readonly IVotingNotificator<IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                                            TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                            TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -2420,7 +2434,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
 
                             Boolean>
-            
+
             IGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                    TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -2445,8 +2459,13 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>[] HyperEdges)
+
         {
-            throw new NotImplementedException();
+
+            if (HyperEdges != null)
+                HyperEdges.
+                    ForEach(HyperEdge => this._HyperEdgesWhenVertex.TryRemoveValue(HyperEdge.Id, HyperEdge, HyperEdge.Label));
+
         }
 
         #endregion
@@ -2462,8 +2481,14 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> HyperEdgeFilter)
+
         {
-            throw new NotImplementedException();
+
+            if (HyperEdgeFilter != null)
+                _HyperEdgesWhenVertex.
+                    Where(HyperEdge => HyperEdgeFilter(HyperEdge)).ToArray().
+                    ForEach(HyperEdge => this._HyperEdgesWhenVertex.TryRemoveValue(HyperEdge.Id, HyperEdge, HyperEdge.Label));
+
         }
 
         #endregion
@@ -6384,43 +6409,6 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         }
 
         #endregion
-
-
-
-
-
-
-
-
-
-
-
-
-        public IReadOnlyGenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                 TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                 TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                 TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
-
-            AddHyperEdge(IGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OutVertex,
-
-                         THyperEdgeLabel Label,
-
-                         HyperEdgeInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> HyperEdgeInitializer,
-
-                         params IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>[] InVertices)
-
-        {
-            throw new NotImplementedException();
-        }
 
     }
 

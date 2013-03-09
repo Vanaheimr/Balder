@@ -18,11 +18,13 @@
 #region Usings
 
 using System;
+using System.Linq;
 using System.Dynamic;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 
 using de.ahzf.Illias.Commons;
-using System.Collections.Generic;
+using de.ahzf.Illias.Commons.Votes;
 using de.ahzf.Vanaheimr.Styx;
 
 #endregion
@@ -99,14 +101,17 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
     {
 
+        #region Data
+
         /// <summary>
         /// The multiedges of this edge.
         /// </summary>
         protected readonly IGroupedCollection<TIdMultiEdge, IReadOnlyGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                                                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TMultiEdgeLabel> _MultiEdgesWhenEdge;
+                                                                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TMultiEdgeLabel> MultiEdges;
 
+        #endregion
 
         #region Properties
 
@@ -121,15 +126,6 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
 
             Graph { get; private set; }
-
-        #endregion
-
-        #region Weight
-
-        /// <summary>
-        /// The edge weight associated with this edge.
-        /// </summary>
-        public Double Weight { get; private set; }
 
         #endregion
 
@@ -195,11 +191,11 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                   TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> InVertex,
 
-                                   TIdEdge    EdgeId,
-                                   TEdgeLabel EdgeLabel,
-                                   TKeyEdge   IdKey,
-                                   TKeyEdge   RevIdKey,
-                                   TKeyEdge   LabelKey,
+                                   TIdEdge     EdgeId,
+                                   TEdgeLabel  EdgeLabel,
+                                   TKeyEdge    IdKey,
+                                   TKeyEdge    RevIdKey,
+                                   TKeyEdge    LabelKey,
 
                                    IDictionaryInitializer<TKeyEdge, TValueEdge> DatastructureInitializer,
 
@@ -237,18 +233,30 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
             #endregion
 
-            this.Graph     = Graph;
-            this.OutVertex = OutVertex;
-            this.InVertex  = InVertex;
+            this.Graph            = Graph;
+            this.OutVertex        = OutVertex;
+            this.InVertex         = InVertex;
+
+            this.MultiEdges       = new GroupedCollection<TIdMultiEdge,
+                                                          IReadOnlyGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                            TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                            TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                            TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TMultiEdgeLabel>();
+
+            this.MultiEdgeRemoval = new VotingNotificator<IReadOnlyGenericPropertyEdge     <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                            TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                            TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                            TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
+
+                                                          IReadOnlyGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                            TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                            TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                            TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
+
+                                                          Boolean>(() => new VetoVote(), true);
 
             if (EdgeInitializer != null)
                 EdgeInitializer(this);
-
-            this._MultiEdgesWhenEdge = //MultiEdgeCollectionInitializer();
-                                       new GroupedCollection<TIdMultiEdge, IReadOnlyGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                                                             TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                                             TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                                                             TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TMultiEdgeLabel>();
 
         }
 
@@ -257,7 +265,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         #endregion
 
 
-        #region MultiEdge methods [IGenericPropertyVertex]
+        #region MultiEdge methods
 
         #region OnMultiEdgeAddition
 
@@ -319,7 +327,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                            TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> MultiEdge)
 
         {
-            _MultiEdgesWhenEdge.TryAddValue(MultiEdge.Id, MultiEdge, MultiEdge.Label);    // Is supposed to be thread-safe!
+            MultiEdges.TryAddValue(MultiEdge.Id, MultiEdge, MultiEdge.Label);    // Is supposed to be thread-safe!
         }
 
         #endregion
@@ -346,10 +354,17 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         {
 
-            return new IReadOnlyGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                         TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                         TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>[0];
+            if (MultiEdgeLabels != null && MultiEdgeLabels.Any())
+            {
+                foreach (var MultiEdge in MultiEdges)
+                    foreach (var Label in MultiEdgeLabels)
+                        if (MultiEdge.Label.Equals(Label))
+                            yield return MultiEdge;
+            }
+
+            else
+                foreach (var MultiEdge in MultiEdges)
+                    yield return MultiEdge;
 
         }
 
@@ -378,7 +393,18 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> MultiEdgeFilter)
 
         {
-            throw new NotImplementedException();
+
+            if (MultiEdgeFilter == null)
+                return from   MultiEdge
+                       in     MultiEdges
+                       select MultiEdge;
+
+            else
+                return from   MultiEdge
+                       in     MultiEdges
+                       where  MultiEdgeFilter(MultiEdge)
+                       select MultiEdge;
+
         }
 
         #endregion
@@ -386,17 +412,17 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #region OnMultiEdgeRemoval
 
-        private readonly IVotingNotificator<IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                         TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                         TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
+        private readonly IVotingNotificator<IReadOnlyGenericPropertyEdge     <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
 
                                             IReadOnlyGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
 
-                                            Boolean> MultiEdgeRemoval_WhenVertex;
+                                            Boolean> MultiEdgeRemoval;
 
         /// <summary>
         /// Called whenever a multiedge will be or was removed to the vertex.
@@ -421,7 +447,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         {
             get
             {
-                return MultiEdgeRemoval_WhenVertex;
+                return MultiEdgeRemoval;
             }
         }
 
@@ -444,7 +470,11 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>[] MultiEdges)
 
         {
-            throw new NotImplementedException();
+
+            if (MultiEdges != null)
+                MultiEdges.
+                    ForEach(MultiEdge => this.MultiEdges.TryRemoveValue(MultiEdge.Id, MultiEdge, MultiEdge.Label));
+
         }
 
         #endregion
@@ -467,7 +497,12 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> MultiEdgeFilter)
 
         {
-            throw new NotImplementedException();
+
+            if (MultiEdgeFilter != null)
+                MultiEdges.
+                    Where(MultiEdge => MultiEdgeFilter(MultiEdge)).ToArray().
+                    ForEach(MultiEdge => this.MultiEdges.TryRemoveValue(MultiEdge.Id, MultiEdge, MultiEdge.Label));
+
         }
 
         #endregion
