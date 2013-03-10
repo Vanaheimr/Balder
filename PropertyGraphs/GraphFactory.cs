@@ -92,13 +92,14 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         #endregion
 
 
-        #region CreateGenericPropertyGraph(GraphId = null, Description = null, GraphInitializer = null)
+        #region CreateGenericPropertyGraph(GraphId = null, Description = null, VoteCreator = null, GraphInitializer = null)
 
         /// <summary>
         /// Create a new standardized generic property graph.
         /// </summary>
         /// <param name="GraphId">The optional graph identification. If no value is given, a unique GraphId will be generated.</param>
         /// <param name="Description">The optional description of the graph.</param>
+        /// <param name="VoteCreator">An optional delegate to create a new vote.</param>
         /// <param name="GraphInitializer">The optional graph initializer.</param>
         public static IGenericPropertyGraph<UInt64, Int64, String, String, Object,
                                             UInt64, Int64, String, String, Object,
@@ -106,6 +107,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                             UInt64, Int64, String, String, Object> CreateGenericPropertyGraph(
                           Nullable<UInt64>                                         GraphId           = null,
                           String                                                   Description       = null,
+                          Func<IVote<Boolean>>                                     VoteCreator       = null,
                           GraphInitializer<UInt64, Int64, String, String, Object,
                                            UInt64, Int64, String, String, Object,
                                            UInt64, Int64, String, String, Object,
@@ -146,7 +148,8 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                     new IdGenerator_UInt64(),
                                                                                     GraphDBOntology.DefaultHyperEdgeLabel.Suffix,
 
-                                                                                    () => new VetoVote(),
+                                                                                    (VoteCreator != null) ? VoteCreator : () => new VetoVote(),
+
                                                                                     g => {
 
                                                                                              if (Description != null)
@@ -168,13 +171,14 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #endregion
 
-        #region CreateGenericPropertyGraph_WithStringIds(GraphId = null, Description = null, GraphInitializer = null)
+        #region CreateGenericPropertyGraph_WithStringIds(GraphId = null, Description = null, VoteCreator = null, GraphInitializer = null)
 
         /// <summary>
         /// Create a new standardized generic property graph having string-based identificators.
         /// </summary>
         /// <param name="GraphId">The optional graph identification. If no value is given, a unique GraphId will be generated.</param>
         /// <param name="Description">The optional description of the graph.</param>
+        /// <param name="VoteCreator">An optional delegate to create a new vote.</param>
         /// <param name="GraphInitializer">The optional graph initializer.</param>
         public static IGenericPropertyGraph<String, Int64, String, String, Object,
                                             String, Int64, String, String, Object,
@@ -182,6 +186,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                             String, Int64, String, String, Object> CreateGenericPropertyGraph_WithStringIds(
                           String                                                   GraphId           = null,
                           String                                                   Description       = null,
+                          Func<IVote<Boolean>>                                     VoteCreator       = null,
                           GraphInitializer<String, Int64, String, String, Object,
                                            String, Int64, String, String, Object,
                                            String, Int64, String, String, Object,
@@ -222,7 +227,8 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                     new IdGenerator_String(),
                                                                                     GraphDBOntology.DefaultHyperEdgeLabel.Suffix,
 
-                                                                                    () => new VetoVote(),
+                                                                                    (VoteCreator != null) ? VoteCreator : () => new VetoVote(),
+
                                                                                     g => {
 
                                                                                              if (Description != null)

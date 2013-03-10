@@ -315,7 +315,7 @@ namespace de.ahzf.Vanaheimr.Blueprints
         IReadOnlyGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                      TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> AsSubgraph { get; }
+                                      TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Subgraph { get; }
 
         #endregion
 
@@ -323,29 +323,30 @@ namespace de.ahzf.Vanaheimr.Blueprints
 
         #region OutEdge methods...
 
-        #region OutEdges(params EdgeLabels)      // OutEdges()!
+        #region OutEdges(params Labels)      // OutEdges()!
 
         /// <summary>
         /// The edges emanating from, or leaving, this vertex
         /// filtered by their label. If no label was given,
         /// all edges will be returned.
         /// </summary>
+        /// <param name="Labels">An array of edge labels.</param>
         IEnumerable<IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                  TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                  TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                  TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
 
-            OutEdges(params TEdgeLabel[] EdgeLabels);
+            OutEdges(params TEdgeLabel[] Labels);
 
         #endregion
 
-        #region OutEdges(EdgeFilter)
+        #region OutEdges(Include)
 
         /// <summary>
         /// The edges emanating from, or leaving, this vertex
         /// filtered by the given edge filter delegate.
         /// </summary>
-        /// <param name="EdgeFilter">A delegate for edge filtering.</param>
+        /// <param name="Include">A delegate for edge filtering.</param>
         IEnumerable<IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                  TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                  TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -354,31 +355,33 @@ namespace de.ahzf.Vanaheimr.Blueprints
             OutEdges(EdgeFilter<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                 TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                 TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeFilter);
+                                TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Include);
 
         #endregion
 
-        #region OutDegree(params EdgeLabels)     // OutDegree()!
+        #region OutDegree(params Labels)     // OutDegree()!
 
         /// <summary>
         /// The number of edges emanating from, or leaving, this vertex
-        /// filtered by their label. If no label was given,
-        /// all edges will be returned.
+        /// filtered by their label. If no label was given, the total
+        /// number of all edges will be returned.
         /// </summary>
-        UInt64 OutDegree(params TEdgeLabel[] EdgeLabels);
+        /// <param name="Labels">An array of edge labels.</param>
+        UInt64 OutDegree(params TEdgeLabel[] Labels);
 
         #endregion
 
-        #region OutDegree(EdgeFilter)
+        #region OutDegree(Include)
 
         /// <summary>
         /// The number of edges emanating from, or leaving, this vertex
         /// filtered by the given edge filter delegate.
         /// </summary>
+        /// <param name="Include">A delegate for edge filtering.</param>
         UInt64 OutDegree(EdgeFilter<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                     TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                     TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                    TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeFilter);
+                                    TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Include);
 
         #endregion
 
@@ -386,62 +389,65 @@ namespace de.ahzf.Vanaheimr.Blueprints
 
         #region InEdge methods...
 
-        #region InEdges(params EdgeLabels)     // InEdges()!
+        #region InEdges(params Labels)     // InEdges()!
 
         /// <summary>
         /// The edges incoming to, or arriving at, this vertex
         /// filtered by their label. If no label was given,
         /// all edges will be returned.
         /// </summary>
+        /// <param name="Labels">An array of edge labels.</param>
         IEnumerable<IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                  TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                  TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                  TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
 
-            InEdges(params TEdgeLabel[] EdgeLabels);
+            InEdges(params TEdgeLabel[] Labels);
 
         #endregion
 
-        #region InEdges(EdgeFilter)
+        #region InEdges(Include)
 
         /// <summary>
         /// The edges incoming to, or arriving at, this vertex
         /// filtered by the given edge filter delegate.
         /// </summary>
-        /// <param name="EdgeFilter">A delegate for edge filtering.</param>
+        /// <param name="Filter">A delegate for edge filtering.</param>
         IEnumerable<IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                  TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                  TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                  TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
-            
+
             InEdges(EdgeFilter<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeFilter);
+                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Include);
 
         #endregion
 
-        #region InDegree(params EdgeLabels)     // InDegree()!
+        #region InDegree(params Labels)     // InDegree()!
 
         /// <summary>
         /// The number of edges incoming to, or arriving at, this vertex
-        /// filtered by their label. If no label was given,
-        /// all edges will be returned.
+        /// filtered by their label. If no label was given, the total
+        /// number of all edges will be returned.
         /// </summary>
-        UInt64 InDegree(params TEdgeLabel[] EdgeLabels);
+        /// <param name="Labels">An array of edge labels.</param>
+        UInt64 InDegree(params TEdgeLabel[] Labels);
 
         #endregion
 
-        #region InDegree(EdgeFilter)
+        #region InDegree(Include)
 
         /// <summary>
         /// The number of edges incoming to, or arriving at, this vertex
         /// filtered by the given edge filter delegate.
         /// </summary>
+        /// <param name="Include">A delegate for edge filtering.</param>
         UInt64 InDegree(EdgeFilter<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                    TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                   TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeFilter);
+                                   TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Include);
 
         #endregion
 
@@ -449,38 +455,39 @@ namespace de.ahzf.Vanaheimr.Blueprints
 
         #region HyperEdge methods...
 
-        #region HyperEdges(params HyperEdgeLabels)      // HyperEdges()!
+        #region HyperEdges(params Labels)      // HyperEdges()!
 
         /// <summary>
-        /// The hyperedges emanating from, or leaving, this vertex
+        /// The hyperedges connected to this vertex
         /// filtered by their label. If no label was given,
         /// all hyperedges will be returned.
         /// </summary>
+        /// <param name="Labels"></param>
         IEnumerable<IReadOnlyGenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
 
-            HyperEdges(params THyperEdgeLabel[] HyperEdgeLabels);
+            HyperEdges(params THyperEdgeLabel[] Labels);
 
         #endregion
 
-        #region HyperEdges(HyperEdgeFilter)
+        #region HyperEdges(Include)
 
         /// <summary>
-        /// The hyperedges emanating from, or leaving, this vertex
-        /// filtered by the given hyperedge filter delegate.
+        /// Get an enumeration of all hyperedges connected to this vertex.
+        /// An optional hyperedge filter may be applied for filtering.
         /// </summary>
-        /// <param name="HyperEdgeFilter">A delegate for hyperedge filtering.</param>
+        /// <param name="Include">A delegate for hyperedge filtering.</param>
         IEnumerable<IReadOnlyGenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
-            
+
             HyperEdges(HyperEdgeFilter<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> HyperEdgeFilter);
+                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Include);
 
         #endregion
 

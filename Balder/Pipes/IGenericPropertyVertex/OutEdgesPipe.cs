@@ -379,7 +379,7 @@ namespace de.ahzf.Vanaheimr.Balder
         }
 
         #endregion
-    
+
     }
 
     #endregion
@@ -442,6 +442,7 @@ namespace de.ahzf.Vanaheimr.Balder
         where TKeyEdge         : IEquatable<TKeyEdge>,        IComparable<TKeyEdge>,        IComparable
         where TKeyMultiEdge    : IEquatable<TKeyMultiEdge>,   IComparable<TKeyMultiEdge>,   IComparable
         where TKeyHyperEdge    : IEquatable<TKeyHyperEdge>,   IComparable<TKeyHyperEdge>,   IComparable
+
     {
 
         #region OutEdgesPipe(IEnumerable = null, IEnumerator = null, params EdgeLabels)
@@ -462,7 +463,7 @@ namespace de.ahzf.Vanaheimr.Balder
                                                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> IEnumerator = null,
-            
+
                             params TEdgeLabel[] EdgeLabels)
 
             : base(TraversalDirection.Out, IEnumerable, IEnumerator, EdgeLabels)

@@ -23,6 +23,7 @@ using NUnit.Framework;
 
 using de.ahzf.Vanaheimr.Blueprints.InMemory;
 using de.ahzf.Vanaheimr.Blueprints;
+using de.ahzf.Illias.Commons.Votes;
 
 #endregion
 
@@ -50,7 +51,8 @@ namespace de.ahzf.Vanaheimr.Balder.UnitTests.PropertyGraphTests
             CreateGraph(GraphInitializer<UInt64, Int64, String, String, Object,
                                          UInt64, Int64, String, String, Object,
                                          UInt64, Int64, String, String, Object,
-                                         UInt64, Int64, String, String, Object> GraphInitializer = null)
+                                         UInt64, Int64, String, String, Object> GraphInitializer = null,
+                        Func<IVote<Boolean>> VoteCreator = null)
 
         {
             return GraphFactory.CreateGenericPropertyGraph(Convert.ToUInt64(new Random().Next()), GraphInitializer: GraphInitializer);
@@ -64,21 +66,23 @@ namespace de.ahzf.Vanaheimr.Balder.UnitTests.PropertyGraphTests
         /// Create an empty property graph with a random graph identification
         /// and the given description.
         /// </summary>
-        /// <param name="Description">A description for this graph.</param>
+        /// <param name="Description">An optional description for this graph.</param>
+        /// <param name="VoteCreator">An optional delegate to create a new vote.</param>
         /// <param name="GraphInitializer">An optional graph initializer.</param>
         public static IGenericPropertyGraph<UInt64, Int64, String, String, Object,
                                             UInt64, Int64, String, String, Object,
                                             UInt64, Int64, String, String, Object,
                                             UInt64, Int64, String, String, Object>
 
-            CreateGraph(String Description,
+            CreateGraph(String               Description,
                         GraphInitializer<UInt64, Int64, String, String, Object,
                                          UInt64, Int64, String, String, Object,
                                          UInt64, Int64, String, String, Object,
-                                         UInt64, Int64, String, String, Object> GraphInitializer = null)
+                                         UInt64, Int64, String, String, Object> GraphInitializer = null,
+                        Func<IVote<Boolean>> VoteCreator  = null)
 
         {
-            return GraphFactory.CreateGenericPropertyGraph(Convert.ToUInt64(new Random().Next()), Description, GraphInitializer);
+            return GraphFactory.CreateGenericPropertyGraph(Convert.ToUInt64(new Random().Next()), Description, VoteCreator, GraphInitializer);
         }
 
         #endregion
@@ -91,21 +95,23 @@ namespace de.ahzf.Vanaheimr.Balder.UnitTests.PropertyGraphTests
         /// </summary>
         /// <param name="GraphId">A graph identification.</param>
         /// <param name="Description">A description for this graph.</param>
+        /// <param name="VoteCreator">An optional delegate to create a new vote.</param>
         /// <param name="GraphInitializer">An optional graph initializer.</param>
         public static IGenericPropertyGraph<UInt64, Int64, String, String, Object,
                                             UInt64, Int64, String, String, Object,
                                             UInt64, Int64, String, String, Object,
                                             UInt64, Int64, String, String, Object>
 
-            CreateGraph(UInt64 GraphId,
-                        String Description = null,
+            CreateGraph(UInt64               GraphId,
+                        String               Description  = null,
                         GraphInitializer<UInt64, Int64, String, String, Object,
                                          UInt64, Int64, String, String, Object,
                                          UInt64, Int64, String, String, Object,
-                                         UInt64, Int64, String, String, Object> GraphInitializer = null)
+                                         UInt64, Int64, String, String, Object> GraphInitializer = null,
+                        Func<IVote<Boolean>> VoteCreator  = null)
 
         {
-            return GraphFactory.CreateGenericPropertyGraph(GraphId, Description, GraphInitializer);
+            return GraphFactory.CreateGenericPropertyGraph(GraphId, Description, VoteCreator, GraphInitializer);
         }
 
         #endregion

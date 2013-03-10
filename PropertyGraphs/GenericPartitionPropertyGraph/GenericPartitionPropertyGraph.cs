@@ -3341,6 +3341,11 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         {
             get { throw new NotImplementedException(); }
         }
+
+        public IReadOnlyGenericPropertyVertex<TIdVertex, TRevIdVertex, TVertexLabel, TKeyVertex, TValueVertex, TIdEdge, TRevIdEdge, TEdgeLabel, TKeyEdge, TValueEdge, TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> SuperVertex
+        {
+            get { throw new NotImplementedException(); }
+        }
     }
 
 }

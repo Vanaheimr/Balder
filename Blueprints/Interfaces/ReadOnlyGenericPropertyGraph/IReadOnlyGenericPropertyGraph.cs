@@ -359,14 +359,19 @@ namespace de.ahzf.Vanaheimr.Blueprints
 
     {
 
-
         #region Properties
+
+        /// <summary>
+        /// Access this property graph as a vertex.
+        /// </summary>
+        IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> SuperVertex { get; }
+
 
         // For the vertex this is already done
         // as the graph is a specialized vertex.
-
-
-        Func<IVote<Boolean>> VoteCreator              { get; }
 
 
         /// <summary>
@@ -415,42 +420,6 @@ namespace de.ahzf.Vanaheimr.Blueprints
         /// The property key to access the hyperedge label.
         /// </summary>
         TKeyHyperEdge        HyperEdgeLabelKey        { get; }
-
-        #endregion
-
-
-        #region OnGraphShuttingdown
-
-        /// <summary>
-        /// Called whenever a property graph will be shutting down.
-        /// </summary>
-        event GraphShuttingdownEventHandler<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                            TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                            TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                            TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnGraphShuttingdown;
-
-        #endregion
-
-        #region Shutdown(Message = "")
-
-        /// <summary>
-        /// A shutdown function is required to properly close the graph.
-        /// This is important for implementations that utilize disk-based serializations.
-        /// </summary>
-        /// <param name="Message">An optional message, e.g. a reason for the shutdown.</param>
-        void Shutdown(String Message = "");
-
-        #endregion
-
-        #region OnGraphShutteddown
-
-        /// <summary>
-        /// Called whenever a property graphy was shutted down.
-        /// </summary>
-        event GraphShutteddownEventHandler <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                            TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                            TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                            TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnGraphShutteddown;
 
         #endregion
 

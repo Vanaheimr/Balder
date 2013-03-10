@@ -148,9 +148,12 @@ namespace de.ahzf.Vanaheimr.Balder.UnitTests.PropertyGraphTests
         public void GraphIdAndInitializerConstructor_AGraphElementTest()
         {
 
-            var graph = GraphFactory.CreateGenericPropertyGraph(123UL, "TestGraph", g => g.Set("hello",  "world!").
-                                                                                           Set("graphs", "are cool!").
-                                                                                           Set("Keep",   "it simple!"));
+            var graph = GraphFactory.CreateGenericPropertyGraph(123UL,
+                                                                "TestGraph",
+                                                                () => new VetoVote(),
+                                                                g => g.Set("hello",  "world!").
+                                                                       Set("graphs", "are cool!").
+                                                                       Set("Keep",   "it simple!"));
 
             Assert.IsNotNull(graph);
             Assert.IsNotNull(graph.IdKey);

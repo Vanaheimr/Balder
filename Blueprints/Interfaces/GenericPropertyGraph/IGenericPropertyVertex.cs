@@ -22,6 +22,7 @@ using System.Collections.Generic;
 
 using de.ahzf.Illias.Commons;
 using de.ahzf.Vanaheimr.Styx;
+using de.ahzf.Illias.Commons.Votes;
 
 #endregion
 
@@ -369,6 +370,12 @@ namespace de.ahzf.Vanaheimr.Blueprints
         where TKeyHyperEdge    : IEquatable<TKeyHyperEdge>,   IComparable<TKeyHyperEdge>,   IComparable
 
     {
+
+        #region Properties
+
+        Func<IVote<Boolean>> VoteCreator { get; }
+
+        #endregion
 
         #region OutEdge methods...
 

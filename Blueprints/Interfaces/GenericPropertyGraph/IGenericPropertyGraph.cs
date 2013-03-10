@@ -35,7 +35,7 @@ namespace de.ahzf.Vanaheimr.Blueprints
     #region GraphInitializer
 
     /// <summary>
-    /// A delegate for graph initializing.
+    /// A delegate to initialize the given graph.
     /// </summary>
     /// <typeparam name="TIdVertex">The type of the vertex identifiers.</typeparam>
     /// <typeparam name="TRevIdVertex">The type of the vertex revision identifiers.</typeparam>
@@ -60,7 +60,7 @@ namespace de.ahzf.Vanaheimr.Blueprints
     /// <typeparam name="THyperEdgeLabel">The type of the multiedge label.</typeparam>
     /// <typeparam name="TKeyHyperEdge">The type of the multiedge property keys.</typeparam>
     /// <typeparam name="TValueHyperEdge">The type of the multiedge property values.</typeparam>
-    /// <param name="IGenericPropertyGraph">A gerneric property graph.</param>
+    /// <param name="Graph">A gerneric property graph.</param>
     public delegate void GraphInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                           TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                           TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -69,7 +69,7 @@ namespace de.ahzf.Vanaheimr.Blueprints
                              IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                    TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                   TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IGenericPropertyGraph)
+                                                   TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Graph)
 
         where TIdVertex        : IEquatable<TIdVertex>,       IComparable<TIdVertex>,       IComparable, TValueVertex
         where TIdEdge          : IEquatable<TIdEdge>,         IComparable<TIdEdge>,         IComparable, TValueEdge
@@ -3058,6 +3058,13 @@ namespace de.ahzf.Vanaheimr.Blueprints
 
     {
 
+        #region Properties
+
+        Func<IVote<Boolean>> VoteCreator { get; }
+
+        #endregion
+
+
         #region Vertex methods
 
         #region OnVertexAddition
@@ -3915,6 +3922,7 @@ namespace de.ahzf.Vanaheimr.Blueprints
         #endregion
 
 
+        #region BeginTransaction
 
         Transaction<TIdVertex, TIdVertex, IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                                 TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
@@ -3928,7 +3936,8 @@ namespace de.ahzf.Vanaheimr.Blueprints
                              DateTime?      CreationTime      = null,
                              DateTime?      InvalidationTime  = null);
 
-        #region General Graph Maintenance
+        #endregion
+
 
         #region Clear()
 
@@ -3936,8 +3945,6 @@ namespace de.ahzf.Vanaheimr.Blueprints
         /// Remove all the vertices, edges and hyperedges from the graph.
         /// </summary>
         void Clear();
-
-        #endregion
 
         #endregion
 
