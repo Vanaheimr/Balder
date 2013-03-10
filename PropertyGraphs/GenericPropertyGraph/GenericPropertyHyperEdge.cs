@@ -267,7 +267,6 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         #endregion
 
 
-
         #region OnVertexAddition
 
         private readonly IVotingNotificator<IReadOnlyGenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
@@ -283,7 +282,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                             Boolean> VertexAddition;
 
         /// <summary>
-        /// Called whenever a vertex will be or was added to the graph.
+        /// Called whenever a vertex will be or was added to the hyperedge.
         /// </summary>
         IVotingNotification<IReadOnlyGenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
@@ -301,6 +300,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.OnVertexAddition
+
         {
             get
             {
@@ -313,7 +313,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         #region (private) AddVertexToGraph(Vertex)
 
         /// <summary>
-        /// Add the given vertex to the graph.
+        /// Add the given vertex.
         /// </summary>
         /// <param name="Vertex">A vertex.</param>
         /// <returns>The given vertex</returns>
@@ -347,7 +347,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         #region AddVertex(Vertex)
 
         /// <summary>
-        /// Adds the given vertex to the graph, and returns it again.
+        /// Adds the given vertex, and returns it again.
         /// An exception will be thrown if the vertex identifier is already being
         /// used by the graph to reference another vertex.
         /// </summary>
@@ -392,7 +392,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         #region AddVertexIfNotExists(Vertex, CheckExistanceDelegate = null)
 
         /// <summary>
-        /// Adds the given vertex to the graph if the given check existance
+        /// Adds the given vertex if the given check existance
         /// delegate returns true and the vertex identifier is not already
         /// being used by the graph to reference another vertex.
         /// </summary>
@@ -719,7 +719,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
 
         #region OnVertexRemoval
-        
+
         private readonly IVotingNotificator<IReadOnlyGenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -733,7 +733,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                             Boolean> VertexRemoval;
 
         /// <summary>
-        /// Called whenever a vertex will be or was removed from the graph.
+        /// Called whenever a vertex will be or was removed from the hyperedge.
         /// </summary>
         IVotingNotification<IReadOnlyGenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
@@ -746,11 +746,12 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
 
                             Boolean>
-            
+
             IGenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.OnVertexRemoval
+
         {
             get
             {
@@ -763,7 +764,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         #region RemoveVerticesById(params VertexIds)
 
         /// <summary>
-        /// Remove the vertex identified by the given VertexId from the graph
+        /// Remove the vertex identified by the given VertexId
         /// </summary>
         /// <param name="VertexIds">An array of VertexIds of the vertices to remove.</param>
         void IVertexMethods<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
@@ -806,11 +807,11 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         #region RemoveVertices(params Vertices)
 
         /// <summary>
-        /// Remove the given array of vertices from the graph.
+        /// Remove the given array of vertices.
         /// Upon removing a vertex, all the edges by which the vertex
         /// is connected will be removed as well.
         /// </summary>
-        /// <param name="Vertices">An array of vertices to be removed from the graph.</param>
+        /// <param name="Vertices">An array of vertices to be removed.</param>
         void IVertexMethods<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                             TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                             TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,

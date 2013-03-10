@@ -109,6 +109,8 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #region Data
 
+        #region SuperVertex <- this
+
         /// <summary>
         /// This object as a SuperVertex implementing IGenericPropertyVertex;
         /// </summary>
@@ -116,6 +118,8 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                   TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> SuperVertex;
+
+        #endregion
 
         #region IGenericPropertyVertex -> IGroupedCollections
 
@@ -146,6 +150,8 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #endregion
 
+        #region Subgraph <- this
+
         /// <summary>
         /// This object as an IGenericPropertyGraph;
         /// </summary>
@@ -154,6 +160,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                  TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                  TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Subgraph;
 
+        #endregion
 
         #region IGenericPropertyGraph -> IGroupedCollections
 
@@ -191,6 +198,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, THyperEdgeLabel> _HyperEdgesWhenGraph;
 
         #endregion
+
 
         #region Vertex delegates...
 
@@ -296,7 +304,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #region Properties
 
-        #region IGenericPropertyGraph
+        // this == IReadOnlyGenericPropertyGraph
 
         #region Graph
 
@@ -320,6 +328,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                            TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                            TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                            TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+
             Graph
             {
                 get
@@ -333,13 +342,15 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #region EdgeIdKey
 
-        protected readonly TKeyEdge _EdgeIdKey;
+        private readonly TKeyEdge _EdgeIdKey;
 
         TKeyEdge IReadOnlyGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+
         EdgeIdKey
+
         {
             get
             {
@@ -351,13 +362,15 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #region EdgeRevIdKey
 
-        protected readonly TKeyEdge _EdgeRevIdKey;
+        private readonly TKeyEdge _EdgeRevIdKey;
 
         TKeyEdge IReadOnlyGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+
         EdgeRevIdKey
+
         {
             get
             {
@@ -369,13 +382,15 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #region EdgeLabelKey
 
-        protected readonly TKeyEdge _EdgeLabelKey;
+        private readonly TKeyEdge _EdgeLabelKey;
 
         TKeyEdge IReadOnlyGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+
         EdgeLabelKey
+
         {
             get
             {
@@ -385,34 +400,18 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #endregion
 
-        #region EdgeDescriptionKey
-
-        protected readonly TKeyEdge _EdgeDescriptionKey;
-
-        TKeyEdge IReadOnlyGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
-        EdgeDescriptionKey
-        {
-            get
-            {
-                return _EdgeDescriptionKey;
-            }
-        }
-
-        #endregion
-
 
         #region MultiEdgeIdKey
 
-        protected readonly TKeyMultiEdge _MultiEdgeIdKey;
+        private readonly TKeyMultiEdge _MultiEdgeIdKey;
 
         TKeyMultiEdge IReadOnlyGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                     TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                     TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                     TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+
         MultiEdgeIdKey
+
         {
             get
             {
@@ -424,13 +423,15 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #region MultiEdgeRevIdKey
 
-        protected readonly TKeyMultiEdge _MultiEdgeRevIdKey;
+        private readonly TKeyMultiEdge _MultiEdgeRevIdKey;
 
         TKeyMultiEdge IReadOnlyGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                     TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                     TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                     TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+
         MultiEdgeRevIdKey
+
         {
             get
             {
@@ -442,13 +443,15 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #region MultiEdgeLabelKey
 
-        protected readonly TKeyMultiEdge _MultiEdgeLabelKey;
+        private readonly TKeyMultiEdge _MultiEdgeLabelKey;
 
         TKeyMultiEdge IReadOnlyGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                     TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                     TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                     TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+
         MultiEdgeLabelKey
+
         {
             get
             {
@@ -458,34 +461,18 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #endregion
 
-        #region MultiEdgeDescriptionKey
-
-        protected readonly TKeyMultiEdge _MultiEdgeDescriptionKey;
-
-        TKeyMultiEdge IReadOnlyGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                    TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                    TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
-        MultiEdgeDescriptionKey
-        {
-            get
-            {
-                return _MultiEdgeDescriptionKey;
-            }
-        }
-
-        #endregion
-
 
         #region HyperEdgeIdKey
 
-        protected readonly TKeyHyperEdge _HyperEdgeIdKey;
+        private readonly TKeyHyperEdge _HyperEdgeIdKey;
 
         TKeyHyperEdge IReadOnlyGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                     TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                     TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                     TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+
         HyperEdgeIdKey
+
         {
             get
             {
@@ -497,13 +484,15 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #region HyperEdgeRevIdKey
 
-        protected readonly TKeyHyperEdge _HyperEdgeRevIdKey;
+        private readonly TKeyHyperEdge _HyperEdgeRevIdKey;
 
         TKeyHyperEdge IReadOnlyGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                     TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                     TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                     TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+
         HyperEdgeRevIdKey
+
         {
             get
             {
@@ -515,13 +504,15 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #region HyperEdgeLabelKey
 
-        protected readonly TKeyHyperEdge _HyperEdgeLabelKey;
+        private readonly TKeyHyperEdge _HyperEdgeLabelKey;
 
         TKeyHyperEdge IReadOnlyGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                     TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                     TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                     TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+
         HyperEdgeLabelKey
+
         {
             get
             {
@@ -531,27 +522,8 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #endregion
 
-        #region HyperEdgeDescriptionKey
 
-        protected readonly TKeyHyperEdge _HyperEdgeDescriptionKey;
-
-        TKeyHyperEdge IReadOnlyGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                    TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                    TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
-        HyperEdgeDescriptionKey
-        {
-            get
-            {
-                return _HyperEdgeDescriptionKey;
-            }
-        }
-
-        #endregion
-
-        #endregion
-
-        #region IGenericPropertyVertex
+        // this == IReadOnlyGenericPropertyGraph
 
         #region AsSubgraph
 
@@ -567,15 +539,15 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                            TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                            TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                            TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+
             AsSubgraph
+
             {
                 get
                 {
                     return this.Subgraph;
                 }
             }
-
-        #endregion
 
         #endregion
 
@@ -2501,7 +2473,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         #region Vertex methods [IGenericPropertyGraph]
 
         #region OnVertexAddition
-        
+
         private readonly IVotingNotificator<IReadOnlyGenericPropertyGraph <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                                            TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                            TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -2528,11 +2500,12 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                            TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
 
                             Boolean>
-            
+
             IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                   TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.OnVertexAddition
+
         {
             get
             {
@@ -2600,7 +2573,18 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                            TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> VertexInitializer)
 
         {
-            return Subgraph.AddVertex(_VertexIdCreatorDelegate(this), _DefaultVertexLabel, VertexInitializer);
+
+            #region Initial checks
+
+            var Id = _VertexIdCreatorDelegate(this);
+
+            if (_VerticesWhenGraph.ContainsKey(Id))
+                throw new DuplicateVertexIdException<TIdVertex>(Id);
+
+            #endregion
+
+            return AddVertexToGraph(_VertexCreatorDelegate(this, Id, _DefaultVertexLabel, VertexInitializer));
+
         }
 
         #endregion
@@ -3418,7 +3402,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                      TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                      TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                      TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
-        
+
             IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -3430,21 +3414,19 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OutVertex,
 
                         TEdgeLabel Label,
-                        
+
                         IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> InVertex,
-                        
+
                         EdgeInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                         TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                         TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeInitializer)
 
         {
-
             return Subgraph.AddEdge(OutVertex, InVertex, _EdgeIdCreatorDelegate(this), Label, EdgeInitializer);
-
         }
 
         #endregion
@@ -3566,12 +3548,12 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                      TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                      TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                      TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
-            
+
             IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                   TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
-            
+
                 AddEdge(TIdEdge     EdgeId,
 
                         IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
@@ -3742,7 +3724,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                      TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                      TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                      TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
-        
+
             IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -3855,12 +3837,12 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                      TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                      TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                      TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
-        
+
             IEdgeMethods<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
-            
+
                 AddEdge(IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                      TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                      TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -3901,12 +3883,12 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                      TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                      TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                      TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
-        
+
             IEdgeMethods<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
-            
+
                 AddEdgeIfNotExists(IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                                 TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                 TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
