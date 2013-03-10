@@ -18,14 +18,14 @@
 #region Usings
 
 using System;
-using System.Collections.Generic;
-using System.Dynamic;
 using System.Linq;
+using System.Dynamic;
 using System.Linq.Expressions;
+using System.Collections.Generic;
 
 using de.ahzf.Illias.Commons;
-using de.ahzf.Illias.Commons.Votes;
 using de.ahzf.Vanaheimr.Styx;
+using de.ahzf.Illias.Commons.Votes;
 
 #endregion
 
@@ -33,10 +33,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 {
 
     /// <summary>
-    /// A vertex maintains pointers to both a set of incoming and outgoing edges.
-    /// The outgoing edges are those edges for which the vertex is the tail.
-    /// The incoming edges are those edges for which the vertex is the head.
-    /// Diagrammatically, ---inEdges---> vertex ---outEdges--->.
+    /// A multiedge maintains pointers to a set of edges.
     /// </summary>
     /// <typeparam name="TIdVertex">The type of the vertex identifiers.</typeparam>
     /// <typeparam name="TRevIdVertex">The type of the vertex revision identifiers.</typeparam>
@@ -111,6 +108,8 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                     TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                                     TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TEdgeLabel> _Edges;
 
+        private readonly Func<IVote<Boolean>> VoteCreator;
+
         #endregion
 
         #region Properties
@@ -173,6 +172,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         /// <param name="LabelKey">The key to access the Label of this graph element.</param>
         /// <param name="DatastructureInitializer">A delegate to initialize the properties datastructure.</param>
         /// <param name="EdgesCollectionInitializer">A delegate to initialize the datastructure for storing the edges.</param>
+        /// <param name="VoteCreator">A delegate to create a new vote.</param>
         /// <param name="MultiEdgeInitializer">A delegate to initialize the newly created multiedge.</param>
         /// <param name="EdgeSelector">A delegate matching the edges connected by this multiedge.</param>
         /// <param name="Edges">The edges connected by this multiedge.</param>
@@ -194,6 +194,8 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                   TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgesCollectionInitializer,
 
+                                        Func<IVote<Boolean>> VoteCreator = null,
+
                                         MultiEdgeInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -211,7 +213,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
 
 
-            : base(Id, Label, IdKey, RevIdKey, LabelKey, DatastructureInitializer)
+            : base(Id, Label, IdKey, RevIdKey, LabelKey, DatastructureInitializer, VoteCreator: VoteCreator)
 
         {
 
@@ -240,33 +242,33 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
             #endregion
 
-            this.Graph = Graph;
+            this.Graph           = Graph;
+            this._Edges          = EdgesCollectionInitializer();
+            this.VoteCreator     = (VoteCreator != null) ? VoteCreator : () => new VetoVote();
 
-            _Edges = EdgesCollectionInitializer();
+            this.EdgeAddition    = new VotingNotificator<IReadOnlyGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                           TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                           TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
 
-            this.EdgeAddition = new VotingNotificator<IReadOnlyGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
+                                                           IReadOnlyGenericPropertyEdge   <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                           TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                           TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
 
-                                                        IReadOnlyGenericPropertyEdge   <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
+                                                           Boolean>(VoteCreator, true);
 
-                                                        Boolean>(() => new VetoVote(), true);
+            this.EdgeRemoval     = new VotingNotificator<IReadOnlyGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                           TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                           TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
 
-            this.EdgeRemoval  = new VotingNotificator<IReadOnlyGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
+                                                           IReadOnlyGenericPropertyEdge   <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                           TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                           TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
 
-                                                        IReadOnlyGenericPropertyEdge   <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
-
-                                                        Boolean>(() => new VetoVote(), true);
+                                                           Boolean>(VoteCreator, true);
 
             if (MultiEdgeInitializer != null)
                 MultiEdgeInitializer(this);
@@ -285,6 +287,8 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         #endregion
 
 
+        #region Edge methods
+
         #region OnEdgeAddition
 
         private readonly IVotingNotificator<IReadOnlyGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
@@ -300,7 +304,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                             Boolean> EdgeAddition;
 
         /// <summary>
-        /// Called whenever an edge will be or was added to the graph.
+        /// Called whenever an edge will be or was added to the multiedge.
         /// </summary>
         IVotingNotification<IReadOnlyGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
@@ -318,6 +322,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.OnEdgeAddition
+
         {
             get
             {
@@ -326,6 +331,366 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         }
 
         #endregion
+
+        #region (private) AddEdgeToMultiEdge(Edge)
+
+        /// <summary>
+        /// Add the given edge to this multiedge.
+        /// </summary>
+        /// <param name="Edge">An edge.</param>
+        /// <returns>The added edge</returns>
+        IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                     TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                     TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                     TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
+
+            AddEdgeToMultiEdge(IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                            TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                            TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                            TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Edge)
+
+        {
+
+            if (EdgeAddition.SendVoting(this, Edge))
+            {
+                if (_Edges.TryAddValue(Edge.Id, Edge.AsMutable(), Edge.Label))
+                {
+                    EdgeAddition.SendNotification(this, Edge);
+                    return Edge;
+                }
+            }
+
+            return null;
+
+        }
+
+        #endregion
+
+        #region AddEdge(Edge)
+
+        /// <summary>
+        /// Adds the given edge, and returns it again.
+        /// An exception will be thrown if the edge identifier is already being
+        /// used by the multiedge to reference another edge.
+        /// </summary>
+        /// <param name="Edge">An edge.</param>
+        /// <returns>The added edge.</returns>
+        IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                     TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                     TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                     TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
+
+            IEdgeMethods<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                         TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                         TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+
+                AddEdge(IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                     TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                     TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                     TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Edge)
+
+        {
+
+            #region Initial checks
+
+            if (Edge == null)
+                throw new ArgumentNullException("The given Edge must not be null!");
+
+            if (Edge.Id == null)
+                throw new ArgumentNullException("The unique identification of Edge must not be null!");
+
+            if (_Edges.ContainsKey(Edge.Id))
+                throw new DuplicateEdgeIdException<TIdEdge>(Edge.Id);
+
+            #endregion
+
+            return AddEdgeToMultiEdge(Edge);
+
+        }
+
+        #endregion
+
+        #region AddEdgeIfNotExists(Edge, CheckExistanceDelegate = null)
+
+        /// <summary>
+        /// Adds the given edge if the given check existance
+        /// delegate returns true and the edge identifier is not already
+        /// being used by the multiedge to reference another edge.
+        /// </summary>
+        /// <param name="Edge">An edge.</param>
+        /// <param name="CheckExistanceDelegate">A delegate the check the existance of the given edge within the multiedge.</param>
+        /// <returns>The added edge.</returns>
+        IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                     TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                     TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                     TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
+
+            IGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                      TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                      TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                      TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+
+                AddEdgeIfNotExists(IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Edge,
+
+                                   CheckEdgeExistanceInMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                 TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                 TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                 TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> CheckExistanceDelegate)
+
+        {
+
+            #region Initial checks
+
+            if (Edge == null)
+                throw new ArgumentNullException("The given Edge must not be null!");
+
+            if (Edge.Id == null)
+                throw new ArgumentNullException("The unique identification of Edge must not be null!");
+
+            if (_Edges.ContainsKey(Edge.Id))
+                throw new DuplicateEdgeIdException<TIdEdge>(Edge.Id);
+
+            #endregion
+
+            if (CheckExistanceDelegate != null && !CheckExistanceDelegate(this, Edge))
+                throw new Exception("CheckExistanceDelegate constraint is violated!");
+
+            return AddEdgeToMultiEdge(Edge);
+
+        }
+
+        #endregion
+
+
+        #region EdgeById(Id)
+
+        /// <summary>
+        /// Return the edge referenced by the given edge identifier.
+        /// If no edge is referenced by the identifier return null.
+        /// </summary>
+        /// <param name="Id">An edge identifier.</param>
+        IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                     TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                     TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                     TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
+
+            IReadOnlyEdgeMethods<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                 TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                 TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                 TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+
+                EdgeById(TIdEdge Id)
+
+        {
+
+            IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                         TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                         TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Edge = null;
+
+            if (Id != null && _Edges.TryGetByKey(Id, out Edge))
+                return Edge;
+
+            return null;
+
+        }
+
+        #endregion
+
+        #region TryGetEdgeById(Id)
+
+        /// <summary>
+        /// Try to return the edge referenced by the given edge identifier.
+        /// </summary>
+        /// <param name="Id">An edge identifier.</param>
+        /// <param name="Edge">An edge.</param>
+        /// <returns>True when success; false otherwise.</returns>
+        Boolean IReadOnlyEdgeMethods<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                     TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                     TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                     TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+
+            TryGetEdgeById(TIdEdge Id,
+                           out IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                            TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                            TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                            TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Edge)
+
+        {
+
+            if (Id != null && _Edges.TryGetByKey(Id, out Edge))
+                return true;
+
+            Edge = null;
+            return false;
+
+        }
+
+        #endregion
+
+        #region HasEdgeId(Id)
+
+        /// <summary>
+        /// Check if the given edge identifier already exists within the multiedge.
+        /// </summary>
+        /// <param name="Id">An edge identifier.</param>
+        /// <returns>True when yes; false otherwise.</returns>
+        Boolean IReadOnlyEdgeMethods<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                     TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                     TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                     TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+
+            HasEdgeId(TIdEdge Id)
+
+        {
+
+            if (Id == null)
+                return false;
+
+            return _Edges.ContainsKey(Id);
+
+        }
+
+        #endregion
+
+        #region EdgesById(params Ids)
+
+        /// <summary>
+        /// Return the edges referenced by the given array of edge identifiers.
+        /// If no edge is referenced by a given identifier this value will be null.
+        /// </summary>
+        /// <param name="Ids">An array of edge identifiers.</param>
+        IEnumerable<IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                 TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                 TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                 TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
+
+            IReadOnlyEdgeMethods<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                 TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                 TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                 TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+
+                EdgesById(params TIdEdge[] Ids)
+
+        {
+
+            IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                         TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                         TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Edge;
+
+            if (Ids != null)
+                foreach (var Id in Ids)
+                {
+
+                    if (Id != null && _Edges.TryGetByKey(Id, out Edge))
+                        yield return Edge;
+
+                    else
+                        yield return null;
+
+                }
+
+        }
+
+        #endregion
+
+        #region EdgesByLabel(params Labels)
+
+        /// <summary>
+        /// Return all edges having one of the given edge labels.
+        /// </summary>
+        /// <param name="Labels">An array of edge labels.</param>
+        IEnumerable<IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                   TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
+
+            IReadOnlyEdgeMethods<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                 TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                 TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                 TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+
+                EdgesByLabel(params TEdgeLabel[] Labels)
+
+        {
+
+            IEnumerable<IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                     TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                     TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                     TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> Edges;
+
+            if (Labels != null)
+                foreach (var Label in Labels)
+                    if (Label != null && _Edges.TryGetByGroup(Label, out Edges))
+                        foreach (var Edge in Edges)
+                            yield return Edge;
+
+        }
+
+        #endregion
+
+        #region Edges(Include = null)
+
+        /// <summary>
+        /// Return all edges or only the ones matching the given filter delegate.
+        /// </summary>
+        /// <param name="Include">An optional delegate to select the edges to be returned.</param>
+        IEnumerable<IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                 TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                 TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                 TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
+
+            IReadOnlyEdgeMethods<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                 TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                 TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                 TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+
+                Edges(EdgeFilter<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                 TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                 TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                 TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Include)
+
+        {
+
+            return (Include == null) ? _Edges
+                                     : _Edges.Where(e => Include(e));
+
+        }
+
+        #endregion
+
+        #region NumberOfEdges(Include = null)
+
+        /// <summary>
+        /// Return the total number of edges or only the number of edges matching the given filter delegate.
+        /// When the filter is null, this method should implement an optimized
+        /// way to get the currenty number of edges.
+        /// </summary>
+        /// <param name="Include">An optional delegate to select the edges to be counted.</param>
+        UInt64 IReadOnlyEdgeMethods<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                    TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                    TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+
+            NumberOfEdges(EdgeFilter<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                     TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                     TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                     TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Include)
+
+        {
+
+            return (Include == null) ? _Edges.Count()
+                                     : Convert.ToUInt64(_Edges.LongCount(e => Include(e)));
+
+        }
+
+        #endregion
+
 
         #region OnEdgeRemoval
 
@@ -342,7 +707,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                             Boolean> EdgeRemoval;
 
         /// <summary>
-        /// Called whenever an edge will be or was removed from the graph.
+        /// Called whenever an edge will be or was removed from the multiedge.
         /// </summary>
         IVotingNotification<IReadOnlyGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
@@ -360,6 +725,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.OnEdgeRemoval
+
         {
             get
             {
@@ -369,82 +735,129 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #endregion
 
-
-        #region Edges
-
-        #region EdgesByLabel(params EdgeLabels)
+        #region RemoveEdgesById(params EdgeIds)
 
         /// <summary>
-        /// The enumeration of all edges connected by this multiedge.
+        /// Remove the given array of edges identified by their EdgeIds.
         /// </summary>
-        public IEnumerable<IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
-            
-            EdgesByLabel(params TEdgeLabel[] EdgeLabels)
+        /// <param name="EdgeIds">An array of EdgeIds of the edges to remove</param>
+        void IEdgeMethods<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
 
-        {
-            throw new NotImplementedException();
-        }
-
-        #endregion
-
-        #region Edges(EdgeFilter = null)
-
-        /// <summary>
-        /// The enumeration of all edges connected by this multiedge.
-        /// An optional edge filter may be applied for filtering.
-        /// </summary>
-        IEnumerable<IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                 TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                 TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                 TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
-
-            IReadOnlyEdgeMethods<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                 TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                 TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                 TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
-
-                Edges(EdgeFilter<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                 TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                 TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                 TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeFilter)
+            RemoveEdgesById(params TIdEdge[] EdgeIds)
 
         {
 
-            if (EdgeFilter == null)
-                return from   Edge
-                       in     _Edges
-                       select Edge;
+            #region Initial checks
 
-            else
-                return from   Edge
-                       in     _Edges
-                       where  EdgeFilter(Edge)
-                       select Edge;
+            if (EdgeIds == null)
+                return;
+
+            IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                         TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                         TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Edge;
+
+            #endregion
+
+            foreach (var EdgeId in EdgeIds)
+            {
+                if (_Edges.TryGetByKey(EdgeId, out Edge))
+                    this.Graph.AsMutable().RemoveEdges(Edge);
+                else
+                    throw new ArgumentException("The given edge identifier '" + EdgeId.ToString() + "' is unknown!");
+            }
 
         }
 
         #endregion
 
-        #region NumberOfEdges(EdgeFilter = null)
+        #region RemoveEdges(params Edges)    // RemoveEdges()!
 
         /// <summary>
-        /// Return the current number of edges which match the given optional filter.
-        /// When the filter is null, this method should implement an optimized
-        /// way to get the currenty number of edges.
+        /// Remove the given array of edges from the graph.
+        /// </summary>
+        /// <param name="Edges">An array of edges to be removed from the graph.</param>
+        void IEdgeMethods<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+
+             RemoveEdges(params IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                             TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                             TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                             TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>[] Edges)
+
+        {
+
+            #region Initial checks
+
+            if (Edges == null)
+                return;
+
+            #endregion
+
+            lock (this)
+            {
+
+                foreach (var Edge in Edges)
+                    if (_Edges.ContainsKey(Edge.Id) &&
+                        EdgeRemoval.SendVoting(this, Edge))
+                        {
+
+                            Edge.OutVertex.AsMutable().RemoveOutEdges(Edge.AsMutable());
+                            Edge.InVertex. AsMutable().RemoveInEdges (Edge.AsMutable());
+
+                            // Remove the edge from any 'indexing' multiedge...
+                            Edge.MultiEdges().ForEach(MultiEdge => MultiEdge.AsMutable().RemoveEdges(Edge));
+
+                            _Edges.TryRemoveValue(Edge.Id, Edge.AsMutable(), Edge.Label);
+
+                            EdgeRemoval.SendNotification(this, Edge);
+
+                        }
+
+            }
+
+        }
+
+        #endregion
+
+        #region RemoveEdges(EdgeFilter = null)
+
+        /// <summary>
+        /// Remove any edge matching the given edge filter.
         /// </summary>
         /// <param name="EdgeFilter">A delegate for edge filtering.</param>
-        public UInt64 NumberOfEdges(EdgeFilter<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
+        void IEdgeMethods<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
 
-                   EdgeFilter = null)
-
+             RemoveEdges(EdgeFilter<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                    TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                    TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeFilter)
         {
-            throw new NotImplementedException();
+
+            lock (this)
+            {
+
+                if (EdgeFilter == null)
+                    _Edges.ToArray().
+                        ForEach(Edge => this.Graph.AsMutable().
+                            RemoveEdges(Edge));
+
+                else
+                    _Edges.
+                        Where(Edge => EdgeFilter(Edge)).ToArray().
+                        ForEach(Edge => this.Graph.AsMutable().
+                            RemoveEdges(Edge));
+
+            }
+
         }
 
         #endregion
@@ -494,7 +907,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         /// Compares two instances of this object.
         /// </summary>
         /// <param name="PropertyMultiEdge1">A Edge.</param>
-        /// <param name="PropertyMultiEdge">Another Edge.</param>
+        /// <param name="PropertyMultiEdge2">Another Edge.</param>
         /// <returns>true|false</returns>
         public static Boolean operator != (GenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                                     TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
@@ -676,28 +1089,28 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #endregion
 
-        #region CompareTo(IGenericPropertyMultiEdge)
+        #region CompareTo(MultiEdge)
 
         /// <summary>
         /// Compares two generic property multiedges.
         /// </summary>
-        /// <param name="IGenericPropertyMultiEdge">A generic property multiedge to compare with.</param>
+        /// <param name="MultiEdge">A generic property multiedge to compare with.</param>
         public Int32 CompareTo(IGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IGenericPropertyMultiEdge)
+                                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> MultiEdge)
         {
 
-            if ((Object) IGenericPropertyMultiEdge == null)
+            if ((Object) MultiEdge == null)
                 throw new ArgumentNullException("MultiEdge", "The given MultiEdge must not be null!");
 
-            return Id.CompareTo(IGenericPropertyMultiEdge.Id);
+            return Id.CompareTo(MultiEdge.Id);
 
         }
 
         #endregion
 
-        #region CompareTo(IReadOnlyGenericPropertyMultiEdge)
+        #region CompareTo(MultiEdge)
 
         /// <summary>
         /// Compares two generic property multiedges.
@@ -706,13 +1119,13 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         public Int32 CompareTo(IReadOnlyGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                                  TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                  TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                 TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IReadOnlyGenericPropertyMultiEdge)
+                                                                 TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> MultiEdge)
         {
 
-            if ((Object) IReadOnlyGenericPropertyMultiEdge == null)
-                throw new ArgumentNullException("IReadOnlyGenericPropertyMultiEdge", "The given IReadOnlyGenericPropertyMultiEdge must not be null!");
+            if ((Object) MultiEdge == null)
+                throw new ArgumentNullException("MultiEdge", "The given multiedge must not be null!");
 
-            return Id.CompareTo(IReadOnlyGenericPropertyMultiEdge.Id);
+            return Id.CompareTo(MultiEdge.Id);
 
         }
 
@@ -749,47 +1162,47 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #endregion
 
-        #region Equals(IGenericPropertyMultiEdge)
+        #region Equals(MultiEdge)
 
         /// <summary>
         /// Compares two generic property multiedges for equality.
         /// </summary>
-        /// <param name="IGenericPropertyMultiEdge">A generic property multiedge to compare with.</param>
+        /// <param name="MultiEdge">A generic property multiedge to compare with.</param>
         /// <returns>True if both match; False otherwise.</returns>
         public Boolean Equals(IGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                         TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                         TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IGenericPropertyMultiEdge)
+                                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> MultiEdge)
         {
 
-            if ((Object) IGenericPropertyMultiEdge == null)
+            if ((Object) MultiEdge == null)
                 return false;
 
             //TODO: Here it might be good to check all attributes of the UNIQUE constraint!
-            return Id.Equals(IGenericPropertyMultiEdge[IdKey]);
+            return Id.Equals(MultiEdge[IdKey]);
 
         }
 
         #endregion
 
-        #region Equals(IReadOnlyGenericPropertyMultiEdge)
+        #region Equals(MultiEdge)
 
         /// <summary>
         /// Compares two generic property multiedges for equality.
         /// </summary>
-        /// <param name="IReadOnlyGenericPropertyMultiEdge">A generic property multiedge to compare with.</param>
+        /// <param name="MultiEdge">A generic property multiedge to compare with.</param>
         /// <returns>True if both match; False otherwise.</returns>
         public Boolean Equals(IReadOnlyGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                                 TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                 TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IReadOnlyGenericPropertyMultiEdge)
+                                                                TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> MultiEdge)
         {
 
-            if ((Object) IReadOnlyGenericPropertyMultiEdge == null)
+            if ((Object) MultiEdge == null)
                 return false;
 
             //TODO: Here it might be good to check all attributes of the UNIQUE constraint!
-            return Id.Equals(IReadOnlyGenericPropertyMultiEdge.Id);
+            return Id.Equals(MultiEdge.Id);
 
         }
 
@@ -821,52 +1234,6 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         }
 
         #endregion
-
-
-        public IReadOnlyGenericPropertyEdge<TIdVertex, TRevIdVertex, TVertexLabel, TKeyVertex, TValueVertex, TIdEdge, TRevIdEdge, TEdgeLabel, TKeyEdge, TValueEdge, TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> AddEdge(IReadOnlyGenericPropertyEdge<TIdVertex, TRevIdVertex, TVertexLabel, TKeyVertex, TValueVertex, TIdEdge, TRevIdEdge, TEdgeLabel, TKeyEdge, TValueEdge, TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Edge)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IReadOnlyGenericPropertyEdge<TIdVertex, TRevIdVertex, TVertexLabel, TKeyVertex, TValueVertex, TIdEdge, TRevIdEdge, TEdgeLabel, TKeyEdge, TValueEdge, TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> AddEdgeIfNotExists(IReadOnlyGenericPropertyEdge<TIdVertex, TRevIdVertex, TVertexLabel, TKeyVertex, TValueVertex, TIdEdge, TRevIdEdge, TEdgeLabel, TKeyEdge, TValueEdge, TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Edge, CheckEdgeExistance<TIdVertex, TRevIdVertex, TVertexLabel, TKeyVertex, TValueVertex, TIdEdge, TRevIdEdge, TEdgeLabel, TKeyEdge, TValueEdge, TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> CheckExistanceDelegate = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RemoveEdgesById(params TIdEdge[] EdgeIds)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RemoveEdges(params IReadOnlyGenericPropertyEdge<TIdVertex, TRevIdVertex, TVertexLabel, TKeyVertex, TValueVertex, TIdEdge, TRevIdEdge, TEdgeLabel, TKeyEdge, TValueEdge, TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>[] Edges)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RemoveEdges(EdgeFilter<TIdVertex, TRevIdVertex, TVertexLabel, TKeyVertex, TValueVertex, TIdEdge, TRevIdEdge, TEdgeLabel, TKeyEdge, TValueEdge, TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeFilter = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IReadOnlyGenericPropertyEdge<TIdVertex, TRevIdVertex, TVertexLabel, TKeyVertex, TValueVertex, TIdEdge, TRevIdEdge, TEdgeLabel, TKeyEdge, TValueEdge, TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeById(TIdEdge EdgeId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool TryGetEdgeById(TIdEdge EdgeId, out IReadOnlyGenericPropertyEdge<TIdVertex, TRevIdVertex, TVertexLabel, TKeyVertex, TValueVertex, TIdEdge, TRevIdEdge, TEdgeLabel, TKeyEdge, TValueEdge, TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Edge)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool HasEdgeId(TIdEdge EdgeId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<IReadOnlyGenericPropertyEdge<TIdVertex, TRevIdVertex, TVertexLabel, TKeyVertex, TValueVertex, TIdEdge, TRevIdEdge, TEdgeLabel, TKeyEdge, TValueEdge, TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge, TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> EdgesById(params TIdEdge[] EdgeIds)
-        {
-            throw new NotImplementedException();
-        }
 
     }
 

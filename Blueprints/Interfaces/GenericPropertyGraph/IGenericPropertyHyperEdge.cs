@@ -550,6 +550,34 @@ namespace de.ahzf.Vanaheimr.Blueprints
 
         #endregion
 
+        #region AddVertexIfNotExists(Vertex, CheckExistanceDelegate = null)
+
+        /// <summary>
+        /// Adds the given vertex to the graph if the given check existance
+        /// delegate returns true and the vertex identifier is not already
+        /// being used by the graph to reference another vertex.
+        /// </summary>
+        /// <param name="Vertex">A vertex.</param>
+        /// <param name="CheckExistanceDelegate">A delegate the check the existance of the given vertex within the given graph.</param>
+        /// <returns>The added vertex.</returns>
+        IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
+
+            AddVertexIfNotExists(IReadOnlyGenericPropertyVertex <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                 TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                 TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                 TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Vertex,
+
+                                 CheckVertexExistanceInHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                 TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                 TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                 TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> CheckExistanceDelegate = null);
+
+        #endregion
+
+
         #region OnVertexRemoval
 
         /// <summary>

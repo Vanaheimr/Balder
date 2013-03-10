@@ -33,10 +33,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 {
 
     /// <summary>
-    /// A vertex maintains pointers to both a set of incoming and outgoing edges.
-    /// The outgoing edges are those edges for which the vertex is the tail.
-    /// The incoming edges are those edges for which the vertex is the head.
-    /// Diagrammatically, ---inEdges---> vertex ---outEdges--->.
+    /// A hyperedge maintains pointers to a set of vertices.
     /// </summary>
     /// <typeparam name="TIdVertex">The type of the vertex identifiers.</typeparam>
     /// <typeparam name="TRevIdVertex">The type of the vertex revision identifiers.</typeparam>
@@ -98,6 +95,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         where TKeyEdge         : IEquatable<TKeyEdge>,        IComparable<TKeyEdge>,        IComparable
         where TKeyMultiEdge    : IEquatable<TKeyMultiEdge>,   IComparable<TKeyMultiEdge>,   IComparable
         where TKeyHyperEdge    : IEquatable<TKeyHyperEdge>,   IComparable<TKeyHyperEdge>,   IComparable
+
     {
 
         #region Data
@@ -109,6 +107,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                         TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                                         TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TVertexLabel> _Vertices;
+
+
+        private readonly Func<IVote<Boolean>> VoteCreator;
 
 
         /// <summary>
@@ -173,6 +174,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         /// <param name="LabelKey">The key to access the Label of this graph element.</param>
         /// <param name="DatastructureInitializer">A delegate to initialize the properties datastructure.</param>
         /// <param name="VerticesCollectionInitializer">A delegate to initialize the datastructure for storing the vertices.</param>
+        /// <param name="VoteCreator">A delegate to create a new vote.</param>
         /// <param name="HyperEdgeInitializer">A delegate to initialize the newly created hyperedge.</param>
         /// <param name="VertexSelector">A delegate matching the vertices connected by this hyperedge.</param>
         /// <param name="Vertices">The vertices connected by this hyperedge.</param>
@@ -194,6 +196,8 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                     TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                     TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> VerticesCollectionInitializer,
 
+                                        Func<IVote<Boolean>> VoteCreator = null,
+
                                         HyperEdgeInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -209,7 +213,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                                    TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> Vertices = null)
 
-            : base(Id, Label, IdKey, RevIdKey, LabelKey, DatastructureInitializer)
+            : base(Id, Label, IdKey, RevIdKey, LabelKey, DatastructureInitializer, VoteCreator: VoteCreator)
 
         {
 
@@ -223,32 +227,33 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
             #endregion
 
-            this.Graph     = Graph;
-            this._Vertices = VerticesCollectionInitializer();
+            this.Graph           = Graph;
+            this._Vertices       = VerticesCollectionInitializer();
+            this.VoteCreator     = (VoteCreator != null) ? VoteCreator : () => new VetoVote();
 
-            this.VertexAddition = new VotingNotificator<IReadOnlyGenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
+            this.VertexAddition  = new VotingNotificator<IReadOnlyGenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                           TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                           TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
 
-                                                        IReadOnlyGenericPropertyVertex   <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
+                                                         IReadOnlyGenericPropertyVertex   <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                           TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                           TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
 
-                                                        Boolean>(() => new VetoVote(), true);
+                                                         Boolean>(VoteCreator, true);
 
-            this.VertexRemoval  = new VotingNotificator<IReadOnlyGenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
+            this.VertexRemoval   = new VotingNotificator<IReadOnlyGenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                           TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                           TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
 
-                                                        IReadOnlyGenericPropertyVertex   <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
+                                                         IReadOnlyGenericPropertyVertex   <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                           TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                           TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
 
-                                                        Boolean>(() => new VetoVote(), true);
+                                                         Boolean>(VoteCreator, true);
 
             if (HyperEdgeInitializer != null)
                 HyperEdgeInitializer(this);
@@ -266,6 +271,8 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #endregion
 
+
+        #region Vertex methods
 
         #region OnVertexAddition
 
@@ -310,22 +317,22 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #endregion
 
-        #region (private) AddVertexToGraph(Vertex)
+        #region (private) AddVertexToHyperEdge(Vertex)
 
         /// <summary>
-        /// Add the given vertex.
+        /// Add the given vertex to this hyperedge.
         /// </summary>
         /// <param name="Vertex">A vertex.</param>
-        /// <returns>The given vertex</returns>
+        /// <returns>The added vertex</returns>
         IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
 
-               AddVertexToGraph(IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Vertex)
+            AddVertexToHyperEdge(IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Vertex)
 
         {
 
@@ -349,24 +356,24 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         /// <summary>
         /// Adds the given vertex, and returns it again.
         /// An exception will be thrown if the vertex identifier is already being
-        /// used by the graph to reference another vertex.
+        /// used by the hyperedge to reference another vertex.
         /// </summary>
         /// <param name="Vertex">A vertex.</param>
-        /// <returns>The given IGenericPropertyVertex.</returns>
+        /// <returns>The added vertex.</returns>
         IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
-        
+
             IVertexMethods<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                            TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                            TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                            TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
 
-                       AddVertex(IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Vertex)
+                AddVertex(IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                         TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                         TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Vertex)
 
         {
 
@@ -375,7 +382,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
             if (Vertex == null)
                 throw new ArgumentNullException("The given vertex must not be null!");
 
-            if (Vertex.Id == null || Vertex.Id.Equals(default(TIdVertex)))
+            if (Vertex.Id == null)
                 throw new ArgumentNullException("The unique identification of vertex must not be null!");
 
             if (_Vertices.ContainsKey(Vertex.Id))
@@ -383,7 +390,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
             #endregion
 
-            return AddVertexToGraph(Vertex);
+            return AddVertexToHyperEdge(Vertex);
 
         }
 
@@ -397,27 +404,27 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         /// being used by the graph to reference another vertex.
         /// </summary>
         /// <param name="Vertex">A Vertex.</param>
-        /// <param name="CheckExistanceDelegate">A delegate the check the existance of the given vertex within the given graph.</param>
-        /// <returns>The given vertex.</returns>
+        /// <param name="CheckExistanceDelegate">A delegate the check the existance of the given vertex within the hyperedge.</param>
+        /// <returns>The added vertex.</returns>
         IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
 
-            IVertexMethods<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                           TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                           TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+            IGenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                      TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                      TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                      TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
 
             AddVertexIfNotExists(IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                                 TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                 TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                 TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Vertex,
 
-                                 CheckVertexExistance<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                      TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                      TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                      TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> CheckExistanceDelegate)
+                                 CheckVertexExistanceInHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                 TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                 TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                 TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> CheckExistanceDelegate)
 
         {
 
@@ -434,23 +441,23 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
             #endregion
 
-            if (CheckExistanceDelegate != null && !CheckExistanceDelegate(this.Graph, Vertex))
+            if (CheckExistanceDelegate != null && !CheckExistanceDelegate(this, Vertex))
                 throw new Exception("CheckExistanceDelegate constraint is violated!");
 
-            return AddVertexToGraph(Vertex);
+            return AddVertexToHyperEdge(Vertex);
 
         }
 
         #endregion
 
 
-        #region VertexById(VertexId)
+        #region VertexById(Id)
 
         /// <summary>
         /// Return the vertex referenced by the given vertex identifier.
         /// If no vertex is referenced by the identifier return null.
         /// </summary>
-        /// <param name="VertexId">A vertex identifier.</param>
+        /// <param name="Id">A vertex identifier.</param>
         IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -461,24 +468,17 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                    TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
 
-                VertexById(TIdVertex VertexId)
+                VertexById(TIdVertex Id)
 
         {
-            
-            #region Initial checks
-
-            if (VertexId == null)
-                throw new ArgumentNullException("VertexId", "The given vertex identifier must not be null!");
-
-            #endregion
 
             IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                            TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                            TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> _Vertex = null;
+                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Vertex = null;
 
-            if (_Vertices.TryGetByKey(VertexId, out _Vertex))
-                return _Vertex;
+            if (Id != null && _Vertices.TryGetByKey(Id, out Vertex))
+                return Vertex;
 
             return null;
 
@@ -486,12 +486,12 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #endregion
 
-        #region TryGetVertexById(VertexId)
+        #region TryGetVertexById(Id)
 
         /// <summary>
         /// Try to return the vertex referenced by the given vertex identifier.
         /// </summary>
-        /// <param name="VertexId">A vertex identifier.</param>
+        /// <param name="Id">A vertex identifier.</param>
         /// <param name="Vertex">A vertex.</param>
         /// <returns>True when success; false otherwise.</returns>
         Boolean IReadOnlyVertexMethods<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
@@ -499,29 +499,16 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
 
-                TryGetVertexById(TIdVertex VertexId, out IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Vertex)
+                TryGetVertexById(TIdVertex Id,
+                                 out IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                    TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                    TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Vertex)
+
         {
 
-            #region Initial checks
-
-            if (VertexId == null)
-                throw new ArgumentNullException("VertexId", "The given vertex identifier must not be null!");
-
-            #endregion
-
-            IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                           TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                           TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> _Vertex;
-
-            if (_Vertices.TryGetByKey(VertexId, out _Vertex))
-            {
-                Vertex = _Vertex;
+            if (Id != null && _Vertices.TryGetByKey(Id, out Vertex))
                 return true;
-            }
 
             Vertex = null;
             return false;
@@ -530,7 +517,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #endregion
 
-        #region HasVertexId(VertexId)
+        #region HasVertexId(Id)
 
         /// <summary>
         /// Check if the given vertex identifier already exists within the graph.
@@ -540,23 +527,28 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         Boolean IReadOnlyVertexMethods<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.HasVertexId(TIdVertex VertexId)
+                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+
+            HasVertexId(TIdVertex Id)
+
         {
 
-            return _Vertices.ContainsKey(VertexId);
+            if (Id == null)
+                return false;
+
+            return _Vertices.ContainsKey(Id);
 
         }
 
         #endregion
 
-        #region VerticesById(params VertexIds)
+        #region VerticesById(params Ids)
 
         /// <summary>
         /// Return the vertices referenced by the given array of vertex identifiers.
-        /// If no vertex is referenced by a given identifier this value will be
-        /// skipped.
+        /// If no vertex is referenced by a given identifier this value will be null.
         /// </summary>
-        /// <param name="VertexIds">An array of vertex identifiers.</param>
+        /// <param name="Ids">An array of vertex identifiers.</param>
         IEnumerable<IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                    TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -567,46 +559,37 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                    TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
 
-                VerticesById(params TIdVertex[] VertexIds)
+                VerticesById(params TIdVertex[] Ids)
 
         {
-
-            #region Initial checks
-
-            if (VertexIds == null || !VertexIds.Any())
-                throw new ArgumentNullException("VertexIds", "The array of vertex identifiers must not be null or its length zero!");
-
-            #endregion
 
             IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                            TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                            TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> _Vertex;
+                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Vertex;
 
-            foreach (var _VertexId in VertexIds)
-            {
-
-                if (_VertexId != null)
+            if (Ids != null)
+                foreach (var Id in Ids)
                 {
-                    if (_Vertices.TryGetByKey(_VertexId, out _Vertex))
-                        yield return _Vertex;
+
+                    if (Id != null && _Vertices.TryGetByKey(Id, out Vertex))
+                        yield return Vertex;
+
+                    else
+                        yield return null;
+
                 }
-
-                yield return null;
-
-            }
 
         }
 
         #endregion
 
-        #region VerticesByLabel(params VertexLabels)
+        #region VerticesByLabel(params Labels)
 
         /// <summary>
-        /// Return an enumeration of all vertices having one of the
-        /// given vertex labels.
+        /// Return all vertices having one of the given vertex labels.
         /// </summary>
-        /// <param name="VertexLabels">An array of vertex labels.</param>
+        /// <param name="Labels">An array of vertex labels.</param>
         IEnumerable<IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                    TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -617,31 +600,31 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                    TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
 
-                VerticesByLabel(params TVertexLabel[] VertexLabels)
+                VerticesByLabel(params TVertexLabel[] Labels)
 
         {
 
-            foreach (var Vertex in _Vertices)
-            {
-                foreach (var VertexLabel in VertexLabels)
-                {
-                    if (Vertex.Label != null &&
-                        Vertex.Label.Equals(VertexLabel))
-                        yield return Vertex;
-                }
-            }
+            IEnumerable<IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> Vertices;
+
+            if (Labels != null)
+                foreach (var Label in Labels)
+                    if (Label != null && _Vertices.TryGetByGroup(Label, out Vertices))
+                        foreach (var Vertex in Vertices)
+                            yield return Vertex;
 
         }
 
         #endregion
 
-        #region Vertices(VertexFilter = null)
+        #region Vertices(Include = null)
 
         /// <summary>
-        /// Get an enumeration of all vertices in the hyperedge.
-        /// An optional vertex filter may be applied for filtering.
+        /// Return all vertices or only the ones matching the given filter delegate.
         /// </summary>
-        /// <param name="VertexFilter">A delegate for vertex filtering.</param>
+        /// <param name="Include">An optional delegate to select the vertices to be returned.</param>
         IEnumerable<IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                    TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -655,63 +638,38 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                 Vertices(VertexFilter<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                      TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> VertexFilter)
+                                      TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Include)
 
         {
 
-            if (VertexFilter == null)
-                return from   Vertex
-                       in     _Vertices
-                       select Vertex;
-
-            else
-                return from   Vertex
-                       in     _Vertices
-                       where  VertexFilter(Vertex)
-                       select Vertex;
+            return (Include == null) ? _Vertices
+                                     : _Vertices.Where(v => Include(v));
 
         }
 
         #endregion
 
-        #region NumberOfVertices(VertexFilter = null)
+        #region NumberOfVertices(Include = null)
 
         /// <summary>
-        /// Return the current number of vertices matching the given optional vertex filter.
-        /// When the filter is null, this method should use implement an optimized
+        /// Return the total number of vertices or only the number of vertices matching the given filter delegate.
+        /// When the filter is null, this method should implement an optimized
         /// way to get the currenty number of vertices.
         /// </summary>
-        /// <param name="VertexFilter">A delegate for vertex filtering.</param>
-        UInt64 IReadOnlyVertexMethods<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                      TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+        /// <param name="Include">An optional delegate to select the vertices to be counted.</param>
+        UInt64 IReadOnlyVertexMethods<TIdVertex, TRevIdVertex, TVertexLabel, TKeyVertex, TValueVertex,
+                                      TIdEdge, TRevIdEdge, TEdgeLabel, TKeyEdge, TValueEdge,
                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
 
-            NumberOfVertices(VertexFilter<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+            NumberOfVertices(VertexFilter<TIdVertex, TRevIdVertex, TVertexLabel, TKeyVertex, TValueVertex,
+                                          TIdEdge, TRevIdEdge, TEdgeLabel, TKeyEdge, TValueEdge,
                                           TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> VertexFilter)
-
+                                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Include)
         {
 
-            if (VertexFilter == null)
-                return _Vertices.Count();
-
-            else
-            {
-                lock (this)
-                {
-
-                    var _Counter = 0UL;
-
-                    foreach (var _Vertex in _Vertices)
-                        if (VertexFilter(_Vertex))
-                            _Counter++;
-
-                    return _Counter;
-
-                }
-            }
+            return (Include == null) ? _Vertices.Count()
+                                     : Convert.ToUInt64(_Vertices.LongCount(v => Include(v)));
 
         }
 
@@ -764,40 +722,36 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         #region RemoveVerticesById(params VertexIds)
 
         /// <summary>
-        /// Remove the vertex identified by the given VertexId
+        /// Remove the vertex identified by the given VertexId from the graph
         /// </summary>
         /// <param name="VertexIds">An array of VertexIds of the vertices to remove.</param>
         void IVertexMethods<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                             TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                             TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                             TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
-            
+
             RemoveVerticesById(params TIdVertex[] VertexIds)
 
         {
 
             #region Initial checks
 
-            if (VertexIds == null || !VertexIds.Any())
-                throw new ArgumentNullException("VertexIds", "The given array of vertex identifiers must not be null or its length zero!");
-
-            #endregion
+            if (VertexIds == null)
+                return;
 
             IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                            TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                            TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> _Vertex;
+                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Vertex;
+
+            #endregion
 
             foreach (var VertexId in VertexIds)
             {
-                if (_Vertices.TryGetByKey(VertexId, out _Vertex))
-                    (this as IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                   TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>).
-                    RemoveVertices(_Vertex);
+                if (_Vertices.TryGetByKey(VertexId, out Vertex))
+                    this.Graph.AsMutable().RemoveVertices(Vertex);
                 else
-                    throw new ArgumentException("The given vertex identifier '" + VertexId.ToString() + "' is unknowen!");
+                    throw new ArgumentException("The given vertex identifier '" + VertexId.ToString() + "' is unknown!");
             }
 
         }
@@ -807,11 +761,11 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         #region RemoveVertices(params Vertices)
 
         /// <summary>
-        /// Remove the given array of vertices.
+        /// Remove the given array of vertices from the graph.
         /// Upon removing a vertex, all the edges by which the vertex
         /// is connected will be removed as well.
         /// </summary>
-        /// <param name="Vertices">An array of vertices to be removed.</param>
+        /// <param name="Vertices">An array of vertices to be removed from the graph.</param>
         void IVertexMethods<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                             TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                             TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -826,36 +780,33 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
             #region Initial checks
 
-            if (Vertices == null || !Vertices.Any())
-                throw new ArgumentNullException("Vertices", "The array of vertices must not be null or its length zero!");
+            if (Vertices == null)
+                return;
 
             #endregion
 
             lock (this)
             {
 
-                foreach (var _Vertex in Vertices)
-                {
-                    if (_Vertices.ContainsKey(_Vertex.Id))
+                foreach (var Vertex in Vertices)
+                    if (_Vertices.ContainsKey(Vertex.Id))
                     {
-    
-                        var _EdgeList = new List<IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>();
-    
-                        _EdgeList.AddRange(_Vertex.InEdges());
-                        _EdgeList.AddRange(_Vertex.OutEdges());
-    
-                        // removal requires removal from all indices
-                        //for (TinkerIndex index : this.indices.values()) {
-                        //    index.remove(vertex);
-                        //}
 
-                        _Vertices.TryRemoveValue(_Vertex.Id, _Vertex.AsMutable(), _Vertex.Label);
-    
+                        if (Vertex.OutDegree() > 0 || Vertex.InDegree() > 0)
+                            throw new Exception("Vertex '" + Vertex.Id + "' could not be removed, as there are still edges attached!");
+
+                        if (VertexRemoval.SendVoting(this, Vertex))
+                        {
+
+                            // Remove the vertex from any 'indexing' hyperedge...
+                            Vertex.HyperEdges().ForEach(HyperEdge => HyperEdge.AsMutable().RemoveVertices(Vertex));
+
+                            _Vertices.TryRemoveValue(Vertex.Id, Vertex.AsMutable(), Vertex.Label);
+                            VertexRemoval.SendNotification(this, Vertex);
+
+                        }
+
                     }
-                }
 
             }
 
@@ -883,22 +834,16 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
             lock (this)
             {
 
-                var _VerticesToRemove = new List<IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                                TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                                TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>();
-
                 if (VertexFilter == null)
-                    foreach (var _Vertex in _Vertices)
-                        _VerticesToRemove.Add(_Vertex);
+                    _Vertices.ToArray().
+                        ForEach(Vertex => this.Graph.AsMutable().
+                            RemoveVertices(Vertex));
 
-                else    
-                    foreach (var _Vertex in _Vertices)
-                        if (VertexFilter(_Vertex))
-                            _VerticesToRemove.Add(_Vertex);
-
-                foreach (var _Vertex in _VerticesToRemove)
-                    this.Graph.AsMutable().RemoveVertices(_Vertex);
+                else
+                    _Vertices.
+                        Where(Vertex => VertexFilter(Vertex)).ToArray().
+                        ForEach(Vertex => this.Graph.AsMutable().
+                            RemoveVertices(Vertex));
 
             }
 
@@ -906,6 +851,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #endregion
 
+        #endregion
 
 
         #region Operator overloading

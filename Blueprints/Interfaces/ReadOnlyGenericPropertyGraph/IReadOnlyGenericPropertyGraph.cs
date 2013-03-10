@@ -365,52 +365,56 @@ namespace de.ahzf.Vanaheimr.Blueprints
         // For the vertex this is already done
         // as the graph is a specialized vertex.
 
+
+        Func<IVote<Boolean>> VoteCreator              { get; }
+
+
         /// <summary>
         /// The property key to access the unique edge identification.
         /// </summary>
-        TKeyEdge       EdgeIdKey                { get; }
+        TKeyEdge             EdgeIdKey                { get; }
 
         /// <summary>
         /// The property key to access the edge revision identification.
         /// </summary>
-        TKeyEdge       EdgeRevIdKey             { get; }
+        TKeyEdge             EdgeRevIdKey             { get; }
 
         /// <summary>
         /// The property key to access the edge label.
         /// </summary>
-        TKeyEdge       EdgeLabelKey             { get; }
+        TKeyEdge             EdgeLabelKey             { get; }
 
 
         /// <summary>
         /// The property key to access the unique multiedge identification.
         /// </summary>
-        TKeyMultiEdge  MultiEdgeIdKey           { get; }
+        TKeyMultiEdge        MultiEdgeIdKey           { get; }
 
         /// <summary>
         /// The property key to access the multiedge revision identification.
         /// </summary>
-        TKeyMultiEdge  MultiEdgeRevIdKey        { get; }
+        TKeyMultiEdge        MultiEdgeRevIdKey        { get; }
 
         /// <summary>
         /// The property key to access the multiedge label.
         /// </summary>
-        TKeyMultiEdge  MultiEdgeLabelKey        { get; }
+        TKeyMultiEdge        MultiEdgeLabelKey        { get; }
 
 
         /// <summary>
         /// The property key to access the unique hyperedge identification.
         /// </summary>
-        TKeyHyperEdge  HyperEdgeIdKey           { get; }
+        TKeyHyperEdge        HyperEdgeIdKey           { get; }
 
         /// <summary>
         /// The property key to access the hyperedge revision identification.
         /// </summary>
-        TKeyHyperEdge  HyperEdgeRevIdKey        { get; }
+        TKeyHyperEdge        HyperEdgeRevIdKey        { get; }
 
         /// <summary>
         /// The property key to access the hyperedge label.
         /// </summary>
-        TKeyHyperEdge  HyperEdgeLabelKey        { get; }
+        TKeyHyperEdge        HyperEdgeLabelKey        { get; }
 
         #endregion
 

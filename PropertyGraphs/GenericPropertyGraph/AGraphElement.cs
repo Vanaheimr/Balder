@@ -18,6 +18,7 @@
 #region Usings
 
 using System;
+using System.Linq;
 using System.Collections.Generic;
 
 using de.ahzf.Illias.Commons;
@@ -60,6 +61,11 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         /// The datastructure holding all graph properties.
         /// </summary>
         private readonly IDictionary<TKey, TValue> PropertyData;
+
+        /// <summary>
+        /// A delegate to create a new vote.
+        /// </summary>
+        private readonly Func<IVote<Boolean>> VoteCreator;
 
         #endregion
 
@@ -197,7 +203,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #region Events
 
-        #region OnPropertyAddition
+        #region OnPropertyAdding
 
         /// <summary>
         /// Called when a property value will be added.
@@ -233,7 +239,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #endregion
 
-        #region OnPropertyRemoval
+        #region OnPropertyRemoving
 
         /// <summary>
         /// Called whenever a property value will be removed.
@@ -265,12 +271,12 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         internal Boolean SendPropertyAdditionVote(TKey Key, TValue Value)
         {
 
-            var _VetoVote = new VetoVote();
+            var Vote = VoteCreator();
 
             if (OnPropertyAdding != null)
-                OnPropertyAdding(this, Key, Value, _VetoVote);
+                OnPropertyAdding(this, Key, Value, Vote);
 
-            return _VetoVote.Result;
+            return Vote.Result;
 
         }
 
@@ -302,12 +308,12 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         internal Boolean SendPropertyChangingVote(TKey Key, TValue OldValue, TValue NewValue)
         {
 
-            var _VetoVote = new VetoVote();
+            var Vote = VoteCreator();
 
             if (OnPropertyChanging != null)
-                OnPropertyChanging(this, Key, OldValue, NewValue, _VetoVote);
+                OnPropertyChanging(this, Key, OldValue, NewValue, Vote);
 
-            return _VetoVote.Result;
+            return Vote.Result;
 
         }
 
@@ -339,12 +345,12 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         internal Boolean SendPropertyRemovalVote(TKey Key, TValue Value)
         {
 
-            var _VetoVote = new VetoVote();
+            var Vote = VoteCreator();
 
             if (OnPropertyRemoving != null)
-                OnPropertyRemoving(this, Key, Value, _VetoVote);
+                OnPropertyRemoving(this, Key, Value, Vote);
 
-            return _VetoVote.Result;
+            return Vote.Result;
 
         }
 
@@ -369,7 +375,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #region (internal protected) Constructor(s)
 
-        #region (internal protected) AGraphElement(Id, IdKey, RevIdKey, Label, DatastructureInitializer, GraphElementInitializer = null)
+        #region (internal protected) AGraphElement(Id, Label, IdKey, RevIdKey, LabelKey, DatastructureInitializer, PropertiesInitializer = null, VoteCreator = null)
 
         /// <summary>
         /// Creates a new abstract graph element.
@@ -379,24 +385,26 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         /// <param name="IdKey">The key to access the Id of this graph element.</param>
         /// <param name="RevIdKey">The key to access the RevId of this graph element.</param>
         /// <param name="LabelKey">The key to access the Label of this graph element.</param>
-        /// <param name="DescriptionKey">The key to access the description of this graph element.</param>
         /// <param name="DatastructureInitializer">A delegate to initialize the properties datastructure of the this graph element.</param>
         /// <param name="PropertiesInitializer">A delegate to do some initial operations like adding some properties.</param>
-        internal protected AGraphElement(TId                                  Id,
-                                         TLabel                               Label,
-                                         TKey                                 IdKey,
-                                         TKey                                 RevIdKey,
-                                         TKey                                 LabelKey,
-                                         IDictionaryInitializer<TKey, TValue> DatastructureInitializer,
-                                         IPropertiesInitializer<TKey, TValue> PropertiesInitializer = null)
+        /// <param name="VoteCreator">A delegate to create a new vote.</param>
+        internal protected AGraphElement(TId                                   Id,
+                                         TLabel                                Label,
+                                         TKey                                  IdKey,
+                                         TKey                                  RevIdKey,
+                                         TKey                                  LabelKey,
+                                         IDictionaryInitializer<TKey, TValue>  DatastructureInitializer,
+                                         IPropertiesInitializer<TKey, TValue>  PropertiesInitializer  = null,
+                                         Func<IVote<Boolean>>                  VoteCreator = null)
+
         {
 
             #region Initial checks
 
-            if (IdKey == null)
+            if (IdKey    == null)
                 throw new ArgumentNullException("IdKey", "The given IdKey must not be null!");
 
-            if (Id == null)
+            if (Id       == null)
                 throw new ArgumentNullException("Id", "The given Id must not be null!");
 
             if (RevIdKey == null)
@@ -422,8 +430,12 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
             this.PropertyData.Add(RevIdKey, RevId);
             this.PropertyData.Add(LabelKey, Label);
 
+            this.VoteCreator   = (VoteCreator != null) ? VoteCreator
+                                                       : () => new VetoVote();
+
             if (PropertiesInitializer != null)
                 PropertiesInitializer(this);
+
 
         }
 
@@ -441,8 +453,10 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         /// </summary>
         public virtual IEnumerable<String> GetDynamicMemberNames()
         {
-            foreach (var _PropertyKey in PropertyData.Keys)
-                yield return _PropertyKey.ToString();
+
+            return PropertyData.Keys.
+                                Select(key => key.ToString());
+
         }
 
         #endregion
@@ -511,8 +525,8 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         /// If a value already exists for the given key, then the previous value is overwritten.
         /// </summary>
         /// <param name="Key">A key.</param>
-        /// <param name="Value">A value.</param>
-        public virtual IProperties<TKey, TValue> Set(TKey Key, TValue Value)
+        /// <param name="newValue">A value.</param>
+        public virtual IProperties<TKey, TValue> Set(TKey Key, TValue newValue)
         {
 
             #region Initial Checks
@@ -523,25 +537,28 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
             if (Key.Equals(RevIdKey))
                 throw new RevIdentificationChangeException();
 
+            if (Key.Equals(Label))
+                throw new RevIdentificationChangeException();
+
             #endregion
 
-            TValue _OldValue;
+            TValue oldValue;
 
-            if (PropertyData.TryGetValue(Key, out _OldValue))
+            if (PropertyData.TryGetValue(Key, out oldValue))
             {
-                if (SendPropertyChangingVote(Key, _OldValue, Value))
+                if (SendPropertyChangingVote(Key, oldValue, newValue))
                 {
-                    PropertyData[Key] = Value;
-                    SendPropertyChangedNotification(Key, _OldValue, Value);
+                    PropertyData[Key] = newValue;
+                    SendPropertyChangedNotification(Key, oldValue, newValue);
                 }
             }
 
             else
             {
-                if (SendPropertyAdditionVote(Key, Value))
+                if (SendPropertyAdditionVote(Key, newValue))
                 {
-                    PropertyData.Add(Key, Value);
-                    SendPropertyAddedNotification(Key, Value);
+                    PropertyData.Add(Key, newValue);
+                    SendPropertyAddedNotification(Key, newValue);
                 }
             }
 
@@ -574,11 +591,8 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         public Boolean ContainsValue(TValue Value)
         {
 
-            foreach (var _Value in PropertyData.Values)
-                if (_Value.Equals(Value))
-                    return true;
-
-            return false;
+            return PropertyData.Values.
+                                Any(v => v.Equals(Value));
 
         }
 
@@ -693,30 +707,18 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
         #endregion
 
-        #region GetProperties(KeyValueFilter = null)
+        #region GetProperties(Include = null)
 
         /// <summary>
         /// Return a filtered enumeration of all KeyValuePairs.
         /// </summary>
-        /// <param name="KeyValueFilter">A delegate to filter properties based on their keys and values.</param>
+        /// <param name="Include">A delegate to filter properties based on their keys and values.</param>
         /// <returns>A enumeration of all key/value pairs matching the given KeyValueFilter.</returns>
-        public virtual IEnumerable<KeyValuePair<TKey, TValue>> GetProperties(KeyValueFilter<TKey, TValue> KeyValueFilter = null)
+        public virtual IEnumerable<KeyValuePair<TKey, TValue>> GetProperties(KeyValueFilter<TKey, TValue> Include = null)
         {
 
-            if (KeyValueFilter == null)
-            {
-                foreach (var _KeyValuePair in PropertyData)
-                    if (_KeyValuePair.Value != null)
-                        yield return _KeyValuePair;
-            }
-
-            else
-            {
-                foreach (var _KeyValuePair in PropertyData)
-                    if (_KeyValuePair.Value != null)
-                        if (KeyValueFilter(_KeyValuePair.Key, _KeyValuePair.Value))
-                            yield return _KeyValuePair;
-            }
+            return (Include == null) ? PropertyData.Where(kvp => kvp.Value != null)
+                                     : PropertyData.Where(kvp => kvp.Value != null && Include(kvp.Key, kvp.Value));
 
         }
 

@@ -111,6 +111,8 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TMultiEdgeLabel> MultiEdges;
 
+        private readonly Func<IVote<Boolean>> VoteCreator;
+
         #endregion
 
         #region Properties
@@ -175,6 +177,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         /// <param name="RevIdKey">The key of the edge revision identifier.</param>
         /// <param name="LabelKey">The key to access the Label of this graph element.</param>
         /// <param name="DatastructureInitializer">A delegate to initialize the properties datastructure.</param>
+        /// <param name="VoteCreator">A delegate to create a new vote.</param>
         /// <param name="EdgeInitializer">A delegate to initialize the newly created edge.</param>
         public GenericPropertyEdge(IReadOnlyGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                                  TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
@@ -199,12 +202,14 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
                                    IDictionaryInitializer<TKeyEdge, TValueEdge> DatastructureInitializer,
 
+                                   Func<IVote<Boolean>> VoteCreator = null,
+
                                    EdgeInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                    TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                    TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeInitializer = null)
 
-            : base(EdgeId, EdgeLabel, IdKey, RevIdKey, LabelKey, DatastructureInitializer)
+            : base(EdgeId, EdgeLabel, IdKey, RevIdKey, LabelKey, DatastructureInitializer, VoteCreator: VoteCreator)
 
         {
 
@@ -233,27 +238,40 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
 
             #endregion
 
-            this.Graph            = Graph;
-            this.OutVertex        = OutVertex;
-            this.InVertex         = InVertex;
+            this.Graph              = Graph;
+            this.OutVertex          = OutVertex;
+            this.InVertex           = InVertex;
+            this.VoteCreator        = (VoteCreator != null) ? VoteCreator : () => new VetoVote();
 
-            this.MultiEdges       = new GroupedCollection<TIdMultiEdge,
-                                                          IReadOnlyGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                                            TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                            TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                                            TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TMultiEdgeLabel>();
+            this.MultiEdges         = new GroupedCollection<TIdMultiEdge,
+                                                            IReadOnlyGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>, TMultiEdgeLabel>();
 
-            this.MultiEdgeRemoval = new VotingNotificator<IReadOnlyGenericPropertyEdge     <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                                            TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                            TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                                            TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
+            this.MultiEdgeAddition  = new VotingNotificator<IReadOnlyGenericPropertyEdge     <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                             TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                             TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                             TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
 
-                                                          IReadOnlyGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                                            TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                            TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                                            TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
+                                                            IReadOnlyGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
 
-                                                          Boolean>(() => new VetoVote(), true);
+                                                            Boolean>(VoteCreator, true);
+
+            this.MultiEdgeRemoval   = new VotingNotificator<IReadOnlyGenericPropertyEdge     <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
+
+                                                            IReadOnlyGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
+
+                                                            Boolean>(VoteCreator, true);
 
             if (EdgeInitializer != null)
                 EdgeInitializer(this);
@@ -279,7 +297,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
 
-                                            Boolean> MultiEdgeAddition_WhenEdge;
+                                            Boolean> MultiEdgeAddition;
 
         /// <summary>
         /// Called whenever a multiedge will be or was added to the vertex.
@@ -304,7 +322,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         {
             get
             {
-                return MultiEdgeAddition_WhenEdge;
+                return MultiEdgeAddition;
             }
         }
 

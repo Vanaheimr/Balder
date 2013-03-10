@@ -102,7 +102,7 @@ namespace de.ahzf.Vanaheimr.Blueprints
         /// <param name="Id">A vertex identifier.</param>
         /// <param name="Vertex">A vertex.</param>
         /// <returns>True when success; false otherwise.</returns>
-        Boolean TryGetVertexById(TIdVertex VertexId,
+        Boolean TryGetVertexById(TIdVertex Id,
                                  out IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                                     TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                     TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,

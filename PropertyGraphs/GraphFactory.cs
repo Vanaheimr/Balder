@@ -22,6 +22,7 @@ using System.Linq;
 using System.Collections.Generic;
 
 using de.ahzf.Illias.Commons;
+using de.ahzf.Illias.Commons.Votes;
 
 #endregion
 
@@ -145,6 +146,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                     new IdGenerator_UInt64(),
                                                                                     GraphDBOntology.DefaultHyperEdgeLabel.Suffix,
 
+                                                                                    () => new VetoVote(),
                                                                                     g => {
 
                                                                                              if (Description != null)
@@ -220,6 +222,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                     new IdGenerator_String(),
                                                                                     GraphDBOntology.DefaultHyperEdgeLabel.Suffix,
 
+                                                                                    () => new VetoVote(),
                                                                                     g => {
 
                                                                                              if (Description != null)
@@ -317,6 +320,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                              new IdGenerator_UInt64(),
                                                                                              DefaultHyperEdgeLabel,
 
+                                                                                             () => new VetoVote(),
                                                                                              g => {
 
                                                                                                  if (Description != null)
@@ -413,6 +417,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                              new IdGenerator_String(),
                                                                                              DefaultHyperEdgeLabel,
 
+                                                                                             () => new VetoVote(),
                                                                                              g => {
 
                                                                                                  if (Description != null)
@@ -445,7 +450,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         /// <typeparam name="TLabel">The type of all labels.</typeparam>
         /// <typeparam name="TKey">The type of all property keys.</typeparam>
         /// <typeparam name="TValue">The type of all property values.</typeparam>
-        /// <param name="GraphId">The graph identification.</param></param>
+        /// <param name="GraphId">The graph identification.</param>
         /// <param name="IdKey">The property key to access the Ids.</param>
         /// <param name="RevIdKey">The property key to access the RevisionIds.</param>
         /// <param name="LabelKey">The key to access the Label of this graph element.</param>
@@ -535,6 +540,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                 HyperEdgeIdCreatorDelegate,
                                                                                 DefaultLabel,
 
+                                                                                () => new VetoVote(),
                                                                                 GraphInitializer)
 
                                              as IGenericPropertyGraph<TId, TRevId, TLabel, TKey, TValue,
@@ -556,7 +562,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
         /// <typeparam name="TLabel">The type of all labels.</typeparam>
         /// <typeparam name="TKey">The type of all property keys.</typeparam>
         /// <typeparam name="TValue">The type of all property values.</typeparam>
-        /// <param name="GraphId">The graph identification.</param></param>
+        /// <param name="GraphId">The graph identification.</param>
         /// <param name="IdKey">The property key to access the Ids.</param>
         /// <param name="RevIdKey">The property key to access the RevisionIds.</param>
         /// <param name="IdCreatorDelegate">A delegate to create new graph element identifications.</param>
@@ -675,6 +681,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                               HyperEdgeIdCreatorDelegate,
                                                                                               GraphDBOntology.DefaultHyperEdgeLabel.Suffix,
 
+                                                                                              () => new VetoVote(),
                                                                                               g => {
 
                                                                                                  if (Description != null)
@@ -771,6 +778,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                                                                   HyperEdgeIdCreatorDelegate,
                                                                                                                   GraphDBOntology.DefaultHyperEdgeLabel,
 
+                                                                                                                  () => new VetoVote(),
                                                                                                                   g => {
 
                                                                                                                       if (Description != null)

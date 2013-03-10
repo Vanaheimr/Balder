@@ -23,6 +23,7 @@ using de.ahzf.Illias.Commons;
 using de.ahzf.Illias.Commons.Collections;
 using de.ahzf.Vanaheimr.Blueprints;
 using de.ahzf.Vanaheimr.Blueprints.InMemory;
+using de.ahzf.Illias.Commons.Votes;
 
 #endregion
 
@@ -169,7 +170,9 @@ namespace de.ahzf.Vanaheimr.Blueprints.Schema
                                                  Graph.HyperEdgeRevIdKey,
                                                  Graph.HyperEdgeLabelKey,
                                                  g => { return default(THyperEdgeLabel); },   // AutoIdGeneration currently turned off!
-                                                 HyperEdgeLabel.DEFAULT)
+                                                 HyperEdgeLabel.DEFAULT,
+
+                                                 Graph.VoteCreator)
 
                                                  { };
 
