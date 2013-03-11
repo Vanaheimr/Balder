@@ -21,12 +21,12 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-using de.ahzf.Vanaheimr.Blueprints;
-using de.ahzf.Vanaheimr.Styx;
+using eu.Vanaheimr.Blueprints;
+using eu.Vanaheimr.Styx;
 
 #endregion
 
-namespace de.ahzf.Vanaheimr.Balder
+namespace eu.Vanaheimr.Balder
 {
 
     #region EdgeLabelFilterPipeExtensions

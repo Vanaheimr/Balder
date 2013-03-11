@@ -24,7 +24,7 @@ using System.Collections.Generic;
 
 #endregion
 
-namespace de.ahzf.Vanaheimr.Balder.UnitTests
+namespace eu.Vanaheimr.Balder.UnitTests
 {
 
     public static class TestHelpers

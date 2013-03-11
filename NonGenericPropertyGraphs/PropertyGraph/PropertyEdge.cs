@@ -21,11 +21,11 @@ using System;
 using System.Dynamic;
 using System.Linq.Expressions;
 
-using de.ahzf.Illias.Commons;
+using eu.Vanaheimr.Illias.Commons;
 
 #endregion
 
-namespace de.ahzf.Vanaheimr.Blueprints.InMemory
+namespace eu.Vanaheimr.Blueprints.InMemory
 {
 
     /// <summary>

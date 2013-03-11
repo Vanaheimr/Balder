@@ -19,12 +19,12 @@
 
 using System;
 
-using de.ahzf.Illias.Commons;
-using de.ahzf.Vanaheimr.Styx;
+using eu.Vanaheimr.Illias.Commons;
+using eu.Vanaheimr.Styx;
 
 #endregion
 
-namespace de.ahzf.Vanaheimr.Balder
+namespace eu.Vanaheimr.Balder
 {
 
     /// <summary>

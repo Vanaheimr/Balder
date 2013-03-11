@@ -42,12 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IPropertyGraphTraverser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TraversalDelegates.cs" />
-    <Compile Include="TraversalOrder.cs" />
-    <Compile Include="TraversalState.cs" />
-    <Compile Include="TraverserFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Blueprints\Blueprints.csproj">

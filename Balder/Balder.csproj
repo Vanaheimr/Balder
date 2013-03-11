@@ -46,6 +46,78 @@
     <Compile Include="Arrows\GraphElements\RevIdArrow.cs" />
     <Compile Include="Arrows\GraphElements\LabelArrow.cs" />
     <Compile Include="Arrows\GraphElements\IdArrow.cs" />
+    <Compile Include="Datastructures\EdgeDirection.cs" />
+    <Compile Include="Datastructures\SemanticProperty.cs" />
+    <Compile Include="DependentGraphs\AdjacencyListGraph.cs" />
+    <Compile Include="DependentGraphs\AdjacencyMatrixGraph.cs" />
+    <Compile Include="DependentGraphs\UndirectedAdjacencyMatrixGraph.cs" />
+    <Compile Include="DependentGraphs\WeightedAdjacencyListGraph.cs" />
+    <Compile Include="DynamicGraphElement.cs" />
+    <Compile Include="Exceptions\EdgesExceptions.cs" />
+    <Compile Include="Exceptions\HyperEdgesExceptions.cs" />
+    <Compile Include="Exceptions\MultiEdgesExceptions.cs" />
+    <Compile Include="Exceptions\PropertyGraphExceptions.cs" />
+    <Compile Include="Exceptions\SchemaExceptions.cs" />
+    <Compile Include="Exceptions\VerticesExceptions.cs" />
+    <Compile Include="ExtentionMethods\GenericPropertyGraph\IGenericPropertyEdge.cs" />
+    <Compile Include="ExtentionMethods\GenericPropertyGraph\IGenericPropertyGraph.cs" />
+    <Compile Include="ExtentionMethods\GenericPropertyGraph\IGenericPropertyHyperEdge.cs" />
+    <Compile Include="ExtentionMethods\GenericPropertyGraph\IGenericPropertyMultiEdge.cs" />
+    <Compile Include="ExtentionMethods\GenericPropertyGraph\IGenericPropertyVertex.cs" />
+    <Compile Include="ExtentionMethods\GenericPropertyGraph\IGraphElement.cs" />
+    <Compile Include="ExtentionMethods\ReadOnlyGenericPropertyGraph\IReadOnlyEdgeMethods.cs" />
+    <Compile Include="ExtentionMethods\ReadOnlyGenericPropertyGraph\IReadOnlyGenericPropertyEdge.cs" />
+    <Compile Include="ExtentionMethods\ReadOnlyGenericPropertyGraph\IReadOnlyGenericPropertyGraph.cs" />
+    <Compile Include="ExtentionMethods\ReadOnlyGenericPropertyGraph\IReadOnlyGenericPropertyHyperEdge.cs" />
+    <Compile Include="ExtentionMethods\ReadOnlyGenericPropertyGraph\IReadOnlyGenericPropertyMultiEdge.cs" />
+    <Compile Include="ExtentionMethods\ReadOnlyGenericPropertyGraph\IReadOnlyGenericPropertyVertex.cs" />
+    <Compile Include="ExtentionMethods\ReadOnlyGenericPropertyGraph\IReadOnlyGraphElement.cs" />
+    <Compile Include="ExtentionMethods\ReadOnlyGenericPropertyGraph\IReadOnlyVertexMethods.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="GraphDBOntology.cs" />
+    <Compile Include="Datastructures\GraphElementIds\AGraphElementId.cs" />
+    <Compile Include="Datastructures\GraphElementIds\EdgeId.cs" />
+    <Compile Include="Datastructures\GraphElementIds\HyperEdgeId.cs" />
+    <Compile Include="Datastructures\GraphElementIds\MultiEdgeId.cs" />
+    <Compile Include="Datastructures\GraphElementIds\VertexId.cs" />
+    <Compile Include="Algorithms\GraphTraversals\IPropertyGraphTraverser.cs" />
+    <Compile Include="Algorithms\GraphTraversals\TraversalDelegates.cs" />
+    <Compile Include="Algorithms\GraphTraversals\TraversalOrder.cs" />
+    <Compile Include="Algorithms\GraphTraversals\TraversalState.cs" />
+    <Compile Include="Algorithms\GraphTraversals\TraverserFactory.cs" />
+    <Compile Include="Implementations\GenericPartitionPropertyGraph\GenericPartitionPropertyGraph.cs" />
+    <Compile Include="Implementations\GenericPropertyGraph\AGraphElement.cs" />
+    <Compile Include="Implementations\GenericPropertyGraph\GenericPropertyEdge.cs" />
+    <Compile Include="Implementations\GenericPropertyGraph\GenericPropertyHyperEdge.cs" />
+    <Compile Include="Implementations\GenericPropertyGraph\GenericPropertyMultiEdge.cs" />
+    <Compile Include="Implementations\GenericPropertyGraph\GenericPropertyVertex.cs" />
+    <Compile Include="Implementations\GraphFactory.cs" />
+    <Compile Include="Implementations\SchemaGraph\EdgeLabels.cs" />
+    <Compile Include="Implementations\SchemaGraph\GraphSchemaHandling.cs" />
+    <Compile Include="Implementations\SchemaGraph\HyperEdgeLabels.cs" />
+    <Compile Include="Implementations\SchemaGraph\MultiEdgeLabels.cs" />
+    <Compile Include="Implementations\SchemaGraph\VertexLabels.cs" />
+    <Compile Include="Interfaces\GenericPropertyGraph\IDynamicGraphElement.cs" />
+    <Compile Include="Interfaces\GenericPropertyGraph\IEdgeMethods.cs" />
+    <Compile Include="Interfaces\GenericPropertyGraph\IGenericPropertyEdge.cs" />
+    <Compile Include="Interfaces\GenericPropertyGraph\IGenericPropertyGraph.cs" />
+    <Compile Include="Interfaces\GenericPropertyGraph\IGenericPropertyHyperEdge.cs" />
+    <Compile Include="Interfaces\GenericPropertyGraph\IGenericPropertyMultiEdge.cs" />
+    <Compile Include="Interfaces\GenericPropertyGraph\IGenericPropertyVertex.cs" />
+    <Compile Include="Interfaces\GenericPropertyGraph\IGraphElement.cs" />
+    <Compile Include="Interfaces\GenericPropertyGraph\IHyperEdgeMethods.cs" />
+    <Compile Include="Interfaces\GenericPropertyGraph\IMultiEdgeMethods.cs" />
+    <Compile Include="Interfaces\GenericPropertyGraph\IVertexMethods.cs" />
+    <Compile Include="Interfaces\ReadOnlyGenericPropertyGraph\IReadOnlyEdgeMethods.cs" />
+    <Compile Include="Interfaces\ReadOnlyGenericPropertyGraph\IReadOnlyGenericPropertyEdge.cs" />
+    <Compile Include="Interfaces\ReadOnlyGenericPropertyGraph\IReadOnlyGenericPropertyGraph.cs" />
+    <Compile Include="Interfaces\ReadOnlyGenericPropertyGraph\IReadOnlyGenericPropertyHyperEdge.cs" />
+    <Compile Include="Interfaces\ReadOnlyGenericPropertyGraph\IReadOnlyGenericPropertyMultiEdge.cs" />
+    <Compile Include="Interfaces\ReadOnlyGenericPropertyGraph\IReadOnlyGenericPropertyVertex.cs" />
+    <Compile Include="Interfaces\ReadOnlyGenericPropertyGraph\IReadOnlyGraphElement.cs" />
+    <Compile Include="Interfaces\ReadOnlyGenericPropertyGraph\IReadOnlyHyperEdgeMethods.cs" />
+    <Compile Include="Interfaces\ReadOnlyGenericPropertyGraph\IReadOnlyMultiEdgeMethods.cs" />
+    <Compile Include="Interfaces\ReadOnlyGenericPropertyGraph\IReadOnlyVertexMethods.cs" />
     <Compile Include="Pipes\GraphElements\RevIdPipe.cs" />
     <Compile Include="Pipes\IGenericPropertyEdge\AVertexPipe.cs" />
     <Compile Include="EdgeTraversalDirection.cs" />
@@ -87,10 +159,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Blueprints\Blueprints.csproj">
-      <Project>{47FA1E7C-8C47-493D-A371-91A15D53BC95}</Project>
-      <Name>Blueprints</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Eunomia\Eunomia\Eunomia.csproj">
       <Project>{1DF1A588-33B1-4168-9487-604FE5680681}</Project>
       <Name>Eunomia</Name>
@@ -103,14 +171,9 @@
       <Project>{3949790D-8591-4101-9E4D-CE7A758E7409}</Project>
       <Name>Styx</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TraversalGraphs\TraversalGraphs.csproj">
-      <Project>{F5CE7102-FE69-4D39-88B9-7FA3E8EE1C5B}</Project>
-      <Name>TraversalGraphs</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Arrows\GraphElements\Filter\" />
-    <Folder Include="ExtentionMethods\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

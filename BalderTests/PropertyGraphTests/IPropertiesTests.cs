@@ -21,15 +21,15 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-using de.ahzf.Illias.Commons.Collections;
-using de.ahzf.Vanaheimr.Blueprints;
-using de.ahzf.Vanaheimr.Blueprints.InMemory;
+using eu.Vanaheimr.Illias.Commons.Collections;
+using eu.Vanaheimr.Blueprints;
+using eu.Vanaheimr.Blueprints.InMemory;
 
 using NUnit.Framework;
 
 #endregion
 
-namespace de.ahzf.Vanaheimr.Balder.UnitTests
+namespace eu.Vanaheimr.Balder.UnitTests
 {
 
     /// <summary>

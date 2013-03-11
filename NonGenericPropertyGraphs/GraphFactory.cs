@@ -22,11 +22,11 @@ using System.Linq;
 using System.Threading;
 using System.Collections.Generic;
 
-using de.ahzf.Illias.Commons;
+using eu.Vanaheimr.Illias.Commons;
 
 #endregion
 
-namespace de.ahzf.Vanaheimr.Blueprints.InMemory
+namespace eu.Vanaheimr.Blueprints.InMemory
 {
 
     /// <summary>
@@ -93,7 +93,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
                                                                           UInt64, Int64, String, String, Object> GraphInitializer = null)
         {
 
-            return new PropertyGraph(GraphId, GraphInitializer) { Description = Description } as IPropertyGraph;
+            return new PropertyGraph(GraphId, GraphInitializer) {  } as IPropertyGraph;
 
         }
 

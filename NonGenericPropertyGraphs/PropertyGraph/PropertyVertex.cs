@@ -23,11 +23,11 @@ using System.Dynamic;
 using System.Linq.Expressions;
 using System.Collections.Generic;
 
-using de.ahzf.Illias.Commons;
+using eu.Vanaheimr.Illias.Commons;
 
 #endregion
 
-namespace de.ahzf.Vanaheimr.Blueprints.InMemory
+namespace eu.Vanaheimr.Blueprints.InMemory
 {
 
     /// <summary>
@@ -1642,7 +1642,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
             throw new NotImplementedException();
         }
 
-        public IReadOnlyGenericPropertyVertex<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> AddVertexIfNotExists(IReadOnlyGenericPropertyVertex<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> Vertex, CheckVertexExistance<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> CheckExistanceDelegate = null)
+        public IReadOnlyGenericPropertyVertex<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> AddVertexIfNotExists(IReadOnlyGenericPropertyVertex<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> Vertex, CheckVertexExistanceInGraph<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> CheckExistanceDelegate = null)
         {
             throw new NotImplementedException();
         }
@@ -1667,7 +1667,7 @@ namespace de.ahzf.Vanaheimr.Blueprints.InMemory
             throw new NotImplementedException();
         }
 
-        public IReadOnlyGenericPropertyEdge<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> AddEdgeIfNotExists(IReadOnlyGenericPropertyEdge<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> Edge, CheckEdgeExistance<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> CheckExistanceDelegate = null)
+        public IReadOnlyGenericPropertyEdge<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> AddEdgeIfNotExists(IReadOnlyGenericPropertyEdge<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> Edge, CheckEdgeExistanceInGraph<ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object, ulong, long, string, string, object> CheckExistanceDelegate = null)
         {
             throw new NotImplementedException();
         }

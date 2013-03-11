@@ -21,11 +21,11 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-using de.ahzf.Vanaheimr.Blueprints;
+using eu.Vanaheimr.Blueprints;
 
 #endregion
 
-namespace de.ahzf.Vanaheimr.Balder
+namespace eu.Vanaheimr.Balder
 {
 
     /// <summary>

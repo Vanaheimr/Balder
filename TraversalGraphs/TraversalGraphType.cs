@@ -21,12 +21,12 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-using de.ahzf.Illias.Commons;
-using de.ahzf.Vanaheimr.Blueprints;
+using eu.Vanaheimr.Illias.Commons;
+using eu.Vanaheimr.Blueprints;
 
 #endregion
 
-namespace de.ahzf.Vanaheimr.Blueprints.TraversalGraphs
+namespace eu.Vanaheimr.Blueprints.TraversalGraphs
 {
 
     public enum TraversalGraphType

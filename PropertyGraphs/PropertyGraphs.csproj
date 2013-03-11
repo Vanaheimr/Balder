@@ -42,25 +42,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GenericPropertyGraph\GenericPropertyHyperEdge.cs" />
-    <Compile Include="GenericPartitionPropertyGraph\GenericPartitionPropertyGraph.cs" />
-    <Compile Include="Schema\GraphSchemaHandling.cs" />
-    <Compile Include="GraphFactory.cs" />
-    <Compile Include="GenericPropertyGraph\AGraphElement.cs" />
-    <Compile Include="GenericPropertyGraph\GenericPropertyEdge.cs" />
-    <Compile Include="GenericPropertyGraph\GenericPropertyMultiEdge.cs" />
-    <Compile Include="GenericPropertyGraph\GenericPropertyVertex.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Schema\EdgeLabels.cs" />
-    <Compile Include="Schema\HyperEdgeLabels.cs" />
-    <Compile Include="Schema\MultiEdgeLabels.cs" />
-    <Compile Include="Schema\VertexLabels.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Blueprints\Blueprints.csproj">
-      <Project>{47FA1E7C-8C47-493D-A371-91A15D53BC95}</Project>
-      <Name>Blueprints</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Eunomia\Eunomia\Eunomia.csproj">
       <Project>{1DF1A588-33B1-4168-9487-604FE5680681}</Project>
       <Name>Eunomia</Name>
@@ -72,6 +56,10 @@
     <ProjectReference Include="..\..\Styx\Styx\Styx.csproj">
       <Project>{3949790D-8591-4101-9E4D-CE7A758E7409}</Project>
       <Name>Styx</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Balder\Balder.csproj">
+      <Project>{D2B4E7C7-0524-4DE5-9D62-2DE05682A74D}</Project>
+      <Name>Balder</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

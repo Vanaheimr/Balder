@@ -21,13 +21,13 @@ using System;
 
 using NUnit.Framework;
 
-using de.ahzf.Vanaheimr.Blueprints.InMemory;
-using de.ahzf.Vanaheimr.Blueprints;
-using de.ahzf.Illias.Commons.Votes;
+using eu.Vanaheimr.Blueprints.InMemory;
+using eu.Vanaheimr.Blueprints;
+using eu.Vanaheimr.Illias.Commons.Votes;
 
 #endregion
 
-namespace de.ahzf.Vanaheimr.Balder.UnitTests.PropertyGraphTests
+namespace eu.Vanaheimr.Balder.UnitTests.PropertyGraphTests
 {
 
     /// <summary>

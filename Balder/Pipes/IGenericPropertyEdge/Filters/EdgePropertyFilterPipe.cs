@@ -20,12 +20,12 @@
 using System;
 using System.Collections.Generic;
 
-using de.ahzf.Vanaheimr.Styx;
-using de.ahzf.Vanaheimr.Blueprints;
+using eu.Vanaheimr.Styx;
+using eu.Vanaheimr.Blueprints;
 
 #endregion
 
-namespace de.ahzf.Vanaheimr.Balder
+namespace eu.Vanaheimr.Balder
 {
 
     #region EdgePropertyFilterPipeExtensions

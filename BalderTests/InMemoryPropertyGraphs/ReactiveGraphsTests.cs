@@ -23,13 +23,13 @@ using System.Collections.Generic;
 
 using NUnit.Framework;
 
-using de.ahzf.Illias.Commons.Votes;
-using de.ahzf.Vanaheimr.Blueprints;
-using de.ahzf.Vanaheimr.Blueprints.InMemory;
+using eu.Vanaheimr.Illias.Commons.Votes;
+using eu.Vanaheimr.Blueprints;
+using eu.Vanaheimr.Blueprints.InMemory;
 
 #endregion
 
-namespace de.ahzf.Vanaheimr.Balder.UnitTests.InMemoryPropertyGraphs
+namespace eu.Vanaheimr.Balder.UnitTests.InMemoryPropertyGraphs
 {
 
     /// <summary>

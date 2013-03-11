@@ -21,11 +21,11 @@ using System;
 using System.Collections.Generic;
 
 using NUnit.Framework;
-using de.ahzf.Vanaheimr.Blueprints;
+using eu.Vanaheimr.Blueprints;
 
 #endregion
 
-namespace de.ahzf.Vanaheimr.Balder.UnitTests.GraphElementIds
+namespace eu.Vanaheimr.Balder.UnitTests.GraphElementIds
 {
 
     /// <summary>
