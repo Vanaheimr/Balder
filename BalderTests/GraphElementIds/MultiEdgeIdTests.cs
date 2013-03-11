@@ -21,7 +21,7 @@ using System;
 using System.Collections.Generic;
 
 using NUnit.Framework;
-using eu.Vanaheimr.Blueprints;
+using eu.Vanaheimr.Balder;
 
 #endregion
 

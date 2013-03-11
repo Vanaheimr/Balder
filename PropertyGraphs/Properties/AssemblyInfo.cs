@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("PropertyGraphs")]
-[assembly: AssemblyDescription("A class-based in-memory implementation of the Blueprints.NET property graph interface.")]
+[assembly: AssemblyDescription("A class-based in-memory implementation of the Balder property graph interface.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("ahzf.de")]
 [assembly: AssemblyProduct("PropertyGraphs")]

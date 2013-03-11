@@ -1,6 +1,6 @@
 ﻿/*
  * Copyright (c) 2010-2013, Achim 'ahzf' Friedland <achim@graph-database.org>
- * This file is part of Blueprints.NET <http://www.github.com/Vanaheimr/Blueprints.NET>
+ * This file is part of Balder <http://www.github.com/Vanaheimr/Balder>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,14 +19,14 @@
 
 using System;
 
-using eu.Vanaheimr.Blueprints;
+using eu.Vanaheimr.Balder;
 
 using Jurassic;
 using Jurassic.Library;
 
 #endregion
 
-namespace eu.Vanaheimr.Blueprints.JurassicGraph
+namespace eu.Vanaheimr.Balder.JurassicGraph
 {
 
     /// <summary>

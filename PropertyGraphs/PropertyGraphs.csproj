@@ -42,7 +42,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GenericPartitionPropertyGraph\GenericPartitionPropertyGraph.cs" />
+    <Compile Include="GenericPropertyGraph\AGraphElement.cs" />
+    <Compile Include="GenericPropertyGraph\GenericPropertyEdge.cs" />
+    <Compile Include="GenericPropertyGraph\GenericPropertyHyperEdge.cs" />
+    <Compile Include="GenericPropertyGraph\GenericPropertyMultiEdge.cs" />
+    <Compile Include="GenericPropertyGraph\GenericPropertyVertex.cs" />
+    <Compile Include="GraphFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SchemaGraph\GraphSchemaHandling.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Eunomia\Eunomia\Eunomia.csproj">

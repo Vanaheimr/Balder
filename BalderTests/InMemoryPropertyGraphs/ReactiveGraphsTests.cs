@@ -24,8 +24,8 @@ using System.Collections.Generic;
 using NUnit.Framework;
 
 using eu.Vanaheimr.Illias.Commons.Votes;
-using eu.Vanaheimr.Blueprints;
-using eu.Vanaheimr.Blueprints.InMemory;
+using eu.Vanaheimr.Balder;
+using eu.Vanaheimr.Balder.InMemory;
 
 #endregion
 

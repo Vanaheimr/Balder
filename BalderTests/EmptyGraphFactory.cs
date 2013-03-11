@@ -21,8 +21,8 @@ using System;
 
 using NUnit.Framework;
 
-using eu.Vanaheimr.Blueprints.InMemory;
-using eu.Vanaheimr.Blueprints;
+using eu.Vanaheimr.Balder.InMemory;
+using eu.Vanaheimr.Balder;
 using eu.Vanaheimr.Illias.Commons.Votes;
 
 #endregion

@@ -22,8 +22,8 @@ using System.Collections;
 
 using eu.Vanaheimr.Illias.Commons.Votes;
 using eu.Vanaheimr.Illias.Commons.Collections;
-using eu.Vanaheimr.Blueprints.InMemory;
-using eu.Vanaheimr.Blueprints;
+using eu.Vanaheimr.Balder.InMemory;
+using eu.Vanaheimr.Balder;
 
 #endregion
 

@@ -22,8 +22,8 @@ using System.Linq;
 using System.Collections.Generic;
 
 using eu.Vanaheimr.Illias.Commons.Collections;
-using eu.Vanaheimr.Blueprints;
-using eu.Vanaheimr.Blueprints.InMemory;
+using eu.Vanaheimr.Balder;
+using eu.Vanaheimr.Balder.InMemory;
 
 using NUnit.Framework;
 
