@@ -20,7 +20,6 @@
 using System;
 using System.Collections.Generic;
 
-using eu.Vanaheimr.Balder;
 using eu.Vanaheimr.Styx;
 
 #endregion
@@ -205,7 +204,7 @@ namespace eu.Vanaheimr.Balder
 
         #endregion
 
-        
+
         #region Both(this IReadOnlyGenericPropertyVertex<...>, EdgeFilter)
 
         /// <summary>
@@ -459,6 +458,7 @@ namespace eu.Vanaheimr.Balder
         where TKeyEdge         : IEquatable<TKeyEdge>,        IComparable<TKeyEdge>,        IComparable
         where TKeyMultiEdge    : IEquatable<TKeyMultiEdge>,   IComparable<TKeyMultiEdge>,   IComparable
         where TKeyHyperEdge    : IEquatable<TKeyHyperEdge>,   IComparable<TKeyHyperEdge>,   IComparable
+
     {
 
         #region Data
@@ -500,7 +500,7 @@ namespace eu.Vanaheimr.Balder
                                                                    TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                    TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> IEnumerator = null,
-            
+
                         params TEdgeLabel[] EdgeLabels)
 
             : base(IEnumerable, IEnumerator)

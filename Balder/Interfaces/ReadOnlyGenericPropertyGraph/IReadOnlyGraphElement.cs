@@ -21,6 +21,7 @@ using System;
 
 using eu.Vanaheimr.Illias.Commons;
 using eu.Vanaheimr.Illias.Commons.Collections;
+using System.Collections.Generic;
 
 #endregion
 
@@ -39,7 +40,6 @@ namespace eu.Vanaheimr.Balder
                         : IIdentifier<TId>,
                           IRevisionId<TRevId>,
                           ILabel<TLabel>,
-                          //IDescription<TValue>,
                           IReadOnlyProperties<TKey, TValue>,
                           IEquatable <IReadOnlyGraphElement<TId, TRevId, TLabel, TKey, TValue>>,
                           IComparable<IReadOnlyGraphElement<TId, TRevId, TLabel, TKey, TValue>>,

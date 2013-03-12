@@ -47,6 +47,7 @@
     <Compile Include="GraphRepresentations\AdjacencyMatrixTests.cs" />
     <Compile Include="InMemoryPropertyGraphs\GraphAlgorithmsTests.cs" />
     <Compile Include="InMemoryPropertyGraphs\ReactiveGraphsTests.cs" />
+    <Compile Include="Pipes\PathPipeTest.cs" />
     <Compile Include="TestHelpers.cs" />
     <Compile Include="DemoGraphFactory.cs" />
     <Compile Include="EmptyGraphFactory.cs" />
@@ -95,7 +96,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Arrows\" />
-    <Folder Include="Pipes\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
