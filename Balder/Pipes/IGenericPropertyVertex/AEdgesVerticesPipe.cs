@@ -192,12 +192,12 @@ namespace eu.Vanaheimr.Balder
 
                 case Balder.TraversalDirection.Out:  Vertex2EdgesDelegate       = vertex => vertex.OutEdges(EdgeLabels).GetEnumerator();
                                                      Edge2VertexDelegate        = edge   => edge.InVertex;
-                                                     Edge2StoredVertexDelegate  = null;
+                                                     Edge2StoredVertexDelegate  = edge   => null;
                                                      break;
 
                 case Balder.TraversalDirection.In:   Vertex2EdgesDelegate       = vertex => vertex.InEdges (EdgeLabels).GetEnumerator();
                                                      Edge2VertexDelegate        = edge   => edge.OutVertex;
-                                                     Edge2StoredVertexDelegate  = null;
+                                                     Edge2StoredVertexDelegate  = edge   => null;
                                                      break;
 
                 case Balder.TraversalDirection.Both: Vertex2EdgesDelegate       = vertex => vertex.InEdges (EdgeLabels).GetEnumerator();
@@ -292,16 +292,17 @@ namespace eu.Vanaheimr.Balder
             while (true)
             {
 
-                if (_StoredVertex != null)
-                {
-                    _CurrentElement = _StoredVertex;
-                    return true;
-                }
+                //if (_StoredVertex != null)
+                //{
+                //    _CurrentElement = _StoredVertex;
+                //    return true;
+                //}
 
-                else if (_NextEdges != null && _NextEdges.MoveNext())
+                //else
+                if (_NextEdges != null && _NextEdges.MoveNext())
                 {
                     _CurrentElement = Edge2VertexDelegate(_NextEdges.Current);
-                    _StoredVertex   = Edge2StoredVertexDelegate(_NextEdges.Current);
+                  //  _StoredVertex   = Edge2StoredVertexDelegate(_NextEdges.Current);
                     return true;
                 }
 
