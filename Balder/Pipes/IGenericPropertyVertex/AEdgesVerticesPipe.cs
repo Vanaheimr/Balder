@@ -96,37 +96,6 @@ namespace eu.Vanaheimr.Balder
 
         #region Data
 
-        private readonly Func<IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                             TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                             TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                             TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
-
-                              IEnumerator<IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>> Vertex2EdgesDelegate;
-
-        private readonly Func<IReadOnlyGenericPropertyEdge  <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                             TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                             TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                             TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
-
-                              IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                             TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                             TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                             TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> Edge2VertexDelegate;
-
-        private readonly Func<IReadOnlyGenericPropertyEdge  <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                             TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                             TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                             TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
-
-                              IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                             TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                             TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                             TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> Edge2StoredVertexDelegate;
-
-
         /// <summary>
         /// The labels of the edge(s) to follow (OR-logic).
         /// </summary>
@@ -140,20 +109,30 @@ namespace eu.Vanaheimr.Balder
                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeFilter;
 
+        private Boolean Switched;
+
+        private readonly Func<Boolean> TraversalDelegate;
 
         /// <summary>
         /// Edges to be traversed next...
         /// </summary>
-        protected IEnumerator<IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                           TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                           TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> _NextEdges;
+        private IEnumerator<IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                         TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                         TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> _NextEdges;
 
-        private IReadOnlyGenericPropertyVertex            <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                           TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                           TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> _StoredVertex;
+        /// <summary>
+        /// The vertex of the edge to be returned.
+        /// </summary>
+        private Func<IReadOnlyGenericPropertyEdge  <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                    TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                    TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
 
+                     IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                    TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                    TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> Edge2VertexDelegate;
 
         #endregion
 
@@ -187,27 +166,24 @@ namespace eu.Vanaheimr.Balder
 
         {
 
+            this.EdgeLabels = EdgeLabels.Any() ? EdgeLabels : null;
+
             switch (TraversalDirection)
             {
 
-                case Balder.TraversalDirection.Out:  Vertex2EdgesDelegate       = vertex => vertex.OutEdges(EdgeLabels).GetEnumerator();
-                                                     Edge2VertexDelegate        = edge   => edge.InVertex;
-                                                     Edge2StoredVertexDelegate  = edge   => null;
-                                                     break;
+                case Balder.TraversalDirection.Out:  TraversalDelegate  = TraverseOneDirectionDelegate(vertex => vertex.OutEdges(EdgeLabels).GetEnumerator(),
+                                                                                                       edge   => edge.InVertex);
+                                                                          break;
 
-                case Balder.TraversalDirection.In:   Vertex2EdgesDelegate       = vertex => vertex.InEdges (EdgeLabels).GetEnumerator();
-                                                     Edge2VertexDelegate        = edge   => edge.OutVertex;
-                                                     Edge2StoredVertexDelegate  = edge   => null;
-                                                     break;
+                case Balder.TraversalDirection.In:   TraversalDelegate  = TraverseOneDirectionDelegate(vertex => vertex.InEdges(EdgeLabels).GetEnumerator(),
+                                                                                                       edge   => edge.OutVertex);
+                                                                          break;
 
-                case Balder.TraversalDirection.Both: Vertex2EdgesDelegate       = vertex => vertex.InEdges (EdgeLabels).GetEnumerator();
-                                                     Edge2VertexDelegate        = edge   => edge.OutVertex;
-                                                     Edge2StoredVertexDelegate  = edge   => edge.InVertex;
-                                                     break;
+                case Balder.TraversalDirection.Both: TraversalDelegate  = TraverseBothDirectionsDelegate;
+                                                                          Switched = true;
+                                                                          break;
 
             }
-
-            this.EdgeLabels = EdgeLabels.Any() ? EdgeLabels : null;
 
         }
 
@@ -224,7 +200,7 @@ namespace eu.Vanaheimr.Balder
         /// <param name="IEnumerable">An IEnumerable&lt;...&gt; as element source.</param>
         /// <param name="IEnumerator">An IEnumerator&lt;...&gt; as element source.</param>
         internal AEdgesVerticesPipe(TraversalDirection TraversalDirection,
-            
+
                                     EdgeFilter<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -249,26 +225,112 @@ namespace eu.Vanaheimr.Balder
             switch (TraversalDirection)
             {
 
-                case Balder.TraversalDirection.Out:  Vertex2EdgesDelegate       = vertex => vertex.OutEdges(this.EdgeFilter).GetEnumerator();
-                                                     Edge2VertexDelegate        = edge   => edge.InVertex;
-                                                     Edge2StoredVertexDelegate  = edge   => null;
-                                                     break;
+                case Balder.TraversalDirection.Out:  TraversalDelegate  = TraverseOneDirectionDelegate(vertex => vertex.OutEdges(EdgeFilter).GetEnumerator(),
+                                                                                                       edge   => edge.InVertex);
+                                                                          break;
 
-                case Balder.TraversalDirection.In:   Vertex2EdgesDelegate       = vertex => vertex.InEdges (this.EdgeFilter).GetEnumerator();
-                                                     Edge2VertexDelegate        = edge   => edge.OutVertex;
-                                                     Edge2StoredVertexDelegate  = edge   => null;
-                                                     break;
+                case Balder.TraversalDirection.In:   TraversalDelegate  = TraverseOneDirectionDelegate(vertex => vertex.InEdges(EdgeFilter).GetEnumerator(),
+                                                                                                       edge   => edge.OutVertex);
+                                                                          break;
 
-                case Balder.TraversalDirection.Both: Vertex2EdgesDelegate       = vertex => vertex.InEdges (this.EdgeFilter).GetEnumerator();
-                                                     Edge2VertexDelegate        = edge   => edge.OutVertex;
-                                                     Edge2StoredVertexDelegate  = edge   => edge.InVertex;
-                                                     break;
+                case Balder.TraversalDirection.Both: TraversalDelegate  = TraverseBothDirectionsDelegate;
+                                                                          Switched = true;
+                                                                          break;
 
             }
 
         }
 
         #endregion
+
+        #endregion
+
+
+        #region TraverseOneDirectionDelegate(..., ...)
+
+        private Func<Boolean> TraverseOneDirectionDelegate(Func<IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
+
+                                         IEnumerator<IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                  TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                  TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                  TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>> _Vertex2EdgesDelegate,
+
+                                    Func<IReadOnlyGenericPropertyEdge  <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
+
+                                         IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> _Edge2VertexDelegate)
+
+        {
+
+            return () => {
+
+                while (true)
+                {
+
+                    if (_NextEdges != null && _NextEdges.MoveNext())
+                    {
+                        _CurrentElement = _Edge2VertexDelegate(_NextEdges.Current);
+                        return true;
+                    }
+
+                    else if (_InputEnumerator.MoveNext())
+                    {
+                        _NextEdges = _Vertex2EdgesDelegate(_InputEnumerator.Current);
+                    }
+
+                    else
+                        return false;
+
+                }
+
+            };
+
+        }
+
+        #endregion
+
+        #region (private) TraverseBothDirectionsDelegate()
+
+        private Boolean TraverseBothDirectionsDelegate()
+        {
+
+            while (true)
+            {
+
+                if (_NextEdges != null && _NextEdges.MoveNext())
+                {
+                    _CurrentElement      = Edge2VertexDelegate(_NextEdges.Current);
+                    return true;
+                }
+
+                else if (!Switched)
+                {
+                    _NextEdges           = _InputEnumerator.Current.InEdges(EdgeFilter).GetEnumerator();
+                    Edge2VertexDelegate  = edge => edge.OutVertex;
+                    Switched             = true;
+                }
+
+                else if (_InputEnumerator.MoveNext())
+                {
+                    _NextEdges           = _InputEnumerator.Current.OutEdges(EdgeFilter).GetEnumerator();
+                    Edge2VertexDelegate  = edge => edge.InVertex;
+                    Switched             = false;
+                }
+
+                else
+                    return false;
+
+            }
+
+        }
 
         #endregion
 
@@ -289,33 +351,7 @@ namespace eu.Vanaheimr.Balder
             if (_InputEnumerator == null)
                 return false;
 
-            while (true)
-            {
-
-                //if (_StoredVertex != null)
-                //{
-                //    _CurrentElement = _StoredVertex;
-                //    return true;
-                //}
-
-                //else
-                if (_NextEdges != null && _NextEdges.MoveNext())
-                {
-                    _CurrentElement = Edge2VertexDelegate(_NextEdges.Current);
-                  //  _StoredVertex   = Edge2StoredVertexDelegate(_NextEdges.Current);
-                    return true;
-                }
-
-                else if (_InputEnumerator.MoveNext())
-                {
-                    _NextEdges     = Vertex2EdgesDelegate(_InputEnumerator.Current);
-                    _StoredVertex  = null;
-                }
-
-                else
-                    return false;
-
-            }
+            return TraversalDelegate();
 
         }
 

@@ -1754,8 +1754,8 @@ namespace eu.Vanaheimr.Balder.InMemory
 
         {
 
-            return (Include == null) ? _OutEdgesWhenVertex
-                                     : _OutEdgesWhenVertex.Where(e => Include(e));
+            return (Include == null) ? _InEdgesWhenVertex
+                                     : _InEdgesWhenVertex.Where(e => Include(e));
 
         }
 
