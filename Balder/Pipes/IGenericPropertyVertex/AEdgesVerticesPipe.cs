@@ -251,12 +251,12 @@ namespace eu.Vanaheimr.Balder
 
                 case Balder.TraversalDirection.Out:  Vertex2EdgesDelegate       = vertex => vertex.OutEdges(this.EdgeFilter).GetEnumerator();
                                                      Edge2VertexDelegate        = edge   => edge.InVertex;
-                                                     Edge2StoredVertexDelegate  = null;
+                                                     Edge2StoredVertexDelegate  = edge   => null;
                                                      break;
 
                 case Balder.TraversalDirection.In:   Vertex2EdgesDelegate       = vertex => vertex.InEdges (this.EdgeFilter).GetEnumerator();
                                                      Edge2VertexDelegate        = edge   => edge.OutVertex;
-                                                     Edge2StoredVertexDelegate  = null;
+                                                     Edge2StoredVertexDelegate  = edge   => null;
                                                      break;
 
                 case Balder.TraversalDirection.Both: Vertex2EdgesDelegate       = vertex => vertex.InEdges (this.EdgeFilter).GetEnumerator();
