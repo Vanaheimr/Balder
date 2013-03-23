@@ -4,8 +4,8 @@ Balder is the generic property [graph](http://en.wikipedia.org/wiki/Graph_(data_
 [model](http://en.wikipedia.org/wiki/Graph_theory) of the [Vanaheimr](http://vanaheimr.eu) research
 project. In contrast to other graph libraries and [graph databases](http://en.wikipedia.org/wiki/Graph_database)
 Balder focus is to provide a versatile and expressive graph interface to model your domain specific
-knowledge easily, keep the quality of your data as high as possible and to achieve high-speed speed
-calculations in a distributed enviroment not by implementing an optimization oracle, but by letting
+knowledge easily, to keep the quality of your data as high as possible and to achieve high-speed speed
+calculations in a distributed enviroment not by hoping for an optimization oracle, but by letting
 you choose and tweak the right optimizations.
 
 Balder provides a property graph model with some currently unique features:
@@ -32,7 +32,6 @@ Balder provides a property graph model with some currently unique features:
    your data.
  - Balder is **read-only on default** to improve the safety of your data and to provide a foundation for future
    multi-threading optimizations.
- - 
 
 
 #### An usage example for property graphs
