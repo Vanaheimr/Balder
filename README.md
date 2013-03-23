@@ -1,20 +1,39 @@
 ![Blueprints.NET logo](/Vanaheimr/blueprints.NET/raw/master/logo.png)
 
-Blueprints.NET is a generic graph model [[1](http://en.wikipedia.org/wiki/Graph_(mathematics\)), 
-[2](http://en.wikipedia.org/wiki/Graph_(data_structure\)), [3](http://en.wikipedia.org/wiki/Graph_theory)] 
-interface for .NET, Silverlight and Mono. Graph libraries, Graph databases 
-[[1](http://en.wikipedia.org/wiki/Graph_database), [2](http://www.graph-database.org)] and frameworks 
-that implement the Blueprints interface automatically support Blueprints-enabled applications. Likewise, 
-Blueprints-enabled applications can plug-and-play different Blueprints-enabled graph backends.
+Balder is the generic property [graph](http://en.wikipedia.org/wiki/Graph_(data_structure\))
+[model](http://en.wikipedia.org/wiki/Graph_theory) of the [Vanaheimr](http://vanaheimr.eu) research
+project. In contrast to other graph libraries and [graph databases](http://en.wikipedia.org/wiki/Graph_database)
+Balder focus is to provide a versatile and expressive graph interface to model your domain specific
+knowledge easily, keep the quality of your data as high as possible and to achieve high-speed speed
+calculations in a distributed enviroment not by implementing an optimization oracle, but by letting
+you choose and tweak the right optimizations.
 
-Blueprints also provides an interface for remote network access using [HTTP/REST](http://en.wikipedia.org/wiki/Representational_State_Transfer).
+Balder provides a property graph model with some currently unique features:
 
-#### Implementations
+ - Like any other graph model Balder provides **vertices** and **edges** which can hold any kind of properties
+   (key/value pairs). **Multiedges** and **hyperedges** are a natural extention to this model and define graph
+   elementes which connect multiple edges (multiedge) or multiple vertices (hyperedge). This allows Balder to
+   be a fully self-contained graph model without the need of external indices for practical usage of graphs.
+ - A Balder graph provides 20 **generic parameters** for type-safety and to allow Balder to adapt to your
+   domain model more easily. These parameters control the type of the *unique identification*, of the *revision
+   identification*, of the *label*, of the *property keys* and of the *property values* of every graph element.
+ - Balder does not belief in OOP types, as it is nothing compared to the flexibility of e.g. RDF schema. Therefore
+   Balder uses a light-weight approach of **labels** for every graph element to describe the intended nature of
+   this graph element.
+ - Balder uses the [Vanaheimr Styx](http://www.github.com/Vanaheimr/Styx) project not only to provide a user-friendly
+   way to query the graph, but also to provide a **reactive graph**. This allows you not only to review and
+   control graph modifications, but also communicate between different graph instances and to use your graph
+   both as an event source and an event filter.
+ - Balder uses its reactivity to feed **dependent graphs**. Such graphs are graphs not controlled by the user
+   or application directly, but by another graph. This can be usefull if you need a better, faster or more memory
+   efficient representation of graph data without loosing the flexibility of a Balder property graph.
+ - **Schema graphs** are an application of *dependent graphs*. A schema graph connected to your Balder graph can
+   learn and/or control the schema of your graph and thus help to explore and to improve the overall quality of
+   your data.
+ - Balder is **read-only on default** to improve the safety of your data and to provide a foundation for future
+   multi-threading optimizations.
+ - 
 
-* In-Memory Property Graphs
-* In-Memory Generic Property Graphs
-* Property Graph Server
-* Remote Property Graphs
 
 #### An usage example for property graphs
 
