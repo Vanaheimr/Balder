@@ -1,6 +1,6 @@
 ﻿/*
  * Copyright (c) 2010-2013, Achim 'ahzf' Friedland <achim@graph-database.org>
- * This file is part of Blueprints.NET <http://www.github.com/Vanaheimr/Blueprints.NET>
+ * This file is part of Balder.NET <http://www.github.com/Vanaheimr/Balder.NET>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,11 +22,11 @@ using System.Linq;
 using System.Collections.Generic;
 
 using eu.Vanaheimr.Illias.Commons;
-using eu.Vanaheimr.Blueprints;
+using eu.Vanaheimr.Balder;
 
 #endregion
 
-namespace eu.Vanaheimr.Blueprints.TraversalGraphs
+namespace eu.Vanaheimr.Balder.TraversalGraphs
 {
 
     public enum TraversalGraphType
