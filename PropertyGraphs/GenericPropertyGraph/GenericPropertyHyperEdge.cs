@@ -258,12 +258,10 @@ namespace eu.Vanaheimr.Balder.InMemory
             if (HyperEdgeInitializer != null)
                 HyperEdgeInitializer(this);
 
-            this.VertexSelector = VertexSelector;
+            this.VertexSelector = (VertexSelector != null) ? VertexSelector : v => true;
 
             if (Vertices != null)
-                foreach (var Vertex in Vertices)
-                    if (VertexSelector == null || VertexSelector(Vertex))
-                        this._Vertices.TryAddValue(Vertex.Id, Vertex, Vertex.Label);
+                Vertices.ForEach(Vertex => AddVertexToHyperEdge(Vertex));
 
         }
 
@@ -336,14 +334,15 @@ namespace eu.Vanaheimr.Balder.InMemory
 
         {
 
-            if (VertexAddition.SendVoting(this, Vertex))
-            {
-                if (_Vertices.TryAddValue(Vertex.Id, Vertex.AsMutable(), Vertex.Label))
+            if (VertexSelector(Vertex))
+                if (VertexAddition.SendVoting(this, Vertex))
                 {
-                    VertexAddition.SendNotification(this, Vertex);
-                    return Vertex;
+                    if (_Vertices.TryAddValue(Vertex.Id, Vertex.AsMutable(), Vertex.Label))
+                    {
+                        VertexAddition.SendNotification(this, Vertex);
+                        return Vertex;
+                    }
                 }
-            }
 
             return null;
 

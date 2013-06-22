@@ -261,14 +261,21 @@ namespace eu.Vanaheimr.Balder.InMemory
 
 
             this._SuperVertex                 = this as IGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>;
+                                                                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>;
+
+            // this.Graph is normally the hosting graph of a vertex, but
+            // when this vertex acts as the main graph it is set to itself!
+            this.Graph                        = this as IGenericPropertyGraph <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>;
 
             this._Subgraph                    = this as IGenericPropertyGraph <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>;
+                                                                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>;
 
             this._VertexIdCreatorDelegate    = VertexIdCreatorDelegate;
             this._DefaultVertexLabel         = DefaultVertexLabel;
@@ -414,10 +421,11 @@ namespace eu.Vanaheimr.Balder.InMemory
 
         #endregion
 
-        #region (internal) GenericPropertyVertex(...IdCreatorDelegates...)
+        #region (internal) GenericPropertyVertex(GraphId, ..., IdCreatorDelegates, ...)
 
         /// <summary>
         /// Creates a new class-based in-memory implementation of a generic property vertex.
+        /// (In most cases called in order to create a new graph!)
         /// </summary>
         /// <param name="GraphId">The identification of this generic property graph.</param>
         /// 
@@ -705,7 +713,7 @@ namespace eu.Vanaheimr.Balder.InMemory
 
         #endregion
 
-        #region GenericPropertyVertex(...IIdCreators...)
+        #region GenericPropertyVertex(GraphId, VertexIdKey, ..., IIdGenerators<...>, ...)
 
         /// <summary>
         /// Creates a new class-based in-memory implementation of a generic property vertex.
@@ -1206,10 +1214,10 @@ namespace eu.Vanaheimr.Balder.InMemory
 
         #region Properties
 
-        #region Graph (The graph hosting this vertex)
+        #region Graph
 
         /// <summary>
-        /// The associated property graph.
+        /// The graph hosting this vertex or the object itself, when this is the main graph.
         /// </summary>
         protected readonly IReadOnlyGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
@@ -1217,7 +1225,7 @@ namespace eu.Vanaheimr.Balder.InMemory
                                                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Graph;
 
         /// <summary>
-        /// The associated property graph.
+        /// The graph hosting this vertex or the object itself, when this is the main graph.
         /// </summary>
         IReadOnlyGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
@@ -2013,13 +2021,104 @@ namespace eu.Vanaheimr.Balder.InMemory
         #endregion
 
 
-        #region HyperEdges(params Labels)      // HyperEdges()!
+        #region HyperEdgeById(Id)
 
         /// <summary>
-        /// The hyperedges connected to this vertex
-        /// filtered by their label. If no label was given,
-        /// all hyperedges will be returned.
+        /// Return the hyperedge referenced by the given hyperedge identifier.
+        /// If no hyperedge is referenced by a given identifier return null.
         /// </summary>
+        /// <param name="Id">A hyperedge identifier.</param>
+        IReadOnlyGenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
+
+            IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                           TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                           TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+
+                HyperEdgeById(TIdHyperEdge Id)
+
+        {
+
+            IReadOnlyGenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> HyperEdge = null;
+
+            if (Id != null && _HyperEdgesWhenVertex.TryGetByKey(Id, out HyperEdge))
+                return HyperEdge;
+
+            return null;
+
+        }
+
+        #endregion
+
+        #region TryGetHyperEdgeById(Id)
+
+        /// <summary>
+        /// Try to return the hyperedge referenced by the given hyperedge identifier.
+        /// </summary>
+        /// <param name="Id">A hyperedge identifier.</param>
+        /// <param name="HyperEdge">A hyperedge.</param>
+        /// <returns>True when success; false otherwise.</returns>
+        Boolean IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+
+            TryGetHyperEdgeById(TIdHyperEdge Id,
+                                out IReadOnlyGenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                      TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                      TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                      TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> HyperEdge)
+
+        {
+
+            if (Id != null && _HyperEdgesWhenVertex.TryGetByKey(Id, out HyperEdge))
+                return true;
+
+            HyperEdge = null;
+            return false;
+
+        }
+
+        #endregion
+
+        #region HasHyperEdgeId(Id)
+
+        /// <summary>
+        /// Check if the given hyperedge identifier already exists within the graph.
+        /// </summary>
+        /// <param name="Id">A hyperedge identifier.</param>
+        /// <returns>True when yes; false otherwise.</returns>
+        Boolean IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+
+            HasHyperEdgeId(TIdHyperEdge Id)
+
+        {
+
+            if (Id == null)
+                return false;
+
+            return _HyperEdgesWhenVertex.ContainsKey(Id);
+
+        }
+
+        #endregion
+
+        #region HyperEdgesById(params Ids)
+
+        /// <summary>
+        /// Return the hyperedges referenced by the given array of hyperedge identifiers.
+        /// If no hyperedge is referenced by a given identifier this value will be null.
+        /// </summary>
+        /// <param name="Ids">An array of hyperedge identifiers.</param>
         IEnumerable<IReadOnlyGenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -2030,7 +2129,48 @@ namespace eu.Vanaheimr.Balder.InMemory
                                            TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                            TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
 
-                HyperEdges(params THyperEdgeLabel[] Labels)
+                HyperEdgesById(params TIdHyperEdge[] Ids)
+
+        {
+
+            IReadOnlyGenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> HyperEdge;
+
+            if (Ids != null)
+                foreach (var Id in Ids)
+                {
+
+                    if (Id != null && _HyperEdgesWhenVertex.TryGetByKey(Id, out HyperEdge))
+                        yield return HyperEdge;
+
+                    else
+                        yield return null;
+
+                }
+
+        }
+
+        #endregion
+
+        #region HyperEdgesByLabel(params Labels)
+
+        /// <summary>
+        /// Return all hyperedges having one of the given labels.
+        /// </summary>
+        /// <param name="Labels">An array of hyperedge labels.</param>
+        IEnumerable<IReadOnlyGenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                      TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                      TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                      TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
+
+            IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                           TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                           TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+
+                HyperEdgesByLabel(params THyperEdgeLabel[] Labels)
 
         {
 
@@ -2039,30 +2179,22 @@ namespace eu.Vanaheimr.Balder.InMemory
                                                           TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> HyperEdges;
 
-            if (Labels != null && Labels.Any())
-            {
+            if (Labels != null)
                 foreach (var Label in Labels)
                     if (Label != null && _HyperEdgesWhenVertex.TryGetByGroup(Label, out HyperEdges))
                         foreach (var HyperEdge in HyperEdges)
                             yield return HyperEdge;
 
-            }
-
-            else
-                foreach (var HyperEdge in _HyperEdgesWhenVertex)
-                    yield return HyperEdge;
-
         }
 
         #endregion
 
-        #region HyperEdges(Include)
+        #region HyperEdges(Include = null)
 
         /// <summary>
-        /// Get an enumeration of all hyperedges connected to this vertex.
-        /// An optional hyperedge filter may be applied for filtering.
+        /// Return all hyperedges or only the ones matching the given filter delegate.
         /// </summary>
-        /// <param name="Include">A delegate for hyperedge filtering.</param>
+        /// <param name="Include">An optional delegate to select the hyperedges to be returned.</param>
         IEnumerable<IReadOnlyGenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -2077,11 +2209,37 @@ namespace eu.Vanaheimr.Balder.InMemory
                                            TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                            TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                            TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Include)
-
         {
 
             return (Include == null) ? _HyperEdgesWhenVertex
                                      : _HyperEdgesWhenVertex.Where(he => Include(he));
+
+        }
+
+        #endregion
+
+        #region NumberOfHyperEdges(Include = null)
+
+        /// <summary>
+        /// Return the total number of hyperedges or only the number of hyperedges matching the given filter delegate.
+        /// When the filter is null, this method should implement an optimized
+        /// way to get the currenty number of hyperedges.
+        /// </summary>
+        /// <param name="Include">An optional delegate to select the hyperedges to be counted.</param>
+        UInt64 IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+
+            NumberOfHyperEdges(HyperEdgeFilter<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Include)
+
+        {
+
+            return (Include == null) ? _HyperEdgesWhenVertex.Count()
+                                     : Convert.ToUInt64(_HyperEdgesWhenVertex.LongCount(he => Include(he)));
 
         }
 
@@ -5354,7 +5512,7 @@ namespace eu.Vanaheimr.Balder.InMemory
 
             #endregion
 
-            return AddHyperEdgeToGraph(_HyperEdgeCreatorDelegate(this, Id, Label, HyperEdgeInitializer, null, Vertices));
+            return AddHyperEdgeToGraph(_HyperEdgeCreatorDelegate(this, Id, Label, HyperEdgeInitializer, VertexSelector, Vertices));
 
         }
 

@@ -78,6 +78,11 @@ namespace eu.Vanaheimr.Balder
 
     {
 
+        // The following has an exact copy within IReadOnlyGenericPropertyGraph<...>
+        // The copy is needed, as these methods are already existing in the
+        // context of the IReadOnlyGenericPropertyGraph interface and can not
+        // be implemented twice within the GenericPropertyVertex!
+
         #region HyperEdgeById(Id)
 
         /// <summary>

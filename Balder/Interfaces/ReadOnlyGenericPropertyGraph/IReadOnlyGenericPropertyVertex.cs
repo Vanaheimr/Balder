@@ -455,30 +455,90 @@ namespace eu.Vanaheimr.Balder
 
         #region HyperEdge methods...
 
-        #region HyperEdges(params Labels)      // HyperEdges()!
+        // The following is an exact copy of IReadOnlyHyperEdgeMethods<...>
+        // The copy is needed, as these methods are already existing in the
+        // context of the IReadOnlyGenericPropertyGraph interface!
+
+        #region HyperEdgeById(Id)
 
         /// <summary>
-        /// The hyperedges connected to this vertex
-        /// filtered by their label. If no label was given,
-        /// all hyperedges will be returned.
+        /// Return the hyperedge referenced by the given hyperedge identifier.
+        /// If no hyperedge is referenced by a given identifier return null.
         /// </summary>
-        /// <param name="Labels"></param>
+        /// <param name="Id">A hyperedge identifier.</param>
+        IReadOnlyGenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
+
+            HyperEdgeById(TIdHyperEdge Id);
+
+        #endregion
+
+        #region TryGetHyperEdgeById(Id)
+
+        /// <summary>
+        /// Try to return the hyperedge referenced by the given hyperedge identifier.
+        /// </summary>
+        /// <param name="Id">A hyperedge identifier.</param>
+        /// <param name="HyperEdge">A hyperedge.</param>
+        /// <returns>True when success; false otherwise.</returns>
+        Boolean TryGetHyperEdgeById(TIdHyperEdge Id,
+                                    out IReadOnlyGenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                          TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> HyperEdge);
+
+        #endregion
+
+        #region HasHyperEdgeId(Id)
+
+        /// <summary>
+        /// Check if the given hyperedge identifier already exists within the graph.
+        /// </summary>
+        /// <param name="Id">A hyperedge identifier.</param>
+        /// <returns>True when yes; false otherwise.</returns>
+        Boolean HasHyperEdgeId(TIdHyperEdge Id);
+
+        #endregion
+
+        #region HyperEdgesById(params Ids)
+
+        /// <summary>
+        /// Return the hyperedges referenced by the given array of hyperedge identifiers.
+        /// If no hyperedge is referenced by a given identifier this value will be null.
+        /// </summary>
+        /// <param name="Ids">An array of hyperedge identifiers.</param>
         IEnumerable<IReadOnlyGenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
 
-            HyperEdges(params THyperEdgeLabel[] Labels);
+            HyperEdgesById(params TIdHyperEdge[] Ids);
 
         #endregion
 
-        #region HyperEdges(Include)
+        #region HyperEdgesByLabel(params Labels)
 
         /// <summary>
-        /// Get an enumeration of all hyperedges connected to this vertex.
-        /// An optional hyperedge filter may be applied for filtering.
+        /// Return all hyperedges having one of the given labels.
         /// </summary>
-        /// <param name="Include">A delegate for hyperedge filtering.</param>
+        /// <param name="Labels">An array of hyperedge labels.</param>
+        IEnumerable<IReadOnlyGenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                      TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                      TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                      TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
+
+            HyperEdgesByLabel(params THyperEdgeLabel[] Labels);
+
+        #endregion
+
+        #region HyperEdges(Include = null)
+
+        /// <summary>
+        /// Return all hyperedges or only the ones matching the given filter delegate.
+        /// </summary>
+        /// <param name="Include">An optional delegate to select the hyperedges to be returned.</param>
         IEnumerable<IReadOnlyGenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
@@ -487,7 +547,22 @@ namespace eu.Vanaheimr.Balder
             HyperEdges(HyperEdgeFilter<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Include);
+                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Include = null);
+
+        #endregion
+
+        #region NumberOfHyperEdges(Include = null)
+
+        /// <summary>
+        /// Return the total number of hyperedges or only the number of hyperedges matching the given filter delegate.
+        /// When the filter is null, this method should implement an optimized
+        /// way to get the currenty number of hyperedges.
+        /// </summary>
+        /// <param name="Include">An optional delegate to select the hyperedges to be counted.</param>
+        UInt64 NumberOfHyperEdges(HyperEdgeFilter<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                  TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                  TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                  TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Include = null);
 
         #endregion
 

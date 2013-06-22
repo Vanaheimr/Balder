@@ -60,7 +60,7 @@ namespace eu.Vanaheimr.Balder.InMemory
         /// <summary>
         /// The datastructure holding all graph properties.
         /// </summary>
-        private readonly IDictionary<TKey, TValue> PropertyData;
+        protected readonly IDictionary<TKey, TValue> PropertyData;
 
         /// <summary>
         /// A delegate to create a new vote.
@@ -419,7 +419,7 @@ namespace eu.Vanaheimr.Balder.InMemory
             #endregion
 
             // Good for explicit locking of this object
-            // during complex oerations...
+            // during complex operations...
             this.LockObject    = new Object();
 
             this.IdKey         = IdKey;
@@ -435,7 +435,6 @@ namespace eu.Vanaheimr.Balder.InMemory
 
             if (PropertiesInitializer != null)
                 PropertiesInitializer(this);
-
 
         }
 

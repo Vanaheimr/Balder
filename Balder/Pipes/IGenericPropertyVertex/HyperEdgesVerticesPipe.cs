@@ -412,7 +412,7 @@ namespace eu.Vanaheimr.Balder
                 {
 
                     if (HyperEdgeLabels != null)
-                        _NextHyperEdges = _InputEnumerator.Current.HyperEdges(HyperEdgeLabels).GetEnumerator();
+                        _NextHyperEdges = _InputEnumerator.Current.HyperEdgesByLabel(HyperEdgeLabels).GetEnumerator();
 
                     else
                         _NextHyperEdges = _InputEnumerator.Current.HyperEdges(HyperEdgeFilter).GetEnumerator();
