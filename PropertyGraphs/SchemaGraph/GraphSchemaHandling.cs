@@ -24,6 +24,7 @@ using eu.Vanaheimr.Illias.Commons.Collections;
 using eu.Vanaheimr.Balder;
 using eu.Vanaheimr.Balder.InMemory;
 using eu.Vanaheimr.Illias.Commons.Votes;
+using System.Collections.Generic;
 
 #endregion
 
@@ -95,10 +96,14 @@ namespace eu.Vanaheimr.Balder.Schema
                                                         TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Graph,
 
-                             TVertexLabel  SchemaGraphId,
-                             String        SchemaGraphDescription  = null,
-                             Boolean       ContinuousLearning      = true,
-                             Boolean       EnforceSchema           = false,
+                             TVertexLabel               SchemaGraphId,
+                             String                     SchemaGraphDescription       = null,
+                             Boolean                    ContinuousLearning           = true,
+                             Boolean                    EnforceSchema                = false,
+                             IEnumerable<TKeyVertex>    IgnoreVertexPropertyKeys     = null,
+                             IEnumerable<TKeyEdge>      IgnoreEdgePropertyKeys       = null,
+                             IEnumerable<TKeyMultiEdge> IgnoreMultiEdgePropertyKeys  = null,
+                             IEnumerable<TKeyHyperEdge> IgnoreHyperEdgePropertyKeys  = null,
 
                              IGenericPropertyGraph<TVertexLabel,    TRevIdVertex,    VertexLabel,    TKeyVertex,    Object,
                                                    TEdgeLabel,      TRevIdEdge,      EdgeLabel,      TKeyEdge,      Object,
@@ -182,6 +187,27 @@ namespace eu.Vanaheimr.Balder.Schema
 
             #region Setup some delegates to simplify vertex, edge, multiedge, hyperedge management
 
+            #region Ignore the following properties
+
+            var _IgnoreVertexPropertyKeys     = new HashSet<TKeyVertex>()    { Graph.IdKey,          Graph.RevIdKey,          Graph.LabelKey };
+            var _IgnoreEdgePropertyKeys       = new HashSet<TKeyEdge>()      { Graph.EdgeIdKey,      Graph.EdgeRevIdKey,      Graph.EdgeLabelKey };
+            var _IgnoreMultiEdgePropertyKeys  = new HashSet<TKeyMultiEdge>() { Graph.MultiEdgeIdKey, Graph.MultiEdgeRevIdKey, Graph.MultiEdgeLabelKey };
+            var _IgnoreHyperEdgePropertyKeys  = new HashSet<TKeyHyperEdge>() { Graph.HyperEdgeIdKey, Graph.HyperEdgeRevIdKey, Graph.HyperEdgeLabelKey };
+
+            if (IgnoreVertexPropertyKeys != null)
+                IgnoreVertexPropertyKeys.   ForEach(PropertyKey => _IgnoreVertexPropertyKeys.   Add(PropertyKey));
+
+            if (IgnoreEdgePropertyKeys != null)
+                IgnoreEdgePropertyKeys.     ForEach(PropertyKey => _IgnoreEdgePropertyKeys.     Add(PropertyKey));
+
+            if (IgnoreMultiEdgePropertyKeys != null)
+                IgnoreMultiEdgePropertyKeys.ForEach(PropertyKey => _IgnoreMultiEdgePropertyKeys.Add(PropertyKey));
+
+            if (IgnoreHyperEdgePropertyKeys != null)
+                IgnoreHyperEdgePropertyKeys.ForEach(PropertyKey => _IgnoreHyperEdgePropertyKeys.Add(PropertyKey));
+
+            #endregion
+
             #region AddVertex delegate...
 
             Action<IReadOnlyGenericPropertyGraph <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
@@ -198,9 +224,7 @@ namespace eu.Vanaheimr.Balder.Schema
                                                                                Label:     VertexLabel.Vertex,
                                                                                AnywayDo:  Vertex => {
                                                                                    v.ForEach(kvp => {
-                                                                                       if (!kvp.Key.Equals(g.IdKey)    &&
-                                                                                           !kvp.Key.Equals(g.RevIdKey) &&
-                                                                                           !kvp.Key.Equals(g.LabelKey))
+                                                                                       if (!_IgnoreVertexPropertyKeys.Contains(kvp.Key))
                                                                                            Vertex.ZSetAdd(kvp.Key, kvp.Value.GetType());
                                                                                    });
                                                                                });
@@ -228,9 +252,7 @@ namespace eu.Vanaheimr.Balder.Schema
                                                                                                                                    e.OutVertex.Label.ToString() + " -> " +    e.InVertex.Label.ToString() + "' relations."); },
                                                                            AnywayDo:        Edge => {
                                                                                e.ForEach(kvp => {
-                                                                                   if (!kvp.Key.Equals(g.EdgeIdKey)    &&
-                                                                                       !kvp.Key.Equals(g.EdgeRevIdKey) &&
-                                                                                       !kvp.Key.Equals(g.EdgeLabelKey))
+                                                                                   if (!_IgnoreEdgePropertyKeys.Contains(kvp.Key))
                                                                                        Edge.ZSetAdd(kvp.Key, kvp.Value.GetType());
                                                                                });
                                                                            }
