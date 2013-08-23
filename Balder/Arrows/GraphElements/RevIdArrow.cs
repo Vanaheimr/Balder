@@ -20,7 +20,7 @@
 using System;
 
 using eu.Vanaheimr.Illias.Commons;
-using eu.Vanaheimr.Styx;
+using eu.Vanaheimr.Styx.Arrows;
 
 #endregion
 
@@ -31,11 +31,9 @@ namespace eu.Vanaheimr.Balder
     /// Emits the revision identifications of the given revisioned objects.
     /// </summary>
     /// <typeparam name="TRevId">The type of the revision identifications.</typeparam>
-    public class RevIdArrow<TRevId> : FuncArrow<IRevisionId<TRevId>, TRevId>
+    public class RevIdArrow<TRevId> : MapArrow<IRevisionId<TRevId>, TRevId>
         where TRevId : IEquatable<TRevId>, IComparable<TRevId>, IComparable
     {
-
-        #region RevIdArrow()
 
         /// <summary>
         /// Emits the revision identifications of the given revisioned objects.
@@ -43,34 +41,6 @@ namespace eu.Vanaheimr.Balder
         public RevIdArrow()
             : base(Object => (Object != null) ? Object.RevId : default(TRevId))
         { }
-
-        #endregion
-
-        #region RevIdArrow(MessageRecipients.Recipient, params MessageRecipients.Recipients)
-
-        /// <summary>
-        /// Emits the revision identifications of the given revisioned objects.
-        /// </summary>
-        /// <param name="Recipient">A recipient of the processed messages.</param>
-        /// <param name="Recipients">Further recipients of the processed messages.</param>
-        public RevIdArrow(MessageRecipient<TRevId> Recipient, params MessageRecipient<TRevId>[] Recipients)
-            : base(Object => (Object != null) ? Object.RevId : default(TRevId), Recipient, Recipients)
-        { }
-
-        #endregion
-
-        #region RevIdArrow(MessageProcessor, IArrowReceiver.Recipient, params IArrowReceiver.Recipients)
-
-        /// <summary>
-        /// Emits the revision identifications of the given revisioned objects.
-        /// </summary>
-        /// <param name="Recipient">A recipient of the processed messages.</param>
-        /// <param name="Recipients">Further recipients of the processed messages.</param>
-        public RevIdArrow(IArrowReceiver<TRevId> Recipient, params IArrowReceiver<TRevId>[] Recipients)
-            : base(Object => (Object != null) ? Object.RevId : default(TRevId), Recipient, Recipients)
-        { }
-
-        #endregion
 
     }
 

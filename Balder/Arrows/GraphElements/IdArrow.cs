@@ -20,7 +20,7 @@
 using System;
 
 using eu.Vanaheimr.Illias.Commons;
-using eu.Vanaheimr.Styx;
+using eu.Vanaheimr.Styx.Arrows;
 
 #endregion
 
@@ -31,11 +31,9 @@ namespace eu.Vanaheimr.Balder
     /// Emits the identifications of the given identifiable objects.
     /// </summary>
     /// <typeparam name="TId">The type of the identifications.</typeparam>
-    public class IdArrow<TId> : FuncArrow<IIdentifier<TId>, TId>
+    public class IdArrow<TId> : MapArrow<IIdentifier<TId>, TId>
         where TId : IEquatable<TId>, IComparable<TId>, IComparable
     {
-
-        #region IdArrow()
 
         /// <summary>
         /// Emits the identifications of the given identifiable objects.
@@ -43,34 +41,6 @@ namespace eu.Vanaheimr.Balder
         public IdArrow()
             : base(Object => (Object != null) ? Object.Id : default(TId))
         { }
-
-        #endregion
-
-        #region IdArrow(MessageRecipients.Recipient, params MessageRecipients.Recipients)
-
-        /// <summary>
-        /// Emits the identifications of the given identifiable objects.
-        /// </summary>
-        /// <param name="Recipient">A recipient of the processed messages.</param>
-        /// <param name="Recipients">Further recipients of the processed messages.</param>
-        public IdArrow(MessageRecipient<TId> Recipient, params MessageRecipient<TId>[] Recipients)
-            : base(Object => (Object != null) ? Object.Id : default(TId), Recipient, Recipients)
-        { }
-
-        #endregion
-
-        #region IdArrow(MessageProcessor, IArrowReceiver.Recipient, params IArrowReceiver.Recipients)
-
-        /// <summary>
-        /// Emits the identifications of the given identifiable objects.
-        /// </summary>
-        /// <param name="Recipient">A recipient of the processed messages.</param>
-        /// <param name="Recipients">Further recipients of the processed messages.</param>
-        public IdArrow(IArrowReceiver<TId> Recipient, params IArrowReceiver<TId>[] Recipients)
-            : base(Object => (Object != null) ? Object.Id : default(TId), Recipient, Recipients)
-        { }
-
-        #endregion
 
     }
 

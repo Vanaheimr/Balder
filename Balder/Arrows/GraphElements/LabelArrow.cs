@@ -20,7 +20,7 @@
 using System;
 
 using eu.Vanaheimr.Illias.Commons;
-using eu.Vanaheimr.Styx;
+using eu.Vanaheimr.Styx.Arrows;
 
 #endregion
 
@@ -31,11 +31,9 @@ namespace eu.Vanaheimr.Balder
     /// Emits the labels of the given labeled objects.
     /// </summary>
     /// <typeparam name="TLabel">The type of the identifications.</typeparam>
-    public class LabelArrow<TLabel> : FuncArrow<ILabel<TLabel>, TLabel>
+    public class LabelArrow<TLabel> : MapArrow<ILabel<TLabel>, TLabel>
         where TLabel : IEquatable<TLabel>, IComparable<TLabel>, IComparable
     {
-
-        #region LabelArrow()
 
         /// <summary>
         /// Emits the labels of the given labeled objects.
@@ -43,34 +41,6 @@ namespace eu.Vanaheimr.Balder
         public LabelArrow()
             : base(Object => (Object != null) ? Object.Label : default(TLabel))
         { }
-
-        #endregion
-
-        #region LabelArrow(MessageRecipients.Recipient, params MessageRecipients.Recipients)
-
-        /// <summary>
-        /// Emits the labels of the given labeled objects.
-        /// </summary>
-        /// <param name="Recipient">A recipient of the processed messages.</param>
-        /// <param name="Recipients">Further recipients of the processed messages.</param>
-        public LabelArrow(MessageRecipient<TLabel> Recipient, params MessageRecipient<TLabel>[] Recipients)
-            : base(Object => (Object != null) ? Object.Label : default(TLabel), Recipient, Recipients)
-        { }
-
-        #endregion
-
-        #region LabelArrow(MessageProcessor, IArrowReceiver.Recipient, params IArrowReceiver.Recipients)
-
-        /// <summary>
-        /// Emits the labels of the given labeled objects.
-        /// </summary>
-        /// <param name="Recipient">A recipient of the processed messages.</param>
-        /// <param name="Recipients">Further recipients of the processed messages.</param>
-        public LabelArrow(IArrowReceiver<TLabel> Recipient, params IArrowReceiver<TLabel>[] Recipients)
-            : base(Object => (Object != null) ? Object.Label : default(TLabel), Recipient, Recipients)
-        { }
-
-        #endregion
 
     }
 

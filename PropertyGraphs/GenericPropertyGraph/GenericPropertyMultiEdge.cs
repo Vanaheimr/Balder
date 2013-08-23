@@ -26,6 +26,7 @@ using System.Collections.Generic;
 using eu.Vanaheimr.Illias.Commons;
 using eu.Vanaheimr.Styx;
 using eu.Vanaheimr.Illias.Commons.Votes;
+using eu.Vanaheimr.Styx.Arrows;
 
 #endregion
 
@@ -306,7 +307,7 @@ namespace eu.Vanaheimr.Balder.InMemory
         /// <summary>
         /// Called whenever an edge will be or was added to the multiedge.
         /// </summary>
-        IVotingNotification<IReadOnlyGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+        IVotingSender<IReadOnlyGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
@@ -709,7 +710,7 @@ namespace eu.Vanaheimr.Balder.InMemory
         /// <summary>
         /// Called whenever an edge will be or was removed from the multiedge.
         /// </summary>
-        IVotingNotification<IReadOnlyGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+        IVotingSender<IReadOnlyGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                               TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                               TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                               TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
