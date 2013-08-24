@@ -189,10 +189,10 @@ namespace eu.Vanaheimr.Balder.Schema
 
             #region Ignore the following properties
 
-            var _IgnoreVertexPropertyKeys     = new HashSet<TKeyVertex>()    { Graph.IdKey,          Graph.RevIdKey,          Graph.LabelKey };
-            var _IgnoreEdgePropertyKeys       = new HashSet<TKeyEdge>()      { Graph.EdgeIdKey,      Graph.EdgeRevIdKey,      Graph.EdgeLabelKey };
-            var _IgnoreMultiEdgePropertyKeys  = new HashSet<TKeyMultiEdge>() { Graph.MultiEdgeIdKey, Graph.MultiEdgeRevIdKey, Graph.MultiEdgeLabelKey };
-            var _IgnoreHyperEdgePropertyKeys  = new HashSet<TKeyHyperEdge>() { Graph.HyperEdgeIdKey, Graph.HyperEdgeRevIdKey, Graph.HyperEdgeLabelKey };
+            var _IgnoreVertexPropertyKeys     = new eu.Vanaheimr.Illias.Commons.Collections.HashSet<TKeyVertex>()    { Graph.IdKey,          Graph.RevIdKey,          Graph.LabelKey };
+            var _IgnoreEdgePropertyKeys       = new eu.Vanaheimr.Illias.Commons.Collections.HashSet<TKeyEdge>()      { Graph.EdgeIdKey,      Graph.EdgeRevIdKey,      Graph.EdgeLabelKey };
+            var _IgnoreMultiEdgePropertyKeys  = new eu.Vanaheimr.Illias.Commons.Collections.HashSet<TKeyMultiEdge>() { Graph.MultiEdgeIdKey, Graph.MultiEdgeRevIdKey, Graph.MultiEdgeLabelKey };
+            var _IgnoreHyperEdgePropertyKeys  = new eu.Vanaheimr.Illias.Commons.Collections.HashSet<TKeyHyperEdge>() { Graph.HyperEdgeIdKey, Graph.HyperEdgeRevIdKey, Graph.HyperEdgeLabelKey };
 
             if (IgnoreVertexPropertyKeys != null)
                 IgnoreVertexPropertyKeys.   ForEach(PropertyKey => _IgnoreVertexPropertyKeys.   Add(PropertyKey));
