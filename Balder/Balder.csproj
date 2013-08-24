@@ -155,7 +155,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Eunomia\Eunomia\Eunomia.csproj">
-      <Project>{1DF1A588-33B1-4168-9487-604FE5680681}</Project>
+      <Project>{1df1a588-33b1-4168-9487-604fe5680681}</Project>
       <Name>Eunomia</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Illias\Commons.NET4.5\Commons.NET4.5.csproj">
