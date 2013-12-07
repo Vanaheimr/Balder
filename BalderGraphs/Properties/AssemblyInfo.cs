@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("PropertyGraphs")]
-[assembly: AssemblyDescription("A class-based in-memory implementation of the Balder property graph interface.")]
+[assembly: AssemblyTitle("BalderGraphs")]
+[assembly: AssemblyDescription("A class-based in-memory implementations of the Balder property graph and quad store interfaces.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("ahzf.de")]
-[assembly: AssemblyProduct("PropertyGraphs")]
-[assembly: AssemblyCopyright("Copyright © Achim 'ahzf' Friedland 2010-2013")]
+[assembly: AssemblyProduct("BalderGraphs")]
+[assembly: AssemblyCopyright("Copyright © Achim 'ahzf' Friedland 2010-2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.1.0.0")]
-[assembly: AssemblyFileVersion("0.1.0.0")]
+[assembly: AssemblyVersion("0.2.0.0")]
+[assembly: AssemblyFileVersion("0.2.0.0")]

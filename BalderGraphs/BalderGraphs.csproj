@@ -8,8 +8,8 @@
     <ProjectGuid>{562AC94F-60EA-4911-8C62-684F02867783}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PropertyGraphs</RootNamespace>
-    <AssemblyName>PropertyGraphs</AssemblyName>
+    <RootNamespace>eu.Vanaheimr.BalderGraphs</RootNamespace>
+    <AssemblyName>BalderGraphs</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -23,7 +23,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>bin\Debug\PropertyGraphs.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\BalderGraphs.xml</DocumentationFile>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -51,9 +51,18 @@
     <Compile Include="GenericPropertyGraph\GenericPropertyHyperEdge.cs" />
     <Compile Include="GenericPropertyGraph\GenericPropertyMultiEdge.cs" />
     <Compile Include="GenericPropertyGraph\GenericPropertyVertex.cs" />
+    <Compile Include="GenericQuadStore\Quad.cs" />
+    <Compile Include="GenericQuadStore\QuadStore.cs" />
     <Compile Include="GraphFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SchemaGraph\GraphSchemaHandling.cs" />
+    <Compile Include="TraversalGraphs\AdjacencyListGraph.cs" />
+    <Compile Include="TraversalGraphs\AdjacencyMatrixGraph.cs" />
+    <Compile Include="TraversalGraphs\ListGraph.cs" />
+    <Compile Include="TraversalGraphs\MatrixGraph.cs" />
+    <Compile Include="TraversalGraphs\TraversalGraphType.cs" />
+    <Compile Include="TraversalGraphs\UndirectedAdjacencyMatrixGraph.cs" />
+    <Compile Include="TraversalGraphs\WeightedAdjacencyListGraph.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Eunomia\Eunomia\Eunomia.csproj">
