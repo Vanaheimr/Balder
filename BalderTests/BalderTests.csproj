@@ -8,7 +8,7 @@
     <ProjectGuid>{4BF95036-986A-47EE-B48E-CF8C2B0E7841}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>de.ahzf.Vanaheimr.Balder.UnitTests</RootNamespace>
+    <RootNamespace>eu.Vanaheimr.Balder.UnitTests</RootNamespace>
     <AssemblyName>BalderTests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

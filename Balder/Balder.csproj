@@ -8,7 +8,7 @@
     <ProjectGuid>{D2B4E7C7-0524-4DE5-9D62-2DE05682A74D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>de.ahzf.Vanaheimr.Balder</RootNamespace>
+    <RootNamespace>eu.Vanaheimr.Balder</RootNamespace>
     <AssemblyName>Balder</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
