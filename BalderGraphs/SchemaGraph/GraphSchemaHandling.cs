@@ -243,20 +243,34 @@ namespace eu.Vanaheimr.Balder.Schema
                                                  TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                  TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
 
-                AddEdgeDelegate = (g, e) => SchemaGraph.AddEdgeIfNotExists(Id:              e.Label,
-                                                                           OutVertex:       SchemaGraph.VertexById(e.OutVertex.Label).AsMutable(),
-                                                                           Label:           EdgeLabel.IsConnectedWith,
-                                                                           InVertex:        SchemaGraph.VertexById(e.InVertex.Label).AsMutable(),
-                                                                           OnDuplicateEdge: Edge => { throw new SchemaViolation("Strict schema violation! The edge label '" + e.Label + "' is already used for '" +
-                                                                                                                                Edge.OutVertex.Id.   ToString() + " -> " + Edge.InVertex.Id.   ToString() + "' relations and thus can not be used for '" +
-                                                                                                                                   e.OutVertex.Label.ToString() + " -> " +    e.InVertex.Label.ToString() + "' relations."); },
-                                                                           AnywayDo:        Edge => {
-                                                                               e.ForEach(kvp => {
-                                                                                   if (!_IgnoreEdgePropertyKeys.Contains(kvp.Key))
-                                                                                       Edge.ZSetAdd(kvp.Key, kvp.Value.GetType());
-                                                                               });
-                                                                           }
-                                                                          );
+                AddEdgeDelegate = (g, e) => {
+
+                                                var _InVertex = SchemaGraph.VertexById(e.InVertex.Label).AsMutable();
+
+                                                // Work-around for cases when edges are added via VertexInitializer and schema handling is active!
+                                                // SchemaEdge will be added before the VertexInitializer finished and thus the schema vertex is not yet created!
+                                                if (_InVertex == null)
+                                                {
+                                                    AddVertexDelegate(g, e.InVertex);
+                                                    _InVertex = SchemaGraph.VertexById(e.InVertex.Label).AsMutable();
+                                                }
+
+                                                SchemaGraph.AddEdgeIfNotExists(Id:              e.Label,
+                                                                               OutVertex:       SchemaGraph.VertexById(e.OutVertex.Label).AsMutable(),
+                                                                               Label:           EdgeLabel.IsConnectedWith,
+                                                                               InVertex:        _InVertex,
+                                                                               OnDuplicateEdge: Edge => { throw new SchemaViolation("Strict schema violation! The edge label '" + e.Label + "' is already used for '" +
+                                                                                                                                    Edge.OutVertex.Id.   ToString() + " -> " + Edge.InVertex.Id.   ToString() + "' relations and thus can not be used for '" +
+                                                                                                                                       e.OutVertex.Label.ToString() + " -> " +    e.InVertex.Label.ToString() + "' relations."); },
+                                                                               AnywayDo:        Edge => {
+                                                                                   e.ForEach(kvp => {
+                                                                                       if (!_IgnoreEdgePropertyKeys.Contains(kvp.Key))
+                                                                                           Edge.ZSetAdd(kvp.Key, kvp.Value.GetType());
+                                                                                   });
+                                                                               }
+                                                                              );
+
+                };
 
             #endregion
 
