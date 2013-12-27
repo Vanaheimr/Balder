@@ -293,6 +293,7 @@ namespace eu.Vanaheimr.Balder.InMemory
             this._MultiEdgeIdCreatorDelegate = MultiEdgeIdCreatorDelegate;
             this._DefaultMultiEdgeLabel      = DefaultMultiEdgeLabel;
             this._MultiEdgeCreatorDelegate   = MultiEdgeCreatorDelegate;
+            this._MultiEdgesWhenVertex       = MultiEdgeCollectionInitializer();
             this._MultiEdgesWhenGraph        = MultiEdgeCollectionInitializer();
 
             this._HyperEdgeIdCreatorDelegate = HyperEdgeIdCreatorDelegate;
@@ -1084,6 +1085,7 @@ namespace eu.Vanaheimr.Balder.InMemory
             this._OutEdgesWhenVertex    = EdgesCollectionInitializer();
             this._InEdgesWhenVertex     = EdgesCollectionInitializer();
             this._EdgesWhenGraph        = EdgesCollectionInitializer();
+            this._MultiEdgesWhenVertex  = MultiEdgesCollectionInitializer();
             this._HyperEdgesWhenVertex  = HyperEdgesCollectionInitializer();
 
             // IGenericPropertyVertex
@@ -1198,6 +1200,16 @@ namespace eu.Vanaheimr.Balder.InMemory
                                                                                 TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
                                               TEdgeLabel> _InEdgesWhenVertex;
 
+
+        /// <summary>
+        /// The multiedges of this vertex.
+        /// </summary>
+        protected readonly IGroupedCollection<TIdMultiEdge,
+                                              IReadOnlyGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>,
+                                              TMultiEdgeLabel> _MultiEdgesWhenVertex;
 
         /// <summary>
         /// The hyperedges of this vertex.
@@ -1953,6 +1965,8 @@ namespace eu.Vanaheimr.Balder.InMemory
         #endregion
 
         #endregion
+
+        // MultiEdgeMethods
 
         #region HyperEdge methods
 
@@ -6436,7 +6450,8 @@ namespace eu.Vanaheimr.Balder.InMemory
 
             return String.Concat("GenericPropertyVertex [Id: " + Id.ToString(), ", ",
                                  _OutEdgesWhenVertex.Count(),   " out edges, ",
-                                 _InEdgesWhenVertex.Count(),    " in edges, ",
+                                 _InEdgesWhenVertex.Count(), " in edges, ",
+                                 _MultiEdgesWhenVertex.Count(), " multiedges, ",
                                  _HyperEdgesWhenVertex.Count(), " hyperedges]");
 
         }
