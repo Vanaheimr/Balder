@@ -568,8 +568,8 @@ namespace eu.Vanaheimr.Balder
             if (EdgeInitializer2 == null)
                 EdgeInitializer2 = EdgeInitializer;
 
-            var _Edge1 = Graph.AddEdge(Vertex1, Vertex2, EdgeId1, Label, EdgeInitializer);
-            var _Edge2 = Graph.AddEdge(Vertex2, Vertex1, EdgeId2, Label2, EdgeInitializer2);
+            var _Edge1 = Graph.AddEdge(EdgeId1, Vertex1, Label,  Vertex2, EdgeInitializer);
+            var _Edge2 = Graph.AddEdge(EdgeId2, Vertex2, Label2, Vertex1, EdgeInitializer2);
 
             return new Tuple<IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                           TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
@@ -654,9 +654,9 @@ namespace eu.Vanaheimr.Balder
                     {
 
                         if (Direction == EdgeDirection.FORWARD)
-                            graph.AddEdgeIfNotExists(CurrentVertex, EdgeLabel, OtherVertex);
+                            graph.AddEdge(CurrentVertex, EdgeLabel, OtherVertex);
                         else
-                            graph.AddEdgeIfNotExists(OtherVertex,   EdgeLabel, CurrentVertex);
+                            graph.AddEdge(OtherVertex,   EdgeLabel, CurrentVertex);
 
                         if (RemoveProperty)
                             CurrentVertex.AsMutable().Remove(PropertyKey);

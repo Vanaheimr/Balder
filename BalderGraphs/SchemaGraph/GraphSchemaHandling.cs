@@ -255,7 +255,7 @@ namespace eu.Vanaheimr.Balder.Schema
                                                     _InVertex = SchemaGraph.VertexById(e.InVertex.Label).AsMutable();
                                                 }
 
-                                                SchemaGraph.AddEdgeIfNotExists(Id:              e.Label,
+                                                SchemaGraph.AddEdge(EdgeId:              e.Label,
                                                                                OutVertex:       SchemaGraph.VertexById(e.OutVertex.Label).AsMutable(),
                                                                                Label:           EdgeLabel.IsConnectedWith,
                                                                                InVertex:        _InVertex,
