@@ -10,8 +10,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>JurassicGraphs</RootNamespace>
     <AssemblyName>JurassicGraphs</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -23,6 +24,7 @@
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>bin\Debug\JurassicGraphs.XML</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,6 +33,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -48,25 +51,33 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Balder\Balder.csproj">
-      <Project>{D2B4E7C7-0524-4DE5-9D62-2DE05682A74D}</Project>
-      <Name>Balder</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Eunomia\Eunomia\Eunomia.csproj">
-      <Project>{1DF1A588-33B1-4168-9487-604FE5680681}</Project>
+      <Project>{1df1a588-33b1-4168-9487-604fe5680681}</Project>
       <Name>Eunomia</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Jurassic\Jurassic\Jurassic.csproj">
-      <Project>{9B109B9C-4B72-4BDB-B531-627D7E93011E}</Project>
-      <Name>Jurassic</Name>
+    <ProjectReference Include="..\..\Illias\Commons.NET4.5\Commons.NET4.5.csproj">
+      <Project>{ccc826d7-9ac7-4ce6-82f8-b835168eba35}</Project>
+      <Name>Commons.NET4.5</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Illias\Commons\Commons.csproj">
-      <Project>{16C85DF8-5DE6-4A9F-9FC7-7CA5B0440DF3}</Project>
+      <Project>{d3b1af79-161f-4299-8b14-133286d635b8}</Project>
       <Name>Commons</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Jurassic\Jurassic\Jurassic.csproj">
+      <Project>{9b109b9c-4b72-4bdb-b531-627d7e93011e}</Project>
+      <Name>Jurassic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Styx\Styx.NET4.5\Styx.NET4.5.csproj">
+      <Project>{af76ecc0-2ca5-4cff-9e1e-ff5478c4b6e4}</Project>
+      <Name>Styx.NET4.5</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Styx\Styx\Styx.csproj">
-      <Project>{3949790D-8591-4101-9E4D-CE7A758E7409}</Project>
+      <Project>{3949790d-8591-4101-9e4d-ce7a758e7409}</Project>
       <Name>Styx</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Balder\Balder.csproj">
+      <Project>{d2b4e7c7-0524-4de5-9d62-2de05682a74d}</Project>
+      <Name>Balder</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

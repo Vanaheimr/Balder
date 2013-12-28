@@ -77,14 +77,14 @@ namespace eu.Vanaheimr.Balder.UnitTests
             _DynamicMarko.doIt(_DynamicMarko.name + "/" + marko.GetProperty("age") + "/");
 
 
-            var e7  = _TinkerGraph.AddEdge(marko, vadas,  7,  "knows",   e => e.Set("weight", 0.5));
-            var e8  = _TinkerGraph.AddEdge(marko, josh,   8,  "knows",   e => e.Set("weight", 1.0));
-            var e9  = _TinkerGraph.AddEdge(marko, lop,    9,  "created", e => e.Set("weight", 0.4));
+            var e7  = _TinkerGraph.AddEdge(7,  marko, "knows",   vadas,  e => e.Set("weight", 0.5));
+            var e8  = _TinkerGraph.AddEdge(8,  marko, "knows",   josh,   e => e.Set("weight", 1.0));
+            var e9  = _TinkerGraph.AddEdge(9,  marko, "created", lop,    e => e.Set("weight", 0.4));
 
-            var e10 = _TinkerGraph.AddEdge(josh,  ripple, 10, "created", e => e.Set("weight", 1.0));
-            var e11 = _TinkerGraph.AddEdge(josh,  lop,    11, "created", e => e.Set("weight", 0.4));
+            var e10 = _TinkerGraph.AddEdge(10, josh,  "created", ripple, e => e.Set("weight", 1.0));
+            var e11 = _TinkerGraph.AddEdge(11, josh,  "created", lop,    e => e.Set("weight", 0.4));
 
-            var e12 = _TinkerGraph.AddEdge(peter, lop,    12, "created", e => e.Set("weight", 0.2));
+            var e12 = _TinkerGraph.AddEdge(12, peter, "created", lop,    e => e.Set("weight", 0.2));
 
             return _TinkerGraph;
 

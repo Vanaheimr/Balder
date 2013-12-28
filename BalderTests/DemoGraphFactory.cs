@@ -115,11 +115,11 @@ namespace eu.Vanaheimr.Balder.UnitTests
 
             // The following edge will not be added because of the veto vote above!
             // (the method call will return null!)
-            var e1      = _graph.AddEdge(_Alice, _Bob,   "knows", edge => edge.SetProperty("weight", 0.5));
-            var e2      = _graph.AddEdge(_Alice, _Bob,   "knows", edge => edge.SetProperty("weight", 0.5));
-            var e3      = _graph.AddEdge(_Alice, _Bob,   "likes", edge => edge.SetProperty("weight", 1.0));
-            var e4      = _graph.AddEdge(_Bob,   _Alice, "likes", edge => edge.SetProperty("weight", 0.1));
-            var e5      = _graph.AddEdge(_Alice, _Carol, "likes", edge => edge.SetProperty("weight", 0.3));
+            var e1      = _graph.AddEdge(_Alice, "knows", _Bob,   edge => edge.SetProperty("weight", 0.5));
+            var e2      = _graph.AddEdge(_Alice, "knows", _Bob,   edge => edge.SetProperty("weight", 0.5));
+            var e3      = _graph.AddEdge(_Alice, "likes", _Bob,   edge => edge.SetProperty("weight", 1.0));
+            var e4      = _graph.AddEdge(_Bob,   "likes", _Alice, edge => edge.SetProperty("weight", 0.1));
+            var e5      = _graph.AddEdge(_Alice, "likes", _Carol, edge => edge.SetProperty("weight", 0.3));
 
 
             // A hyperedge connectes multiple vertices
