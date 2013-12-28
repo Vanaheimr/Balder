@@ -389,6 +389,11 @@ namespace eu.Vanaheimr.Balder
         /// </summary>
         TKeyEdge             EdgeLabelKey             { get; }
 
+        /// <summary>
+        /// The default edge label.
+        /// </summary>
+        TEdgeLabel           DefaultEdgeLabel         { get; }
+
 
         /// <summary>
         /// The property key to access the unique multiedge identification.
@@ -405,6 +410,11 @@ namespace eu.Vanaheimr.Balder
         /// </summary>
         TKeyMultiEdge        MultiEdgeLabelKey        { get; }
 
+        /// <summary>
+        /// The default multiedge label.
+        /// </summary>
+        TMultiEdgeLabel      DefaultMultiEdgeLabel    { get; }
+
 
         /// <summary>
         /// The property key to access the unique hyperedge identification.
@@ -420,6 +430,11 @@ namespace eu.Vanaheimr.Balder
         /// The property key to access the hyperedge label.
         /// </summary>
         TKeyHyperEdge        HyperEdgeLabelKey        { get; }
+
+        /// <summary>
+        /// The default hyperedge label.
+        /// </summary>
+        THyperEdgeLabel      DefaultHyperEdgeLabel    { get; }
 
         #endregion
 

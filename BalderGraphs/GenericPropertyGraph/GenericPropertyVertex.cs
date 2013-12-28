@@ -2444,11 +2444,6 @@ namespace eu.Vanaheimr.Balder.InMemory
                                                                TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> _VertexIdCreatorDelegate;
 
         /// <summary>
-        /// The default vertex label.
-        /// </summary>
-        protected internal readonly TVertexLabel _DefaultVertexLabel;
-
-        /// <summary>
         /// A delegate to create a new vertex.
         /// </summary>
         protected internal readonly VertexCreatorDelegate     <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
@@ -2467,11 +2462,6 @@ namespace eu.Vanaheimr.Balder.InMemory
                                                                TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> _EdgeIdCreatorDelegate;
-
-        /// <summary>
-        /// The default edge label.
-        /// </summary>
-        protected internal readonly TEdgeLabel _DefaultEdgeLabel;
 
         /// <summary>
         /// A delegate to create a new edge.
@@ -2494,11 +2484,6 @@ namespace eu.Vanaheimr.Balder.InMemory
                                                                TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> _MultiEdgeIdCreatorDelegate;
 
         /// <summary>
-        /// The default multiedge label.
-        /// </summary>
-        protected internal readonly TMultiEdgeLabel _DefaultMultiEdgeLabel;
-
-        /// <summary>
         /// A delegate to create a new multiedge.
         /// </summary>
         protected internal readonly MultiEdgeCreatorDelegate  <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
@@ -2519,11 +2504,6 @@ namespace eu.Vanaheimr.Balder.InMemory
                                                                TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> _HyperEdgeIdCreatorDelegate;
 
         /// <summary>
-        /// The default hyperedge label.
-        /// </summary>
-        protected internal readonly THyperEdgeLabel _DefaultHyperEdgeLabel;
-
-        /// <summary>
         /// A delegate to create a new hyperedge.
         /// </summary>
         protected internal readonly HyperEdgeCreatorDelegate  <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
@@ -2536,6 +2516,24 @@ namespace eu.Vanaheimr.Balder.InMemory
         #endregion
 
         #region Properties
+
+        #region DefaultVertexLabel
+
+        private readonly TVertexLabel _DefaultVertexLabel;
+
+        /// <summary>
+        /// The default vertex label.
+        /// </summary>
+        public TVertexLabel DefaultVertexLabel
+        {
+            get
+            {
+                return _DefaultVertexLabel;
+            }
+        }
+
+        #endregion
+
 
         #region EdgeIdKey
 
@@ -2592,6 +2590,23 @@ namespace eu.Vanaheimr.Balder.InMemory
             get
             {
                 return _EdgeLabelKey;
+            }
+        }
+
+        #endregion
+
+        #region DefaultEdgeLabel
+
+        private readonly TEdgeLabel _DefaultEdgeLabel;
+
+        /// <summary>
+        /// The default edge label.
+        /// </summary>
+        public TEdgeLabel DefaultEdgeLabel
+        {
+            get
+            {
+                return _DefaultEdgeLabel;
             }
         }
 
@@ -2658,6 +2673,23 @@ namespace eu.Vanaheimr.Balder.InMemory
 
         #endregion
 
+        #region DefaultMultiEdgeLabel
+
+        private readonly TMultiEdgeLabel _DefaultMultiEdgeLabel;
+
+        /// <summary>
+        /// The default multiedge label.
+        /// </summary>
+        public TMultiEdgeLabel DefaultMultiEdgeLabel
+        {
+            get
+            {
+                return _DefaultMultiEdgeLabel;
+            }
+        }
+
+        #endregion
+
 
         #region HyperEdgeIdKey
 
@@ -2714,6 +2746,23 @@ namespace eu.Vanaheimr.Balder.InMemory
             get
             {
                 return _HyperEdgeLabelKey;
+            }
+        }
+
+        #endregion
+
+        #region DefaultHyperEdgeLabel
+
+        private readonly THyperEdgeLabel _DefaultHyperEdgeLabel;
+
+        /// <summary>
+        /// The default hyperedge label.
+        /// </summary>
+        public THyperEdgeLabel DefaultHyperEdgeLabel
+        {
+            get
+            {
+                return _DefaultHyperEdgeLabel;
             }
         }
 
@@ -3628,70 +3677,7 @@ namespace eu.Vanaheimr.Balder.InMemory
 
         #endregion
 
-        #region AddEdge(OutVertex, InVertex, EdgeInitializer = null, OnDuplicateEdge = null, EdgeIdAlreadyUsed = null, AnywayDo = null)
-
-        /// <summary>
-        /// Add an edge to the graph, if it dows not exist already.
-        /// The added edge requires a tail vertex, a head vertex, an identifier,
-        /// a label and initializes the edge by invoking the given EdgeInitializer.
-        /// OutVertex --Label-&gt; InVertex is the "Semantic Web Notation"
-        /// </summary>
-        /// <param name="OutVertex">The vertex on the tail of the edge.</param>
-        /// <param name="InVertex">The vertex on the head of the edge.</param>
-        /// <param name="EdgeInitializer">A delegate to initialize the newly created edge.</param>
-        /// <param name="OnDuplicateEdge">A delegate called if the edge to add already exists.</param>
-        /// <param name="EdgeIdAlreadyUsed">A delegate called if the EdgeId of the edge to add is already used.</param>
-        /// <param name="AnywayDo">A delegate to do something with the edge, no matter if is was newly created or already existing.</param>
-        /// <returns>The new or old edge.</returns>
-        IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                     TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                     TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                     TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
-
-            IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                  TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                  TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                  TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
-
-                AddEdge(IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OutVertex,
-
-                        IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> InVertex,
-
-                        EdgeInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeInitializer,
-
-                        EdgeAction     <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnDuplicateEdge,
-
-                        EdgeInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeIdAlreadyUsed,
-
-                        EdgeInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> AnywayDo)
-
-        {
-
-            return _Subgraph.AddEdge(_EdgeIdCreatorDelegate(this), OutVertex, _DefaultEdgeLabel, InVertex, EdgeInitializer, OnDuplicateEdge, EdgeIdAlreadyUsed, AnywayDo);
-
-        }
-
-        #endregion
-
-        #region AddEdge(OutVertex, Label, InVertex, EdgeInitializer = null, OnDuplicateEdge = null, EdgeIdAlreadyUsed = null, AnywayDo = null)
+        #region AddEdge(OutVertex, Label, InVertex, EdgeInitializer = null, OnDuplicateEdge = null, AnywayDo = null)
 
         /// <summary>
         /// Add an edge to the graph, if it dows not exist already.
@@ -3704,7 +3690,6 @@ namespace eu.Vanaheimr.Balder.InMemory
         /// <param name="InVertex">The vertex on the head of the edge.</param>
         /// <param name="EdgeInitializer">A delegate to initialize the newly created edge.</param>
         /// <param name="OnDuplicateEdge">A delegate called if the edge to add already exists.</param>
-        /// <param name="EdgeIdAlreadyUsed">A delegate called if the EdgeId of the edge to add is already used.</param>
         /// <param name="AnywayDo">A delegate to do something with the edge, no matter if is was newly created or already existing.</param>
         /// <returns>The new or old edge.</returns>
         IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
@@ -3742,16 +3727,60 @@ namespace eu.Vanaheimr.Balder.InMemory
                         EdgeInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                         TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                         TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeIdAlreadyUsed,
-
-                        EdgeInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> AnywayDo)
 
         {
 
-            return _Subgraph.AddEdge(_EdgeIdCreatorDelegate(this), OutVertex, Label, InVertex, EdgeInitializer, OnDuplicateEdge, EdgeIdAlreadyUsed, AnywayDo);
+            #region Initial checks...
+
+            if (OutVertex == null)
+                throw new ArgumentException("The OutVertex must not be null!");
+
+            if (InVertex == null)
+                throw new ArgumentException("The InVertex must not be null!");
+
+            IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                         TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                         TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Edge = null;
+
+            if (Label == null)
+                Label = _DefaultEdgeLabel;
+
+            #endregion
+
+            Edge = OutVertex.OutEdges(Label).
+                             Where(_edge => _edge.InVertex == InVertex).
+                             FirstOrDefault();
+
+            #region An edge: OutVertex --Label-> InVertex already exists...
+
+            // The edge is a duplicate of an existing edge!
+            if (Edge != null)
+            {
+
+                OnDuplicateEdge.FailSafeInvoke(Edge,
+                                               _Edge => {
+                                                   throw new DuplicateEdgeException<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                    TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                    TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>(_Edge);
+                                               });
+
+            }
+
+            #endregion
+
+            #region ..., or create a new edge!
+
+            else
+                Edge = AddEdgeToGraph(_EdgeCreatorDelegate(this, OutVertex, InVertex, _EdgeIdCreatorDelegate(this), Label, EdgeInitializer));
+
+            #endregion
+
+            AnywayDo.FailSafeInvoke(Edge.AsMutable());
+
+            return Edge;
 
         }
 
