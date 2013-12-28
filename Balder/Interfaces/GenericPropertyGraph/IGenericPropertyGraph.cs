@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2010-2013, Achim 'ahzf' Friedland <achim@graph-database.org>
+ * Copyright (c) 2010-2014, Achim 'ahzf' Friedland <achim@graphdefined.org>
  * This file is part of Balder <http://www.github.com/Vanaheimr/Balder>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -3271,7 +3271,9 @@ namespace eu.Vanaheimr.Balder
 
         #endregion
 
-        #region AddEdge(OutVertex, Label, InVertex, EdgeInitializer = null, OnDuplicateEdge = null, EdgeIdAlreadyUsed = null, AnywayDo = null)
+        // AddEdgeIf(...Predicate)
+
+        #region AddEdge(OutVertex, Label, InVertex, EdgeInitializer = null, OnDuplicateEdge = null, AnywayDo = null)
 
         /// <summary>
         /// Add an edge to the graph, if it dows not exist already.

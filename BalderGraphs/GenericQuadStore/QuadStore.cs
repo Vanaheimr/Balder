@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2010-2013 Achim 'ahzf' Friedland <achim@graph-database.org>
+ * Copyright (c) 2010-2014 Achim 'ahzf' Friedland <achim@graphdefined.org>
  * This file is part of Alviss <http://www.github.com/Vanaheimr/Alviss>
  *
  * Licensed under the General Public License, Version 3.0 (the "License");
