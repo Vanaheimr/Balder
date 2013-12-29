@@ -375,6 +375,12 @@ namespace eu.Vanaheimr.Balder
 
 
         /// <summary>
+        /// The default vertex label.
+        /// </summary>
+        TVertexLabel         DefaultVertexLabel       { get; }
+
+
+        /// <summary>
         /// The property key to access the unique edge identification.
         /// </summary>
         TKeyEdge             EdgeIdKey                { get; }

@@ -220,14 +220,15 @@ namespace eu.Vanaheimr.Balder.Schema
                                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                   TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>
 
-                AddVertexDelegate = (g, v) => SchemaGraph.AddVertexIfNotExists(Id:        v.Label,
-                                                                               Label:     VertexLabel.Vertex,
-                                                                               AnywayDo:  Vertex => {
-                                                                                   v.ForEach(kvp => {
-                                                                                       if (!_IgnoreVertexPropertyKeys.Contains(kvp.Key))
-                                                                                           Vertex.ZSetAdd(kvp.Key, kvp.Value.GetType());
-                                                                                   });
-                                                                               });
+                AddVertexDelegate = (g, v) => SchemaGraph.AddVertex(VertexId:           v.Label,
+                                                                    Label:              VertexLabel.Vertex,
+                                                                    OnDuplicateVertex:  vertex => { },
+                                                                    AnywayDo:           vertex => {
+                                                                                            v.ForEach(kvp => {
+                                                                                                if (!_IgnoreVertexPropertyKeys.Contains(kvp.Key))
+                                                                                                    vertex.ZSetAdd(kvp.Key, kvp.Value.GetType());
+                                                                                            });
+                                                                                        });
 
             #endregion
 

@@ -243,7 +243,7 @@ namespace eu.Vanaheimr.Balder
         #endregion
 
 
-        #region UseProperty<...>(this IGenericPropertyGraph, PropertyKey, OnSuccess [Action<IGenericPropertyGraph, TKey, TValue>], OnError = null)
+        #region UseProperty<...>(this Graph, PropertyKey, OnSuccess [Action<IGenericPropertyGraph, TKey, TValue>], OnError = null)
 
         /// <summary>
         /// Call the given delegate if the given property key is assigned.
@@ -271,7 +271,7 @@ namespace eu.Vanaheimr.Balder
         /// <typeparam name="THyperEdgeLabel">The type of the multiedge label.</typeparam>
         /// <typeparam name="TKeyHyperEdge">The type of the multiedge property keys.</typeparam>
         /// <typeparam name="TValueHyperEdge">The type of the multiedge property values.</typeparam>
-        /// <param name="IGenericPropertyGraph">An object implementing IGenericPropertyGraph.</param>
+        /// <param name="Graph">A generic property graph.</param>
         /// <param name="PropertyKey">The property key.</param>
         /// <param name="OnSuccess">A delegate to call for the associated value of the given property key and its value.</param>
         /// <param name="OnError">A delegate to call for the associated value of the given property key when an error occurs.</param>
@@ -283,7 +283,7 @@ namespace eu.Vanaheimr.Balder
                                            this IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                      TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IGenericPropertyGraph,
+                                                                      TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Graph,
 
                                            TKeyVertex PropertyKey,
 
@@ -321,7 +321,7 @@ namespace eu.Vanaheimr.Balder
 
             #region Initial checks
 
-            if (IGenericPropertyGraph == null)
+            if (Graph == null)
                 throw new ArgumentNullException("IGenericPropertyGraph", "The given IGenericPropertyGraph must not be null!");
 
             if (OnSuccess == null)
@@ -330,17 +330,17 @@ namespace eu.Vanaheimr.Balder
             #endregion
 
             TValueVertex Value;
-            if (IGenericPropertyGraph.TryGetProperty(PropertyKey, out Value))
-                OnSuccess(IGenericPropertyGraph, PropertyKey, Value);
+            if (Graph.TryGetProperty(PropertyKey, out Value))
+                OnSuccess(Graph, PropertyKey, Value);
 
             else if (OnError != null)
-                OnError(IGenericPropertyGraph, PropertyKey);
+                OnError(Graph, PropertyKey);
 
         }
 
         #endregion
 
-        #region PropertyFunc<...>(this IGenericPropertyGraph, PropertyKey, OnSuccessFunc [Func<IGenericPropertyGraph, TKey, TValue, TResult>], OnErrorFunc = null)
+        #region PropertyFunc<...>(this Graph, PropertyKey, OnSuccessFunc [Func<IGenericPropertyGraph, TKey, TValue, TResult>], OnErrorFunc = null)
 
         /// <summary>
         /// Call the given delegate if the given property key is assigned.
@@ -369,7 +369,7 @@ namespace eu.Vanaheimr.Balder
         /// <typeparam name="TKeyHyperEdge">The type of the multiedge property keys.</typeparam>
         /// <typeparam name="TValueHyperEdge">The type of the multiedge property values.</typeparam>
         /// <typeparam name="TResult">The type of the return value.</typeparam>
-        /// <param name="IGenericPropertyGraph">An object implementing IGenericPropertyGraph.</param>
+        /// <param name="Graph">A generic property graph.</param>
         /// <param name="PropertyKey">The property key.</param>
         /// <param name="OnSuccessFunc">A delegate to call for the key and associated value of the given property key.</param>
         /// <param name="OnErrorFunc">A delegate to call for the key and associated value of the given property key.</param>
@@ -381,7 +381,7 @@ namespace eu.Vanaheimr.Balder
                                                this IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                                                           TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                           TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> IGenericPropertyGraph,
+                                                                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Graph,
 
                                                TKeyVertex PropertyKey,
 
@@ -419,7 +419,7 @@ namespace eu.Vanaheimr.Balder
 
             #region Initial checks
 
-            if (IGenericPropertyGraph == null)
+            if (Graph == null)
                 throw new ArgumentNullException("IGenericPropertyGraph", "The given IGenericPropertyGraph must not be null!");
 
             if (OnSuccessFunc == null)
@@ -428,13 +428,111 @@ namespace eu.Vanaheimr.Balder
             #endregion
 
             TValueVertex Value;
-            if (IGenericPropertyGraph.TryGetProperty(PropertyKey, out Value))
-                return OnSuccessFunc(IGenericPropertyGraph, PropertyKey, Value);
+            if (Graph.TryGetProperty(PropertyKey, out Value))
+                return OnSuccessFunc(Graph, PropertyKey, Value);
 
             if (OnErrorFunc != null)
-                OnErrorFunc(IGenericPropertyGraph, PropertyKey);
+                OnErrorFunc(Graph, PropertyKey);
 
             return default(TResult);
+
+        }
+
+        #endregion
+
+
+        #region AddVertex(VertexInitializer = null, OnDuplicateVertexId = null, AnywayDo = null)
+
+        /// <summary>
+        /// Create a new vertex using the given vertex identifier, label and optional
+        /// vertex initializer, if the given vertex identifier is not already being
+        /// used by the graph to reference another vertex. An exception will be thrown
+        /// if the given vertex identifier is already being to reference an existing
+        /// vertex but having a different vertex label.
+        /// </summary>
+        /// <typeparam name="TIdVertex">The type of the vertex identifiers.</typeparam>
+        /// <typeparam name="TRevIdVertex">The type of the vertex revision identifiers.</typeparam>
+        /// <typeparam name="TVertexLabel">The type of the vertex type.</typeparam>
+        /// <typeparam name="TKeyVertex">The type of the vertex property keys.</typeparam>
+        /// <typeparam name="TValueVertex">The type of the vertex property values.</typeparam>
+        /// 
+        /// <typeparam name="TIdEdge">The type of the edge identifiers.</typeparam>
+        /// <typeparam name="TRevIdEdge">The type of the edge revision identifiers.</typeparam>
+        /// <typeparam name="TEdgeLabel">The type of the edge label.</typeparam>
+        /// <typeparam name="TKeyEdge">The type of the edge property keys.</typeparam>
+        /// <typeparam name="TValueEdge">The type of the edge property values.</typeparam>
+        /// 
+        /// <typeparam name="TIdMultiEdge">The type of the multiedge identifiers.</typeparam>
+        /// <typeparam name="TRevIdMultiEdge">The type of the multiedge revision identifiers.</typeparam>
+        /// <typeparam name="TMultiEdgeLabel">The type of the multiedge label.</typeparam>
+        /// <typeparam name="TKeyMultiEdge">The type of the multiedge property keys.</typeparam>
+        /// <typeparam name="TValueMultiEdge">The type of the multiedge property values.</typeparam>
+        /// 
+        /// <typeparam name="TIdHyperEdge">The type of the multiedge identifiers.</typeparam>
+        /// <typeparam name="TRevIdHyperEdge">The type of the multiedge revision identifiers.</typeparam>
+        /// <typeparam name="THyperEdgeLabel">The type of the multiedge label.</typeparam>
+        /// <typeparam name="TKeyHyperEdge">The type of the multiedge property keys.</typeparam>
+        /// <typeparam name="TValueHyperEdge">The type of the multiedge property values.</typeparam>
+        /// <typeparam name="TResult">The type of the return value.</typeparam>
+        /// <param name="Graph">A generic property graph.</param>
+        /// <param name="VertexInitializer">A delegate to initialize the new vertex.</param>
+        /// <param name="OnDuplicateVertex">A delegate called if the vertex to add already exists.</param>
+        /// <param name="AnywayDo">A delegate to do something with the vertex, no matter if is was newly created or already existing.</param>
+        /// <returns>The newly created or already existing vertex.</returns>
+        public static IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                     TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                     TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                     TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>
+
+            AddVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                      TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                      TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                      TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>(
+
+                      this IGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                 TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                 TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                 TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Graph,
+
+                      VertexInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> VertexInitializer = null,
+
+                      VertexAction     <TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> OnDuplicateVertex = null,
+
+                      VertexInitializer<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> AnywayDo = null)
+
+
+            where TIdVertex        : IEquatable<TIdVertex>,       IComparable<TIdVertex>,       IComparable, TValueVertex
+            where TIdEdge          : IEquatable<TIdEdge>,         IComparable<TIdEdge>,         IComparable, TValueEdge
+            where TIdMultiEdge     : IEquatable<TIdMultiEdge>,    IComparable<TIdMultiEdge>,    IComparable, TValueMultiEdge
+            where TIdHyperEdge     : IEquatable<TIdHyperEdge>,    IComparable<TIdHyperEdge>,    IComparable, TValueHyperEdge
+
+            where TRevIdVertex     : IEquatable<TRevIdVertex>,    IComparable<TRevIdVertex>,    IComparable, TValueVertex
+            where TRevIdEdge       : IEquatable<TRevIdEdge>,      IComparable<TRevIdEdge>,      IComparable, TValueEdge
+            where TRevIdMultiEdge  : IEquatable<TRevIdMultiEdge>, IComparable<TRevIdMultiEdge>, IComparable, TValueMultiEdge
+            where TRevIdHyperEdge  : IEquatable<TRevIdHyperEdge>, IComparable<TRevIdHyperEdge>, IComparable, TValueHyperEdge
+
+            where TVertexLabel     : IEquatable<TVertexLabel>,    IComparable<TVertexLabel>,    IComparable, TValueVertex
+            where TEdgeLabel       : IEquatable<TEdgeLabel>,      IComparable<TEdgeLabel>,      IComparable, TValueEdge
+            where TMultiEdgeLabel  : IEquatable<TMultiEdgeLabel>, IComparable<TMultiEdgeLabel>, IComparable, TValueMultiEdge
+            where THyperEdgeLabel  : IEquatable<THyperEdgeLabel>, IComparable<THyperEdgeLabel>, IComparable, TValueHyperEdge
+
+            where TKeyVertex       : IEquatable<TKeyVertex>,      IComparable<TKeyVertex>,      IComparable
+            where TKeyEdge         : IEquatable<TKeyEdge>,        IComparable<TKeyEdge>,        IComparable
+            where TKeyMultiEdge    : IEquatable<TKeyMultiEdge>,   IComparable<TKeyMultiEdge>,   IComparable
+            where TKeyHyperEdge    : IEquatable<TKeyHyperEdge>,   IComparable<TKeyHyperEdge>,   IComparable
+
+        {
+
+            return Graph.AddVertex(Graph.DefaultVertexLabel, VertexInitializer, OnDuplicateVertex, AnywayDo);
 
         }
 
