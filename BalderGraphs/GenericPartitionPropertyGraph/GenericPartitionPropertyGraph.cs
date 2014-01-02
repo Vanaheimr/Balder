@@ -2819,6 +2819,22 @@ namespace eu.Vanaheimr.Balder.InMemory
         public event PropertyRemovingEventHandler<TKeyVertex, TValueVertex> OnPropertyRemoving;
 
         public event PropertyRemovedEventHandler<TKeyVertex, TValueVertex> OnPropertyRemoved;
+
+
+        public TKeyVertex VertexIdKey
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public TKeyVertex VertexRevIdKey
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public TKeyVertex VertexLabelKey
+        {
+            get { throw new NotImplementedException(); }
+        }
     }
 
 }

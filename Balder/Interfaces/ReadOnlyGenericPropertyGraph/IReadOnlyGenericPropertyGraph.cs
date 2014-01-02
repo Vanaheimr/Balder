@@ -375,6 +375,21 @@ namespace eu.Vanaheimr.Balder
 
 
         /// <summary>
+        /// The property key to access the unique vertex identification.
+        /// </summary>
+        TKeyVertex           VertexIdKey              { get; }
+
+        /// <summary>
+        /// The property key to access the vertex revision identification.
+        /// </summary>
+        TKeyVertex           VertexRevIdKey           { get; }
+
+        /// <summary>
+        /// The property key to access the vertex label.
+        /// </summary>
+        TKeyVertex           VertexLabelKey           { get; }
+
+        /// <summary>
         /// The default vertex label.
         /// </summary>
         TVertexLabel         DefaultVertexLabel       { get; }

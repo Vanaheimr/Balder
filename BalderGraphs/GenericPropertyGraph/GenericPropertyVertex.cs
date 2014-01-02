@@ -2517,6 +2517,60 @@ namespace eu.Vanaheimr.Balder.InMemory
 
         #region Properties
 
+        #region VertexIdKey
+
+        TKeyVertex IReadOnlyGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                 TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                 TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                 TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+
+        VertexIdKey
+
+        {
+            get
+            {
+                return IdKey;
+            }
+        }
+
+        #endregion
+
+        #region VertexRevIdKey
+
+        TKeyVertex IReadOnlyGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                 TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                 TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                 TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+
+        VertexRevIdKey
+
+        {
+            get
+            {
+                return RevIdKey;
+            }
+        }
+
+        #endregion
+
+        #region VertexLabelKey
+
+        TKeyVertex IReadOnlyGenericPropertyGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                 TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                 TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                 TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.
+
+        VertexLabelKey
+
+        {
+            get
+            {
+                return LabelKey;
+            }
+        }
+
+        #endregion
+
         #region DefaultVertexLabel
 
         private readonly TVertexLabel _DefaultVertexLabel;
