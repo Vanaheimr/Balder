@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("ahzf.de")]
 [assembly: AssemblyProduct("Balder")]
-[assembly: AssemblyCopyright("Copyright © 2011-2013 Achim 'ahzf' Friedland")]
+[assembly: AssemblyCopyright("Copyright © 2011-2014 Achim 'ahzf' Friedland")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
