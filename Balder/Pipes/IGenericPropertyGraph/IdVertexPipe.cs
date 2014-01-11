@@ -212,7 +212,7 @@ namespace eu.Vanaheimr.Balder
                             IEnumerable<TIdVertex> IEnumerable = null,
                             IEnumerator<TIdVertex> IEnumerator = null)
 
-            : base(IEnumerable, IEnumerator)
+            : base(IEnumerable)
 
         {
             this.Graph = Graph;
@@ -235,12 +235,12 @@ namespace eu.Vanaheimr.Balder
         public override Boolean MoveNext()
         {
 
-            if (_InputEnumerator == null)
+            if (SourcePipe == null)
                 return false;
 
-            if (_InputEnumerator.MoveNext())
+            if (SourcePipe.MoveNext())
             {
-                _CurrentElement = Graph.VertexById(_InputEnumerator.Current);
+                _CurrentElement = Graph.VertexById(SourcePipe.Current);
                 return true;
             }
 

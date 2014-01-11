@@ -317,7 +317,7 @@ namespace eu.Vanaheimr.Balder
                                                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> IEnumerator = null)
 
-            : base(IEnumerable, IEnumerator)
+            : base(IEnumerable)
 
         {
             this.EdgeFilter = EdgeFilter;
@@ -340,7 +340,7 @@ namespace eu.Vanaheimr.Balder
         public override Boolean MoveNext()
         {
 
-            if (_InputEnumerator == null)
+            if (SourcePipe == null)
                 return false;
 
             while (true)
@@ -352,8 +352,8 @@ namespace eu.Vanaheimr.Balder
                     return true;
                 }
 
-                else if (_InputEnumerator.MoveNext())
-                    _EdgeIterator = _InputEnumerator.Current.Edges(EdgeFilter).GetEnumerator();
+                else if (SourcePipe.MoveNext())
+                    _EdgeIterator = SourcePipe.Current.Edges(EdgeFilter).GetEnumerator();
 
                 else
                     return false;

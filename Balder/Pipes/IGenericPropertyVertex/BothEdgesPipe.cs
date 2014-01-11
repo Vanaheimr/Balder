@@ -503,7 +503,7 @@ namespace eu.Vanaheimr.Balder
             
                              params TEdgeLabel[] EdgeLabels)
 
-            : base(IEnumerable, IEnumerator)
+            : base(IEnumerable)
 
         {
 
@@ -552,7 +552,7 @@ namespace eu.Vanaheimr.Balder
                                                                         TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> IEnumerator = null)
 
-            : base(IEnumerable, IEnumerator)
+            : base(IEnumerable)
 
         {
 

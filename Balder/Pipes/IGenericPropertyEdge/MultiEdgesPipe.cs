@@ -500,7 +500,7 @@ namespace eu.Vanaheimr.Balder
 
                               params TMultiEdgeLabel[] MultiEdgeLabels)
 
-            : base(IEnumerable, IEnumerator)
+            : base(IEnumerable)
 
         {
             this.MultiEdgeLabels = MultiEdgeLabels;
@@ -532,7 +532,7 @@ namespace eu.Vanaheimr.Balder
                                                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> IEnumerator = null)
 
-            : base(IEnumerable, IEnumerator)
+            : base(IEnumerable)
 
         {
             this.MultiEdgeFilter = MultiEdgeFilter;
@@ -556,7 +556,7 @@ namespace eu.Vanaheimr.Balder
         public override Boolean MoveNext()
         {
 
-            if (_InputEnumerator == null)
+            if (SourcePipe == null)
                 return false;
 
             while (true)
@@ -568,14 +568,14 @@ namespace eu.Vanaheimr.Balder
                     return true;
                 }
 
-                else if (_InputEnumerator.MoveNext())
+                else if (SourcePipe.MoveNext())
                 {
 
                     if (MultiEdgeLabels != null)
-                        _NextMultiEdges = _InputEnumerator.Current.MultiEdges(MultiEdgeLabels).GetEnumerator();
+                        _NextMultiEdges = SourcePipe.Current.MultiEdges(MultiEdgeLabels).GetEnumerator();
 
                     else
-                        _NextMultiEdges = _InputEnumerator.Current.MultiEdges(MultiEdgeFilter).GetEnumerator();
+                        _NextMultiEdges = SourcePipe.Current.MultiEdges(MultiEdgeFilter).GetEnumerator();
 
                 }
 
@@ -594,10 +594,14 @@ namespace eu.Vanaheimr.Balder
         /// <summary>
         /// A pipe may maintain state. Reset is used to remove state.
         /// </summary>
-        public override void Reset()
+        public override IEndPipe<IReadOnlyGenericPropertyMultiEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                   TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> Reset()
         {
             _NextMultiEdges = null;
             base.Reset();
+            return this;
         }
 
         #endregion

@@ -289,7 +289,7 @@ namespace eu.Vanaheimr.Balder
 
                                      params THyperEdgeLabel[] HyperEdgeLabels)
 
-            : base(IEnumerable, IEnumerator)
+            : base(IEnumerable)
 
         {
             this.HyperEdgeLabels = HyperEdgeLabels.Any() ? HyperEdgeLabels : null;
@@ -321,7 +321,7 @@ namespace eu.Vanaheimr.Balder
                                                                            TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                            TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> IEnumerator = null)
 
-            : base(IEnumerable, IEnumerator)
+            : base(IEnumerable)
 
         {
             this.HyperEdgeFilter = HyperEdgeFilter;
@@ -345,7 +345,7 @@ namespace eu.Vanaheimr.Balder
         public override Boolean MoveNext()
         {
 
-            if (_InputEnumerator == null)
+            if (SourcePipe == null)
                 return false;
 
             while (true)

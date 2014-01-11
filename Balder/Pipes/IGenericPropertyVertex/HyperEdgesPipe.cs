@@ -502,7 +502,7 @@ namespace eu.Vanaheimr.Balder
 
                               params THyperEdgeLabel[] HyperEdgeLabels)
 
-            : base(IEnumerable, IEnumerator)
+            : base(IEnumerable)
 
         { }
 
@@ -532,7 +532,7 @@ namespace eu.Vanaheimr.Balder
                                                                          TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                          TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> IEnumerator = null)
 
-            : base(IEnumerable, IEnumerator)
+            : base(IEnumerable)
 
         {
             this.HyperEdgeFilter = HyperEdgeFilter;
@@ -556,7 +556,7 @@ namespace eu.Vanaheimr.Balder
         public override Boolean MoveNext()
         {
 
-            if (_InputEnumerator == null)
+            if (SourcePipe == null)
                 return false;
 
             while (true)
@@ -568,14 +568,14 @@ namespace eu.Vanaheimr.Balder
                     return true;
                 }
 
-                else if (_InputEnumerator.MoveNext())
+                else if (SourcePipe.MoveNext())
                 {
 
                     if (HyperEdgeLabels != null)
-                        _NextHyperEdges = _InputEnumerator.Current.HyperEdgesByLabel(HyperEdgeLabels).GetEnumerator();
+                        _NextHyperEdges = SourcePipe.Current.HyperEdgesByLabel(HyperEdgeLabels).GetEnumerator();
 
                     else
-                        _NextHyperEdges = _InputEnumerator.Current.HyperEdges(HyperEdgeFilter).GetEnumerator();
+                        _NextHyperEdges = SourcePipe.Current.HyperEdges(HyperEdgeFilter).GetEnumerator();
 
                 }
 
@@ -594,10 +594,14 @@ namespace eu.Vanaheimr.Balder
         /// <summary>
         /// A pipe may maintain state. Reset is used to remove state.
         /// </summary>
-        public override void Reset()
+        public override IEndPipe<IReadOnlyGenericPropertyHyperEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                   TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                   TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> Reset()
         {
             _NextHyperEdges = null;
             base.Reset();
+            return this;
         }
 
         #endregion

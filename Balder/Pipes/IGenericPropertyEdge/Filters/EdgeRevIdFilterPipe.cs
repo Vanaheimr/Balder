@@ -37,7 +37,7 @@ namespace eu.Vanaheimr.Balder
     public static class EdgeRevIdFilterPipeExtensions
     {
 
-        #region RevIdIn(this IEnumerable<IReadOnlyGenericPropertyEdge<...>>, params RevIds)
+        #region RevIdIn(this IEndPipe<IReadOnlyGenericPropertyEdge<...>>, params RevIds)
 
         /// <summary>
         /// Filter the given enumeration of read-only generic property
@@ -79,10 +79,10 @@ namespace eu.Vanaheimr.Balder
                                                   TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                   TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>(
 
-                                              this IEnumerable<IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                                            TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                            TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                                            TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> IEnumerable,
+                                              this IEndPipe<IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                         TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                         TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> SourcePipe,
 
                                               params TIdEdge[] RevIds)
 
@@ -112,13 +112,13 @@ namespace eu.Vanaheimr.Balder
             return new EdgeRevIdFilterPipe<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                            TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                            TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>(EdgeRevId => RevIds.Where(revid => revid.Equals(EdgeRevId)).Any(), IEnumerable);
+                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>(SourcePipe, EdgeRevId => RevIds.Where(revid => revid.Equals(EdgeRevId)).Any());
 
         }
 
         #endregion
 
-        #region RevIdNotIn(this IEnumerable<IReadOnlyGenericPropertyEdge<...>>, params RevIds)
+        #region RevIdNotIn(this IEndPipe<IReadOnlyGenericPropertyEdge<...>>, params RevIds)
 
         /// <summary>
         /// Filter the given enumeration of read-only generic property
@@ -160,10 +160,10 @@ namespace eu.Vanaheimr.Balder
                                                      TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                      TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>(
 
-                                              this IEnumerable<IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                                            TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                                            TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                                            TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> IEnumerable,
+                                              this IEndPipe<IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                         TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                                         TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> SourcePipe,
 
                                               params TRevIdEdge[] RevIds)
 
@@ -193,7 +193,7 @@ namespace eu.Vanaheimr.Balder
             return new EdgeRevIdFilterPipe<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                            TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                            TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>(EdgeRevId => RevIds.Where(revid => !revid.Equals(EdgeRevId)).Any(), IEnumerable);
+                                           TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>(SourcePipe, EdgeRevId => RevIds.Where(revid => !revid.Equals(EdgeRevId)).Any());
 
         }
 
@@ -275,19 +275,13 @@ namespace eu.Vanaheimr.Balder
         /// <param name="EdgeFilter">A delegate for filtering the enumeration of generic property edges.</param>
         /// <param name="IEnumerable">An IEnumerable&lt;S&gt; as element source.</param>
         /// <param name="IEnumerator">An IEnumerator&lt;S&gt; as element source.</param>
-        public EdgeRevIdFilterPipe(ComparisonFilter<TRevIdEdge> EdgeFilter,
+        public EdgeRevIdFilterPipe(IEndPipe<IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                         TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                         TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> SourcePipe,
+                                   ComparisonFilter<TRevIdEdge> EdgeFilter)
 
-                                   IEnumerable<IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                            TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                            TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                            TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> IEnumerable = null,
-
-                                   IEnumerator<IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                            TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                            TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                            TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> IEnumerator = null)
-
-            : base(edge => edge.RevId, EdgeFilter, IEnumerable, IEnumerator)
+            : base(SourcePipe, edge => edge.RevId, EdgeFilter)
 
         { }
 

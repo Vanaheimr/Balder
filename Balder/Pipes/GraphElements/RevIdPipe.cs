@@ -36,21 +36,17 @@ namespace eu.Vanaheimr.Balder
     public static class RevIdPipeExtensions
     {
 
-        #region RevIds<TRevId>(this IEnumerable)
-
         /// <summary>
         /// Emits the revision identifications of the given revisioned objects.
         /// </summary>
         /// <typeparam name="TRevId">The type of the revision identifications.</typeparam>
         /// <param name="IEnumerable">An enumeration of revisioned objects.</param>
         /// <returns>An enumeration of revision identifications.</returns>
-        public static RevIdPipe<TRevId> RevIds<TRevId>(this IEnumerable<IRevisionId<TRevId>> IEnumerable)
+        public static RevIdPipe<TRevId> RevIds<TRevId>(this IEndPipe<IRevisionId<TRevId>> SourcePipe)
             where TRevId : IEquatable<TRevId>, IComparable<TRevId>, IComparable
         {
-            return new RevIdPipe<TRevId>(IEnumerable);
+            return new RevIdPipe<TRevId>(SourcePipe);
         }
-
-        #endregion
 
     }
 
@@ -62,23 +58,16 @@ namespace eu.Vanaheimr.Balder
     /// Emits the revision identifications of the given revisioned objects.
     /// </summary>
     /// <typeparam name="TRevId">The type of the revision identifications.</typeparam>
-    public class RevIdPipe<TRevId> : FuncPipe<IRevisionId<TRevId>, TRevId>
+    public class RevIdPipe<TRevId> : SelectPipe<IRevisionId<TRevId>, TRevId>
         where TRevId : IEquatable<TRevId>, IComparable<TRevId>, IComparable
     {
-
-        #region RevIdPipe(IEnumerable = null, IEnumerator = null)
 
         /// <summary>
         /// Emits the revision identifications of the given revisioned objects.
         /// </summary>
-        /// <param name="IEnumerable">An optional IEnumerable&lt;IRevIdentifier&lt;TRevId&gt;&gt; as element source.</param>
-        /// <param name="IEnumerator">An optional IEnumerator&lt;IRevIdentifier&lt;TRevId&gt;&gt; as element source.</param>
-        public RevIdPipe(IEnumerable<IRevisionId<TRevId>> IEnumerable = null,
-                      IEnumerator<IRevisionId<TRevId>> IEnumerator = null)
-            : base(Object => (Object != null) ? Object.RevId : default(TRevId), IEnumerable, IEnumerator)
+        public RevIdPipe(IEndPipe<IRevisionId<TRevId>> SourcePipe)
+            : base(SourcePipe, Object => Object.RevId)
         { }
-
-        #endregion
 
     }
 

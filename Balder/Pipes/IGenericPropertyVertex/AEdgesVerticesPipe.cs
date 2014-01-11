@@ -162,7 +162,7 @@ namespace eu.Vanaheimr.Balder
 
                                     params TEdgeLabel[] EdgeLabels)
 
-            : base(IEnumerable, IEnumerator)
+            : base(IEnumerable)
 
         {
 
@@ -216,7 +216,7 @@ namespace eu.Vanaheimr.Balder
                                                                                TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                                TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> IEnumerator)
 
-            : base(IEnumerable, IEnumerator)
+            : base(IEnumerable)
 
         {
 
@@ -281,9 +281,9 @@ namespace eu.Vanaheimr.Balder
                         return true;
                     }
 
-                    else if (_InputEnumerator.MoveNext())
+                    else if (SourcePipe.MoveNext())
                     {
-                        _NextEdges = _Vertex2EdgesDelegate(_InputEnumerator.Current);
+                        _NextEdges = _Vertex2EdgesDelegate(SourcePipe.Current);
                     }
 
                     else
@@ -313,14 +313,14 @@ namespace eu.Vanaheimr.Balder
 
                 else if (!Switched)
                 {
-                    _NextEdges           = _InputEnumerator.Current.InEdges(EdgeFilter).GetEnumerator();
+                    _NextEdges           = SourcePipe.Current.InEdges(EdgeFilter).GetEnumerator();
                     Edge2VertexDelegate  = edge => edge.OutVertex;
                     Switched             = true;
                 }
 
-                else if (_InputEnumerator.MoveNext())
+                else if (SourcePipe.MoveNext())
                 {
-                    _NextEdges           = _InputEnumerator.Current.OutEdges(EdgeFilter).GetEnumerator();
+                    _NextEdges           = SourcePipe.Current.OutEdges(EdgeFilter).GetEnumerator();
                     Edge2VertexDelegate  = edge => edge.InVertex;
                     Switched             = false;
                 }
@@ -348,7 +348,7 @@ namespace eu.Vanaheimr.Balder
         public override Boolean MoveNext()
         {
 
-            if (_InputEnumerator == null)
+            if (SourcePipe == null)
                 return false;
 
             return TraversalDelegate();
@@ -363,10 +363,14 @@ namespace eu.Vanaheimr.Balder
         /// <summary>
         /// A pipe may maintain state. Reset is used to remove state.
         /// </summary>
-        public override void Reset()
+        public override IEndPipe<IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> Reset()
         {
             //_NextEdges = null;
             base.Reset();
+            return this;
         }
 
         #endregion

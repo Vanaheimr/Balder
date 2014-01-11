@@ -155,7 +155,7 @@ namespace eu.Vanaheimr.Balder
 
                             params TEdgeLabel[] EdgeLabels)
 
-            : base(IEnumerable, IEnumerator)
+            : base(IEnumerable)
 
         {
 
@@ -205,7 +205,7 @@ namespace eu.Vanaheimr.Balder
                                                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> IEnumerator = null)
 
-            : base(IEnumerable, IEnumerator)
+            : base(IEnumerable)
 
         {
 
@@ -244,7 +244,7 @@ namespace eu.Vanaheimr.Balder
         public override Boolean MoveNext()
         {
 
-            if (_InputEnumerator == null)
+            if (SourcePipe == null)
                 return false;
 
             while (true)
@@ -256,8 +256,8 @@ namespace eu.Vanaheimr.Balder
                     return true;
                 }
 
-                else if (_InputEnumerator.MoveNext())
-                    _EdgesEnumerator = Vertex2EdgesDelegate(_InputEnumerator.Current);
+                else if (SourcePipe.MoveNext())
+                    _EdgesEnumerator = Vertex2EdgesDelegate(SourcePipe.Current);
 
                 else
                     return false;
@@ -274,10 +274,14 @@ namespace eu.Vanaheimr.Balder
         /// <summary>
         /// A pipe may maintain state. Reset is used to remove state.
         /// </summary>
-        public override void Reset()
-        {            
+        public override IEndPipe<IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                              TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                              TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> Reset()
+        {
             _EdgesEnumerator = null;
             base.Reset();
+            return this;
         }
 
         #endregion

@@ -110,7 +110,7 @@ namespace eu.Vanaheimr.Balder
                                                                                 TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                                 TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> IEnumerator = null)
 
-            : base(IEnumerable, IEnumerator)
+            : base(IEnumerable)
 
         { }
 
@@ -135,7 +135,7 @@ namespace eu.Vanaheimr.Balder
                                                                                 TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                                 TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> IEnumerator = null)
 
-            : base(IEnumerable, IEnumerator)
+            : base(IEnumerable)
 
         {
             this._EdgeLabel = EdgeLabel;
@@ -159,7 +159,7 @@ namespace eu.Vanaheimr.Balder
         public override Boolean MoveNext()
         {
 
-            if (_InputEnumerator == null)
+            if (SourcePipe == null)
                 return false;
 
             while (true)
@@ -171,13 +171,13 @@ namespace eu.Vanaheimr.Balder
                     return true;
                 }
 
-                else if (_InputEnumerator.MoveNext())
+                else if (SourcePipe.MoveNext())
                 {
 
                     if (_UseEdgeLabel)
-                        _NextEdges = _InputEnumerator.Current.EdgesByLabel(_EdgeLabel).GetEnumerator();
+                        _NextEdges = SourcePipe.Current.EdgesByLabel(_EdgeLabel).GetEnumerator();
                     else
-                        _NextEdges = _InputEnumerator.Current.Edges().GetEnumerator();
+                        _NextEdges = SourcePipe.Current.Edges().GetEnumerator();
 
                 }
 

@@ -18,7 +18,6 @@
 #region Usings
 
 using System;
-using System.Collections.Generic;
 
 using eu.Vanaheimr.Illias.Commons;
 using eu.Vanaheimr.Styx;
@@ -36,21 +35,17 @@ namespace eu.Vanaheimr.Balder
     public static class IdPipeExtensions
     {
 
-        #region Ids<TId>(this IEnumerable)
-
         /// <summary>
         /// Emits the identifications of the given identifiable objects.
         /// </summary>
         /// <typeparam name="TId">The type of the identifications.</typeparam>
-        /// <param name="IEnumerable">An enumeration of identifiable objects.</param>
+        /// <param name="SourcePipe">An IEndPipe&lt;IIdentifier&lt;TId&gt;&gt; as element source.</param>
         /// <returns>An enumeration of identifications.</returns>
-        public static IdPipe<TId> Ids<TId>(this IEnumerable<IIdentifier<TId>> IEnumerable)
+        public static IdPipe<TId> Ids<TId>(this IEndPipe<IIdentifier<TId>> SourcePipe)
             where TId : IEquatable<TId>, IComparable<TId>, IComparable
         {
-            return new IdPipe<TId>(IEnumerable);
+            return new IdPipe<TId>(SourcePipe);
         }
-
-        #endregion
 
     }
 
@@ -62,23 +57,17 @@ namespace eu.Vanaheimr.Balder
     /// Emits the identifications of the given identifiable objects.
     /// </summary>
     /// <typeparam name="TId">The type of the identifications.</typeparam>
-    public class IdPipe<TId> : FuncPipe<IIdentifier<TId>, TId>
+    public class IdPipe<TId> : SelectPipe<IIdentifier<TId>, TId>
         where TId : IEquatable<TId>, IComparable<TId>, IComparable
     {
-
-        #region IdPipe(IEnumerable = null, IEnumerator = null)
 
         /// <summary>
         /// Emits the identifications of the given identifiable objects.
         /// </summary>
-        /// <param name="IEnumerable">An optional IEnumerable&lt;IIdentifier&lt;TId&gt;&gt; as element source.</param>
-        /// <param name="IEnumerator">An optional IEnumerator&lt;IIdentifier&lt;TId&gt;&gt; as element source.</param>
-        public IdPipe(IEnumerable<IIdentifier<TId>> IEnumerable = null,
-                      IEnumerator<IIdentifier<TId>> IEnumerator = null)
-            : base(Object => (Object != null) ? Object.Id : default(TId), IEnumerable, IEnumerator)
+        /// <param name="SourcePipe">An IEndPipe&lt;IIdentifier&lt;TId&gt;&gt; as element source.</param>
+        public IdPipe(IEndPipe<IIdentifier<TId>> SourcePipe)
+            : base(SourcePipe, Object => Object.Id)
         { }
-
-        #endregion
 
     }
 

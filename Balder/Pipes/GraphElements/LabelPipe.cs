@@ -18,7 +18,6 @@
 #region Usings
 
 using System;
-using System.Collections.Generic;
 
 using eu.Vanaheimr.Illias.Commons;
 using eu.Vanaheimr.Styx;
@@ -36,21 +35,17 @@ namespace eu.Vanaheimr.Balder
     public static class LabelPipeExtensions
     {
 
-        #region Labels<TLabel>(this IEnumerable)
-
         /// <summary>
         /// Emits the labels of the given labeled objects.
         /// </summary>
         /// <typeparam name="TLabel">The type of the labels.</typeparam>
-        /// <param name="IEnumerable">An enumeration of labeled objects.</param>
+        /// <param name="SourcePipe">An IEndPipe&lt;IIdentifier&lt;TId&gt;&gt; as element source.</param>
         /// <returns>An enumeration of labels.</returns>
-        public static LabelPipe<TLabel> Labels<TLabel>(this IEnumerable<ILabel<TLabel>> IEnumerable)
+        public static LabelPipe<TLabel> Labels<TLabel>(this IEndPipe<ILabel<TLabel>> SourcePipe)
             where TLabel : IEquatable<TLabel>, IComparable<TLabel>, IComparable
         {
-            return new LabelPipe<TLabel>(IEnumerable);
+            return new LabelPipe<TLabel>(SourcePipe);
         }
-
-        #endregion
 
     }
 
@@ -62,22 +57,17 @@ namespace eu.Vanaheimr.Balder
     /// Emits the labels of the given labeled objects.
     /// </summary>
     /// <typeparam name="TLabel">The type of the labels.</typeparam>
-    public class LabelPipe<TLabel> : FuncPipe<ILabel<TLabel>, TLabel>
+    public class LabelPipe<TLabel> : SelectPipe<ILabel<TLabel>, TLabel>
         where TLabel : IEquatable<TLabel>, IComparable<TLabel>, IComparable
     {
-
-        #region LabelPipe(IEnumerable = null, IEnumerator = null)
 
         /// <summary>
         /// Emits the labels of the given labeled objects.
         /// </summary>
-        /// <param name="IEnumerable">An optional IEnumerable&lt;...&gt; as element source.</param>
-        /// <param name="IEnumerator">An optional IEnumerator&lt;...&gt; as element source.</param>
-        public LabelPipe(IEnumerable<ILabel<TLabel>> IEnumerable = null, IEnumerator<ILabel<TLabel>> IEnumerator = null)
-            : base(Object => (Object != null) ? Object.Label : default(TLabel), IEnumerable, IEnumerator)
+        /// <param name="SourcePipe">An IEndPipe&lt;IIdentifier&lt;TId&gt;&gt; as element source.</param>
+        public LabelPipe(IEndPipe<ILabel<TLabel>> SourcePipe)
+            : base(SourcePipe, Object => Object.Label)
         { }
-
-        #endregion
 
     }
 

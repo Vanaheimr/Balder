@@ -48,13 +48,13 @@ namespace eu.Vanaheimr.Balder
         /// <typeparam name="TValue">The type of the property values.</typeparam>
         /// <typeparam name="T">The type of the property to filter on.</typeparam>
         /// <typeparam name="S">A type derived from IReadOnlyGraphElement&lt;...&gt;.</typeparam>
-        /// <param name="IReadOnlyGraphElement">An object derived from IReadOnlyGraphElement&lt;...&gt; as element source.</param>
+        /// <param name="SourceElement">An object derived from IReadOnlyGraphElement&lt;...&gt; as element source.</param>
         /// <param name="KeySelector">A delegate for key selection.</param>
         /// <param name="ComparisonFilter">The comparison filter to use.</param>
         /// <returns>A filtered enumeration of graph elements.</returns>
         public static GraphElementFilterPipe<TId, TRevId, TLabel, TKey, TValue, T, S>
 
-                              GraphElementFilter<TId, TRevId, TLabel, TKey, TValue, T, S>(this S              IReadOnlyGraphElement,
+                              GraphElementFilter<TId, TRevId, TLabel, TKey, TValue, T, S>(this S              SourceElement,
                                                                                           Func<S, T>          KeySelector,
                                                                                           ComparisonFilter<T> ComparisonFilter)
 
@@ -66,10 +66,7 @@ namespace eu.Vanaheimr.Balder
 
         {
 
-            return new GraphElementFilterPipe<TId, TRevId, TLabel, TKey, TValue, T, S>(
-                KeySelector,
-                ComparisonFilter,
-                new S[1] { IReadOnlyGraphElement });
+            return new GraphElementFilterPipe<TId, TRevId, TLabel, TKey, TValue, T, S>(SourceElement, KeySelector, ComparisonFilter);
 
         }
 
@@ -93,7 +90,7 @@ namespace eu.Vanaheimr.Balder
         /// <returns>A filtered enumeration of graph elements.</returns>
         public static GraphElementFilterPipe<TId, TRevId, TLabel, TKey, TValue, T, S>
 
-                          GraphElementFilter<TId, TRevId, TLabel, TKey, TValue, T, S>(this IEnumerable<S>  IEnumerable,
+                          GraphElementFilter<TId, TRevId, TLabel, TKey, TValue, T, S>(this IEndPipe<S>     SourcePipe,
                                                                                       Func<S, T>           KeySelector,
                                                                                       ComparisonFilter<T>  ComparisonFilter)
 
@@ -106,10 +103,7 @@ namespace eu.Vanaheimr.Balder
 
         {
 
-            return new GraphElementFilterPipe<TId, TRevId, TLabel, TKey, TValue, T, S>(
-                KeySelector,
-                ComparisonFilter,
-                IEnumerable);
+            return new GraphElementFilterPipe<TId, TRevId, TLabel, TKey, TValue, T, S>(SourcePipe, KeySelector, ComparisonFilter);
 
         }
 
@@ -152,21 +146,118 @@ namespace eu.Vanaheimr.Balder
 
         #region Constructor(s)
 
-        #region GraphElementFilterPipe(KeySelector, ComparisonFilter, IEnumerable = null, IEnumerator = null)
+        #region GraphElementFilterPipe(SourceElement, KeySelector, ComparisonFilter)
 
         /// <summary>
         /// Filters graph elements based on their properties.
         /// </summary>
+        /// <param name="SourceElement">A single value as element source.</param>
         /// <param name="KeySelector">A delegate for key selection.</param>
         /// <param name="ComparisonFilter">The comparison filter to use.</param>
-        /// <param name="IEnumerable">An IEnumerable&lt;S&gt; as element source.</param>
-        /// <param name="IEnumerator">An IEnumerator&lt;S&gt; as element source.</param>
-        public GraphElementFilterPipe(Func<S, T>          KeySelector,
-                                      ComparisonFilter<T> ComparisonFilter,
-                                      IEnumerable<S>      IEnumerable = null,
-                                      IEnumerator<S>      IEnumerator = null)
+        public GraphElementFilterPipe(S                   SourceElement,
+                                      Func<S, T>          KeySelector,
+                                      ComparisonFilter<T> ComparisonFilter)
 
-            : base(IEnumerable, IEnumerator)
+            : base(SourceElement)
+
+        {
+
+            #region Initial checks
+
+            if (KeySelector == null)
+                throw new ArgumentNullException("KeySelector", "The given KeySelector delegate must not be null!");
+
+            if (ComparisonFilter == null)
+                throw new ArgumentNullException("ComparisonFilter", "The given ComparisonFilter delegate must not be null!");
+
+            #endregion
+
+            this.KeySelector      = KeySelector;
+            this.ComparisonFilter = ComparisonFilter;
+
+        }
+
+        #endregion
+
+        #region GraphElementFilterPipe(SourcePipe, KeySelector, ComparisonFilter)
+
+        /// <summary>
+        /// Filters graph elements based on their properties.
+        /// </summary>
+        /// <param name="SourcePipe">A pipe as element source.</param>
+        /// <param name="KeySelector">A delegate for key selection.</param>
+        /// <param name="ComparisonFilter">The comparison filter to use.</param>
+        public GraphElementFilterPipe(IEndPipe<S>         SourcePipe,
+                                      Func<S, T>          KeySelector,
+                                      ComparisonFilter<T> ComparisonFilter)
+
+            : base(SourcePipe)
+
+        {
+
+            #region Initial checks
+
+            if (KeySelector == null)
+                throw new ArgumentNullException("KeySelector", "The given KeySelector delegate must not be null!");
+
+            if (ComparisonFilter == null)
+                throw new ArgumentNullException("ComparisonFilter", "The given ComparisonFilter delegate must not be null!");
+
+            #endregion
+
+            this.KeySelector      = KeySelector;
+            this.ComparisonFilter = ComparisonFilter;
+
+        }
+
+        #endregion
+
+        #region GraphElementFilterPipe(SourceEnumerator, KeySelector, ComparisonFilter)
+
+        /// <summary>
+        /// Filters graph elements based on their properties.
+        /// </summary>
+        /// <param name="SourceEnumerator">An enumerator as element source.</param>
+        /// <param name="KeySelector">A delegate for key selection.</param>
+        /// <param name="ComparisonFilter">The comparison filter to use.</param>
+        public GraphElementFilterPipe(IEnumerator<S>      SourceEnumerator,
+                                      Func<S, T>          KeySelector,
+                                      ComparisonFilter<T> ComparisonFilter)
+
+            : base(SourceEnumerator)
+
+        {
+
+            #region Initial checks
+
+            if (KeySelector == null)
+                throw new ArgumentNullException("KeySelector", "The given KeySelector delegate must not be null!");
+
+            if (ComparisonFilter == null)
+                throw new ArgumentNullException("ComparisonFilter", "The given ComparisonFilter delegate must not be null!");
+
+            #endregion
+
+            this.KeySelector      = KeySelector;
+            this.ComparisonFilter = ComparisonFilter;
+
+        }
+
+        #endregion
+
+        #region GraphElementFilterPipe(SourceEnumerable, KeySelector, ComparisonFilter)
+
+        /// <summary>
+        /// Filters graph elements based on their properties.
+        /// </summary>
+        /// <param name="SourceEnumerable">An enumerable as element source.</param>
+        /// <param name="KeySelector">A delegate for key selection.</param>
+        /// <param name="ComparisonFilter">The comparison filter to use.</param>
+        public GraphElementFilterPipe(IEnumerable<S>      SourceEnumerable,
+                                      Func<S, T>          KeySelector,
+                                      ComparisonFilter<T> ComparisonFilter)
+
+            : base(SourceEnumerable)
 
         {
 
@@ -203,15 +294,15 @@ namespace eu.Vanaheimr.Balder
         public override Boolean MoveNext()
         {
 
-            if (_InputEnumerator == null)
+            if (SourcePipe == null)
                 return false;
 
-            while (_InputEnumerator.MoveNext())
+            while (SourcePipe.MoveNext())
             {
 
-                if (ComparisonFilter(KeySelector(_InputEnumerator.Current)))
+                if (ComparisonFilter(KeySelector(SourcePipe.Current)))
                 {
-                    _CurrentElement = _InputEnumerator.Current;
+                    _CurrentElement = SourcePipe.Current;
                     return true;
                 }
 

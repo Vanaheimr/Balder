@@ -21,6 +21,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
+using eu.Vanaheimr.Styx;
 using eu.Vanaheimr.Balder;
 
 #endregion
@@ -84,7 +85,7 @@ namespace eu.Vanaheimr.Balder
 
         {
 
-            return Vertices.Out(EdgeLabels).Distinct().Out(EdgeLabels).Distinct().Except(Vertices);
+            return Vertices.Out(EdgeLabels).Distinct().AsEnumerable().Out(EdgeLabels).Distinct().Except(Vertices).AsEnumerable();
 
         }
 
@@ -142,7 +143,7 @@ namespace eu.Vanaheimr.Balder
 
         {
 
-            return Vertices.Out(EdgeFilter).Distinct().Out(EdgeFilter).Distinct().Except(Vertices);
+            return Vertices.Out(EdgeFilter).Distinct().AsEnumerable().Out(EdgeFilter).Distinct().Except(Vertices).AsEnumerable();
 
         }
 

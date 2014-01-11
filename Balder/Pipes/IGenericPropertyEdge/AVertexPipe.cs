@@ -151,7 +151,7 @@ namespace eu.Vanaheimr.Balder
 
                              params TVertexLabel[] VertexLabels)
 
-            : base(IEnumerable, IEnumerator)
+            : base(IEnumerable)
 
         {
 
@@ -195,7 +195,7 @@ namespace eu.Vanaheimr.Balder
                                                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> IEnumerator = null)
 
-            : base(IEnumerable, IEnumerator)
+            : base(IEnumerable)
 
         {
 
@@ -231,8 +231,8 @@ namespace eu.Vanaheimr.Balder
 
             if (_NextVertex == null)
             {
-                _NextVertex = _InputEnumerator.Current.OutVertex;
-                return _InputEnumerator.Current.InVertex;
+                _NextVertex = SourcePipe.Current.OutVertex;
+                return SourcePipe.Current.InVertex;
             }
 
             _NextVertex = null;
@@ -257,16 +257,16 @@ namespace eu.Vanaheimr.Balder
         public override Boolean MoveNext()
         {
 
-            if (_InputEnumerator == null)
+            if (SourcePipe == null)
                 return false;
 
             if (VertexLabels != null)
             {
-                while (_InputEnumerator.MoveNext())
+                while (SourcePipe.MoveNext())
                 {
-                    if (VertexLabels.Any(VertexLabel => Edge2VertexDelegate(_InputEnumerator.Current).Label.Equals(VertexLabel)))
+                    if (VertexLabels.Any(VertexLabel => Edge2VertexDelegate(SourcePipe.Current).Label.Equals(VertexLabel)))
                     {
-                        _CurrentElement = Edge2VertexDelegate(_InputEnumerator.Current);
+                        _CurrentElement = Edge2VertexDelegate(SourcePipe.Current);
                         return true;
                     }
                 }
@@ -274,11 +274,11 @@ namespace eu.Vanaheimr.Balder
 
             else if (VertexFilter != null)
             {
-                while (_InputEnumerator.MoveNext())
+                while (SourcePipe.MoveNext())
                 {
                     if (VertexFilter(_CurrentElement))
                     {
-                        _CurrentElement = Edge2VertexDelegate(_InputEnumerator.Current);
+                        _CurrentElement = Edge2VertexDelegate(SourcePipe.Current);
                         return true;
                     }
                 }
@@ -286,9 +286,9 @@ namespace eu.Vanaheimr.Balder
 
             else
             {
-                while (_InputEnumerator.MoveNext())
+                while (SourcePipe.MoveNext())
                 {
-                    _CurrentElement = Edge2VertexDelegate(_InputEnumerator.Current);
+                    _CurrentElement = Edge2VertexDelegate(SourcePipe.Current);
                     return true;
                 }
             }

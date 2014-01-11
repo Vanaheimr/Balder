@@ -212,7 +212,7 @@ namespace eu.Vanaheimr.Balder
                           IEnumerable<TIdHyperEdge> IEnumerable = null,
                           IEnumerator<TIdHyperEdge> IEnumerator = null)
 
-            : base(IEnumerable, IEnumerator)
+            : base(IEnumerable)
 
         {
             this.Graph = Graph;
@@ -235,12 +235,12 @@ namespace eu.Vanaheimr.Balder
         public override Boolean MoveNext()
         {
 
-            if (_InputEnumerator == null)
+            if (SourcePipe == null)
                 return false;
 
-            if (_InputEnumerator.MoveNext())
+            if (SourcePipe.MoveNext())
             {
-                _CurrentElement = Graph.HyperEdgeById(_InputEnumerator.Current);
+                _CurrentElement = Graph.HyperEdgeById(SourcePipe.Current);
                 return true;
             }
 
