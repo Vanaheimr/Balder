@@ -126,7 +126,7 @@ namespace eu.Vanaheimr.Balder
     /// <typeparam name="T"></typeparam>
     /// <typeparam name="S"></typeparam>
     public class GraphElementFilterPipe<TId, TRevId, TLabel, TKey, TValue, T, S>
-                     : AbstractFilterPipe<S>
+                     : AbstractPipe<S, S>, IFilterPipe<S>
 
         where TId     : IEquatable<TId>,    IComparable<TId>,    IComparable, TValue
         where TRevId  : IEquatable<TRevId>, IComparable<TRevId>, IComparable, TValue
