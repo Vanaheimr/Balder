@@ -19,11 +19,11 @@
 
 using System;
 
-using eu.Vanaheimr.Eunomia;
+using org.GraphDefined.Vanaheimr.Eunomia;
 
 #endregion
 
-namespace eu.Vanaheimr.Balder
+namespace org.GraphDefined.Vanaheimr.Balder
 {
 
     /// <summary>

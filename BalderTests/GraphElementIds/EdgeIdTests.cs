@@ -21,11 +21,11 @@ using System;
 using System.Collections.Generic;
 
 using NUnit.Framework;
-using eu.Vanaheimr.Balder;
+using org.GraphDefined.Vanaheimr.Balder;
 
 #endregion
 
-namespace eu.Vanaheimr.Balder.UnitTests.GraphElementIds
+namespace org.GraphDefined.Vanaheimr.Balder.UnitTests.GraphElementIds
 {
 
     /// <summary>

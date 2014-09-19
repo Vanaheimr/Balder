@@ -23,14 +23,14 @@ using System.Collections.Generic;
 
 using NUnit.Framework;
 
-using eu.Vanaheimr.Illias.Commons.Collections;
-using eu.Vanaheimr.Balder.InMemory;
-using eu.Vanaheimr.Balder;
-using eu.Vanaheimr.Balder.DependentGraphs;
+using org.GraphDefined.Vanaheimr.Illias.Collections;
+using org.GraphDefined.Vanaheimr.Balder.InMemory;
+using org.GraphDefined.Vanaheimr.Balder;
+using org.GraphDefined.Vanaheimr.Balder.DependentGraphs;
 
 #endregion
 
-namespace eu.Vanaheimr.Balder.UnitTests.InMemoryPropertyGraphs
+namespace org.GraphDefined.Vanaheimr.Balder.UnitTests.InMemoryPropertyGraphs
 {
 
     [TestFixture]

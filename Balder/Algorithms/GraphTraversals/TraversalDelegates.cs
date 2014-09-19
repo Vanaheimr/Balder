@@ -19,11 +19,11 @@
 
 using System;
 
-using eu.Vanaheimr.Balder;
+using org.GraphDefined.Vanaheimr.Balder;
 
 #endregion
 
-namespace eu.Vanaheimr.Balder.Traverser
+namespace org.GraphDefined.Vanaheimr.Balder.Traverser
 {
     
     #region FollowThisEdgeDelegate

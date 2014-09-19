@@ -21,11 +21,11 @@ using System;
 using System.Dynamic;
 using System.Linq.Expressions;
 
-using eu.Vanaheimr.Illias.Commons;
+using org.GraphDefined.Vanaheimr.Illias;
 
 #endregion
 
-namespace eu.Vanaheimr.Balder.InMemory
+namespace org.GraphDefined.Vanaheimr.Balder.InMemory
 {
 
     /// <summary>

@@ -21,7 +21,7 @@ using System;
 
 #endregion
 
-namespace eu.Vanaheimr.Balder.Schema
+namespace org.GraphDefined.Vanaheimr.Balder.Schema
 {
 
     #region SchemaException

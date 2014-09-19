@@ -21,7 +21,7 @@ using System;
 
 #endregion
 
-namespace eu.Vanaheimr.Balder
+namespace org.GraphDefined.Vanaheimr.Balder
 {
 
     /// <summary>

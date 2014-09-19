@@ -21,14 +21,14 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-using eu.Vanaheimr.Styx;
+using org.GraphDefined.Vanaheimr.Styx;
 
 using NUnit.Framework;
-using eu.Vanaheimr.Illias.Commons;
+using org.GraphDefined.Vanaheimr.Illias;
 
 #endregion
 
-namespace eu.Vanaheimr.Balder.UnitTests.Pipes
+namespace org.GraphDefined.Vanaheimr.Balder.UnitTests.Pipes
 {
 
     [TestFixture]

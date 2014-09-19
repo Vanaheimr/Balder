@@ -20,11 +20,11 @@
 using System;
 using System.Collections.Generic;
 
-using eu.Vanaheimr.Balder;
+using org.GraphDefined.Vanaheimr.Balder;
 
 #endregion
 
-namespace eu.Vanaheimr.Balder
+namespace org.GraphDefined.Vanaheimr.Balder
 {
 
     #region OutVertexPipeExtensions

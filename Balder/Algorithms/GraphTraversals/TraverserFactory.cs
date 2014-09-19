@@ -22,7 +22,7 @@ using System;
 
 #endregion
 
-namespace eu.Vanaheimr.Balder.Traverser
+namespace org.GraphDefined.Vanaheimr.Balder.Traverser
 {
 
     public class TraverserFactory<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,

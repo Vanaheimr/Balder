@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Balder")]
 [assembly: AssemblyDescription("Balder is a graph-based data flow framework for property graph models (LINQ to graphs) written in .NET/Mono.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("ahzf.de")]
+[assembly: AssemblyCompany("GraphDefined GmbH")]
 [assembly: AssemblyProduct("Balder")]
-[assembly: AssemblyCopyright("Copyright © 2011-2014 Achim 'ahzf' Friedland")]
+[assembly: AssemblyCopyright("Copyright © 2010-2014 GraphDefined GmbH")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

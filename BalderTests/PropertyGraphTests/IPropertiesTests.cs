@@ -21,15 +21,15 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-using eu.Vanaheimr.Illias.Commons.Collections;
-using eu.Vanaheimr.Balder;
-using eu.Vanaheimr.Balder.InMemory;
+using org.GraphDefined.Vanaheimr.Illias.Collections;
+using org.GraphDefined.Vanaheimr.Balder;
+using org.GraphDefined.Vanaheimr.Balder.InMemory;
 
 using NUnit.Framework;
 
 #endregion
 
-namespace eu.Vanaheimr.Balder.UnitTests
+namespace org.GraphDefined.Vanaheimr.Balder.UnitTests
 {
 
     /// <summary>

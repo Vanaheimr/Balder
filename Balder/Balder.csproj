@@ -8,8 +8,8 @@
     <ProjectGuid>{D2B4E7C7-0524-4DE5-9D62-2DE05682A74D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>eu.Vanaheimr.Balder</RootNamespace>
-    <AssemblyName>Balder</AssemblyName>
+    <RootNamespace>org.GraphDefined.Vanaheimr.Balder</RootNamespace>
+    <AssemblyName>Vanaheimr.Balder</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -22,7 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Balder.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\Vanaheimr.Balder.xml</DocumentationFile>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
@@ -160,13 +160,13 @@
       <Project>{1df1a588-33b1-4168-9487-604fe5680681}</Project>
       <Name>Eunomia</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Illias\Commons.NET4.5\Commons.NET4.5.csproj">
-      <Project>{ccc826d7-9ac7-4ce6-82f8-b835168eba35}</Project>
-      <Name>Commons.NET4.5</Name>
+    <ProjectReference Include="..\..\Illias\Illias.NET4.5\Illias.NET4.5.csproj">
+      <Project>{23d37453-2d4e-4bd8-b40f-3e731fee7712}</Project>
+      <Name>Illias.NET4.5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Illias\Commons\Commons.csproj">
-      <Project>{D3B1AF79-161F-4299-8B14-133286D635B8}</Project>
-      <Name>Commons %28Dependencies\Commons\Commons%29</Name>
+    <ProjectReference Include="..\..\Illias\Illias\Illias.csproj">
+      <Project>{e156f18d-d41c-4529-9bcc-9962e6ee25da}</Project>
+      <Name>Illias</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Styx\Styx.NET4.5\Styx.NET4.5.csproj">
       <Project>{af76ecc0-2ca5-4cff-9e1e-ff5478c4b6e4}</Project>

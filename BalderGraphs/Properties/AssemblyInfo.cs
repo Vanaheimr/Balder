@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("BalderGraphs")]
 [assembly: AssemblyDescription("A class-based in-memory implementations of the Balder property graph and quad store interfaces.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("ahzf.de")]
+[assembly: AssemblyCompany("GraphDefined GmbH")]
 [assembly: AssemblyProduct("BalderGraphs")]
-[assembly: AssemblyCopyright("Copyright © Achim 'ahzf' Friedland 2010-2014")]
+[assembly: AssemblyCopyright("Copyright © 2010-2014 GraphDefined GmbH")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

@@ -21,13 +21,13 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-using eu.Vanaheimr.Illias.Commons;
-using eu.Vanaheimr.Illias.Commons.Votes;
-using eu.Vanaheimr.Illias.Commons.Collections;
+using org.GraphDefined.Vanaheimr.Illias;
+using org.GraphDefined.Vanaheimr.Illias.Votes;
+using org.GraphDefined.Vanaheimr.Illias.Collections;
 
 #endregion
 
-namespace eu.Vanaheimr.Balder.InMemory
+namespace org.GraphDefined.Vanaheimr.Balder.InMemory
 {
 
     /// <summary>

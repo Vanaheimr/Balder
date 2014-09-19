@@ -21,12 +21,12 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-using eu.Vanaheimr.Styx;
-using eu.Vanaheimr.Balder;
+using org.GraphDefined.Vanaheimr.Styx;
+using org.GraphDefined.Vanaheimr.Balder;
 
 #endregion
 
-namespace eu.Vanaheimr.Balder
+namespace org.GraphDefined.Vanaheimr.Balder
 {
 
     #region VertexRevIdFilterPipeExtensions

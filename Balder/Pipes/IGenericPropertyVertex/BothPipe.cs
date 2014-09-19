@@ -20,11 +20,11 @@
 using System;
 using System.Collections.Generic;
 
-using eu.Vanaheimr.Styx;
+using org.GraphDefined.Vanaheimr.Styx;
 
 #endregion
 
-namespace eu.Vanaheimr.Balder
+namespace org.GraphDefined.Vanaheimr.Balder
 {
 
     #region BothPipeExtensions

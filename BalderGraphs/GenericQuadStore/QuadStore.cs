@@ -23,11 +23,11 @@ using System.Threading;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
 
-using eu.Vanaheimr.Illias.Commons.Transactions;
+using org.GraphDefined.Vanaheimr.Illias.Transactions;
 
 #endregion
 
-namespace eu.Vanaheimr.Alviss
+namespace org.GraphDefined.Vanaheimr.Alviss
 {
 
     /// <summary>

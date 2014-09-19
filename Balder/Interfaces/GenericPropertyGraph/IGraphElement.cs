@@ -19,11 +19,11 @@
 
 using System;
 
-using eu.Vanaheimr.Illias.Commons.Collections;
+using org.GraphDefined.Vanaheimr.Illias.Collections;
 
 #endregion
 
-namespace eu.Vanaheimr.Balder
+namespace org.GraphDefined.Vanaheimr.Balder
 {
 
     /// <summary>

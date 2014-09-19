@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-namespace eu.Vanaheimr.Balder.Traverser
+namespace org.GraphDefined.Vanaheimr.Balder.Traverser
 {
 
     /// <summary>

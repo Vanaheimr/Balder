@@ -21,14 +21,14 @@ using System;
 using System.Linq;
 using System.Collections;
 
-using eu.Vanaheimr.Illias.Commons.Votes;
-using eu.Vanaheimr.Illias.Commons.Collections;
-using eu.Vanaheimr.Balder.InMemory;
-using eu.Vanaheimr.Balder;
+using org.GraphDefined.Vanaheimr.Illias.Votes;
+using org.GraphDefined.Vanaheimr.Illias.Collections;
+using org.GraphDefined.Vanaheimr.Balder.InMemory;
+using org.GraphDefined.Vanaheimr.Balder;
 
 #endregion
 
-namespace eu.Vanaheimr.Balder.UnitTests
+namespace org.GraphDefined.Vanaheimr.Balder.UnitTests
 {
 
     public static class TinkerGraphFactory

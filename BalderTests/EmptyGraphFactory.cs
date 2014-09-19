@@ -21,13 +21,13 @@ using System;
 
 using NUnit.Framework;
 
-using eu.Vanaheimr.Balder.InMemory;
-using eu.Vanaheimr.Balder;
-using eu.Vanaheimr.Illias.Commons.Votes;
+using org.GraphDefined.Vanaheimr.Balder.InMemory;
+using org.GraphDefined.Vanaheimr.Balder;
+using org.GraphDefined.Vanaheimr.Illias.Votes;
 
 #endregion
 
-namespace eu.Vanaheimr.Balder.UnitTests.PropertyGraphTests
+namespace org.GraphDefined.Vanaheimr.Balder.UnitTests.PropertyGraphTests
 {
 
     /// <summary>

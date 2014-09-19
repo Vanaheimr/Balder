@@ -20,11 +20,11 @@
 using System;
 using System.Collections.Generic;
 
-using eu.Vanaheimr.Balder;
+using org.GraphDefined.Vanaheimr.Balder;
 
 #endregion
 
-namespace eu.Vanaheimr.Balder.Traverser
+namespace org.GraphDefined.Vanaheimr.Balder.Traverser
 {
 
     public class TraversalState<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,

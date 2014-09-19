@@ -22,7 +22,7 @@ using System.Collections.Generic;
 
 #endregion
 
-namespace eu.Vanaheimr.Alviss
+namespace org.GraphDefined.Vanaheimr.Alviss
 {
 
     /// <summary>

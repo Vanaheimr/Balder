@@ -19,13 +19,13 @@
 
 using System;
 
-using eu.Vanaheimr.Balder;
+using org.GraphDefined.Vanaheimr.Balder;
 
 using Jurassic;
 
 #endregion
 
-namespace eu.Vanaheimr.Balder.JurassicGraph
+namespace org.GraphDefined.Vanaheimr.Balder.JurassicGraph
 {
 
     /// <summary>

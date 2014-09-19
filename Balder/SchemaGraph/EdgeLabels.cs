@@ -22,7 +22,7 @@ using System.Linq;
 
 #endregion
 
-namespace eu.Vanaheimr.Balder.Schema
+namespace org.GraphDefined.Vanaheimr.Balder.Schema
 {
 
     /// <summary>

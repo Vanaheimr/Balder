@@ -23,14 +23,14 @@ using System.Dynamic;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-using eu.Vanaheimr.Illias.Commons;
-using eu.Vanaheimr.Illias.Commons.Votes;
-using eu.Vanaheimr.Styx;
-using eu.Vanaheimr.Styx.Arrows;
+using org.GraphDefined.Vanaheimr.Illias;
+using org.GraphDefined.Vanaheimr.Illias.Votes;
+using org.GraphDefined.Vanaheimr.Styx;
+using org.GraphDefined.Vanaheimr.Styx.Arrows;
 
 #endregion
 
-namespace eu.Vanaheimr.Balder.InMemory
+namespace org.GraphDefined.Vanaheimr.Balder.InMemory
 {
 
     /// <summary>

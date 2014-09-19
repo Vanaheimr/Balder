@@ -18,11 +18,11 @@
 #region Usings
 
 using System;
-using eu.Vanaheimr.Styx;
+using org.GraphDefined.Vanaheimr.Styx;
 
 #endregion
 
-namespace eu.Vanaheimr.Balder
+namespace org.GraphDefined.Vanaheimr.Balder
 {
 
     /// <summary>

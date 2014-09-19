@@ -20,11 +20,11 @@
 using System;
 using System.Collections.Generic;
 
-using eu.Vanaheimr.Illias.Commons.Transactions;
+using org.GraphDefined.Vanaheimr.Illias.Transactions;
 
 #endregion
 
-namespace eu.Vanaheimr.Alviss
+namespace org.GraphDefined.Vanaheimr.Alviss
 {
 
     /// <summary>

@@ -8,8 +8,8 @@
     <ProjectGuid>{562AC94F-60EA-4911-8C62-684F02867783}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>eu.Vanaheimr.BalderGraphs</RootNamespace>
-    <AssemblyName>BalderGraphs</AssemblyName>
+    <RootNamespace>org.GraphDefined.Vanaheimr.BalderGraphs</RootNamespace>
+    <AssemblyName>Vanaheimr.BalderGraphs</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -23,7 +23,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>bin\Debug\BalderGraphs.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\Vanaheimr.BalderGraphs.xml</DocumentationFile>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -69,20 +69,20 @@
       <Project>{1DF1A588-33B1-4168-9487-604FE5680681}</Project>
       <Name>Eunomia</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Illias\Commons.NET4.5\Commons.NET4.5.csproj">
-      <Project>{ccc826d7-9ac7-4ce6-82f8-b835168eba35}</Project>
-      <Name>Commons.NET4.5</Name>
+    <ProjectReference Include="..\..\Illias\Illias.NET4.5\Illias.NET4.5.csproj">
+      <Project>{23d37453-2d4e-4bd8-b40f-3e731fee7712}</Project>
+      <Name>Illias.NET4.5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Illias\Commons\Commons.csproj">
-      <Project>{D3B1AF79-161F-4299-8B14-133286D635B8}</Project>
-      <Name>Commons %28Dependencies\Commons\Commons%29</Name>
+    <ProjectReference Include="..\..\Illias\Illias\Illias.csproj">
+      <Project>{e156f18d-d41c-4529-9bcc-9962e6ee25da}</Project>
+      <Name>Illias</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Styx\Styx.NET4.5\Styx.NET4.5.csproj">
       <Project>{af76ecc0-2ca5-4cff-9e1e-ff5478c4b6e4}</Project>
       <Name>Styx.NET4.5</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Styx\Styx\Styx.csproj">
-      <Project>{3949790D-8591-4101-9E4D-CE7A758E7409}</Project>
+      <Project>{3949790d-8591-4101-9e4d-ce7a758e7409}</Project>
       <Name>Styx</Name>
     </ProjectReference>
     <ProjectReference Include="..\Balder\Balder.csproj">
