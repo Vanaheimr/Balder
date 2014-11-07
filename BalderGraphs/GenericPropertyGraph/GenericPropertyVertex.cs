@@ -3756,8 +3756,8 @@ namespace org.GraphDefined.Vanaheimr.Balder.InMemory
                     OnDuplicateEdge.FailSafeInvoke(Edge,
                                                    _Edge =>
                                                    {
-                                                       throw new DuplicateEdgeException<TIdVertex, TRevIdVertex, TVertexLabel, TKeyVertex, TValueVertex,
-                                                                                        TIdEdge, TRevIdEdge, TEdgeLabel, TKeyEdge, TValueEdge,
+                                                       throw new DuplicateEdgeException<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                                                                         TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                                                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>(_Edge);
                                                    });
@@ -6195,7 +6195,7 @@ namespace org.GraphDefined.Vanaheimr.Balder.InMemory
         public override String ToString()
         {
 
-            return String.Concat("GenericPropertyVertex [Id: " + Id.ToString(), ", ",
+            return String.Concat("GenericPropertyVertex [Id: ", Id.ToString(), ", Label: ", Label.ToString(), ", ",
                                  _OutEdgesWhenVertex.Count(),   " out edges, ",
                                  _InEdgesWhenVertex.Count(), " in edges, ",
                                  _MultiEdgesWhenVertex.Count(), " multiedges, ",
@@ -6212,7 +6212,7 @@ namespace org.GraphDefined.Vanaheimr.Balder.InMemory
                                              TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>.ToString()
         {
 
-            return String.Concat("GenericPropertyGraph [Id: " + Id.ToString(), ", ",
+            return String.Concat("GenericPropertyGraph [Id: ", Id.ToString(), ", Label: ", Label.ToString(), ", ",
                                  _VerticesWhenGraph.Count(),   " vertices: ",
                                  _EdgesWhenGraph.Count(),      " edges: ",
                                  _MultiEdgesWhenGraph.Count(), " multiedges: ",
@@ -6221,8 +6221,6 @@ namespace org.GraphDefined.Vanaheimr.Balder.InMemory
         }
 
         #endregion
-
-
 
 
     }

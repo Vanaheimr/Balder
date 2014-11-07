@@ -895,7 +895,7 @@ namespace org.GraphDefined.Vanaheimr.Balder.InMemory
         /// </summary>
         public override String ToString()
         {
-            return "GenericPropertyEdge [Id: " + Id.ToString() + ", '" + OutVertex.Id + "' --" + Label + "-> '" + InVertex.Id + "']";
+            return String.Concat("GenericPropertyEdge [Id: ", Id.ToString(), ", '", OutVertex.Id, "' --", Label, "-> '", InVertex.Id, "']");
         }
 
         #endregion
