@@ -3096,8 +3096,7 @@ namespace org.GraphDefined.Vanaheimr.Balder.InMemory
                     if (!Label.Equals(Vertex.Label))
                     {
                         OnDuplicateVertex.FailSafeInvoke(Vertex,
-                                                         _Vertex =>
-                                                         {
+                                                         _Vertex => {
                                                              throw new DuplicateVertexIdException<TIdVertex>(_Vertex.Id);
                                                          });
                     }
