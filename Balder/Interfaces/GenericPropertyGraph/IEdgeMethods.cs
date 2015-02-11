@@ -87,6 +87,19 @@ namespace org.GraphDefined.Vanaheimr.Balder
 
     {
 
+        #region RemoveEdgeById(EdgeId)
+
+        /// <summary>
+        /// Remove the given edge identified by its edge identification.
+        /// </summary>
+        /// <param name="EdgeId">An edge identification of the edge to remove.</param>
+        IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                     TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                     TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                     TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> RemoveEdgeById(TIdEdge EdgeId);
+
+        #endregion
+
         #region RemoveEdgesById(params EdgeIds)
 
         /// <summary>

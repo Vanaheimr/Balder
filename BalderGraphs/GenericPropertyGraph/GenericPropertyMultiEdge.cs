@@ -691,6 +691,34 @@ namespace org.GraphDefined.Vanaheimr.Balder.InMemory
 
         #endregion
 
+        #region RemoveEdgeById(EdgeId)
+
+        /// <summary>
+        /// Remove the given edge identified by its edge identification.
+        /// </summary>
+        /// <param name="EdgeId">An edge identification of the edge to remove.</param>
+        public IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                            TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                            TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                            TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> RemoveEdgeById(TIdEdge EdgeId)
+        {
+
+            IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                         TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                         TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> Edge;
+
+            if (_Edges.TryGetByKey(EdgeId, out Edge))
+                this.Graph.AsMutable().RemoveEdges(Edge);
+            else
+                throw new ArgumentException("The given edge identifier '" + EdgeId.ToString() + "' is unknown!");
+
+            return Edge;
+
+        }
+
+        #endregion
+
         #region RemoveEdgesById(params EdgeIds)
 
         /// <summary>

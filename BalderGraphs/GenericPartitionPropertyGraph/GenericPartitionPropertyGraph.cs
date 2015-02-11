@@ -1311,6 +1311,27 @@ namespace org.GraphDefined.Vanaheimr.Balder.InMemory
 
         #endregion
 
+        #region RemoveEdgeById(EdgeId)
+
+        /// <summary>
+        /// Remove the given edge identified by its edge identification.
+        /// </summary>
+        /// <param name="EdgeId">An edge identification of the edge to remove.</param>
+        public IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                            TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                            TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                            TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> RemoveEdgeById(TIdEdge EdgeId)
+        {
+
+            if (WriteGraph != null)
+                return WriteGraph.RemoveEdgeById(EdgeId);
+
+            throw new Exception("No WriteGraph present!");
+
+        }
+
+        #endregion
+
         #region RemoveEdgesById(params EdgeIds)
 
         /// <summary>
@@ -1323,7 +1344,8 @@ namespace org.GraphDefined.Vanaheimr.Balder.InMemory
             if (WriteGraph != null)
                 WriteGraph.RemoveEdgesById(EdgeIds);
 
-            throw new Exception("No WriteGraph present!");
+            else
+                throw new Exception("No WriteGraph present!");
 
         }
 
@@ -1344,7 +1366,8 @@ namespace org.GraphDefined.Vanaheimr.Balder.InMemory
             if (WriteGraph != null)
                 WriteGraph.RemoveEdges(Edges);
 
-            throw new Exception("No WriteGraph present!");
+            else
+                throw new Exception("No WriteGraph present!");
 
         }
 
@@ -1365,7 +1388,8 @@ namespace org.GraphDefined.Vanaheimr.Balder.InMemory
             if (WriteGraph != null)
                 WriteGraph.RemoveEdges(EdgeFilter);
 
-            throw new Exception("No WriteGraph present!");
+            else
+                throw new Exception("No WriteGraph present!");
 
         }
 
