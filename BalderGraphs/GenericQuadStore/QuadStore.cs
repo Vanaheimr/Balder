@@ -41,7 +41,7 @@ namespace org.GraphDefined.Vanaheimr.Alviss
     /// <typeparam name="TSPOC">The type of the subject, predicate, object and context.</typeparam>
     public class QuadStore<TSystemId, TQuadId, TTransactionId, TSPOC>
                      : IQuadStore<TSystemId, TQuadId, TTransactionId, TSPOC>
-        
+
         where TSystemId      : IEquatable<TSystemId>,      IComparable<TSystemId>,      IComparable
         where TQuadId        : IEquatable<TQuadId>,        IComparable<TQuadId>,        IComparable
         where TTransactionId : IEquatable<TTransactionId>, IComparable<TTransactionId>, IComparable

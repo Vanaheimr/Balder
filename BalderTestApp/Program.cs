@@ -1,4 +1,5 @@
-﻿using org.GraphDefined.Vanaheimr.Balder;
+﻿using org.GraphDefined.Vanaheimr.Alviss;
+using org.GraphDefined.Vanaheimr.Balder;
 using org.GraphDefined.Vanaheimr.Balder.DependentGraphs;
 using org.GraphDefined.Vanaheimr.Balder.InMemory;
 using org.GraphDefined.Vanaheimr.Illias;
@@ -18,7 +19,7 @@ namespace BalderTestApp
         public static void Main(string[] args)
         {
 
-           var g1 = new AdjacencyListGraph<int>();
+            var g1 = new QuadStore<int, int, int, int>(1, (i) => 1, () => 1);
 
            // var graph = new GenericPropertyVertex<UInt64, Int64, String, String, Object,
            //                                       UInt64, Int64, String, String, Object,
