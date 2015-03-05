@@ -19,42 +19,42 @@ namespace BalderTestApp
         public static void Main(string[] args)
         {
 
-            var g1 = new QuadStore<int, int, int, int>(1, (i) => 1, () => 1);
+//            var g1 = new QuadStore<int, int, int, int>(1, (i) => 1, () => 1);
 
-           // var graph = new GenericPropertyVertex<UInt64, Int64, String, String, Object,
-           //                                       UInt64, Int64, String, String, Object,
-           //                                       UInt64, Int64, String, String, Object,
-           //                                       UInt64, Int64, String, String, Object>(1,
-           //
-           //                                                                                   // Vertices
-           //                                                                                   GraphDBOntology.Id.Suffix,
-           //                                                                                   GraphDBOntology.RevId.Suffix,
-           //                                                                                   GraphDBOntology.Label.Suffix,
-           //                                                                                   new IdGenerator_UInt64(),
-           //                                                                                   "VertexLabel",
-           //
-           //                                                                                   // Edges
-           //                                                                                   GraphDBOntology.Id.Suffix,
-           //                                                                                   GraphDBOntology.RevId.Suffix,
-           //                                                                                   GraphDBOntology.Label.Suffix,
-           //                                                                                   new IdGenerator_UInt64(),
-           //                                                                                   "EdgeLabel",
-           //
-           //                                                                                   // Multiedges
-           //                                                                                   GraphDBOntology.Id.Suffix,
-           //                                                                                   GraphDBOntology.RevId.Suffix,
-           //                                                                                   GraphDBOntology.Label.Suffix,
-           //                                                                                   new IdGenerator_UInt64(),
-           //                                                                                   "MultiEdgeLabel",
-           //
-           //                                                                                   // Hyperedges
-           //                                                                                   GraphDBOntology.Id.Suffix,
-           //                                                                                   GraphDBOntology.RevId.Suffix,
-           //                                                                                   GraphDBOntology.Label.Suffix,
-           //                                                                                   new IdGenerator_UInt64(),
-           //                                                                                   "HyperEdgeLabel",
-           //
-           //                                                                                   () => new VetoVote());
+            var graph = new GenericPropertyVertex<UInt64, Int64, String, String, Object,
+                                                  UInt64, Int64, String, String, Object,
+                                                  UInt64, Int64, String, String, Object,
+                                                  UInt64, Int64, String, String, Object>(1,
+           
+                                                                                              // Vertices
+                                                                                              GraphDBOntology.Id.Suffix,
+                                                                                              GraphDBOntology.RevId.Suffix,
+                                                                                              GraphDBOntology.Label.Suffix,
+                                                                                              new IdGenerator_UInt64(),
+                                                                                              "VertexLabel",
+           
+                                                                                              // Edges
+                                                                                              GraphDBOntology.Id.Suffix,
+                                                                                              GraphDBOntology.RevId.Suffix,
+                                                                                              GraphDBOntology.Label.Suffix,
+                                                                                              new IdGenerator_UInt64(),
+                                                                                              "EdgeLabel",
+           
+                                                                                              // Multiedges
+                                                                                              GraphDBOntology.Id.Suffix,
+                                                                                              GraphDBOntology.RevId.Suffix,
+                                                                                              GraphDBOntology.Label.Suffix,
+                                                                                              new IdGenerator_UInt64(),
+                                                                                              "MultiEdgeLabel",
+           
+                                                                                              // Hyperedges
+                                                                                              GraphDBOntology.Id.Suffix,
+                                                                                              GraphDBOntology.RevId.Suffix,
+                                                                                              GraphDBOntology.Label.Suffix,
+                                                                                              new IdGenerator_UInt64(),
+                                                                                              "HyperEdgeLabel",
+           
+                                                                                              () => new VetoVote());
 
 
         }
