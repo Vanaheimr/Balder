@@ -18,13 +18,14 @@
 #region Usings
 
 using System;
+using System.Linq;
+using System.Collections.Generic;
 
 using org.GraphDefined.Vanaheimr.Illias;
 using org.GraphDefined.Vanaheimr.Illias.Collections;
 using org.GraphDefined.Vanaheimr.Balder;
 using org.GraphDefined.Vanaheimr.Balder.InMemory;
 using org.GraphDefined.Vanaheimr.Illias.Votes;
-using System.Collections.Generic;
 
 #endregion
 
@@ -82,8 +83,8 @@ namespace org.GraphDefined.Vanaheimr.Balder.Schema
         /// <param name="EnforceSchema">Disallow the 'continous learning' and any changes of the graph schema after setting up the schema graph. NOTE: Changing the schema graph is still allowed!</param>
         /// <param name="ExistingSchemaGraph">An existing schema graph.</param>
         public static IGenericPropertyGraph<TVertexLabel,    TRevIdVertex,    VertexLabel,    TKeyVertex,    Object,
-                                            TEdgeLabel,      TRevIdEdge,      EdgeLabel,      TKeyEdge,      Object,
-                                            TMultiEdgeLabel, TRevIdMultiEdge, MultiEdgeLabel, TKeyMultiEdge, Object,
+                                            UInt64,          TRevIdEdge,      TEdgeLabel,     TKeyEdge,      Object,
+                                            TEdgeLabel,      TRevIdMultiEdge, MultiEdgeLabel, TKeyMultiEdge, Object,
                                             THyperEdgeLabel, TRevIdHyperEdge, HyperEdgeLabel, TKeyHyperEdge, Object>
 
                           StrictSchemaGraph<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
@@ -106,8 +107,8 @@ namespace org.GraphDefined.Vanaheimr.Balder.Schema
                              IEnumerable<TKeyHyperEdge> IgnoreHyperEdgePropertyKeys  = null,
 
                              IGenericPropertyGraph<TVertexLabel,    TRevIdVertex,    VertexLabel,    TKeyVertex,    Object,
-                                                   TEdgeLabel,      TRevIdEdge,      EdgeLabel,      TKeyEdge,      Object,
-                                                   TMultiEdgeLabel, TRevIdMultiEdge, MultiEdgeLabel, TKeyMultiEdge, Object,
+                                                   UInt64,          TRevIdEdge,      TEdgeLabel,     TKeyEdge,      Object,
+                                                   TEdgeLabel,      TRevIdMultiEdge, MultiEdgeLabel, TKeyMultiEdge, Object,
                                                    THyperEdgeLabel, TRevIdHyperEdge, HyperEdgeLabel, TKeyHyperEdge, Object> ExistingSchemaGraph = null)
 
 
@@ -143,8 +144,8 @@ namespace org.GraphDefined.Vanaheimr.Balder.Schema
                    ExistingSchemaGraph :
 
                    new GenericPropertyVertex<TVertexLabel,    TRevIdVertex,    VertexLabel,    TKeyVertex,    Object,
-                                             TEdgeLabel,      TRevIdEdge,      EdgeLabel,      TKeyEdge,      Object,
-                                             TMultiEdgeLabel, TRevIdMultiEdge, MultiEdgeLabel, TKeyMultiEdge, Object,
+                                             UInt64,          TRevIdEdge,      TEdgeLabel,     TKeyEdge,      Object,
+                                             TEdgeLabel,      TRevIdMultiEdge, MultiEdgeLabel, TKeyMultiEdge, Object,
                                              THyperEdgeLabel, TRevIdHyperEdge, HyperEdgeLabel, TKeyHyperEdge, Object>(
 
                                                  SchemaGraphId,
@@ -160,14 +161,14 @@ namespace org.GraphDefined.Vanaheimr.Balder.Schema
                                                  Graph.EdgeIdKey,
                                                  Graph.EdgeRevIdKey,
                                                  Graph.EdgeLabelKey,
-                                                 g => { return default(TEdgeLabel); },        // AutoIdGeneration currently turned off!
-                                                 EdgeLabel.DEFAULT,
+                                                 g => { return UniqueTimestamp.Ticks; },        // AutoIdGeneration currently turned off!
+                                                 Graph.DefaultEdgeLabel,
 
                                                  // Multiedges
                                                  Graph.MultiEdgeIdKey,
                                                  Graph.MultiEdgeRevIdKey,
                                                  Graph.MultiEdgeLabelKey,
-                                                 g => { return default(TMultiEdgeLabel); },   // AutoIdGeneration currently turned off!
+                                                 g => { return default(TEdgeLabel); },   // AutoIdGeneration currently turned off!
                                                  MultiEdgeLabel.DEFAULT,
 
                                                  // Hyperedges
@@ -226,7 +227,7 @@ namespace org.GraphDefined.Vanaheimr.Balder.Schema
                                                                     AnywayDo:           vertex => {
                                                                                             v.ForEach(kvp => {
                                                                                                 if (!_IgnoreVertexPropertyKeys.Contains(kvp.Key))
-                                                                                                    vertex.ZSetAdd(kvp.Key, kvp.Value.GetType());
+                                                                                                    vertex.ZSetAdd(kvp.Key, kvp.Value.GetType().ToString().ReplacePrefix("System.", ""));
                                                                                             });
                                                                                         });
 
@@ -246,30 +247,43 @@ namespace org.GraphDefined.Vanaheimr.Balder.Schema
 
                 AddEdgeDelegate = (g, e) => {
 
-                                                var _InVertex = SchemaGraph.VertexById(e.InVertex.Label).AsMutable();
+                                                var _InVertex  = SchemaGraph.VertexById(e.InVertex. Label).AsMutable();
+                                                var _OutVertex = SchemaGraph.VertexById(e.OutVertex.Label).AsMutable();
 
                                                 // Work-around for cases when edges are added via VertexInitializer and schema handling is active!
                                                 // SchemaEdge will be added before the VertexInitializer finished and thus the schema vertex is not yet created!
-                                                if (_InVertex == null)
-                                                {
+                                                if (_InVertex == null) {
                                                     AddVertexDelegate(g, e.InVertex);
                                                     _InVertex = SchemaGraph.VertexById(e.InVertex.Label).AsMutable();
                                                 }
 
-                                                SchemaGraph.AddEdge(EdgeId:              e.Label,
-                                                                               OutVertex:       SchemaGraph.VertexById(e.OutVertex.Label).AsMutable(),
-                                                                               Label:           EdgeLabel.IsConnectedWith,
-                                                                               InVertex:        _InVertex,
-                                                                               OnDuplicateEdge: Edge => { throw new SchemaViolation("Strict schema violation! The edge label '" + e.Label + "' is already used for '" +
-                                                                                                                                    Edge.OutVertex.Id.   ToString() + " -> " + Edge.InVertex.Id.   ToString() + "' relations and thus can not be used for '" +
-                                                                                                                                       e.OutVertex.Label.ToString() + " -> " +    e.InVertex.Label.ToString() + "' relations."); },
-                                                                               AnywayDo:        Edge => {
-                                                                                   e.ForEach(kvp => {
-                                                                                       if (!_IgnoreEdgePropertyKeys.Contains(kvp.Key))
-                                                                                           Edge.ZSetAdd(kvp.Key, kvp.Value.GetType());
-                                                                                   });
-                                                                               }
-                                                                              );
+                                                if (_OutVertex == null) {
+                                                    AddVertexDelegate(g, e.OutVertex);
+                                                    _OutVertex = SchemaGraph.VertexById(e.OutVertex.Label).AsMutable();
+                                                }
+
+                                                //var __Edge = _OutVertex.OutEdges(EdgeLabel.IsConnectedWith).
+                                                //                     Where(_edge => _edge.InVertex == _InVertex).
+                                                //                     FirstOrDefault();
+
+                                                //if (__Edge == null)
+                                                SchemaGraph.AddEdge(//EdgeId:           0,//e.Label,
+                                                                    OutVertex:        _OutVertex,
+                                                                    Label:            e.Label,//EdgeLabel.IsConnectedWith,
+                                                                    InVertex:         _InVertex,
+                                                                    OnDuplicateEdge:  Edge => {
+                                                                                                  //throw new SchemaViolation("Strict schema violation! The edge label '" + e.Label + "' is already used for '" +
+                                                                                                  //                        Edge.OutVertex.Id.   ToString() + " --" + e.Label + "-> " + Edge.InVertex.Id.   ToString() + "' relations and thus can not be used for '" +
+                                                                                                  //                           e.OutVertex.Label.ToString() + " --" + e.Label + "-> " +    e.InVertex.Label.ToString() + "' relations.");
+                                                                    },
+                                                                    AnywayDo:         OldOrNewEdge => {
+                                                                        OldOrNewEdge.Increment((TKeyEdge)(Object)"__EdgeCounter");
+                                                                        e.ForEach(kvp => {
+                                                                            if (!_IgnoreEdgePropertyKeys.Contains(kvp.Key))
+                                                                                OldOrNewEdge.ZSetAdd(kvp.Key, kvp.Value.GetType().ToString().ReplacePrefix("System.", ""));
+                                                                        });
+                                                                    }
+                                                                   );
 
                 };
 
