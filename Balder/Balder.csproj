@@ -112,6 +112,7 @@
     <Compile Include="Interfaces\ReadOnlyGenericPropertyGraph\IReadOnlyHyperEdgeMethods.cs" />
     <Compile Include="Interfaces\ReadOnlyGenericPropertyGraph\IReadOnlyMultiEdgeMethods.cs" />
     <Compile Include="Interfaces\ReadOnlyGenericPropertyGraph\IReadOnlyVertexMethods.cs" />
+    <Compile Include="Pipes\GraphElements\Properties.cs" />
     <Compile Include="Pipes\GraphElements\RevIdPipe.cs" />
     <Compile Include="Pipes\IGenericPropertyEdge\AVertexPipe.cs" />
     <Compile Include="Pipes\IGenericPropertyEdge\Filters\EdgeIdFilterPipe.cs" />
@@ -125,7 +126,7 @@
     <Compile Include="Pipes\IGenericPropertyVertex\Filters\VertexLabelFilterPipe.cs" />
     <Compile Include="Pipes\IGenericPropertyVertex\Filters\VertexPropertyFilterPipe.cs" />
     <Compile Include="Pipes\IGenericPropertyVertex\Filters\VertexRevIdFilterPipe.cs" />
-    <Compile Include="Pipes\IGenericPropertyEdge\MultiEdgesPipe.cs" />
+    <Compile Include="Pipes\IGenericPropertyEdge\EdgeMultiEdgesPipe.cs" />
     <Compile Include="Pipes\GraphElements\Filter\GraphElementFilterPipe.cs" />
     <Compile Include="Pipes\HigherOrderRelations\Foaf.cs" />
     <Compile Include="Pipes\HigherOrderRelations\IsComplicatedExtensions.cs" />

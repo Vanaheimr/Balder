@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2010-2014, Achim 'ahzf' Friedland <achim@graphdefined.org>
+ * Copyright (c) 2010-2015, Achim 'ahzf' Friedland <achim@graphdefined.org>
  * This file is part of Balder <http://www.github.com/Vanaheimr/Balder>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,7 +21,6 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-using org.GraphDefined.Vanaheimr.Balder;
 using org.GraphDefined.Vanaheimr.Styx;
 
 #endregion
@@ -30,7 +29,7 @@ namespace org.GraphDefined.Vanaheimr.Balder
 {
 
     /// <summary>
-    /// Emit the incoming and/or outgoing edges of the given generic property vertices.
+    /// A pipe emitting the incoming and/or outgoing edges of the incoming generic property vertices.
     /// </summary>
     /// <typeparam name="TIdVertex">The type of the vertex identifiers.</typeparam>
     /// <typeparam name="TRevIdVertex">The type of the vertex revision identifiers.</typeparam>
@@ -106,6 +105,14 @@ namespace org.GraphDefined.Vanaheimr.Balder
                                                                        TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>>> Vertex2EdgesDelegate;
 
         /// <summary>
+        /// Edges to be traversed next...
+        /// </summary>
+        private IEnumerator<IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                         TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                         TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> _EdgesEnumerator;
+
+        /// <summary>
         /// The labels of the edges to follow (OR-logic).
         /// </summary>
         protected readonly TEdgeLabel[] EdgeLabels;
@@ -118,57 +125,42 @@ namespace org.GraphDefined.Vanaheimr.Balder
                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeFilter;
 
-
-        /// <summary>
-        /// Edges to be traversed next...
-        /// </summary>
-        private IEnumerator<IReadOnlyGenericPropertyEdge<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                         TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                         TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                         TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> _EdgesEnumerator;
-
         #endregion
 
         #region Constructor(s)
 
-        #region (internal) AEdgesPipe(TraversalDirection, IEnumerable, IEnumerator, params EdgeLabels)
+        #region (internal) AEdgesPipe(Vertices, TraversalDirection, params EdgeLabels)
 
         /// <summary>
-        /// Emit the incoming and/or outgoing edges of the given generic property vertices
+        /// Creates a pipe emitting the incoming and/or outgoing edges
+        /// of the incoming generic property vertices
         /// having the given edge labels (OR-logic).
         /// </summary>
+        /// <param name="Vertices">A pipe emitting generic property edges.</param>
         /// <param name="TraversalDirection">The next edges to visit.</param>
-        /// <param name="IEnumerable">An IEnumerable&lt;...&gt; as element source.</param>
-        /// <param name="IEnumerator">An IEnumerator&lt;...&gt; as element source.</param>
         /// <param name="EdgeLabels">An optional array of edge labels to traverse (OR-logic).</param>
-        internal AEdgesPipe(TraversalDirection TraversalDirection,
+        internal AEdgesPipe(IEndPipe<IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                    TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                    TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> Vertices,
 
-                            IEnumerable<IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> IEnumerable,
-
-                            IEnumerator<IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> IEnumerator,
+                            TraversalDirection TraversalDirection,
 
                             params TEdgeLabel[] EdgeLabels)
 
-            : base(IEnumerable)
+            : base(Vertices)
 
         {
 
             switch (TraversalDirection)
             {
 
-                case Balder.TraversalDirection.Out:  Vertex2EdgesDelegate = vertex => vertex.OutEdges(EdgeLabels).GetEnumerator();
-                                                     break;
-                
-                case Balder.TraversalDirection.In:   Vertex2EdgesDelegate = vertex => vertex.InEdges (EdgeLabels).GetEnumerator();
-                                                     break;
+                case Balder.TraversalDirection.In:   Vertex2EdgesDelegate = vertex => vertex.InEdges (EdgeLabels).GetEnumerator();  break;
 
-                case Balder.TraversalDirection.Both: throw new NotImplementedException("Please use the BothEdgesPipe()!");
+                case Balder.TraversalDirection.Out:  Vertex2EdgesDelegate = vertex => vertex.OutEdges(EdgeLabels).GetEnumerator();  break;
+
+                case Balder.TraversalDirection.Both: Vertex2EdgesDelegate = vertex => vertex.InEdges (EdgeLabels).Concat(
+                                                                                      vertex.OutEdges(EdgeLabels)).GetEnumerator(); break;
 
             }
 
@@ -178,34 +170,29 @@ namespace org.GraphDefined.Vanaheimr.Balder
 
         #endregion
 
-        #region (internal) AEdgesPipe(TraversalDirection, EdgeFilter, IEnumerable = null, IEnumerator = null)
+        #region (internal) AEdgesPipe(Vertices, TraversalDirection, EdgeFilter)
 
         /// <summary>
-        /// Emit the outgoing edges of the given generic property vertices
+        /// Creates a pipe emitting the incoming and/or outgoing edges
+        /// of the incoming generic property vertices
         /// filtered by the given edge filter.
         /// </summary>
+        /// <param name="Vertices">A pipe emitting generic property edges.</param>
         /// <param name="TraversalDirection">The next edges to visit.</param>
         /// <param name="EdgeFilter">An optional delegate for edge filtering.</param>
-        /// <param name="IEnumerable">An optional IEnumerable&lt;...&gt; as element source.</param>
-        /// <param name="IEnumerator">An optional IEnumerator&lt;...&gt; as element source.</param>
-        internal AEdgesPipe(TraversalDirection TraversalDirection,
+        internal AEdgesPipe(IEndPipe<IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
+                                                                    TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
+                                                                    TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
+                                                                    TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> Vertices,
+
+                            TraversalDirection TraversalDirection,
 
                             EdgeFilter<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
                                        TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
                                        TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeFilter,
+                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge> EdgeFilter)
 
-                            IEnumerable<IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> IEnumerable = null,
-
-                            IEnumerator<IReadOnlyGenericPropertyVertex<TIdVertex,    TRevIdVertex,    TVertexLabel,    TKeyVertex,    TValueVertex,
-                                                                       TIdEdge,      TRevIdEdge,      TEdgeLabel,      TKeyEdge,      TValueEdge,
-                                                                       TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
-                                                                       TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>> IEnumerator = null)
-
-            : base(IEnumerable)
+            : base(Vertices)
 
         {
 
@@ -214,13 +201,12 @@ namespace org.GraphDefined.Vanaheimr.Balder
             switch (TraversalDirection)
             {
 
-                case Balder.TraversalDirection.Out:  Vertex2EdgesDelegate = vertex => vertex.OutEdges(this.EdgeFilter).GetEnumerator();
-                                                     break;
+                case Balder.TraversalDirection.In:   Vertex2EdgesDelegate = vertex => vertex.InEdges (EdgeFilter).GetEnumerator();  break;
 
-                case Balder.TraversalDirection.In:   Vertex2EdgesDelegate = vertex => vertex.InEdges (this.EdgeFilter).GetEnumerator();
-                                                     break;
+                case Balder.TraversalDirection.Out:  Vertex2EdgesDelegate = vertex => vertex.OutEdges(EdgeFilter).GetEnumerator();  break;
 
-                case Balder.TraversalDirection.Both: throw new NotImplementedException("Please use the BothEdgesPipe()!");
+                case Balder.TraversalDirection.Both: Vertex2EdgesDelegate = vertex => vertex. InEdges(EdgeFilter).Concat(
+                                                                                      vertex.OutEdges(EdgeFilter)).GetEnumerator(); break;
 
             }
 
