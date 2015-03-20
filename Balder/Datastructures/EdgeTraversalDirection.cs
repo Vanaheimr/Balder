@@ -21,7 +21,7 @@ namespace org.GraphDefined.Vanaheimr.Balder
     /// <summary>
     /// The traversal direction.
     /// </summary>
-    internal enum TraversalDirection
+    public enum TraversalDirection
     {
         Out,
         In,

@@ -114,7 +114,7 @@
     <Compile Include="Interfaces\ReadOnlyGenericPropertyGraph\IReadOnlyVertexMethods.cs" />
     <Compile Include="Pipes\GraphElements\Properties.cs" />
     <Compile Include="Pipes\GraphElements\RevIdPipe.cs" />
-    <Compile Include="Pipes\IGenericPropertyEdge\AVertexPipe.cs" />
+    <Compile Include="Pipes\IGenericPropertyEdge\VertexPipe.cs" />
     <Compile Include="Pipes\IGenericPropertyEdge\Filters\EdgeIdFilterPipe.cs" />
     <Compile Include="Pipes\IGenericPropertyEdge\Filters\EdgeLabelFilterPipe.cs" />
     <Compile Include="Pipes\IGenericPropertyEdge\Filters\EdgePropertyFilterPipe.cs" />
@@ -141,8 +141,8 @@
     <Compile Include="Pipes\IGenericPropertyEdge\OutVertexPipe.cs" />
     <Compile Include="Pipes\IGenericPropertyGraph\AllEdgesPipe.cs" />
     <Compile Include="Pipes\IGenericPropertyGraph\AllVerticesPipe.cs" />
-    <Compile Include="Pipes\IGenericPropertyVertex\AEdgesPipe.cs" />
-    <Compile Include="Pipes\IGenericPropertyVertex\AEdgesVerticesPipe.cs" />
+    <Compile Include="Pipes\IGenericPropertyVertex\EdgesPipe.cs" />
+    <Compile Include="Pipes\IGenericPropertyVertex\EdgesVerticesPipe.cs" />
     <Compile Include="Pipes\IGenericPropertyVertex\BothEdgesPipe.cs" />
     <Compile Include="Pipes\IGenericPropertyVertex\BothPipe.cs" />
     <Compile Include="Pipes\IGenericPropertyGraph\IdVertexPipe.cs" />
