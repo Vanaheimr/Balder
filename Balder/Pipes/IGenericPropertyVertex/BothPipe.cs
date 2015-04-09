@@ -292,7 +292,7 @@ namespace org.GraphDefined.Vanaheimr.Balder
                                 TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                 TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>(
 
-                                EndPipe.Create(Vertex),
+                                EndPipe.CreatePipe(Vertex),
                                 EdgeLabels);
 
         }
@@ -379,7 +379,7 @@ namespace org.GraphDefined.Vanaheimr.Balder
                                TIdMultiEdge, TRevIdMultiEdge, TMultiEdgeLabel, TKeyMultiEdge, TValueMultiEdge,
                                TIdHyperEdge, TRevIdHyperEdge, THyperEdgeLabel, TKeyHyperEdge, TValueHyperEdge>(
 
-                               EndPipe.Create(Vertex),
+                               EndPipe.CreatePipe(Vertex),
                                IncludeEdges);
 
         }
