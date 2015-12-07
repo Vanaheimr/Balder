@@ -155,26 +155,15 @@
     <Compile Include="SchemaGraph\HyperEdgeLabels.cs" />
     <Compile Include="SchemaGraph\MultiEdgeLabels.cs" />
     <Compile Include="SchemaGraph\VertexLabels.cs" />
+    <Compile Include="Semantics.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Eunomia\Eunomia\Eunomia.csproj">
-      <Project>{1df1a588-33b1-4168-9487-604fe5680681}</Project>
-      <Name>Eunomia</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Illias\Illias.NET4.5\Illias.NET4.5.csproj">
-      <Project>{23d37453-2d4e-4bd8-b40f-3e731fee7712}</Project>
-      <Name>Illias.NET4.5</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Illias\Illias\Illias.csproj">
-      <Project>{e156f18d-d41c-4529-9bcc-9962e6ee25da}</Project>
+      <Project>{23d37453-2d4e-4bd8-b40f-3e731fee7712}</Project>
       <Name>Illias</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Styx\Styx.NET4.5\Styx.NET4.5.csproj">
-      <Project>{af76ecc0-2ca5-4cff-9e1e-ff5478c4b6e4}</Project>
-      <Name>Styx.NET4.5</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Styx\Styx\Styx.csproj">
-      <Project>{3949790d-8591-4101-9e4d-ce7a758e7409}</Project>
+      <Project>{af76ecc0-2ca5-4cff-9e1e-ff5478c4b6e4}</Project>
       <Name>Styx</Name>
     </ProjectReference>
   </ItemGroup>
